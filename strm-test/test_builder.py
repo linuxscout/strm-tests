@@ -41,14 +41,14 @@ class test_builder:
          "map",
          "map-sop",
         "function",
+        "base",
+        "arithm",
+        "mesure",
         ]
         self.test_commands = {}
-        self.test_commands[1] = [["float", "map"],
-        ["float", "map-sop"],
-        ["float", "function"],
-        ["complement","complement", "map"],
-        ["function", "exp"],
-        ["function", "exp"],
+        self.test_commands[1] = [["base", "base", "arithm"],
+        ["mesure", "base", "arithm"],
+        ["base", "mesures", "arithm"],
         
         ]
         self.test_commands[2] = [["float", "map"],
@@ -99,6 +99,39 @@ class test_builder:
         answer += self.qs.intervalle(n, method=True)
         #~ answer +='\n\\end{verbatim}'      
         return question, arabic, data, answer
+        
+    def question_base(self,):
+        
+        res =self.qs.rand_numeral_system()       
+
+        question =u"Faire les conversions suivantes: " 
+        answer = res.get('reponse','')
+        arabic = u"أنجز التحويلات الآتية"
+        data =  res.get("question",'')
+      
+        return question, arabic, data, answer
+    def question_arithm(self,):
+        
+        res =self.qs.rand_arithm()       
+
+        question =u"Faire les opérations suivantes: " 
+        answer = res.get('reponse','')
+        arabic = u"أنجز العمليات الآتية: "
+        data =  res.get("question",'')
+
+        return question, arabic, data, answer
+        
+    def question_mesure(self,):
+        
+        res =self.qs.rand_arithm()       
+
+        question =u"Faire les opérations suivantes: " 
+        answer = res.get('reponse','')
+        arabic = u"أنجز العمليات الآتية: "
+        data =  res.get("question",'')
+
+        return question, arabic, data, answer
+
     def question_map(self,):
         
 
@@ -212,7 +245,6 @@ class test_builder:
         elif command == "complement":
             return self.question_cp()
         elif command == "exp":
-            
             return self.question_exp()
         elif command == "map":
 
@@ -223,6 +255,14 @@ class test_builder:
         elif command == "function":
 
             return self.question_funct()
+        elif command == "base":
+            return self.question_base()
+
+        elif command == "mesure":
+            return self.question_mesure()
+
+        elif command == "arithm":
+            return self.question_arithm()
         else:
             return "Question Error: %s"%command.replace('_',''), "Arabic", "Data", "Answer"
             

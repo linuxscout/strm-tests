@@ -176,19 +176,36 @@ class questionGenerator:
         """
         generate question in to out base
         """
-        base
-        n = random.randint(12, out_base**8)
-        print(n,nb)
-        res = self.int2base(n, out_base)
+        out_base = random.choice([2, 5, 6, 8, 12, 16])
+        in_base = random.choice([2, 5, 6, 8, 12, 16])
+        nb = random.randint(12, out_base**8)
+        res = self.int2base(nb, out_base)
         
-        return {"question":"(%s)_{%d} = (........)_{%d}"%(nb,in_base, out_base),
-        "reponse":"(%s)_{%d} = (%s)_{%d}"%(nb, in_base,res, out_base),
+        return {"question":"$(%s)_{%d} = (........)_{%d}$"%(nb,in_base, out_base),
+        "reponse":"$(%s)_{%d} = (%s)_{%d}$"%(nb, in_base,res, out_base),
+        }
+    def rand_arithm(self):
+        """
+        generate question in arithmetic mode
+        """
+        base = random.choice([2, 5, 6, 8, 12, 16])
+        op = random.choice(["+","-"])
+        if op == "+":
+            a, b, c = self.addition_base(base)       
+        else:
+            a, b, c = self.sub_base(base)       
+
+        question =u"Faire le opérations suivants  en base %d "%base
+        
+        return {"question": " %9s\n%s%9s\n----------\n\n"%(a,op, b),
+        "reponse": " %9s\n%s%9s\n----------\n %9s\n"%(a,op,b,c),
         }
     def sys_num_reponse(self, x, y):
         """ print the solution"""
         
         if x == 10 and y != 10:
             self.int2base_repr(x,y)
+            
     def addition_base(self, x, method=False):
         """ addition in base x """    
         a = random.randint(12, x**8)
@@ -201,6 +218,7 @@ class questionGenerator:
             text = " %9s\n+%9s\n----------\n %9s\n"%(a,b,c)
             return text
         return a,b,c
+    
     def sub_base(self, x, method=False):
         """ addition in base x """    
         a = random.randint(12, x**8)
