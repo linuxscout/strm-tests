@@ -1,0 +1,287 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+#  test_builder.py
+#  
+#  Copyright 2019 zerrouki <zerrouki@majd4>
+#  
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#  
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#  
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#  MA 02110-1301, USA.
+#  
+#  
+import question
+import boolquiz
+import ieee754
+import random
+import test_format_factory
+class test_builder:
+    """ Generate the third test """
+    def __init__(self, outformat=""):
+        self.qs = question.questionGenerator(latex=True)
+        self.bq = boolquiz.bool_quiz()
+        self.vf = ieee754.float_point()
+        self.formater = test_format_factory.test_format_factory.factory(outformat)
+        #~ print(outformat)
+        self.commands = ["float", 
+         "intervalle",
+         "complement",
+         "exp",            
+         "map",
+         "map-sop",
+        "function",
+        ]
+        self.test_commands = {}
+        self.test_commands[1] = [["float", "map"],
+        ["float", "map-sop"],
+        ["float", "function"],
+        ["complement","complement", "map"],
+        ["function", "exp"],
+        ["function", "exp"],
+        
+        ]
+        self.test_commands[2] = [["float", "map"],
+        ["float", "map-sop"],
+        ["float", "function"],
+        ["complement","complement", "map"],
+        ["function", "exp"],
+        ["function", "exp"],        
+        ]
+        self.test_commands[3] =  [["float", "map"],
+        ["float", "map-sop"],
+        ["float", "function"],
+        ["complement","complement", "map"],
+        ["function", "exp"],
+        ["function", "exp"],
+        ]        
+    def question_vf(self,):
+        x = self.vf.vf_question()
+        question = "Representer sous la norme IEEE-754 32 bits le nombre suivant"
+        arabic = u"مثل العدد الآتي حسب المعيار IEEE-754 32 bits"
+        data ="%0.3f"%x
+        answer = "Representer sous la norme IEEE-754 32 bits le nombre suivant : %0.3f\n"%x
+        answer += '\n\\begin{verbatim}'
+        answer += self.vf.IEEE754(x, True)
+        answer +='\n\\end{verbatim}'      
+        return question, arabic, data, answer
+        
+    def question_cp(self,):
+        n, a, cp1, cp2 = self.qs.comp_one(8)        
+
+        question = u"Representer en complément à 1 et à 2 le nombre  : -%d"%n
+        arabic = u"مثل  العدد الآتي في المتمم إلى الواحد وإلى الاثنين  : -%d"%n
+        data = ""
+        answer = u"Representer en complément à 1 et à 2 le nombre  : -%d"%n
+        #~ answer += '\n\\begin{verbatim}'
+        answer += self.qs.comp_one(8,n, method=True)
+        #~ answer +='\n\\end{verbatim}'      
+        return question, arabic, data, answer
+    def question_intervalle(self,):
+        
+        n =self.qs.intervalle()        
+
+        question = u"Donner les intervalles qu'on peut représenter en nombre positifs, valeur absolue, complément à 1 et complément à 2  sur %d bits\n"%n
+        arabic = u"حدد المجالات التي يمكن تمثيلها لأعداد الموجبة والتمثيل بالقيمة المطلقة والمتمم إلى 1 و 2 على   : %d بت"%n
+        data = ""
+        answer = u"Les intervalles sur %d bits"%n
+        #~ answer += '\n\\begin{verbatim}'
+        answer += self.qs.intervalle(n, method=True)
+        #~ answer +='\n\\end{verbatim}'      
+        return question, arabic, data, answer
+    def question_map(self,):
+        
+
+        question = u"Simplifier les fonctions suivantes\n"
+        arabic = u"بسّط الدوال الآتية"
+        minterms_table =[] 
+        data = ""                     
+        for i in range(4):
+            minterms_table.append(self.bq.rand_funct())
+            if i  and i %2 ==0:
+                data+="\n\n"
+            data += self.bq.draw_map(minterms_table[i], latex=True)
+ 
+
+        answer = u"Simplifier les fonctions suivantes\n"
+
+        #~ answer += '\n\\begin{verbatim}'
+        for i in range(4):
+            answer += "table %d\n\n"%(i+1)
+            sop, pos =self.bq.simplify(minterms_table[i])    
+            answer += "Simplified Sum of products : $%s$\n\n"%self.bq.normalize_latex(sop)
+        #~ answer +='\n\\end{verbatim}'  
+        return question, arabic, data, answer
+
+    def question_map_for_sop(self,nb=2):
+        question = u"Soit la fonction donnée par sa forme canonique, Tracer la table de karnaugh et simplifier.\n"
+        arabic = u"لتكن الدالةالمعطاة بشكلها القانوني، ارسم جدول كارنو وبسطها"
+        minterms_table =[] 
+        data = ""                     
+        for i in range(nb):
+            minterms_table.append(self.bq.rand_funct())
+            cnf, dnf = self.bq.form_canonique(minterms_table[i])    
+            data += "F%d(a, b, c, d) = $%s$\n\n"%(i,self.bq.normalize_latex(dnf))
+            data +=  "F%d(a, b, c, d) = $\\varSigma(%s)$\n\n"%(i,repr(minterms_table[i]))
+
+        answer = u"Simplifier les fonctions suivantes\n\n"
+
+        #~ answer += '\n\\begin{verbatim}'
+        for i in range(nb):
+            cnf, dnf = self.bq.form_canonique(minterms_table[i])    
+            answer +=  "F%d(a, b, c, d) = $%s$\n\n"%(i,self.bq.normalize_latex(dnf))
+            answer +=  "F%d(a, b, c, d) = $\\varSigma(%s)$\n\n"%(i,repr(minterms_table[i]))
+            answer += self.bq.draw_map(minterms_table[i], latex=True)           
+            sop, pos =self.bq.simplify(minterms_table[i])    
+            answer += "Simplified Sum of products : $%s$\n\n"%self.bq.normalize_latex(sop)
+        #~ answer +='\n\\end{verbatim}'  
+        return question, arabic, data, answer
+        
+                
+    def question_funct(self,):
+        
+
+        question = u"Etudier la fonction suivante\n"
+        arabic = u"ادرس الدالة الآتية"
+        sop_quest, minterms =  self.bq.rand_exp()
+        #~ minterms =  self.bq.rand_funct()
+        
+        cnf, dnf = self.bq.form_canonique(minterms)
+        #~ sop_quest = dnf
+        data = "f(a,b,c,d)= $%s$\n"%self.bq.normalize_latex(sop_quest)
+        # answer
+        answer = "f(a,b,c,d)=$%s$\n"%self.bq.normalize_latex(sop_quest)
+        answer += "f(a,b,c,D)=$ \sum %s $ \n"%self.bq.normalize_latex(sop_quest).strip()
+        answer +="\n"
+        answer += self.bq.truth_table(minterms, latex =True)
+        sop, pos = self.bq.simplify(minterms)
+        answer += "\nSum of products \n f(a,b,c,d) = $%s$\n"%self.bq.normalize_latex(dnf)
+        answer +="\nProduct of sums \n f(a,b,c,d) = $%s$\n"%self.bq.normalize_latex(cnf)
+        answer +="\nKarnough map\\todo{fix map}\n"
+        answer += self.bq.draw_map(minterms, latex=True)
+        answer +="\n\n"
+        answer += "Simplified Sum of products: $%s$\n"%self.bq.normalize_latex(sop)
+        answer += "\nSimplified Product of sums: $%s$\n"%self.bq.normalize_latex(pos)
+
+        answer += """\paragraph{Logigramme} de la fonction\\\\
+        %%\missingfigure[figwidth=6cm]{Logigramme}\n\n"""
+        
+        answer += self.bq.draw_logigram(sop)
+        return question, arabic, data, answer
+        
+    def question_exp(self,):
+        
+
+        question = u"Simplifier l'expression suivante par les proprietés algébreiques \n"
+        arabic = u"بسط العبارة الآتية بالخواص الجبرية"
+        sop_quest, minterms = self.bq.rand_exp(4)
+
+        data = "S = $%s$\n"%self.bq.normalize_latex(sop_quest)        
+        # answer
+        sop_rep, _ = self.bq.simplify(minterms)
+
+        # answer
+        answer = "Simplifier l'expression suivante\n\n"
+        answer += "S = $%s$\n\n"%self.bq.normalize_latex(sop_quest)
+        answer += " = $%s$\n\n"%self.bq.normalize_latex(sop_rep)
+
+        answer +="\nKarnough map\todo{fix map}\n"
+        answer += self.bq.draw_map(minterms, latex=True)
+        answer +="\n\n"
+        return question, arabic, data, answer
+        
+
+    def get_question(self, command):
+        """
+        return question from command
+        """
+        if command == "float":
+            return self.question_vf()
+        elif command == "intervalle":
+            return self.question_intervalle()
+        elif command == "complement":
+            return self.question_cp()
+        elif command == "exp":
+            
+            return self.question_exp()
+        elif command == "map":
+
+            return self.question_map()
+        elif command == "map-sop":
+
+            return self.question_map_for_sop()
+        elif command == "function":
+
+            return self.question_funct()
+        else:
+            return "Question Error: %s"%command.replace('_',''), "Arabic", "Data", "Answer"
+            
+    def test(self, questions_names, rand=True, nb=2, repeat=2):
+        """ generate a test"""
+        if rand:
+            questions_names = random.sample(questions_names, nb)
+        # generate question from  command
+        questions = [self.get_question(q) for q in questions_names]
+        for i in range(repeat):
+            for cpt, value in enumerate(questions):
+                q, ar, data, an = value
+                q_no = "Q%d"%(cpt+1)
+                self.formater.add_section(q_no,level=3)
+                self.formater.add_text(q,ar)
+                self.formater.add_text(data)
+                #~ print((u"\\paragraph{Q%d}%s\hfill\\aRL{%s}"%(cpt+1, q,ar)).encode('utf8'))
+                #~ print((u"\n%s"%(data)).encode('utf8'))
+            self.formater.add_hrule()
+            #~ print("\n\n\n\n\\hrule width 1\linewidth")
+            #~ print((u"""\\begin{minipage}{11cm}
+#~ \paragraph{Q%d}%s
+#~ \\end{minipage}\\hfill
+#~ \\begin{minipage}{7cm}
+#~ \\aRL{%s}
+#~ \\end{minipage}"""%(cpt+1, q,ar)).encode('utf8'))
+        self.formater.add_newpage()
+        self.formater.add_section("Correction",level=2)
+        #~ print("\pagebreak \subsection{La correction}")
+        
+        for cpt, value in enumerate(questions):
+            q, ar, data, ans = value
+            q_no = "Q%d"%(cpt+1)
+            self.formater.add_section(q_no,level=3)
+            self.formater.add_text(ans)
+
+            #~ print((u"\paragraph{Q%d} %s"%(cpt+1, ans)).encode('utf8'))
+        #~ print(self.formater.display())
+    
+    def list_commands(self,):
+        """ list all existing question types """
+        return self.commands
+
+    def get_test(self,test_no=1):
+        randq = False
+        for test in self.test_commands.get(test_no,[]):
+            self.test(test, rand=randq)        
+            self.formater.add_newpage()
+            self.formater.add_section("Question", level=1)
+        return self.formater.display()
+        return 0
+
+
+def main(args):
+    builder = test_builder()
+    test = builder.get_test(1)
+    print(test)
+    return 0
+
+if __name__ == '__main__':
+    import sys
+    sys.exit(main(sys.argv))
