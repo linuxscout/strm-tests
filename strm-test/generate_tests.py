@@ -70,7 +70,7 @@ def main():
     # generate a builder with format
     tester = test_builder.test_builder(outformat)
     
-    new_test = tester.get_test(number)
+    new_test = tester.get_test(number, repeat=6)
     
     fl = open(outfile, "w+", encoding="utf8")
     fl.write(new_test)

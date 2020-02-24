@@ -176,8 +176,11 @@ class questionGenerator:
         """
         generate question in to out base
         """
-        out_base = random.choice([2, 5, 6, 8, 12, 16])
-        in_base = random.choice([2, 5, 6, 8, 12, 16])
+        base_list = [2, 2,2,2,2, 2,2,5, 6, 8,8,8, 12, 16,16,16]
+        out_base = random.choice([2, 2,2,2,2, 2,2,5, 6, 8,8,8, 12, 16,16,16])
+        in_base = random.choice(base_list)
+        while in_base == out_base:
+            in_base = random.choice(base_list)
         nb = random.randint(12, out_base**8)
         res = self.int2base(nb, out_base)
         

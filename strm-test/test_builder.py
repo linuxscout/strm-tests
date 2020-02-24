@@ -58,11 +58,16 @@ class test_builder:
         ["function", "exp"],
         ["function", "exp"],        
         ]
-        self.test_commands[3] =  [["float", "map"],
-        ["float", "map-sop"],
-        ["float", "function"],
-        ["complement","complement", "map"],
+        self.test_commands[3] =  [
+#       ["float", "map"],
+#        ["float", "map-sop"],
+#        ["float", "function"],
+#        ["complement","complement", "map"],
         ["function", "exp"],
+        ["function", "exp"],
+        ["function", "map"],
+        ["function", "map"],
+        ["function", "map"],
         ["function", "exp"],
         ]        
     def question_vf(self,):
@@ -138,18 +143,19 @@ class test_builder:
         question = u"Simplifier les fonctions suivantes\n"
         arabic = u"بسّط الدوال الآتية"
         minterms_table =[] 
-        data = ""                     
-        for i in range(4):
+        data = ""   
+        nb_table = 3                  
+        for i in range(nb_table):
             minterms_table.append(self.bq.rand_funct())
-            if i  and i %2 ==0:
-                data+="\n\n"
+            #~ if i  and i %2 ==0:
+                #~ data+="\n\n"
             data += self.bq.draw_map(minterms_table[i], latex=True)
  
 
         answer = u"Simplifier les fonctions suivantes\n"
 
         #~ answer += '\n\\begin{verbatim}'
-        for i in range(4):
+        for i in range(nb_table):
             answer += "table %d\n\n"%(i+1)
             sop, pos =self.bq.simplify(minterms_table[i])    
             answer += "Simplified Sum of products : $%s$\n\n"%self.bq.normalize_latex(sop)
@@ -228,7 +234,7 @@ class test_builder:
         answer += "S = $%s$\n\n"%self.bq.normalize_latex(sop_quest)
         answer += " = $%s$\n\n"%self.bq.normalize_latex(sop_rep)
 
-        answer +="\nKarnough map\todo{fix map}\n"
+        answer +="\nKarnough map\\todo{fix map}\n"
         answer += self.bq.draw_map(minterms, latex=True)
         answer +="\n\n"
         return question, arabic, data, answer
@@ -276,42 +282,29 @@ class test_builder:
             for cpt, value in enumerate(questions):
                 q, ar, data, an = value
                 q_no = "Q%d"%(cpt+1)
-                self.formater.add_section(q_no,level=3)
+                self.formater.add_section(q_no,level=4)
                 self.formater.add_text(q,ar)
                 self.formater.add_text(data)
-                #~ print((u"\\paragraph{Q%d}%s\hfill\\aRL{%s}"%(cpt+1, q,ar)).encode('utf8'))
-                #~ print((u"\n%s"%(data)).encode('utf8'))
             self.formater.add_hrule()
-            #~ print("\n\n\n\n\\hrule width 1\linewidth")
-            #~ print((u"""\\begin{minipage}{11cm}
-#~ \paragraph{Q%d}%s
-#~ \\end{minipage}\\hfill
-#~ \\begin{minipage}{7cm}
-#~ \\aRL{%s}
-#~ \\end{minipage}"""%(cpt+1, q,ar)).encode('utf8'))
         self.formater.add_newpage()
         self.formater.add_section("Correction",level=2)
-        #~ print("\pagebreak \subsection{La correction}")
         
         for cpt, value in enumerate(questions):
             q, ar, data, ans = value
             q_no = "Q%d"%(cpt+1)
-            self.formater.add_section(q_no,level=3)
+            self.formater.add_section(q_no,level=4)
             self.formater.add_text(ans)
-
-            #~ print((u"\paragraph{Q%d} %s"%(cpt+1, ans)).encode('utf8'))
-        #~ print(self.formater.display())
     
     def list_commands(self,):
         """ list all existing question types """
         return self.commands
 
-    def get_test(self,test_no=1):
+    def get_test(self,test_no=1, repeat=5):
         randq = False
         for test in self.test_commands.get(test_no,[]):
-            self.test(test, rand=randq)        
-            self.formater.add_newpage()
             self.formater.add_section("Question", level=1)
+            self.test(test, rand=randq, repeat=repeat)        
+            self.formater.add_newpage()
         return self.formater.display()
         return 0
 
