@@ -44,7 +44,7 @@ def main(args):
     for frmt  in outformats:
         
         formatter = test_format_factory.factory(frmt)
-        print formatter
+        print(formatter)
         formatter.add_section(data['section'])
         formatter.add_text(data['text'])
         formatter.add_formula(data['formula'])

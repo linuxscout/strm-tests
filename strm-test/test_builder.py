@@ -70,6 +70,9 @@ class test_builder:
         ["function", "map"],
         ["function", "exp"],
         ]        
+        self.test_commands[4] =  [
+        ["static_funct",],
+        ]        
     def question_vf(self,):
         x = self.vf.vf_question()
         question = "Representer sous la norme IEEE-754 32 bits le nombre suivant"
@@ -218,6 +221,30 @@ class test_builder:
         answer += self.bq.draw_logigram(sop)
         return question, arabic, data, answer
         
+    def question_static_funct(self, minterms):
+        question = u""
+        arabic = u""
+        cnf, dnf = self.bq.form_canonique(minterms)
+        data = "f(a,b,c,d)= $%s$\n"%minterms
+        # answer
+        answer = "f(a,b,c,d)=$%s$\n"%str(minterms)
+        answer += "f(a,b,c,D)=$ \sum %s $ \n"%str(minterms)
+        answer +="\n"
+        answer += self.bq.truth_table(minterms, latex =True)
+        sop, pos = self.bq.simplify(minterms)
+        answer += "\nSum of products \n f(a,b,c,d) = $%s$\n"%self.bq.normalize_latex(dnf)
+        answer +="\nProduct of sums \n f(a,b,c,d) = $%s$\n"%self.bq.normalize_latex(cnf)
+        answer +="\nKarnough map\\todo{fix map}\n"
+        answer += self.bq.draw_map(minterms, latex=True)
+        answer +="\n\n"
+        answer += "Simplified Sum of products: $%s$\n"%self.bq.normalize_latex(sop)
+        answer += "\nSimplified Product of sums: $%s$\n"%self.bq.normalize_latex(pos)
+
+        answer += """\paragraph{Logigramme} de la fonction\\\\
+        %%\missingfigure[figwidth=6cm]{Logigramme}\n\n"""
+        
+        answer += self.bq.draw_logigram(sop)
+        return question, arabic, data, answer        
     def question_exp(self,):
         
 
@@ -240,7 +267,7 @@ class test_builder:
         return question, arabic, data, answer
         
 
-    def get_question(self, command):
+    def get_question(self, command, args={}):
         """
         return question from command
         """
@@ -269,15 +296,17 @@ class test_builder:
 
         elif command == "arithm":
             return self.question_arithm()
+        elif command == "static_funct":
+            return self.question_static_funct(args["minterms"])
         else:
             return "Question Error: %s"%command.replace('_',''), "Arabic", "Data", "Answer"
             
-    def test(self, questions_names, rand=True, nb=2, repeat=2):
+    def test(self, questions_names, rand=True, nb=2, repeat=2, args={}):
         """ generate a test"""
         if rand:
             questions_names = random.sample(questions_names, nb)
         # generate question from  command
-        questions = [self.get_question(q) for q in questions_names]
+        questions = [self.get_question(q, args=args) for q in questions_names]
         for i in range(repeat):
             for cpt, value in enumerate(questions):
                 q, ar, data, an = value
@@ -299,11 +328,13 @@ class test_builder:
         """ list all existing question types """
         return self.commands
 
-    def get_test(self,test_no=1, repeat=5):
+    def get_test(self,test_no=1, repeat=5, args = {}):
         randq = False
+        if not args:
+            args ={"minterms":[1,2,3]}
         for test in self.test_commands.get(test_no,[]):
             self.formater.add_section("Question", level=1)
-            self.test(test, rand=randq, repeat=repeat)        
+            self.test(test, rand=randq, repeat=repeat, args=args)        
             self.formater.add_newpage()
         return self.formater.display()
         return 0
@@ -311,7 +342,8 @@ class test_builder:
 
 def main(args):
     builder = test_builder()
-    test = builder.get_test(1)
+    args ={"minterms":[1,2,3]}
+    test = builder.get_test(4,repeat=1, args=args)
     print(test)
     return 0
 

@@ -42,6 +42,7 @@ def grabargs():
     
     parser.add_argument("-d", dest="outformat", nargs='?',
     help="output format(text, latex, md)", metavar="FORMAT", default="text")
+    
 
     parser.add_argument("-v", dest="version", nargs='?',
     help="Release version", metavar="Version", default="0.0.1")
@@ -55,6 +56,8 @@ def grabargs():
                          help="the number of tests samples to generate", metavar="NUMBER", default=1)
     parser.add_argument("-c",dest="category", type=str, nargs='?', default="all",
                         help="generate only the category of tests ()")
+    parser.add_argument("--min",dest="minterms", type=str, nargs='?', default="",
+                        help="Add list of minterms")
     args = parser.parse_args()
     return args
 
@@ -67,10 +70,12 @@ def main():
     test_no = args.test_no
     category = args.category
     version = args.version
+    minterms = args.minterms.split(',')
+    minterms = [int(m) for m in minterms]
     # generate a builder with format
     tester = test_builder.test_builder(outformat)
     
-    new_test = tester.get_test(number, repeat=6)
+    new_test = tester.get_test(number, repeat=6, args={"minterms":minterms})
     
     fl = open(outfile, "w+", encoding="utf8")
     fl.write(new_test)

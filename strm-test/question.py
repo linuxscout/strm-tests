@@ -308,8 +308,8 @@ class questionGenerator:
             return u" ".join(a)
 def main(args):
     qs = questionGenerator()
-    print qs.numeral_system(12,2)
-    print qs.numeral_system()
+    print(qs.numeral_system(12,2))
+    print(qs.numeral_system())
     print(qs.int2base(152, 8, True))
     print(qs.dec2x(8, True))
     print(qs.base2int(152,8, True))

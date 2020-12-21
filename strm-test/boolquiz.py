@@ -310,23 +310,23 @@ class bool_quiz:
 def test1():
     bq = bool_quiz()
     minterms = bq.rand_funct()
-    print "minterms"
+    print("minterms")
     print(minterms)
-    print "maxnterms"
+    print("maxnterms")
     maxterms = [x for x in range(16) if x not in minterms]
     maxterms = list(set(range(16)) -set(minterms))
     [x for x in range(16) if x not in minterms]
     print(maxterms)
     bq.truth_table(minterms)
     sop, pos =bq.simplify(minterms)
-    print "Simplified Sum of products\n", sop
-    print "Simplified Product of sums\n", pos
+    print("Simplified Sum of products\n", sop)
+    print("Simplified Product of sums\n", pos)
     cnf, dnf =bq.form_canonique(minterms)
-    print "Sum of products\n", dnf
-    print "Product of sums\n", cnf
-    print "Karnough map"
+    print("Sum of products\n", dnf)
+    print("Product of sums\n", cnf)
+    print("Karnough map")
     print(bq.draw_map(minterms))
-    print "Karnough map Latex"
+    print("Karnough map Latex")
     print(bq.draw_map(minterms, latex=True))
     print(bq.draw_logigram(sop))
 def test2():
@@ -341,3 +341,4 @@ if __name__ == "__main__" :
 
     
     
+
