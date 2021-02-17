@@ -250,7 +250,7 @@ class questionGenerator:
     def comp_one(self, nbits, n=0, method=False):
         """ convert a number on n bits x """
         if not n:   
-            n = random.randint(12, 2**(nbits-1))
+            n = random.randint(12, 2**(min(8,nbits-1)))
         d = self.int2base(n-1, 2)
         a = self.int2base(n, 2)
         
