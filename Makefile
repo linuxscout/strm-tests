@@ -21,7 +21,7 @@ test1:no=1
 test2:no=2
 test3:no=3
 test4:no=4
-test4:minterms=15
+test4:minterms=5,6,7,8,9
 test1 test2 test3 test4:
 	python3 strm-test/generate_tests.py  --min ${minterms} -d tex -n $(no) -o tests/output/test.tex
 	cp tests/output/test.tex latex/test.tex
