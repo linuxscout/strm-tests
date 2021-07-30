@@ -73,6 +73,9 @@ class test_builder:
         self.test_commands[4] =  [
         ["static_funct",],
         ]        
+        self.test_commands[5] =  [
+        ["multi_funct",],
+        ]        
     def question_vf(self,):
         x = self.vf.vf_question()
         question = "Representer sous la norme IEEE-754 32 bits le nombre suivant"
@@ -224,6 +227,10 @@ class test_builder:
     def question_static_funct(self, minterms):
         question = u""
         arabic = u""
+        # prepare minterms
+        minterms = minterms.split(',')
+        minterms = [int(m) for m in minterms] 
+               
         cnf, dnf = self.bq.form_canonique(minterms)
         data = "f(a,b,c,d)= $%s$\n"%minterms
         # answer
@@ -244,6 +251,46 @@ class test_builder:
         %%\missingfigure[figwidth=6cm]{Logigramme}\n\n"""
         
         answer += self.bq.draw_logigram(sop)
+        return question, arabic, data, answer        
+
+    def question_multi_funct(self, minterms_list):
+        question = u""
+        arabic = u""
+        answer = ""
+        data   = ""
+        # prepare minterms
+        minterms_list = minterms_list.split(':')
+        funct_list = []
+        for one_funct in minterms_list:
+            minterms = [int(m) for m in one_funct.split(",")]
+            funct_list.append(minterms)
+        # step 1 draw truth table
+        for i, minterms in enumerate(funct_list):
+            data += "f%d(a,b,c,d)= $%s$\n"%(i, minterms)
+        answer += self.bq.multiple_truth_table(funct_list, latex =True)
+        for i, minterms in enumerate(funct_list):            
+            # answer
+            cnf, dnf = self.bq.form_canonique(minterms)            
+            answer += "f%d(a,b,c,d)=$%s$\n\n"%(i, str(minterms))
+            answer += "f%d(a,b,c,D)=$ \sum %s $ \n"%(i, str(minterms))
+            answer +="\n"
+            answer += "\nSum of products \n f%d(a,b,c,d) = $%s$\n"%(i,self.bq.normalize_latex(dnf))
+            answer +="\nProduct of sums \n f%d(a,b,c,d) = $%s$\n"%(i, self.bq.normalize_latex(cnf))
+        
+        
+        for i, minterms in enumerate(funct_list):
+            answer +="\nKarnough map\\todo{fix map}\n"
+            answer += self.bq.draw_map(minterms, latex=True)
+            sop, pos = self.bq.simplify(minterms)
+            answer +="\n\n"
+            answer += "Simplified Sum of products f%d : $%s$\n"%(i,self.bq.normalize_latex(sop))
+            answer += "\nSimplified Product of sums f%d: $%s$\n"%(i, self.bq.normalize_latex(pos))
+        for i, minterms in enumerate(funct_list):
+            answer += """\paragraph{Logigramme} de la fonction\\\\
+            %%\missingfigure[figwidth=6cm]{Logigramme}\n\n"""
+            sop, pos = self.bq.simplify(minterms)            
+            answer += self.bq.draw_logigram(sop)
+        
         return question, arabic, data, answer        
     def question_exp(self,):
         
@@ -298,6 +345,8 @@ class test_builder:
             return self.question_arithm()
         elif command == "static_funct":
             return self.question_static_funct(args["minterms"])
+        elif command == "multi_funct":
+            return self.question_multi_funct(args["minterms"])
         else:
             return "Question Error: %s"%command.replace('_',''), "Arabic", "Data", "Answer"
             

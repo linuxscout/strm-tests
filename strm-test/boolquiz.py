@@ -187,6 +187,39 @@ class bool_quiz:
         else:
             return text
             
+    def multiple_truth_table(self, minterms_list, latex=False, dontcares=[]): 
+        """ print truth table """
+        variables = ["","A", "B","C", "D"]
+        vars_outputs = ["S0","S1", "S2","S3", "S4", "S5"]
+        outputs_len= len(minterms_list)
+        cases = itertools.product([0,1],[0,1],[0,1],[0,1])
+        text = "\t".join(variables+vars_outputs[:outputs_len])
+        tex = """%%\\begin{table}
+        \\begin{tabular}{|c|c|c|c|c||%s}
+    \\toprule
+        """%("c|"*outputs_len)
+        tex += " & ".join(variables+vars_outputs[:outputs_len]) 
+        tex += "\\\\ \\midrule"
+           
+        for counter, item in enumerate(cases):
+            case = [counter] + list(item)          
+            for minterms in minterms_list:
+                f = 1 if counter in minterms else 0
+                case.append(f)
+            if counter  and counter %4 ==0 :
+                tex += "\\midrule"
+            text += "\t".join([str(x) for x in case]) +"\n"
+            tex += " & ".join([str(x) for x in case]) + "\\\\"
+
+        tex += """\\bottomrule
+        \\end{tabular}
+        %%\\end{table}
+        """
+        if latex:
+            return tex
+        else:
+            return text
+            
     def normalize(self, s, mode=True):
         """ normalize boolean string
         mode SOP True, False is POS

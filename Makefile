@@ -21,8 +21,10 @@ test1:no=1
 test2:no=2
 test3:no=3
 test4:no=4
-test4:minterms=5,6,7,8,9
-test1 test2 test3 test4:
+test4:minterms=5,7,13,15
+test5:no=5
+test5:minterms=5,7,13,15:6,7,9,11,13,14:10,11,14:15
+test1 test2 test3 test4 test5:
 	python3 strm-test/generate_tests.py  --min ${minterms} -d tex -n $(no) -o tests/output/test.tex
 	cp tests/output/test.tex latex/test.tex
 	cd latex; xelatex  test-n°2.tex

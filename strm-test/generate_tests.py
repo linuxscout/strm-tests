@@ -70,8 +70,9 @@ def main():
     test_no = args.test_no
     category = args.category
     version = args.version
-    minterms = args.minterms.split(',')
-    minterms = [int(m) for m in minterms]
+    minterms = args.minterms
+    # ~ minterms = args.minterms.split(',')
+    # ~ minterms = [int(m) for m in minterms]
     # generate a builder with format
     tester = test_builder.test_builder(outformat)
     
