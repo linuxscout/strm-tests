@@ -129,7 +129,6 @@ dmypy.json
 .pyre/
 # output files
 tests/output/*
-tests/*
 archive/*
 edits/*
 latex/*.aux
