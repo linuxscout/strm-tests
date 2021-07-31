@@ -25,7 +25,7 @@ Create Random tests for Stucture Machine 1- first Year MI, Mathematiques &amp; I
 Features |   value
 ------------|-----------
 Authors  | Taha Zerrouki: http://tahadz.com,  taha dot zerrouki at gmail dot com
-Release  | 0.1
+Release  | 0.2
 License  |[GPL](https://github.com/linuxscout/strm-tests/master/LICENSE)
 Tracker  |[linuxscout/strm-tests/Issues](https://github.com/linuxscout/strm-tests/issues)
 Website  |[https://github.com/linuxscout/strm-tes)[github)
