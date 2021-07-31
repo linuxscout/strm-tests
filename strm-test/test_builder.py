@@ -255,7 +255,7 @@ class test_builder:
         sop, pos = self.bq.simplify(minterms)
         answer += "\nSum of products \n f(a,b,c,d) = $%s$\n"%self.bq.normalize_latex(dnf)
         answer +="\nProduct of sums \n f(a,b,c,d) = $%s$\n"%self.bq.normalize_latex(cnf)
-        answer +="\nKarnough map\\todo{fix map}\n"
+        answer +="\n\\paragraph{Karnough map}\n"
         answer += self.bq.draw_map(minterms, latex=True, correct=True)
         answer +="\n\n"
         answer += "Simplified Sum of products: $%s$\n"%self.bq.normalize_latex(sop)
@@ -281,7 +281,7 @@ class test_builder:
         funct_list = minterms_list    
         # step 1 draw truth table
         for i, minterms in enumerate(funct_list):
-            data += "f%d(a,b,c,d)= $%s$\n"%(i, minterms)
+            data += "f%d(a,b,c,d)= $%s$\n\n"%(i, minterms)
         answer += self.bq.multiple_truth_table(funct_list, latex =True)
         for i, minterms in enumerate(funct_list):            
             # answer
@@ -294,7 +294,7 @@ class test_builder:
         
         
         for i, minterms in enumerate(funct_list):
-            answer +="\nKarnough map\\todo{fix map}\n"
+            answer +="\n\\paragraph{Karnough map}\n"
             answer += self.bq.draw_map(minterms, latex=True, correct=True)
             sop, pos = self.bq.simplify(minterms)
             answer +="\n\n"
@@ -304,7 +304,7 @@ class test_builder:
             answer += """\paragraph{Logigramme} de la fonction\\\\
             %%\missingfigure[figwidth=6cm]{Logigramme}\n\n"""
             sop, pos = self.bq.simplify(minterms)            
-            answer += self.bq.draw_logigram(sop)
+            answer += self.bq.draw_logigram(sop, function_name="F%d"%i)
         
         return question, arabic, data, answer        
     def question_exp(self,):

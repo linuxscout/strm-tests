@@ -98,7 +98,125 @@ def draw_gate(term):
     """
     return latex
 
-term="A'.B.C'.D"
+# ~ term="A'.B.C'.D"
 
-print draw_gate(term)
+# ~ print draw_gate(term)
 
+
+class logigram:
+    """ Trace a latex logigram for a given function"""
+    def __init__(self,):
+        pass
+    def draw_logigram(self, sop, function_name="F"):
+        """ draw a logigram from an sop """
+        latex = " \\begin{tikzpicture}\n\n"
+        terms = sop.upper().split("+")
+        latex += self.draw_vars(len(terms))
+        for cpt, term in enumerate(terms):
+            latex += self.draw_gate(term, cpt)
+        latex += self.draw_large_or(len(terms), function_name)
+        latex += " \\end{tikzpicture}\n\n"        
+        return latex
+    def normalize_latex(self,s):
+        """ normalize boolean string"""
+        s= str(s)
+        s = s.replace("A'","\\bar A")
+        s = s.replace("B'","\\bar B")
+        s = s.replace("C'","\\bar C")
+        s = s.replace("D'","\\bar D")
+        s = s.replace("a'","\\bar a")
+        s = s.replace("b'","\\bar b")
+        s = s.replace("c'","\\bar c")
+        s = s.replace("d'","\\bar d")
+        return s        
+    def draw_vars(self,size):
+        """ draw vars lines """
+        latex ="""\\node (x) at (0, ID*1.5) {$A$};
+            \\node (y) at (0.5, ID*1.5) {$B$};
+            \\node (z) at (1, ID*1.5) {$C$};
+            \\node (w) at (1.5, ID*1.5) {$D$};
+            \\node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.4)$) (notx) {};
+            \\draw (x) -- (notx.input); 
+            \\node[not gate US, draw, rotate=270] at ($(y) + (0.25, -0.4)$) (noty) {};
+            \\draw (y) -- (noty.input); 
+            \\node[not gate US, draw, rotate=270] at ($(z) + (0.25, -0.4)$) (notz) {};
+            \\draw (z) -- (notz.input);
+            \\node[not gate US, draw, rotate=270] at ($(w) + (0.25, -0.4)$) (notw) {};
+            \\draw (w) -- (notw.input);
+        """
+        latex = latex.replace("ID", str(size))
+        return latex
+                
+    def draw_large_or(self, size, function_name="F"):
+        """ draw the final or gate"""
+        latex = """\\node[or gate US, draw, rotate=0, logic gate inputs=n%s] at (5.5, %d*0.6) (xory) {};\n\n
+                    \draw (xory.output) -- node[above]{\scriptsize$%s$} ($(xory) + (1, 0)$);\n\n"""%("n"*size, size, function_name)
+        offset = 1.4
+        for i in range(size):
+            latex +="""\\draw (xandy%d.output) -- ([xshift=%.2fcm]xandy%d.output) |- (xory.input %d);\n\n"""%(i, offset, i, size-i)
+            if i < size/2:
+                offset -=0.05
+            else:
+                offset +=0.05
+        return latex
+
+  
+    def draw_gate(self, term, idg):
+        """ id gate """
+        latex_term = self.normalize_latex(term)
+            
+        #~ latex = """
+        #~ \\begin{tikzpicture}"""
+        latex = """        
+           
+            \\node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, ID*1.5) (xandyID) {};
+            \\draw (xandyID.output) -- node[above]{\scriptsize $%s$} ($(xandyID) + (1.8, 0)$);
+            """%latex_term
+        if "A'" in term:
+            latex += """
+            %% X'
+
+            \\draw  [line width=0.25mm,   red] (notx.output) -- ([xshift=0cm]notx.output) |- (xandyID.input 1);
+            """
+        elif "A" in term:
+            latex += """%% X
+            \\draw (x) -| ($(x) + (0, 0)$) |- (xandyID.input 1);
+            """
+        if "B'" in term:
+            latex += """
+            %Y'
+
+            \\draw [line width=0.25mm,   red] (noty.output) -- ([xshift=0cm]noty.output) |- (xandyID.input 2);
+          """
+        elif "B" in term:
+            latex +="""  
+            %% Y
+            \\draw (y) -| ($(y) + (0, 0)$) |- (xandyID.input 2);
+        """
+        if "C'" in term:
+            latex += """
+            %%Z'
+
+            \\draw [line width=0.25mm,   red] (notz.output) -- ([xshift=0cm]notz.output) |- (xandyID.input 3);
+          """
+        elif "C" in term:
+            latex +="""
+            %%Z
+            \\draw (z) -| ($(z) + (0, 0)$) |- (xandyID.input 3);
+        """
+        if "D'" in term:
+            latex += """
+            %%W
+
+            \\draw [line width=0.25mm,   red] (notw.output) -- ([xshift=0cm]notw.output) |- (xandyID.input 4);
+          """
+        elif "D" in term:
+            latex +="""    %%W
+            \\draw (w) -| ($(w) + (0, 0)$) |- (xandyID.input 4);
+        """
+            
+        #~ latex +=""" 
+        #~ \\end{tikzpicture}
+        #~ """
+        latex = latex.replace("ID", str(idg))
+        return latex   
