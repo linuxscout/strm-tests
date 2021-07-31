@@ -54,3 +54,5 @@ test0:
 moodle:
 	cd tests; python3 genmoodle.py
 	echo " result is in tests/output/test.txt"
+minterms:
+	python3 tests/gen_random_minterms.py

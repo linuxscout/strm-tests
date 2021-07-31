@@ -176,7 +176,8 @@ class test_builder:
         #~ answer += '\n\\begin{verbatim}'
         for i in range(nb_table):
             answer += "table %d\n\n"%(i+1)
-            sop, pos =self.bq.simplify(minterms_table[i])    
+            sop, pos =self.bq.simplify(minterms_table[i])
+            answer += self.bq.draw_map(minterms_table[i], latex=True) 
             answer += "Simplified Sum of products : $%s$\n\n"%self.bq.normalize_latex(sop)
         #~ answer +='\n\\end{verbatim}'  
         return question, arabic, data, answer
@@ -255,7 +256,7 @@ class test_builder:
         answer += "\nSum of products \n f(a,b,c,d) = $%s$\n"%self.bq.normalize_latex(dnf)
         answer +="\nProduct of sums \n f(a,b,c,d) = $%s$\n"%self.bq.normalize_latex(cnf)
         answer +="\nKarnough map\\todo{fix map}\n"
-        answer += self.bq.draw_map(minterms, latex=True)
+        answer += self.bq.draw_map(minterms, latex=True, correct=True)
         answer +="\n\n"
         answer += "Simplified Sum of products: $%s$\n"%self.bq.normalize_latex(sop)
         answer += "\nSimplified Product of sums: $%s$\n"%self.bq.normalize_latex(pos)
@@ -294,7 +295,7 @@ class test_builder:
         
         for i, minterms in enumerate(funct_list):
             answer +="\nKarnough map\\todo{fix map}\n"
-            answer += self.bq.draw_map(minterms, latex=True)
+            answer += self.bq.draw_map(minterms, latex=True, correct=True)
             sop, pos = self.bq.simplify(minterms)
             answer +="\n\n"
             answer += "Simplified Sum of products f%d : $%s$\n"%(i,self.bq.normalize_latex(sop))

@@ -5,6 +5,7 @@ from sympy.logic import POSform
 from sympy import symbols
 from sympy.logic.boolalg import to_cnf, to_dnf
 
+import bool_const
 FUNCTIONS=[{"ID":"", "desc":"",
     "arabic":"",
     "minterms":[],
@@ -232,25 +233,30 @@ class bool_quiz:
         s = s.replace("~c","c'")
         s = s.replace("~d","d'")
         # reorder terms
-        if mode:
+        if mode: # Sum of product
             var_op = "."
             term_op = "+"
-        else:
+        else: # Prodect of sum
             var_op = "+"
-            term_op = "-"
+            term_op = "."
         
         # treat as SOP
         # ajust terms and order them"""
+
         terms = s.split(term_op)
+        # ~ print(terms)
         tmp = []
         for term in terms:
             # remove parenthesis
-            if mode:
-                term = term.replace('(','')
-                term = term.replace(')','')
+            # ~ if mode:
+            term = term.replace('(','')
+            term = term.replace(')','')
             varbs = term.split(var_op)
             varbs.sort()
-            term = var_op.join(varbs)
+            if mode:
+                term = " %s "%var_op.join(varbs)
+            else:
+                term = "(%s)"%var_op.join(varbs)                
             tmp.append(term)
         return term_op.join(tmp)
 
@@ -262,38 +268,57 @@ class bool_quiz:
         pos = sympy.POSform([a,b,c,d], minterms, dontcares)
         
         sop = self.normalize(sop)
-        pos = self.normalize(pos, False)
+        pos = self.normalize(pos,False)
         return sop, pos
+        
+    def simplify_map(self, minterms, dontcares=[]):
+       
+        a,b,c,d = symbols("a b c d")
+        sop = sympy.SOPform([a,b,c,d], minterms, dontcares)
+        pos = sympy.POSform([a,b,c,d], minterms, dontcares)
+        
+        sop = self.normalize(sop)
+        pos = self.normalize(pos,False)
+        terms = [t.strip() for t in sop.split(" + ")]
+        print(terms)
+        simpls = []
+        for term in terms:
+            simpls.append(bool_const.REDUCTION_TABLE.get(term, ""))
+        
+        # ~ print("sImple", simpls)
+        # ~ import sys
+        # ~ sys.exit()
+        return "\n".join(simpls)
     
     def minterm(self, n):
         """ return a minterm for integer"""
         term =[]
         for var in 'dcba':
             v = var if n % 2 ==1 else var +"'"
-            n = n / 2
+            n = n // 2
             term.append(v)
         term.sort()
         return ".".join(term)
         
-    def maxterm(self,n):
+    def maxterm(self, n):
         term =[]         
         """ return a minterm for integer"""
         for var in 'dcba':
             v = var if n % 2 ==0 else var +"'"
-            n = n / 2
+            n = n // 2
             term.append(v)
         term.sort()
-        return ".".join(term)
+        return "(%s)"%("+".join(term))
         
     def form_canonique(self, minterms, dontcares=[]):
         a,b,c,d = symbols("a b c d")
         maxterms = [x for x in range(16) if x not in minterms and x not in dontcares]
         dnf = " + ".join([self.minterm(x) for x in minterms])
-        cnf = ".".join([self.maxterm(x) for x in range(16) if x in maxterms])
+        cnf = " . ".join([self.maxterm(x) for x in range(16) if x in maxterms])
         
         return cnf, dnf
         
-    def draw_map(self, minterms, dontcares=[], latex=False):
+    def draw_map(self, minterms, dontcares=[], latex=False, correct = False):
         kmap=[]
         maxterms = [x for x in range(16) if x not in minterms and x not in dontcares]
         for x in range(16):
@@ -309,15 +334,23 @@ class bool_quiz:
         ["00", kmap[12], kmap[13],kmap[15],kmap[14]],
         ["00", kmap[8], kmap[9],kmap[11],kmap[10]],
         ]
+        
+        # draw simplification
+        simplification = ""
+        if correct:
+            simplification = self.simplify_map(minterms)
+        
         text = "\n".join(["\t".join(r) for r in table])
         tex =  """\\begin{karnaugh-map}[4][4][1][cd][ab]
           \\minterms{%s}
           \\maxterms{%s}
         %%\\autoterms[0]
+        %% simplification
+        %s
           %%\\implicant{5}{15}
           %%\\implicantedge{8}{8}{10}{10}
           %%\\implicantedge{8}{8}{10}{10}[8,10]
-        \\end{karnaugh-map}"""%(", ".join([str(x) for x in minterms]), ", ".join([str(x) for x in maxterms]))
+        \\end{karnaugh-map}"""%(", ".join([str(x) for x in minterms]), ", ".join([str(x) for x in maxterms]), simplification)
         if latex:
             return tex         
         else:
