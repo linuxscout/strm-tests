@@ -50,7 +50,7 @@ REDUCTION_TABLE ={
      # b       
      "b.c": "\\implicant{7}{14}",     
      "b.c'": "\\implicant{4}{13}",     
-     "b.d": "\\implicant{1}{15}",     
+     "b.d": "\\implicant{5}{15}",     
      "b.d'": "\\implicantedge{4}{12}{6}{14}", 
     # b'
      "b'.c": "\\implicantedge{3}{2}{11}{10}",     

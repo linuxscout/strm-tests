@@ -177,7 +177,7 @@ class test_builder:
         for i in range(nb_table):
             answer += "table %d\n\n"%(i+1)
             sop, pos =self.bq.simplify(minterms_table[i])
-            answer += self.bq.draw_map(minterms_table[i], latex=True) 
+            answer += self.bq.draw_map(minterms_table[i], latex=True, correct=True) 
             answer += "Simplified Sum of products : $%s$\n\n"%self.bq.normalize_latex(sop)
         #~ answer +='\n\\end{verbatim}'  
         return question, arabic, data, answer
@@ -200,7 +200,7 @@ class test_builder:
             cnf, dnf = self.bq.form_canonique(minterms_table[i])    
             answer +=  "F%d(a, b, c, d) = $%s$\n\n"%(i,self.bq.normalize_latex(dnf))
             answer +=  "F%d(a, b, c, d) = $\\varSigma(%s)$\n\n"%(i,repr(minterms_table[i]))
-            answer += self.bq.draw_map(minterms_table[i], latex=True)           
+            answer += self.bq.draw_map(minterms_table[i], latex=True, correct=True)           
             sop, pos =self.bq.simplify(minterms_table[i])    
             answer += "Simplified Sum of products : $%s$\n\n"%self.bq.normalize_latex(sop)
         #~ answer +='\n\\end{verbatim}'  
@@ -226,8 +226,8 @@ class test_builder:
         sop, pos = self.bq.simplify(minterms)
         answer += "\nSum of products \n f(a,b,c,d) = $%s$\n"%self.bq.normalize_latex(dnf)
         answer +="\nProduct of sums \n f(a,b,c,d) = $%s$\n"%self.bq.normalize_latex(cnf)
-        answer +="\nKarnough map\\todo{fix map}\n"
-        answer += self.bq.draw_map(minterms, latex=True)
+        answer +="\nKarnough map\n"
+        answer += self.bq.draw_map(minterms, latex=True, correct=True)
         answer +="\n\n"
         answer += "Simplified Sum of products: $%s$\n"%self.bq.normalize_latex(sop)
         answer += "\nSimplified Product of sums: $%s$\n"%self.bq.normalize_latex(pos)
@@ -323,8 +323,8 @@ class test_builder:
         answer += "S = $%s$\n\n"%self.bq.normalize_latex(sop_quest)
         answer += " = $%s$\n\n"%self.bq.normalize_latex(sop_rep)
 
-        answer +="\nKarnough map\\todo{fix map}\n"
-        answer += self.bq.draw_map(minterms, latex=True)
+        answer +="\nKarnough map\n"
+        answer += self.bq.draw_map(minterms, latex=True, correct=True)
         answer +="\n\n"
         return question, arabic, data, answer
         
