@@ -17,15 +17,15 @@ publish:
 date=$(shell date +'%y.%m.%d-%H:%M')
 doc:
 	epydoc -v --config epydoc.conf
-test1:no=1
-test2:no=2
-test3:no=3
-test4:no=4
+test1:test_id=test1
+test2:test_id=test2
+test3:test_id=test3
+test4:test_id=test4
 test4:minterms=5,7,13,15
-test5:no=5
+test5:test_id=test5
 test5:minterms=5,7,13,15:6,7,9,11,13,14:10,11,14:15
 test1 test2 test3 test4 test5:
-	python3 strm-test/generate_tests.py  --min ${minterms} -d tex -n $(no) -o tests/output/test.tex
+	python3 strm-test/generate_tests.py -f ../config/quiz2.conf -d tex -t "$(test_id)" -o tests/output/test.tex
 	cp tests/output/test.tex latex/test.tex
 	cd latex; xelatex  test-n°2.tex
 	cp latex/test.tex edits/
@@ -52,9 +52,6 @@ test_rb:
 	python3  test/quiz.py  -f test/data/test1.csv 
 test0:
 	python3 test/generate_tests.py
-#~ test1:no=1
-#~ test2:no=2
-#~ test3:no=3
-#~ test1 test2 test3:
-#~ 	python strm-test/generate_tests.py  -d tex -n $(no) -o tests/output/test.tex
-
+moodle:
+	cd tests; python3 genmoodle.py
+	echo " result is in tests/output/test.txt"

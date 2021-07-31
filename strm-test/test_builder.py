@@ -25,14 +25,20 @@ import question
 import boolquiz
 import ieee754
 import random
+import read_config
 import test_format_factory
 class test_builder:
     """ Generate the third test """
-    def __init__(self, outformat=""):
+    def __init__(self, outformat="", config_file =""):
         self.qs = question.questionGenerator(latex=True)
         self.bq = boolquiz.bool_quiz()
         self.vf = ieee754.float_point()
         self.formater = test_format_factory.test_format_factory.factory(outformat)
+        # if the file is not configured, use default config file
+        if not config_file:
+            config_file = "config/quiz.conf"
+        self.config_file = config_file
+        self.myconfig = read_config.read_config(config_file)
         #~ print(outformat)
         self.commands = ["float", 
          "intervalle",
@@ -75,7 +81,14 @@ class test_builder:
         ]        
         self.test_commands[5] =  [
         ["multi_funct",],
-        ]        
+        ]
+    
+    def get_test_config(self, test_id):
+        """
+        return testif according to config file
+        """
+        return self.myconfig.get_test_config(test_id)
+
     def question_vf(self,):
         x = self.vf.vf_question()
         question = "Representer sous la norme IEEE-754 32 bits le nombre suivant"
@@ -228,8 +241,8 @@ class test_builder:
         question = u""
         arabic = u""
         # prepare minterms
-        minterms = minterms.split(',')
-        minterms = [int(m) for m in minterms] 
+        # ~ minterms = minterms.split(',')
+        # ~ minterms = [int(m) for m in minterms] 
                
         cnf, dnf = self.bq.form_canonique(minterms)
         data = "f(a,b,c,d)= $%s$\n"%minterms
@@ -259,11 +272,12 @@ class test_builder:
         answer = ""
         data   = ""
         # prepare minterms
-        minterms_list = minterms_list.split(':')
-        funct_list = []
-        for one_funct in minterms_list:
-            minterms = [int(m) for m in one_funct.split(",")]
-            funct_list.append(minterms)
+        # ~ minterms_list = minterms_list.split(':')
+        # ~ funct_list = []
+        # ~ for one_funct in minterms_list:
+            # ~ minterms = [int(m) for m in one_funct.split(",")]
+            # ~ funct_list.append(minterms)
+        funct_list = minterms_list    
         # step 1 draw truth table
         for i, minterms in enumerate(funct_list):
             data += "f%d(a,b,c,d)= $%s$\n"%(i, minterms)
@@ -344,7 +358,7 @@ class test_builder:
         elif command == "arithm":
             return self.question_arithm()
         elif command == "static_funct":
-            return self.question_static_funct(args["minterms"])
+            return self.question_static_funct(args["minterms"][0])
         elif command == "multi_funct":
             return self.question_multi_funct(args["minterms"])
         else:
@@ -377,11 +391,16 @@ class test_builder:
         """ list all existing question types """
         return self.commands
 
-    def get_test(self,test_no=1, repeat=5, args = {}):
+    def get_test(self,test_no="test1"):
         randq = False
-        if not args:
-            args ={"minterms":[1,2,3]}
-        for test in self.test_commands.get(test_no,[]):
+        # ~ if not args:
+            # ~ args ={"minterms":[1,2,3]}
+        repeat = self.myconfig.repeat
+        args ={"minterms":self.myconfig.minterms}
+        # ~ test_config = self.test_commands.get(test_no,[])
+        # ~ test_config = self.get_test_config("test%d"%test_no)
+        test_config = self.get_test_config(test_no)
+        for test in test_config:
             self.formater.add_section("Question", level=1)
             self.test(test, rand=randq, repeat=repeat, args=args)        
             self.formater.add_newpage()
