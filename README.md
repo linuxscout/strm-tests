@@ -56,20 +56,20 @@ make test3
 ### Available commands:
  This commands are used to generate question within a test
 
-Command | explaination
---------|-------------
-"float" | Question about floating points representation IEEE-754
-"intervalle" | Question about integer numbers intervalles with VS/Complement1  and complement 2
-"complement" | Complement to one and two
-"exp" |     Boolean expression to simplify
-"map" |     Simplify a Karnaugh Map
-"map-sop" |      Simplify a Karnaugh Map with canonic forms
-"function" |    Study a logical function
-"base" |    Convert between numeral bases
-"arithm" |  Make arithmetic calculs between bases
-"mesure" |  Converstion between different mesure units
-"static_funct" |  Study a logical function given by canonical form
-"multi_funct" |   Draw a circuit with multi functions given by minterms
+Category |Command | explaination
+---------|--------|-------------
+Codage | "base" |    Convert between numeral bases
+Codage | "arithm" |  Make arithmetic calculs between bases
+Codage | "mesure" |  Converstion between different mesure units
+Codage | "float" | Question about floating points representation IEEE-754
+Codage | "intervalle" | Question about integer numbers intervalles with VS/Complement1  and complement 2
+Codage | "complement" | Complement to one and two
+Logic | "exp" |     Boolean expression to simplify
+Logic |"map" |     Simplify a Karnaugh Map
+Logic |"map-sop" |      Simplify a Karnaugh Map with canonic forms
+Logic | "function" |    Study a logical function
+Logic | "static_funct" |  Study a logical function given by canonical form
+Logic | "multi_funct" |   Draw a circuit with multi functions given by minterms
 
 ### Use config file
 
