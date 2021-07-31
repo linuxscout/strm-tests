@@ -41,10 +41,12 @@ Accounts  |[@Twitter](https://twitter.com/linuxscout)  [@Sourceforge](http://sou
 
 ## Usage
 
-```python
+```
 make test1 
 make test2 
 make test3
 
-هذا سيولد ملفات latex موضوعة في المجد edits
 ```
+
+هذا سيولد ملفات latex موضوعة في المجد edits
+
