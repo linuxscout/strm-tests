@@ -97,12 +97,6 @@ td{
 <label for="name_input">Say hello to:</label>
 <input id="name_input" placeholder="put a name here">
 -->
-
-<button onClick="copy()">Copy</button>
-<button onClick="clear_result()">Clear</button>
-<button onClick="submit_action('test1')">test1</button>
-<button onClick="submit_action('test2')">test2</button>
-<button onClick="submit_action('test3')">test3</button>
 <label for="command">Select an action here</label>   
     <select id="command" placeholder="Select an action here">
     <option value="float">float</option>
@@ -118,7 +112,37 @@ td{
     <option value="static_funct">static_funct</option>
     <option value="multi_funct">multi_funct</option>
     </select>
-<button onClick="submit()">Submit</button><br/>
+<button onClick="submit()">Submit</button>
+
+
+<label for="test_label">Select a Test</label>   
+<select id="test_id" placeholder="Select a test">
+    <option value="test1">Test n°1</option>
+    <option value="test2">Test n°2</option>
+    <option value="test3">Test n°3</option>
+    <option value="test4">Test n°4</option>
+    <option value="test5">Test n°5</option>
+</select>
+<button onClick="submit_test()">Submit Test</button><br/>
+
+<!--
+<button onClick="submit_action('test1')">test1</button>
+<button onClick="submit_action('test2')">test2</button>
+<button onClick="submit_action('test3')">test3</button>
+-->
+
+<label for="format_label">Select a Format</label>   
+<select id="format_id" placeholder="Select a format">
+    <option value="latex">Latex</option>
+    <option value="html">HTML</option>
+    <option value="markdown">MarkDown</option>
+    <option value="moodle">Moodle GIFT</option>
+</select>
+
+<label for="minterms_label">Input Minterms</label>   
+<input id="minterms" placeholder="Input Min Terms">
+<button onClick="copy()">Copy</button>
+<button onClick="clear_result()">Clear</button>
 
 <!--
 <div id="response-container"></div>
@@ -181,6 +205,11 @@ td{
 
     function submit() {
         var name_input = document.getElementById('command').value;
+        pywebview.api.doaction(name_input).then(showResponse)
+    }
+
+    function submit_test() {
+        var name_input = document.getElementById('test_id').value;
         pywebview.api.doaction(name_input).then(showResponse)
     }
     function submit_action(command) {
