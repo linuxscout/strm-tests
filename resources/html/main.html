@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+
+<style>
+    #response-container {
+        display: none;
+        font-size: 100%;
+
+    }
+
+    label {
+        margin-left: 0.3rem;
+        margin-right: 0.3rem;
+    }
+
+    button {
+        font-size: 100%;
+        padding: 0.5rem;
+        margin: 0.3rem;
+        text-transform: uppercase;
+    }
+td {text-align:center;
+}
+.day {width: 15%;}
+.term {width: 5%;}
+.TD {
+background-color:#69E4E4;
+}
+.TP {
+background-color:#73F0BE;
+}
+.Cours {
+background-color:#FBFFCA;
+}
+.unvailable {
+background-color:#C9D0CE;
+color:#C9D0CE;
+}
+.course {
+    display:inline;
+}
+.teacher_name {
+    display:inline;
+}
+.classroom_name {
+        display:block;
+
+}
+
+h2{
+    page-break-before: always;
+  font-size: 30px;
+  color: #000;
+  text-transform: uppercase;
+  font-weight: 300;
+  text-align: center;
+  margin-bottom: 20px;
+}
+table{
+  width:90%;
+  table-layout: fixed;
+}
+th{
+  padding: 5px 5px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 16px;
+  background-color: #BCF8EF;
+  text-transform: uppercase;
+}
+td{
+  padding: 5px;
+  text-align: center;
+  vertical-align:middle;
+  font-weight: 300;
+  font-size: 14px;
+  color: #000;
+  border-bottom: solid 1px rgba(255,255,255,0.1);
+}
+
+
+
+
+</style>
+</head>
+<body>
+<h1>STRM-TESTS</h1>
+<!--
+
+<button onClick="initialize()">Hello</button><br/>
+<button id="heavy-stuff-btn" onClick="doHeavyStuff()">TimeTable by groups</button><br/>
+<button onClick="getRandomNumber()">Get a random number</button><br/>
+-->
+<!--
+<label for="name_input">Say hello to:</label>
+<input id="name_input" placeholder="put a name here">
+-->
+
+<button onClick="copy()">Copy</button>
+<button onClick="clear_result()">Clear</button>
+<button onClick="submit_action('test1')">test1</button>
+<button onClick="submit_action('test2')">test2</button>
+<button onClick="submit_action('test3')">test3</button>
+<label for="command">Select an action here</label>   
+    <select id="command" placeholder="Select an action here">
+    <option value="float">float</option>
+    <option value="intervalle">intervalle</option>
+    <option value="complement">complement</option>
+    <option value="exp">exp</option>
+    <option value="map">map</option>
+    <option value="map-sop">map-sop</option>
+    <option value="function">function</option>
+    <option value="base">base</option>
+    <option value="arithm">arithm</option>
+    <option value="mesure">mesure</option>
+    <option value="static_funct">static_funct</option>
+    <option value="multi_funct">multi_funct</option>
+    </select>
+<button onClick="submit()">Submit</button><br/>
+
+<!--
+<div id="response-container"></div>
+-->
+<textarea id="response-container" rows="100" cols="100"></textarea>
+<script>
+    window.addEventListener('pywebviewready', function() {
+        var container = document.getElementById('pywebview-status')
+        container.innerHTML = '<i>pywebview</i> is ready'
+    })
+
+    function showResponse(response) {
+        var container = document.getElementById('response-container')
+
+        container.innerText = response.message
+        //~ container.innerHTML = response.message
+        container.style.display = 'block'
+    }
+    function clear_result() {
+        var container = document.getElementById('response-container')
+        container.innerHTML = "tAHA"
+        container.style.display = 'block'
+    }
+    function copy() {
+        var container = document.getElementById('response-container')
+        container.innerHTML = "tAHA"
+        container.style.display = 'block'
+    }
+
+    function initialize() {
+        pywebview.api.init().then(showResponse)
+    }
+
+    function doHeavyStuff() {
+        var btn = document.getElementById('heavy-stuff-btn')
+
+        pywebview.api.doHeavyStuff().then(function(response) {
+            showResponse(response)
+            btn.onclick = doHeavyStuff
+            btn.innerText = 'Perform a heavy operation'
+        })
+
+        showResponse({message: 'Working...'})
+        btn.innerText = 'Cancel the heavy operation'
+        btn.onclick = cancelHeavyStuff
+    }
+
+    function cancelHeavyStuff() {
+        pywebview.api.cancelHeavyStuff()
+    }
+
+    function getRandomNumber() {
+        pywebview.api.getRandomNumber().then(showResponse)
+    }
+
+    function greet() {
+        var name_input = document.getElementById('name_input').value;
+        pywebview.api.sayHelloTo(name_input).then(showResponse)
+    }
+
+    function submit() {
+        var name_input = document.getElementById('command').value;
+        pywebview.api.doaction(name_input).then(showResponse)
+    }
+    function submit_action(command) {
+        pywebview.api.doaction(command).then(showResponse)
+    }
+
+    function catchException() {
+        pywebview.api.error().catch(showResponse)
+    }
+
+</script>
+</body>
+</html>
