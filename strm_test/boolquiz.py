@@ -4,8 +4,9 @@ from sympy.logic import SOPform
 from sympy.logic import POSform
 from sympy import symbols
 from sympy.logic.boolalg import to_cnf, to_dnf
-import logigram
-import bool_const
+
+from . import logigram
+from . import bool_const
 FUNCTIONS=[{"ID":"", "desc":"",
     "arabic":"",
     "minterms":[],
@@ -163,7 +164,7 @@ class bool_quiz:
         sop = self.normalize(sop)
         pos = self.normalize(pos,False)
         terms = [t.strip() for t in sop.split(" + ")]
-        print(terms)
+        #print(terms)
         simpls = []
         for term in terms:
             simpls.append(bool_const.REDUCTION_TABLE.get(term, ""))

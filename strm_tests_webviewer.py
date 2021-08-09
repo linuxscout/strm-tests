@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  test_factory.py
+#  jsapi.py
 #  
-#  Copyright 2019 zerrouki <zerrouki@majd4>
+#  Copyright 2021 zerrouki <zerrouki@majd4>
 #  
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -22,17 +22,24 @@
 #  
 #  
 
-import test_builder
-def test_factory:
-    def __init__(self,):
-        pass
-    def factory(self, test_type=""):
-        
-        pass
+import threading
+import time
+import sys
+import random
+import webview
+import web.webviewer as webviewer
+from web.jsapi import Api
 
-def main(args):
-    return 0
 
 if __name__ == '__main__':
-    import sys
-    sys.exit(main(sys.argv))
+
+    filename = "resources/html/main.html"
+    viewer = webviewer.mywebviewer()    
+    # welcome window
+    welcomefilename = "resources/html/welcome.html"
+
+    # main window
+    api = Api(viewer)
+    window = webview.create_window('STRM Test Generator', filename, js_api=api, )
+    webview.start(debug=True)
+

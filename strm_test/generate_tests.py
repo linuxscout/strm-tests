@@ -19,17 +19,12 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
-#  
-#  
-
-
-
 
 import sys
 import os
 import argparse
 import test_builder
-from io import open
+
 def grabargs():
     parser = argparse.ArgumentParser(description='Create tests for STRM 1- MI.')
     # add file name to import and filename to export
@@ -47,9 +42,7 @@ def grabargs():
     parser.add_argument("-v", dest="version", nargs='?',
     help="Release version", metavar="Version", default="0.0.1")
     
-    #~ parser.add_argument("-a",dest="all", type=bool, nargs='?',
-                        #~ const=True, 
-                        #~ help="Generate all categories")
+
     parser.add_argument("-t",dest="test_id", type=str, nargs='?',
                          help="the order of test to generate (test1,test2,test3)", metavar="TEST_ID", default=1)
     parser.add_argument("-n",dest="number", type=int, nargs='?',
@@ -63,17 +56,14 @@ def grabargs():
 
 
 def main():
-    args= grabargs()
+    args = grabargs()
     outfile = args.outfile
     configfile = args.configfile
     outformat = args.outformat
-    # ~ number = args.number
     test_id = args.test_id
     category = args.category
     version = args.version
-    # ~ minterms = args.minterms
-    # ~ minterms = args.minterms.split(',')
-    # ~ minterms = [int(m) for m in minterms]
+
     # generate a builder with format
     tester = test_builder.test_builder(outformat, config_file= configfile )
     

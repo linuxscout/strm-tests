@@ -21,8 +21,8 @@
 #  MA 02110-1301, USA.
 #  
 #  
-import test_format
-import test_format_tex
+from . import test_format
+from . import test_format_tex
 class test_format_factory:
     
     def __init__(self,):

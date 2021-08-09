@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  test_format_tex.py
+#  test_format.py
 #  
 #  Copyright 2019 zerrouki <zerrouki@majd4>
 #  
@@ -22,64 +22,49 @@
 #  
 #  
 
-import test_format
-class test_format_tex(test_format.test_format):
+class test_format:
     """ Generate a format for the test """
     def __init__(self, formatting=""):
-
         self.formatting = ""
         self.output =""
-        self.header =""
-        self.footer =""
-        #~ print("test_format_tex")      
+        #~ print("test_format")        
     def header(self,):
         """
         """
-        self.header = """
-        """
+        pass
     def footer(self,):
         """
         """
-        self.footer = """
+        pass
+    def add_section(self, text, trans ="", level=1):
         """
-    def add_section(self, text, trans="", level=1):
         """
-        """
-        if level == 1:
-            sect = "section"
-        elif level == 2:
-            sect = "subsection"
-        elif level == 3:
-            sect = "subsubsection"
-        elif level == 4:
-            sect = "paragraph"
-        self.output +="\n\\%s{%s}\n"%(sect, text)
-        
+        self.output +="\n"+"#"*level + " " + text + " " + trans
     def add_text(self, text, trans=""):
         """
         """
-        self.output +="\n"+ text
-    def add_verbatim(self, text, trans=""):    
-        self.output += '\n\\begin{verbatima}'
-        self.output +=  text
-        self.output +='\n\\end{verbatima}'
+        self.output +="\n"+ text + "\n"+ trans
+    def add_verbatim(self, text, trans =""):    
+        
+        self.output +="\n```\n"+ text + "\n```\n" + trans
     
+    def display(self,):
+        """
+        """
+        return self.output
     def add_formula(self, text, trans=""):    
-        self.output += '$$%s$$'%text
+        self.output += ' [%s]'%text
     
     def add_newline(self):    
         self.output += '\n'
     def add_hrule(self):    
-        self.output += '\n\\hrule width 1\linewidth'
+        self.output += '\n-------------------------'        
     def add_newpage(self):    
-        self.output += '\pagebreak'    
-    def display(self,):
-        """
-        """
-        text = self.header
-        text += "\n"+ self.output
-        text += "\n"+ self.footer
-        return self.output
+        self.output += '\n\n'
+    def reset(self,):
+        self.output = ""
+
+
 def main(args):
     return 0
 

@@ -23,7 +23,7 @@
 # 
 import string
 import random
-import ieee754
+from .  import ieee754
 
 class questionGenerator:
     """ class to generate question about some course parts"""

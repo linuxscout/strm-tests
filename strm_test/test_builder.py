@@ -21,12 +21,12 @@
 #  MA 02110-1301, USA.
 #  
 #  
-import question
-import boolquiz
-import ieee754
 import random
-import read_config
-import test_format_factory
+from . import question
+from . import boolquiz
+from . import ieee754
+from . import read_config
+from . import test_format_factory
 class test_builder:
     """ Generate the third test """
     def __init__(self, outformat="", config_file =""):
@@ -50,6 +50,8 @@ class test_builder:
         "base",
         "arithm",
         "mesure",
+        "static_funct", 
+        "multi_funct",
         ]
         self.test_commands = {}
         self.test_commands[1] = [["base", "base", "arithm"],
@@ -82,7 +84,11 @@ class test_builder:
         self.test_commands[5] =  [
         ["multi_funct",],
         ]
-    
+    def reset(self,):
+        """
+        reset output
+        """
+        self.formater.reset()
     def get_test_config(self, test_id):
         """
         return testif according to config file
@@ -387,6 +393,7 @@ class test_builder:
             q_no = "Q%d"%(cpt+1)
             self.formater.add_section(q_no,level=4)
             self.formater.add_text(ans)
+
     
     def list_commands(self,):
         """ list all existing question types """
@@ -406,7 +413,7 @@ class test_builder:
             self.test(test, rand=randq, repeat=repeat, args=args)        
             self.formater.add_newpage()
         return self.formater.display()
-        return 0
+
 
 
 def main(args):
