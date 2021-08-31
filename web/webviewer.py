@@ -5,7 +5,6 @@ sys.path.append('../')
 import strm_test.test_builder
 class mywebviewer:
     def __init__(self,):
-        pass
         self.filename = None
         # parser 
         self.parser = strm_test.test_builder.test_builder()

@@ -84,6 +84,10 @@ class test_builder:
         self.test_commands[5] =  [
         ["multi_funct",],
         ]
+    def set_format(self, outformat="latex"):
+        """ set a new format"""
+        self.formater = test_format_factory.test_format_factory.factory(outformat)
+
     def reset(self,):
         """
         reset output

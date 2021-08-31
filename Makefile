@@ -24,7 +24,7 @@ test3:test_id=test3
 test4:test_id=test4
 test5:test_id=test5
 test1 test2 test3 test4 test5:
-	python3 strm_test/generate_tests.py -f ../config/quiz2.conf -d tex -t "$(test_id)" -o tests/output/test.tex
+	python3 generate_tests.py -f config/quiz2.conf -d tex -t "$(test_id)" -o tests/output/test.tex
 	cp tests/output/test.tex latex/test.tex
 	cd latex; xelatex  test-n°2.tex
 	cp latex/test.tex edits/

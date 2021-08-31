@@ -132,7 +132,7 @@ td{
 -->
 
 <label for="format_label">Select a Format</label>   
-<select id="format_id" placeholder="Select a format">
+<select id="format" placeholder="Select a format">
     <option value="latex">Latex</option>
     <option value="html">HTML</option>
     <option value="markdown">MarkDown</option>
@@ -205,15 +205,20 @@ td{
 
     function submit() {
         var name_input = document.getElementById('command').value;
-        pywebview.api.doaction(name_input).then(showResponse)
+        var format_output = document.getElementById('format').value;
+        pywebview.api.doaction(name_input, format_output).then(showResponse)
     }
 
     function submit_test() {
+        
         var name_input = document.getElementById('test_id').value;
-        pywebview.api.doaction(name_input).then(showResponse)
+        var format_output = document.getElementById('format').value;
+        pywebview.api.doaction(name_input, format_output).then(showResponse)
     }
     function submit_action(command) {
-        pywebview.api.doaction(command).then(showResponse)
+        var format_output = document.getElementById('format').value;
+        
+        pywebview.api.doaction(command, format_output).then(showResponse)
     }
 
     function catchException() {

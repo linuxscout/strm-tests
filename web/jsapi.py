@@ -71,10 +71,12 @@ class Api:
         self.cancel_heavy_stuff_flag = True
 
 
-    def doaction(self, name):
+    def doaction(self, name, format_output="latex"):
 
+        self.viewer.parser.set_format(format_output);
         if name.startswith("test"):
             self.viewer.parser.reset()
+                
             result = self.viewer.parser.get_test(name)
         else:
             result = self.viewer.parser.get_question(name)

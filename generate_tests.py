@@ -23,7 +23,7 @@
 import sys
 import os
 import argparse
-from . import test_builder
+from strm_test import test_builder
 
 def grabargs():
     parser = argparse.ArgumentParser(description='Create tests for STRM 1- MI.')
