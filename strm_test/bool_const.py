@@ -124,6 +124,100 @@ REDUCTION_TABLE ={
     "a.b.c.d": "\\implicant{15}{15}", 
    
 }
+
+MINTERMS_TABLE= {
+    # Four vars
+    0:"a'.b'.c'.d'", 
+    1:"a'.b'.c'.d",
+    2:"a'.b'.c.d'",
+    3:"a'.b'.c.d",
+    4:"a'.b.c'.d'",
+    5:"a'.b.c'.d",
+    6:"a'.b.c.d'",
+    7:"a'.b.c.d",
+    8:"a.b'.c'.d'",
+    9:"a.b'.c'.d",
+    10:"a.b'.c.d'",
+    11:"a.b'.c.d",
+    12:"a.b.c'.d'",
+    13:"a.b.c'.d",
+    14:"a.b.c.d'",
+    15:"a.b.c.d",
+}
+MINTERMS_TABLE_LATEX= {
+    # Four vars
+   0:"\\bar a.\\bar b.\\bar c.\\bar d", 
+    1:"\\bar a.\\bar b.\\bar c.d",
+    2:"\\bar a.\\bar b.c.\\bar d",
+    3:"\\bar a.\\bar b.c.d",
+    4:"\\bar a.b.\\bar c.\\bar d",
+    5:"\\bar a.b.\\bar c.d",
+    6:"\\bar a.b.c.\\bar d",
+    7:"\\bar a.b.c.d",
+    8:"a.\\bar b.\\bar c.\\bar d",
+    9:"a.\\bar b.\\bar c.d",
+    10:"a.\\bar b.c.\\bar d",
+    11:"a.\\bar b.c.d",
+    12:"a.b.\\bar c.\\bar d",
+    13:"a.b.\\bar c.d",
+    14:"a.b.c.\\bar d",
+    15:"a.b.c.d",
+}
+
+MAXTERMS_TABLE = {0: '(a+b+c+d)',
+1: "(a+b+c+d')",
+2: "(a+b+c'+d)",
+3: "(a+b+c'+d')",
+4: "(a+b'+c+d)", 
+5: "(a+b'+c+d')",
+6: "(a+b'+c'+d)", 
+7: "(a+b'+c'+d')",
+8: "(a'+b+c+d)",
+9: "(a'+b+c+d')", 
+10: "(a'+b+c'+d)",
+11: "(a'+b+c'+d')",
+12: "(a'+b'+c+d)",
+13: "(a'+b'+c+d')",
+14: "(a'+b'+c'+d)",
+15: "(a'+b'+c'+d')"
+}
+
+MAXTERMS_TABLE_LATEX ={0: '(a+b+c+d)',
+1: "(a+b+c+\\bar d)",
+2: "(a+b+\\bar c+d)",
+3: "(a+b+\\bar c+\\bar d)",
+4: "(a+\\bar b+c+d)", 
+5: "(a+\\bar b+c+\\bar d)",
+6: "(a+\\bar b+\\bar c+d)", 
+7: "(a+\\bar b+\\bar c+\\bar d)",
+8: "(\\bar a+b+c+d)",
+9: "(\\bar a+b+c+\\bar d)", 
+10: "(\\bar a+b+\\bar c+d)",
+11: "(\\bar a+b+\\bar c+\\bar d)",
+12: "(\\bar a+\\bar b+c+d)",
+13: "(\\bar a+\\bar b+c+\\bar d)",
+14: "(\\bar a+\\bar b+\\bar c+d)",
+15: "(\\bar a+\\bar b+\\bar c+\\bar d)"
+}
+
+TermTables={0: (0, 0, 0, 0),
+    1: (0, 0, 0, 1), 
+    2: (0, 0, 1, 0),
+    3: (0, 0, 1, 1), 
+    4: (0, 1, 0, 0),
+    5: (0, 1, 0, 1),
+    6: (0, 1, 1, 0),
+    7: (0, 1, 1, 1),
+    8: (1, 0, 0, 0),
+    9: (1, 0, 0, 1),
+    10: (1, 0, 1, 0),
+    11: (1, 0, 1, 1),
+    12: (1, 1, 0, 0),
+    13: (1, 1, 0, 1), 
+    14: (1, 1, 1, 0), 
+    15: (1, 1, 1, 1)
+}
+
 def main(args):
     return 0
 

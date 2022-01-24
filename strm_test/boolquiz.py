@@ -17,7 +17,23 @@ import itertools
      
 class bool_quiz:
     def __init__(self):
-        pass
+        
+        self.variables = ["Y", "Z","C", "D"]
+        # ~ self.variables = ["A", "B","C", "D"]
+        self.vars_outputs = ["S0","S1", "S2","S3", "S4", "S5", "S6", "S7", "S8", "S9","S10"]
+        self.format = "latex"
+        
+    def set_vars(self, entries=[], outputs=["F"]):
+        """ Set variable names instead of ABCD,
+        """
+        self.variables = entries
+        self.vars_outputs = outputs
+
+    def set_format(self, outformat):
+        """ Set output format,
+        """
+        self.format = outformat
+
         
     def rand_funct(self,):
         """ generate random function"""
@@ -45,14 +61,21 @@ class bool_quiz:
 
     def truth_table(self, minterms, latex=False, dontcares=[]): 
         """ print truth table """
-        variables = ["","A", "B","C", "D", "F"]
+        variables = self.variables
         cases = itertools.product([0,1],[0,1],[0,1],[0,1])
+        text = "N°\t" # line number
         text = "\t".join(variables)
+        text = "\t"+ self.vars_outputs[0]
+        
+        
+        
         tex = """%%\\begin{table}
         \\begin{tabular}{|c|c|c|c|c||c|}
     \\toprule
         """
+        tex += "N° & " # line number
         tex += " & ".join(variables) 
+        tex += " & "+self.vars_outputs[0]
         tex += "\\\\ \\midrule"
            
         for counter, item in enumerate(cases):
@@ -74,16 +97,17 @@ class bool_quiz:
             
     def multiple_truth_table(self, minterms_list, latex=False, dontcares=[]): 
         """ print truth table """
-        variables = ["","A", "B","C", "D"]
-        vars_outputs = ["S0","S1", "S2","S3", "S4", "S5", "S6", "S7", "S8", "S9","S10"]
+        
         outputs_len= len(minterms_list)
         cases = itertools.product([0,1],[0,1],[0,1],[0,1])
-        text = "\t".join(variables+vars_outputs[:outputs_len])
+        text = "N°\t"  # line number
+        text = "\t".join(self.variables + self.vars_outputs[:outputs_len])
         tex = """%%\\begin{table}
         \\begin{tabular}{|c|c|c|c|c||%s}
     \\toprule
         """%("c|"*outputs_len)
-        tex += " & ".join(variables+vars_outputs[:outputs_len]) 
+        tex += "N° &"  # line number
+        tex += " & ".join(self.variables+self.vars_outputs[:outputs_len]) 
         tex += "\\\\ \\midrule"
            
         for counter, item in enumerate(cases):
@@ -147,17 +171,23 @@ class bool_quiz:
 
     def simplify(self, minterms, dontcares=[]):
        
-        a,b,c,d = symbols("a b c d")
+        # ~ var_names  = "a b c d"
+        var_names  = " ".join(self.variables).lower()
+        
+        a,b,c,d = symbols(var_names)
         sop = sympy.SOPform([a,b,c,d], minterms, dontcares)
         pos = sympy.POSform([a,b,c,d], minterms, dontcares)
         
         sop = self.normalize(sop)
-        pos = self.normalize(pos,False)
+        pos = self.normalize(pos, False)
         return sop, pos
         
     def simplify_map(self, minterms, dontcares=[]):
        
-        a,b,c,d = symbols("a b c d")
+        var_names  = "a b c d"
+        # ~ var_names  = " ".join(self.variables).lower()
+        
+        a,b,c,d = symbols(var_names)
         sop = sympy.SOPform([a,b,c,d], minterms, dontcares)
         pos = sympy.POSform([a,b,c,d], minterms, dontcares)
         
@@ -173,9 +203,19 @@ class bool_quiz:
         # ~ import sys
         # ~ sys.exit()
         return "\n".join(simpls)
-    
+
+    def add_bar(self, var):
+        """
+        """
+     
+        if self.format == "latex":
+            return ("\\bar "+var)
+        else:
+            return var +"'"
+
     def minterm(self, n):
         """ return a minterm for integer"""
+        return bool_const.MINTERMS_TABLE.get(n,"")        
         term =[]
         for var in 'dcba':
             v = var if n % 2 ==1 else var +"'"
@@ -183,8 +223,9 @@ class bool_quiz:
             term.append(v)
         term.sort()
         return ".".join(term)
-        
+    
     def maxterm(self, n):
+        return bool_const.MAXTERMS_TABLE.get(n,"")
         term =[]         
         """ return a minterm for integer"""
         for var in 'dcba':
@@ -194,11 +235,36 @@ class bool_quiz:
         term.sort()
         return "(%s)"%("+".join(term))
         
+    def maxterm_str(self, n):
+        term =[]         
+        """ return a minterm for integer"""
+        myterm = bool_const.TermTables.get(n, (0,0,0,0))
+        variables = self.variables[:4] # only four
+        for i in range(len(variables)): 
+            if myterm[i]:
+                term.append(self.add_bar(variables[i]))
+            else:
+                term.append(variables[i])            
+        return "(%s)"%("+".join(term))
+    def minterm_str(self,n):
+        term =[]         
+        """ return a minterm for integer"""
+        myterm = bool_const.TermTables.get(n, (0,0,0,0))
+        variables = self.variables[:4] # only four
+        for i in range(len(variables)):
+            if myterm[i]:
+                term.append(variables[i])
+            else:
+                term.append(self.add_bar(variables[i]))           
+        return ".".join(term)        
     def form_canonique(self, minterms, dontcares=[]):
-        a,b,c,d = symbols("a b c d")
+        # ~ var_names  = "a b c d"
+        var_names  = " ".join(self.variables)
+        a,b,c,d = symbols(var_names)        
+        # ~ a,b,c,d = symbols("a b c d")
         maxterms = [x for x in range(16) if x not in minterms and x not in dontcares]
-        dnf = " + ".join([self.minterm(x) for x in minterms])
-        cnf = " . ".join([self.maxterm(x) for x in range(16) if x in maxterms])
+        dnf = " + ".join([self.minterm_str(x) for x in minterms])
+        cnf = " . ".join([self.maxterm_str(x) for x in range(16) if x in maxterms])
         
         return cnf, dnf
         
@@ -212,7 +278,9 @@ class bool_quiz:
                 kmap.append("x")
             else:
                 kmap.append("0")
-        table = [ ["ab\\cd", "00","01", "11","10"],
+        # ~ var_names  = "ab\\cd"
+        var_names  = "".join(self.variables[:2])+"\\"+ "".join(self.variables[2:])
+        table = [ [var_names,  "00","01", "11","10"],
         ["00", kmap[0], kmap[1],kmap[3],kmap[2]],
         ["00", kmap[4], kmap[5],kmap[7],kmap[6]],
         ["00", kmap[12], kmap[13],kmap[15],kmap[14]],
@@ -225,7 +293,10 @@ class bool_quiz:
             simplification = self.simplify_map(minterms)
         
         text = "\n".join(["\t".join(r) for r in table])
-        tex =  """\\begin{karnaugh-map}[4][4][1][cd][ab]
+        cd = "".join(self.variables[2:])
+        ab = "".join(self.variables[:2])
+        tex =  """\\begin{karnaugh-map}[4][4][1][%s][%s]"""%(cd, ab)
+        tex +=  """
           \\minterms{%s}
           \\maxterms{%s}
         %%\\autoterms[0]
@@ -239,6 +310,7 @@ class bool_quiz:
             return tex         
         else:
             return text
+            
     def normalize_latex(self,s):
         """ normalize boolean string"""
         s= str(s)
@@ -255,8 +327,15 @@ class bool_quiz:
             
     def draw_logigram(self, sop, function_name = "F"):
         """ draw a logigram """
-        lg = logigram.logigram()
+        varnames = {
+            "A":self.variables[0],
+            "B":self.variables[1],
+            "C":self.variables[2],
+            "D":self.variables[3],
+        }
+        lg = logigram.logigram(varnames)
         return lg.draw_logigram(sop, function_name)
+
 def test1():
     bq = bool_quiz()
     minterms = bq.rand_funct()

@@ -32,6 +32,8 @@ class read_config:
         # number of repetation for every test
         self.repeat = 1
         self.minterms = [[]]
+        self.var_names = []
+        self.output_names = []
         self.commands = []
         self.quizes = []
         self.debug = False
@@ -53,7 +55,8 @@ class read_config:
         self.commands = ast.literal_eval(config.get('QUIZES','commands'))
         self.repeat = ast.literal_eval(config.get('Args','repeat'))
         self.minterms = ast.literal_eval(config.get('Args','minterms'))
-
+        self.var_names = ast.literal_eval(config.get('Args','vars'))
+        self.output_names = ast.literal_eval(config.get('Args','outputs'))
         for qz in self.quizes:
             self.test_table[qz] = ast.literal_eval(config.get('Tests', qz))
         if self.debug:

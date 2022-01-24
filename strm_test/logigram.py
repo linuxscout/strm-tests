@@ -105,8 +105,26 @@ def draw_gate(term):
 
 class logigram:
     """ Trace a latex logigram for a given function"""
-    def __init__(self,):
-        pass
+    def __init__(self, var_names=[]):
+        # to allow to rename vars
+        if var_names:
+            self.var_names = var_names
+        else:
+            self.var_names = {"A":"A", "B":"B", "C":"C", "D":"D"}
+        self.var_A = self.var_names.get("A", "A")
+        self.var_A_bar = self.var_names.get("A", "A")+"'"
+        self.var_B = self.var_names.get("B", "B")
+        self.var_B_bar = self.var_names.get("B", "B")+"'"
+
+        self.var_C = self.var_names.get("C", "C")
+        self.var_C_bar = self.var_names.get("C", "C")+"'"
+        
+        self.var_D = self.var_names.get("D", "D")
+        self.var_D_bar = self.var_names.get("D", "D")+"'"
+        
+
+
+        
     def draw_logigram(self, sop, function_name="F"):
         """ draw a logigram from an sop """
         latex = " \\begin{tikzpicture}\n\n"
@@ -131,10 +149,11 @@ class logigram:
         return s        
     def draw_vars(self,size):
         """ draw vars lines """
-        latex ="""\\node (x) at (0, ID*1.5) {$A$};
-            \\node (y) at (0.5, ID*1.5) {$B$};
-            \\node (z) at (1, ID*1.5) {$C$};
-            \\node (w) at (1.5, ID*1.5) {$D$};
+        latex ="\\node (x) at (0, ID*1.5) {$%s$};\n"%(self.var_names.get("A", "A"))
+        latex += "\\node (y) at (0.5, ID*1.5) {$%s$};\n"%(self.var_names.get("B", "B"))
+        latex += "\\node (z) at (1, ID*1.5) {$%s$};\n"%(self.var_names.get("C", "C"))
+        latex += "\\node (w) at (1.5, ID*1.5) {$%s$};\n"%(self.var_names.get("D", "D"))
+        latex +="""
             \\node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.4)$) (notx) {};
             \\draw (x) -- (notx.input); 
             \\node[not gate US, draw, rotate=270] at ($(y) + (0.25, -0.4)$) (noty) {};
@@ -172,45 +191,45 @@ class logigram:
             \\node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, ID*1.5) (xandyID) {};
             \\draw (xandyID.output) -- node[above]{\scriptsize $%s$} ($(xandyID) + (1.8, 0)$);
             """%latex_term
-        if "A'" in term:
+        if self.var_A_bar in term:
             latex += """
             %% X'
 
             \\draw  [line width=0.25mm,   red] (notx.output) -- ([xshift=0cm]notx.output) |- (xandyID.input 1);
             """
-        elif "A" in term:
+        elif self.var_A in term:
             latex += """%% X
             \\draw (x) -| ($(x) + (0, 0)$) |- (xandyID.input 1);
             """
-        if "B'" in term:
+        if self.var_B_bar in term:
             latex += """
             %Y'
 
             \\draw [line width=0.25mm,   red] (noty.output) -- ([xshift=0cm]noty.output) |- (xandyID.input 2);
           """
-        elif "B" in term:
+        elif self.var_B in term:
             latex +="""  
             %% Y
             \\draw (y) -| ($(y) + (0, 0)$) |- (xandyID.input 2);
         """
-        if "C'" in term:
+        if self.var_C_bar in term:
             latex += """
             %%Z'
 
             \\draw [line width=0.25mm,   red] (notz.output) -- ([xshift=0cm]notz.output) |- (xandyID.input 3);
           """
-        elif "C" in term:
+        elif self.var_C in term:
             latex +="""
             %%Z
             \\draw (z) -| ($(z) + (0, 0)$) |- (xandyID.input 3);
         """
-        if "D'" in term:
+        if self.var_D_bar in term:
             latex += """
             %%W
 
             \\draw [line width=0.25mm,   red] (notw.output) -- ([xshift=0cm]notw.output) |- (xandyID.input 4);
           """
-        elif "D" in term:
+        elif self.var_D in term:
             latex +="""    %%W
             \\draw (w) -| ($(w) + (0, 0)$) |- (xandyID.input 4);
         """
