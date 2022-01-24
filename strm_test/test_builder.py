@@ -298,30 +298,75 @@ class test_builder:
         for i, minterms in enumerate(funct_list):
             data += "%s(%s)"%(output_names[i],', '.join(var_names) ) # function name and arguments
             data += "= $%s$\n\n"%(minterms)
+            
+        answer += "\\begin{enumerate}"
+        # definition des entrées sorties
+        answer += """ \\item Définition des entrées et des sorties \\aRL{تعريف المداخل والمخارج}
+         \\begin{itemize}
+         \\item Les entrées \\aRL{المداخل}:
+         \\begin{itemize}
+         """
+        for v in var_names:
+            answer += "\\item %s: \qquad 'on' noté 1 \qquad 'off' noté 0 "%v
+ 
+        answer += """\end{itemize}
+          \\item  Les sorties \\aRL{المخارج}
+          \\begin{itemize}
+          """
+        for v in output_names:
+            answer += "\\item %s: \qquad 'on' noté 1\qquad 'off' noté  0"%v
+        answer += """\\end{itemize}
+         \\end{itemize}"""
+         
+        answer +="\\item Table de vérité \\aRL{جدول الحقيقة}\\\\"                        
         answer += self.bq.multiple_truth_table(funct_list, latex =True)
+
+        
+        answer +="\\item Les formes canoniques \\aRL{الأشكال القانونية}\\\\"   
+        answer += "\\begin{itemize}"        # begin forme canoniques
         for i, minterms in enumerate(funct_list):            
             # answer
             cnf, dnf = self.bq.form_canonique(minterms)  
             fname  = "%s(%s)"%(output_names[i],', '.join(var_names) ) # function name and arguments          
-            answer += fname+ " =$%s$\n\n"%(str(minterms))
-            answer += fname+ " =$ \sum %s $ \n"%(str(minterms))
+
+            # ~ answer += fname+ " =$ \sum %s $ \n"%(str(minterms))
+
+            answer +="\\item La fonction %s \\aRL{الدالة}\\\\"%fname
+            answer += fname+ " =$%s$\n\n"%(str(minterms))            
             answer +="\n"
-            answer += "\nSum of products \n"+fname+ " = $%s$\n"%(self.bq.normalize_latex(dnf))
-            answer +="\nProduct of sums \n "+fname+ " = $%s$\n"%(self.bq.normalize_latex(cnf))
-        
+
+            answer += "\\begin{itemize}"           
+
+            answer += "\\item La première forme canonique: \\aRL{الشكل القانوني الأول}\n\n"+fname+ " = $%s$\n"%(self.bq.normalize_latex(dnf))
+            answer +="\\item La deuxième forme canonique: \\aRL{الشكل القانوني الثاني}≠\n\n "+fname+ " = $%s$\n"%(self.bq.normalize_latex(cnf))
+            # ~ answer +="\n Les formes canoniques numériques"            
+            answer += "\\item La première forme canonique; \\aRL{الشكل القانوني الرقمي الأول}\n\n"+fname+ " = $\sum %s$\n"%(str(minterms))
+            answer +="\\item La deuxième forme canonique;  \\aRL{الشكل القانوني الرقمي الثاني}\n\n "+fname+ " = $\prod %s$\n"%(str(minterms))
+            answer += "\\end{itemize}"           
+        answer += "\\end{itemize}"           # end formes canoniques
+        answer +="\n\\item Tableaux de Karnough \\aRL{مخطط كارنوف}\n"  
+        answer += "\\begin{itemize}"        # begin karnaugh
         
         for i, minterms in enumerate(funct_list):
-            answer +="\n\\paragraph{Karnough map}\n"
+            answer +="\\item Tableau de Karnough de la fonction  %s \\aRL{مخطط كارنوف للدالة}\n"%output_names[i]
             answer += self.bq.draw_map(minterms, latex=True, correct=True)
             sop, pos = self.bq.simplify(minterms)
             answer +="\n\n"
-            answer += "Simplified Sum of products f%d : $%s$\n"%(i,self.bq.normalize_latex(sop))
-            answer += "\nSimplified Product of sums f%d: $%s$\n"%(i, self.bq.normalize_latex(pos))
+            answer += "\\begin{itemize}"
+            answer += "\\item La forme simplifiée \\aRL{الشكل المبسط} \n\n %s = $%s$\n"%(output_names[i],self.bq.normalize_latex(sop))
+            answer += "\\item La deuxième forme simplifiée \\aRL{الشكل المبسط الثاني} \n\n%s = $%s$\n"%(output_names[i], self.bq.normalize_latex(pos))
+            answer += "\\end{itemize}"
+            
+        answer += "\\end{itemize}"        # end karnaugh
+        answer += "\\item Logigrammes \\aRL{امخططات المنطقية }\\\\"        
+        answer += "\\begin{itemize}"        # end karnaugh        
         for i, minterms in enumerate(funct_list):
-            answer += """\paragraph{Logigramme} de la fonction\\\\
-            %%\missingfigure[figwidth=6cm]{Logigramme}\n\n"""
+            answer += """\\item Logigramme de la fonction %s \\aRL{المخطط المنطقي للدالة}\\\\"""%output_names[i]
+            answer += """%%\missingfigure[figwidth=6cm]{Logigramme}\n\n"""
             sop, pos = self.bq.simplify(minterms)            
             answer += self.bq.draw_logigram(sop, function_name=output_names[i])
+        answer += "\\end{itemize}"        # end fonction
+        answer += "\\end{enumerate}"
         
         return question, arabic, data, answer        
     def question_exp(self,):
