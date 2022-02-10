@@ -45,8 +45,7 @@ def maxterm(n):
 def main(args):
     
     for i in range(16):
-        #~ print i, minterm(i);
-        print i, maxterm(i);
+        print(i, maxterm(i))
     return 0
     
 if __name__ == '__main__':

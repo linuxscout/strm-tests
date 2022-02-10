@@ -112,9 +112,9 @@ def test5():
         minterms = test[1]
         dontcares = test[2]
         question,arabic, data, answer = ts.question_funct(minterms, dontcares)       
-        print question
-        print data
-        print answer 
+        print(question)
+        print(data)
+        print(answer)
         
         print("\\pagebreak\\section{Questions}\n\n")        
     return 0

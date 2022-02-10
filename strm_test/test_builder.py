@@ -299,7 +299,7 @@ class test_builder:
             data += "%s(%s)"%(output_names[i],', '.join(var_names) ) # function name and arguments
             data += "= $%s$\n\n"%(minterms)
             
-        answer += "\\begin{enumerate}"
+        answer += "\\begin{enumerate}\n"
         # definition des entrées sorties
         answer += """ \\item Définition des entrées et des sorties \\aRL{تعريف المداخل والمخارج}
          \\begin{itemize}
@@ -307,14 +307,14 @@ class test_builder:
          \\begin{itemize}
          """
         for v in var_names:
-            answer += "\\item %s: \qquad 'on' noté 1 \qquad 'off' noté 0 "%v
+            answer += "\\item %s: \qquad 'on' noté 1 \qquad 'off' noté 0\n "%v
  
         answer += """\end{itemize}
           \\item  Les sorties \\aRL{المخارج}
           \\begin{itemize}
           """
         for v in output_names:
-            answer += "\\item %s: \qquad 'on' noté 1\qquad 'off' noté  0"%v
+            answer += "\\item %s: \qquad 'on' noté 1\qquad 'off' noté  0\n"%v
         answer += """\\end{itemize}
          \\end{itemize}"""
          
@@ -323,7 +323,7 @@ class test_builder:
 
         
         answer +="\\item Les formes canoniques \\aRL{الأشكال القانونية}\\\\"   
-        answer += "\\begin{itemize}"        # begin forme canoniques
+        answer += "\\begin{itemize}\n"        # begin forme canoniques
         for i, minterms in enumerate(funct_list):            
             # answer
             cnf, dnf = self.bq.form_canonique(minterms)  
@@ -335,7 +335,7 @@ class test_builder:
             answer += fname+ " =$%s$\n\n"%(str(minterms))            
             answer +="\n"
 
-            answer += "\\begin{itemize}"           
+            answer += "\\begin{itemize}\n"           
 
             answer += "\\item La première forme canonique: \\aRL{الشكل القانوني الأول}\n\n"+fname+ " = $%s$\n"%(self.bq.normalize_latex(dnf))
             answer +="\\item La deuxième forme canonique: \\aRL{الشكل القانوني الثاني}≠\n\n "+fname+ " = $%s$\n"%(self.bq.normalize_latex(cnf))
@@ -343,30 +343,30 @@ class test_builder:
             answer += "\\item La première forme canonique; \\aRL{الشكل القانوني الرقمي الأول}\n\n"+fname+ " = $\sum %s$\n"%(str(minterms))
             answer +="\\item La deuxième forme canonique;  \\aRL{الشكل القانوني الرقمي الثاني}\n\n "+fname+ " = $\prod %s$\n"%(str(minterms))
             answer += "\\end{itemize}"           
-        answer += "\\end{itemize}"           # end formes canoniques
+        answer += "\n\\end{itemize}"           # end formes canoniques
         answer +="\n\\item Tableaux de Karnough \\aRL{مخطط كارنوف}\n"  
-        answer += "\\begin{itemize}"        # begin karnaugh
+        answer += "\n\\begin{itemize}\n"        # begin karnaugh
         
         for i, minterms in enumerate(funct_list):
-            answer +="\\item Tableau de Karnough de la fonction  %s \\aRL{مخطط كارنوف للدالة}\n"%output_names[i]
+            answer +="\\item Tableau de Karnough de la fonction  %s \\aRL{مخطط كارنوف للدالة}\n\n"%output_names[i]
             answer += self.bq.draw_map(minterms, latex=True, correct=True)
             sop, pos = self.bq.simplify(minterms)
             answer +="\n\n"
-            answer += "\\begin{itemize}"
+            answer += "\\begin{itemize}\n"
             answer += "\\item La forme simplifiée \\aRL{الشكل المبسط} \n\n %s = $%s$\n"%(output_names[i],self.bq.normalize_latex(sop))
             answer += "\\item La deuxième forme simplifiée \\aRL{الشكل المبسط الثاني} \n\n%s = $%s$\n"%(output_names[i], self.bq.normalize_latex(pos))
-            answer += "\\end{itemize}"
+            answer += "\n\\end{itemize}\n"
             
-        answer += "\\end{itemize}"        # end karnaugh
+        answer += "\n\\end{itemize}\n"        # end karnaugh
         answer += "\\item Logigrammes \\aRL{امخططات المنطقية }\\\\"        
-        answer += "\\begin{itemize}"        # end karnaugh        
+        answer += "\\begin{itemize}\n"        # end karnaugh        
         for i, minterms in enumerate(funct_list):
             answer += """\\item Logigramme de la fonction %s \\aRL{المخطط المنطقي للدالة}\\\\"""%output_names[i]
             answer += """%%\missingfigure[figwidth=6cm]{Logigramme}\n\n"""
             sop, pos = self.bq.simplify(minterms)            
             answer += self.bq.draw_logigram(sop, function_name=output_names[i])
-        answer += "\\end{itemize}"        # end fonction
-        answer += "\\end{enumerate}"
+        answer += "\\end{itemize}\n"        # end fonction
+        answer += "\\end{enumerate}\n"
         
         return question, arabic, data, answer        
     def question_exp(self,):

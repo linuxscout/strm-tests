@@ -4,112 +4,56 @@
 \paragraph{Q1}
 
 
-X0(A, B, C, H)= $[12, 13, 14, 15]$
-
-X1(A, B, C, H)= $[10, 11, 14, 15]$
-
-X3(A, B, C, H)= $[10, 12, 14]$
-
+F(A, B, C, D) = $[2, 6, 7, 10, 11, 12, 13, 14, 15]$
 
 \hrule width 1\linewidth\pagebreak
 \subsection{Correction}
 
 \paragraph{Q1}
 
-%\begin{table}
-        \begin{tabular}{|c|c|c|c|c||c|c|c|}
+F(A, B, C, D) =$[2, 6, 7, 10, 11, 12, 13, 14, 15]$
+F(A, B, C, D) =$ \sum [2, 6, 7, 10, 11, 12, 13, 14, 15] $ 
+
+%%\begin{table}
+        \begin{tabular}{|c|c|c|c|c||c|}
     \toprule
-        N° &A & B & C & H & X0 & X1 & X3\\ \midrule0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\1 & 0 & 0 & 0 & 1 & 0 & 0 & 0\\2 & 0 & 0 & 1 & 0 & 0 & 0 & 0\\3 & 0 & 0 & 1 & 1 & 0 & 0 & 0\\\midrule4 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\5 & 0 & 1 & 0 & 1 & 0 & 0 & 0\\6 & 0 & 1 & 1 & 0 & 0 & 0 & 0\\7 & 0 & 1 & 1 & 1 & 0 & 0 & 0\\\midrule8 & 1 & 0 & 0 & 0 & 0 & 0 & 0\\9 & 1 & 0 & 0 & 1 & 0 & 0 & 0\\10 & 1 & 0 & 1 & 0 & 0 & 1 & 1\\11 & 1 & 0 & 1 & 1 & 0 & 1 & 0\\\midrule12 & 1 & 1 & 0 & 0 & 1 & 0 & 1\\13 & 1 & 1 & 0 & 1 & 1 & 0 & 0\\14 & 1 & 1 & 1 & 0 & 1 & 1 & 1\\15 & 1 & 1 & 1 & 1 & 1 & 1 & 0\\\bottomrule
+        N° & A & B & C & D & F\\ \midrule0 & 0 & 0 & 0 & 0 & 0\\1 & 0 & 0 & 0 & 1 & 0\\2 & 0 & 0 & 1 & 0 & 1\\3 & 0 & 0 & 1 & 1 & 0\\\midrule4 & 0 & 1 & 0 & 0 & 0\\5 & 0 & 1 & 0 & 1 & 0\\6 & 0 & 1 & 1 & 0 & 1\\7 & 0 & 1 & 1 & 1 & 1\\\midrule8 & 1 & 0 & 0 & 0 & 0\\9 & 1 & 0 & 0 & 1 & 0\\10 & 1 & 0 & 1 & 0 & 1\\11 & 1 & 0 & 1 & 1 & 1\\\midrule12 & 1 & 1 & 0 & 0 & 1\\13 & 1 & 1 & 0 & 1 & 1\\14 & 1 & 1 & 1 & 0 & 1\\15 & 1 & 1 & 1 & 1 & 1\\\bottomrule
         \end{tabular}
         %%\end{table}
-        X0(A, B, C, H) =$[12, 13, 14, 15]$
-
-X0(A, B, C, H) =$ \sum [12, 13, 14, 15] $ 
-
-
+        
 Sum of products 
-X0(A, B, C, H) = $A.B.\bar C.\bar H + A.B.\bar C.H + A.B.C.\bar H + A.B.C.H$
+ F(A, B, C, D) = $\bar A.\bar B.C.\bar D + \bar A.B.C.\bar D + \bar A.B.C.D + A.\bar B.C.\bar D + A.\bar B.C.D + A.B.\bar C.\bar D + A.B.\bar C.D + A.B.C.\bar D + A.B.C.D$
 
 Product of sums 
- X0(A, B, C, H) = $(A+B+C+H) . (A+B+C+\bar H) . (A+B+\bar C+H) . (A+B+\bar C+\bar H) . (A+\bar B+C+H) . (A+\bar B+C+\bar H) . (A+\bar B+\bar C+H) . (A+\bar B+\bar C+\bar H) . (\bar A+B+C+H) . (\bar A+B+C+\bar H) . (\bar A+B+\bar C+H) . (\bar A+B+\bar C+\bar H)$
-X1(A, B, C, H) =$[10, 11, 14, 15]$
-
-X1(A, B, C, H) =$ \sum [10, 11, 14, 15] $ 
-
-
-Sum of products 
-X1(A, B, C, H) = $A.\bar B.C.\bar H + A.\bar B.C.H + A.B.C.\bar H + A.B.C.H$
-
-Product of sums 
- X1(A, B, C, H) = $(A+B+C+H) . (A+B+C+\bar H) . (A+B+\bar C+H) . (A+B+\bar C+\bar H) . (A+\bar B+C+H) . (A+\bar B+C+\bar H) . (A+\bar B+\bar C+H) . (A+\bar B+\bar C+\bar H) . (\bar A+B+C+H) . (\bar A+B+C+\bar H) . (\bar A+\bar B+C+H) . (\bar A+\bar B+C+\bar H)$
-X3(A, B, C, H) =$[10, 12, 14]$
-
-X3(A, B, C, H) =$ \sum [10, 12, 14] $ 
-
-
-Sum of products 
-X3(A, B, C, H) = $A.\bar B.C.\bar H + A.B.\bar C.\bar H + A.B.C.\bar H$
-
-Product of sums 
- X3(A, B, C, H) = $(A+B+C+H) . (A+B+C+\bar H) . (A+B+\bar C+H) . (A+B+\bar C+\bar H) . (A+\bar B+C+H) . (A+\bar B+C+\bar H) . (A+\bar B+\bar C+H) . (A+\bar B+\bar C+\bar H) . (\bar A+B+C+H) . (\bar A+B+C+\bar H) . (\bar A+B+\bar C+\bar H) . (\bar A+\bar B+C+\bar H) . (\bar A+\bar B+\bar C+\bar H)$
+ F(A, B, C, D) = $(A+B+C+D) . (A+B+C+\bar D) . (A+B+\bar C+\bar D) . (A+\bar B+C+D) . (A+\bar B+C+\bar D) . (\bar A+B+C+D) . (\bar A+B+C+\bar D)$
 
 \paragraph{Karnough map}
-\begin{karnaugh-map}[4][4][1][CH][AB]
-          \minterms{12, 13, 14, 15}
-          \maxterms{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}
+\begin{karnaugh-map}[4][4][1][CD][AB]
+          \minterms{2, 6, 7, 10, 11, 12, 13, 14, 15}
+          \maxterms{0, 1, 3, 4, 5, 8, 9}
         %\autoterms[0]
         % simplification
         \implicant{12}{14}
+\implicant{15}{10}
+\implicant{7}{14}
+\implicant{2}{10}
           %\implicant{5}{15}
           %\implicantedge{8}{8}{10}{10}
           %\implicantedge{8}{8}{10}{10}[8,10]
         \end{karnaugh-map}
 
-Simplified Sum of products f0 : $ a.b $
+Simplified Sum of products: $ a.b + a.c + b.c + c.\bar d $
 
-Simplified Product of sums f0: $(a).(b)$
-
-\paragraph{Karnough map}
-\begin{karnaugh-map}[4][4][1][CH][AB]
-          \minterms{10, 11, 14, 15}
-          \maxterms{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 13}
-        %\autoterms[0]
-        % simplification
-        \implicant{15}{10}
-          %\implicant{5}{15}
-          %\implicantedge{8}{8}{10}{10}
-          %\implicantedge{8}{8}{10}{10}[8,10]
-        \end{karnaugh-map}
-
-Simplified Sum of products f1 : $ a.c $
-
-Simplified Product of sums f1: $(a).(c)$
-
-\paragraph{Karnough map}
-\begin{karnaugh-map}[4][4][1][CH][AB]
-          \minterms{10, 12, 14}
-          \maxterms{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 13, 15}
-        %\autoterms[0]
-        % simplification
-        \implicantedge{12}{12}{14}{14}
-\implicant{14}{10}
-          %\implicant{5}{15}
-          %\implicantedge{8}{8}{10}{10}
-          %\implicantedge{8}{8}{10}{10}[8,10]
-        \end{karnaugh-map}
-
-Simplified Sum of products f2 : $ a.b.~h + a.c.~h $
-
-Simplified Product of sums f2: $(a).(~h).(b+c)$
+Simplified Product of sums: $(a+c).(b+c).(a+b+\bar d)$
 \paragraph{Logigramme} de la fonction\\
-            %%\missingfigure[figwidth=6cm]{Logigramme}
+        %%\missingfigure[figwidth=6cm]{Logigramme}
 
  \begin{tikzpicture}
 
-\node (x) at (0, 1*1.5) {$A$};
-\node (y) at (0.5, 1*1.5) {$B$};
-\node (z) at (1, 1*1.5) {$C$};
-\node (w) at (1.5, 1*1.5) {$H$};
+\node (x) at (0, 4*1.5) {$A$};
+\node (y) at (0.5, 4*1.5) {$B$};
+\node (z) at (1, 4*1.5) {$C$};
+\node (w) at (1.5, 4*1.5) {$D$};
 
             \node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.4)$) (notx) {};
             \draw (x) -- (notx.input); 
@@ -128,99 +72,48 @@ Simplified Product of sums f2: $(a).(~h).(b+c)$
               
             %% Y
             \draw (y) -| ($(y) + (0, 0)$) |- (xandy0.input 2);
-        \node[or gate US, draw, rotate=0, logic gate inputs=nn] at (5.5, 1*0.6) (xory) {};
-
-
-                    \draw (xory.output) -- node[above]{\scriptsize$X0$} ($(xory) + (1, 0)$);
-
-\draw (xandy0.output) -- ([xshift=1.40cm]xandy0.output) |- (xory.input 1);
-
- \end{tikzpicture}
-
-\paragraph{Logigramme} de la fonction\\
-            %%\missingfigure[figwidth=6cm]{Logigramme}
-
- \begin{tikzpicture}
-
-\node (x) at (0, 1*1.5) {$A$};
-\node (y) at (0.5, 1*1.5) {$B$};
-\node (z) at (1, 1*1.5) {$C$};
-\node (w) at (1.5, 1*1.5) {$H$};
-
-            \node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.4)$) (notx) {};
-            \draw (x) -- (notx.input); 
-            \node[not gate US, draw, rotate=270] at ($(y) + (0.25, -0.4)$) (noty) {};
-            \draw (y) -- (noty.input); 
-            \node[not gate US, draw, rotate=270] at ($(z) + (0.25, -0.4)$) (notz) {};
-            \draw (z) -- (notz.input);
-            \node[not gate US, draw, rotate=270] at ($(w) + (0.25, -0.4)$) (notw) {};
-            \draw (w) -- (notw.input);
-                
-           
-            \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 0*1.5) (xandy0) {};
-            \draw (xandy0.output) -- node[above]{\scriptsize $ A.C $} ($(xandy0) + (1.8, 0)$);
-            %% X
-            \draw (x) -| ($(x) + (0, 0)$) |- (xandy0.input 1);
-            
-            %%Z
-            \draw (z) -| ($(z) + (0, 0)$) |- (xandy0.input 3);
-        \node[or gate US, draw, rotate=0, logic gate inputs=nn] at (5.5, 1*0.6) (xory) {};
-
-
-                    \draw (xory.output) -- node[above]{\scriptsize$X1$} ($(xory) + (1, 0)$);
-
-\draw (xandy0.output) -- ([xshift=1.40cm]xandy0.output) |- (xory.input 1);
-
- \end{tikzpicture}
-
-\paragraph{Logigramme} de la fonction\\
-            %%\missingfigure[figwidth=6cm]{Logigramme}
-
- \begin{tikzpicture}
-
-\node (x) at (0, 2*1.5) {$A$};
-\node (y) at (0.5, 2*1.5) {$B$};
-\node (z) at (1, 2*1.5) {$C$};
-\node (w) at (1.5, 2*1.5) {$H$};
-
-            \node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.4)$) (notx) {};
-            \draw (x) -- (notx.input); 
-            \node[not gate US, draw, rotate=270] at ($(y) + (0.25, -0.4)$) (noty) {};
-            \draw (y) -- (noty.input); 
-            \node[not gate US, draw, rotate=270] at ($(z) + (0.25, -0.4)$) (notz) {};
-            \draw (z) -- (notz.input);
-            \node[not gate US, draw, rotate=270] at ($(w) + (0.25, -0.4)$) (notw) {};
-            \draw (w) -- (notw.input);
-                
-           
-            \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 0*1.5) (xandy0) {};
-            \draw (xandy0.output) -- node[above]{\scriptsize $ A.B.~H $} ($(xandy0) + (1.8, 0)$);
-            %% X
-            \draw (x) -| ($(x) + (0, 0)$) |- (xandy0.input 1);
-              
-            %% Y
-            \draw (y) -| ($(y) + (0, 0)$) |- (xandy0.input 2);
-            %%W
-            \draw (w) -| ($(w) + (0, 0)$) |- (xandy0.input 4);
                 
            
             \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 1*1.5) (xandy1) {};
-            \draw (xandy1.output) -- node[above]{\scriptsize $ A.C.~H $} ($(xandy1) + (1.8, 0)$);
+            \draw (xandy1.output) -- node[above]{\scriptsize $ A.C $} ($(xandy1) + (1.8, 0)$);
             %% X
             \draw (x) -| ($(x) + (0, 0)$) |- (xandy1.input 1);
             
             %%Z
             \draw (z) -| ($(z) + (0, 0)$) |- (xandy1.input 3);
+                
+           
+            \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 2*1.5) (xandy2) {};
+            \draw (xandy2.output) -- node[above]{\scriptsize $ B.C $} ($(xandy2) + (1.8, 0)$);
+              
+            %% Y
+            \draw (y) -| ($(y) + (0, 0)$) |- (xandy2.input 2);
+        
+            %%Z
+            \draw (z) -| ($(z) + (0, 0)$) |- (xandy2.input 3);
+                
+           
+            \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 3*1.5) (xandy3) {};
+            \draw (xandy3.output) -- node[above]{\scriptsize $ C.\bar D $} ($(xandy3) + (1.8, 0)$);
+            
+            %%Z
+            \draw (z) -| ($(z) + (0, 0)$) |- (xandy3.input 3);
+        
             %%W
-            \draw (w) -| ($(w) + (0, 0)$) |- (xandy1.input 4);
-        \node[or gate US, draw, rotate=0, logic gate inputs=nnn] at (5.5, 2*0.6) (xory) {};
+
+            \draw [line width=0.25mm,   red] (notw.output) -- ([xshift=0cm]notw.output) |- (xandy3.input 4);
+          \node[or gate US, draw, rotate=0, logic gate inputs=nnnnn] at (5.5, 4*0.6) (xory) {};
 
 
-                    \draw (xory.output) -- node[above]{\scriptsize$X3$} ($(xory) + (1, 0)$);
+                    \draw (xory.output) -- node[above]{\scriptsize$F$} ($(xory) + (1, 0)$);
 
-\draw (xandy0.output) -- ([xshift=1.40cm]xandy0.output) |- (xory.input 2);
+\draw (xandy0.output) -- ([xshift=1.40cm]xandy0.output) |- (xory.input 4);
 
-\draw (xandy1.output) -- ([xshift=1.35cm]xandy1.output) |- (xory.input 1);
+\draw (xandy1.output) -- ([xshift=1.35cm]xandy1.output) |- (xory.input 3);
+
+\draw (xandy2.output) -- ([xshift=1.30cm]xandy2.output) |- (xory.input 2);
+
+\draw (xandy3.output) -- ([xshift=1.35cm]xandy3.output) |- (xory.input 1);
 
  \end{tikzpicture}
 

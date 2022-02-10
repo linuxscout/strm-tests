@@ -23,7 +23,7 @@
 #  
 
 from .  import test_builder
-def test_factory:
+class test_factory:
     def __init__(self,):
         pass
     def factory(self, test_type=""):
