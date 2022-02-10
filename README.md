@@ -39,7 +39,24 @@ Accounts  |[@Twitter](https://twitter.com/linuxscout)
 ## تطبيقات 
 * توليد الأسئلة
 
+## Requirments
+* Need :
+ 	- sympy>=1.7.1
+ * to produce Latex/pdf
+	 - Need linux command line 'make'
+	 - Latex commands (texlive)
+ * To launch GUI
+	- pywebview>=3.5
+	- moodlexport>=0.0.29
+	- webview>=0.1.5
+ 
 ## Usage
+
+* Graphical interface
+```
+python3 strm_tests_webviewer.py
+```
+
 
 * Generate test n° 1
 ```
