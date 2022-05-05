@@ -324,7 +324,9 @@ class test_builder:
         
         answer +="\\item Les formes canoniques \\aRL{الأشكال القانونية}\\\\"   
         answer += "\\begin{itemize}\n"        # begin forme canoniques
-        for i, minterms in enumerate(funct_list):            
+        for i, minterms in enumerate(funct_list):  
+            
+            maxterms = [i for i in range(16) if not i in minterms]          
             # answer
             cnf, dnf = self.bq.form_canonique(minterms)  
             fname  = "%s(%s)"%(output_names[i],', '.join(var_names) ) # function name and arguments          
@@ -341,7 +343,7 @@ class test_builder:
             answer +="\\item La deuxième forme canonique: \\aRL{الشكل القانوني الثاني}≠\n\n "+fname+ " = $%s$\n"%(self.bq.normalize_latex(cnf))
             # ~ answer +="\n Les formes canoniques numériques"            
             answer += "\\item La première forme canonique; \\aRL{الشكل القانوني الرقمي الأول}\n\n"+fname+ " = $\sum %s$\n"%(str(minterms))
-            answer +="\\item La deuxième forme canonique;  \\aRL{الشكل القانوني الرقمي الثاني}\n\n "+fname+ " = $\prod %s$\n"%(str(minterms))
+            answer +="\\item La deuxième forme canonique;  \\aRL{الشكل القانوني الرقمي الثاني}\n\n "+fname+ " = $\prod %s$\n"%(str(maxterms))
             answer += "\\end{itemize}"           
         answer += "\n\\end{itemize}"           # end formes canoniques
         answer +="\n\\item Tableaux de Karnough \\aRL{مخطط كارنوف}\n"  
@@ -358,7 +360,7 @@ class test_builder:
             answer += "\n\\end{itemize}\n"
             
         answer += "\n\\end{itemize}\n"        # end karnaugh
-        answer += "\\item Logigrammes \\aRL{امخططات المنطقية }\\\\"        
+        answer += "\\item Logigrammes \\aRL{المخططات المنطقية }\\\\"        
         answer += "\\begin{itemize}\n"        # end karnaugh        
         for i, minterms in enumerate(funct_list):
             answer += """\\item Logigramme de la fonction %s \\aRL{المخطط المنطقي للدالة}\\\\"""%output_names[i]

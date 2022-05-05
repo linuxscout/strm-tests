@@ -18,7 +18,7 @@ import itertools
 class bool_quiz:
     def __init__(self):
         
-        self.variables = ["Y", "Z","C", "D"]
+        self.variables = ["A", "B","C", "D"]
         # ~ self.variables = ["A", "B","C", "D"]
         self.vars_outputs = ["S0","S1", "S2","S3", "S4", "S5", "S6", "S7", "S8", "S9","S10"]
         self.format = "latex"
