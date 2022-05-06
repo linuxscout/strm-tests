@@ -122,17 +122,51 @@ class logigram:
         self.var_D = self.var_names.get("D", "D")
         self.var_D_bar = self.var_names.get("D", "D")+"'"
         
+        # define space and distance between AND gates
+        self.and_gates_space = 1.2
+        # define basic step of vars in figure
+        self.vars_space =1.32
+        
 
 
         
     def draw_logigram(self, sop, function_name="F"):
         """ draw a logigram from an sop """
-        latex = " \\begin{tikzpicture}\n\n"
+        latex = " \\label{logigram-%s}\n"%function_name
+        latex += "\\begin{tikzpicture}\n\n"
         terms = sop.upper().split("+")
         latex += self.draw_vars(len(terms))
         for cpt, term in enumerate(terms):
             latex += self.draw_gate(term, cpt)
         latex += self.draw_large_or(len(terms), function_name)
+        latex += " \\end{tikzpicture}\n\n"        
+        return latex
+        
+    def draw_logigram_list(self, sop_list=[], function_namelist=["F",]):
+        """ draw a logigram from an sop """
+        latex = " \\label{logigrammefonction%s}\n\n"%'-'.join(function_namelist)
+        latex = " \\begin{tikzpicture}\n\n"
+        size_terms = sum([len(l.split('+')) for l in sop_list])
+        # ~ latex +="%% sizeterms : %d\n%%%s\n"%(size_terms, repr(sop_list))
+        total_terms = 0
+        # inverse index
+        # we inverse index to get functions ordred in logigram
+        sop_list.reverse() 
+        function_namelist.reverse()      
+        for i in range(len(sop_list)):
+
+            sop =  sop_list[i]
+            function_name =  function_namelist[i]
+            terms = sop.upper().split("+")
+            # draw variables
+            if(i==0):
+                latex += self.draw_vars(size_terms)
+                # ~ latex += self.draw_vars(len(terms))
+            offset = total_terms +1
+            for cpt, term in enumerate(terms):
+                latex += self.draw_gate(term, offset+cpt, len(terms))
+            latex += self.draw_large_or(len(terms), function_name, offset)
+            total_terms += len(terms)
         latex += " \\end{tikzpicture}\n\n"        
         return latex
     def normalize_latex(self,s):
@@ -147,95 +181,130 @@ class logigram:
         s = s.replace("c'","\\bar c")
         s = s.replace("d'","\\bar d")
         return s        
-    def draw_vars(self,size):
+    def draw_vars(self, gates_count):
         """ draw vars lines """
-        latex ="\\node (x) at (0, ID*1.5) {$%s$};\n"%(self.var_names.get("A", "A"))
-        latex += "\\node (y) at (0.5, ID*1.5) {$%s$};\n"%(self.var_names.get("B", "B"))
-        latex += "\\node (z) at (1, ID*1.5) {$%s$};\n"%(self.var_names.get("C", "C"))
-        latex += "\\node (w) at (1.5, ID*1.5) {$%s$};\n"%(self.var_names.get("D", "D"))
+        
+        # the pos (position of Y) of a var is defined according to 
+        # the total number of AND gates to draw (gates_count)
+        # 
+        y_pos = gates_count * self.vars_space
+
+        # ~ if gates_count<2: y_pos +=1
+        # ~ y_pos = (gates_count) * 1.32
+        latex ="\\node (x) at (0, %.2f) {$%s$};\n"%(y_pos, self.var_names.get("A", "A"))
+        latex += "\\node (y) at (0.5, %.2f) {$%s$};\n"%(y_pos, self.var_names.get("B", "B"))
+        latex += "\\node (z) at (1, %.2f) {$%s$};\n"%(y_pos,self.var_names.get("C", "C"))
+        latex += "\\node (w) at (1.5, %.2f) {$%s$};\n"%(y_pos, self.var_names.get("D", "D"))
         latex +="""
-            \\node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.4)$) (notx) {};
-            \\draw (x) -- (notx.input); 
-            \\node[not gate US, draw, rotate=270] at ($(y) + (0.25, -0.4)$) (noty) {};
-            \\draw (y) -- (noty.input); 
-            \\node[not gate US, draw, rotate=270] at ($(z) + (0.25, -0.4)$) (notz) {};
-            \\draw (z) -- (notz.input);
-            \\node[not gate US, draw, rotate=270] at ($(w) + (0.25, -0.4)$) (notw) {};
-            \\draw (w) -- (notw.input);
+            \\node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.6)$) (notx) {};
+            \\draw ($(x)+(0,-1ex)$) -| (notx.input); 
+            \\node[not gate US, draw, rotate=270] at ($(y) + (0.25, -0.6)$) (noty) {};
+            \\draw ($(y)+(0,-1ex)$) -| (noty.input); 
+            \\node[not gate US, draw, rotate=270] at ($(z) + (0.25, -0.6)$) (notz) {};
+            \\draw ($(z)+(0,-1ex)$) -| (notz.input);
+            \\node[not gate US, draw, rotate=270] at ($(w) + (0.25, -0.6)$) (notw) {};
+            \\draw ($(w)+(0,-1ex)$) -| (notw.input);
         """
-        latex = latex.replace("ID", str(size))
+        # ~ latex = latex.replace("ID", str(size))
         return latex
                 
-    def draw_large_or(self, size, function_name="F"):
+    def draw_large_or(self, gates_count, function_name="F", index=0):
         """ draw the final or gate"""
-        latex = """\\node[or gate US, draw, rotate=0, logic gate inputs=n%s] at (5.5, %d*0.6) (xory) {};\n\n
-                    \draw (xory.output) -- node[above]{\scriptsize$%s$} ($(xory) + (1, 0)$);\n\n"""%("n"*size, size, function_name)
-        offset = 1.4
+        # size : gates counts
+        size = gates_count
+        # y_pos : the position of OR gate according to their related gates
+        # ~ y_pos = (size+index)*0.45
+        # ~ if not index:
+            # ~ y_pos = (gates_count-1)/2*self.and_gates_space
+        # ~ else:
+            # ~ y_pos = (index + (gates_count-1)/2)* self.and_gates_space
+        y_pos = (index + (gates_count-1)/2)* self.and_gates_space
+        # gate id: defined as current index
+        gate_id = index
+        # nb_input : defined as gates_counts
+        nb_inputs = gates_count
+        
+        # ~ latex = """\\node[or gate US, draw, rotate=0, logic gate inputs=n%s] at (5.5, %d*0.45) (xory%d) {};\n\n
+                    # ~ \draw (xory%d.output) -- node[above]{\scriptsize$%s$ : (5.5, %d*0.45)} ($(xory%d.east) + (+3ex, 0)$);\n\n"""%("n"*size,
+                     # ~ size+index,index,index, function_name, size+index, index)
+        latex = """\\node[or gate US, draw, rotate=0, logic gate inputs=n%s] at (6, %.2f) (xory%d) {};\n\n
+                    \draw (xory%d.output) -- node[above]{\scriptsize $%s$} ($(xory%d.east) + (+3ex, 0)$);\n\n"""%("n"*nb_inputs,
+                     y_pos, gate_id, gate_id, function_name,  gate_id)
+                     # ~ size+index,index,index, function_name,  index)
+        
+
+        # the offset is the distance between AND gate and  OR gate.
+        offset = 1.6
+        
+        
         for i in range(size):
-            latex +="""\\draw (xandy%d.output) -- ([xshift=%.2fcm]xandy%d.output) |- (xory.input %d);\n\n"""%(i, offset, i, size-i)
-            if i < size/2:
+            and_gate_id = index + i
+            # ~ latex +="""\\draw (xandy%d.output) -- ([xshift=%.2fcm]xandy%d.output) |- (xory%d.input %d);\n\n"""%(index+ i, offset, index+i, index, size-i)
+            latex +="""\\draw (xandy%d.output) -- ([xshift=%.2fcm]xandy%d.output) |- (xory%d.input %d);\n\n"""%(and_gate_id, offset, and_gate_id, gate_id, nb_inputs-i)
+            if i < size//2:
                 offset -=0.05
             else:
                 offset +=0.05
         return latex
 
   
-    def draw_gate(self, term, idg):
+    def draw_gate(self, term, idg, size=0):
         """ id gate """
         latex_term = self.normalize_latex(term)
             
-        #~ latex = """
-        #~ \\begin{tikzpicture}"""
-        latex = """        
-           
-            \\node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, ID*1.5) (xandyID) {};
-            \\draw (xandyID.output) -- node[above]{\scriptsize $%s$} ($(xandyID) + (1.8, 0)$);
-            """%latex_term
+        # the offset is defined as the number of gates drawn to fix the distance
+        offset = idg
+        latex = """ \n\n      
+            \\node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, %.2f) (xandy%d) {};"""%(offset*self.and_gates_space, idg)
+        # ~ latex += """\\draw (xandy%d.output) -- node[above]{\scriptsize $%s$ (2.5, %.2f*1.2)} ($(xandy%d) + (1.8, 0)$);
+            # ~ """%(idg, latex_term, offset, idg)
+        latex += """\\draw (xandy%d.output) -- node[above]{\scriptsize $%s$} ($(xandy%d) + (1.8, 0)$);
+            """%(idg, latex_term, idg)
         if self.var_A_bar in term:
             latex += """
             %% X'
 
-            \\draw  [line width=0.25mm,   red] (notx.output) -- ([xshift=0cm]notx.output) |- (xandyID.input 1);
-            """
+            \\draw  [line width=0.25mm,   red] (notx.output) -- ([xshift=0cm]notx.output) |- (xandy%d.input 1);
+            """%idg
         elif self.var_A in term:
             latex += """%% X
-            \\draw (x) -| ($(x) + (0, 0)$) |- (xandyID.input 1);
-            """
+            \\draw ($(x) + (0, -1ex)$) |- (xandy%d.input 1);
+            """%idg
         if self.var_B_bar in term:
             latex += """
-            %Y'
+            %%Y'
 
-            \\draw [line width=0.25mm,   red] (noty.output) -- ([xshift=0cm]noty.output) |- (xandyID.input 2);
-          """
+            \\draw [line width=0.25mm,   red] (noty.output) -- ([xshift=0cm]noty.output) |- (xandy%d.input 2);
+          """%idg
         elif self.var_B in term:
             latex +="""  
             %% Y
-            \\draw (y) -| ($(y) + (0, 0)$) |- (xandyID.input 2);
-        """
+            \\draw ($(y) + (0, -1ex)$) |- (xandy%d.input 2);
+        """%idg
         if self.var_C_bar in term:
             latex += """
             %%Z'
 
-            \\draw [line width=0.25mm,   red] (notz.output) -- ([xshift=0cm]notz.output) |- (xandyID.input 3);
-          """
+            \\draw [line width=0.25mm,   red] (notz.output) -- ([xshift=0cm]notz.output) |- (xandy%d.input 3);
+          """%idg
         elif self.var_C in term:
             latex +="""
             %%Z
-            \\draw (z) -| ($(z) + (0, 0)$) |- (xandyID.input 3);
-        """
+            \\draw ($(z) + (0, -1ex)$) |- (xandy%d.input 3);
+        """%idg
         if self.var_D_bar in term:
             latex += """
             %%W
 
-            \\draw [line width=0.25mm,   red] (notw.output) -- ([xshift=0cm]notw.output) |- (xandyID.input 4);
-          """
+            \\draw [line width=0.25mm,   red] (notw.output) -- ([xshift=0cm]notw.output) |- (xandy%d.input 4);
+          """%idg
         elif self.var_D in term:
             latex +="""    %%W
-            \\draw (w) -| ($(w) + (0, 0)$) |- (xandyID.input 4);
-        """
+            \\draw ($(w) + (0, -1ex)$) |- (xandy%d.input 4);
+        """%idg
             
         #~ latex +=""" 
         #~ \\end{tikzpicture}
         #~ """
-        latex = latex.replace("ID", str(idg))
+        # ~ latex = latex.replace("ID", str(idg))
         return latex   

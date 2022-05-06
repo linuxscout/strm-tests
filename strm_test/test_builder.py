@@ -285,6 +285,9 @@ class test_builder:
         arabic = u""
         answer = ""
         data   = ""
+        sop_list= []
+        # deprecated ; draw a unique logigramme
+        separated_logigram = False
         # prepare minterms
         # ~ minterms_list = minterms_list.split(':')
         # ~ funct_list = []
@@ -360,16 +363,29 @@ class test_builder:
             answer += "\n\\end{itemize}\n"
             
         answer += "\n\\end{itemize}\n"        # end karnaugh
-        answer += "\\item Logigrammes \\aRL{المخططات المنطقية }\\\\"        
-        answer += "\\begin{itemize}\n"        # end karnaugh        
-        for i, minterms in enumerate(funct_list):
-            answer += """\\item Logigramme de la fonction %s \\aRL{المخطط المنطقي للدالة}\\\\"""%output_names[i]
-            answer += """%%\missingfigure[figwidth=6cm]{Logigramme}\n\n"""
-            sop, pos = self.bq.simplify(minterms)            
-            answer += self.bq.draw_logigram(sop, function_name=output_names[i])
-        answer += "\\end{itemize}\n"        # end fonction
-        answer += "\\end{enumerate}\n"
+        answer += "\\item Logigrammes \\aRL{المخططات المنطقية }\\\\"  
         
+        # deprecated ; draw a unique logigramme
+        if separated_logigram :
+            answer += "\\begin{itemize}\n"        # begin logigram 
+            sop_list = []       
+            for i, minterms in enumerate(funct_list):
+                answer += """\\item Logigramme de la fonction %s \\aRL{المخطط المنطقي للدالة}\\\\"""%output_names[i]
+                answer += """%%\missingfigure[figwidth=6cm]{Logigramme}\n\n"""
+                sop, pos = self.bq.simplify(minterms)       
+                sop_list.append(sop)     
+                answer += self.bq.draw_logigram(sop, function_name=output_names[i])
+                
+            answer += "\\end{itemize}\n"        # end logigram fonction
+        else:
+            sop_list = []       
+            for i, minterms in enumerate(funct_list):
+                sop, pos = self.bq.simplify(minterms)       
+                sop_list.append(sop)     
+        answer +="\section{Schéma globale du circuit}\n"
+        answer += self.bq.draw_logigram_list(sop_list, output_names)
+
+        answer += "\\end{enumerate}\n"        
         return question, arabic, data, answer        
     def question_exp(self,):
         

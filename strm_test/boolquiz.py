@@ -335,6 +335,16 @@ class bool_quiz:
         }
         lg = logigram.logigram(varnames)
         return lg.draw_logigram(sop, function_name)
+    def draw_logigram_list(self, sop_list, function_namelist = ["F",]):
+        """ draw a logigram """
+        varnames = {
+            "A":self.variables[0],
+            "B":self.variables[1],
+            "C":self.variables[2],
+            "D":self.variables[3],
+        }
+        lg = logigram.logigram(varnames)
+        return lg.draw_logigram_list(sop_list, function_namelist)
 
 def test1():
     bq = bool_quiz()
