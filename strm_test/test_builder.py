@@ -27,6 +27,7 @@ from . import boolquiz
 from . import ieee754
 from . import read_config
 from . import test_format_factory
+from . import tex_chronograms
 class test_builder:
     """ Generate the third test """
     def __init__(self, outformat="", config_file =""):
@@ -52,6 +53,7 @@ class test_builder:
         "mesure",
         "static_funct", 
         "multi_funct",
+        "chronogram",
         ]
         self.test_commands = {}
         self.test_commands[1] = [["base", "base", "arithm"],
@@ -83,6 +85,9 @@ class test_builder:
         ]        
         self.test_commands[5] =  [
         ["multi_funct",],
+        ]
+        self.test_commands[6] =  [
+        ["chronogram",],
         ]
     def set_format(self, outformat="latex"):
         """ set a new format"""
@@ -408,6 +413,60 @@ class test_builder:
         answer +="\n\n"
         return question, arabic, data, answer
         
+        
+    def question_chronogram(self, varlist={}, flip_type="D", length=20, synch_type="rising", output_vars=["Q",]):
+        
+        """
+        Generate Chronogram question
+        """      
+        chrono = tex_chronograms.Tex_Chronograms();
+        # generate random signals 
+        # according to prameters
+        # ~ signals = {"D":[-1, 3, -0.5, +1.5, -5, 3.5, -6.5],
+                   # ~ "Q":[-1] }
+        if not varlist:
+            varlist = {"D":1, "R":-1, "S":-1}
+        signals ={}
+        for key in varlist:
+            if key in output_vars:
+                # add an empty signal
+                signals[key] = [varlist[key],]
+            else:
+                signal_dict = chrono.question({key:varlist[key]}, length=length)
+                signals[key] = signal_dict[key]
+        # ~ signals = chrono.question(varlist, length=length)
+        print("test_builder:signals", signals)
+        # set synchronization type
+        chrono.set_synch_type(synch_type)
+        
+        # generate question
+        # 1- clock
+        # 2- signals without solution
+        clock = chrono.clock_signal(length=length, period=1)        
+        tex_data_question = chrono.draw(signals, clock)        
+        
+        # generate soltution
+        # get solution for signal
+        # 2 generate chrono for answer
+        out_signal = chrono.resolve(flip_type=flip_type,signals=signals, period=2) 
+        # output signal       
+        signals[output_vars[0]] = out_signal
+        tex_data_answer = chrono.draw(signals, clock)
+            
+        question =u"Compléter le chronogramme suivant:\n\n "
+        arabic = u"أكمل المخطط الزمني: "
+        
+        # make a figure
+        answer ="""Chronogramme\n\n\n
+        \\scalebox{2}{ %% scale
+        %s
+        } %%scale\n\n"""%tex_data_answer
+        
+        data ="""\n\n\\scalebox{2}{ %% scale
+        %s
+        } %%scale \n\n"""%tex_data_question
+
+        return question, arabic, data, answer        
 
     def get_question(self, command, args={}):
         """
@@ -438,6 +497,15 @@ class test_builder:
 
         elif command == "arithm":
             return self.question_arithm()
+        elif command == "chronogram":
+            print("test_builder:debug:arguments",args)
+            return self.question_chronogram(
+            varlist= args.get("varlist",{}),
+            flip_type=args.get("flip_type","D"),
+            length=args.get("length",10),
+            synch_type=args.get("synch_type","rising"),
+            output_vars=args.get("output","Q")
+            )
         elif command == "static_funct":
             return self.question_static_funct(args["minterms"][0], args["var_names"], args["output_names"])
         elif command == "multi_funct":
@@ -481,6 +549,11 @@ class test_builder:
         args ={"minterms":self.myconfig.minterms,
         "var_names": self.myconfig.var_names,
         "output_names": self.myconfig.output_names,
+        "length":self.myconfig.length,
+        "varlist":self.myconfig.varlist,
+        "synch_type":self.myconfig.synch_type,
+        "flip_type":self.myconfig.flip_type,
+        "output":self.myconfig.output,
         }
         # ~ test_config = self.test_commands.get(test_no,[])
         # ~ test_config = self.get_test_config("test%d"%test_no)

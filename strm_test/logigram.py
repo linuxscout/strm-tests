@@ -145,7 +145,7 @@ class logigram:
     def draw_logigram_list(self, sop_list=[], function_namelist=["F",]):
         """ draw a logigram from an sop """
         latex = " \\label{logigrammefonction%s}\n\n"%'-'.join(function_namelist)
-        latex = " \\begin{tikzpicture}\n\n"
+        latex += " \\begin{tikzpicture}\n\n"
         size_terms = sum([len(l.split('+')) for l in sop_list])
         # ~ latex +="%% sizeterms : %d\n%%%s\n"%(size_terms, repr(sop_list))
         total_terms = 0

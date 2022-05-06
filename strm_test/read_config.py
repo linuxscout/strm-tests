@@ -36,8 +36,16 @@ class read_config:
         self.output_names = []
         self.commands = []
         self.quizes = []
-        self.debug = False
+        self.debug = True
+        # args for chronogram
+        self.length = 10
+        self.flip_type = ""
+        self.varlist = {}
+        self.synch_type = "rising"
+        self.output = "Q"
+        # ~ self.debug = False
         self.read_tests(filename=filename)
+
 
     
     def read_tests(self, filename, select = "all"):
@@ -57,6 +65,14 @@ class read_config:
         self.minterms = ast.literal_eval(config.get('Args','minterms'))
         self.var_names = ast.literal_eval(config.get('Args','vars'))
         self.output_names = ast.literal_eval(config.get('Args','outputs'))
+        
+        # args for chronogram
+        self.length = ast.literal_eval(config.get('Args','length'))
+        self.flip_type = ast.literal_eval(config.get('Args','flip_type'))
+        self.varlist = ast.literal_eval(config.get('Args','varlist'))
+        self.synch_type = ast.literal_eval(config.get('Args','synch_type'))
+        self.output = ast.literal_eval(config.get('Args','output'))
+        
         for qz in self.quizes:
             self.test_table[qz] = ast.literal_eval(config.get('Tests', qz))
         if self.debug:
@@ -65,7 +81,11 @@ class read_config:
             print("Commands", self.commands)
             print("repeat", self.repeat)
             print("minterms", self.minterms)
-        
+            print("flip_type", self.flip_type)
+            print("self.length", self.length)
+            print("varlist", self.varlist)
+            print("synch_type", self.synch_type)
+     
     
     def get_test_config(self, select = ""):
         
