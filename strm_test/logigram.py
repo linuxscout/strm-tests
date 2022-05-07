@@ -151,7 +151,9 @@ class logigram:
         total_terms = 0
         # inverse index
         # we inverse index to get functions ordred in logigram
-        sop_list.reverse() 
+        sop_list.reverse()
+        # reduce function names to be similar to SOP list to avoid any extra name
+        function_namelist = function_namelist[:len(sop_list)]
         function_namelist.reverse()      
         for i in range(len(sop_list)):
 
@@ -213,25 +215,27 @@ class logigram:
         # size : gates counts
         size = gates_count
         # y_pos : the position of OR gate according to their related gates
-        # ~ y_pos = (size+index)*0.45
-        # ~ if not index:
-            # ~ y_pos = (gates_count-1)/2*self.and_gates_space
-        # ~ else:
-            # ~ y_pos = (index + (gates_count-1)/2)* self.and_gates_space
         y_pos = (index + (gates_count-1)/2)* self.and_gates_space
         # gate id: defined as current index
         gate_id = index
         # nb_input : defined as gates_counts
         nb_inputs = gates_count
         
-        # ~ latex = """\\node[or gate US, draw, rotate=0, logic gate inputs=n%s] at (5.5, %d*0.45) (xory%d) {};\n\n
-                    # ~ \draw (xory%d.output) -- node[above]{\scriptsize$%s$ : (5.5, %d*0.45)} ($(xory%d.east) + (+3ex, 0)$);\n\n"""%("n"*size,
-                     # ~ size+index,index,index, function_name, size+index, index)
-        latex = """\\node[or gate US, draw, rotate=0, logic gate inputs=n%s] at (6, %.2f) (xory%d) {};\n\n
-                    \draw (xory%d.output) -- node[above]{\scriptsize $%s$} ($(xory%d.east) + (+3ex, 0)$);\n\n"""%("n"*nb_inputs,
-                     y_pos, gate_id, gate_id, function_name,  gate_id)
-                     # ~ size+index,index,index, function_name,  index)
-        
+        # if the gates count  is only one, we don't draw the gate OR
+        if gates_count ==1:
+            latex = """\\node at (6, %.2f) (xory%d) {};\n\n
+            """%(y_pos, gate_id)
+            latex +="""\draw (xory%d) node[above]{\scriptsize $%s$} ($(xory%d.east) + (+3ex, 0)$);\n\n
+            """%(gate_id, function_name,  gate_id)            
+        else:
+            latex = """\\node[or gate US, draw, rotate=0, logic gate inputs=n%s] at (6, %.2f) (xory%d) {};\n\n
+            """%("n"*nb_inputs,y_pos, gate_id)
+            latex +="""\draw (xory%d.output) -- node[above]{\scriptsize $%s$} ($(xory%d.east) + (+3ex, 0)$);\n\n
+            """%(gate_id, function_name,  gate_id)            
+            
+        # ~ """%("n"*nb_inputs,y_pos, gate_id, gate_id, function_name,  gate_id)
+
+        # ~ """%("n"*nb_inputs, y_pos, gate_id, gate_id, function_name,  gate_id)
 
         # the offset is the distance between AND gate and  OR gate.
         offset = 1.6
@@ -239,8 +243,10 @@ class logigram:
         
         for i in range(size):
             and_gate_id = index + i
-            # ~ latex +="""\\draw (xandy%d.output) -- ([xshift=%.2fcm]xandy%d.output) |- (xory%d.input %d);\n\n"""%(index+ i, offset, index+i, index, size-i)
-            latex +="""\\draw (xandy%d.output) -- ([xshift=%.2fcm]xandy%d.output) |- (xory%d.input %d);\n\n"""%(and_gate_id, offset, and_gate_id, gate_id, nb_inputs-i)
+            if(gates_count == 1):
+                latex +="""\\draw (xandy%d.output) -- ([xshift=%.2fcm]xandy%d.output) |- (xory%d);\n\n"""%(and_gate_id, offset, and_gate_id, gate_id)
+            else:
+                latex +="""\\draw (xandy%d.output) -- ([xshift=%.2fcm]xandy%d.output) |- (xory%d.input %d);\n\n"""%(and_gate_id, offset, and_gate_id, gate_id, nb_inputs-i)                
             if i < size//2:
                 offset -=0.05
             else:
