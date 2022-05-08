@@ -253,7 +253,7 @@ class test_builder:
         answer += self.bq.draw_logigram(sop)
         return question, arabic, data, answer
         
-    def question_static_funct(self, minterms, var_names=["A","B","C","D"], output_names=["S0","S1","S2","S3"] ):
+    def question_static_funct(self, minterms, var_names=["A","B","C","D"], output_names=["S0","S1","S2","S3"], dont_care=[] ):
         question = u""
         arabic = u""
         # change vars names
@@ -270,7 +270,7 @@ class test_builder:
         answer += fname + " =$ \sum %s $ \n"%str(minterms)
         answer +="\n"
         answer += self.bq.truth_table(minterms, latex =True)
-        sop, pos = self.bq.simplify(minterms)
+        sop, pos = self.bq.simplify(minterms, dont_care )
         answer += "\nSum of products \n "+fname + " = $%s$\n"%self.bq.normalize_latex(dnf)
         answer +="\nProduct of sums \n "+fname + " = $%s$\n"%self.bq.normalize_latex(cnf)
         answer +="\n\\paragraph{Karnough map}\n"
@@ -285,7 +285,7 @@ class test_builder:
         answer += self.bq.draw_logigram(sop, function_name=output_names[0])
         return question, arabic, data, answer        
 
-    def question_multi_funct(self, minterms_list, var_names=["A","B","C","D"], output_names=["S0","S1","S2","S3"] ):
+    def question_multi_funct(self, minterms_list, var_names=["A","B","C","D"], output_names=["S0","S1","S2","S3"], dont_care_list=[]):
         question = u""
         arabic = u""
         answer = ""
@@ -294,43 +294,43 @@ class test_builder:
         # deprecated ; draw a unique logigramme
         separated_logigram = False
         # prepare minterms
-        # ~ minterms_list = minterms_list.split(':')
-        # ~ funct_list = []
-        # ~ for one_funct in minterms_list:
-            # ~ minterms = [int(m) for m in one_funct.split(",")]
-            # ~ funct_list.append(minterms)
         self.bq.set_vars(var_names, output_names)
            
-        funct_list = minterms_list    
+        funct_list = minterms_list 
+        # dontcare list:
+        # init dontcare list with the same length of minterms_list
+        if not dont_care_list:   
+            dont_care_list = [[] for m in minterms_list]
         # step 1 draw truth table
         for i, minterms in enumerate(funct_list):
             data += "%s(%s)"%(output_names[i],', '.join(var_names) ) # function name and arguments
             data += "= $%s$\n\n"%(minterms)
+            data += "DONT CARE= $%s$\n\n"%(dont_care_list[i])
             
         answer += "\\begin{enumerate}\n"
         # definition des entrées sorties
-        answer += """ \\item Définition des entrées et des sorties \\aRL{تعريف المداخل والمخارج}
-         \\begin{itemize}
-         \\item Les entrées \\aRL{المداخل}:
+        answer += """ \\item Définition des entrées et des sorties \\aRL{تعريف المداخل والمخارج}\n
+         \\begin{itemize}\n
+         \\item Les entrées \\aRL{المداخل}:\n
          \\begin{itemize}
          """
         for v in var_names:
             answer += "\\item %s: \qquad 'on' noté 1 \qquad 'off' noté 0\n "%v
  
-        answer += """\end{itemize}
-          \\item  Les sorties \\aRL{المخارج}
+        answer += """\end{itemize}\n
+          \\item  Les sorties \\aRL{المخارج}\n
           \\begin{itemize}
           """
         for v in output_names:
             answer += "\\item %s: \qquad 'on' noté 1\qquad 'off' noté  0\n"%v
-        answer += """\\end{itemize}
-         \\end{itemize}"""
+        answer += """\\end{itemize}\n
+         \\end{itemize}\n"""
          
-        answer +="\\item Table de vérité \\aRL{جدول الحقيقة}\\\\"                        
+        answer +="\\item Table de vérité \\aRL{جدول الحقيقة}\\\\\n"                        
         answer += self.bq.multiple_truth_table(funct_list, latex =True)
 
         
-        answer +="\\item Les formes canoniques \\aRL{الأشكال القانونية}\\\\"   
+        answer +="\\item Les formes canoniques \\aRL{الأشكال القانونية}\\\\\n"   
         answer += "\\begin{itemize}\n"        # begin forme canoniques
         for i, minterms in enumerate(funct_list):  
             
@@ -341,8 +341,8 @@ class test_builder:
 
             # ~ answer += fname+ " =$ \sum %s $ \n"%(str(minterms))
 
-            answer +="\\item La fonction %s \\aRL{الدالة}\\\\"%fname
-            answer += fname+ " =$%s$\n\n"%(str(minterms))            
+            answer +="\\item La fonction %s \\aRL{الدالة}\\\\\n"%fname
+            answer += "%%"+fname+ " =$%s$\n\n"%(str(minterms))            
             answer +="\n"
 
             answer += "\\begin{itemize}\n"           
@@ -352,15 +352,16 @@ class test_builder:
             # ~ answer +="\n Les formes canoniques numériques"            
             answer += "\\item La première forme canonique; \\aRL{الشكل القانوني الرقمي الأول}\n\n"+fname+ " = $\sum %s$\n"%(str(minterms))
             answer +="\\item La deuxième forme canonique;  \\aRL{الشكل القانوني الرقمي الثاني}\n\n "+fname+ " = $\prod %s$\n"%(str(maxterms))
-            answer += "\\end{itemize}"           
+            answer += "\\end{itemize}\n"           
         answer += "\n\\end{itemize}"           # end formes canoniques
         answer +="\n\\item Tableaux de Karnough \\aRL{مخطط كارنوف}\n"  
         answer += "\n\\begin{itemize}\n"        # begin karnaugh
         
         for i, minterms in enumerate(funct_list):
+
             answer +="\\item Tableau de Karnough de la fonction  %s \\aRL{مخطط كارنوف للدالة}\n\n"%output_names[i]
-            answer += self.bq.draw_map(minterms, latex=True, correct=True)
-            sop, pos = self.bq.simplify(minterms)
+            answer += self.bq.draw_map(minterms, latex=True, correct=True,dontcares=dont_care_list[i])
+            sop, pos = self.bq.simplify(minterms, dont_care_list[i])
             answer +="\n\n"
             answer += "\\begin{itemize}\n"
             answer += "\\item La forme simplifiée \\aRL{الشكل المبسط} \n\n %s = $%s$\n"%(output_names[i],self.bq.normalize_latex(sop))
@@ -377,7 +378,7 @@ class test_builder:
             for i, minterms in enumerate(funct_list):
                 answer += """\\item Logigramme de la fonction %s \\aRL{المخطط المنطقي للدالة}\\\\"""%output_names[i]
                 answer += """%%\missingfigure[figwidth=6cm]{Logigramme}\n\n"""
-                sop, pos = self.bq.simplify(minterms)       
+                sop, pos = self.bq.simplify(minterms, dont_care_list[i])       
                 sop_list.append(sop)     
                 answer += self.bq.draw_logigram(sop, function_name=output_names[i])
                 
@@ -385,7 +386,7 @@ class test_builder:
         else:
             sop_list = []       
             for i, minterms in enumerate(funct_list):
-                sop, pos = self.bq.simplify(minterms)       
+                sop, pos = self.bq.simplify(minterms, dont_care_list[i])       
                 sop_list.append(sop)     
         answer +="\section{Schéma globale du circuit}\n"
         answer += self.bq.draw_logigram_list(sop_list, output_names)
@@ -507,9 +508,13 @@ class test_builder:
             output_vars=args.get("output","Q")
             )
         elif command == "static_funct":
-            return self.question_static_funct(args["minterms"][0], args["var_names"], args["output_names"])
+            return self.question_static_funct(args["minterms"][0],
+             args["var_names"], args["output_names"]
+             ,args["dontcare"])
         elif command == "multi_funct":
-            return self.question_multi_funct(args["minterms"], args["var_names"], args["output_names"])
+            return self.question_multi_funct(args["minterms"], 
+                   args["var_names"], args["output_names"],
+                   args["dontcare"])
         else:
             return "Question Error: %s"%command.replace('_',''), "Arabic", "Data", "Answer"
             
@@ -549,6 +554,7 @@ class test_builder:
         args ={"minterms":self.myconfig.minterms,
         "var_names": self.myconfig.var_names,
         "output_names": self.myconfig.output_names,
+        "dontcare": self.myconfig.dontcare,
         "length":self.myconfig.length,
         "varlist":self.myconfig.varlist,
         "synch_type":self.myconfig.synch_type,

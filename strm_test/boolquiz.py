@@ -290,7 +290,7 @@ class bool_quiz:
         # draw simplification
         simplification = ""
         if correct:
-            simplification = self.simplify_map(minterms)
+            simplification = self.simplify_map(minterms, dontcares)
         
         text = "\n".join(["\t".join(r) for r in table])
         cd = "".join(self.variables[2:])
@@ -300,12 +300,16 @@ class bool_quiz:
           \\minterms{%s}
           \\maxterms{%s}
         %%\\autoterms[0]
+         \\terms{%s}{X}
         %% simplification
         %s
           %%\\implicant{5}{15}
           %%\\implicantedge{8}{8}{10}{10}
           %%\\implicantedge{8}{8}{10}{10}[8,10]
-        \\end{karnaugh-map}"""%(", ".join([str(x) for x in minterms]), ", ".join([str(x) for x in maxterms]), simplification)
+        \\end{karnaugh-map}"""%(", ".join([str(x) for x in minterms]), 
+        ", ".join([str(x) for x in maxterms]),
+        ", ".join([str(x) for x in dontcares])
+        , simplification)
         if latex:
             return tex         
         else:

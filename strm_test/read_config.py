@@ -27,6 +27,8 @@ import configparser
 import ast
 class read_config:
     def __init__(self, filename):
+        # list of args
+        self.args = {}
         # table of available tests configuration
         self.test_table =  {}
         # number of repetation for every test
@@ -65,6 +67,7 @@ class read_config:
         self.minterms = ast.literal_eval(config.get('Args','minterms'))
         self.var_names = ast.literal_eval(config.get('Args','vars'))
         self.output_names = ast.literal_eval(config.get('Args','outputs'))
+        self.dontcare = ast.literal_eval(config.get('Args','dontcare'))
         
         # args for chronogram
         self.length = ast.literal_eval(config.get('Args','length'))
