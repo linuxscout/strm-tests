@@ -327,6 +327,112 @@ class bool_quiz:
         s = s.replace("c'","\\bar c")
         s = s.replace("d'","\\bar d")
         return s
+        
+    def normalize_nand_nor(self, exp,type_exp="sop", method="NAND"):
+        """ normalize boolean string into NOR or NAND
+        """
+        varlist_bar = ["A'","B'", "C'", "D'"]#,  "a'","b'", "c'", "d'"]
+        varlist = ["A","B", "C", "D"]#,  "a","b", "c", "d"]
+        s= str(exp).upper()
+        opr_sym = ""
+        # used to illiustrate the expression 
+        explain_str = ""
+        if method.upper()=="NAND":
+            opr_sym = "\\uparrow "
+            s= "(%s)"%s
+            if type_exp == "sop":
+                #
+                explain_str = "$$\\overline{\\overline{"+exp+"}}$$\n"
+                explain_str += "$$\\overline{(\\overline{"+exp.replace("+", "}).(\\overline{")+"})}$$\n"
+                # replace all 'not A' by 'A NAND A'
+                for var in varlist:
+                    s= s.replace("\\BAR %s"%var,"(%s %s %s)"%(var.upper(),opr_sym, var.upper()))
+                    s= s.replace("%s'"%var,"(%s %s %s)"%(var.upper(),opr_sym, var.upper()))
+                # replace all '+' by "NAND"
+                s=s.replace("+",")%s("%opr_sym)
+                # replace all '.' by "NAND"            
+                s=s.replace(".",opr_sym)
+                
+                
+            elif type_exp == "pos":
+                exp2 = exp.replace("(", "(\\overline{\\overline{")
+                exp2 = exp2.replace(")", "}})")
+                explain_str = "$$\\overline{\\overline{"+exp2+"}}$$\n"
+             
+                # replace all 'not A' by 'W'
+                for var in varlist:
+                    # to avoid non suitable replacement
+                    tmp_var = chr(ord(var.upper())+22)
+                    s= s.replace("%s'"%var, tmp_var)
+                    s= s.replace("\\BAR %s"%var, tmp_var)
+                    
+                # replace all 'A' by 'A NAND A'
+                for var in varlist:
+                    s= s.replace("%s"%var,"(%s %s %s)"%(var.upper(),opr_sym, var.upper()))
+                    
+                # replace temp vars
+                for var in varlist:
+                    # to avoid non suitable replacement
+                    tmp_var = chr(ord(var.upper())+22)
+                    s= s.replace(tmp_var, var)
+
+                # replace all '+' by "NAND"
+                s=s.replace("+","%s"%opr_sym)
+                # replace all '.' by "NAND"            
+                s=s.replace(".",opr_sym)
+                # duplicate s
+                s = s +opr_sym + s                
+        elif method.upper()=="NOR":
+            opr_sym = "\\downarrow "
+            s= "(%s)"%s
+            if type_exp == "pos":
+                #
+                explain_str = "$$\\overline{\\overline{"+exp+"}}$$\n"
+                explain_str += "$$\\overline{(\\overline{"+exp.replace(".", "}+\\overline{")+"})}$$\n"
+                # replace all 'not A' by 'A NOR A'
+                for var in varlist:
+                    s= s.replace("\\BAR %s"%var,"(%s %s %s)"%(var.upper(),opr_sym, var.upper()))
+                    s= s.replace("%s'"%var,"(%s %s %s)"%(var.upper(),opr_sym, var.upper()))
+                # replace all '+' by "NOR"
+                s=s.replace("+",opr_sym)
+                # replace all '.' by "NOR"            
+                s=s.replace(".","%s"%opr_sym)
+                
+                
+            elif type_exp == "sop":
+                exp2 = "("+exp.replace("+",")h(")+")"
+                exp2 = exp2.replace("(", "(\\overline{\\overline{")
+                # ~ exp2 = exp2.replace("(", "(\\overline{\\overline{")
+                exp2 = exp2.replace(")", "}})")
+                explain_str = "$$\\overline{\\overline{zerrouki"+exp2+"}}$$\n"
+             
+                # replace all 'not A' by 'W'
+                for var in varlist:
+                    # to avoid non suitable replacement
+                    tmp_var = chr(ord(var.upper())+22)
+                    s= s.replace("%s'"%var, tmp_var)
+                    s= s.replace("\\BAR %s"%var, tmp_var)
+                    
+                # replace all 'A' by 'A NOR A'
+                for var in varlist:
+                    s= s.replace("%s"%var,"(%s %s %s)"%(var.upper(),opr_sym, var.upper()))
+                    
+                # replace temp vars
+                for var in varlist:
+                    # to avoid non suitable replacement
+                    tmp_var = chr(ord(var.upper())+22)
+                    s= s.replace(tmp_var, var)
+
+                # replace all '+' by "NOR"
+                s=s.replace(".","%s"%opr_sym)
+                # replace all '.' by "NOR"            
+                s=s.replace("+",opr_sym)
+                # duplicate s
+                s = s +opr_sym + s                
+        # add explaination to result string 
+        result = explain_str +"$$" + s +"$$"  
+    
+        return result
 
             
     def draw_logigram(self, sop, function_name = "F"):
@@ -339,6 +445,32 @@ class bool_quiz:
         }
         lg = logigram.logigram(varnames)
         return lg.draw_logigram(sop, function_name)
+    
+    def draw_logigram_nand_nor(self, sop, function_name = "F", method="NAND"):
+        """ draw a logigram """
+        varnames = {
+            "A":self.variables[0],
+            "B":self.variables[1],
+            "C":self.variables[2],
+            "D":self.variables[3],
+        }
+        lg_maker = logigram.logigram(varnames)
+        lggrm = lg_maker.draw_logigram(sop, function_name)
+        # substitute gates into nand
+        if method.upper()=="NAND":
+            lggrm = lggrm.replace("[and gate US,", "[nand gate US,")
+            lggrm = lggrm.replace("[or gate US,", "[nand gate US,")
+            lggrm = lggrm.replace("[not gate US, draw, rotate=270]", "[nand gate US, draw, rotate=270, scale=0.5, logic gate inputs=nn]")
+        elif method.upper()=="NOR":
+            lggrm = lggrm.replace("[and gate US,", "[nor gate US,")
+            lggrm = lggrm.replace("[or gate US,", "[nor gate US,")
+            lggrm = lggrm.replace("[not gate US, draw, rotate=270]", "[nor gate US, draw, rotate=270, scale=0.5, logic gate inputs=nn]")
+        if method.upper()=="NAND" or method.upper()=="NOR":
+            lggrm = lggrm.replace("(notx.input)", "(notx.input 1)")
+            lggrm = lggrm.replace("(noty.input)", "(noty.input 1)")
+            lggrm = lggrm.replace("(notz.input)", "(notz.input 1)")
+            lggrm = lggrm.replace("(notw.input)", "(notw.input 1)")
+        return lggrm
     def draw_logigram_list(self, sop_list, function_namelist = ["F",]):
         """ draw a logigram """
         varnames = {

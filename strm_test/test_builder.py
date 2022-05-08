@@ -52,6 +52,8 @@ class test_builder:
         "arithm",
         "mesure",
         "static_funct", 
+        "nand_funct", 
+        "nor_funct", 
         "multi_funct",
         "chronogram",
         ]
@@ -81,7 +83,7 @@ class test_builder:
         ["function", "exp"],
         ]        
         self.test_commands[4] =  [
-        ["static_funct",],
+        ["static_funct","nand_funct"],
         ]        
         self.test_commands[5] =  [
         ["multi_funct",],
@@ -274,7 +276,7 @@ class test_builder:
         answer += "\nSum of products \n "+fname + " = $%s$\n"%self.bq.normalize_latex(dnf)
         answer +="\nProduct of sums \n "+fname + " = $%s$\n"%self.bq.normalize_latex(cnf)
         answer +="\n\\paragraph{Karnough map}\n"
-        answer += self.bq.draw_map(minterms, latex=True, correct=True)
+        answer += self.bq.draw_map(minterms, latex=True, correct=True, dontcares=dont_care)
         answer +="\n\n"
         answer += "Simplified Sum of products: $%s$\n"%self.bq.normalize_latex(sop)
         answer += "\nSimplified Product of sums: $%s$\n"%self.bq.normalize_latex(pos)
@@ -283,6 +285,44 @@ class test_builder:
         %%\missingfigure[figwidth=6cm]{Logigramme}\n\n"""
         
         answer += self.bq.draw_logigram(sop, function_name=output_names[0])
+        return question, arabic, data, answer 
+               
+    def question_static_nand_exp(self, minterms, var_names=["A","B","C","D"], output_names=["S0","S1","S2","S3"], dont_care=[] , method="nand"):
+        question = u""
+        arabic = u""
+        # change vars names
+        self.bq.set_vars(var_names, output_names)
+        fname = output_names[0]+"(%s)"%(', '.join(var_names))
+
+        cnf, dnf = self.bq.form_canonique(minterms)
+        data = fname + " = $%s$\n"%(minterms)
+        # answer
+        answer = fname + " =$%s$\n"%str(minterms)
+        answer += fname + " =$ \sum %s $ \n"%str(minterms)
+        answer +="\n"
+        # ~ answer += self.bq.truth_table(minterms, latex =True)
+        sop, pos = self.bq.simplify(minterms, dont_care )
+        answer += "\nSum of products \n "+fname + " = $%s$\n"%self.bq.normalize_latex(dnf)
+        answer +="\nProduct of sums \n "+fname + " = $%s$\n"%self.bq.normalize_latex(cnf)
+        answer +="\n\\paragraph{Karnough map}\n"
+        answer += self.bq.draw_map(minterms, latex=True, correct=True)
+        answer +="\n\n"
+        answer += "Simplified Sum of products: $%s$\n"%self.bq.normalize_latex(sop)
+        answer += "\nSimplified Product of sums: $%s$\n"%self.bq.normalize_latex(pos)
+        # Generate NAND or NOR form
+        answer += "\n%s"%method.upper() 
+        answer += " first simplified from: %s\n"%self.bq.normalize_nand_nor(sop,"sop", method)
+        answer += "\n%s"%method.upper()
+        answer += " second simplified from: %s\n"%self.bq.normalize_nand_nor(pos, "pos", method)
+        answer += "\n%s"%method.upper() 
+        answer += " first from: %s\n"%self.bq.normalize_nand_nor(self.bq.normalize(dnf),"sop", method)
+        answer += "\n%s"%method.upper()
+        answer += " second from: %s\n"%self.bq.normalize_nand_nor(self.bq.normalize(cnf), "pos", method)
+
+        answer += """\paragraph{Logigramme} de la fonction\\\\
+        %%\missingfigure[figwidth=6cm]{Logigramme}\n\n"""
+        
+        answer += self.bq.draw_logigram_nand_nor(sop, function_name=output_names[0], method=method)
         return question, arabic, data, answer        
 
     def question_multi_funct(self, minterms_list, var_names=["A","B","C","D"], output_names=["S0","S1","S2","S3"], dont_care_list=[]):
@@ -510,7 +550,15 @@ class test_builder:
         elif command == "static_funct":
             return self.question_static_funct(args["minterms"][0],
              args["var_names"], args["output_names"]
-             ,args["dontcare"])
+             ,args["dontcare"][0])
+        elif command == "nand_funct":
+            return self.question_static_nand_exp(args["minterms"][0],
+             args["var_names"], args["output_names"]
+             ,args["dontcare"][0], method="nand")
+        elif command == "nor_funct":
+            return self.question_static_nand_exp(args["minterms"][0],
+             args["var_names"], args["output_names"]
+             ,args["dontcare"][0], method="nor")
         elif command == "multi_funct":
             return self.question_multi_funct(args["minterms"], 
                    args["var_names"], args["output_names"],
