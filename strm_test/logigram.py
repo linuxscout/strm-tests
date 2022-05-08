@@ -253,64 +253,68 @@ class logigram:
                 offset +=0.05
         return latex
 
-  
+    def draw_line_var_to_gate(self, gate_id, var, bar, input_n, nb_vars = 2):
+        """
+        gate_id: xand1
+        var : A,
+        bar; A false, A bar true
+        input_n: input line number
+        """
+        latex = ""
+        # just a label
+        latex += """%% %s\n"""%var.upper()
+        if bar:
+            latex += """\\draw [line width=0.25mm,   red] (not%s.output)
+            -- ([xshift=0cm]not%s.output) """%(var, var)
+        else:
+            latex += """\\draw ($(%s) + (0, -1ex)$)"""%var
+        
+        # if only one var, draw just a line avoid input attribute
+        if nb_vars == 1000:
+            latex +="""|- (%s);\n"""%(gate_id) 
+        else:
+            latex +="""|- (%s.input %d);\n"""%(gate_id, input_n)             
+            
+        return latex
+
     def draw_gate(self, term, idg, size=0):
         """ id gate """
         latex_term = self.normalize_latex(term)
             
         # the offset is defined as the number of gates drawn to fix the distance
         offset = idg
-        latex = """ \n\n      
-            \\node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, %.2f) (xandy%d) {};"""%(offset*self.and_gates_space, idg)
-        # ~ latex += """\\draw (xandy%d.output) -- node[above]{\scriptsize $%s$ (2.5, %.2f*1.2)} ($(xandy%d) + (1.8, 0)$);
-            # ~ """%(idg, latex_term, offset, idg)
-        latex += """\\draw (xandy%d.output) -- node[above]{\scriptsize $%s$} ($(xandy%d) + (1.8, 0)$);
-            """%(idg, latex_term, idg)
+        gate_id = "xandy%d"%idg
+        # number of vars
+        nb_vars = len(term.split("+"))
+        # if there is one var only, draw a line instead of and gate
+        if nb_vars == 1001:
+            latex = """ \n\n      
+                \\node at (2.5, %.2f) (xandy%d) {};"""%(offset*self.and_gates_space, idg)
+            latex += """\\draw (xandy%d) -- node[above]{\scriptsize $%s$} ($(xandy%d) + (1.8, 0)$);
+                """%(idg, latex_term, idg)
+        else:
+            latex = """ \n\n      
+                \\node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, %.2f) (xandy%d) {};"""%(offset*self.and_gates_space, idg)
+            latex += """\\draw (xandy%d.output) -- node[above]{\scriptsize $%s$} ($(xandy%d) + (1.8, 0)$);
+                """%(idg, latex_term, idg)
         if self.var_A_bar in term:
-            latex += """
-            %% X'
-
-            \\draw  [line width=0.25mm,   red] (notx.output) -- ([xshift=0cm]notx.output) |- (xandy%d.input 1);
-            """%idg
+            latex += self.draw_line_var_to_gate(gate_id, var= "x", bar=True, input_n=1, nb_vars=nb_vars)
         elif self.var_A in term:
-            latex += """%% X
-            \\draw ($(x) + (0, -1ex)$) |- (xandy%d.input 1);
-            """%idg
+            latex += self.draw_line_var_to_gate(gate_id, var= "x", bar=False, input_n=1, nb_vars=nb_vars)
         if self.var_B_bar in term:
-            latex += """
-            %%Y'
-
-            \\draw [line width=0.25mm,   red] (noty.output) -- ([xshift=0cm]noty.output) |- (xandy%d.input 2);
-          """%idg
+            latex += self.draw_line_var_to_gate(gate_id, var= "y", bar=True, input_n=2, nb_vars=nb_vars)
         elif self.var_B in term:
-            latex +="""  
-            %% Y
-            \\draw ($(y) + (0, -1ex)$) |- (xandy%d.input 2);
-        """%idg
+            latex += self.draw_line_var_to_gate(gate_id, var= "y", bar=False, input_n=2, nb_vars=nb_vars)
         if self.var_C_bar in term:
-            latex += """
-            %%Z'
+            latex += self.draw_line_var_to_gate(gate_id, var= "z", bar=True, input_n=3, nb_vars=nb_vars)
 
-            \\draw [line width=0.25mm,   red] (notz.output) -- ([xshift=0cm]notz.output) |- (xandy%d.input 3);
-          """%idg
         elif self.var_C in term:
-            latex +="""
-            %%Z
-            \\draw ($(z) + (0, -1ex)$) |- (xandy%d.input 3);
-        """%idg
+            latex += self.draw_line_var_to_gate(gate_id, var= "z", bar=False, input_n=3, nb_vars=nb_vars)
         if self.var_D_bar in term:
-            latex += """
-            %%W
+            latex += self.draw_line_var_to_gate(gate_id, var= "w", bar=True, input_n=4, nb_vars=nb_vars)
 
-            \\draw [line width=0.25mm,   red] (notw.output) -- ([xshift=0cm]notw.output) |- (xandy%d.input 4);
-          """%idg
         elif self.var_D in term:
-            latex +="""    %%W
-            \\draw ($(w) + (0, -1ex)$) |- (xandy%d.input 4);
-        """%idg
+            latex += self.draw_line_var_to_gate(gate_id, var= "w", bar=False, input_n=4, nb_vars=nb_vars)
+
             
-        #~ latex +=""" 
-        #~ \\end{tikzpicture}
-        #~ """
-        # ~ latex = latex.replace("ID", str(idg))
         return latex   
