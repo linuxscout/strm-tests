@@ -315,9 +315,9 @@ class test_builder:
         answer += "\n%s"%method.upper()
         answer += " second simplified from: %s\n"%self.bq.normalize_nand_nor(pos, "pos", method)
         answer += "\n%s"%method.upper() 
-        answer += " first from: %s\n"%self.bq.normalize_nand_nor(self.bq.normalize(dnf),"sop", method)
+        answer += " first from: %s\n"%self.bq.normalize_nand_nor(dnf,"sop", method)
         answer += "\n%s"%method.upper()
-        answer += " second from: %s\n"%self.bq.normalize_nand_nor(self.bq.normalize(cnf), "pos", method)
+        answer += " second from: %s\n"%self.bq.normalize_nand_nor(cnf, "pos", method)
 
         answer += """\paragraph{Logigramme} de la fonction\\\\
         %%\missingfigure[figwidth=6cm]{Logigramme}\n\n"""

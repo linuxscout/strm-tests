@@ -134,7 +134,11 @@ class logigram:
         """ draw a logigram from an sop """
         latex = " \\label{logigram-%s}\n"%function_name
         latex += "\\begin{tikzpicture}\n\n"
+        latex += " %%Paramaters\n"        
+
         terms = sop.upper().split("+")
+        latex += "%% var position, can be modified\n"
+        latex += "\\def\\varPos{%.2f}\n"%len(terms) 
         latex += self.draw_vars(len(terms))
         for cpt, term in enumerate(terms):
             latex += self.draw_gate(term, cpt)
@@ -146,7 +150,14 @@ class logigram:
         """ draw a logigram from an sop """
         latex = " \\label{logigrammefonction%s}\n\n"%'-'.join(function_namelist)
         latex += " \\begin{tikzpicture}\n\n"
+        latex += " %%Paramaters\n"
+        # the pos (position of Y) of a var is defined according to 
+        # the total number of AND gates to draw (gates_count)
+        
         size_terms = sum([len(l.split('+')) for l in sop_list])
+        latex += "%% var position, can be modified\n"
+        latex += "\\def\\varPos{%.2f}\n"%(size_terms * self.vars_space) 
+
         # ~ latex +="%% sizeterms : %d\n%%%s\n"%(size_terms, repr(sop_list))
         total_terms = 0
         # inverse index
@@ -186,17 +197,19 @@ class logigram:
     def draw_vars(self, gates_count):
         """ draw vars lines """
         
-        # the pos (position of Y) of a var is defined according to 
-        # the total number of AND gates to draw (gates_count)
+
         # 
-        y_pos = gates_count * self.vars_space
+        # ~ y_pos = gates_count * self.vars_space
+        
+        # ~ latex = "% var position, can be modified\n"
+        # ~ latex += "\\def\\varPos{%.2f}\n"%y_pos
 
         # ~ if gates_count<2: y_pos +=1
         # ~ y_pos = (gates_count) * 1.32
-        latex ="\\node (x) at (0, %.2f) {$%s$};\n"%(y_pos, self.var_names.get("A", "A"))
-        latex += "\\node (y) at (0.5, %.2f) {$%s$};\n"%(y_pos, self.var_names.get("B", "B"))
-        latex += "\\node (z) at (1, %.2f) {$%s$};\n"%(y_pos,self.var_names.get("C", "C"))
-        latex += "\\node (w) at (1.5, %.2f) {$%s$};\n"%(y_pos, self.var_names.get("D", "D"))
+        latex ="\\node (x) at (0, \\varPos) {$%s$};\n"%( self.var_names.get("A", "A"))
+        latex += "\\node (y) at (0.5, \\varPos) {$%s$};\n"%( self.var_names.get("B", "B"))
+        latex += "\\node (z) at (1, \\varPos) {$%s$};\n"%(self.var_names.get("C", "C"))
+        latex += "\\node (w) at (1.5, \\varPos) {$%s$};\n"%(self.var_names.get("D", "D"))
         latex +="""
             \\node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.6)$) (notx) {};
             \\draw ($(x)+(0,-1ex)$) -| (notx.input); 
@@ -233,10 +246,6 @@ class logigram:
             latex +="""\draw (xory%d.output) -- node[above]{\scriptsize $%s$} ($(xory%d.east) + (+3ex, 0)$);\n\n
             """%(gate_id, function_name,  gate_id)            
             
-        # ~ """%("n"*nb_inputs,y_pos, gate_id, gate_id, function_name,  gate_id)
-
-        # ~ """%("n"*nb_inputs, y_pos, gate_id, gate_id, function_name,  gate_id)
-
         # the offset is the distance between AND gate and  OR gate.
         offset = 1.6
         

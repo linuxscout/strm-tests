@@ -342,22 +342,31 @@ class bool_quiz:
             s= "(%s)"%s
             if type_exp == "sop":
                 #
-                explain_str = "$$\\overline{\\overline{"+exp+"}}$$\n"
+                explain_str = "$$"+exp+"$$\n"
+                explain_str += "$$\\overline{\\overline{"+exp+"}}$$\n"
                 explain_str += "$$\\overline{(\\overline{"+exp.replace("+", "}).(\\overline{")+"})}$$\n"
                 # replace all 'not A' by 'A NAND A'
                 for var in varlist:
                     s= s.replace("\\BAR %s"%var,"(%s %s %s)"%(var.upper(),opr_sym, var.upper()))
                     s= s.replace("%s'"%var,"(%s %s %s)"%(var.upper(),opr_sym, var.upper()))
                 # replace all '+' by "NAND"
-                s=s.replace("+",")%s("%opr_sym)
+                s=s.replace("+",")\\big%s("%opr_sym)
                 # replace all '.' by "NAND"            
                 s=s.replace(".",opr_sym)
                 
                 
             elif type_exp == "pos":
-                exp2 = exp.replace("(", "(\\overline{\\overline{")
+                # if no parenthesis in expression
+                exp2 = exp
+                if "(" not in exp2:
+                    exp2 = "("+exp2.replace(".", ").(")+")"
+                    s = exp2.upper()
+                
+                exp2 = exp2.replace("(", "(\\overline{\\overline{")
                 exp2 = exp2.replace(")", "}})")
-                explain_str = "$$\\overline{\\overline{"+exp2+"}}$$\n"
+                explain_str = "$$"+exp+"$$\n"
+                explain_str += "$$"+exp2+"$$\n"
+                explain_str += "$$\\overline{\\overline{"+exp2+"}}$$\n"
              
                 # replace all 'not A' by 'W'
                 for var in varlist:
@@ -387,7 +396,8 @@ class bool_quiz:
             s= "(%s)"%s
             if type_exp == "pos":
                 #
-                explain_str = "$$\\overline{\\overline{"+exp+"}}$$\n"
+                explain_str = "$$"+exp+"$$\n"
+                explain_str += "$$\\overline{\\overline{"+exp+"}}$$\n"
                 explain_str += "$$\\overline{(\\overline{"+exp.replace(".", "}+\\overline{")+"})}$$\n"
                 # replace all 'not A' by 'A NOR A'
                 for var in varlist:
@@ -400,11 +410,18 @@ class bool_quiz:
                 
                 
             elif type_exp == "sop":
-                exp2 = "("+exp.replace("+",")h(")+")"
+                # if no parenthesis in expression
+                exp2 = exp
+                if "(" not in exp2:
+                    exp2 = "("+exp2.replace("+", ")+(")+")"
+                    s = exp2.upper()                
+                # ~ exp2 = "("+exp.replace("+",")+(")+")"
                 exp2 = exp2.replace("(", "(\\overline{\\overline{")
                 # ~ exp2 = exp2.replace("(", "(\\overline{\\overline{")
                 exp2 = exp2.replace(")", "}})")
-                explain_str = "$$\\overline{\\overline{"+exp2+"}}$$\n"
+                explain_str = "$$"+exp+"$$\n"                
+                explain_str += "$$"+exp2+"$$\n"                
+                explain_str += "$$\\overline{\\overline{"+exp2+"}}$$\n"
              
                 # replace all 'not A' by 'W'
                 for var in varlist:
@@ -412,6 +429,7 @@ class bool_quiz:
                     tmp_var = chr(ord(var.upper())+22)
                     s= s.replace("%s'"%var, tmp_var)
                     s= s.replace("\\BAR %s"%var, tmp_var)
+
                     
                 # replace all 'A' by 'A NOR A'
                 for var in varlist:
@@ -430,7 +448,8 @@ class bool_quiz:
                 # duplicate s
                 s = s +opr_sym + s                
         # add explaination to result string 
-        result = explain_str +"$$" + s +"$$"  
+        result = explain_str +"$$" + s +"$$"
+        result = self.normalize_latex(result)  
     
         return result
 
