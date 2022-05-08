@@ -404,7 +404,7 @@ class bool_quiz:
                 exp2 = exp2.replace("(", "(\\overline{\\overline{")
                 # ~ exp2 = exp2.replace("(", "(\\overline{\\overline{")
                 exp2 = exp2.replace(")", "}})")
-                explain_str = "$$\\overline{\\overline{zerrouki"+exp2+"}}$$\n"
+                explain_str = "$$\\overline{\\overline{"+exp2+"}}$$\n"
              
                 # replace all 'not A' by 'W'
                 for var in varlist:
