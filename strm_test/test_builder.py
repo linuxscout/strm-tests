@@ -367,48 +367,96 @@ class test_builder:
          \\end{itemize}\n"""
          
         answer +="\\item Table de vérité \\aRL{جدول الحقيقة}\\\\\n"                        
-        answer += self.bq.multiple_truth_table(funct_list, latex =True)
+        answer += self.bq.multiple_truth_table(funct_list, latex =True, dontcares_list=dont_care_list)
 
         
         answer +="\\item Les formes canoniques \\aRL{الأشكال القانونية}\\\\\n"   
-        answer += "\\begin{itemize}\n"        # begin forme canoniques
+        # ~ answer += "\\begin{itemize}\n"        # begin forme canoniques
+        
+        # ~ answer += "\\item La première forme canonique: \\aRL{الشكل القانوني الأول}\n\n"
+        # ~ answer += "\\begin{itemize}\n"
+        
+        # tableaux dex forms canoniques
+        functions_forms_table={}
+
         for i, minterms in enumerate(funct_list):  
             
-            maxterms = [i for i in range(16) if not i in minterms]          
+            maxterms = [k for k in range(16) if not k in minterms and not k in dont_care_list[i]]  
+      
             # answer
-            cnf, dnf = self.bq.form_canonique(minterms)  
+            cnf, dnf = self.bq.form_canonique(minterms)
+            
             fname  = "%s(%s)"%(output_names[i],', '.join(var_names) ) # function name and arguments          
 
-            # ~ answer += fname+ " =$ \sum %s $ \n"%(str(minterms))
+            functions_forms_table[i]= {"fname": fname,
+            "maxterms": "$\prod %s$"%maxterms,
+            "minterms": "$\sum %s$"%minterms,
+            "dnf": "$\sum %s$"%(self.bq.normalize_latex(dnf)),
+            "cnf": "$\prod %s$"%(self.bq.normalize_latex(cnf)),
+            }  
 
-            answer +="\\item La fonction %s \\aRL{الدالة}\\\\\n"%fname
-            answer += "%%"+fname+ " =$%s$\n\n"%(str(minterms))            
-            answer +="\n"
+            # ~ answer +="\\item La fonction %s \\aRL{الدالة}\\\\\n"%fname
+            # ~ answer += "%%"+fname+ " =$%s$\n\n"%(str(minterms))            
+            # ~ answer +="\n"
 
-            answer += "\\begin{itemize}\n"           
+            # ~ answer += "\\begin{itemize}\n"           
 
-            answer += "\\item La première forme canonique: \\aRL{الشكل القانوني الأول}\n\n"+fname+ " = $%s$\n"%(self.bq.normalize_latex(dnf))
-            answer +="\\item La deuxième forme canonique: \\aRL{الشكل القانوني الثاني}≠\n\n "+fname+ " = $%s$\n"%(self.bq.normalize_latex(cnf))
-            # ~ answer +="\n Les formes canoniques numériques"            
-            answer += "\\item La première forme canonique; \\aRL{الشكل القانوني الرقمي الأول}\n\n"+fname+ " = $\sum %s$\n"%(str(minterms))
-            answer +="\\item La deuxième forme canonique;  \\aRL{الشكل القانوني الرقمي الثاني}\n\n "+fname+ " = $\prod %s$\n"%(str(maxterms))
-            answer += "\\end{itemize}\n"           
-        answer += "\n\\end{itemize}"           # end formes canoniques
-        answer +="\n\\item Tableaux de Karnough \\aRL{مخطط كارنوف}\n"  
-        answer += "\n\\begin{itemize}\n"        # begin karnaugh
+            # ~ answer += "\\item La première forme canonique: \\aRL{الشكل القانوني الأول}\n\n"+fname+ " = $%s$\n"%(self.bq.normalize_latex(dnf))
+            # ~ answer +="\\item La deuxième forme canonique: \\aRL{الشكل القانوني الثاني}≠\n\n "+fname+ " = $%s$\n"%(self.bq.normalize_latex(cnf))
+            #answer +="\n Les formes canoniques numériques"            
+            # ~ answer += "\\item La première forme canonique; \\aRL{الشكل القانوني الرقمي الأول}\n\n"+fname+ " = $\sum %s$\n"%(str(minterms))
+            # ~ answer +="\\item La deuxième forme canonique;  \\aRL{الشكل القانوني الرقمي الثاني}\n\n "+fname+ " = $\prod %s$\n"%(str(maxterms))
+            # ~ answer += "\\end{itemize}\n"           
+        # ~ answer += "\n\\end{itemize}"           # end formes canoniques
+
+
+        forms_types_table = {"dnf": "La première forme canonique: \\aRL{الشكل القانوني الأول}",
+        "cnf": "La deuxième forme canonique: \\aRL{الشكل القانوني الثاني}",
+        "minterms": "La première forme canonique numérique; \\aRL{الشكل القانوني الرقمي الأول}",            
+        "maxterms": "La deuxième forme canonique numérique;  \\aRL{الشكل القانوني الرقمي الثاني}",        
+        }
+        answer += "\\begin{itemize}% begin listing forms\n"         
+        for ftype in forms_types_table:
+            answer += "\\item %s \n\n"% forms_types_table[ftype]
+            answer += "\\begin{itemize}\n"   
+            for funct_id in functions_forms_table: 
+                # list all functions
+                fname = functions_forms_table[funct_id].get("fname", "")
+                form = functions_forms_table[funct_id].get(ftype, "")
+                answer+= "\\item %s = %s \n"%(fname, form)
+            answer += "\\end{itemize}\n"                         
+        # ~ answer += "\\end{itemize}\n"                         
+
+        answer += "\n\\end{itemize}"           # end formes canoniques                  
+        answer +="\n\\item Tableaux de Karnough \hfill\\aRL{مخطط كارنوف}\n"  
+        answer += "\n\\begin{itemize} % begin all karnaugh \n"        # begin karnaugh
         
         for i, minterms in enumerate(funct_list):
-
-            answer +="\\item Tableau de Karnough de la fonction  %s \\aRL{مخطط كارنوف للدالة}\n\n"%output_names[i]
+            answer += "\\begin{minipage}{.5\\textwidth}\n"
+            answer +="\\item La fonction  %s \\aRL{الدالة}\n\n"%output_names[i]
             answer += self.bq.draw_map(minterms, latex=True, correct=True,dontcares=dont_care_list[i])
             sop, pos = self.bq.simplify(minterms, dont_care_list[i])
+            functions_forms_table[i]['simplified'] = self.bq.normalize_latex(sop)
             answer +="\n\n"
-            answer += "\\begin{itemize}\n"
-            answer += "\\item La forme simplifiée \\aRL{الشكل المبسط} \n\n %s = $%s$\n"%(output_names[i],self.bq.normalize_latex(sop))
-            answer += "\\item La deuxième forme simplifiée \\aRL{الشكل المبسط الثاني} \n\n%s = $%s$\n"%(output_names[i], self.bq.normalize_latex(pos))
-            answer += "\n\\end{itemize}\n"
+            # ~ answer += "\\begin{itemize}\n"
+            answer += "\\textbf{La forme simplifiée \\aRL{الشكل المبسط}} \n\n %s = $%s$\n\n"%(output_names[i],self.bq.normalize_latex(sop))
+            # ~ answer += "\\item La deuxième forme simplifiée \\aRL{الشكل المبسط الثاني} \n\n%s = $%s$\n"%(output_names[i], self.bq.normalize_latex(pos))
+            # ~ answer += "\n\\end{itemize}\n"
+            answer += "\n\\end{minipage}\n"
+
             
-        answer += "\n\\end{itemize}\n"        # end karnaugh
+        answer += "\n\\end{itemize} %end all karnaugh\n"        # end all karnaugh
+       
+       
+        # display all simplified as a list
+        answer += " Les forms simplifiées \n"
+        answer += "\\begin{itemize}\n"
+        for i in range(len(functions_forms_table)):
+            fname = functions_forms_table[i].get('fname',"")
+            simplified = functions_forms_table[i].get('simplified',"")
+            answer += "\\item %s = $%s$\n\n"%(fname, simplified)
+        answer += "\n\\end{itemize}\n"
+        
         answer += "\\item Logigrammes \\aRL{المخططات المنطقية }\\\\"  
         
         # deprecated ; draw a unique logigramme
