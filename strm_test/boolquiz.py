@@ -95,34 +95,40 @@ class bool_quiz:
         else:
             return text
             
-    def multiple_truth_table(self, minterms_list, latex=False, dontcares=[]): 
+    def multiple_truth_table(self, minterms_list, latex=False, dontcares_list=[]): 
         """ print truth table """
         
         outputs_len= len(minterms_list)
         cases = itertools.product([0,1],[0,1],[0,1],[0,1])
         text = "N°\t"  # line number
         text = "\t".join(self.variables + self.vars_outputs[:outputs_len])
-        tex = """%%\\begin{table}
-        \\begin{tabular}{|c|c|c|c|c||%s}
-    \\toprule
+        tex = """%%\\begin{table}\n
+        \\begin{tabular}{|c|c|c|c|c||%s}\n
+    \\toprule\n
         """%("c|"*outputs_len)
         tex += "N° &"  # line number
         tex += " & ".join(self.variables+self.vars_outputs[:outputs_len]) 
-        tex += "\\\\ \\midrule"
+        tex += "\\\\ \\midrule\n"
            
         for counter, item in enumerate(cases):
             case = [counter] + list(item)          
-            for minterms in minterms_list:
-                f = 1 if counter in minterms else 0
-                case.append(f)
-            if counter  and counter %4 ==0 :
-                tex += "\\midrule"
-            text += "\t".join([str(x) for x in case]) +"\n"
-            tex += " & ".join([str(x) for x in case]) + "\\\\"
 
-        tex += """\\bottomrule
-        \\end{tabular}
-        %%\\end{table}
+            for minterms, dontcares in zip(minterms_list, dontcares_list) :
+                if counter in minterms:
+                    f = 1
+                elif counter in dontcares:
+                    f = "X"
+                else:
+                    f = 0
+                case.append(f)
+            if counter  and counter %4 == 0 :
+                tex += "\\midrule\n"
+            text += "\t".join([str(x) for x in case]) +"\n"
+            tex += " & ".join([str(x) for x in case]) + "\\\\\n"
+
+        tex += """\\bottomrule\n
+        \\end{tabular}\n
+        %%\\end{table}\n
         """
         if latex:
             return tex
