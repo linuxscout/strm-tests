@@ -27,7 +27,7 @@ from . import chronograms
 TEMPLATE_DUAL = """
 \\begin{tikztimingtable}
 %[timing/slope=.0, timing/draw grid]
-[timing/slope=.0,  timing/wscale=1]
+[timing/slope=.0,  timing/wscale=1, scale=2.5, line width=1.25pt]
 % horloge signal
 {SIGNALS}
 \\extracode
@@ -46,7 +46,7 @@ TEMPLATE_DUAL = """
 TEMPLATE_RISING = """
 \\begin{tikztimingtable}
 %[timing/slope=.0, timing/draw grid]
-[timing/slope=.0,  timing/wscale=1]
+[timing/slope=.0,  timing/wscale=1, scale=2.5, line width=1.25pt]
 % horloge signal
 {SIGNALS}
 \\extracode
@@ -62,7 +62,7 @@ TEMPLATE_RISING = """
 TEMPLATE_FALLING = """
 \\begin{tikztimingtable}
 %[timing/slope=.0, timing/draw grid]
-[timing/slope=.0,  timing/wscale=1]
+[timing/slope=.0,  timing/wscale=1, scale=2.5, line width=1.25pt]
 % horloge signal
 {SIGNALS}
 \\extracode
