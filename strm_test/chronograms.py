@@ -23,6 +23,20 @@
 import wavedrom
 import json
 import random
+FLIP_TRUTH_TABLES={
+    
+    "JK":{0:"memory",  #00
+        1: "reset" , #01
+        2:"set" , #10
+        3:"flip", #11
+        },
+    "XY":{0:"reset",  #00
+        1: "flip" , #01
+        2:"flip" , #10
+        3:"set", #11
+        }
+    
+}
 class Chronograms:
     """
     A class to generate questions and answers on chronograms
@@ -120,7 +134,7 @@ class Chronograms:
         synch_type = self.synch_type
         if( synch_type != "asyngh"):
             clock = { "name": "H",   "wave": "P.......","period": period  }
-            if(synch_type == "rising"):
+            if synch_type in ("rising", "all","dual"):
                 clock["wave"] = self.start_low + self.rising_period
             elif (synch_type == "falling"):
                 clock["wave"] = self.start_high + self.falling_period
@@ -187,8 +201,14 @@ class Chronograms:
             j_signal = self.synchronize_signal(signals.get("J", []), period=period)
             k_signal = self.synchronize_signal(signals.get("K",[]), period=period)
             q_signal = signals.get("Q",[-1,])
+            return self.resolve_xy(j_signal, k_signal, q_signal, period=period, flip_type="JK")
+            # ~ return self.resolve_jk(j_signal, k_signal, q_signal, period=period)
+        if(flip_type.upper()=="XY"):
+            j_signal = self.synchronize_signal(signals.get("X", []), period=period)
+            k_signal = self.synchronize_signal(signals.get("Y",[]), period=period)
+            q_signal = signals.get("Q",[-1,])
             
-            return self.resolve_jk(j_signal, k_signal, q_signal, period=period)
+            return self.resolve_xy(j_signal, k_signal, q_signal, period=period, flip_type="XY")
                 
                     
         
@@ -197,6 +217,7 @@ class Chronograms:
     def resolve_jk(self, j_signal, k_signal, q_signal, period=2):
         """
         """
+        new_q_signal = [q_signal[0]]
         # ~ return j_signal
         if (not j_signal or not k_signal or not  q_signal):
             return out_signal;            
@@ -204,7 +225,7 @@ class Chronograms:
             return out_signal;
 
         if self.synch_type == "falling":
-            q_signal[0] = q_signal[0]*period
+            new_q_signal[0] = q_signal[0]*period
         previous = q_signal[0]
         for i in range(1,len(j_signal)):
             j = j_signal[i]
@@ -212,19 +233,89 @@ class Chronograms:
             if abs(previous) != period:
                 previous *=period
             if(j<0 and k<0): #  0 0  memory
-                q_signal.append(previous)
+                new_q_signal.append(previous)
             elif(j<0 and k>0): # 0 1  reset
-                q_signal.append(-period)
+                new_q_signal.append(-period)
             elif(j>0 and k<0): # 1 0 set
-                q_signal.append(period)
+                new_q_signal.append(period)
             elif(j>0 and k>0): # 1 1  flip
-                q_signal.append(-previous)
-            previous = q_signal[i]
-        print("j signal:", j_signal)
-        print("k signal:", k_signal)
-        print("q signal:", q_signal)            
+                new_q_signal.append(-previous)
+            previous = new_q_signal[i]
+        # ~ print("j signal:", j_signal)
+        # ~ print("k signal:", k_signal)
+        # ~ print("q signal:", q_signal)  
+                  
+    def resolve_xy(self, j_signal, k_signal, q_signal, period=2, flip_type="JK"):
+        """
+        """
+        new_q_signal = [q_signal[0]]
+        # ~ return j_signal
+        if (not j_signal or not k_signal or not  q_signal):
+            return out_signal;            
+        elif(len(j_signal) != len(k_signal)):
+            return out_signal;
+
+        if self.synch_type == "falling":
+            new_q_signal[0] = q_signal[0]*period
+        previous = q_signal[0]
+        for i in range(1,len(j_signal)):
+            j = j_signal[i]
+            k = k_signal[i]
+            if abs(previous) != period:
+                previous *=period
+            value = self.get_truth_value(j,k,flip_type)
+            if value == "set":
+                new_q_signal.append(self.set(period))
+            if value == "reset":
+                new_q_signal.append(self.set(period))
+            if value == "flip":
+                new_q_signal.append(self.flip(previous))
+            if value == "memory":
+                new_q_signal.append(previous)
+            previous = new_q_signal[i]
                 
-        return q_signal
+        return new_q_signal
+    def is_true(self, var):
+        """
+        test if true"""
+        return var>0
+        
+    def get_truth_value(self, var1, var2, flip_type):
+        """
+        get value for given fliptype"""
+        i= 0;
+        j= 0;
+        if self.is_true(var1):
+            i = 2
+        if self.is_true(var2):
+            j=1
+        if flip_type in FLIP_TRUTH_TABLES:
+            return FLIP_TRUTH_TABLES[flip_type][i+j]
+        return ""
+    def is_false(self, var):
+        """
+        test if false"""
+        return var<0
+        
+    def set(self, period):
+        """
+        set to one"""
+        return period
+
+    def reset(self, period):
+        """
+        set to zero"""
+        return -period
+
+    def memory(self, previous):
+        """
+        keep memory"""
+        return previous
+    def flip(self, previous):
+        """
+        flip previous"""
+        return -previous
+    
 
     def synchronize_signal(self, signal=[], period=2):
         """

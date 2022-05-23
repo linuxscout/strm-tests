@@ -449,7 +449,7 @@ class test_builder:
        
        
         # display all simplified as a list
-        answer += " Les forms simplifiées \n"
+        answer += " Les formes simplifiées \n"
         answer += "\\begin{itemize}\n"
         for i in range(len(functions_forms_table)):
             fname = functions_forms_table[i].get('fname',"")
@@ -537,10 +537,41 @@ class test_builder:
         # generate soltution
         # get solution for signal
         # 2 generate chrono for answer
-        out_signal = chrono.resolve(flip_type=flip_type,signals=signals, period=2) 
-        # output signal       
-        signals[output_vars[0]] = out_signal
-        tex_data_answer = chrono.draw(signals, clock)
+        # if we want to generate multiple cases using "dual" or "all"
+        print("initial: ",signals)  
+        if synch_type =="all" or synch_type =="dual":
+            # set synchronization type
+            chrono.set_synch_type("rising")
+        out_signal = chrono.resolve(flip_type=flip_type,signals=signals.copy(), period=2) 
+        # output signal    
+        tmp_signals =    signals
+        tmp_signals[output_vars[0]] = out_signal
+        print("rising: ",out_signal)
+        print("rising: ",signals)  
+        # add more signals for multi cases
+        if synch_type =="all" or synch_type =="dual":
+            # set synchronization type
+            chrono.set_synch_type("falling")
+
+            out_signal = chrono.resolve(flip_type=flip_type,signals=signals.copy(), period=2) 
+            print("falling: ",signals)  
+            print("falling: ",out_signal)
+            # output signal       
+            tmp_signals[output_vars[0]+".desc"] = out_signal
+        if synch_type =="all":
+            # set synchronization type
+            chrono.set_synch_type("asynch")
+            out_signal = chrono.resolve(flip_type=flip_type,signals=signals.copy(), period=2) 
+            # output signal       
+            print("asynch: ",out_signal)            
+            print("asynch: ",signals)            
+            tmp_signals[output_vars[0]+".asyn"] = out_signal
+        
+        if synch_type =="all" or synch_type =="dual":
+            # set synchronization type
+            chrono.set_synch_type("dual")            
+        
+        tex_data_answer = chrono.draw(tmp_signals, clock)
             
         question =u"Compléter le chronogramme suivant:\n\n "
         arabic = u"أكمل المخطط الزمني: "

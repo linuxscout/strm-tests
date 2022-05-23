@@ -24,6 +24,25 @@ import wavedrom
 import json
 import random
 from . import chronograms
+TEMPLATE_DUAL = """
+\\begin{tikztimingtable}
+%[timing/slope=.0, timing/draw grid]
+[timing/slope=.0,  timing/wscale=1]
+% horloge signal
+{SIGNALS}
+\\extracode
+\\begin{scope}[gray,semitransparent,densely dotted,thin]
+\\horlines{}
+\\vertlines{0}
+\\end{scope}
+\\begin{scope}[gray,semitransparent,thin]
+\\vertlines{1,3,...,\\twidth}
+\\end{scope}
+\\begin{scope}[red,semitransparent,densely dotted,thin]
+\\vertlines{2,4,...,\\twidth}
+\\end{scope}
+\\end{tikztimingtable}
+"""
 TEMPLATE_RISING = """
 \\begin{tikztimingtable}
 %[timing/slope=.0, timing/draw grid]
@@ -51,7 +70,7 @@ TEMPLATE_FALLING = """
 \\horlines{}
 \\vertlines{0}
 \\end{scope}
-\\begin{scope}[red,semitransparent,densely dotted,thin]
+\\begin{scope}[gray,semitransparent,densely dotted,thin]
 \\vertlines{2,4,...,\\twidth}
 \\end{scope}
 \\end{tikztimingtable}
@@ -93,7 +112,9 @@ class Tex_Chronograms(chronograms.Chronograms):
             name = signal.get('name', "X")
             wave = signal.get('wave', "L")
             lines.append("$%s$ & %s\\\\"%(name, wave))
-        if(self.synch_type=="falling"):
+        if(self.synch_type=="dual" or  self.synch_type=="all"):
+            output = TEMPLATE_DUAL.replace("{SIGNALS}", "\n".join(lines))
+        elif(self.synch_type=="falling"):
             output = TEMPLATE_FALLING.replace("{SIGNALS}", "\n".join(lines))
         else:
             output = TEMPLATE_RISING.replace("{SIGNALS}", "\n".join(lines))        
@@ -103,6 +124,9 @@ class Tex_Chronograms(chronograms.Chronograms):
         """
         Convert signal data into suitable string format
         """
+        if not signal_list:
+            print("Error", signal_list)
+            return ""
         signal_list = [-1 if i == 0 else i for i in signal_list]
         wave = ""
         for i in signal_list:
@@ -129,12 +153,14 @@ class Tex_Chronograms(chronograms.Chronograms):
         """
         clock = {}
         synch_type = self.synch_type
-        if( synch_type != "asyngh"):
+        if( synch_type != "asynch"):
             clock = { "name": "H",   "wave": "","period": period  }
             if(synch_type == "rising"):
                 clock["wave"] = "[timing/c/rising arrows] "
             elif (synch_type == "falling"):
                 clock["wave"] = "[timing/c/falling arrows] "
+            elif (synch_type == "dual" or synch_type == "all"):
+                clock["wave"] = "[timing/c/dual arrows] "
             elif (synch_type == "high"):
                 clock["wave"] = "[timing/c/rising arrows] "
             elif (synch_type == "low"):
