@@ -267,7 +267,7 @@ class Chronograms:
             if value == "set":
                 new_q_signal.append(self.set(period))
             if value == "reset":
-                new_q_signal.append(self.set(period))
+                new_q_signal.append(self.reset(period))
             if value == "flip":
                 new_q_signal.append(self.flip(previous))
             if value == "memory":
