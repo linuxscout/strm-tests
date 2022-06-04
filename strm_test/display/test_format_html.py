@@ -23,6 +23,7 @@
 #  
 
 from . import test_format
+
 class test_format_tex(test_format.test_format):
     """ Generate a format for the test """
     def __init__(self, formatting=""):
@@ -31,48 +32,62 @@ class test_format_tex(test_format.test_format):
         self.output =""
         self.header =""
         self.footer =""
-        #~ print("test_format_tex")      
+
+   
     def header(self,):
         """
         """
-        self.header = """
+        self.header = """<html><body>
         """
     def footer(self,):
         """
         """
-        self.footer = """
+        self.footer = """</body></html>
         """
+    def set_header(self,header):
+        """
+        """
+        self.header = header
+    def set_footer(self, footer):
+        """
+        """
+        self.footer = footer
+    def reset_output(self):
+        """
+        """
+        self.output = ""
+        
     def add_section(self, text, trans="", level=1):
         """
         """
         if level == 1:
-            sect = "section"
+            sect = "H1"
         elif level == 2:
-            sect = "subsection"
+            sect = "H2"
         elif level == 3:
-            sect = "subsubsection"
+            sect = "H3"
         elif level == 4:
-            sect = "paragraph"
-        self.output +="\n\\%s{%s}\n"%(sect, text)
+            sect = "p"
+        self.output +="\n<%s>%s<%s>\n"%(sect, text,sect)
         
     def add_text(self, text, trans=""):
         """
         """
         self.output +="\n"+ text
     def add_verbatim(self, text, trans=""):    
-        self.output += '\n\\begin{verbatima}'
+        self.output += '\n<pre>'
         self.output +=  text
-        self.output +='\n\\end{verbatima}'
+        self.output +='\n</pre>'
     
     def add_formula(self, text, trans=""):    
-        self.output += '$$%s$$'%text
+        self.output += '%s'%text
     
     def add_newline(self):    
         self.output += '\n'
     def add_hrule(self):    
-        self.output += '\n\\hrule width 1\linewidth'
+        self.output += '\n<hr/>'
     def add_newpage(self):    
-        self.output += '\pagebreak'    
+        self.output += ''    
     def display(self,):
         """
         """

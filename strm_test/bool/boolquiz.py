@@ -58,8 +58,8 @@ class bool_quiz:
         
         return  sop_quest, minterms_table      
 
-
-    def truth_table(self, minterms, latex=False, dontcares=[]): 
+    #@deprecated_func
+    def truth_table2(self, minterms, latex=False, dontcares=[]): 
         """ print truth table """
         variables = self.variables
         cases = itertools.product([0,1],[0,1],[0,1],[0,1])
@@ -94,8 +94,8 @@ class bool_quiz:
             return tex
         else:
             return text
-            
-    def multiple_truth_table(self, minterms_list, latex=False, dontcares_list=[]): 
+    # deprecated
+    def multiple_truth_table2(self, minterms_list, latex=False, dontcares_list=[]): 
         """ print truth table """
         
         outputs_len= len(minterms_list)
@@ -187,8 +187,8 @@ class bool_quiz:
         sop = self.normalize(sop)
         pos = self.normalize(pos, False)
         return sop, pos
-        
-    def simplify_map(self, minterms, dontcares=[]):
+    # deprectaed
+    def simplify_map2(self, minterms, dontcares=[]):
        
         var_names  = "a b c d"
         # ~ var_names  = " ".join(self.variables).lower()
@@ -209,6 +209,20 @@ class bool_quiz:
         # ~ import sys
         # ~ sys.exit()
         return "\n".join(simpls)
+        
+    def simplify_map(self, minterms, dontcares=[]):
+       
+        var_names  = "a b c d"
+        # ~ var_names  = " ".join(self.variables).lower()
+        
+        a,b,c,d = symbols(var_names)
+        sop = sympy.SOPform([a,b,c,d], minterms, dontcares)
+        pos = sympy.POSform([a,b,c,d], minterms, dontcares)
+        
+        sop = self.normalize(sop)
+        pos = self.normalize(pos,False)
+        terms = [t.strip() for t in sop.split(" + ")]
+        return terms
 
     def add_bar(self, var):
         """
@@ -459,8 +473,8 @@ class bool_quiz:
     
         return result
 
-            
-    def draw_logigram(self, sop, function_name = "F"):
+    # deprecated
+    def draw_logigram2(self, sop, function_name = "F"):
         """ draw a logigram """
         varnames = {
             "A":self.variables[0],
@@ -470,8 +484,8 @@ class bool_quiz:
         }
         lg = logigram.logigram(varnames)
         return lg.draw_logigram(sop, function_name)
-    
-    def draw_logigram_nand_nor(self, sop, function_name = "F", method="NAND"):
+    # deprecated    
+    def draw_logigram_nand_nor2(self, sop, function_name = "F", method="NAND"):
         """ draw a logigram """
         varnames = {
             "A":self.variables[0],
@@ -496,7 +510,8 @@ class bool_quiz:
             lggrm = lggrm.replace("(notz.input)", "(notz.input 1)")
             lggrm = lggrm.replace("(notw.input)", "(notw.input 1)")
         return lggrm
-    def draw_logigram_list(self, sop_list, function_namelist = ["F",]):
+    # deprecated        
+    def draw_logigram_list2(self, sop_list, function_namelist = ["F",]):
         """ draw a logigram """
         varnames = {
             "A":self.variables[0],

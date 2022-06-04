@@ -22,6 +22,7 @@
 #  
 #  
 from . import test_format
+from . import test_format_html
 from . import test_format_tex
 class test_format_factory:
     
@@ -31,8 +32,12 @@ class test_format_factory:
     def factory(typef=""):
         """ create a factory for format"""
         #~ print("TypeF", typef)
-        if typef == "latex" or typef =="tex":
+        if typef.lower()== "latex" or typef.lower() =="tex":
             return test_format_tex.test_format_tex()
+        elif typef.lower()== "text":
+            return test_format.test_format()
+        elif typef.lower()== "html":
+            return test_format_html.test_format_html()
         else:
             return test_format.test_format()
 def main(args):

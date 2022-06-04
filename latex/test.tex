@@ -1,100 +1,505 @@
 
 \section{Question}
 
+
 \paragraph{Q1}
 
-Simplifier l'expression suivante par les proprietés algébreiques 
 
-S = $ \bar a.\bar c + \bar a.b.\bar d + b.\bar c.\bar d + \bar b.\bar c.d + a.\bar b.c.\bar d  +  a.\bar c.d + a.\bar b.\bar c  +  a.b.c.\bar d + \bar a.b.c.d + a.\bar b.\bar c.\bar d  +  b.c.d + a.\bar b.c.\bar d + \bar a.\bar b.\bar c.d $
+P10(A, B, C, D)= $[10, 11, 12, 13, 15]$
 
-\paragraph{Q2}
+DONT CARE= $[4, 9, 14]$
 
-Compléter le chronogramme suivant:
+P5(A, B, C, D)= $[5, 6, 7, 8, 15]$
 
- 
+DONT CARE= $[4, 9, 14]$
 
+P2(A, B, C, D)= $[2, 3, 7, 8, 12, 13]$
 
-\scalebox{2}{ % scale
-        
-\begin{tikztimingtable}
-%[timing/slope=.0, timing/draw grid]
-[timing/slope=.0,  timing/wscale=1]
-% horloge signal
-$H$ & [timing/c/rising arrows] C 20{1C}\\
-$J$ &  4.75L 4H 2L 1H 4L 4H 0.25H\\
-$K$ &  1.5L 2H 1L 1H 2L 3H 2.5L 3H 0.5L 3.5H\\
-$Q$ &  1L\\
-$Q0'$ &  1H\\
-$Q1$ &  1L\\
-\extracode
-\begin{scope}[gray,semitransparent,densely dotted,thin]
-\horlines{}
-\vertlines{0}
-\end{scope}
-\begin{scope}[red,semitransparent,densely dotted,thin]
-\vertlines{1,3,...,\twidth}
-\end{scope}
-\end{tikztimingtable}
+DONT CARE= $[4, 9, 14]$
 
-        } %scale 
+P1(A, B, C, D)= $[1, 3, 6, 8, 11, 13]$
+
+DONT CARE= $[4, 9, 14]$
 
 
-\hrule width 1\linewidth\pagebreak
+
+\hrule width 1\linewidth
+\pagebreak
+
 \subsection{Correction}
 
+
 \paragraph{Q1}
 
-Simplifier l'expression suivante
+\begin{enumerate}
+\item Définition des entrées et des sorties \aRL{تعريف المداخل والمخارج}
 
-S = $ \bar a.\bar c + \bar a.b.\bar d + b.\bar c.\bar d + \bar b.\bar c.d + a.\bar b.c.\bar d  +  a.\bar c.d + a.\bar b.\bar c  +  a.b.c.\bar d + \bar a.b.c.d + a.\bar b.\bar c.\bar d  +  b.c.d + a.\bar b.c.\bar d + \bar a.\bar b.\bar c.d $
+\begin{itemize}
+\item Les entrées \aRL{المداخل}:
 
- = $ b + \bar c + a.\bar d $
+\begin{itemize}
+\item A: \qquad 'on' noté 1 \qquad 'off' noté 0
+ 
+
+\item B: \qquad 'on' noté 1 \qquad 'off' noté 0
+ 
+
+\item C: \qquad 'on' noté 1 \qquad 'off' noté 0
+ 
+
+\item D: \qquad 'on' noté 1 \qquad 'off' noté 0
+ 
+
+\end{itemize}
+\item Les sorties \aRL{المخارج}
+
+\begin{itemize}
+\item P10: \qquad 'on' noté 1\qquad 'off' noté  0
 
 
-Karnough map
+\item P5: \qquad 'on' noté 1\qquad 'off' noté  0
+
+
+\item P2: \qquad 'on' noté 1\qquad 'off' noté  0
+
+
+\item P1: \qquad 'on' noté 1\qquad 'off' noté  0
+
+
+\end{itemize}
+\end{itemize}
+\item Table de vérité \aRL{جدول الحقيقة}
+
+%\begin{table}
+
+        \begin{tabular}{|c|c|c|c|c||c|c|c|c|}
+
+    \toprule
+
+        N° &A & B & C & D & P10 & P5 & P2 & P1\\ \midrule
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 1\\
+2 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0\\
+3 & 0 & 0 & 1 & 1 & 0 & 0 & 1 & 1\\
+\midrule
+4 & 0 & 1 & 0 & 0 & X & X & X & X\\
+5 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 0\\
+6 & 0 & 1 & 1 & 0 & 0 & 1 & 0 & 1\\
+7 & 0 & 1 & 1 & 1 & 0 & 1 & 1 & 0\\
+\midrule
+8 & 1 & 0 & 0 & 0 & 0 & 1 & 1 & 1\\
+9 & 1 & 0 & 0 & 1 & X & X & X & X\\
+10 & 1 & 0 & 1 & 0 & 1 & 0 & 0 & 0\\
+11 & 1 & 0 & 1 & 1 & 1 & 0 & 0 & 1\\
+\midrule
+12 & 1 & 1 & 0 & 0 & 1 & 0 & 1 & 0\\
+13 & 1 & 1 & 0 & 1 & 1 & 0 & 1 & 1\\
+14 & 1 & 1 & 1 & 0 & X & X & X & X\\
+15 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 0\\
+\bottomrule
+
+        \end{tabular}
+
+        %%\end{table}
+
+        
+\item Les formes canoniques \aRL{الأشكال القانونية}
+
+\begin{itemize}
+\item La première forme canonique: \aRL{الشكل القانوني الأول} 
+
+
+
+\begin{itemize}
+\item P10(A, B, C, D) = $\sum A.\bar B.C.\bar D + A.\bar B.C.D + A.B.\bar C.\bar D + A.B.\bar C.D + A.B.C.D$ 
+
+
+\item P5(A, B, C, D) = $\sum \bar A.B.\bar C.D + \bar A.B.C.\bar D + \bar A.B.C.D + A.\bar B.\bar C.\bar D + A.B.C.D$ 
+
+
+\item P2(A, B, C, D) = $\sum \bar A.\bar B.C.\bar D + \bar A.\bar B.C.D + \bar A.B.C.D + A.\bar B.\bar C.\bar D + A.B.\bar C.\bar D + A.B.\bar C.D$ 
+
+
+\item P1(A, B, C, D) = $\sum \bar A.\bar B.\bar C.D + \bar A.\bar B.C.D + \bar A.B.C.\bar D + A.\bar B.\bar C.\bar D + A.\bar B.C.D + A.B.\bar C.D$ 
+
+
+\end{itemize}
+\item La deuxième forme canonique: \aRL{الشكل القانوني الثاني} 
+
+
+
+\begin{itemize}
+\item P10(A, B, C, D) = $\prod (A+B+C+D) . (A+B+C+\bar D) . (A+B+\bar C+D) . (A+B+\bar C+\bar D) . (A+\bar B+C+D) . (A+\bar B+C+\bar D) . (A+\bar B+\bar C+D) . (A+\bar B+\bar C+\bar D) . (\bar A+B+C+D) . (\bar A+B+C+\bar D) . (\bar A+\bar B+\bar C+D)$ 
+
+
+\item P5(A, B, C, D) = $\prod (A+B+C+D) . (A+B+C+\bar D) . (A+B+\bar C+D) . (A+B+\bar C+\bar D) . (A+\bar B+C+D) . (\bar A+B+C+\bar D) . (\bar A+B+\bar C+D) . (\bar A+B+\bar C+\bar D) . (\bar A+\bar B+C+D) . (\bar A+\bar B+C+\bar D) . (\bar A+\bar B+\bar C+D)$ 
+
+
+\item P2(A, B, C, D) = $\prod (A+B+C+D) . (A+B+C+\bar D) . (A+\bar B+C+D) . (A+\bar B+C+\bar D) . (A+\bar B+\bar C+D) . (\bar A+B+C+\bar D) . (\bar A+B+\bar C+D) . (\bar A+B+\bar C+\bar D) . (\bar A+\bar B+\bar C+D) . (\bar A+\bar B+\bar C+\bar D)$ 
+
+
+\item P1(A, B, C, D) = $\prod (A+B+C+D) . (A+B+\bar C+D) . (A+\bar B+C+D) . (A+\bar B+C+\bar D) . (A+\bar B+\bar C+\bar D) . (\bar A+B+C+\bar D) . (\bar A+B+\bar C+D) . (\bar A+\bar B+C+D) . (\bar A+\bar B+\bar C+D) . (\bar A+\bar B+\bar C+\bar D)$ 
+
+
+\end{itemize}
+\item La première forme canonique numérique; \aRL{الشكل القانوني الرقمي الأول} 
+
+
+
+\begin{itemize}
+\item P10(A, B, C, D) = $\sum [10, 11, 12, 13, 15]$ 
+
+
+\item P5(A, B, C, D) = $\sum [5, 6, 7, 8, 15]$ 
+
+
+\item P2(A, B, C, D) = $\sum [2, 3, 7, 8, 12, 13]$ 
+
+
+\item P1(A, B, C, D) = $\sum [1, 3, 6, 8, 11, 13]$ 
+
+
+\end{itemize}
+\item La deuxième forme canonique numérique;  \aRL{الشكل القانوني الرقمي الثاني} 
+
+
+
+\begin{itemize}
+\item P10(A, B, C, D) = $\prod [0, 1, 2, 3, 5, 6, 7, 8]$ 
+
+
+\item P5(A, B, C, D) = $\prod [0, 1, 2, 3, 10, 11, 12, 13]$ 
+
+
+\item P2(A, B, C, D) = $\prod [0, 1, 5, 6, 10, 11, 15]$ 
+
+
+\item P1(A, B, C, D) = $\prod [0, 2, 5, 7, 10, 12, 15]$ 
+
+
+\end{itemize}
+\end{itemize}
+\item Tableaux de Karnough \hfill\aRL{مخطط كارنوف}
+
+\begin{itemize}
+\begin{minipage}{.5\textwidth}
+
+\item La fonction  P10 \aRL{الدالة}
+
+
+
 \begin{karnaugh-map}[4][4][1][CD][AB]
-          \minterms{0, 1, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15}
-          \maxterms{2, 3, 11}
+          \minterms{10, 11, 12, 13, 15}
+          \maxterms{0, 1, 2, 3, 5, 6, 7, 8}
         %\autoterms[0]
-         \terms{}{X}
+         \terms{4, 9, 14}{X}
         % simplification
-        \implicant{4}{14}
-\implicant{0}{9}
-\implicantedge{12}{8}{14}{10}
+        \implicant{12}{14}
+\implicant{15}{10}
           %\implicant{5}{15}
           %\implicantedge{8}{8}{10}{10}
           %\implicantedge{8}{8}{10}{10}[8,10]
         \end{karnaugh-map}
+\textbf{La forme simplifiée \aRL{الشكل المبسط}} 
+
+ P10 = $ a.b + a.c $
 
 
-\paragraph{Q2}
+\end{minipage}
 
-Chronogramme
+\begin{minipage}{.5\textwidth}
+
+\item La fonction  P5 \aRL{الدالة}
 
 
 
-        \scalebox{2}{ % scale
-        
-\begin{tikztimingtable}
-%[timing/slope=.0, timing/draw grid]
-[timing/slope=.0,  timing/wscale=1, scale=2.25]
-% horloge signal
-$H$ & [timing/c/rising arrows] C 20{1C}\\
-$J$ &  4.75L 4H 2L 1H 4L 4H 0.25H\\
-$K$ &  1.5L 2H 1L 1H 2L 3H 2.5L 3H 0.5L 3.5H\\
-$Q$ &  1L 2L 2H 2L 2H 2H 2H 2H 2H 2L 2H\\
-$Q0'$ &  1H\\
-$Q1$ &  1L\\
-\extracode
-\begin{scope}[gray,semitransparent,densely dotted,thin]
-\horlines{}
-\vertlines{0}
-\end{scope}
-\begin{scope}[red,semitransparent,densely dotted,thin]
-\vertlines{1,3,...,\twidth}
-\end{scope}
-\end{tikztimingtable}
+\begin{karnaugh-map}[4][4][1][CD][AB]
+          \minterms{5, 6, 7, 8, 15}
+          \maxterms{0, 1, 2, 3, 10, 11, 12, 13}
+        %\autoterms[0]
+         \terms{4, 9, 14}{X}
+        % simplification
+        \implicant{7}{14}
+\implicant{4}{6}
+\implicant{8}{9}
+          %\implicant{5}{15}
+          %\implicantedge{8}{8}{10}{10}
+          %\implicantedge{8}{8}{10}{10}[8,10]
+        \end{karnaugh-map}
+\textbf{La forme simplifiée \aRL{الشكل المبسط}} 
 
-        } %scale
+ P5 = $ b.c + \bar a.b + a.\bar b.\bar c $
 
+
+\end{minipage}
+
+\begin{minipage}{.5\textwidth}
+
+\item La fonction  P2 \aRL{الدالة}
+
+
+
+\begin{karnaugh-map}[4][4][1][CD][AB]
+          \minterms{2, 3, 7, 8, 12, 13}
+          \maxterms{0, 1, 5, 6, 10, 11, 15}
+        %\autoterms[0]
+         \terms{4, 9, 14}{X}
+        % simplification
+        \implicant{12}{9}
+\implicant{3}{7}
+\implicant{3}{2}
+          %\implicant{5}{15}
+          %\implicantedge{8}{8}{10}{10}
+          %\implicantedge{8}{8}{10}{10}[8,10]
+        \end{karnaugh-map}
+\textbf{La forme simplifiée \aRL{الشكل المبسط}} 
+
+ P2 = $ a.\bar c + \bar a.c.d + \bar a.\bar b.c $
+
+
+\end{minipage}
+
+\begin{minipage}{.5\textwidth}
+
+\item La fonction  P1 \aRL{الدالة}
+
+
+
+\begin{karnaugh-map}[4][4][1][CD][AB]
+          \minterms{1, 3, 6, 8, 11, 13}
+          \maxterms{0, 2, 5, 7, 10, 12, 15}
+        %\autoterms[0]
+         \terms{4, 9, 14}{X}
+        % simplification
+        \implicantedge{1}{3}{9}{11}
+\implicant{13}{9}
+\implicant{8}{9}
+\implicantedge{4}{4}{6}{6}
+          %\implicant{5}{15}
+          %\implicantedge{8}{8}{10}{10}
+          %\implicantedge{8}{8}{10}{10}[8,10]
+        \end{karnaugh-map}
+\textbf{La forme simplifiée \aRL{الشكل المبسط}} 
+
+ P1 = $ \bar b.d + a.\bar c.d + a.\bar b.\bar c + \bar a.b.\bar d $
+
+
+\end{minipage}
+
+\end{itemize}
+ Les formes simplifiées 
+
+\begin{itemize}
+\item P10(A, B, C, D) = $ a.b + a.c $
+
+
+
+\item P5(A, B, C, D) = $ b.c + \bar a.b + a.\bar b.\bar c $
+
+
+
+\item P2(A, B, C, D) = $ a.\bar c + \bar a.c.d + \bar a.\bar b.c $
+
+
+
+\item P1(A, B, C, D) = $ \bar b.d + a.\bar c.d + a.\bar b.\bar c + \bar a.b.\bar d $
+
+
+
+\end{itemize}
+\item Logigrammes \aRL{المخططات المنطقية }\\
+
+ \label{logigrammefonctionP10-P5-P2-P1}
+
+ \begin{tikzpicture}
+
+ %%Paramaters
+%% var position, can be modified
+\def\varPos{15.84}
+\node (x) at (0, \varPos) {$A$};
+\node (y) at (0.5, \varPos) {$B$};
+\node (z) at (1, \varPos) {$C$};
+\node (w) at (1.5, \varPos) {$D$};
+
+            \node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.6)$) (notx) {};
+            \draw ($(x)+(0,-1ex)$) -| (notx.input); 
+            \node[not gate US, draw, rotate=270] at ($(y) + (0.25, -0.6)$) (noty) {};
+            \draw ($(y)+(0,-1ex)$) -| (noty.input); 
+            \node[not gate US, draw, rotate=270] at ($(z) + (0.25, -0.6)$) (notz) {};
+            \draw ($(z)+(0,-1ex)$) -| (notz.input);
+            \node[not gate US, draw, rotate=270] at ($(w) + (0.25, -0.6)$) (notw) {};
+            \draw ($(w)+(0,-1ex)$) -| (notw.input);
+         
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 1.20) (xandy1) {};\draw (xandy1.output) -- node[above]{\scriptsize $ \bar B.D $} ($(xandy1) + (1.8, 0)$);
+                % Y
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy1.input 2);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy1.input 4);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 2.40) (xandy2) {};\draw (xandy2.output) -- node[above]{\scriptsize $ A.\bar C.D $} ($(xandy2) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy2.input 1);
+% Z
+\draw [line width=0.25mm,   red] (notz.output)
+            -- ([xshift=0cm]notz.output) |- (xandy2.input 3);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy2.input 4);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 3.60) (xandy3) {};\draw (xandy3.output) -- node[above]{\scriptsize $ A.\bar B.\bar C $} ($(xandy3) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy3.input 1);
+% Y
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy3.input 2);
+% Z
+\draw [line width=0.25mm,   red] (notz.output)
+            -- ([xshift=0cm]notz.output) |- (xandy3.input 3);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 4.80) (xandy4) {};\draw (xandy4.output) -- node[above]{\scriptsize $ \bar A.B.\bar D $} ($(xandy4) + (1.8, 0)$);
+                % X
+\draw [line width=0.25mm,   red] (notx.output)
+            -- ([xshift=0cm]notx.output) |- (xandy4.input 1);
+% Y
+\draw ($(y) + (0, -1ex)$)|- (xandy4.input 2);
+% W
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy4.input 4);
+\node[or gate US, draw, rotate=0, logic gate inputs=nnnnn] at (6, 3.00) (xory1) {};
+
+
+            \draw (xory1.output) -- node[above]{\scriptsize $P1$} ($(xory1.east) + (+3ex, 0)$);
+
+
+            \draw (xandy1.output) -- ([xshift=1.60cm]xandy1.output) |- (xory1.input 4);
+
+\draw (xandy2.output) -- ([xshift=1.55cm]xandy2.output) |- (xory1.input 3);
+
+\draw (xandy3.output) -- ([xshift=1.50cm]xandy3.output) |- (xory1.input 2);
+
+\draw (xandy4.output) -- ([xshift=1.55cm]xandy4.output) |- (xory1.input 1);
+
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 6.00) (xandy5) {};\draw (xandy5.output) -- node[above]{\scriptsize $ A.\bar C $} ($(xandy5) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy5.input 1);
+% Z
+\draw [line width=0.25mm,   red] (notz.output)
+            -- ([xshift=0cm]notz.output) |- (xandy5.input 3);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 7.20) (xandy6) {};\draw (xandy6.output) -- node[above]{\scriptsize $ \bar A.C.D $} ($(xandy6) + (1.8, 0)$);
+                % X
+\draw [line width=0.25mm,   red] (notx.output)
+            -- ([xshift=0cm]notx.output) |- (xandy6.input 1);
+% Z
+\draw ($(z) + (0, -1ex)$)|- (xandy6.input 3);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy6.input 4);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 8.40) (xandy7) {};\draw (xandy7.output) -- node[above]{\scriptsize $ \bar A.\bar B.C $} ($(xandy7) + (1.8, 0)$);
+                % X
+\draw [line width=0.25mm,   red] (notx.output)
+            -- ([xshift=0cm]notx.output) |- (xandy7.input 1);
+% Y
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy7.input 2);
+% Z
+\draw ($(z) + (0, -1ex)$)|- (xandy7.input 3);
+\node[or gate US, draw, rotate=0, logic gate inputs=nnnn] at (6, 7.20) (xory5) {};
+
+
+            \draw (xory5.output) -- node[above]{\scriptsize $P2$} ($(xory5.east) + (+3ex, 0)$);
+
+
+            \draw (xandy5.output) -- ([xshift=1.60cm]xandy5.output) |- (xory5.input 3);
+
+\draw (xandy6.output) -- ([xshift=1.55cm]xandy6.output) |- (xory5.input 2);
+
+\draw (xandy7.output) -- ([xshift=1.60cm]xandy7.output) |- (xory5.input 1);
+
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 9.60) (xandy8) {};\draw (xandy8.output) -- node[above]{\scriptsize $ B.C $} ($(xandy8) + (1.8, 0)$);
+                % Y
+\draw ($(y) + (0, -1ex)$)|- (xandy8.input 2);
+% Z
+\draw ($(z) + (0, -1ex)$)|- (xandy8.input 3);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 10.80) (xandy9) {};\draw (xandy9.output) -- node[above]{\scriptsize $ \bar A.B $} ($(xandy9) + (1.8, 0)$);
+                % X
+\draw [line width=0.25mm,   red] (notx.output)
+            -- ([xshift=0cm]notx.output) |- (xandy9.input 1);
+% Y
+\draw ($(y) + (0, -1ex)$)|- (xandy9.input 2);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 12.00) (xandy10) {};\draw (xandy10.output) -- node[above]{\scriptsize $ A.\bar B.\bar C $} ($(xandy10) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy10.input 1);
+% Y
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy10.input 2);
+% Z
+\draw [line width=0.25mm,   red] (notz.output)
+            -- ([xshift=0cm]notz.output) |- (xandy10.input 3);
+\node[or gate US, draw, rotate=0, logic gate inputs=nnnn] at (6, 10.80) (xory8) {};
+
+
+            \draw (xory8.output) -- node[above]{\scriptsize $P5$} ($(xory8.east) + (+3ex, 0)$);
+
+
+            \draw (xandy8.output) -- ([xshift=1.60cm]xandy8.output) |- (xory8.input 3);
+
+\draw (xandy9.output) -- ([xshift=1.55cm]xandy9.output) |- (xory8.input 2);
+
+\draw (xandy10.output) -- ([xshift=1.60cm]xandy10.output) |- (xory8.input 1);
+
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 13.20) (xandy11) {};\draw (xandy11.output) -- node[above]{\scriptsize $ A.B $} ($(xandy11) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy11.input 1);
+% Y
+\draw ($(y) + (0, -1ex)$)|- (xandy11.input 2);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 14.40) (xandy12) {};\draw (xandy12.output) -- node[above]{\scriptsize $ A.C $} ($(xandy12) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy12.input 1);
+% Z
+\draw ($(z) + (0, -1ex)$)|- (xandy12.input 3);
+\node[or gate US, draw, rotate=0, logic gate inputs=nnn] at (6, 13.80) (xory11) {};
+
+
+            \draw (xory11.output) -- node[above]{\scriptsize $P10$} ($(xory11.east) + (+3ex, 0)$);
+
+
+            \draw (xandy11.output) -- ([xshift=1.60cm]xandy11.output) |- (xory11.input 2);
+
+\draw (xandy12.output) -- ([xshift=1.55cm]xandy12.output) |- (xory11.input 1);
+
+ \end{tikzpicture}
+
+
+\end{enumerate}
 \pagebreak

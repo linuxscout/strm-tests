@@ -62,3 +62,13 @@ minterms:
 run:
 	python3 strm_tests_webviewer.py 
 
+
+test1t:test_id=test1
+test2t:test_id=test2
+test3t:test_id=test3
+test4t:test_id=test4
+test5t:test_id=test5
+test6t:test_id=test6
+test8t:test_id=test8
+test1t test2t test3t test4t test5t test6t test8t:
+	python3 generate_tests.py -f config/quiz2.conf -d text -t "$(test_id)" -o tests/output/test.text
