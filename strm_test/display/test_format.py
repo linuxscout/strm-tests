@@ -30,6 +30,8 @@ class test_format:
     def __init__(self, formatting=""):
         self.formatting = ""
         self.output = []
+        self.tests = []
+        self.newline = "\n"
         #~ print("test_format")        
     def header(self,):
         """
@@ -51,6 +53,11 @@ class test_format:
         """
         """
         self.output = []        
+    def add_test(self, test_question_list):
+        """
+        """
+        self.tests.append(test_question_list)
+
     def add_section(self, text, trans ="", level=1):
         """
         """
@@ -68,36 +75,55 @@ class test_format:
         
     def add_verbatim(self, text, trans =""):    
         
-        self.output +="\n```\n"+ text + "\n```\n" + trans
+        newtext  ="\n```\n"+ text + "\n```\n" + trans
+        self.output.append(newtext)
+        return newtext        
 
+    def open_question(self, question_type):
+        newtext =     ''
+        self.output.append(newtext)
+        return newtext
+        
+    def close_question(self, question_type):
+        newtext =     ''
+        self.output.append(newtext)
+        return newtext
+        
     def open_enumerate(self):
         newtext =     ''
         self.output.append(newtext)
         return newtext
+        
     def open_itemize(self):
         newtext =     ''
         self.output.append(newtext)
         return newtext
+        
     def close_enumerate(self):
         newtext =     ''
         self.output.append(newtext)
         return newtext
+        
     def add_item(self, text):
         newtext =     ' -  '+  text +"\n"
         self.output.append(newtext)
         return newtext
+        
     def close_itemize(self):
         newtext =     ''
         self.output.append(newtext)
         return newtext
+        
     def open_minipage(self):
         newtext =     ''
         self.output.append(newtext)
         return newtext
+        
     def close_minipage(self):
         newtext =     ''
         self.output.append(newtext)
-        return newtext        
+        return newtext   
+             
     def set_save(self):
         """
         Save added string to output
@@ -113,7 +139,36 @@ class test_format:
     def display(self,):
         """
         """
-        return "\n".join(self.output)
+        self.output = []
+        # tests is a list
+        # test is a list of dict
+        self.add_section("Question", level=1)        
+        for test in self.tests: 
+            # print only test questions
+            # question is a dict
+            # ~ id":q_no,
+            # ~ "question":q,
+            # ~ "arabic":ar,
+            # ~ "data":data,
+            # ~ "answer":ans,  
+            for question in test:
+                # print question
+                self.add_section(question.get("id","ID"),level=4)
+                self.add_text(question.get("question","QUESTION"),question.get("arabic","ARABIC"))
+                self.add_text(question.get("data","DATA"))
+            self.add_hrule()
+            self.add_newpage()
+            self.add_section("Correction",level=2)                
+            # print correction
+            # print section Correction
+            # print page break
+            for question in test:
+                self.add_section(question.get("id","ID"),level=4)
+                self.add_text(question.get("answer","ANSWER"))
+            self.add_newpage() 
+
+        return self.newline.join(self.output)
+        
     def add_formula(self, text, trans=""): 
         
         newtext = ' [%s]'%text
@@ -130,10 +185,12 @@ class test_format:
         newtext= '\n-------------------------'
         self.output.append(newtext)
         return newtext
+        
     def add_newpage(self):    
         newtext= '\n\n'
         self.output.append(newtext)
-        return newtext        
+        return newtext    
+            
     def reset(self,):
         self.output = []
 

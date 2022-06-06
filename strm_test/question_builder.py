@@ -43,9 +43,9 @@ class Question_Builder:
         arabic = u"مثل العدد الآتي حسب المعيار IEEE-754 32 bits"
         data ="%0.3f"%x
         answer = "Representer sous la norme IEEE-754 32 bits le nombre suivant : %0.3f\n"%x
-        answer += '\n\\begin{verbatim}'
-        answer += self.vf.IEEE754(x, True)
-        answer +='\n\\end{verbatim}'      
+        # ~ answer += '\n\\begin{verbatim}'
+        answer += self.formater.add_verbatim(self.vf.IEEE754(x, True))
+        # ~ answer +='\n\\end{verbatim}'      
         return question, arabic, data, answer
         
     def question_cp(self,):
@@ -140,22 +140,22 @@ class Question_Builder:
         for i in range(nb):
             minterms_table.append(self.bq.rand_funct())
             cnf, dnf = self.bq.form_canonique(minterms_table[i])    
-            data += "F%d(a, b, c, d) = $%s$\n\n"%(i,self.formater.normalize_formula(dnf))
-            data +=  "F%d(a, b, c, d) = $\\varSigma(%s)$\n\n"%(i,repr(minterms_table[i]))
+            data += self.formater.add_formula("F%d(a, b, c, d) = $%s$\n\n"%(i,self.formater.normalize_formula(dnf)))
+            data +=  self.formater.add_formula("F%d(a, b, c, d) = $\\sum(%s)$\n\n"%(i,repr(minterms_table[i])))
 
         answer = u"Simplifier les fonctions suivantes\n\n"
 
         for i in range(nb):
             cnf, dnf = self.bq.form_canonique(minterms_table[i])    
-            answer +=  "F%d(a, b, c, d) = $%s$\n\n"%(i,self.formater.normalize_formula(dnf))
-            answer +=  "F%d(a, b, c, d) = $\\varSigma(%s)$\n\n"%(i,repr(minterms_table[i]))
+            answer +=  self.formater.add_formula("F%d(a, b, c, d) = $%s$\n\n"%(i,dnf))
+            answer +=  self.formater.add_formula("F%d(a, b, c, d) = $\\sum(%s)$\n\n"%(i,repr(minterms_table[i])))
             # ~ answer += self.bq.draw_map(minterms_table[i], latex=True, correct=True)
             simply_terms= self.bq.simplify_map(minterms_table[i])
             answer += self.formater.draw_map(minterms_table[i], correct=True,
                        variables = self.bq.variables,
                        simply_terms = simply_terms) 
             sop, pos =self.bq.simplify(minterms_table[i])    
-            answer += "Simplified Sum of products : $%s$\n\n"%self.formater.normalize_formula(sop)
+            answer += self.formater.add_formula("Simplified Sum of products : $%s$\n\n"%sop)
 
         return question, arabic, data, answer
         
@@ -174,14 +174,14 @@ class Question_Builder:
         # answer
         answer_formater = self.answer_formater
         answer_formater.reset()
-        answer = "f(a,b,c,d)=$%s$\n"%self.formater.normalize_formula(sop_quest)
-        answer += "f(a,b,c,D)=$ \sum %s $ \n"%self.formater.normalize_formula(sop_quest).strip()
+        answer = self.formater.add_formula("f(a,b,c,d)=$%s$\n"%sop_quest)
+        answer += self.formater.add_formula("f(a,b,c,d)=$ \\sum(%s) $ \n"%sop_quest.strip())
         answer +="\n"
         # ~ answer += self.bq.truth_table(minterms, latex =True)
         answer += self.formater.truth_table(minterms, dontcares=[], variables=self.bq.variables, vars_outputs=self.bq.vars_outputs )
         sop, pos = self.bq.simplify(minterms)
-        answer += "\nSum of products \n f(a,b,c,d) = $%s$\n"%self.formater.normalize_formula(dnf)
-        answer +="\nProduct of sums \n f(a,b,c,d) = $%s$\n"%self.formater.normalize_formula(cnf)
+        answer += self.formater.add_formula("\nSum of products \n f(a,b,c,d) = \\sum($%s$)\n"%dnf)
+        answer +=self.formater.add_formula("\nProduct of sums \n f(a,b,c,d) = \\prod($%s$)\n"%cnf)
         answer +="\nKarnough map\n"
         # ~ answer += self.bq.draw_map(minterms, latex=True, correct=True)
         simply_terms= self.bq.simplify_map(minterms)
@@ -189,8 +189,8 @@ class Question_Builder:
                 variables = self.bq.variables,
                 simply_terms= simply_terms)        
         answer +="\n\n"
-        answer += "Simplified Sum of products: $%s$\n"%self.formater.normalize_formula(sop)
-        answer += "\nSimplified Product of sums: $%s$\n"%self.formater.normalize_formula(pos)
+        answer += self.formater.add_formula("Simplified Sum of products: $%s$\n"%sop)
+        answer += self.formater.add_formula("\nSimplified Product of sums: $%s$\n"%pos)
 
         answer += """\paragraph{Logigramme} de la fonction\\\\
         %%\missingfigure[figwidth=6cm]{Logigramme}\n\n"""
@@ -237,7 +237,7 @@ class Question_Builder:
         , self.formater.draw_logigram(sop, function_name=output_names[0], variables=var_names)
 
         ]
-        answer  = "\nataha".join(answer_items)
+        answer  = self.formater.newline.join(answer_items)
         return question, arabic, data, answer 
                
     def question_static_nand_exp(self, minterms, var_names=["A","B","C","D"], output_names=["S0","S1","S2","S3"], dont_care=[] , method="nand"):
@@ -253,7 +253,7 @@ class Question_Builder:
         simply_terms= self.bq.simplify_map(minterms, dont_care)
         # answer
         answer_items = [fname + " =$%s$\n"%str(minterms)
-        , fname + " =$ \sum %s $ \n"%str(minterms)
+        , fname + " =$ \\sum(%s) $ \n"%str(minterms)
         ,"\n"
         # ~ , self.bq.truth_table(minterms, latex =True)
 
@@ -270,13 +270,13 @@ class Question_Builder:
         , "\nSimplified Product of sums: $%s$\n"%self.formater.normalize_formula(pos)
         # Generate NAND or NOR form
         , "\n%s"%method.upper() 
-        , " first simplified from: %s\n"%self.bq.normalize_nand_nor(sop,"sop", method)
+        , " first simplified from: %s\n"%self.formater.add_formula(self.bq.normalize_nand_nor(sop,"sop", method))
         , "\n%s"%method.upper()
-        , " second simplified from: %s\n"%self.bq.normalize_nand_nor(pos, "pos", method)
+        , " second simplified from: %s\n"%self.formater.add_formula(self.bq.normalize_nand_nor(pos, "pos", method))
         , "\n%s"%method.upper() 
-        , " first from: %s\n"%self.bq.normalize_nand_nor(dnf,"sop", method)
+        , " first from: %s\n"%self.formater.add_formula(self.bq.normalize_nand_nor(dnf,"sop", method))
         , "\n%s"%method.upper()
-        , " second from: %s\n"%self.bq.normalize_nand_nor(cnf, "pos", method)
+        , " second from: %s\n"%self.formater.add_formula(self.bq.normalize_nand_nor(cnf, "pos", method))
 
         , self.formater.add_section("Logigramme de la fonction", level=4)
 
@@ -285,7 +285,7 @@ class Question_Builder:
         , self.formater.draw_logigram_nand_nor(sop, function_name=output_names[0],
             method=method, variables = var_names)
         ]
-        answer = "\n".join(answer_items)
+        answer = self.formater.newline.join(answer_items)
         return question, arabic, data, answer        
 
     def question_multi_funct(self, minterms_list, var_names=["A","B","C","D"], output_names=["S0","S1","S2","S3"], dont_care_list=[]):
@@ -465,7 +465,7 @@ class Question_Builder:
         answer_parts.append(lggm) 
         answer_parts.append(self.formater.close_enumerate()) 
         
-        answer =  "\n".join(answer_parts)  
+        answer =  self.formater.newline.join(answer_parts)  
         return question, arabic, data, answer 
         
         

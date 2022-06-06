@@ -30,7 +30,7 @@ from ..bool import logigram
 class test_format_tex(test_format.test_format):
     """ Generate a format for the test """
     def __init__(self, formatting=""):
-
+        test_format.test_format.__init__(self)
         self.formatting = ""
         self.output = [] 
         self.header =""
@@ -82,15 +82,18 @@ class test_format_tex(test_format.test_format):
         return text
         
     def add_verbatim(self, text, trans=""):    
-        self.output.append( '\n\\begin{verbatima}')
-        self.output.append(text)
-        self.output.append('\n\\end{verbatima}')
+        
+        newtext = '\n\\begin{verbatim}'
+        newtext += text
+        newtext += '\n\\end{verbatim}'
+        self.output.append( newtext)
+        return newtext
     
     def add_formula(self, text, trans=""): 
         newtext =    '$$%s$$'%text
         self.output.append(newtext)
         return newtext
-    
+
     def open_enumerate(self):
         newtext =     '\\begin{enumerate}'
         self.output.append(newtext)
@@ -125,12 +128,44 @@ class test_format_tex(test_format.test_format):
         self.output.append('\n\\hrule width 1\linewidth')
     def add_newpage(self):    
         self.output.append('\pagebreak')    
-    def display(self,):
+    def display2(self,):
         """
         """
         # ~ text = self.header
         # ~ text += "\n"+ self.output
         # ~ text += "\n"+ self.footer
+        return "\n".join(self.output)
+
+    def display(self,):
+        """
+        """
+        self.output = []
+        # tests is a list
+        # test is a list of dict
+        self.add_section("Question", level=1)        
+        for test in self.tests: 
+            # print only test questions
+            # question is a dict
+            # ~ id":q_no,
+            # ~ "question":q,
+            # ~ "arabic":ar,
+            # ~ "data":data,
+            # ~ "answer":ans,  
+            for question in test:
+                # print question
+                self.add_section(question.get("id","ID"),level=4)
+                self.add_text(question.get("question","QUESTION"),question.get("arabic","ARABIC"))
+                self.add_text(question.get("data","DATA"))
+            self.add_hrule()
+            self.add_newpage()
+            self.add_section("Correction",level=2)                
+            # print correction
+            # print section Correction
+            # print page break
+            for question in test:
+                self.add_section(question.get("id","ID"),level=4)
+                self.add_text(question.get("answer","ANSWER"))
+            self.add_newpage()                
         return "\n".join(self.output)
         
  

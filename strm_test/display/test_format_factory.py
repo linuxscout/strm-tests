@@ -24,6 +24,7 @@
 from . import test_format
 from . import test_format_html
 from . import test_format_tex
+from . import test_format_json
 class test_format_factory:
     
     def __init__(self,):
@@ -38,6 +39,8 @@ class test_format_factory:
             return test_format.test_format()
         elif typef.lower()== "html":
             return test_format_html.test_format_html()
+        elif typef.lower()== "json":
+            return test_format_json.test_format_json()
         else:
             return test_format.test_format()
 def main(args):

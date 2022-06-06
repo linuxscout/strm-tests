@@ -33,9 +33,7 @@ from . import question_builder
 class test_builder:
     """ Generate the third test """
     def __init__(self, outformat="", config_file =""):
-        # ~ self.qs = question.questionGenerator(latex=True)
-        # ~ self.bq = boolquiz.bool_quiz()
-        # ~ self.vf = ieee754.float_point()
+
         self.qsbuilder = question_builder.Question_Builder(outformat)
         self.formater = test_format_factory.test_format_factory.factory(outformat)
         # if the file is not configured, use default config file
@@ -174,14 +172,47 @@ class test_builder:
             questions_names = random.sample(questions_names, nb)
         # generate question from  command
         questions = [self.get_question(q, args=args) for q in questions_names]
-        for i in range(repeat):
-            for cpt, value in enumerate(questions):
-                q, ar, data, an = value
-                q_no = "Q%d"%(cpt+1)
-                self.formater.add_section(q_no,level=4)
-                self.formater.add_text(q,ar)
-                self.formater.add_text(data)
-            self.formater.add_hrule()
+        # ~ for i in range(repeat): " ignore repeat"
+        test_questions = []
+        for cpt, value in enumerate(questions):
+            q, ar, data, ans = value
+            q_no = "Q%d"%(cpt+1)
+            # ~ self.formater.add_section(q_no,level=4)
+            # ~ self.formater.add_text(q,ar)
+            # ~ self.formater.add_text(data)
+            # ~ self.formater.add_text(ans)
+            item = {"id":q_no,
+            "question":q,
+            "arabic":ar,
+            "data":data,
+            "answer":ans,                
+            }
+            test_questions.append(item)
+        self.formater.add_test(test_questions)           
+        # ~ self.formater.add_hrule()
+        # ~ self.formater.add_newpage()
+        # ~ self.formater.add_section("Correction",level=2)
+        
+        # ~ for cpt, value in enumerate(questions):
+            # ~ q, ar, data, ans = value
+            # ~ q_no = "Q%d"%(cpt+1)
+            # ~ self.formater.add_section(q_no,level=4)
+            # ~ self.formater.add_text(ans)
+
+    def test2(self, questions_names, rand=True, nb=2, repeat=2, args={}):
+        """ generate a test"""
+        if rand:
+            questions_names = random.sample(questions_names, nb)
+        # generate question from  command
+        questions = [self.get_question(q, args=args) for q in questions_names]
+        # ~ for i in range(repeat): " ignore repeat"
+        for cpt, value in enumerate(questions):
+            q, ar, data, an = value
+            q_no = "Q%d"%(cpt+1)
+            self.formater.add_section(q_no,level=4)
+            self.formater.add_text(q,ar)
+            self.formater.add_text(data)
+        self.formater.add_hrule()
         self.formater.add_newpage()
         self.formater.add_section("Correction",level=2)
         
@@ -197,9 +228,13 @@ class test_builder:
         return self.commands
 
     def get_test(self,test_no="test1"):
+        """
+        Generate a test by number according to config file
+        """
+
         randq = False
-        # ~ if not args:
-            # ~ args ={"minterms":[1,2,3]}
+        randq = self.myconfig.random_question
+        nb_questions = self.myconfig.questions_size
         repeat = self.myconfig.repeat
         args ={"minterms":self.myconfig.minterms,
         "var_names": self.myconfig.var_names,
@@ -211,14 +246,17 @@ class test_builder:
         "flip_type":self.myconfig.flip_type,
         "output":self.myconfig.output,
         }
-        # ~ test_config = self.test_commands.get(test_no,[])
-        # ~ test_config = self.get_test_config("test%d"%test_no)
         test_config = self.get_test_config(test_no)
         for test in test_config:
-            self.formater.add_section("Question", level=1)
-            self.test(test, rand=randq, repeat=repeat, args=args)        
-            self.formater.add_newpage()
+            for i in range(nb_questions):
+                self.formater.open_question(test)
+                self.formater.add_section("Question", level=1)
+                self.test(test, rand=randq, repeat=repeat, args=args)        
+                self.formater.add_newpage()
+                self.formater.close_question(test)
         return self.formater.display()
+
+
 
 
 

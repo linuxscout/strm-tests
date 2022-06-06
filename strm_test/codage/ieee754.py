@@ -15,16 +15,24 @@ class float_point:
         return num 
       
     # Function for converting decimal to binary 
-    def float_bin(self, number, places = 3): 
-        whole, dec = str(number).split(".")  
+    def float_bin(self, number, places = 3):
+        try:
+            whole, dec = str(number).split(".")
+        except:
+            whole = number
+            dec=0
         whole = int(whole)  
         dec = int (dec) 
         res = bin(whole).lstrip("0b") + "."
       
         for x in range(places):  
-            whole, dec = str((self.decimal_converter(dec)) * 2).split(".")  
+            try:
+                whole, dec = str((self.decimal_converter(dec)) * 2).split(".")  
+            except:
+                whole = self.decimal_converter(dec) * 2
+                dec = 0
             dec = int(dec)  
-            res += whole    
+            res += str(whole)
         return res  
       
 

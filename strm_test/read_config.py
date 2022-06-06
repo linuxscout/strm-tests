@@ -45,6 +45,8 @@ class read_config:
         self.varlist = {}
         self.synch_type = "rising"
         self.output = "Q"
+        self.random_question = False
+        self.questions_size  =1
         # ~ self.debug = False
         self.read_tests(filename=filename)
 
@@ -64,6 +66,8 @@ class read_config:
         self.quizes = ast.literal_eval(config.get('QUIZES','quizes'))
         self.commands = ast.literal_eval(config.get('QUIZES','commands'))
         self.repeat = ast.literal_eval(config.get('Args','repeat'))
+        self.random_question  = ast.literal_eval(config.get('Args','random'))
+        self.questions_size = ast.literal_eval(config.get('Args','size'))
         self.minterms = ast.literal_eval(config.get('Args','minterms'))
         self.var_names = ast.literal_eval(config.get('Args','vars'))
         self.output_names = ast.literal_eval(config.get('Args','outputs'))
@@ -88,6 +92,8 @@ class read_config:
             print("self.length", self.length)
             print("varlist", self.varlist)
             print("synch_type", self.synch_type)
+            print("size", self.questions_size)
+            print("random", self.random_question)
      
     
     def get_test_config(self, select = ""):

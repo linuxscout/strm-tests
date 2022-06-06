@@ -21,17 +21,20 @@
 #  MA 02110-1301, USA.
 #  
 #  
-
+import itertools
 from . import test_format
+import latex2mathml.converter
 
-class test_format_tex(test_format.test_format):
+
+class test_format_html(test_format.test_format):
     """ Generate a format for the test """
     def __init__(self, formatting=""):
-
+        test_format.test_format.__init__(self)
         self.formatting = ""
-        self.output =""
+        self.output =  []
         self.header =""
         self.footer =""
+        self.newline = "<br/>\n"        
 
    
     def header(self,):
@@ -55,7 +58,41 @@ class test_format_tex(test_format.test_format):
     def reset_output(self):
         """
         """
-        self.output = ""
+        self.output = []
+    def open_enumerate(self):
+        newtext =     '<ol>'
+        self.output.append(newtext)
+        return newtext
+        
+    def open_itemize(self):
+        newtext =     '<ul>'
+        self.output.append(newtext)
+        return newtext
+        
+    def close_enumerate(self):
+        newtext =      '</ol>'
+        self.output.append(newtext)
+        return newtext
+        
+    def add_item(self, text):
+        newtext =     '<li>'+  text +" '</li>'\n"
+        self.output.append(newtext)
+        return newtext
+        
+    def close_itemize(self):
+        newtext =      '</ul>'
+        self.output.append(newtext)
+        return newtext
+        
+    def open_minipage(self):
+        newtext =     ''
+        self.output.append(newtext)
+        return newtext
+        
+    def close_minipage(self):
+        newtext =     ''
+        self.output.append(newtext)
+        return newtext           
         
     def add_section(self, text, trans="", level=1):
         """
@@ -68,33 +105,156 @@ class test_format_tex(test_format.test_format):
             sect = "H3"
         elif level == 4:
             sect = "p"
-        self.output +="\n<%s>%s<%s>\n"%(sect, text,sect)
+        newtext = "\n<%s>%s</%s>\n"%(sect, text,sect)
+        self.output.append(newtext)
+        return newtext
         
     def add_text(self, text, trans=""):
         """
         """
-        self.output +="\n"+ text
+        newtext ="\n"+ text
+        self.output.append(newtext)
+        return newtext        
     def add_verbatim(self, text, trans=""):    
-        self.output += '\n<pre>'
-        self.output +=  text
-        self.output +='\n</pre>'
+        newtext = '\n<pre>'
+        newtext +=  text
+        newtext  +='\n</pre>'
+        
+        self.output.append(newtext)
+        return newtext
     
-    def add_formula(self, text, trans=""):    
-        self.output += '%s'%text
-    
+    def add_formula(self, text, trans=""): 
+        
+        text = self.normalize_formula(text)   
+        newtext= '<math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>%s</mrow></math>'%text
+        self.output.append(newtext)
+        return newtext    
     def add_newline(self):    
-        self.output += '\n'
+        newtext= '\n'
+        self.output.append(newtext)
+        return newtext          
     def add_hrule(self):    
-        self.output += '\n<hr/>'
+        newtext= '\n<hr/>'
+        self.output.append(newtext)
+        return newtext          
     def add_newpage(self):    
-        self.output += ''    
-    def display(self,):
-        """
-        """
-        text = self.header
-        text += "\n"+ self.output
-        text += "\n"+ self.footer
-        return self.output
+        newtext= '' 
+        self.output.append(newtext)
+        return newtext  
+    # ~ def display(self,):
+        # ~ """
+        # ~ """
+        # ~ return "\n".join(self.output)
+        # ~ return repr(self.tests)
+    def truth_table(self, minterms, dontcares=[], variables=[], vars_outputs = []): 
+        """ print truth table """
+        # ~ variables = self.variables
+        cases = itertools.product([0,1],[0,1],[0,1],[0,1])
+        # ~ text = "N°\t" # line number
+        # ~ text = "\t".join(variables)
+        # ~ text = "\t"+ vars_outputs[0]
+        
+        text = "<table border='1'>\n"
+        text += "<tr><th>N°</th><th>"  # line number
+        text += "</th><th>".join(variables) + "</th><th>"+ vars_outputs[0]+"</th>" 
+        text += "</tr>\n"      
+        
+           
+        for counter, item in enumerate(cases):
+            f = 1 if counter in minterms else 0
+            case = [counter] + list(item)+ [f]
+            text += "<tr><td>"
+            # ~ text += "\t".join([str(x) for x in case]) +"\n"
+            text += "</td><td>".join([str(x) for x in case]) +"</td>"
+            text += "</tr>\n"   
+        text +="</table>\n"
+
+        return text
+
+        
+    def multiple_truth_table(self, minterms_list, dontcares_list=[], variables = [], vars_outputs= [] ): 
+        """ print truth table for multiple function"""
+        
+        outputs_len= len(minterms_list)
+        cases = itertools.product([0,1],[0,1],[0,1],[0,1])
+        text = "<table border='1'>\n"
+        text += "<tr><th>N°</th><th>"  # line number
+        text += "</th><th>".join(variables + vars_outputs[:outputs_len]) + "</th>"
+        text += "</tr>\n"
+           
+        for counter, item in enumerate(cases):
+            case = [counter] + list(item)          
+            text += "<tr><td>"
+            for minterms, dontcares in zip(minterms_list, dontcares_list) :
+                if counter in minterms:
+                    f = 1
+                elif counter in dontcares:
+                    f = "X"
+                else:
+                    f = 0
+                case.append(f)
+            text += "</td><td>".join([str(x) for x in case]) +"</td>"
+            text += "</tr>\n"   
+        text +="</table>\n"
+
+        return text    
+    def draw_map(self, minterms, dontcares=[], correct = False, variables = [], simply_terms=[]):
+        kmap=[]
+        maxterms = [x for x in range(16) if x not in minterms and x not in dontcares]
+        for x in range(16):
+            if x  in minterms:
+                kmap.append("1")
+            elif x in dontcares:
+                kmap.append("x")
+            else:
+                kmap.append("0")
+        # ~ var_names  = "ab\\cd"
+        var_names  = "".join(variables[:2])+"\\"+ "".join(variables[2:])
+        table = [ [var_names,  "00","01", "11","10"],
+        ["00", kmap[0], kmap[1],kmap[3],kmap[2]],
+        ["00", kmap[4], kmap[5],kmap[7],kmap[6]],
+        ["00", kmap[12], kmap[13],kmap[15],kmap[14]],
+        ["00", kmap[8], kmap[9],kmap[11],kmap[10]],
+        ]
+        
+        # draw simplification
+        simplification = ""
+        if correct:
+            simplification = self.simplify_map(simply_terms)
+        text = "<table border='1'>\n<tr><td>\n"
+        text += "</td></tr>\n<tr><td>".join(["</td><td>".join(r) for r in table])
+        # ~ cd = "".join(variables[2:])
+        # ~ ab = "".join(variables[:2])
+        text += "</td></tr>\n</table>\n"       
+
+        return text   
+    def normalize_formula(self,s):
+        """ normalize boolean string"""
+        s = str(s)
+
+        for x in ("A", "B", "C", "D", 'a', 'b', 'c', 'd'):
+            s = s.replace(x+"'","<mover><mi>%s</mi><mo>&OverBar;</mo></mover>"%x )
+            s = s.replace("\\bar "+x ,"<mover><mi>%s</mi><mo>&OverBar;</mo></mover>"%x)
+        # sum sympbol
+        s = s.replace("\\sum", "&sum;")
+        s = s.replace("\\prod", "&prod;")
+        s = s.replace("\\uparrow", "&uparrow;")
+        s = s.replace("\\downarrow", "&downarrow;")
+        s = s.replace("\\overline{","<mover><mrow>")
+        s = s.replace("}","</mrow><mo>&OverBar;</mo></mover>")
+        # ~ s = s.replace("\n","<mspace linebreak='newline'/>")
+        s = s.replace("$$","")
+        # ~ text = s
+        lines = s.split("\n")
+        newtext_list = []
+        for line in lines:
+            newtext_list.append("<br/>")
+            newtext_list.append('<math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>%s</mrow></math>'%line)
+        newtext = "\n".join(newtext_list)
+        self.output.append(newtext)
+        return newtext         
+
+        return s                 
 def main(args):
     return 0
 
