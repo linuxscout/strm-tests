@@ -58,6 +58,20 @@ class test_format:
         """
         self.tests.append(test_question_list)
 
+    def add_question(self, test_question):
+        """
+        Add a question as  template 
+        """
+        # the test question contains parameters to generate a specific template
+        # the category attribute get the destination template
+        
+        temp = self.get_template(test_question.get("catagory",""))
+        if temp:
+            newtext = temp.safe_substitute(test_question)
+        else:
+            newtext = self.newline.join(test_question.values())
+        self.tests.append(newtext)
+
     def add_section(self, text, trans ="", level=1):
         """
         """

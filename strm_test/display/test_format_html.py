@@ -127,6 +127,7 @@ class test_format_html(test_format.test_format):
         
         text = self.normalize_formula(text)   
         newtext= '<math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>%s</mrow></math>'%text
+        newtext += self.newline
         self.output.append(newtext)
         return newtext    
     def add_newline(self):    

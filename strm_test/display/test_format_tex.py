@@ -89,8 +89,18 @@ class test_format_tex(test_format.test_format):
         self.output.append( newtext)
         return newtext
     
-    def add_formula(self, text, trans=""): 
-        newtext =    '$$%s$$'%text
+    def add_formula(self, text, trans=""):
+        
+        # split formula into  lines
+        # if line hasn't formula tags add it
+        lines  = text.split("\n")
+        newtext = ""
+        for line in lines:
+            if line.startswith("$") or "$" in line:
+                newtext+= line + self.newline
+            else:
+                newtext+= "$$%s$$%s"%(line, self.newline)
+        # ~ newtext =    '$$%s$$\n'%text
         self.output.append(newtext)
         return newtext
 

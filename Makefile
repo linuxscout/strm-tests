@@ -8,7 +8,7 @@ clean:
 backup: 
 	
 #create all files 
-all: 
+all: test1 test2 test3 test4 test5 test6 test8 bank
 
 # Publish to github
 publish:
@@ -24,8 +24,10 @@ test3:test_id=test3
 test4:test_id=test4
 test5:test_id=test5
 test6:test_id=test6
+test7:test_id=test7
 test8:test_id=test8
-test1 test2 test3 test4 test5 test6 test8:
+bank:test_id=bankquestion
+test1 test2 test3 test4 test5 test6 test7 test8 bank:
 	python3 generate_tests.py -f config/quiz2.conf -d tex -t "$(test_id)" -o tests/output/test.tex
 	cp tests/output/test.tex latex/test.tex
 	cd latex; xelatex  test-n°2.tex
@@ -62,13 +64,20 @@ minterms:
 run:
 	python3 strm_tests_webviewer.py 
 
-
+format=json
+#~ format=text
+#~ format=html
 test1t:test_id=test1
 test2t:test_id=test2
 test3t:test_id=test3
 test4t:test_id=test4
 test5t:test_id=test5
 test6t:test_id=test6
+test7t:test_id=test7
 test8t:test_id=test8
-test1t test2t test3t test4t test5t test6t test8t:
-	python3 generate_tests.py -f config/quiz2.conf -d text -t "$(test_id)" -o tests/output/test.text
+bankt:test_id=bankquestion
+test1t test2t test3t test4t test5t test6t test7t test8t bankt:
+#~ 	python3 generate_tests.py -f config/quiz2.conf -d $(format) -t "$(test_id)" -o tests/output/test.text
+	python3 generate_tests.py -f config/quiz2.conf -d json -t "$(test_id)" -o tests/output/test.html
+#~ 	python3 generate_tests.py -f config/quiz2.conf -d html -t "$(test_id)" -o tests/output/test.html
+#~ 	python3 generate_tests.py -f config/quiz2.conf -d text -t "$(test_id)" -o tests/output/test.text

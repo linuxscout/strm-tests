@@ -174,30 +174,21 @@ class test_builder:
         questions = [self.get_question(q, args=args) for q in questions_names]
         # ~ for i in range(repeat): " ignore repeat"
         test_questions = []
-        for cpt, value in enumerate(questions):
-            q, ar, data, ans = value
+        for cpt, name in enumerate(questions_names):
+            generated_question = self.get_question(name, args=args)
+        # ~ for cpt, value in enumerate(questions):
+            qtext, ar, data, ans = generated_question
+            # ~ qtext, ar, data, ans = value
             q_no = "Q%d"%(cpt+1)
-            # ~ self.formater.add_section(q_no,level=4)
-            # ~ self.formater.add_text(q,ar)
-            # ~ self.formater.add_text(data)
-            # ~ self.formater.add_text(ans)
             item = {"id":q_no,
-            "question":q,
+            "category": name,
+            "question":qtext,
             "arabic":ar,
             "data":data,
             "answer":ans,                
             }
             test_questions.append(item)
         self.formater.add_test(test_questions)           
-        # ~ self.formater.add_hrule()
-        # ~ self.formater.add_newpage()
-        # ~ self.formater.add_section("Correction",level=2)
-        
-        # ~ for cpt, value in enumerate(questions):
-            # ~ q, ar, data, ans = value
-            # ~ q_no = "Q%d"%(cpt+1)
-            # ~ self.formater.add_section(q_no,level=4)
-            # ~ self.formater.add_text(ans)
 
     def test2(self, questions_names, rand=True, nb=2, repeat=2, args={}):
         """ generate a test"""

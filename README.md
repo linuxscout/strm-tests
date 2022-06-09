@@ -1,6 +1,6 @@
 # STRM Tests
 
-Create Random tests for Stucture Machine 1- first Year MI, Mathematiques &amp; Informatiques in Algerian universities.
+Create Random tests for Structure Machine 1 and 2 - first Year MI, Mathematics &amp; Informatics in Algerian universities.
 
 توليد الفحوص والأسئلة في مادة "بنية الآلة 1" لشعبة الرياضيات والإعلام الآلي في الجامعة الجزائرية
 
@@ -19,7 +19,7 @@ Create Random tests for Stucture Machine 1- first Year MI, Mathematiques &amp; I
 * توليد نماذج مكررة من الأسئلة لتسهيل الطباعة
 * توليد عشوائي للأسئلة
 
-  Developpers:  Taha Zerrouki: http://tahadz.com
+  Developers:  Taha Zerrouki: http://tahadz.com
     taha dot zerrouki at gmail dot com
 
 Features |   value
@@ -39,17 +39,18 @@ Accounts  |[@Twitter](https://twitter.com/linuxscout)
 ## تطبيقات 
 * توليد الأسئلة
 
-## Requirments
+## Requirements
 * Need :
+
  	- sympy>=1.7.1
  * to produce Latex/pdf
-	 - Need linux command line 'make'
+	 - Need Linux command line 'make'
 	 - Latex commands (texlive)
  * To launch GUI
 	- pywebview>=3.5
 	- moodlexport>=0.0.29
 	- webview>=0.1.5
- 
+
 ## Usage
 
 * Graphical interface
@@ -66,9 +67,9 @@ make test3
 
 ```
 
-* Generate moodle questions bank
+* Generate Moodle questions bank
 
-هذا سيولد ملفات latex موضوعة في المجد edits
+هذا سيولد ملفات latex موضوعة في المجلد edits
 
 ### Available commands:
  This commands are used to generate question within a test
@@ -76,21 +77,22 @@ make test3
 Category |Command | explaination
 ---------|--------|-------------
 Codage | "base" |    Convert between numeral bases
-Codage | "arithm" |  Make arithmetic calculs between bases
-Codage | "mesure" |  Converstion between different mesure units
+Codage | "arithm" | Make arithmetic calculus between bases 
+Codage | "mesure" | Conversion between different measure units 
 Codage | "float" | Question about floating points representation IEEE-754
-Codage | "intervalle" | Question about integer numbers intervalles with VS/Complement1  and complement 2
+Codage | "intervalle" | Question about integer numbers intervals with VS/Complement 1  and complement 2 
 Codage | "complement" | Complement to one and two
 Logic | "exp" |     Boolean expression to simplify
 Logic |"map" |     Simplify a Karnaugh Map
 Logic |"map-sop" |      Simplify a Karnaugh Map with canonic forms
 Logic | "function" |    Study a logical function
 Logic | "static_funct" |  Study a logical function given by canonical form
-Logic | "multi_funct" |   Draw a circuit with multi functions given by minterms
+Logic | "multi_funct" | Draw a circuit with multi functions given by min-terms 
+Sequentiel | "chronogram" | Draw a chronogram question with D, JK, RS flip-flop 
 
 ### Use config file
 
-We can use a config file to configurate multiple tests generation
+We can use a configuration file to configure multiple tests generation
 
 see config/quiz.conf
 
