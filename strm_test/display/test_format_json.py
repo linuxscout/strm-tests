@@ -40,7 +40,8 @@ class test_format_json(test_format_html.test_format_html):
     def display(self,):
         """
         """
-        return repr(self.tests )
+        # ~ return repr(self.tests )
+        return json.dumps(self.tests )
         
 def main(args):
     return 0

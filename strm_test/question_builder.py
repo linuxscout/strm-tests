@@ -205,8 +205,7 @@ class Question_Builder:
         arabic = u""
         # change vars names
         # prepare minterms
-        # ~ minterms = minterms.split(',')
-        # ~ minterms = [int(m) for m in minterms] 
+
         self.bq.set_vars(var_names, output_names)
         fname = output_names[0]+"(%s)"%(', '.join(var_names))
 
