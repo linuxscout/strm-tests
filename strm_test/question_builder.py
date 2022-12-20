@@ -473,7 +473,7 @@ class Question_Builder:
     def question_exp(self,):
         
 
-        question = u"Simplifier l'expression suivante par les proprietés algébreiques \n"
+        question = u"Simplifier l'expression suivante par les propriétés algébriques\n"
         arabic = u"بسط العبارة الآتية بالخواص الجبرية"
         sop_quest, minterms = self.bq.rand_exp(4)
 

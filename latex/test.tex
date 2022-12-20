@@ -4,42 +4,16 @@
 
 \paragraph{Q1}
 
-Simplifier l'expression suivante par les proprietés algébreiques 
+Etudier la fonction suivante
 
-S = $ \bar a.b + \bar c.d + \bar a.\bar c + a.\bar b.c  +  a.b.c.d + \bar a.b.\bar d + \bar a.\bar b.c.d  +  a.c + \bar c.d + \bar a.b.\bar d  +  a.b.\bar c.d + a.\bar b.c.d + \bar a.\bar b.\bar d $
+$$f(a,b,c,d)=  b.c.d' + a'.c.d + b'.c.d + a.b.c'.d + b'.c'.d'  +  a'.d + b'.c' + a.c.d' + b.c.d' $$
 
 
 \paragraph{Q2}
 
-Compléter le chronogramme suivant:
+Simplifier l'expression suivante par les proprietés algébreiques 
 
- 
-
-
-\scalebox{2}{ % scale
-        
-\begin{tikztimingtable}
-%[timing/slope=.0, timing/draw grid]
-[timing/slope=.0,  timing/wscale=1, scale=2.5, line width=1.25pt]
-% horloge signal
-$H$ & [timing/c/rising arrows] C 20{1C}\\
-$J$ &  1L 1H 2.5L 1H 3L 1H 1L 0.5H 1L 4.5H 3.5L\\
-$K$ &  2L 1H 1L 2.5H 1L 3H 2L 2.5H 3L 0.5H 1.5L\\
-$Q$ &  1L\\
-$Q0'$ &  1H\\
-$Q1$ &  1L\\
-\extracode
-\begin{scope}[gray,semitransparent,densely dotted,thin]
-\horlines{}
-\vertlines{0}
-\end{scope}
-\begin{scope}[red,semitransparent,densely dotted,thin]
-\vertlines{1,3,...,\twidth}
-\end{scope}
-\end{tikztimingtable}
-
-        } %scale 
-
+S = $ \bar c.\bar d + \bar a.c.d + \bar a.b.\bar c  +  a.b.c + a.c.d + \bar a.\bar c + \bar b.\bar c + \bar c.\bar d + a.b.\bar d + a.\bar b.d + \bar a.\bar b.\bar d  +  a.b.\bar c.d + \bar a.b.c.\bar d + \bar a.\bar b.\bar c.\bar d  +  a.b.c + \bar b.c.d + \bar a.\bar b.c + \bar a.\bar c.\bar d + \bar b.\bar c.\bar d $
 
 
 \hrule width 1\linewidth
@@ -50,207 +24,207 @@ $Q1$ &  1L\\
 
 \paragraph{Q1}
 
-Simplifier l'expression suivante
+$$f(a,b,c,d)= b.c.d' + a'.c.d + b'.c.d + a.b.c'.d + b'.c'.d'  +  a'.d + b'.c' + a.c.d' + b.c.d' $$
+$$f(a,b,c,d)=\sum(b.c.d' + a'.c.d + b'.c.d + a.b.c'.d + b'.c'.d'  +  a'.d + b'.c' + a.c.d' + b.c.d')$$
 
-S = $ \bar a.b + \bar c.d + \bar a.\bar c + a.\bar b.c  +  a.b.c.d + \bar a.b.\bar d + \bar a.\bar b.c.d  +  a.c + \bar c.d + \bar a.b.\bar d  +  a.b.\bar c.d + a.\bar b.c.d + \bar a.\bar b.\bar d $
-
- = $ c + d + \bar a $
-
+%%\begin{table}
+        \begin{tabular}{|c|c|c|c|c||c|}
+    \toprule
+        N° & A & B & C & D & S0\\ \midrule0 & 0 & 0 & 0 & 0 & 1\\1 & 0 & 0 & 0 & 1 & 1\\2 & 0 & 0 & 1 & 0 & 0\\3 & 0 & 0 & 1 & 1 & 1\\\midrule4 & 0 & 1 & 0 & 0 & 0\\5 & 0 & 1 & 0 & 1 & 1\\6 & 0 & 1 & 1 & 0 & 1\\7 & 0 & 1 & 1 & 1 & 1\\\midrule8 & 1 & 0 & 0 & 0 & 1\\9 & 1 & 0 & 0 & 1 & 1\\10 & 1 & 0 & 1 & 0 & 1\\11 & 1 & 0 & 1 & 1 & 1\\\midrule12 & 1 & 1 & 0 & 0 & 0\\13 & 1 & 1 & 0 & 1 & 1\\14 & 1 & 1 & 1 & 0 & 1\\15 & 1 & 1 & 1 & 1 & 0\\\bottomrule
+        \end{tabular}
+        %%\end{table}
+        $$Sum of products f(a,b,c,d) = \sum(\bar A.\bar B.\bar C.\bar D + \bar A.\bar B.\bar C.D + \bar A.\bar B.C.D + \bar A.B.\bar C.D + \bar A.B.C.\bar D + \bar A.B.C.D + A.\bar B.\bar C.\bar D + A.\bar B.\bar C.D + A.\bar B.C.\bar D + A.\bar B.C.D + A.B.\bar C.D + A.B.C.\bar D)$$
+$$Product of sums f(a,b,c,d) = \prod((A+B+\bar C+D) . (A+\bar B+C+D) . (\bar A+\bar B+C+D) . (\bar A+\bar B+\bar C+\bar D))$$
 
 Karnough map
 \begin{karnaugh-map}[4][4][1][CD][AB]
-          \minterms{0, 1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 13, 14, 15}
-          \maxterms{8, 12}
+          \minterms{0, 1, 3, 5, 6, 7, 8, 9, 10, 11, 13, 14}
+          \maxterms{2, 4, 12, 15}
         %\autoterms[0]
          \terms{}{X}
         % simplification
-        \implicant{3}{10}
-\implicant{1}{11}
-\implicant{0}{6}
+        \implicant{8}{10}
+\implicant{1}{7}
+\implicantedge{1}{3}{9}{11}
+\implicant{1}{9}
+\implicantedge{0}{1}{8}{9}
+\implicant{14}{10}
+\implicant{7}{6}
+\implicant{6}{14}
           %\implicant{5}{15}
           %\implicantedge{8}{8}{10}{10}
           %\implicantedge{8}{8}{10}{10}[8,10]
         \end{karnaugh-map}
 
+$$Simplified Sum of products:  a.b' + a'.d + b'.d + c'.d + b'.c' + a.c.d' + a'.b.c + b.c.d' $$
+$$Simplified Product of sums: (b'+c+d).(a+b+c'+d).(a'+b'+c'+d')$$
+\paragraph{Logigramme} de la fonction\\
+        %%\missingfigure[figwidth=6cm]{Logigramme}
 
+ \label{logigram-F}
+\begin{tikzpicture}
 
-\paragraph{Q2}
+ %%Paramaters
+%% var position, can be modified
+\def\varPos{8.00}
+\node (x) at (0, \varPos) {$A$};
+\node (y) at (0.5, \varPos) {$B$};
+\node (z) at (1, \varPos) {$C$};
+\node (w) at (1.5, \varPos) {$D$};
 
-Chronogramme
+            \node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.6)$) (notx) {};
+            \draw ($(x)+(0,-1ex)$) -| (notx.input); 
+            \node[not gate US, draw, rotate=270] at ($(y) + (0.25, -0.6)$) (noty) {};
+            \draw ($(y)+(0,-1ex)$) -| (noty.input); 
+            \node[not gate US, draw, rotate=270] at ($(z) + (0.25, -0.6)$) (notz) {};
+            \draw ($(z)+(0,-1ex)$) -| (notz.input);
+            \node[not gate US, draw, rotate=270] at ($(w) + (0.25, -0.6)$) (notw) {};
+            \draw ($(w)+(0,-1ex)$) -| (notw.input);
+         
 
-
-
-        \scalebox{2}{ % scale
-        
-\begin{tikztimingtable}
-%[timing/slope=.0, timing/draw grid]
-[timing/slope=.0,  timing/wscale=1, scale=2.5, line width=1.25pt]
-% horloge signal
-$H$ & [timing/c/rising arrows] C 20{1C}\\
-$J$ &  1L 1H 2.5L 1H 3L 1H 1L 0.5H 1L 4.5H 3.5L\\
-$K$ &  2L 1H 1L 2.5H 1L 3H 2L 2.5H 3L 0.5H 1.5L\\
-$Q$ &  1L 2L 2L 2H 2H 2L 2H 2L 2H 2H 2H\\
-$Q0'$ &  1H\\
-$Q1$ &  1L\\
-\extracode
-\begin{scope}[gray,semitransparent,densely dotted,thin]
-\horlines{}
-\vertlines{0}
-\end{scope}
-\begin{scope}[red,semitransparent,densely dotted,thin]
-\vertlines{1,3,...,\twidth}
-\end{scope}
-\end{tikztimingtable}
-
-        } %scale
-
-
-\pagebreak
-
-\paragraph{Q1}
-
-Simplifier l'expression suivante par les proprietés algébreiques 
-
-S = $ a.b + b.\bar d + a.c.\bar d  +  a.b.c.d + \bar a.b.\bar c + \bar a.b.\bar d  +  a.\bar b.c + a.c.\bar d + \bar b.c.\bar d + \bar a.b.c.d  +  a.b.\bar d + a.\bar c.\bar d + b.\bar c.\bar d + \bar a.b.c.d + \bar a.\bar b.c.\bar d $
-
-
-\paragraph{Q2}
-
-Compléter le chronogramme suivant:
-
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 0.00) (xandy0) {};\draw (xandy0.output) -- node[above]{\scriptsize $ A.\bar B $} ($(xandy0) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy0.input 1);
+% Y
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy0.input 2);
  
 
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 1.20) (xandy1) {};\draw (xandy1.output) -- node[above]{\scriptsize $ \bar A.D $} ($(xandy1) + (1.8, 0)$);
+                % X
+\draw [line width=0.25mm,   red] (notx.output)
+            -- ([xshift=0cm]notx.output) |- (xandy1.input 1);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy1.input 4);
+ 
 
-\scalebox{2}{ % scale
-        
-\begin{tikztimingtable}
-%[timing/slope=.0, timing/draw grid]
-[timing/slope=.0,  timing/wscale=1, scale=2.5, line width=1.25pt]
-% horloge signal
-$H$ & [timing/c/rising arrows] C 20{1C}\\
-$J$ &  2H 0.25L 2H 0.25L 2H 2L 4.5H 2L 3H 2.0L\\
-$K$ &  3.25L 4.25H 1L 1H 3L 3H 1L 2.75H 0.75H\\
-$Q$ &  1L\\
-$Q0'$ &  1H\\
-$Q1$ &  1L\\
-\extracode
-\begin{scope}[gray,semitransparent,densely dotted,thin]
-\horlines{}
-\vertlines{0}
-\end{scope}
-\begin{scope}[red,semitransparent,densely dotted,thin]
-\vertlines{1,3,...,\twidth}
-\end{scope}
-\end{tikztimingtable}
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 2.40) (xandy2) {};\draw (xandy2.output) -- node[above]{\scriptsize $ \bar B.D $} ($(xandy2) + (1.8, 0)$);
+                % Y
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy2.input 2);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy2.input 4);
+ 
 
-        } %scale 
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 3.60) (xandy3) {};\draw (xandy3.output) -- node[above]{\scriptsize $ \bar C.D $} ($(xandy3) + (1.8, 0)$);
+                % Z
+\draw [line width=0.25mm,   red] (notz.output)
+            -- ([xshift=0cm]notz.output) |- (xandy3.input 3);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy3.input 4);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 4.80) (xandy4) {};\draw (xandy4.output) -- node[above]{\scriptsize $ \bar B.\bar C $} ($(xandy4) + (1.8, 0)$);
+                % Y
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy4.input 2);
+% Z
+\draw [line width=0.25mm,   red] (notz.output)
+            -- ([xshift=0cm]notz.output) |- (xandy4.input 3);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 6.00) (xandy5) {};\draw (xandy5.output) -- node[above]{\scriptsize $ A.C.\bar D $} ($(xandy5) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy5.input 1);
+% Z
+\draw ($(z) + (0, -1ex)$)|- (xandy5.input 3);
+% W
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy5.input 4);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 7.20) (xandy6) {};\draw (xandy6.output) -- node[above]{\scriptsize $ \bar A.B.C $} ($(xandy6) + (1.8, 0)$);
+                % X
+\draw [line width=0.25mm,   red] (notx.output)
+            -- ([xshift=0cm]notx.output) |- (xandy6.input 1);
+% Y
+\draw ($(y) + (0, -1ex)$)|- (xandy6.input 2);
+% Z
+\draw ($(z) + (0, -1ex)$)|- (xandy6.input 3);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 8.40) (xandy7) {};\draw (xandy7.output) -- node[above]{\scriptsize $ B.C.\bar D $} ($(xandy7) + (1.8, 0)$);
+                % Y
+\draw ($(y) + (0, -1ex)$)|- (xandy7.input 2);
+% Z
+\draw ($(z) + (0, -1ex)$)|- (xandy7.input 3);
+% W
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy7.input 4);
+\node[or gate US, draw, rotate=0, logic gate inputs=nnnnnnnnn] at (6, 4.20) (xory0) {};
+
+
+            \draw (xory0.output) -- node[above]{\scriptsize $F$} ($(xory0.east) + (+3ex, 0)$);
+
+
+            \draw (xandy0.output) -- ([xshift=1.60cm]xandy0.output) |- (xory0.input 8);
+
+\draw (xandy1.output) -- ([xshift=1.55cm]xandy1.output) |- (xory0.input 7);
+
+\draw (xandy2.output) -- ([xshift=1.50cm]xandy2.output) |- (xory0.input 6);
+
+\draw (xandy3.output) -- ([xshift=1.45cm]xandy3.output) |- (xory0.input 5);
+
+\draw (xandy4.output) -- ([xshift=1.40cm]xandy4.output) |- (xory0.input 4);
+
+\draw (xandy5.output) -- ([xshift=1.45cm]xandy5.output) |- (xory0.input 3);
+
+\draw (xandy6.output) -- ([xshift=1.50cm]xandy6.output) |- (xory0.input 2);
+
+\draw (xandy7.output) -- ([xshift=1.55cm]xandy7.output) |- (xory0.input 1);
+
+ \end{tikzpicture}
 
 
 
-\hrule width 1\linewidth
-\pagebreak
-
-\subsection{Correction}
-
-
-\paragraph{Q1}
+\paragraph{Q2}
 
 Simplifier l'expression suivante
 
-S = $ a.b + b.\bar d + a.c.\bar d  +  a.b.c.d + \bar a.b.\bar c + \bar a.b.\bar d  +  a.\bar b.c + a.c.\bar d + \bar b.c.\bar d + \bar a.b.c.d  +  a.b.\bar d + a.\bar c.\bar d + b.\bar c.\bar d + \bar a.b.c.d + \bar a.\bar b.c.\bar d $
+S = $ \bar c.\bar d + \bar a.c.d + \bar a.b.\bar c  +  a.b.c + a.c.d + \bar a.\bar c + \bar b.\bar c + \bar c.\bar d + a.b.\bar d + a.\bar b.d + \bar a.\bar b.\bar d  +  a.b.\bar c.d + \bar a.b.c.\bar d + \bar a.\bar b.\bar c.\bar d  +  a.b.c + \bar b.c.d + \bar a.\bar b.c + \bar a.\bar c.\bar d + \bar b.\bar c.\bar d $
 
- = $ b + a.c + a.\bar d + c.\bar d $
+ = $ b + d + \bar a + \bar c $
 
 
 Karnough map
 \begin{karnaugh-map}[4][4][1][CD][AB]
-          \minterms{2, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15}
-          \maxterms{0, 1, 3, 9}
+          \minterms{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15}
+          \maxterms{10}
         %\autoterms[0]
          \terms{}{X}
         % simplification
         \implicant{4}{14}
-\implicant{15}{10}
-\implicantedge{12}{8}{14}{10}
-\implicant{2}{10}
+\implicant{1}{11}
+\implicant{0}{6}
+\implicant{0}{9}
           %\implicant{5}{15}
           %\implicantedge{8}{8}{10}{10}
           %\implicantedge{8}{8}{10}{10}[8,10]
         \end{karnaugh-map}
 
 
-
-\paragraph{Q2}
-
-Chronogramme
-
-
-
-        \scalebox{2}{ % scale
-        
-\begin{tikztimingtable}
-%[timing/slope=.0, timing/draw grid]
-[timing/slope=.0,  timing/wscale=1, scale=2.5, line width=1.25pt]
-% horloge signal
-$H$ & [timing/c/rising arrows] C 20{1C}\\
-$J$ &  2H 0.25L 2H 0.25L 2H 2L 4.5H 2L 3H 2.0L\\
-$K$ &  3.25L 4.25H 1L 1H 3L 3H 1L 2.75H 0.75H\\
-$Q$ &  1L 2H 2H 2L 2L 2H 2H 2L 2L 2H 2L\\
-$Q0'$ &  1H\\
-$Q1$ &  1L\\
-\extracode
-\begin{scope}[gray,semitransparent,densely dotted,thin]
-\horlines{}
-\vertlines{0}
-\end{scope}
-\begin{scope}[red,semitransparent,densely dotted,thin]
-\vertlines{1,3,...,\twidth}
-\end{scope}
-\end{tikztimingtable}
-
-        } %scale
-
-
 \pagebreak
 
 \paragraph{Q1}
 
-Simplifier l'expression suivante par les proprietés algébreiques 
+Etudier la fonction suivante
 
-S = $ b.d + a.c.d + \bar a.\bar d + \bar c.\bar d  +  a.c.d + b.\bar c.d + \bar a.b.c.\bar d + a.\bar b.\bar c.\bar d  +  c + a.b.\bar d + a.\bar b.d + \bar a.b.d  +  a.b.\bar d + \bar a.\bar b.\bar c $
+$$f(a,b,c,d)=  b.c.d' + a'.b.d' + a'.c.d' + a.b.c'.d  +  a.b.d + a.c.d + a.b'.c'.d' $$
 
 
 \paragraph{Q2}
 
-Compléter le chronogramme suivant:
+Simplifier l'expression suivante par les proprietés algébreiques 
 
- 
-
-
-\scalebox{2}{ % scale
-        
-\begin{tikztimingtable}
-%[timing/slope=.0, timing/draw grid]
-[timing/slope=.0,  timing/wscale=1, scale=2.5, line width=1.25pt]
-% horloge signal
-$H$ & [timing/c/rising arrows] C 20{1C}\\
-$J$ &  4.5H 4L 1H 2.25L 0.75H 3.5L 3H 1.0H\\
-$K$ &  4.5L 2H 1L 4H 3.5L 0.5H 3L 0.5H 1.0H\\
-$Q$ &  1L\\
-$Q0'$ &  1H\\
-$Q1$ &  1L\\
-\extracode
-\begin{scope}[gray,semitransparent,densely dotted,thin]
-\horlines{}
-\vertlines{0}
-\end{scope}
-\begin{scope}[red,semitransparent,densely dotted,thin]
-\vertlines{1,3,...,\twidth}
-\end{scope}
-\end{tikztimingtable}
-
-        } %scale 
-
+S = $ a.c.d + a.\bar c.\bar d + \bar a.c.\bar d + \bar b.c.\bar d  +  a.b.c + a.c.d + \bar a.\bar b.\bar c + \bar a.\bar b.\bar d + \bar b.\bar c.\bar d  +  \bar a.\bar c.\bar d + a.\bar b.\bar c.d  +  a.\bar b.\bar d + \bar a.\bar b.\bar c.d $
 
 
 \hrule width 1\linewidth
@@ -261,9 +235,619 @@ $Q1$ &  1L\\
 
 \paragraph{Q1}
 
+$$f(a,b,c,d)= b.c.d' + a'.b.d' + a'.c.d' + a.b.c'.d  +  a.b.d + a.c.d + a.b'.c'.d' $$
+$$f(a,b,c,d)=\sum(b.c.d' + a'.b.d' + a'.c.d' + a.b.c'.d  +  a.b.d + a.c.d + a.b'.c'.d')$$
+
+%%\begin{table}
+        \begin{tabular}{|c|c|c|c|c||c|}
+    \toprule
+        N° & A & B & C & D & S0\\ \midrule0 & 0 & 0 & 0 & 0 & 0\\1 & 0 & 0 & 0 & 1 & 0\\2 & 0 & 0 & 1 & 0 & 1\\3 & 0 & 0 & 1 & 1 & 0\\\midrule4 & 0 & 1 & 0 & 0 & 1\\5 & 0 & 1 & 0 & 1 & 0\\6 & 0 & 1 & 1 & 0 & 1\\7 & 0 & 1 & 1 & 1 & 0\\\midrule8 & 1 & 0 & 0 & 0 & 1\\9 & 1 & 0 & 0 & 1 & 0\\10 & 1 & 0 & 1 & 0 & 0\\11 & 1 & 0 & 1 & 1 & 1\\\midrule12 & 1 & 1 & 0 & 0 & 0\\13 & 1 & 1 & 0 & 1 & 1\\14 & 1 & 1 & 1 & 0 & 1\\15 & 1 & 1 & 1 & 1 & 1\\\bottomrule
+        \end{tabular}
+        %%\end{table}
+        $$Sum of products f(a,b,c,d) = \sum(\bar A.\bar B.C.\bar D + \bar A.B.\bar C.\bar D + \bar A.B.C.\bar D + A.\bar B.\bar C.\bar D + A.\bar B.C.D + A.B.\bar C.D + A.B.C.\bar D + A.B.C.D)$$
+$$Product of sums f(a,b,c,d) = \prod((A+B+C+D) . (A+B+C+\bar D) . (A+B+\bar C+\bar D) . (A+\bar B+C+\bar D) . (A+\bar B+\bar C+\bar D) . (\bar A+B+C+\bar D) . (\bar A+B+\bar C+D) . (\bar A+\bar B+C+D))$$
+
+Karnough map
+\begin{karnaugh-map}[4][4][1][CD][AB]
+          \minterms{2, 4, 6, 8, 11, 13, 14, 15}
+          \maxterms{0, 1, 3, 5, 7, 9, 10, 12}
+        %\autoterms[0]
+         \terms{}{X}
+        % simplification
+        \implicant{13}{15}
+\implicant{15}{11}
+\implicant{6}{14}
+\implicantedge{4}{4}{6}{6}
+\implicant{2}{6}
+\implicant{8}{8}
+          %\implicant{5}{15}
+          %\implicantedge{8}{8}{10}{10}
+          %\implicantedge{8}{8}{10}{10}[8,10]
+        \end{karnaugh-map}
+
+$$Simplified Sum of products:  a.b.d + a.c.d + b.c.d' + a'.b.d' + a'.c.d' + a.b'.c'.d' $$
+$$Simplified Product of sums: (a+d').(a+b+c).(b+c+d').(a'+b+c'+d).(a'+b'+c+d)$$
+\paragraph{Logigramme} de la fonction\\
+        %%\missingfigure[figwidth=6cm]{Logigramme}
+
+ \label{logigram-F}
+\begin{tikzpicture}
+
+ %%Paramaters
+%% var position, can be modified
+\def\varPos{6.00}
+\node (x) at (0, \varPos) {$A$};
+\node (y) at (0.5, \varPos) {$B$};
+\node (z) at (1, \varPos) {$C$};
+\node (w) at (1.5, \varPos) {$D$};
+
+            \node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.6)$) (notx) {};
+            \draw ($(x)+(0,-1ex)$) -| (notx.input); 
+            \node[not gate US, draw, rotate=270] at ($(y) + (0.25, -0.6)$) (noty) {};
+            \draw ($(y)+(0,-1ex)$) -| (noty.input); 
+            \node[not gate US, draw, rotate=270] at ($(z) + (0.25, -0.6)$) (notz) {};
+            \draw ($(z)+(0,-1ex)$) -| (notz.input);
+            \node[not gate US, draw, rotate=270] at ($(w) + (0.25, -0.6)$) (notw) {};
+            \draw ($(w)+(0,-1ex)$) -| (notw.input);
+         
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 0.00) (xandy0) {};\draw (xandy0.output) -- node[above]{\scriptsize $ A.B.D $} ($(xandy0) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy0.input 1);
+% Y
+\draw ($(y) + (0, -1ex)$)|- (xandy0.input 2);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy0.input 4);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 1.20) (xandy1) {};\draw (xandy1.output) -- node[above]{\scriptsize $ A.C.D $} ($(xandy1) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy1.input 1);
+% Z
+\draw ($(z) + (0, -1ex)$)|- (xandy1.input 3);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy1.input 4);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 2.40) (xandy2) {};\draw (xandy2.output) -- node[above]{\scriptsize $ B.C.\bar D $} ($(xandy2) + (1.8, 0)$);
+                % Y
+\draw ($(y) + (0, -1ex)$)|- (xandy2.input 2);
+% Z
+\draw ($(z) + (0, -1ex)$)|- (xandy2.input 3);
+% W
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy2.input 4);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 3.60) (xandy3) {};\draw (xandy3.output) -- node[above]{\scriptsize $ \bar A.B.\bar D $} ($(xandy3) + (1.8, 0)$);
+                % X
+\draw [line width=0.25mm,   red] (notx.output)
+            -- ([xshift=0cm]notx.output) |- (xandy3.input 1);
+% Y
+\draw ($(y) + (0, -1ex)$)|- (xandy3.input 2);
+% W
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy3.input 4);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 4.80) (xandy4) {};\draw (xandy4.output) -- node[above]{\scriptsize $ \bar A.C.\bar D $} ($(xandy4) + (1.8, 0)$);
+                % X
+\draw [line width=0.25mm,   red] (notx.output)
+            -- ([xshift=0cm]notx.output) |- (xandy4.input 1);
+% Z
+\draw ($(z) + (0, -1ex)$)|- (xandy4.input 3);
+% W
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy4.input 4);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 6.00) (xandy5) {};\draw (xandy5.output) -- node[above]{\scriptsize $ A.\bar B.\bar C.\bar D $} ($(xandy5) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy5.input 1);
+% Y
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy5.input 2);
+% Z
+\draw [line width=0.25mm,   red] (notz.output)
+            -- ([xshift=0cm]notz.output) |- (xandy5.input 3);
+% W
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy5.input 4);
+\node[or gate US, draw, rotate=0, logic gate inputs=nnnnnnn] at (6, 3.00) (xory0) {};
+
+
+            \draw (xory0.output) -- node[above]{\scriptsize $F$} ($(xory0.east) + (+3ex, 0)$);
+
+
+            \draw (xandy0.output) -- ([xshift=1.60cm]xandy0.output) |- (xory0.input 6);
+
+\draw (xandy1.output) -- ([xshift=1.55cm]xandy1.output) |- (xory0.input 5);
+
+\draw (xandy2.output) -- ([xshift=1.50cm]xandy2.output) |- (xory0.input 4);
+
+\draw (xandy3.output) -- ([xshift=1.45cm]xandy3.output) |- (xory0.input 3);
+
+\draw (xandy4.output) -- ([xshift=1.50cm]xandy4.output) |- (xory0.input 2);
+
+\draw (xandy5.output) -- ([xshift=1.55cm]xandy5.output) |- (xory0.input 1);
+
+ \end{tikzpicture}
+
+
+
+\paragraph{Q2}
+
 Simplifier l'expression suivante
 
-S = $ b.d + a.c.d + \bar a.\bar d + \bar c.\bar d  +  a.c.d + b.\bar c.d + \bar a.b.c.\bar d + a.\bar b.\bar c.\bar d  +  c + a.b.\bar d + a.\bar b.d + \bar a.b.d  +  a.b.\bar d + \bar a.\bar b.\bar c $
+S = $ a.c.d + a.\bar c.\bar d + \bar a.c.\bar d + \bar b.c.\bar d  +  a.b.c + a.c.d + \bar a.\bar b.\bar c + \bar a.\bar b.\bar d + \bar b.\bar c.\bar d  +  \bar a.\bar c.\bar d + a.\bar b.\bar c.d  +  a.\bar b.\bar d + \bar a.\bar b.\bar c.d $
+
+ = $ \bar d + a.c + \bar b.\bar c $
+
+
+Karnough map
+\begin{karnaugh-map}[4][4][1][CD][AB]
+          \minterms{0, 1, 2, 4, 6, 8, 9, 10, 11, 12, 14, 15}
+          \maxterms{3, 5, 7, 13}
+        %\autoterms[0]
+         \terms{}{X}
+        % simplification
+        \implicantedge{0}{8}{2}{10}
+\implicant{15}{10}
+\implicantedge{0}{1}{8}{9}
+          %\implicant{5}{15}
+          %\implicantedge{8}{8}{10}{10}
+          %\implicantedge{8}{8}{10}{10}[8,10]
+        \end{karnaugh-map}
+
+
+\pagebreak
+
+\paragraph{Q1}
+
+Etudier la fonction suivante
+
+$$f(a,b,c,d)=  a.b.c' + a'.b'.d' + b'.c'.d'  +  a.b + a.c + a.d $$
+
+
+\paragraph{Q2}
+
+Simplifier l'expression suivante par les proprietés algébreiques 
+
+S = $ \bar a.c.\bar d + a.b.\bar c.d  +  a.\bar b.c.d + \bar a.\bar b.\bar d + \bar a.\bar c.\bar d  +  a.d + b.d + c.d  +  a.c.\bar d + a.\bar c.d + b.c.\bar d + b.\bar c.d + \bar a.c.d + \bar b.\bar c.\bar d $
+
+
+\hrule width 1\linewidth
+\pagebreak
+
+\subsection{Correction}
+
+
+\paragraph{Q1}
+
+$$f(a,b,c,d)= a.b.c' + a'.b'.d' + b'.c'.d'  +  a.b + a.c + a.d $$
+$$f(a,b,c,d)=\sum(a.b.c' + a'.b'.d' + b'.c'.d'  +  a.b + a.c + a.d)$$
+
+%%\begin{table}
+        \begin{tabular}{|c|c|c|c|c||c|}
+    \toprule
+        N° & A & B & C & D & S0\\ \midrule0 & 0 & 0 & 0 & 0 & 1\\1 & 0 & 0 & 0 & 1 & 0\\2 & 0 & 0 & 1 & 0 & 1\\3 & 0 & 0 & 1 & 1 & 0\\\midrule4 & 0 & 1 & 0 & 0 & 0\\5 & 0 & 1 & 0 & 1 & 0\\6 & 0 & 1 & 1 & 0 & 0\\7 & 0 & 1 & 1 & 1 & 0\\\midrule8 & 1 & 0 & 0 & 0 & 1\\9 & 1 & 0 & 0 & 1 & 1\\10 & 1 & 0 & 1 & 0 & 1\\11 & 1 & 0 & 1 & 1 & 1\\\midrule12 & 1 & 1 & 0 & 0 & 1\\13 & 1 & 1 & 0 & 1 & 1\\14 & 1 & 1 & 1 & 0 & 1\\15 & 1 & 1 & 1 & 1 & 1\\\bottomrule
+        \end{tabular}
+        %%\end{table}
+        $$Sum of products f(a,b,c,d) = \sum(\bar A.\bar B.\bar C.\bar D + \bar A.\bar B.C.\bar D + A.\bar B.\bar C.\bar D + A.\bar B.\bar C.D + A.\bar B.C.\bar D + A.\bar B.C.D + A.B.\bar C.\bar D + A.B.\bar C.D + A.B.C.\bar D + A.B.C.D)$$
+$$Product of sums f(a,b,c,d) = \prod((A+B+C+\bar D) . (A+B+\bar C+\bar D) . (A+\bar B+C+D) . (A+\bar B+C+\bar D) . (A+\bar B+\bar C+D) . (A+\bar B+\bar C+\bar D))$$
+
+Karnough map
+\begin{karnaugh-map}[4][4][1][CD][AB]
+          \minterms{0, 2, 8, 9, 10, 11, 12, 13, 14, 15}
+          \maxterms{1, 3, 4, 5, 6, 7}
+        %\autoterms[0]
+         \terms{}{X}
+        % simplification
+        \implicant{12}{10}
+ \implicantcorner{0}{2}
+          %\implicant{5}{15}
+          %\implicantedge{8}{8}{10}{10}
+          %\implicantedge{8}{8}{10}{10}[8,10]
+        \end{karnaugh-map}
+
+$$Simplified Sum of products:  a + b'.d' $$
+$$Simplified Product of sums: (a+b').(a+d')$$
+\paragraph{Logigramme} de la fonction\\
+        %%\missingfigure[figwidth=6cm]{Logigramme}
+
+ \label{logigram-F}
+\begin{tikzpicture}
+
+ %%Paramaters
+%% var position, can be modified
+\def\varPos{2.00}
+\node (x) at (0, \varPos) {$A$};
+\node (y) at (0.5, \varPos) {$B$};
+\node (z) at (1, \varPos) {$C$};
+\node (w) at (1.5, \varPos) {$D$};
+
+            \node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.6)$) (notx) {};
+            \draw ($(x)+(0,-1ex)$) -| (notx.input); 
+            \node[not gate US, draw, rotate=270] at ($(y) + (0.25, -0.6)$) (noty) {};
+            \draw ($(y)+(0,-1ex)$) -| (noty.input); 
+            \node[not gate US, draw, rotate=270] at ($(z) + (0.25, -0.6)$) (notz) {};
+            \draw ($(z)+(0,-1ex)$) -| (notz.input);
+            \node[not gate US, draw, rotate=270] at ($(w) + (0.25, -0.6)$) (notw) {};
+            \draw ($(w)+(0,-1ex)$) -| (notw.input);
+         
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 0.00) (xandy0) {};\draw (xandy0.output) -- node[above]{\scriptsize $ A $} ($(xandy0) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy0.input 1);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 1.20) (xandy1) {};\draw (xandy1.output) -- node[above]{\scriptsize $ \bar B.\bar D $} ($(xandy1) + (1.8, 0)$);
+                % Y
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy1.input 2);
+% W
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy1.input 4);
+\node[or gate US, draw, rotate=0, logic gate inputs=nnn] at (6, 0.60) (xory0) {};
+
+
+            \draw (xory0.output) -- node[above]{\scriptsize $F$} ($(xory0.east) + (+3ex, 0)$);
+
+
+            \draw (xandy0.output) -- ([xshift=1.60cm]xandy0.output) |- (xory0.input 2);
+
+\draw (xandy1.output) -- ([xshift=1.55cm]xandy1.output) |- (xory0.input 1);
+
+ \end{tikzpicture}
+
+
+
+\paragraph{Q2}
+
+Simplifier l'expression suivante
+
+S = $ \bar a.c.\bar d + a.b.\bar c.d  +  a.\bar b.c.d + \bar a.\bar b.\bar d + \bar a.\bar c.\bar d  +  a.d + b.d + c.d  +  a.c.\bar d + a.\bar c.d + b.c.\bar d + b.\bar c.d + \bar a.c.d + \bar b.\bar c.\bar d $
+
+ = $ c + a.d + b.d + a.\bar b + \bar a.b + \bar a.\bar d + \bar b.\bar d $
+
+
+Karnough map
+\begin{karnaugh-map}[4][4][1][CD][AB]
+          \minterms{0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15}
+          \maxterms{1, 12}
+        %\autoterms[0]
+         \terms{}{X}
+        % simplification
+        \implicant{3}{10}
+\implicant{13}{11}
+\implicant{5}{15}
+\implicant{8}{10}
+\implicant{4}{6}
+\implicantedge{0}{4}{2}{6}
+ \implicantcorner{0}{2}
+          %\implicant{5}{15}
+          %\implicantedge{8}{8}{10}{10}
+          %\implicantedge{8}{8}{10}{10}[8,10]
+        \end{karnaugh-map}
+
+
+\pagebreak
+
+\paragraph{Q1}
+
+Etudier la fonction suivante
+
+$$f(a,b,c,d)=  a.c' + a'.b.d + a'.c.d + a.b'.d' + b'.c'.d'  +  c.d + a'.d + b'.d + a'.b'.c $$
+
+
+\paragraph{Q2}
+
+Simplifier l'expression suivante par les proprietés algébreiques 
+
+S = $ \bar a.c.d + \bar b.c.d + \bar a.\bar b.d + a.b.\bar c.d  +  \bar c.\bar d + a.\bar b.\bar c + \bar a.\bar b.\bar d  +  a.d + \bar b.d + a.\bar b.\bar c + \bar a.b.\bar c + \bar a.\bar b.c  +  b.\bar c.\bar d + a.\bar b.c.\bar d + a.\bar b.\bar c.d $
+
+
+\hrule width 1\linewidth
+\pagebreak
+
+\subsection{Correction}
+
+
+\paragraph{Q1}
+
+$$f(a,b,c,d)= a.c' + a'.b.d + a'.c.d + a.b'.d' + b'.c'.d'  +  c.d + a'.d + b'.d + a'.b'.c $$
+$$f(a,b,c,d)=\sum(a.c' + a'.b.d + a'.c.d + a.b'.d' + b'.c'.d'  +  c.d + a'.d + b'.d + a'.b'.c)$$
+
+%%\begin{table}
+        \begin{tabular}{|c|c|c|c|c||c|}
+    \toprule
+        N° & A & B & C & D & S0\\ \midrule0 & 0 & 0 & 0 & 0 & 1\\1 & 0 & 0 & 0 & 1 & 1\\2 & 0 & 0 & 1 & 0 & 1\\3 & 0 & 0 & 1 & 1 & 1\\\midrule4 & 0 & 1 & 0 & 0 & 0\\5 & 0 & 1 & 0 & 1 & 1\\6 & 0 & 1 & 1 & 0 & 0\\7 & 0 & 1 & 1 & 1 & 1\\\midrule8 & 1 & 0 & 0 & 0 & 1\\9 & 1 & 0 & 0 & 1 & 1\\10 & 1 & 0 & 1 & 0 & 1\\11 & 1 & 0 & 1 & 1 & 1\\\midrule12 & 1 & 1 & 0 & 0 & 1\\13 & 1 & 1 & 0 & 1 & 1\\14 & 1 & 1 & 1 & 0 & 0\\15 & 1 & 1 & 1 & 1 & 1\\\bottomrule
+        \end{tabular}
+        %%\end{table}
+        $$Sum of products f(a,b,c,d) = \sum(\bar A.\bar B.\bar C.\bar D + \bar A.\bar B.\bar C.D + \bar A.\bar B.C.\bar D + \bar A.\bar B.C.D + \bar A.B.\bar C.D + \bar A.B.C.D + A.\bar B.\bar C.\bar D + A.\bar B.\bar C.D + A.\bar B.C.\bar D + A.\bar B.C.D + A.B.\bar C.\bar D + A.B.\bar C.D + A.B.C.D)$$
+$$Product of sums f(a,b,c,d) = \prod((A+\bar B+C+D) . (A+\bar B+\bar C+D) . (\bar A+\bar B+\bar C+D))$$
+
+Karnough map
+\begin{karnaugh-map}[4][4][1][CD][AB]
+          \minterms{0, 1, 2, 3, 5, 7, 8, 9, 10, 11, 12, 13, 15}
+          \maxterms{4, 6, 14}
+        %\autoterms[0]
+         \terms{}{X}
+        % simplification
+        \implicant{1}{11}
+\implicantedge{0}{2}{8}{10}
+\implicant{12}{9}
+          %\implicant{5}{15}
+          %\implicantedge{8}{8}{10}{10}
+          %\implicantedge{8}{8}{10}{10}[8,10]
+        \end{karnaugh-map}
+
+$$Simplified Sum of products:  d + b' + a.c' $$
+$$Simplified Product of sums: (a+b'+d).(b'+c'+d)$$
+\paragraph{Logigramme} de la fonction\\
+        %%\missingfigure[figwidth=6cm]{Logigramme}
+
+ \label{logigram-F}
+\begin{tikzpicture}
+
+ %%Paramaters
+%% var position, can be modified
+\def\varPos{3.00}
+\node (x) at (0, \varPos) {$A$};
+\node (y) at (0.5, \varPos) {$B$};
+\node (z) at (1, \varPos) {$C$};
+\node (w) at (1.5, \varPos) {$D$};
+
+            \node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.6)$) (notx) {};
+            \draw ($(x)+(0,-1ex)$) -| (notx.input); 
+            \node[not gate US, draw, rotate=270] at ($(y) + (0.25, -0.6)$) (noty) {};
+            \draw ($(y)+(0,-1ex)$) -| (noty.input); 
+            \node[not gate US, draw, rotate=270] at ($(z) + (0.25, -0.6)$) (notz) {};
+            \draw ($(z)+(0,-1ex)$) -| (notz.input);
+            \node[not gate US, draw, rotate=270] at ($(w) + (0.25, -0.6)$) (notw) {};
+            \draw ($(w)+(0,-1ex)$) -| (notw.input);
+         
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 0.00) (xandy0) {};\draw (xandy0.output) -- node[above]{\scriptsize $ D $} ($(xandy0) + (1.8, 0)$);
+                % W
+\draw ($(w) + (0, -1ex)$)|- (xandy0.input 4);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 1.20) (xandy1) {};\draw (xandy1.output) -- node[above]{\scriptsize $ \bar B $} ($(xandy1) + (1.8, 0)$);
+                % Y
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy1.input 2);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 2.40) (xandy2) {};\draw (xandy2.output) -- node[above]{\scriptsize $ A.\bar C $} ($(xandy2) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy2.input 1);
+% Z
+\draw [line width=0.25mm,   red] (notz.output)
+            -- ([xshift=0cm]notz.output) |- (xandy2.input 3);
+\node[or gate US, draw, rotate=0, logic gate inputs=nnnn] at (6, 1.20) (xory0) {};
+
+
+            \draw (xory0.output) -- node[above]{\scriptsize $F$} ($(xory0.east) + (+3ex, 0)$);
+
+
+            \draw (xandy0.output) -- ([xshift=1.60cm]xandy0.output) |- (xory0.input 3);
+
+\draw (xandy1.output) -- ([xshift=1.55cm]xandy1.output) |- (xory0.input 2);
+
+\draw (xandy2.output) -- ([xshift=1.60cm]xandy2.output) |- (xory0.input 1);
+
+ \end{tikzpicture}
+
+
+
+\paragraph{Q2}
+
+Simplifier l'expression suivante
+
+S = $ \bar a.c.d + \bar b.c.d + \bar a.\bar b.d + a.b.\bar c.d  +  \bar c.\bar d + a.\bar b.\bar c + \bar a.\bar b.\bar d  +  a.d + \bar b.d + a.\bar b.\bar c + \bar a.b.\bar c + \bar a.\bar b.c  +  b.\bar c.\bar d + a.\bar b.c.\bar d + a.\bar b.\bar c.d $
+
+ = $ d + \bar b + \bar c $
+
+
+Karnough map
+\begin{karnaugh-map}[4][4][1][CD][AB]
+          \minterms{0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13, 15}
+          \maxterms{6, 14}
+        %\autoterms[0]
+         \terms{}{X}
+        % simplification
+        \implicant{1}{11}
+\implicantedge{0}{2}{8}{10}
+\implicant{0}{9}
+          %\implicant{5}{15}
+          %\implicantedge{8}{8}{10}{10}
+          %\implicantedge{8}{8}{10}{10}[8,10]
+        \end{karnaugh-map}
+
+
+\pagebreak
+
+\paragraph{Q1}
+
+Etudier la fonction suivante
+
+$$f(a,b,c,d)=  a.b.d + a'.d' + b'.d' + a.b'.c' + a'.b'.c  +  a'.b.c' + a.b'.c.d' $$
+
+
+\paragraph{Q2}
+
+Simplifier l'expression suivante par les proprietés algébreiques 
+
+S = $ a.c.d + a.\bar b.\bar c + a.\bar c.\bar d + \bar b.\bar c.\bar d  +  a.\bar b.c.\bar d + \bar a.b.\bar c.\bar d + \bar a.\bar b.\bar c.d  +  \bar b + a.c.\bar d + a.\bar c.d  +  \bar a.c + \bar a.d + \bar b.\bar c + a.\bar c.\bar d $
+
+
+\hrule width 1\linewidth
+\pagebreak
+
+\subsection{Correction}
+
+
+\paragraph{Q1}
+
+$$f(a,b,c,d)= a.b.d + a'.d' + b'.d' + a.b'.c' + a'.b'.c  +  a'.b.c' + a.b'.c.d' $$
+$$f(a,b,c,d)=\sum(a.b.d + a'.d' + b'.d' + a.b'.c' + a'.b'.c  +  a'.b.c' + a.b'.c.d')$$
+
+%%\begin{table}
+        \begin{tabular}{|c|c|c|c|c||c|}
+    \toprule
+        N° & A & B & C & D & S0\\ \midrule0 & 0 & 0 & 0 & 0 & 1\\1 & 0 & 0 & 0 & 1 & 0\\2 & 0 & 0 & 1 & 0 & 1\\3 & 0 & 0 & 1 & 1 & 1\\\midrule4 & 0 & 1 & 0 & 0 & 1\\5 & 0 & 1 & 0 & 1 & 1\\6 & 0 & 1 & 1 & 0 & 1\\7 & 0 & 1 & 1 & 1 & 0\\\midrule8 & 1 & 0 & 0 & 0 & 1\\9 & 1 & 0 & 0 & 1 & 1\\10 & 1 & 0 & 1 & 0 & 1\\11 & 1 & 0 & 1 & 1 & 0\\\midrule12 & 1 & 1 & 0 & 0 & 0\\13 & 1 & 1 & 0 & 1 & 1\\14 & 1 & 1 & 1 & 0 & 0\\15 & 1 & 1 & 1 & 1 & 1\\\bottomrule
+        \end{tabular}
+        %%\end{table}
+        $$Sum of products f(a,b,c,d) = \sum(\bar A.\bar B.\bar C.\bar D + \bar A.\bar B.C.\bar D + \bar A.\bar B.C.D + \bar A.B.\bar C.\bar D + \bar A.B.\bar C.D + \bar A.B.C.\bar D + A.\bar B.\bar C.\bar D + A.\bar B.\bar C.D + A.\bar B.C.\bar D + A.B.\bar C.D + A.B.C.D)$$
+$$Product of sums f(a,b,c,d) = \prod((A+B+C+\bar D) . (A+\bar B+\bar C+\bar D) . (\bar A+B+\bar C+\bar D) . (\bar A+\bar B+C+D) . (\bar A+\bar B+\bar C+D))$$
+
+Karnough map
+\begin{karnaugh-map}[4][4][1][CD][AB]
+          \minterms{0, 2, 3, 4, 5, 6, 8, 9, 10, 13, 15}
+          \maxterms{1, 7, 11, 12, 14}
+        %\autoterms[0]
+         \terms{}{X}
+        % simplification
+        \implicant{13}{15}
+\implicantedge{0}{4}{2}{6}
+ \implicantcorner{0}{2}
+\implicant{8}{9}
+\implicant{4}{5}
+\implicant{3}{2}
+          %\implicant{5}{15}
+          %\implicantedge{8}{8}{10}{10}
+          %\implicantedge{8}{8}{10}{10}[8,10]
+        \end{karnaugh-map}
+
+$$Simplified Sum of products:  a.b.d + a'.d' + b'.d' + a.b'.c' + a'.b.c' + a'.b'.c $$
+$$Simplified Product of sums: (a'+b'+d).(a+b+c+d').(a+b'+c'+d').(a'+b+c'+d')$$
+\paragraph{Logigramme} de la fonction\\
+        %%\missingfigure[figwidth=6cm]{Logigramme}
+
+ \label{logigram-F}
+\begin{tikzpicture}
+
+ %%Paramaters
+%% var position, can be modified
+\def\varPos{6.00}
+\node (x) at (0, \varPos) {$A$};
+\node (y) at (0.5, \varPos) {$B$};
+\node (z) at (1, \varPos) {$C$};
+\node (w) at (1.5, \varPos) {$D$};
+
+            \node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.6)$) (notx) {};
+            \draw ($(x)+(0,-1ex)$) -| (notx.input); 
+            \node[not gate US, draw, rotate=270] at ($(y) + (0.25, -0.6)$) (noty) {};
+            \draw ($(y)+(0,-1ex)$) -| (noty.input); 
+            \node[not gate US, draw, rotate=270] at ($(z) + (0.25, -0.6)$) (notz) {};
+            \draw ($(z)+(0,-1ex)$) -| (notz.input);
+            \node[not gate US, draw, rotate=270] at ($(w) + (0.25, -0.6)$) (notw) {};
+            \draw ($(w)+(0,-1ex)$) -| (notw.input);
+         
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 0.00) (xandy0) {};\draw (xandy0.output) -- node[above]{\scriptsize $ A.B.D $} ($(xandy0) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy0.input 1);
+% Y
+\draw ($(y) + (0, -1ex)$)|- (xandy0.input 2);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy0.input 4);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 1.20) (xandy1) {};\draw (xandy1.output) -- node[above]{\scriptsize $ \bar A.\bar D $} ($(xandy1) + (1.8, 0)$);
+                % X
+\draw [line width=0.25mm,   red] (notx.output)
+            -- ([xshift=0cm]notx.output) |- (xandy1.input 1);
+% W
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy1.input 4);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 2.40) (xandy2) {};\draw (xandy2.output) -- node[above]{\scriptsize $ \bar B.\bar D $} ($(xandy2) + (1.8, 0)$);
+                % Y
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy2.input 2);
+% W
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy2.input 4);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 3.60) (xandy3) {};\draw (xandy3.output) -- node[above]{\scriptsize $ A.\bar B.\bar C $} ($(xandy3) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy3.input 1);
+% Y
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy3.input 2);
+% Z
+\draw [line width=0.25mm,   red] (notz.output)
+            -- ([xshift=0cm]notz.output) |- (xandy3.input 3);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 4.80) (xandy4) {};\draw (xandy4.output) -- node[above]{\scriptsize $ \bar A.B.\bar C $} ($(xandy4) + (1.8, 0)$);
+                % X
+\draw [line width=0.25mm,   red] (notx.output)
+            -- ([xshift=0cm]notx.output) |- (xandy4.input 1);
+% Y
+\draw ($(y) + (0, -1ex)$)|- (xandy4.input 2);
+% Z
+\draw [line width=0.25mm,   red] (notz.output)
+            -- ([xshift=0cm]notz.output) |- (xandy4.input 3);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 6.00) (xandy5) {};\draw (xandy5.output) -- node[above]{\scriptsize $ \bar A.\bar B.C $} ($(xandy5) + (1.8, 0)$);
+                % X
+\draw [line width=0.25mm,   red] (notx.output)
+            -- ([xshift=0cm]notx.output) |- (xandy5.input 1);
+% Y
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy5.input 2);
+% Z
+\draw ($(z) + (0, -1ex)$)|- (xandy5.input 3);
+\node[or gate US, draw, rotate=0, logic gate inputs=nnnnnnn] at (6, 3.00) (xory0) {};
+
+
+            \draw (xory0.output) -- node[above]{\scriptsize $F$} ($(xory0.east) + (+3ex, 0)$);
+
+
+            \draw (xandy0.output) -- ([xshift=1.60cm]xandy0.output) |- (xory0.input 6);
+
+\draw (xandy1.output) -- ([xshift=1.55cm]xandy1.output) |- (xory0.input 5);
+
+\draw (xandy2.output) -- ([xshift=1.50cm]xandy2.output) |- (xory0.input 4);
+
+\draw (xandy3.output) -- ([xshift=1.45cm]xandy3.output) |- (xory0.input 3);
+
+\draw (xandy4.output) -- ([xshift=1.50cm]xandy4.output) |- (xory0.input 2);
+
+\draw (xandy5.output) -- ([xshift=1.55cm]xandy5.output) |- (xory0.input 1);
+
+ \end{tikzpicture}
+
+
+
+\paragraph{Q2}
+
+Simplifier l'expression suivante
+
+S = $ a.c.d + a.\bar b.\bar c + a.\bar c.\bar d + \bar b.\bar c.\bar d  +  a.\bar b.c.\bar d + \bar a.b.\bar c.\bar d + \bar a.\bar b.\bar c.d  +  \bar b + a.c.\bar d + a.\bar c.d  +  \bar a.c + \bar a.d + \bar b.\bar c + a.\bar c.\bar d $
 
  = $ True $
 
@@ -282,78 +866,20 @@ Karnough map
         \end{karnaugh-map}
 
 
-
-\paragraph{Q2}
-
-Chronogramme
-
-
-
-        \scalebox{2}{ % scale
-        
-\begin{tikztimingtable}
-%[timing/slope=.0, timing/draw grid]
-[timing/slope=.0,  timing/wscale=1, scale=2.5, line width=1.25pt]
-% horloge signal
-$H$ & [timing/c/rising arrows] C 20{1C}\\
-$J$ &  4.5H 4L 1H 2.25L 0.75H 3.5L 3H 1.0H\\
-$K$ &  4.5L 2H 1L 4H 3.5L 0.5H 3L 0.5H 1.0H\\
-$Q$ &  1L 2H 2H 2L 2L 2H 2L 2L 2L 2H 2L\\
-$Q0'$ &  1H\\
-$Q1$ &  1L\\
-\extracode
-\begin{scope}[gray,semitransparent,densely dotted,thin]
-\horlines{}
-\vertlines{0}
-\end{scope}
-\begin{scope}[red,semitransparent,densely dotted,thin]
-\vertlines{1,3,...,\twidth}
-\end{scope}
-\end{tikztimingtable}
-
-        } %scale
-
-
 \pagebreak
 
 \paragraph{Q1}
 
-Simplifier l'expression suivante par les proprietés algébreiques 
+Etudier la fonction suivante
 
-S = $ a.b.\bar c + a.\bar c.d + \bar a.b.\bar d + \bar a.\bar b.d + a.\bar b.c.\bar d  +  \bar c.\bar d + \bar a.b.\bar c + \bar a.\bar b.c.d  +  b.d + b.\bar c + \bar a.\bar d + a.\bar c.d  +  b.c + a.\bar d + \bar a.\bar c $
+$$f(a,b,c,d)=  b.d + a.c.d' + a.b'.c'  +  a.d' + b.c'.d + a'.c.d + b'.c.d + b'.c'.d' $$
 
 
 \paragraph{Q2}
 
-Compléter le chronogramme suivant:
+Simplifier l'expression suivante par les proprietés algébreiques 
 
- 
-
-
-\scalebox{2}{ % scale
-        
-\begin{tikztimingtable}
-%[timing/slope=.0, timing/draw grid]
-[timing/slope=.0,  timing/wscale=1, scale=2.5, line width=1.25pt]
-% horloge signal
-$H$ & [timing/c/rising arrows] C 20{1C}\\
-$J$ &  2L 4.5H 3L 1.75H 2L 1H 1L 3H 1.25L 0.5H\\
-$K$ &  1H 2.5L 0.5H 0.25L 2H 3L 0.25H 4.75L 2H 2L 1.75H\\
-$Q$ &  1L\\
-$Q0'$ &  1H\\
-$Q1$ &  1L\\
-\extracode
-\begin{scope}[gray,semitransparent,densely dotted,thin]
-\horlines{}
-\vertlines{0}
-\end{scope}
-\begin{scope}[red,semitransparent,densely dotted,thin]
-\vertlines{1,3,...,\twidth}
-\end{scope}
-\end{tikztimingtable}
-
-        } %scale 
-
+S = $ \bar a.b + a.c.d + a.\bar b.\bar d  +  a.b.d + \bar a.\bar c.\bar d + a.\bar b.c.\bar d  +  a.c.d + \bar a.\bar b + a.b.\bar c  +  a.c + a.\bar b + \bar b.c.d + \bar a.b.\bar d + \bar a.\bar c.\bar d $
 
 
 \hrule width 1\linewidth
@@ -364,166 +890,1086 @@ $Q1$ &  1L\\
 
 \paragraph{Q1}
 
-Simplifier l'expression suivante
+$$f(a,b,c,d)= b.d + a.c.d' + a.b'.c'  +  a.d' + b.c'.d + a'.c.d + b'.c.d + b'.c'.d' $$
+$$f(a,b,c,d)=\sum(b.d + a.c.d' + a.b'.c'  +  a.d' + b.c'.d + a'.c.d + b'.c.d + b'.c'.d')$$
 
-S = $ a.b.\bar c + a.\bar c.d + \bar a.b.\bar d + \bar a.\bar b.d + a.\bar b.c.\bar d  +  \bar c.\bar d + \bar a.b.\bar c + \bar a.\bar b.c.d  +  b.d + b.\bar c + \bar a.\bar d + a.\bar c.d  +  b.c + a.\bar d + \bar a.\bar c $
-
- = $ b + \bar a + \bar c + \bar d $
-
-
-Karnough map
-\begin{karnaugh-map}[4][4][1][CD][AB]
-          \minterms{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15}
-          \maxterms{11}
-        %\autoterms[0]
-         \terms{}{X}
-        % simplification
-        \implicant{4}{14}
-\implicant{0}{6}
-\implicant{0}{9}
-\implicantedge{0}{8}{2}{10}
-          %\implicant{5}{15}
-          %\implicantedge{8}{8}{10}{10}
-          %\implicantedge{8}{8}{10}{10}[8,10]
-        \end{karnaugh-map}
-
-
-
-\paragraph{Q2}
-
-Chronogramme
-
-
-
-        \scalebox{2}{ % scale
-        
-\begin{tikztimingtable}
-%[timing/slope=.0, timing/draw grid]
-[timing/slope=.0,  timing/wscale=1, scale=2.5, line width=1.25pt]
-% horloge signal
-$H$ & [timing/c/rising arrows] C 20{1C}\\
-$J$ &  2L 4.5H 3L 1.75H 2L 1H 1L 3H 1.25L 0.5H\\
-$K$ &  1H 2.5L 0.5H 0.25L 2H 3L 0.25H 4.75L 2H 2L 1.75H\\
-$Q$ &  1L 2L 2H 2L 2L 2L 2H 2H 2L 2H 2L\\
-$Q0'$ &  1H\\
-$Q1$ &  1L\\
-\extracode
-\begin{scope}[gray,semitransparent,densely dotted,thin]
-\horlines{}
-\vertlines{0}
-\end{scope}
-\begin{scope}[red,semitransparent,densely dotted,thin]
-\vertlines{1,3,...,\twidth}
-\end{scope}
-\end{tikztimingtable}
-
-        } %scale
-
-
-\pagebreak
-
-\paragraph{Q1}
-
-Simplifier l'expression suivante par les proprietés algébreiques 
-
-S = $ \bar a.c.d + \bar b.c.d + \bar a.\bar b.d  +  a.c.d + b.\bar c.d + a.\bar c.\bar d  +  \bar a.\bar b.d + \bar a.\bar c.d + \bar b.\bar c.d + a.\bar b.c.\bar d + \bar a.b.c.\bar d  +  a.b.c + b.c.d + a.b.\bar d + \bar a.b.d + \bar a.b.\bar c + b.\bar c.\bar d + a.\bar b.\bar c.d + \bar a.\bar b.c.\bar d $
-
-
-\paragraph{Q2}
-
-Compléter le chronogramme suivant:
-
- 
-
-
-\scalebox{2}{ % scale
-        
-\begin{tikztimingtable}
-%[timing/slope=.0, timing/draw grid]
-[timing/slope=.0,  timing/wscale=1, scale=2.5, line width=1.25pt]
-% horloge signal
-$H$ & [timing/c/rising arrows] C 20{1C}\\
-$J$ &  1.5L 4.75H 4.5L 1H 1L 2.25H 3.5L 1.5H\\
-$K$ &  4.5L 3H 4L 4.25H 1L 2H 1L 0.25H\\
-$Q$ &  1L\\
-$Q0'$ &  1H\\
-$Q1$ &  1L\\
-\extracode
-\begin{scope}[gray,semitransparent,densely dotted,thin]
-\horlines{}
-\vertlines{0}
-\end{scope}
-\begin{scope}[red,semitransparent,densely dotted,thin]
-\vertlines{1,3,...,\twidth}
-\end{scope}
-\end{tikztimingtable}
-
-        } %scale 
-
-
-
-\hrule width 1\linewidth
-\pagebreak
-
-\subsection{Correction}
-
-
-\paragraph{Q1}
-
-Simplifier l'expression suivante
-
-S = $ \bar a.c.d + \bar b.c.d + \bar a.\bar b.d  +  a.c.d + b.\bar c.d + a.\bar c.\bar d  +  \bar a.\bar b.d + \bar a.\bar c.d + \bar b.\bar c.d + a.\bar b.c.\bar d + \bar a.b.c.\bar d  +  a.b.c + b.c.d + a.b.\bar d + \bar a.b.d + \bar a.b.\bar c + b.\bar c.\bar d + a.\bar b.\bar c.d + \bar a.\bar b.c.\bar d $
-
- = $ a + b + c + d $
-
+%%\begin{table}
+        \begin{tabular}{|c|c|c|c|c||c|}
+    \toprule
+        N° & A & B & C & D & S0\\ \midrule0 & 0 & 0 & 0 & 0 & 1\\1 & 0 & 0 & 0 & 1 & 0\\2 & 0 & 0 & 1 & 0 & 0\\3 & 0 & 0 & 1 & 1 & 1\\\midrule4 & 0 & 1 & 0 & 0 & 0\\5 & 0 & 1 & 0 & 1 & 1\\6 & 0 & 1 & 1 & 0 & 0\\7 & 0 & 1 & 1 & 1 & 1\\\midrule8 & 1 & 0 & 0 & 0 & 1\\9 & 1 & 0 & 0 & 1 & 1\\10 & 1 & 0 & 1 & 0 & 1\\11 & 1 & 0 & 1 & 1 & 1\\\midrule12 & 1 & 1 & 0 & 0 & 1\\13 & 1 & 1 & 0 & 1 & 1\\14 & 1 & 1 & 1 & 0 & 1\\15 & 1 & 1 & 1 & 1 & 1\\\bottomrule
+        \end{tabular}
+        %%\end{table}
+        $$Sum of products f(a,b,c,d) = \sum(\bar A.\bar B.\bar C.\bar D + \bar A.\bar B.C.D + \bar A.B.\bar C.D + \bar A.B.C.D + A.\bar B.\bar C.\bar D + A.\bar B.\bar C.D + A.\bar B.C.\bar D + A.\bar B.C.D + A.B.\bar C.\bar D + A.B.\bar C.D + A.B.C.\bar D + A.B.C.D)$$
+$$Product of sums f(a,b,c,d) = \prod((A+B+C+\bar D) . (A+B+\bar C+D) . (A+\bar B+C+D) . (A+\bar B+\bar C+D))$$
 
 Karnough map
 \begin{karnaugh-map}[4][4][1][CD][AB]
-          \minterms{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}
-          \maxterms{0}
+          \minterms{0, 3, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15}
+          \maxterms{1, 2, 4, 6}
         %\autoterms[0]
          \terms{}{X}
         % simplification
         \implicant{12}{10}
-\implicant{4}{14}
-\implicant{3}{10}
-\implicant{1}{11}
+\implicant{5}{15}
+\implicant{3}{11}
+\implicantedge{0}{0}{8}{8}
+          %\implicant{5}{15}
+          %\implicantedge{8}{8}{10}{10}
+          %\implicantedge{8}{8}{10}{10}[8,10]
+        \end{karnaugh-map}
+
+$$Simplified Sum of products:  a + b.d + c.d + b'.c'.d' $$
+$$Simplified Product of sums: (a+b'+d).(a+c'+d).(a+b+c+d')$$
+\paragraph{Logigramme} de la fonction\\
+        %%\missingfigure[figwidth=6cm]{Logigramme}
+
+ \label{logigram-F}
+\begin{tikzpicture}
+
+ %%Paramaters
+%% var position, can be modified
+\def\varPos{4.00}
+\node (x) at (0, \varPos) {$A$};
+\node (y) at (0.5, \varPos) {$B$};
+\node (z) at (1, \varPos) {$C$};
+\node (w) at (1.5, \varPos) {$D$};
+
+            \node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.6)$) (notx) {};
+            \draw ($(x)+(0,-1ex)$) -| (notx.input); 
+            \node[not gate US, draw, rotate=270] at ($(y) + (0.25, -0.6)$) (noty) {};
+            \draw ($(y)+(0,-1ex)$) -| (noty.input); 
+            \node[not gate US, draw, rotate=270] at ($(z) + (0.25, -0.6)$) (notz) {};
+            \draw ($(z)+(0,-1ex)$) -| (notz.input);
+            \node[not gate US, draw, rotate=270] at ($(w) + (0.25, -0.6)$) (notw) {};
+            \draw ($(w)+(0,-1ex)$) -| (notw.input);
+         
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 0.00) (xandy0) {};\draw (xandy0.output) -- node[above]{\scriptsize $ A $} ($(xandy0) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy0.input 1);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 1.20) (xandy1) {};\draw (xandy1.output) -- node[above]{\scriptsize $ B.D $} ($(xandy1) + (1.8, 0)$);
+                % Y
+\draw ($(y) + (0, -1ex)$)|- (xandy1.input 2);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy1.input 4);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 2.40) (xandy2) {};\draw (xandy2.output) -- node[above]{\scriptsize $ C.D $} ($(xandy2) + (1.8, 0)$);
+                % Z
+\draw ($(z) + (0, -1ex)$)|- (xandy2.input 3);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy2.input 4);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 3.60) (xandy3) {};\draw (xandy3.output) -- node[above]{\scriptsize $ \bar B.\bar C.\bar D $} ($(xandy3) + (1.8, 0)$);
+                % Y
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy3.input 2);
+% Z
+\draw [line width=0.25mm,   red] (notz.output)
+            -- ([xshift=0cm]notz.output) |- (xandy3.input 3);
+% W
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy3.input 4);
+\node[or gate US, draw, rotate=0, logic gate inputs=nnnnn] at (6, 1.80) (xory0) {};
+
+
+            \draw (xory0.output) -- node[above]{\scriptsize $F$} ($(xory0.east) + (+3ex, 0)$);
+
+
+            \draw (xandy0.output) -- ([xshift=1.60cm]xandy0.output) |- (xory0.input 4);
+
+\draw (xandy1.output) -- ([xshift=1.55cm]xandy1.output) |- (xory0.input 3);
+
+\draw (xandy2.output) -- ([xshift=1.50cm]xandy2.output) |- (xory0.input 2);
+
+\draw (xandy3.output) -- ([xshift=1.55cm]xandy3.output) |- (xory0.input 1);
+
+ \end{tikzpicture}
+
+
+
+\paragraph{Q2}
+
+Simplifier l'expression suivante
+
+S = $ \bar a.b + a.c.d + a.\bar b.\bar d  +  a.b.d + \bar a.\bar c.\bar d + a.\bar b.c.\bar d  +  a.c.d + \bar a.\bar b + a.b.\bar c  +  a.c + a.\bar b + \bar b.c.d + \bar a.b.\bar d + \bar a.\bar c.\bar d $
+
+ = $ True $
+
+
+Karnough map
+\begin{karnaugh-map}[4][4][1][CD][AB]
+          \minterms{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}
+          \maxterms{}
+        %\autoterms[0]
+         \terms{}{X}
+        % simplification
+        
           %\implicant{5}{15}
           %\implicantedge{8}{8}{10}{10}
           %\implicantedge{8}{8}{10}{10}[8,10]
         \end{karnaugh-map}
 
 
+\pagebreak
+
+\paragraph{Q1}
+
+Etudier la fonction suivante
+
+$$f(a,b,c,d)=  a.c.d' + a.c'.d + b.c'.d' + a'.c'.d'  +  a.d + b.c + b.d + c.d + a'.b'.c'.d' $$
+
 
 \paragraph{Q2}
 
-Chronogramme
+Simplifier l'expression suivante par les proprietés algébreiques 
+
+S = $ \bar b.c + a.c.d + b.\bar c.\bar d + \bar a.c.\bar d + \bar a.\bar b.d  +  a.c.d + b.c.\bar d + \bar a.b.\bar d  +  a.b + c.\bar d + \bar c.d  +  a.b.c + a.\bar b.\bar c + b.\bar c.\bar d + \bar a.\bar b.d $
+
+
+\hrule width 1\linewidth
+\pagebreak
+
+\subsection{Correction}
+
+
+\paragraph{Q1}
+
+$$f(a,b,c,d)= a.c.d' + a.c'.d + b.c'.d' + a'.c'.d'  +  a.d + b.c + b.d + c.d + a'.b'.c'.d' $$
+$$f(a,b,c,d)=\sum(a.c.d' + a.c'.d + b.c'.d' + a'.c'.d'  +  a.d + b.c + b.d + c.d + a'.b'.c'.d')$$
+
+%%\begin{table}
+        \begin{tabular}{|c|c|c|c|c||c|}
+    \toprule
+        N° & A & B & C & D & S0\\ \midrule0 & 0 & 0 & 0 & 0 & 1\\1 & 0 & 0 & 0 & 1 & 0\\2 & 0 & 0 & 1 & 0 & 0\\3 & 0 & 0 & 1 & 1 & 1\\\midrule4 & 0 & 1 & 0 & 0 & 1\\5 & 0 & 1 & 0 & 1 & 1\\6 & 0 & 1 & 1 & 0 & 1\\7 & 0 & 1 & 1 & 1 & 1\\\midrule8 & 1 & 0 & 0 & 0 & 0\\9 & 1 & 0 & 0 & 1 & 1\\10 & 1 & 0 & 1 & 0 & 1\\11 & 1 & 0 & 1 & 1 & 1\\\midrule12 & 1 & 1 & 0 & 0 & 1\\13 & 1 & 1 & 0 & 1 & 1\\14 & 1 & 1 & 1 & 0 & 1\\15 & 1 & 1 & 1 & 1 & 1\\\bottomrule
+        \end{tabular}
+        %%\end{table}
+        $$Sum of products f(a,b,c,d) = \sum(\bar A.\bar B.\bar C.\bar D + \bar A.\bar B.C.D + \bar A.B.\bar C.\bar D + \bar A.B.\bar C.D + \bar A.B.C.\bar D + \bar A.B.C.D + A.\bar B.\bar C.D + A.\bar B.C.\bar D + A.\bar B.C.D + A.B.\bar C.\bar D + A.B.\bar C.D + A.B.C.\bar D + A.B.C.D)$$
+$$Product of sums f(a,b,c,d) = \prod((A+B+C+\bar D) . (A+B+\bar C+D) . (\bar A+B+C+D))$$
+
+Karnough map
+\begin{karnaugh-map}[4][4][1][CD][AB]
+          \minterms{0, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15}
+          \maxterms{1, 2, 8}
+        %\autoterms[0]
+         \terms{}{X}
+        % simplification
+        \implicant{4}{14}
+\implicant{15}{10}
+\implicant{13}{11}
+\implicant{3}{11}
+\implicant{0}{4}
+          %\implicant{5}{15}
+          %\implicantedge{8}{8}{10}{10}
+          %\implicantedge{8}{8}{10}{10}[8,10]
+        \end{karnaugh-map}
+
+$$Simplified Sum of products:  b + a.c + a.d + c.d + a'.c'.d' $$
+$$Simplified Product of sums: (a+b+c+d').(a+b+c'+d).(a'+b+c+d)$$
+\paragraph{Logigramme} de la fonction\\
+        %%\missingfigure[figwidth=6cm]{Logigramme}
+
+ \label{logigram-F}
+\begin{tikzpicture}
+
+ %%Paramaters
+%% var position, can be modified
+\def\varPos{5.00}
+\node (x) at (0, \varPos) {$A$};
+\node (y) at (0.5, \varPos) {$B$};
+\node (z) at (1, \varPos) {$C$};
+\node (w) at (1.5, \varPos) {$D$};
+
+            \node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.6)$) (notx) {};
+            \draw ($(x)+(0,-1ex)$) -| (notx.input); 
+            \node[not gate US, draw, rotate=270] at ($(y) + (0.25, -0.6)$) (noty) {};
+            \draw ($(y)+(0,-1ex)$) -| (noty.input); 
+            \node[not gate US, draw, rotate=270] at ($(z) + (0.25, -0.6)$) (notz) {};
+            \draw ($(z)+(0,-1ex)$) -| (notz.input);
+            \node[not gate US, draw, rotate=270] at ($(w) + (0.25, -0.6)$) (notw) {};
+            \draw ($(w)+(0,-1ex)$) -| (notw.input);
+         
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 0.00) (xandy0) {};\draw (xandy0.output) -- node[above]{\scriptsize $ B $} ($(xandy0) + (1.8, 0)$);
+                % Y
+\draw ($(y) + (0, -1ex)$)|- (xandy0.input 2);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 1.20) (xandy1) {};\draw (xandy1.output) -- node[above]{\scriptsize $ A.C $} ($(xandy1) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy1.input 1);
+% Z
+\draw ($(z) + (0, -1ex)$)|- (xandy1.input 3);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 2.40) (xandy2) {};\draw (xandy2.output) -- node[above]{\scriptsize $ A.D $} ($(xandy2) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy2.input 1);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy2.input 4);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 3.60) (xandy3) {};\draw (xandy3.output) -- node[above]{\scriptsize $ C.D $} ($(xandy3) + (1.8, 0)$);
+                % Z
+\draw ($(z) + (0, -1ex)$)|- (xandy3.input 3);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy3.input 4);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 4.80) (xandy4) {};\draw (xandy4.output) -- node[above]{\scriptsize $ \bar A.\bar C.\bar D $} ($(xandy4) + (1.8, 0)$);
+                % X
+\draw [line width=0.25mm,   red] (notx.output)
+            -- ([xshift=0cm]notx.output) |- (xandy4.input 1);
+% Z
+\draw [line width=0.25mm,   red] (notz.output)
+            -- ([xshift=0cm]notz.output) |- (xandy4.input 3);
+% W
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy4.input 4);
+\node[or gate US, draw, rotate=0, logic gate inputs=nnnnnn] at (6, 2.40) (xory0) {};
+
+
+            \draw (xory0.output) -- node[above]{\scriptsize $F$} ($(xory0.east) + (+3ex, 0)$);
+
+
+            \draw (xandy0.output) -- ([xshift=1.60cm]xandy0.output) |- (xory0.input 5);
+
+\draw (xandy1.output) -- ([xshift=1.55cm]xandy1.output) |- (xory0.input 4);
+
+\draw (xandy2.output) -- ([xshift=1.50cm]xandy2.output) |- (xory0.input 3);
+
+\draw (xandy3.output) -- ([xshift=1.55cm]xandy3.output) |- (xory0.input 2);
+
+\draw (xandy4.output) -- ([xshift=1.60cm]xandy4.output) |- (xory0.input 1);
+
+ \end{tikzpicture}
 
 
 
-        \scalebox{2}{ % scale
+\paragraph{Q2}
+
+Simplifier l'expression suivante
+
+S = $ \bar b.c + a.c.d + b.\bar c.\bar d + \bar a.c.\bar d + \bar a.\bar b.d  +  a.c.d + b.c.\bar d + \bar a.b.\bar d  +  a.b + c.\bar d + \bar c.d  +  a.b.c + a.\bar b.\bar c + b.\bar c.\bar d + \bar a.\bar b.d $
+
+ = $ a + b.\bar c + b.\bar d + \bar b.c + c.\bar d + \bar b.d + \bar c.d $
+
+
+Karnough map
+\begin{karnaugh-map}[4][4][1][CD][AB]
+          \minterms{1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15}
+          \maxterms{0, 7}
+        %\autoterms[0]
+         \terms{}{X}
+        % simplification
+        \implicant{12}{10}
+\implicant{4}{13}
+\implicantedge{4}{12}{6}{14}
+\implicantedge{3}{2}{11}{10}
+\implicant{2}{10}
+\implicantedge{1}{3}{9}{11}
+\implicant{1}{9}
+          %\implicant{5}{15}
+          %\implicantedge{8}{8}{10}{10}
+          %\implicantedge{8}{8}{10}{10}[8,10]
+        \end{karnaugh-map}
+
+
+\pagebreak
+
+\paragraph{Q1}
+
+Etudier la fonction suivante
+
+$$f(a,b,c,d)=  b.c' + a.c.d + a'.c.d' + a'.b'.d  +  a.b.d' + a.c.d' + a.b'.d + a'.c.d + a'.c'.d' $$
+
+
+\paragraph{Q2}
+
+Simplifier l'expression suivante par les proprietés algébreiques 
+
+S = $ b.c + a.\bar d + \bar a.b.d + \bar a.c.d  +  a.\bar b.\bar c + \bar a.\bar b.c  +  c.d + a.b.c + \bar a.b.\bar c + \bar a.\bar b.\bar d  +  a.b.c.d + a.\bar c.\bar d + \bar a.b.\bar c.d $
+
+
+\hrule width 1\linewidth
+\pagebreak
+
+\subsection{Correction}
+
+
+\paragraph{Q1}
+
+$$f(a,b,c,d)= b.c' + a.c.d + a'.c.d' + a'.b'.d  +  a.b.d' + a.c.d' + a.b'.d + a'.c.d + a'.c'.d' $$
+$$f(a,b,c,d)=\sum(b.c' + a.c.d + a'.c.d' + a'.b'.d  +  a.b.d' + a.c.d' + a.b'.d + a'.c.d + a'.c'.d')$$
+
+%%\begin{table}
+        \begin{tabular}{|c|c|c|c|c||c|}
+    \toprule
+        N° & A & B & C & D & S0\\ \midrule0 & 0 & 0 & 0 & 0 & 1\\1 & 0 & 0 & 0 & 1 & 1\\2 & 0 & 0 & 1 & 0 & 1\\3 & 0 & 0 & 1 & 1 & 1\\\midrule4 & 0 & 1 & 0 & 0 & 1\\5 & 0 & 1 & 0 & 1 & 1\\6 & 0 & 1 & 1 & 0 & 1\\7 & 0 & 1 & 1 & 1 & 1\\\midrule8 & 1 & 0 & 0 & 0 & 0\\9 & 1 & 0 & 0 & 1 & 1\\10 & 1 & 0 & 1 & 0 & 1\\11 & 1 & 0 & 1 & 1 & 1\\\midrule12 & 1 & 1 & 0 & 0 & 1\\13 & 1 & 1 & 0 & 1 & 1\\14 & 1 & 1 & 1 & 0 & 1\\15 & 1 & 1 & 1 & 1 & 1\\\bottomrule
+        \end{tabular}
+        %%\end{table}
+        $$Sum of products f(a,b,c,d) = \sum(\bar A.\bar B.\bar C.\bar D + \bar A.\bar B.\bar C.D + \bar A.\bar B.C.\bar D + \bar A.\bar B.C.D + \bar A.B.\bar C.\bar D + \bar A.B.\bar C.D + \bar A.B.C.\bar D + \bar A.B.C.D + A.\bar B.\bar C.D + A.\bar B.C.\bar D + A.\bar B.C.D + A.B.\bar C.\bar D + A.B.\bar C.D + A.B.C.\bar D + A.B.C.D)$$
+$$Product of sums f(a,b,c,d) = \prod((\bar A+B+C+D))$$
+
+Karnough map
+\begin{karnaugh-map}[4][4][1][CD][AB]
+          \minterms{0, 1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15}
+          \maxterms{8}
+        %\autoterms[0]
+         \terms{}{X}
+        % simplification
+        \implicant{4}{14}
+\implicant{3}{10}
+\implicant{1}{11}
+\implicant{0}{6}
+          %\implicant{5}{15}
+          %\implicantedge{8}{8}{10}{10}
+          %\implicantedge{8}{8}{10}{10}[8,10]
+        \end{karnaugh-map}
+
+$$Simplified Sum of products:  b + c + d + a' $$
+$$Simplified Product of sums: (a'+b+c+d)$$
+\paragraph{Logigramme} de la fonction\\
+        %%\missingfigure[figwidth=6cm]{Logigramme}
+
+ \label{logigram-F}
+\begin{tikzpicture}
+
+ %%Paramaters
+%% var position, can be modified
+\def\varPos{4.00}
+\node (x) at (0, \varPos) {$A$};
+\node (y) at (0.5, \varPos) {$B$};
+\node (z) at (1, \varPos) {$C$};
+\node (w) at (1.5, \varPos) {$D$};
+
+            \node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.6)$) (notx) {};
+            \draw ($(x)+(0,-1ex)$) -| (notx.input); 
+            \node[not gate US, draw, rotate=270] at ($(y) + (0.25, -0.6)$) (noty) {};
+            \draw ($(y)+(0,-1ex)$) -| (noty.input); 
+            \node[not gate US, draw, rotate=270] at ($(z) + (0.25, -0.6)$) (notz) {};
+            \draw ($(z)+(0,-1ex)$) -| (notz.input);
+            \node[not gate US, draw, rotate=270] at ($(w) + (0.25, -0.6)$) (notw) {};
+            \draw ($(w)+(0,-1ex)$) -| (notw.input);
+         
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 0.00) (xandy0) {};\draw (xandy0.output) -- node[above]{\scriptsize $ B $} ($(xandy0) + (1.8, 0)$);
+                % Y
+\draw ($(y) + (0, -1ex)$)|- (xandy0.input 2);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 1.20) (xandy1) {};\draw (xandy1.output) -- node[above]{\scriptsize $ C $} ($(xandy1) + (1.8, 0)$);
+                % Z
+\draw ($(z) + (0, -1ex)$)|- (xandy1.input 3);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 2.40) (xandy2) {};\draw (xandy2.output) -- node[above]{\scriptsize $ D $} ($(xandy2) + (1.8, 0)$);
+                % W
+\draw ($(w) + (0, -1ex)$)|- (xandy2.input 4);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 3.60) (xandy3) {};\draw (xandy3.output) -- node[above]{\scriptsize $ \bar A $} ($(xandy3) + (1.8, 0)$);
+                % X
+\draw [line width=0.25mm,   red] (notx.output)
+            -- ([xshift=0cm]notx.output) |- (xandy3.input 1);
+\node[or gate US, draw, rotate=0, logic gate inputs=nnnnn] at (6, 1.80) (xory0) {};
+
+
+            \draw (xory0.output) -- node[above]{\scriptsize $F$} ($(xory0.east) + (+3ex, 0)$);
+
+
+            \draw (xandy0.output) -- ([xshift=1.60cm]xandy0.output) |- (xory0.input 4);
+
+\draw (xandy1.output) -- ([xshift=1.55cm]xandy1.output) |- (xory0.input 3);
+
+\draw (xandy2.output) -- ([xshift=1.50cm]xandy2.output) |- (xory0.input 2);
+
+\draw (xandy3.output) -- ([xshift=1.55cm]xandy3.output) |- (xory0.input 1);
+
+ \end{tikzpicture}
+
+
+
+\paragraph{Q2}
+
+Simplifier l'expression suivante
+
+S = $ b.c + a.\bar d + \bar a.b.d + \bar a.c.d  +  a.\bar b.\bar c + \bar a.\bar b.c  +  c.d + a.b.c + \bar a.b.\bar c + \bar a.\bar b.\bar d  +  a.b.c.d + a.\bar c.\bar d + \bar a.b.\bar c.d $
+
+ = $ c + \bar d + a.\bar b + \bar a.b $
+
+
+Karnough map
+\begin{karnaugh-map}[4][4][1][CD][AB]
+          \minterms{0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15}
+          \maxterms{1, 13}
+        %\autoterms[0]
+         \terms{}{X}
+        % simplification
+        \implicant{3}{10}
+\implicantedge{0}{8}{2}{10}
+\implicant{8}{10}
+\implicant{4}{6}
+          %\implicant{5}{15}
+          %\implicantedge{8}{8}{10}{10}
+          %\implicantedge{8}{8}{10}{10}[8,10]
+        \end{karnaugh-map}
+
+
+\pagebreak
+
+\paragraph{Q1}
+
+Etudier la fonction suivante
+
+$$f(a,b,c,d)=  a'.d + b'.d + c'.d + a.b.c.d' + a'.b'.c'  +  a.d' + b.c'.d' + b'.c.d' + b'.c'.d $$
+
+
+\paragraph{Q2}
+
+Simplifier l'expression suivante par les proprietés algébreiques 
+
+S = $ a.b.c.d + a.\bar b.c.\bar d + a.\bar b.\bar c.d + \bar a.b.\bar c.d  +  \bar b.\bar c.d + \bar a.b.c.d + a.\bar b.c.\bar d + \bar a.b.\bar c.\bar d  +  \bar a.\bar b.\bar c + a.\bar b.c.\bar d  +  \bar a.b.d + a.b.c.\bar d + a.\bar b.c.d $
+
+
+\hrule width 1\linewidth
+\pagebreak
+
+\subsection{Correction}
+
+
+\paragraph{Q1}
+
+$$f(a,b,c,d)= a'.d + b'.d + c'.d + a.b.c.d' + a'.b'.c'  +  a.d' + b.c'.d' + b'.c.d' + b'.c'.d $$
+$$f(a,b,c,d)=\sum(a'.d + b'.d + c'.d + a.b.c.d' + a'.b'.c'  +  a.d' + b.c'.d' + b'.c.d' + b'.c'.d)$$
+
+%%\begin{table}
+        \begin{tabular}{|c|c|c|c|c||c|}
+    \toprule
+        N° & A & B & C & D & S0\\ \midrule0 & 0 & 0 & 0 & 0 & 1\\1 & 0 & 0 & 0 & 1 & 1\\2 & 0 & 0 & 1 & 0 & 1\\3 & 0 & 0 & 1 & 1 & 1\\\midrule4 & 0 & 1 & 0 & 0 & 1\\5 & 0 & 1 & 0 & 1 & 1\\6 & 0 & 1 & 1 & 0 & 0\\7 & 0 & 1 & 1 & 1 & 1\\\midrule8 & 1 & 0 & 0 & 0 & 1\\9 & 1 & 0 & 0 & 1 & 1\\10 & 1 & 0 & 1 & 0 & 1\\11 & 1 & 0 & 1 & 1 & 1\\\midrule12 & 1 & 1 & 0 & 0 & 1\\13 & 1 & 1 & 0 & 1 & 1\\14 & 1 & 1 & 1 & 0 & 1\\15 & 1 & 1 & 1 & 1 & 0\\\bottomrule
+        \end{tabular}
+        %%\end{table}
+        $$Sum of products f(a,b,c,d) = \sum(\bar A.\bar B.\bar C.\bar D + \bar A.\bar B.\bar C.D + \bar A.\bar B.C.\bar D + \bar A.\bar B.C.D + \bar A.B.\bar C.\bar D + \bar A.B.\bar C.D + \bar A.B.C.D + A.\bar B.\bar C.\bar D + A.\bar B.\bar C.D + A.\bar B.C.\bar D + A.\bar B.C.D + A.B.\bar C.\bar D + A.B.\bar C.D + A.B.C.\bar D)$$
+$$Product of sums f(a,b,c,d) = \prod((A+\bar B+\bar C+D) . (\bar A+\bar B+\bar C+\bar D))$$
+
+Karnough map
+\begin{karnaugh-map}[4][4][1][CD][AB]
+          \minterms{0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14}
+          \maxterms{6, 15}
+        %\autoterms[0]
+         \terms{}{X}
+        % simplification
+        \implicantedge{0}{2}{8}{10}
+\implicant{0}{9}
+\implicantedge{12}{8}{14}{10}
+\implicant{1}{7}
+          %\implicant{5}{15}
+          %\implicantedge{8}{8}{10}{10}
+          %\implicantedge{8}{8}{10}{10}[8,10]
+        \end{karnaugh-map}
+
+$$Simplified Sum of products:  b' + c' + a.d' + a'.d $$
+$$Simplified Product of sums: (a+b'+c'+d).(a'+b'+c'+d')$$
+\paragraph{Logigramme} de la fonction\\
+        %%\missingfigure[figwidth=6cm]{Logigramme}
+
+ \label{logigram-F}
+\begin{tikzpicture}
+
+ %%Paramaters
+%% var position, can be modified
+\def\varPos{4.00}
+\node (x) at (0, \varPos) {$A$};
+\node (y) at (0.5, \varPos) {$B$};
+\node (z) at (1, \varPos) {$C$};
+\node (w) at (1.5, \varPos) {$D$};
+
+            \node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.6)$) (notx) {};
+            \draw ($(x)+(0,-1ex)$) -| (notx.input); 
+            \node[not gate US, draw, rotate=270] at ($(y) + (0.25, -0.6)$) (noty) {};
+            \draw ($(y)+(0,-1ex)$) -| (noty.input); 
+            \node[not gate US, draw, rotate=270] at ($(z) + (0.25, -0.6)$) (notz) {};
+            \draw ($(z)+(0,-1ex)$) -| (notz.input);
+            \node[not gate US, draw, rotate=270] at ($(w) + (0.25, -0.6)$) (notw) {};
+            \draw ($(w)+(0,-1ex)$) -| (notw.input);
+         
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 0.00) (xandy0) {};\draw (xandy0.output) -- node[above]{\scriptsize $ \bar B $} ($(xandy0) + (1.8, 0)$);
+                % Y
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy0.input 2);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 1.20) (xandy1) {};\draw (xandy1.output) -- node[above]{\scriptsize $ \bar C $} ($(xandy1) + (1.8, 0)$);
+                % Z
+\draw [line width=0.25mm,   red] (notz.output)
+            -- ([xshift=0cm]notz.output) |- (xandy1.input 3);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 2.40) (xandy2) {};\draw (xandy2.output) -- node[above]{\scriptsize $ A.\bar D $} ($(xandy2) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy2.input 1);
+% W
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy2.input 4);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 3.60) (xandy3) {};\draw (xandy3.output) -- node[above]{\scriptsize $ \bar A.D $} ($(xandy3) + (1.8, 0)$);
+                % X
+\draw [line width=0.25mm,   red] (notx.output)
+            -- ([xshift=0cm]notx.output) |- (xandy3.input 1);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy3.input 4);
+\node[or gate US, draw, rotate=0, logic gate inputs=nnnnn] at (6, 1.80) (xory0) {};
+
+
+            \draw (xory0.output) -- node[above]{\scriptsize $F$} ($(xory0.east) + (+3ex, 0)$);
+
+
+            \draw (xandy0.output) -- ([xshift=1.60cm]xandy0.output) |- (xory0.input 4);
+
+\draw (xandy1.output) -- ([xshift=1.55cm]xandy1.output) |- (xory0.input 3);
+
+\draw (xandy2.output) -- ([xshift=1.50cm]xandy2.output) |- (xory0.input 2);
+
+\draw (xandy3.output) -- ([xshift=1.55cm]xandy3.output) |- (xory0.input 1);
+
+ \end{tikzpicture}
+
+
+
+\paragraph{Q2}
+
+Simplifier l'expression suivante
+
+S = $ a.b.c.d + a.\bar b.c.\bar d + a.\bar b.\bar c.d + \bar a.b.\bar c.d  +  \bar b.\bar c.d + \bar a.b.c.d + a.\bar b.c.\bar d + \bar a.b.\bar c.\bar d  +  \bar a.\bar b.\bar c + a.\bar b.c.\bar d  +  \bar a.b.d + a.b.c.\bar d + a.\bar b.c.d $
+
+ = $ a.c + \bar a.\bar c + \bar a.b.d + \bar b.\bar c.d $
+
+
+Karnough map
+\begin{karnaugh-map}[4][4][1][CD][AB]
+          \minterms{0, 1, 4, 5, 7, 9, 10, 11, 14, 15}
+          \maxterms{2, 3, 6, 8, 12, 13}
+        %\autoterms[0]
+         \terms{}{X}
+        % simplification
+        \implicant{15}{10}
+\implicant{0}{5}
+\implicant{5}{7}
+\implicantedge{1}{1}{9}{9}
+          %\implicant{5}{15}
+          %\implicantedge{8}{8}{10}{10}
+          %\implicantedge{8}{8}{10}{10}[8,10]
+        \end{karnaugh-map}
+
+
+\pagebreak
+
+\paragraph{Q1}
+
+Etudier la fonction suivante
+
+$$f(a,b,c,d)=  a.c.d' + a'.b.c' + a'.c'.d' + a.b'.c'.d  +  a.b.c'.d' + a'.b.c.d' + a'.b'.c'.d $$
+
+
+\paragraph{Q2}
+
+Simplifier l'expression suivante par les proprietés algébreiques 
+
+S = $ c.\bar d + a.b.c + \bar a.\bar b + \bar b.\bar c  +  a.c.d + \bar a.b.\bar c + \bar a.\bar b.d + a.\bar b.\bar c.\bar d  +  a.\bar d + \bar b.c + \bar a.d + \bar a.b.\bar c  +  a.\bar b.c + b.c.\bar d + b.\bar c.d + \bar a.\bar b.\bar c.\bar d $
+
+
+\hrule width 1\linewidth
+\pagebreak
+
+\subsection{Correction}
+
+
+\paragraph{Q1}
+
+$$f(a,b,c,d)= a.c.d' + a'.b.c' + a'.c'.d' + a.b'.c'.d  +  a.b.c'.d' + a'.b.c.d' + a'.b'.c'.d $$
+$$f(a,b,c,d)=\sum(a.c.d' + a'.b.c' + a'.c'.d' + a.b'.c'.d  +  a.b.c'.d' + a'.b.c.d' + a'.b'.c'.d)$$
+
+%%\begin{table}
+        \begin{tabular}{|c|c|c|c|c||c|}
+    \toprule
+        N° & A & B & C & D & S0\\ \midrule0 & 0 & 0 & 0 & 0 & 1\\1 & 0 & 0 & 0 & 1 & 1\\2 & 0 & 0 & 1 & 0 & 0\\3 & 0 & 0 & 1 & 1 & 0\\\midrule4 & 0 & 1 & 0 & 0 & 1\\5 & 0 & 1 & 0 & 1 & 1\\6 & 0 & 1 & 1 & 0 & 1\\7 & 0 & 1 & 1 & 1 & 0\\\midrule8 & 1 & 0 & 0 & 0 & 0\\9 & 1 & 0 & 0 & 1 & 1\\10 & 1 & 0 & 1 & 0 & 1\\11 & 1 & 0 & 1 & 1 & 0\\\midrule12 & 1 & 1 & 0 & 0 & 1\\13 & 1 & 1 & 0 & 1 & 0\\14 & 1 & 1 & 1 & 0 & 1\\15 & 1 & 1 & 1 & 1 & 0\\\bottomrule
+        \end{tabular}
+        %%\end{table}
+        $$Sum of products f(a,b,c,d) = \sum(\bar A.\bar B.\bar C.\bar D + \bar A.\bar B.\bar C.D + \bar A.B.\bar C.\bar D + \bar A.B.\bar C.D + \bar A.B.C.\bar D + A.\bar B.\bar C.D + A.\bar B.C.\bar D + A.B.\bar C.\bar D + A.B.C.\bar D)$$
+$$Product of sums f(a,b,c,d) = \prod((A+B+\bar C+D) . (A+B+\bar C+\bar D) . (A+\bar B+\bar C+\bar D) . (\bar A+B+C+D) . (\bar A+B+\bar C+\bar D) . (\bar A+\bar B+C+\bar D) . (\bar A+\bar B+\bar C+\bar D))$$
+
+Karnough map
+\begin{karnaugh-map}[4][4][1][CD][AB]
+          \minterms{0, 1, 4, 5, 6, 9, 10, 12, 14}
+          \maxterms{2, 3, 7, 8, 11, 13, 15}
+        %\autoterms[0]
+         \terms{}{X}
+        % simplification
+        \implicantedge{4}{12}{6}{14}
+\implicant{0}{5}
+\implicant{14}{10}
+\implicantedge{1}{1}{9}{9}
+          %\implicant{5}{15}
+          %\implicantedge{8}{8}{10}{10}
+          %\implicantedge{8}{8}{10}{10}[8,10]
+        \end{karnaugh-map}
+
+$$Simplified Sum of products:  b.d' + a'.c' + a.c.d' + b'.c'.d $$
+$$Simplified Product of sums: (c'+d').(a+b+c').(a'+b+c+d).(a'+b'+d')$$
+\paragraph{Logigramme} de la fonction\\
+        %%\missingfigure[figwidth=6cm]{Logigramme}
+
+ \label{logigram-F}
+\begin{tikzpicture}
+
+ %%Paramaters
+%% var position, can be modified
+\def\varPos{4.00}
+\node (x) at (0, \varPos) {$A$};
+\node (y) at (0.5, \varPos) {$B$};
+\node (z) at (1, \varPos) {$C$};
+\node (w) at (1.5, \varPos) {$D$};
+
+            \node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.6)$) (notx) {};
+            \draw ($(x)+(0,-1ex)$) -| (notx.input); 
+            \node[not gate US, draw, rotate=270] at ($(y) + (0.25, -0.6)$) (noty) {};
+            \draw ($(y)+(0,-1ex)$) -| (noty.input); 
+            \node[not gate US, draw, rotate=270] at ($(z) + (0.25, -0.6)$) (notz) {};
+            \draw ($(z)+(0,-1ex)$) -| (notz.input);
+            \node[not gate US, draw, rotate=270] at ($(w) + (0.25, -0.6)$) (notw) {};
+            \draw ($(w)+(0,-1ex)$) -| (notw.input);
+         
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 0.00) (xandy0) {};\draw (xandy0.output) -- node[above]{\scriptsize $ B.\bar D $} ($(xandy0) + (1.8, 0)$);
+                % Y
+\draw ($(y) + (0, -1ex)$)|- (xandy0.input 2);
+% W
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy0.input 4);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 1.20) (xandy1) {};\draw (xandy1.output) -- node[above]{\scriptsize $ \bar A.\bar C $} ($(xandy1) + (1.8, 0)$);
+                % X
+\draw [line width=0.25mm,   red] (notx.output)
+            -- ([xshift=0cm]notx.output) |- (xandy1.input 1);
+% Z
+\draw [line width=0.25mm,   red] (notz.output)
+            -- ([xshift=0cm]notz.output) |- (xandy1.input 3);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 2.40) (xandy2) {};\draw (xandy2.output) -- node[above]{\scriptsize $ A.C.\bar D $} ($(xandy2) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy2.input 1);
+% Z
+\draw ($(z) + (0, -1ex)$)|- (xandy2.input 3);
+% W
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy2.input 4);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 3.60) (xandy3) {};\draw (xandy3.output) -- node[above]{\scriptsize $ \bar B.\bar C.D $} ($(xandy3) + (1.8, 0)$);
+                % Y
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy3.input 2);
+% Z
+\draw [line width=0.25mm,   red] (notz.output)
+            -- ([xshift=0cm]notz.output) |- (xandy3.input 3);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy3.input 4);
+\node[or gate US, draw, rotate=0, logic gate inputs=nnnnn] at (6, 1.80) (xory0) {};
+
+
+            \draw (xory0.output) -- node[above]{\scriptsize $F$} ($(xory0.east) + (+3ex, 0)$);
+
+
+            \draw (xandy0.output) -- ([xshift=1.60cm]xandy0.output) |- (xory0.input 4);
+
+\draw (xandy1.output) -- ([xshift=1.55cm]xandy1.output) |- (xory0.input 3);
+
+\draw (xandy2.output) -- ([xshift=1.50cm]xandy2.output) |- (xory0.input 2);
+
+\draw (xandy3.output) -- ([xshift=1.55cm]xandy3.output) |- (xory0.input 1);
+
+ \end{tikzpicture}
+
+
+
+\paragraph{Q2}
+
+Simplifier l'expression suivante
+
+S = $ c.\bar d + a.b.c + \bar a.\bar b + \bar b.\bar c  +  a.c.d + \bar a.b.\bar c + \bar a.\bar b.d + a.\bar b.\bar c.\bar d  +  a.\bar d + \bar b.c + \bar a.d + \bar a.b.\bar c  +  a.\bar b.c + b.c.\bar d + b.\bar c.d + \bar a.\bar b.\bar c.\bar d $
+
+ = $ True $
+
+
+Karnough map
+\begin{karnaugh-map}[4][4][1][CD][AB]
+          \minterms{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}
+          \maxterms{}
+        %\autoterms[0]
+         \terms{}{X}
+        % simplification
         
-\begin{tikztimingtable}
-%[timing/slope=.0, timing/draw grid]
-[timing/slope=.0,  timing/wscale=1, scale=2.5, line width=1.25pt]
-% horloge signal
-$H$ & [timing/c/rising arrows] C 20{1C}\\
-$J$ &  1.5L 4.75H 4.5L 1H 1L 2.25H 3.5L 1.5H\\
-$K$ &  4.5L 3H 4L 4.25H 1L 2H 1L 0.25H\\
-$Q$ &  1L 2L 2H 2L 2L 2L 2H 2L 2H 2L 2H\\
-$Q0'$ &  1H\\
-$Q1$ &  1L\\
-\extracode
-\begin{scope}[gray,semitransparent,densely dotted,thin]
-\horlines{}
-\vertlines{0}
-\end{scope}
-\begin{scope}[red,semitransparent,densely dotted,thin]
-\vertlines{1,3,...,\twidth}
-\end{scope}
-\end{tikztimingtable}
+          %\implicant{5}{15}
+          %\implicantedge{8}{8}{10}{10}
+          %\implicantedge{8}{8}{10}{10}[8,10]
+        \end{karnaugh-map}
 
-        } %scale
+
+\pagebreak
+
+\paragraph{Q1}
+
+Etudier la fonction suivante
+
+$$f(a,b,c,d)=  c'.d + a.c.d' + a.b'.c' + a'.b.c' + a'.b'.d  +  b.c.d + a'.c' + a.b'.c + b'.c'.d $$
+
+
+\paragraph{Q2}
+
+Simplifier l'expression suivante par les proprietés algébreiques 
+
+S = $ a.c.\bar d + a.\bar b.\bar c.d  +  \bar a.\bar b.d + \bar a.\bar c.d + \bar b.\bar c.d + a.b.\bar c.\bar d  +  b.\bar c.d + \bar a.b.\bar c + \bar a.\bar c.d + a.b.c.\bar d  +  a.c + c.\bar d + \bar b.d + \bar a.\bar b + \bar a.\bar c.d $
+
+
+\hrule width 1\linewidth
+\pagebreak
+
+\subsection{Correction}
+
+
+\paragraph{Q1}
+
+$$f(a,b,c,d)= c'.d + a.c.d' + a.b'.c' + a'.b.c' + a'.b'.d  +  b.c.d + a'.c' + a.b'.c + b'.c'.d $$
+$$f(a,b,c,d)=\sum(c'.d + a.c.d' + a.b'.c' + a'.b.c' + a'.b'.d  +  b.c.d + a'.c' + a.b'.c + b'.c'.d)$$
+
+%%\begin{table}
+        \begin{tabular}{|c|c|c|c|c||c|}
+    \toprule
+        N° & A & B & C & D & S0\\ \midrule0 & 0 & 0 & 0 & 0 & 1\\1 & 0 & 0 & 0 & 1 & 1\\2 & 0 & 0 & 1 & 0 & 0\\3 & 0 & 0 & 1 & 1 & 1\\\midrule4 & 0 & 1 & 0 & 0 & 1\\5 & 0 & 1 & 0 & 1 & 1\\6 & 0 & 1 & 1 & 0 & 0\\7 & 0 & 1 & 1 & 1 & 1\\\midrule8 & 1 & 0 & 0 & 0 & 1\\9 & 1 & 0 & 0 & 1 & 1\\10 & 1 & 0 & 1 & 0 & 1\\11 & 1 & 0 & 1 & 1 & 1\\\midrule12 & 1 & 1 & 0 & 0 & 0\\13 & 1 & 1 & 0 & 1 & 1\\14 & 1 & 1 & 1 & 0 & 1\\15 & 1 & 1 & 1 & 1 & 1\\\bottomrule
+        \end{tabular}
+        %%\end{table}
+        $$Sum of products f(a,b,c,d) = \sum(\bar A.\bar B.\bar C.\bar D + \bar A.\bar B.\bar C.D + \bar A.\bar B.C.D + \bar A.B.\bar C.\bar D + \bar A.B.\bar C.D + \bar A.B.C.D + A.\bar B.\bar C.\bar D + A.\bar B.\bar C.D + A.\bar B.C.\bar D + A.\bar B.C.D + A.B.\bar C.D + A.B.C.\bar D + A.B.C.D)$$
+$$Product of sums f(a,b,c,d) = \prod((A+B+\bar C+D) . (A+\bar B+\bar C+D) . (\bar A+\bar B+C+D))$$
+
+Karnough map
+\begin{karnaugh-map}[4][4][1][CD][AB]
+          \minterms{0, 1, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15}
+          \maxterms{2, 6, 12}
+        %\autoterms[0]
+         \terms{}{X}
+        % simplification
+        \implicant{1}{11}
+\implicant{15}{10}
+\implicant{0}{5}
+\implicantedge{0}{1}{8}{9}
+          %\implicant{5}{15}
+          %\implicantedge{8}{8}{10}{10}
+          %\implicantedge{8}{8}{10}{10}[8,10]
+        \end{karnaugh-map}
+
+$$Simplified Sum of products:  d + a.c + a'.c' + b'.c' $$
+$$Simplified Product of sums: (a+c'+d).(a'+b'+c+d)$$
+\paragraph{Logigramme} de la fonction\\
+        %%\missingfigure[figwidth=6cm]{Logigramme}
+
+ \label{logigram-F}
+\begin{tikzpicture}
+
+ %%Paramaters
+%% var position, can be modified
+\def\varPos{4.00}
+\node (x) at (0, \varPos) {$A$};
+\node (y) at (0.5, \varPos) {$B$};
+\node (z) at (1, \varPos) {$C$};
+\node (w) at (1.5, \varPos) {$D$};
+
+            \node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.6)$) (notx) {};
+            \draw ($(x)+(0,-1ex)$) -| (notx.input); 
+            \node[not gate US, draw, rotate=270] at ($(y) + (0.25, -0.6)$) (noty) {};
+            \draw ($(y)+(0,-1ex)$) -| (noty.input); 
+            \node[not gate US, draw, rotate=270] at ($(z) + (0.25, -0.6)$) (notz) {};
+            \draw ($(z)+(0,-1ex)$) -| (notz.input);
+            \node[not gate US, draw, rotate=270] at ($(w) + (0.25, -0.6)$) (notw) {};
+            \draw ($(w)+(0,-1ex)$) -| (notw.input);
+         
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 0.00) (xandy0) {};\draw (xandy0.output) -- node[above]{\scriptsize $ D $} ($(xandy0) + (1.8, 0)$);
+                % W
+\draw ($(w) + (0, -1ex)$)|- (xandy0.input 4);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 1.20) (xandy1) {};\draw (xandy1.output) -- node[above]{\scriptsize $ A.C $} ($(xandy1) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy1.input 1);
+% Z
+\draw ($(z) + (0, -1ex)$)|- (xandy1.input 3);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 2.40) (xandy2) {};\draw (xandy2.output) -- node[above]{\scriptsize $ \bar A.\bar C $} ($(xandy2) + (1.8, 0)$);
+                % X
+\draw [line width=0.25mm,   red] (notx.output)
+            -- ([xshift=0cm]notx.output) |- (xandy2.input 1);
+% Z
+\draw [line width=0.25mm,   red] (notz.output)
+            -- ([xshift=0cm]notz.output) |- (xandy2.input 3);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 3.60) (xandy3) {};\draw (xandy3.output) -- node[above]{\scriptsize $ \bar B.\bar C $} ($(xandy3) + (1.8, 0)$);
+                % Y
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy3.input 2);
+% Z
+\draw [line width=0.25mm,   red] (notz.output)
+            -- ([xshift=0cm]notz.output) |- (xandy3.input 3);
+\node[or gate US, draw, rotate=0, logic gate inputs=nnnnn] at (6, 1.80) (xory0) {};
+
+
+            \draw (xory0.output) -- node[above]{\scriptsize $F$} ($(xory0.east) + (+3ex, 0)$);
+
+
+            \draw (xandy0.output) -- ([xshift=1.60cm]xandy0.output) |- (xory0.input 4);
+
+\draw (xandy1.output) -- ([xshift=1.55cm]xandy1.output) |- (xory0.input 3);
+
+\draw (xandy2.output) -- ([xshift=1.50cm]xandy2.output) |- (xory0.input 2);
+
+\draw (xandy3.output) -- ([xshift=1.55cm]xandy3.output) |- (xory0.input 1);
+
+ \end{tikzpicture}
+
+
+
+\paragraph{Q2}
+
+Simplifier l'expression suivante
+
+S = $ a.c.\bar d + a.\bar b.\bar c.d  +  \bar a.\bar b.d + \bar a.\bar c.d + \bar b.\bar c.d + a.b.\bar c.\bar d  +  b.\bar c.d + \bar a.b.\bar c + \bar a.\bar c.d + a.b.c.\bar d  +  a.c + c.\bar d + \bar b.d + \bar a.\bar b + \bar a.\bar c.d $
+
+ = $ a.b + a.c + a.d + b.\bar c + b.\bar d + \bar b.c + c.\bar d + \bar b.d + \bar c.d + \bar a.\bar b + \bar a.\bar c + \bar a.\bar d $
+
+
+Karnough map
+\begin{karnaugh-map}[4][4][1][CD][AB]
+          \minterms{0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15}
+          \maxterms{7, 8}
+        %\autoterms[0]
+         \terms{}{X}
+        % simplification
+        \implicant{12}{14}
+\implicant{15}{10}
+\implicant{13}{11}
+\implicant{4}{13}
+\implicantedge{4}{12}{6}{14}
+\implicantedge{3}{2}{11}{10}
+\implicant{2}{10}
+\implicantedge{1}{3}{9}{11}
+\implicant{1}{9}
+\implicant{0}{2}
+\implicant{0}{5}
+\implicantedge{0}{4}{2}{6}
+          %\implicant{5}{15}
+          %\implicantedge{8}{8}{10}{10}
+          %\implicantedge{8}{8}{10}{10}[8,10]
+        \end{karnaugh-map}
+
+
+\pagebreak
+
+\paragraph{Q1}
+
+Etudier la fonction suivante
+
+$$f(a,b,c,d)=  a'.b.d' + a'.c'.d  +  b'.c.d' + a.b.c'.d + a'.b'.c'.d $$
+
+
+\paragraph{Q2}
+
+Simplifier l'expression suivante par les proprietés algébreiques 
+
+S = $ a.c.d + b.\bar c.d + \bar a.\bar c.d + \bar b.\bar c.\bar d + \bar a.b.c.\bar d  +  a.b.\bar d + a.\bar b.d + \bar a.b.\bar c + \bar a.\bar b.c + \bar a.\bar b.\bar d  +  a.b.d + b.c.d + a.\bar c.d + \bar a.b.c + \bar a.b.\bar d + \bar b.\bar c.d + \bar a.\bar b.\bar c + \bar a.\bar c.\bar d  +  a.c.d + b.c.d + \bar a.\bar b.\bar c.\bar d $
+
+
+\hrule width 1\linewidth
+\pagebreak
+
+\subsection{Correction}
+
+
+\paragraph{Q1}
+
+$$f(a,b,c,d)= a'.b.d' + a'.c'.d  +  b'.c.d' + a.b.c'.d + a'.b'.c'.d $$
+$$f(a,b,c,d)=\sum(a'.b.d' + a'.c'.d  +  b'.c.d' + a.b.c'.d + a'.b'.c'.d)$$
+
+%%\begin{table}
+        \begin{tabular}{|c|c|c|c|c||c|}
+    \toprule
+        N° & A & B & C & D & S0\\ \midrule0 & 0 & 0 & 0 & 0 & 0\\1 & 0 & 0 & 0 & 1 & 1\\2 & 0 & 0 & 1 & 0 & 1\\3 & 0 & 0 & 1 & 1 & 0\\\midrule4 & 0 & 1 & 0 & 0 & 1\\5 & 0 & 1 & 0 & 1 & 1\\6 & 0 & 1 & 1 & 0 & 1\\7 & 0 & 1 & 1 & 1 & 0\\\midrule8 & 1 & 0 & 0 & 0 & 0\\9 & 1 & 0 & 0 & 1 & 0\\10 & 1 & 0 & 1 & 0 & 1\\11 & 1 & 0 & 1 & 1 & 0\\\midrule12 & 1 & 1 & 0 & 0 & 0\\13 & 1 & 1 & 0 & 1 & 1\\14 & 1 & 1 & 1 & 0 & 0\\15 & 1 & 1 & 1 & 1 & 0\\\bottomrule
+        \end{tabular}
+        %%\end{table}
+        $$Sum of products f(a,b,c,d) = \sum(\bar A.\bar B.\bar C.D + \bar A.\bar B.C.\bar D + \bar A.B.\bar C.\bar D + \bar A.B.\bar C.D + \bar A.B.C.\bar D + A.\bar B.C.\bar D + A.B.\bar C.D)$$
+$$Product of sums f(a,b,c,d) = \prod((A+B+C+D) . (A+B+\bar C+\bar D) . (A+\bar B+\bar C+\bar D) . (\bar A+B+C+D) . (\bar A+B+C+\bar D) . (\bar A+B+\bar C+\bar D) . (\bar A+\bar B+C+D) . (\bar A+\bar B+\bar C+D) . (\bar A+\bar B+\bar C+\bar D))$$
+
+Karnough map
+\begin{karnaugh-map}[4][4][1][CD][AB]
+          \minterms{1, 2, 4, 5, 6, 10, 13}
+          \maxterms{0, 3, 7, 8, 9, 11, 12, 14, 15}
+        %\autoterms[0]
+         \terms{}{X}
+        % simplification
+        \implicant{5}{13}
+\implicantedge{4}{4}{6}{6}
+\implicantedge{2}{2}{10}{10}
+\implicant{1}{5}
+          %\implicant{5}{15}
+          %\implicantedge{8}{8}{10}{10}
+          %\implicantedge{8}{8}{10}{10}[8,10]
+        \end{karnaugh-map}
+
+$$Simplified Sum of products:  b.c'.d + a'.b.d' + b'.c.d' + a'.c'.d $$
+$$Simplified Product of sums: (b+c+d).(c'+d').(a'+b+c).(a'+b'+d)$$
+\paragraph{Logigramme} de la fonction\\
+        %%\missingfigure[figwidth=6cm]{Logigramme}
+
+ \label{logigram-F}
+\begin{tikzpicture}
+
+ %%Paramaters
+%% var position, can be modified
+\def\varPos{4.00}
+\node (x) at (0, \varPos) {$A$};
+\node (y) at (0.5, \varPos) {$B$};
+\node (z) at (1, \varPos) {$C$};
+\node (w) at (1.5, \varPos) {$D$};
+
+            \node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.6)$) (notx) {};
+            \draw ($(x)+(0,-1ex)$) -| (notx.input); 
+            \node[not gate US, draw, rotate=270] at ($(y) + (0.25, -0.6)$) (noty) {};
+            \draw ($(y)+(0,-1ex)$) -| (noty.input); 
+            \node[not gate US, draw, rotate=270] at ($(z) + (0.25, -0.6)$) (notz) {};
+            \draw ($(z)+(0,-1ex)$) -| (notz.input);
+            \node[not gate US, draw, rotate=270] at ($(w) + (0.25, -0.6)$) (notw) {};
+            \draw ($(w)+(0,-1ex)$) -| (notw.input);
+         
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 0.00) (xandy0) {};\draw (xandy0.output) -- node[above]{\scriptsize $ B.\bar C.D $} ($(xandy0) + (1.8, 0)$);
+                % Y
+\draw ($(y) + (0, -1ex)$)|- (xandy0.input 2);
+% Z
+\draw [line width=0.25mm,   red] (notz.output)
+            -- ([xshift=0cm]notz.output) |- (xandy0.input 3);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy0.input 4);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 1.20) (xandy1) {};\draw (xandy1.output) -- node[above]{\scriptsize $ \bar A.B.\bar D $} ($(xandy1) + (1.8, 0)$);
+                % X
+\draw [line width=0.25mm,   red] (notx.output)
+            -- ([xshift=0cm]notx.output) |- (xandy1.input 1);
+% Y
+\draw ($(y) + (0, -1ex)$)|- (xandy1.input 2);
+% W
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy1.input 4);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 2.40) (xandy2) {};\draw (xandy2.output) -- node[above]{\scriptsize $ \bar B.C.\bar D $} ($(xandy2) + (1.8, 0)$);
+                % Y
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy2.input 2);
+% Z
+\draw ($(z) + (0, -1ex)$)|- (xandy2.input 3);
+% W
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy2.input 4);
+ 
+
+      
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 3.60) (xandy3) {};\draw (xandy3.output) -- node[above]{\scriptsize $ \bar A.\bar C.D $} ($(xandy3) + (1.8, 0)$);
+                % X
+\draw [line width=0.25mm,   red] (notx.output)
+            -- ([xshift=0cm]notx.output) |- (xandy3.input 1);
+% Z
+\draw [line width=0.25mm,   red] (notz.output)
+            -- ([xshift=0cm]notz.output) |- (xandy3.input 3);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy3.input 4);
+\node[or gate US, draw, rotate=0, logic gate inputs=nnnnn] at (6, 1.80) (xory0) {};
+
+
+            \draw (xory0.output) -- node[above]{\scriptsize $F$} ($(xory0.east) + (+3ex, 0)$);
+
+
+            \draw (xandy0.output) -- ([xshift=1.60cm]xandy0.output) |- (xory0.input 4);
+
+\draw (xandy1.output) -- ([xshift=1.55cm]xandy1.output) |- (xory0.input 3);
+
+\draw (xandy2.output) -- ([xshift=1.50cm]xandy2.output) |- (xory0.input 2);
+
+\draw (xandy3.output) -- ([xshift=1.55cm]xandy3.output) |- (xory0.input 1);
+
+ \end{tikzpicture}
+
+
+
+\paragraph{Q2}
+
+Simplifier l'expression suivante
+
+S = $ a.c.d + b.\bar c.d + \bar a.\bar c.d + \bar b.\bar c.\bar d + \bar a.b.c.\bar d  +  a.b.\bar d + a.\bar b.d + \bar a.b.\bar c + \bar a.\bar b.c + \bar a.\bar b.\bar d  +  a.b.d + b.c.d + a.\bar c.d + \bar a.b.c + \bar a.b.\bar d + \bar b.\bar c.d + \bar a.\bar b.\bar c + \bar a.\bar c.\bar d  +  a.c.d + b.c.d + \bar a.\bar b.\bar c.\bar d $
+
+ = $ b + d + \bar a + \bar c $
+
+
+Karnough map
+\begin{karnaugh-map}[4][4][1][CD][AB]
+          \minterms{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15}
+          \maxterms{10}
+        %\autoterms[0]
+         \terms{}{X}
+        % simplification
+        \implicant{4}{14}
+\implicant{1}{11}
+\implicant{0}{6}
+\implicant{0}{9}
+          %\implicant{5}{15}
+          %\implicantedge{8}{8}{10}{10}
+          %\implicantedge{8}{8}{10}{10}[8,10]
+        \end{karnaugh-map}
 
 
 \pagebreak
