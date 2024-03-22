@@ -28,7 +28,7 @@ test7:test_id=test7
 test8:test_id=test8
 bank:test_id=bankquestion
 test1 test2 test3 test4 test5 test6 test7 test8 bank:
-	python3 generate_tests.py -f config/quiz2.conf -d tex -t "$(test_id)" -o tests/output/test.tex
+	python3 generate_tests.py -f config/quiz3.conf -d tex -t "$(test_id)" -o tests/output/test.tex
 	cp tests/output/test.tex latex/test.tex
 	cd latex; xelatex  test-n°2.tex
 	cp latex/test.tex edits/

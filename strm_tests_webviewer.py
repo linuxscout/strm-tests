@@ -34,7 +34,8 @@ from web.jsapi import Api
 if __name__ == '__main__':
 
     filename = "resources/html/main.html"
-    viewer = webviewer.mywebviewer()    
+    config_file = "config/quiz2.conf"
+    viewer = webviewer.mywebviewer(config_file)    
     # welcome window
     welcomefilename = "resources/html/welcome.html"
 

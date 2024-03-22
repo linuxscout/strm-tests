@@ -34,8 +34,22 @@ FLIP_TRUTH_TABLES={
         1: "flip" , #01
         2:"flip" , #10
         3:"set", #11
-        }
-    
+        },
+    "UV":{0:"memory",  #00
+        1: "reset" , #01
+        2:"set" , #10
+        3:"memory", #11
+        },
+    "FG":{0:"reset",  #00
+        1: "flip" , #01
+        2:"flip" , #10
+        3:"set", #11
+        },
+    "RS":{0:"memory",  #00
+        1: "set" , #01
+        2:"reset" , #10
+        3:"undef", #11
+        },    
 }
 class Chronograms:
     """
@@ -197,22 +211,18 @@ class Chronograms:
         if(flip_type.upper()=="D"):
             out_signal = self.synchronize_signal(signals.get("D"), period=period)
 
-        if(flip_type.upper()=="JK"):
+        elif(flip_type.upper()=="JK"):
             j_signal = self.synchronize_signal(signals.get("J", []), period=period)
             k_signal = self.synchronize_signal(signals.get("K",[]), period=period)
             q_signal = signals.get("Q",[-1,])
             return self.resolve_xy(j_signal, k_signal, q_signal, period=period, flip_type="JK")
             # ~ return self.resolve_jk(j_signal, k_signal, q_signal, period=period)
-        if(flip_type.upper()=="XY"):
+        elif(flip_type.upper()=="XY"):
             j_signal = self.synchronize_signal(signals.get("X", []), period=period)
             k_signal = self.synchronize_signal(signals.get("Y",[]), period=period)
             q_signal = signals.get("Q",[-1,])
-            
             return self.resolve_xy(j_signal, k_signal, q_signal, period=period, flip_type="XY")
-                
-                    
-        
-            
+
         return out_signal
     def resolve_jk(self, j_signal, k_signal, q_signal, period=2):
         """
