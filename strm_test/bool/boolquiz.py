@@ -94,6 +94,8 @@ class bool_quiz:
             return tex
         else:
             return text
+            
+
     # deprecated
     def multiple_truth_table2(self, minterms_list, latex=False, dontcares_list=[]): 
         """ print truth table """
@@ -187,6 +189,8 @@ class bool_quiz:
         sop = self.normalize(sop)
         pos = self.normalize(pos, False)
         return sop, pos
+        
+
     # deprectaed
     def simplify_map2(self, minterms, dontcares=[]):
        
@@ -200,17 +204,15 @@ class bool_quiz:
         sop = self.normalize(sop)
         pos = self.normalize(pos,False)
         terms = [t.strip() for t in sop.split(" + ")]
-        #print(terms)
+
         simpls = []
         for term in terms:
             simpls.append(bool_const.REDUCTION_TABLE.get(term, ""))
-        
-        # ~ print("sImple", simpls)
-        # ~ import sys
-        # ~ sys.exit()
+      
+
         return "\n".join(simpls)
         
-    def simplify_map(self, minterms, dontcares=[]):
+    def simplify_map(self, minterms, dontcares=[], method="sop"):
        
         var_names  = "a b c d"
         # ~ var_names  = " ".join(self.variables).lower()
@@ -221,7 +223,11 @@ class bool_quiz:
         
         sop = self.normalize(sop)
         pos = self.normalize(pos,False)
-        terms = [t.strip() for t in sop.split(" + ")]
+        if method.lower() in ("pos", "nor", "or"):
+            terms = [t.strip() for t in pos.split(".")]
+        else:
+            terms = [t.strip() for t in sop.split(" + ")]            
+            
         return terms
 
     def add_bar(self, var):
@@ -266,6 +272,7 @@ class bool_quiz:
             else:
                 term.append(variables[i])            
         return "(%s)"%("+".join(term))
+        
     def minterm_str(self,n):
         term =[]         
         """ return a minterm for integer"""
@@ -276,7 +283,8 @@ class bool_quiz:
                 term.append(variables[i])
             else:
                 term.append(self.add_bar(variables[i]))           
-        return ".".join(term)        
+        return ".".join(term)
+        
     def form_canonique(self, minterms, dontcares=[]):
         # ~ var_names  = "a b c d"
         var_names  = " ".join(self.variables)

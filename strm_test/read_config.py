@@ -39,6 +39,9 @@ class read_config:
         self.commands = []
         self.quizes = []
         self.debug = True
+        # args for logigram
+        self.method = ""
+        self.simplification = ""
         # args for chronogram
         self.length = 10
         self.flip_type = ""
@@ -66,6 +69,8 @@ class read_config:
         self.quizes = ast.literal_eval(config.get('QUIZES','quizes'))
         self.commands = ast.literal_eval(config.get('QUIZES','commands'))
         self.repeat = ast.literal_eval(config.get('Args','repeat'))
+        self.method = ast.literal_eval(config.get('Args','method'))
+        # ~ self.simplification = ast.literal_eval(config.get('Args','simplification'))
         self.random_question  = ast.literal_eval(config.get('Args','random'))
         self.questions_size = ast.literal_eval(config.get('Args','size'))
         self.minterms = ast.literal_eval(config.get('Args','minterms'))
@@ -94,6 +99,8 @@ class read_config:
             print("synch_type", self.synch_type)
             print("size", self.questions_size)
             print("random", self.random_question)
+            print("method", self.method)
+            # ~ print("simplification", self.simplification)
      
     
     def get_test_config(self, select = ""):

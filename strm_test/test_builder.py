@@ -162,7 +162,7 @@ class test_builder:
         elif command == "multi_funct":
             return self.qsbuilder.question_multi_funct(args["minterms"], 
                    args["var_names"], args["output_names"],
-                   args["dontcare"])
+                   args["dontcare"], method=args["method"])
         else:
             return "Question Error: %s"%command.replace('_',''), "Arabic", "Data", "Answer"
             
@@ -236,6 +236,8 @@ class test_builder:
         "synch_type":self.myconfig.synch_type,
         "flip_type":self.myconfig.flip_type,
         "output":self.myconfig.output,
+        "method":self.myconfig.method,
+        # ~ "simplification":self.myconfig.simplification,
         }
         test_config = self.get_test_config(test_no)
         for test in test_config:

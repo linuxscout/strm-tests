@@ -117,7 +117,7 @@ class test_format_tex(test_format.test_format):
         self.output.append(newtext)
         return newtext
     def add_item(self, text):
-        newtext =     '\\item '+  text +"\n"
+        newtext =     '\\item '+  text 
         self.output.append(newtext)
         return newtext
     def close_itemize(self):
@@ -264,7 +264,8 @@ class test_format_tex(test_format.test_format):
         s = s.replace("d'","\\bar d")
         return s
         
-    def draw_map(self, minterms, dontcares=[], correct = False, variables = [], simply_terms=[]):
+    def draw_map(self, minterms, dontcares=[], correct = False, variables = [], simply_terms=[],
+    method="sop"):
         kmap=[]
         maxterms = [x for x in range(16) if x not in minterms and x not in dontcares]
         for x in range(16):
@@ -286,7 +287,7 @@ class test_format_tex(test_format.test_format):
         # draw simplification
         simplification = ""
         if correct:
-            simplification = self.simplify_map(simply_terms)
+            simplification = self.simplify_map(simply_terms, method=method)
         
         text = "\n".join(["\t".join(r) for r in table])
         cd = "".join(variables[2:])
@@ -310,14 +311,23 @@ class test_format_tex(test_format.test_format):
         self.output.append(tex)
         return tex
 
-    def simplify_map(self, terms =[]):
+    def simplify_map(self, terms =[], method="sop"):
         """
         Gererate diplay for terms
         """
         #print(terms)
         simpls = []
+        print("TERMS"+"*"*40, terms)
+        if method == "sop":
+            reduction_table = format_const.TEX_REDUCTION_TABLE
+        else:
+            reduction_table = format_const.TEX_REDUCTION_TABLE_POS
+            # remove extra parenthesis
+            terms = [t.replace("(",'') for t in terms]
+            terms = [t.replace(")",'') for t in terms]
+
         for term in terms:
-            simpls.append(format_const.TEX_REDUCTION_TABLE.get(term, ""))
+            simpls.append(reduction_table.get(term, ""))
        
         return "\n".join(simpls)
         
@@ -358,7 +368,7 @@ class test_format_tex(test_format.test_format):
             lggrm = lggrm.replace("(notz.input)", "(notz.input 1)")
             lggrm = lggrm.replace("(notw.input)", "(notw.input 1)")
         return lggrm
-    def draw_logigram_list(self, sop_list, function_namelist = ["F",], variables = []):
+    def draw_logigram_list(self, sop_list, function_namelist = ["F",], variables = [], method=""):
         """ draw a logigram """
         varnames = {
             "A":variables[0],
@@ -366,7 +376,7 @@ class test_format_tex(test_format.test_format):
             "C":variables[2],
             "D":variables[3],
         }
-        lg = logigram.logigram(varnames)
+        lg = logigram.logigram(varnames, method=method)
         return lg.draw_logigram_list(sop_list, function_namelist)                      
 def main(args):
     return 0

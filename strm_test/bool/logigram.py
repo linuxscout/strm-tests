@@ -105,7 +105,7 @@ def draw_gate(term):
 
 class logigram:
     """ Trace a latex logigram for a given function"""
-    def __init__(self, var_names=[]):
+    def __init__(self, var_names=[], method=""):
         # to allow to rename vars
         if var_names:
             self.var_names = var_names
@@ -126,19 +126,94 @@ class logigram:
         self.and_gates_space = 1.2
         # define basic step of vars in figure
         self.vars_space =1.32
+        method = method.upper()
+        method = method.upper()
+        if method.upper() in ("NAND", "NOR","SOP", "POS", "OR", "AND"):
+            self.method = method
+            if method == "AND":
+                self.method = "SOP"
+            elif method == "OR":
+                self.method = "POS"                
+                
+        else:
+            self.method = ""
         
 
+        
+    def set_gate_type(self, method=""):
+        """
+        set gate type, empty for usual, NAND, or NOR for building logigram usign only
+        NAND or NOR
+        """
+        method = method.upper()
+        if method.upper() in ("NAND", "NOR","SOP", "POS", "OR", "AND"):
+            self.method = method
+            if method == "AND":
+                self.method = "SOP"
+            elif method == "OR":
+                self.method = "POS"                
+                
+        else:
+            self.method = ""
 
         
+    def get_var_sep(self,):
+        """
+        set the var separator, 
+        in nand case: product
+        in nor case: sum
+        in sop: product
+        in pos: sum
+        """
+        if self.method.upper() in ("NOR", "POS","OR" ):
+            return '+'
+        else:
+            return "."
+
+    def get_term_sep(self,):
+        """
+        set the var separator, 
+        in nand case: sum
+        in nor case: product
+        in sop: sum
+        in pos: product
+        """
+        if self.method.upper() in ("NOR", "POS","OR" ):
+            return '.'
+        else:
+            return "+"
+
+    def get_gate_type(self):
+        """
+        return gate type
+        """
+        return self.method
+    
+    def get_gate_code(self, gate=""):
+        
+        if self.method == "NAND":
+            return "nand"
+        elif self.method == "NOR":
+            return "nor"
+        elif self.method in ("POS", "OR") and gate=="and":
+            return "or"
+        elif self.method in ("POS", "OR") and gate == "or":
+            return "and"
+        elif self.method in ("SOP", "AND") and gate=="and" or gate == "or":
+            return gate
+        else:
+            return gate
+    
     def draw_logigram(self, sop, function_name="F"):
         """ draw a logigram from an sop """
         latex = " \\label{logigram-%s}\n"%function_name
         latex += "\\begin{tikzpicture}\n\n"
         latex += " %%Paramaters\n"        
 
-        terms = sop.upper().split("+")
+        terms = sop.upper().split(self.get_term_sep())
         latex += "%% var position, can be modified\n"
         latex += "\\def\\varPos{%.2f}\n"%len(terms) 
+        latex += "\\def\\FunctionPos{6}\n"
         latex += self.draw_vars(len(terms))
         for cpt, term in enumerate(terms):
             latex += self.draw_gate(term, cpt)
@@ -154,10 +229,10 @@ class logigram:
         # the pos (position of Y) of a var is defined according to 
         # the total number of AND gates to draw (gates_count)
         
-        size_terms = sum([len(l.split('+')) for l in sop_list])
+        size_terms = sum([len(l.split(self.get_term_sep())) for l in sop_list])
         latex += "%% var position, can be modified\n"
         latex += "\\def\\varPos{%.2f}\n"%(size_terms * self.vars_space) 
-
+        latex += "\\def\\FunctionPos{6}\n"
         # ~ latex +="%% sizeterms : %d\n%%%s\n"%(size_terms, repr(sop_list))
         total_terms = 0
         # inverse index
@@ -170,14 +245,16 @@ class logigram:
 
             sop =  sop_list[i]
             function_name =  function_namelist[i]
-            terms = sop.upper().split("+")
+            terms = sop.upper().split(self.get_term_sep())
+            # reverse terms 
+            terms.reverse()
             # draw variables
             if(i==0):
                 latex += self.draw_vars(size_terms)
                 # ~ latex += self.draw_vars(len(terms))
             offset = total_terms +1
             for cpt, term in enumerate(terms):
-                latex += self.draw_gate(term, offset+cpt, len(terms))
+                latex += self.draw_gate(term, offset+cpt, len(terms), term_num=cpt, function_name=function_name)
             latex += self.draw_large_or(len(terms), function_name, offset)
             total_terms += len(terms)
         latex += " \\end{tikzpicture}\n\n"        
@@ -210,16 +287,36 @@ class logigram:
         latex += "\\node (y) at (0.5, \\varPos) {$%s$};\n"%( self.var_names.get("B", "B"))
         latex += "\\node (z) at (1, \\varPos) {$%s$};\n"%(self.var_names.get("C", "C"))
         latex += "\\node (w) at (1.5, \\varPos) {$%s$};\n"%(self.var_names.get("D", "D"))
-        latex +="""
-            \\node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.6)$) (notx) {};
-            \\draw ($(x)+(0,-1ex)$) -| (notx.input); 
-            \\node[not gate US, draw, rotate=270] at ($(y) + (0.25, -0.6)$) (noty) {};
-            \\draw ($(y)+(0,-1ex)$) -| (noty.input); 
-            \\node[not gate US, draw, rotate=270] at ($(z) + (0.25, -0.6)$) (notz) {};
-            \\draw ($(z)+(0,-1ex)$) -| (notz.input);
-            \\node[not gate US, draw, rotate=270] at ($(w) + (0.25, -0.6)$) (notw) {};
-            \\draw ($(w)+(0,-1ex)$) -| (notw.input);
-        """
+
+        gate_code = self.get_gate_code("not").lower()
+        if gate_code in ("nand", "nor"):
+            latex +="""
+                \\node[%s gate US, draw, rotate=270, scale=0.75] at ($(x) + (0.25, -0.6)$) (notx) {};
+                \\draw ($(x)+(0,-1ex)$) -| (notx.input 1); 
+                \\draw ($(x)+(0,-1ex)$) -| (notx.input 2); 
+                \\node[%s gate US, draw, rotate=270, scale=0.75] at ($(y) + (0.25, -0.6)$) (noty) {};
+                \\draw ($(y)+(0,-1ex)$) -| (noty.input 1); 
+                \\draw ($(y)+(0,-1ex)$) -| (noty.input 2); 
+                \\node[%s gate US, draw, rotate=270, scale=0.75] at ($(z) + (0.25, -0.6)$) (notz) {};
+                \\draw ($(z)+(0,-1ex)$) -| (notz.input 1);
+                \\draw ($(z)+(0,-1ex)$) -| (notz.input 2);
+                \\node[%s gate US, draw, rotate=270, scale=0.75] at ($(w) + (0.25, -0.6)$) (notw) {};
+                \\draw ($(w)+(0,-1ex)$) -| (notw.input 1);
+                \\draw ($(w)+(0,-1ex)$) -| (notw.input 2);
+            """%(gate_code, gate_code, gate_code,gate_code )
+
+        else:
+            
+            latex +="""
+                \\node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.6)$) (notx) {};
+                \\draw ($(x)+(0,-1ex)$) -| (notx.input); 
+                \\node[not gate US, draw, rotate=270] at ($(y) + (0.25, -0.6)$) (noty) {};
+                \\draw ($(y)+(0,-1ex)$) -| (noty.input); 
+                \\node[not gate US, draw, rotate=270] at ($(z) + (0.25, -0.6)$) (notz) {};
+                \\draw ($(z)+(0,-1ex)$) -| (notz.input);
+                \\node[not gate US, draw, rotate=270] at ($(w) + (0.25, -0.6)$) (notw) {};
+                \\draw ($(w)+(0,-1ex)$) -| (notw.input);
+            """
         # ~ latex = latex.replace("ID", str(size))
         return latex
                 
@@ -233,16 +330,16 @@ class logigram:
         gate_id = index
         # nb_input : defined as gates_counts
         nb_inputs = gates_count
-        
+        gate_code = self.get_gate_code("or")
         # if the gates count  is only one, we don't draw the gate OR
         if gates_count ==1:
-            latex = """\\node at (6, %.2f) (xory%d) {};\n\n
+            latex = """\\node at (\\FunctionPos, %.2f) (xory%d) {};\n\n
             """%(y_pos, gate_id)
             latex +="""\draw (xory%d) node[above]{\scriptsize $%s$} ($(xory%d.east) + (+3ex, 0)$);\n\n
             """%(gate_id, function_name,  gate_id)            
         else:
-            latex = """\\node[or gate US, draw, rotate=0, logic gate inputs=n%s] at (6, %.2f) (xory%d) {};\n\n
-            """%("n"*nb_inputs,y_pos, gate_id)
+            latex = """\\node[%s gate US, draw, rotate=0, logic gate inputs=n%s] at (\\FunctionPos, %.2f) (xory%d) {};\n\n
+            """%(gate_code,"n"*nb_inputs,y_pos, gate_id)
             latex +="""\draw (xory%d.output) -- node[above]{\scriptsize $%s$} ($(xory%d.east) + (+3ex, 0)$);\n\n
             """%(gate_id, function_name,  gate_id)            
             
@@ -286,24 +383,27 @@ class logigram:
             
         return latex
 
-    def draw_gate(self, term, idg, size=0):
+    def draw_gate(self, term, idg, size=0, term_num=0, function_name=""):
         """ id gate """
+        
         latex_term = self.normalize_latex(term)
             
         # the offset is defined as the number of gates drawn to fix the distance
         offset = idg
         gate_id = "xandy%d"%idg
+        gate_code = self.get_gate_code("and")
         # number of vars
-        nb_vars = len(term.split("+"))
+        nb_vars = len(term.split(self.get_term_sep()))
         # if there is one var only, draw a line instead of and gate
+        latex = """ \n\n %%%% ***Function %s : Gate for term n° %d [%s]***\n"""%(function_name, term_num+1,  term)
         if nb_vars == 1001:
-            latex = """ \n\n      
+            latex += """    
                 \\node at (2.5, %.2f) (xandy%d) {};"""%(offset*self.and_gates_space, idg)
             latex += """\\draw (xandy%d) -- node[above]{\scriptsize $%s$} ($(xandy%d) + (1.8, 0)$);
                 """%(idg, latex_term, idg)
         else:
-            latex = """ \n\n      
-                \\node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, %.2f) (xandy%d) {};"""%(offset*self.and_gates_space, idg)
+            latex += """  
+                \\node[%s gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, %.2f) (xandy%d) {};"""%(gate_code,offset*self.and_gates_space, idg)
             latex += """\\draw (xandy%d.output) -- node[above]{\scriptsize $%s$} ($(xandy%d) + (1.8, 0)$);
                 """%(idg, latex_term, idg)
         if self.var_A_bar in term:
