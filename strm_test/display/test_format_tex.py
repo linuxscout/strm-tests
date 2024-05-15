@@ -317,15 +317,14 @@ class test_format_tex(test_format.test_format):
         """
         #print(terms)
         simpls = []
-        print("TERMS"+"*"*40, terms)
-        if method == "sop":
-            reduction_table = format_const.TEX_REDUCTION_TABLE
-        else:
+        # ~ print("TERMS"+"*"*40, terms)
+        if method in ("or","nor","pos"):
             reduction_table = format_const.TEX_REDUCTION_TABLE_POS
             # remove extra parenthesis
             terms = [t.replace("(",'') for t in terms]
             terms = [t.replace(")",'') for t in terms]
-
+        else:
+            reduction_table = format_const.TEX_REDUCTION_TABLE            
         for term in terms:
             simpls.append(reduction_table.get(term, ""))
        

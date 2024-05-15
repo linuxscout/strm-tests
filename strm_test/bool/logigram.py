@@ -332,13 +332,14 @@ class logigram:
         nb_inputs = gates_count
         gate_code = self.get_gate_code("or")
         # if the gates count  is only one, we don't draw the gate OR
+        latex =  """\n\n%%%% Function %s Large OR Gate\n\n""" %function_name
         if gates_count ==1:
-            latex = """\\node at (\\FunctionPos, %.2f) (xory%d) {};\n\n
+            latex += """\\node at (\\FunctionPos, %.2f) (xory%d) {};\n\n
             """%(y_pos, gate_id)
             latex +="""\draw (xory%d) node[above]{\scriptsize $%s$} ($(xory%d.east) + (+3ex, 0)$);\n\n
             """%(gate_id, function_name,  gate_id)            
         else:
-            latex = """\\node[%s gate US, draw, rotate=0, logic gate inputs=n%s] at (\\FunctionPos, %.2f) (xory%d) {};\n\n
+            latex += """\\node[%s gate US, draw, rotate=0, logic gate inputs=n%s] at (\\FunctionPos, %.2f) (xory%d) {};\n\n
             """%(gate_code,"n"*nb_inputs,y_pos, gate_id)
             latex +="""\draw (xory%d.output) -- node[above]{\scriptsize $%s$} ($(xory%d.east) + (+3ex, 0)$);\n\n
             """%(gate_id, function_name,  gate_id)            

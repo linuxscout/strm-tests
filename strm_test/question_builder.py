@@ -424,8 +424,8 @@ class Question_Builder:
             sop, pos = self.bq.simplify(minterms, dont_care_list[i])
             functions_forms_table[i]['simplified_sop'] = self.formater.normalize_formula(sop)
             functions_forms_table[i]['simplified_pos'] = self.formater.normalize_formula(pos)
-            functions_forms_table[i]['nand_form'] = self.bq.normalize_nand_nor(cnf, "sop", method="nand")
-            functions_forms_table[i]['nor_form'] = self.bq.normalize_nand_nor(dnf, "pos", method="nor")
+            functions_forms_table[i]['nand_form'] = self.bq.normalize_nand_nor(sop, "sop", method="nand")
+            functions_forms_table[i]['nor_form'] = self.bq.normalize_nand_nor(pos, "pos", method="nor")
             answer +="\n\n"
             # ~ answer += "\\begin{itemize}\n"
             answer += "\\textbf{Simplified forms \\aRL{الشكل المبسط}} \n\n %s = $%s$\n\n"%(output_names[i],self.formater.normalize_formula(sop))
