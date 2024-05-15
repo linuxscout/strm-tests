@@ -154,7 +154,7 @@ class Tex_Chronograms(chronograms.Chronograms):
         clock = {}
         synch_type = self.synch_type
         if( synch_type != "asynch"):
-            clock = { "name": "H",   "wave": "","period": period  }
+            clock = { "name": "Ck",   "wave": "","period": period  }
             if(synch_type == "rising"):
                 clock["wave"] = "[timing/c/rising arrows] "
             elif (synch_type == "falling"):

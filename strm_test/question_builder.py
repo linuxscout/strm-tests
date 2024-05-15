@@ -603,7 +603,7 @@ class Question_Builder:
         
         tex_data_answer = chrono.draw(tmp_signals, clock)
             
-        question =u"Compléter le chronogramme suivant:\n\n "
+        question =u"Complete the following timing diagram:\n\n "
         arabic = u"أكمل المخطط الزمني: "
         
         # make a figure
@@ -614,9 +614,7 @@ class Question_Builder:
         # use scale attribute isntead of scale command
         # ~ answer = tex_data_answer
         
-        data ="""\n\n\\scalebox{2}{ %% scale
-        %s
-        } %%scale \n\n"""%tex_data_question
+        data ="""\n\n%s\n\n"""%tex_data_question
         # ~ data = tex_data_question
 
         return question, arabic, data, answer        
