@@ -135,3 +135,4 @@ latex/*.aux
 latex/*.log
 latex/*.pdf
 /.idea/
+/myenv/
