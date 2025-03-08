@@ -136,3 +136,4 @@ latex/*.log
 latex/*.pdf
 /.idea/
 /myenv/
+/doc/*.pdf
