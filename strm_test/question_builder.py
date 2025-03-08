@@ -419,7 +419,10 @@ class Question_Builder:
                     simply_terms= simply_terms,
                     method = method) 
             answer += mapy
+            
+            answer_parts.append(self.formater.newline)
             answer_parts.append(mapy)            
+            answer_parts.append(self.formater.newline)
                               
             sop, pos = self.bq.simplify(minterms, dont_care_list[i])
             functions_forms_table[i]['simplified_sop'] = self.formater.normalize_formula(sop)

@@ -35,6 +35,7 @@ class test_format_tex(test_format.test_format):
         self.output = [] 
         self.header =""
         self.footer =""
+        self.newline = "\n"
 
    
     def header(self,):
@@ -133,9 +134,9 @@ class test_format_tex(test_format.test_format):
         self.output.append(newtext)
         return newtext
     def add_newline(self):    
-        self.output.append('\n')
+        self.output.append(self.newline)
     def add_hrule(self):    
-        self.output.append('\n\\hrule width 1\linewidth')
+        self.output.append('\n\n\\hrule width 1\linewidth')
     def add_newpage(self):    
         self.output.append('\pagebreak')    
     def display2(self,):

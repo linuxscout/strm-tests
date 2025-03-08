@@ -323,7 +323,7 @@ class bool_quiz:
         text = "\n".join(["\t".join(r) for r in table])
         cd = "".join(self.variables[2:])
         ab = "".join(self.variables[:2])
-        tex =  """\\begin{karnaugh-map}[4][4][1][%s][%s]"""%(cd, ab)
+        tex =  """\n\n\\begin{karnaugh-map}[4][4][1][%s][%s]"""%(cd, ab)
         tex +=  """
           \\minterms{%s}
           \\maxterms{%s}
@@ -334,7 +334,7 @@ class bool_quiz:
           %%\\implicant{5}{15}
           %%\\implicantedge{8}{8}{10}{10}
           %%\\implicantedge{8}{8}{10}{10}[8,10]
-        \\end{karnaugh-map}"""%(", ".join([str(x) for x in minterms]), 
+        \\end{karnaugh-map}\n"""%(", ".join([str(x) for x in minterms]), 
         ", ".join([str(x) for x in maxterms]),
         ", ".join([str(x) for x in dontcares])
         , simplification)
