@@ -5,21 +5,29 @@
 \paragraph{Q1}
 
 
-W(A, B, C, D)= $[6, 7]$
+F2(A, B, C, D)= $[2, 4, 6, 8, 10, 12, 14]$
 
-DONT CARE= $[0, 1, 2, 3]$
+DONT CARE= $[]$
 
-X(A, B, C, D)= $[5, 7, 10, 11, 15]$
+F3(A, B, C, D)= $[3, 6, 9, 12, 15]$
 
-DONT CARE= $[0, 1, 2, 3]$
+DONT CARE= $[]$
 
-Y(A, B, C, D)= $[9, 11, 14]$
+F5(A, B, C, D)= $[5, 10, 15]$
 
-DONT CARE= $[0, 1, 2, 3]$
+DONT CARE= $[]$
 
-Z(A, B, C, D)= $[13]$
+F7(A, B, C, D)= $[7, 14]$
 
-DONT CARE= $[0, 1, 2, 3]$
+DONT CARE= $[]$
+
+F11(A, B, C, D)= $[11]$
+
+DONT CARE= $[]$
+
+F13(A, B, C, D)= $[13]$
+
+DONT CARE= $[]$
 
 
 
@@ -44,39 +52,41 @@ DONT CARE= $[0, 1, 2, 3]$
 \end{itemize}
 \item Outputs \aRL{المخارج}
 \begin{itemize}
-\item W: \qquad 'on' denoted 1\qquad 'off' denoted  0
-\item X: \qquad 'on' denoted 1\qquad 'off' denoted  0
-\item Y: \qquad 'on' denoted 1\qquad 'off' denoted  0
-\item Z: \qquad 'on' denoted 1\qquad 'off' denoted  0
+\item F2: \qquad 'on' denoted 1\qquad 'off' denoted  0
+\item F3: \qquad 'on' denoted 1\qquad 'off' denoted  0
+\item F5: \qquad 'on' denoted 1\qquad 'off' denoted  0
+\item F7: \qquad 'on' denoted 1\qquad 'off' denoted  0
+\item F11: \qquad 'on' denoted 1\qquad 'off' denoted  0
+\item F13: \qquad 'on' denoted 1\qquad 'off' denoted  0
 \end{itemize}
 \end{itemize}
 \item Truth Table \aRL{جدول الحقيقة}
 %\begin{table}
 
-        \begin{tabular}{|c|c|c|c|c||c|c|c|c|}
+        \begin{tabular}{|c|c|c|c|c||c|c|c|c|c|c|}
 
     \toprule
 
-        N° &A & B & C & D & W & X & Y & Z\\ \midrule
-0 & 0 & 0 & 0 & 0 & X & X & X & X\\
-1 & 0 & 0 & 0 & 1 & X & X & X & X\\
-2 & 0 & 0 & 1 & 0 & X & X & X & X\\
-3 & 0 & 0 & 1 & 1 & X & X & X & X\\
+        N° &A & B & C & D & F2 & F3 & F5 & F7 & F11 & F13\\ \midrule
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0\\
+2 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+3 & 0 & 0 & 1 & 1 & 0 & 1 & 0 & 0 & 0 & 0\\
 \midrule
-4 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0\\
-5 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 0\\
-6 & 0 & 1 & 1 & 0 & 1 & 0 & 0 & 0\\
-7 & 0 & 1 & 1 & 1 & 1 & 1 & 0 & 0\\
+4 & 0 & 1 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+5 & 0 & 1 & 0 & 1 & 0 & 0 & 1 & 0 & 0 & 0\\
+6 & 0 & 1 & 1 & 0 & 1 & 1 & 0 & 0 & 0 & 0\\
+7 & 0 & 1 & 1 & 1 & 0 & 0 & 0 & 1 & 0 & 0\\
 \midrule
-8 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
-9 & 1 & 0 & 0 & 1 & 0 & 0 & 1 & 0\\
-10 & 1 & 0 & 1 & 0 & 0 & 1 & 0 & 0\\
-11 & 1 & 0 & 1 & 1 & 0 & 1 & 1 & 0\\
+8 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+9 & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0\\
+10 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 0 & 0\\
+11 & 1 & 0 & 1 & 1 & 0 & 0 & 0 & 0 & 1 & 0\\
 \midrule
-12 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0\\
-13 & 1 & 1 & 0 & 1 & 0 & 0 & 0 & 1\\
-14 & 1 & 1 & 1 & 0 & 0 & 0 & 1 & 0\\
-15 & 1 & 1 & 1 & 1 & 0 & 1 & 0 & 0\\
+12 & 1 & 1 & 0 & 0 & 1 & 1 & 0 & 0 & 0 & 0\\
+13 & 1 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 1\\
+14 & 1 & 1 & 1 & 0 & 1 & 0 & 0 & 1 & 0 & 0\\
+15 & 1 & 1 & 1 & 1 & 0 & 1 & 1 & 0 & 0 & 0\\
 \bottomrule
 
         \end{tabular}
@@ -88,47 +98,57 @@ DONT CARE= $[0, 1, 2, 3]$
 \begin{itemize}
 \item First canonical form \aRL{الشكل القانوني الأول}
 \begin{itemize}
-\item W(A, B, C, D) = $\sum \bar A.B.C.\bar D + \bar A.B.C.D$
-\item X(A, B, C, D) = $\sum \bar A.B.\bar C.D + \bar A.B.C.D + A.\bar B.C.\bar D + A.\bar B.C.D + A.B.C.D$
-\item Y(A, B, C, D) = $\sum A.\bar B.\bar C.D + A.\bar B.C.D + A.B.C.\bar D$
-\item Z(A, B, C, D) = $\sum A.B.\bar C.D$
+\item F2(A, B, C, D) = $\sum \bar A.\bar B.C.\bar D + \bar A.B.\bar C.\bar D + \bar A.B.C.\bar D + A.\bar B.\bar C.\bar D + A.\bar B.C.\bar D + A.B.\bar C.\bar D + A.B.C.\bar D$
+\item F3(A, B, C, D) = $\sum \bar A.\bar B.C.D + \bar A.B.C.\bar D + A.\bar B.\bar C.D + A.B.\bar C.\bar D + A.B.C.D$
+\item F5(A, B, C, D) = $\sum \bar A.B.\bar C.D + A.\bar B.C.\bar D + A.B.C.D$
+\item F7(A, B, C, D) = $\sum \bar A.B.C.D + A.B.C.\bar D$
+\item F11(A, B, C, D) = $\sum A.\bar B.C.D$
+\item F13(A, B, C, D) = $\sum A.B.\bar C.D$
 \end{itemize}
 \item Second canonical form: \aRL{الشكل القانوني الثاني}
 \begin{itemize}
-\item W(A, B, C, D) = $\prod (A+B+C+D) . (A+B+C+\bar D) . (A+B+\bar C+D) . (A+B+\bar C+\bar D) . (A+\bar B+C+D) . (A+\bar B+C+\bar D) . (\bar A+B+C+D) . (\bar A+B+C+\bar D) . (\bar A+B+\bar C+D) . (\bar A+B+\bar C+\bar D) . (\bar A+\bar B+C+D) . (\bar A+\bar B+C+\bar D) . (\bar A+\bar B+\bar C+D) . (\bar A+\bar B+\bar C+\bar D)$
-\item X(A, B, C, D) = $\prod (A+B+C+D) . (A+B+C+\bar D) . (A+B+\bar C+D) . (A+B+\bar C+\bar D) . (A+\bar B+C+D) . (A+\bar B+\bar C+D) . (\bar A+B+C+D) . (\bar A+B+C+\bar D) . (\bar A+\bar B+C+D) . (\bar A+\bar B+C+\bar D) . (\bar A+\bar B+\bar C+D)$
-\item Y(A, B, C, D) = $\prod (A+B+C+D) . (A+B+C+\bar D) . (A+B+\bar C+D) . (A+B+\bar C+\bar D) . (A+\bar B+C+D) . (A+\bar B+C+\bar D) . (A+\bar B+\bar C+D) . (A+\bar B+\bar C+\bar D) . (\bar A+B+C+D) . (\bar A+B+\bar C+D) . (\bar A+\bar B+C+D) . (\bar A+\bar B+C+\bar D) . (\bar A+\bar B+\bar C+\bar D)$
-\item Z(A, B, C, D) = $\prod (A+B+C+D) . (A+B+C+\bar D) . (A+B+\bar C+D) . (A+B+\bar C+\bar D) . (A+\bar B+C+D) . (A+\bar B+C+\bar D) . (A+\bar B+\bar C+D) . (A+\bar B+\bar C+\bar D) . (\bar A+B+C+D) . (\bar A+B+C+\bar D) . (\bar A+B+\bar C+D) . (\bar A+B+\bar C+\bar D) . (\bar A+\bar B+C+D) . (\bar A+\bar B+\bar C+D) . (\bar A+\bar B+\bar C+\bar D)$
+\item F2(A, B, C, D) = $\prod (A+B+C+D) . (A+B+C+\bar D) . (A+B+\bar C+\bar D) . (A+\bar B+C+\bar D) . (A+\bar B+\bar C+\bar D) . (\bar A+B+C+\bar D) . (\bar A+B+\bar C+\bar D) . (\bar A+\bar B+C+\bar D) . (\bar A+\bar B+\bar C+\bar D)$
+\item F3(A, B, C, D) = $\prod (A+B+C+D) . (A+B+C+\bar D) . (A+B+\bar C+D) . (A+\bar B+C+D) . (A+\bar B+C+\bar D) . (A+\bar B+\bar C+\bar D) . (\bar A+B+C+D) . (\bar A+B+\bar C+D) . (\bar A+B+\bar C+\bar D) . (\bar A+\bar B+C+\bar D) . (\bar A+\bar B+\bar C+D)$
+\item F5(A, B, C, D) = $\prod (A+B+C+D) . (A+B+C+\bar D) . (A+B+\bar C+D) . (A+B+\bar C+\bar D) . (A+\bar B+C+D) . (A+\bar B+\bar C+D) . (A+\bar B+\bar C+\bar D) . (\bar A+B+C+D) . (\bar A+B+C+\bar D) . (\bar A+B+\bar C+\bar D) . (\bar A+\bar B+C+D) . (\bar A+\bar B+C+\bar D) . (\bar A+\bar B+\bar C+D)$
+\item F7(A, B, C, D) = $\prod (A+B+C+D) . (A+B+C+\bar D) . (A+B+\bar C+D) . (A+B+\bar C+\bar D) . (A+\bar B+C+D) . (A+\bar B+C+\bar D) . (A+\bar B+\bar C+D) . (\bar A+B+C+D) . (\bar A+B+C+\bar D) . (\bar A+B+\bar C+D) . (\bar A+B+\bar C+\bar D) . (\bar A+\bar B+C+D) . (\bar A+\bar B+C+\bar D) . (\bar A+\bar B+\bar C+\bar D)$
+\item F11(A, B, C, D) = $\prod (A+B+C+D) . (A+B+C+\bar D) . (A+B+\bar C+D) . (A+B+\bar C+\bar D) . (A+\bar B+C+D) . (A+\bar B+C+\bar D) . (A+\bar B+\bar C+D) . (A+\bar B+\bar C+\bar D) . (\bar A+B+C+D) . (\bar A+B+C+\bar D) . (\bar A+B+\bar C+D) . (\bar A+\bar B+C+D) . (\bar A+\bar B+C+\bar D) . (\bar A+\bar B+\bar C+D) . (\bar A+\bar B+\bar C+\bar D)$
+\item F13(A, B, C, D) = $\prod (A+B+C+D) . (A+B+C+\bar D) . (A+B+\bar C+D) . (A+B+\bar C+\bar D) . (A+\bar B+C+D) . (A+\bar B+C+\bar D) . (A+\bar B+\bar C+D) . (A+\bar B+\bar C+\bar D) . (\bar A+B+C+D) . (\bar A+B+C+\bar D) . (\bar A+B+\bar C+D) . (\bar A+B+\bar C+\bar D) . (\bar A+\bar B+C+D) . (\bar A+\bar B+\bar C+D) . (\bar A+\bar B+\bar C+\bar D)$
 \end{itemize}
 \item First digital canonical form; \aRL{الشكل القانوني الرقمي الأول}
 \begin{itemize}
-\item W(A, B, C, D) = $\sum [6, 7]$
-\item X(A, B, C, D) = $\sum [5, 7, 10, 11, 15]$
-\item Y(A, B, C, D) = $\sum [9, 11, 14]$
-\item Z(A, B, C, D) = $\sum [13]$
+\item F2(A, B, C, D) = $\sum [2, 4, 6, 8, 10, 12, 14]$
+\item F3(A, B, C, D) = $\sum [3, 6, 9, 12, 15]$
+\item F5(A, B, C, D) = $\sum [5, 10, 15]$
+\item F7(A, B, C, D) = $\sum [7, 14]$
+\item F11(A, B, C, D) = $\sum [11]$
+\item F13(A, B, C, D) = $\sum [13]$
 \end{itemize}
 \item Second digital canonical form;  \aRL{الشكل القانوني الرقمي الثاني}
 \begin{itemize}
-\item W(A, B, C, D) = $\prod [4, 5, 8, 9, 10, 11, 12, 13, 14, 15]$
-\item X(A, B, C, D) = $\prod [4, 6, 8, 9, 12, 13, 14]$
-\item Y(A, B, C, D) = $\prod [4, 5, 6, 7, 8, 10, 12, 13, 15]$
-\item Z(A, B, C, D) = $\prod [4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15]$
+\item F2(A, B, C, D) = $\prod [0, 1, 3, 5, 7, 9, 11, 13, 15]$
+\item F3(A, B, C, D) = $\prod [0, 1, 2, 4, 5, 7, 8, 10, 11, 13, 14]$
+\item F5(A, B, C, D) = $\prod [0, 1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14]$
+\item F7(A, B, C, D) = $\prod [0, 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 15]$
+\item F11(A, B, C, D) = $\prod [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15]$
+\item F13(A, B, C, D) = $\prod [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15]$
 \end{itemize}
 \end{itemize}
 \item Karnaugh map \hfill\aRL{مخطط كارنوف}
 \begin{itemize}
 \begin{minipage}{.5\textwidth}
 
-\item Function  W \aRL{الدالة}
+\item Function  F2 \aRL{الدالة}
 
 
 \begin{karnaugh-map}[4][4][1][CD][AB]
-          \minterms{6, 7}
-          \maxterms{4, 5, 8, 9, 10, 11, 12, 13, 14, 15}
+          \minterms{2, 4, 6, 8, 10, 12, 14}
+          \maxterms{0, 1, 3, 5, 7, 9, 11, 13, 15}
         %\autoterms[0]
-         \terms{0, 1, 2, 3}{X}
+         \terms{}{X}
         % simplification
-        \implicant{3}{6}
+        \implicantedge{12}{8}{14}{10}
+\implicantedge{4}{12}{6}{14}
+\implicant{2}{10}
           %\implicant{5}{15}
           %\implicantedge{8}{8}{10}{10}
           %\implicantedge{8}{8}{10}{10}[8,10]
@@ -137,25 +157,27 @@ DONT CARE= $[0, 1, 2, 3]$
 
 \textbf{Simplified form \aRL{الشكل المبسط}} 
 
- W = $ \bar a.c $
+ F2 = $ a.\bar d + b.\bar d + c.\bar d $
 
 
 \end{minipage}
 
 \begin{minipage}{.5\textwidth}
 
-\item Function  X \aRL{الدالة}
+\item Function  F3 \aRL{الدالة}
 
 
 \begin{karnaugh-map}[4][4][1][CD][AB]
-          \minterms{5, 7, 10, 11, 15}
-          \maxterms{4, 6, 8, 9, 12, 13, 14}
+          \minterms{3, 6, 9, 12, 15}
+          \maxterms{0, 1, 2, 4, 5, 7, 8, 10, 11, 13, 14}
         %\autoterms[0]
-         \terms{0, 1, 2, 3}{X}
+         \terms{}{X}
         % simplification
-        \implicant{3}{11}
-\implicantedge{3}{2}{11}{10}
-\implicant{1}{7}
+        \implicant{15}{15}
+\implicant{12}{12}
+\implicant{9}{9}
+\implicant{6}{6}
+\implicant{3}{3}
           %\implicant{5}{15}
           %\implicantedge{8}{8}{10}{10}
           %\implicantedge{8}{8}{10}{10}[8,10]
@@ -164,24 +186,25 @@ DONT CARE= $[0, 1, 2, 3]$
 
 \textbf{Simplified form \aRL{الشكل المبسط}} 
 
- X = $ c.d + \bar b.c + \bar a.d $
+ F3 = $ a.b.c.d + a.b.\bar c.\bar d + a.\bar b.\bar c.d + \bar a.b.c.\bar d + \bar a.\bar b.c.d $
 
 
 \end{minipage}
 
 \begin{minipage}{.5\textwidth}
 
-\item Function  Y \aRL{الدالة}
+\item Function  F5 \aRL{الدالة}
 
 
 \begin{karnaugh-map}[4][4][1][CD][AB]
-          \minterms{9, 11, 14}
-          \maxterms{4, 5, 6, 7, 8, 10, 12, 13, 15}
+          \minterms{5, 10, 15}
+          \maxterms{0, 1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14}
         %\autoterms[0]
-         \terms{0, 1, 2, 3}{X}
+         \terms{}{X}
         % simplification
-        \implicantedge{1}{3}{9}{11}
-\implicant{14}{14}
+        \implicant{15}{15}
+\implicant{10}{10}
+\implicant{5}{5}
           %\implicant{5}{15}
           %\implicantedge{8}{8}{10}{10}
           %\implicantedge{8}{8}{10}{10}[8,10]
@@ -190,21 +213,72 @@ DONT CARE= $[0, 1, 2, 3]$
 
 \textbf{Simplified form \aRL{الشكل المبسط}} 
 
- Y = $ \bar b.d + a.b.c.\bar d $
+ F5 = $ a.b.c.d + a.\bar b.c.\bar d + \bar a.b.\bar c.d $
 
 
 \end{minipage}
 
 \begin{minipage}{.5\textwidth}
 
-\item Function  Z \aRL{الدالة}
+\item Function  F7 \aRL{الدالة}
+
+
+\begin{karnaugh-map}[4][4][1][CD][AB]
+          \minterms{7, 14}
+          \maxterms{0, 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 15}
+        %\autoterms[0]
+         \terms{}{X}
+        % simplification
+        \implicant{14}{14}
+\implicant{7}{7}
+          %\implicant{5}{15}
+          %\implicantedge{8}{8}{10}{10}
+          %\implicantedge{8}{8}{10}{10}[8,10]
+        \end{karnaugh-map}
+
+
+\textbf{Simplified form \aRL{الشكل المبسط}} 
+
+ F7 = $ a.b.c.\bar d + \bar a.b.c.d $
+
+
+\end{minipage}
+
+\begin{minipage}{.5\textwidth}
+
+\item Function  F11 \aRL{الدالة}
+
+
+\begin{karnaugh-map}[4][4][1][CD][AB]
+          \minterms{11}
+          \maxterms{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15}
+        %\autoterms[0]
+         \terms{}{X}
+        % simplification
+        \implicant{11}{11}
+          %\implicant{5}{15}
+          %\implicantedge{8}{8}{10}{10}
+          %\implicantedge{8}{8}{10}{10}[8,10]
+        \end{karnaugh-map}
+
+
+\textbf{Simplified form \aRL{الشكل المبسط}} 
+
+ F11 = $ a.\bar b.c.d $
+
+
+\end{minipage}
+
+\begin{minipage}{.5\textwidth}
+
+\item Function  F13 \aRL{الدالة}
 
 
 \begin{karnaugh-map}[4][4][1][CD][AB]
           \minterms{13}
-          \maxterms{4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15}
+          \maxterms{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15}
         %\autoterms[0]
-         \terms{0, 1, 2, 3}{X}
+         \terms{}{X}
         % simplification
         \implicant{13}{13}
           %\implicant{5}{15}
@@ -215,7 +289,7 @@ DONT CARE= $[0, 1, 2, 3]$
 
 \textbf{Simplified form \aRL{الشكل المبسط}} 
 
- Z = $ a.b.\bar c.d $
+ F13 = $ a.b.\bar c.d $
 
 
 \end{minipage}
@@ -224,62 +298,40 @@ DONT CARE= $[0, 1, 2, 3]$
  Simplified forms 
 
 \begin{itemize}
-\item W(A, B, C, D) = $ \bar a.c $
-\item X(A, B, C, D) = $ c.d + \bar b.c + \bar a.d $
-\item Y(A, B, C, D) = $ \bar b.d + a.b.c.\bar d $
-\item Z(A, B, C, D) = $ a.b.\bar c.d $
-\end{itemize}
- NAND forms 
-
-\begin{itemize}
-\item W(A, B, C, D) = $$ \bar a.c $$
-$$\overline{\overline{ \bar a.c }}$$
-$$\overline{(\overline{ \bar a.c })}$$
-$$( (A \uparrow  A)\uparrow C )$$
-\item X(A, B, C, D) = $$ c.d + \bar b.c + \bar a.d $$
-$$\overline{\overline{ c.d + \bar b.c + \bar a.d }}$$
-$$\overline{(\overline{ c.d }).(\overline{ \bar b.c }).(\overline{ \bar a.d })}$$
-$$( C\uparrow D )\big\uparrow ( (B \uparrow  B)\uparrow C )\big\uparrow ( (A \uparrow  A)\uparrow D )$$
-\item Y(A, B, C, D) = $$ \bar b.d + a.b.c.\bar d $$
-$$\overline{\overline{ \bar b.d + a.b.c.\bar d }}$$
-$$\overline{(\overline{ \bar b.d }).(\overline{ a.b.c.\bar d })}$$
-$$( (B \uparrow  B)\uparrow D )\big\uparrow ( A\uparrow B\uparrow C\uparrow (D \uparrow  D) )$$
-\item Z(A, B, C, D) = $$ a.b.\bar c.d $$
-$$\overline{\overline{ a.b.\bar c.d }}$$
-$$\overline{(\overline{ a.b.\bar c.d })}$$
-$$( A\uparrow B\uparrow (C \uparrow  C)\uparrow D )$$
+\item F2(A, B, C, D) = $ a.\bar d + b.\bar d + c.\bar d $
+\item F3(A, B, C, D) = $ a.b.c.d + a.b.\bar c.\bar d + a.\bar b.\bar c.d + \bar a.b.c.\bar d + \bar a.\bar b.c.d $
+\item F5(A, B, C, D) = $ a.b.c.d + a.\bar b.c.\bar d + \bar a.b.\bar c.d $
+\item F7(A, B, C, D) = $ a.b.c.\bar d + \bar a.b.c.d $
+\item F11(A, B, C, D) = $ a.\bar b.c.d $
+\item F13(A, B, C, D) = $ a.b.\bar c.d $
 \end{itemize}
 \item Logic diagrams \aRL{المخططات المنطقية }
- \label{logigrammefonctionW-X-Y-Z}
+ \label{logigrammefonctionF2-F3-F5-F7-F11-F13}
 
  \begin{tikzpicture}
 
  %%Paramaters
 %% var position, can be modified
-\def\varPos{9.24}
+\def\varPos{19.80}
 \def\FunctionPos{6}
 \node (x) at (0, \varPos) {$A$};
 \node (y) at (0.5, \varPos) {$B$};
 \node (z) at (1, \varPos) {$C$};
 \node (w) at (1.5, \varPos) {$D$};
 
-                \node[nand gate US, draw, rotate=270, scale=0.75] at ($(x) + (0.25, -0.6)$) (notx) {};
-                \draw ($(x)+(0,-1ex)$) -| (notx.input 1); 
-                \draw ($(x)+(0,-1ex)$) -| (notx.input 2); 
-                \node[nand gate US, draw, rotate=270, scale=0.75] at ($(y) + (0.25, -0.6)$) (noty) {};
-                \draw ($(y)+(0,-1ex)$) -| (noty.input 1); 
-                \draw ($(y)+(0,-1ex)$) -| (noty.input 2); 
-                \node[nand gate US, draw, rotate=270, scale=0.75] at ($(z) + (0.25, -0.6)$) (notz) {};
-                \draw ($(z)+(0,-1ex)$) -| (notz.input 1);
-                \draw ($(z)+(0,-1ex)$) -| (notz.input 2);
-                \node[nand gate US, draw, rotate=270, scale=0.75] at ($(w) + (0.25, -0.6)$) (notw) {};
-                \draw ($(w)+(0,-1ex)$) -| (notw.input 1);
-                \draw ($(w)+(0,-1ex)$) -| (notw.input 2);
+                \node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.6)$) (notx) {};
+                \draw ($(x)+(0,-1ex)$) -| (notx.input); 
+                \node[not gate US, draw, rotate=270] at ($(y) + (0.25, -0.6)$) (noty) {};
+                \draw ($(y)+(0,-1ex)$) -| (noty.input); 
+                \node[not gate US, draw, rotate=270] at ($(z) + (0.25, -0.6)$) (notz) {};
+                \draw ($(z)+(0,-1ex)$) -| (notz.input);
+                \node[not gate US, draw, rotate=270] at ($(w) + (0.25, -0.6)$) (notw) {};
+                \draw ($(w)+(0,-1ex)$) -| (notw.input);
              
 
- %% ***Function Z : Gate for term n° 1 [ A.B.C'.D ]***
+ %% ***Function F13 : Gate for term n° 1 [ A.B.C'.D ]***
   
-                \node[nand gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 1.20) (xandy1) {};\draw (xandy1.output) -- node[above]{\scriptsize $ A.B.\bar C.D $} ($(xandy1) + (1.8, 0)$);
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 1.20) (xandy1) {};\draw (xandy1.output) -- node[above]{\scriptsize $ A.B.\bar C.D $} ($(xandy1) + (1.8, 0)$);
                 % X
 \draw ($(x) + (0, -1ex)$)|- (xandy1.input 1);
 % Y
@@ -291,120 +343,281 @@ $$( A\uparrow B\uparrow (C \uparrow  C)\uparrow D )$$
 \draw ($(w) + (0, -1ex)$)|- (xandy1.input 4);
 
 
-%% Function Z Large OR Gate
+%% Function F13 Large OR Gate
 
 \node at (\FunctionPos, 1.20) (xory1) {};
 
 
-            \draw (xory1) node[above]{\scriptsize $Z$} ($(xory1.east) + (+3ex, 0)$);
+            \draw (xory1) node[above]{\scriptsize $F13$} ($(xory1.east) + (+3ex, 0)$);
 
 
             \draw (xandy1.output) -- ([xshift=1.60cm]xandy1.output) |- (xory1);
 
  
 
- %% ***Function Y : Gate for term n° 1 [ A.B.C.D' ]***
+ %% ***Function F11 : Gate for term n° 1 [ A.B'.C.D ]***
   
-                \node[nand gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 2.40) (xandy2) {};\draw (xandy2.output) -- node[above]{\scriptsize $ A.B.C.\bar D $} ($(xandy2) + (1.8, 0)$);
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 2.40) (xandy2) {};\draw (xandy2.output) -- node[above]{\scriptsize $ A.\bar B.C.D $} ($(xandy2) + (1.8, 0)$);
                 % X
 \draw ($(x) + (0, -1ex)$)|- (xandy2.input 1);
 % Y
-\draw ($(y) + (0, -1ex)$)|- (xandy2.input 2);
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy2.input 2);
 % Z
 \draw ($(z) + (0, -1ex)$)|- (xandy2.input 3);
 % W
-\draw [line width=0.25mm,   red] (notw.output)
-            -- ([xshift=0cm]notw.output) |- (xandy2.input 4);
+\draw ($(w) + (0, -1ex)$)|- (xandy2.input 4);
+
+
+%% Function F11 Large OR Gate
+
+\node at (\FunctionPos, 2.40) (xory2) {};
+
+
+            \draw (xory2) node[above]{\scriptsize $F11$} ($(xory2.east) + (+3ex, 0)$);
+
+
+            \draw (xandy2.output) -- ([xshift=1.60cm]xandy2.output) |- (xory2);
+
  
 
- %% ***Function Y : Gate for term n° 2 [ B'.D ]***
+ %% ***Function F7 : Gate for term n° 1 [ A'.B.C.D ]***
   
-                \node[nand gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 3.60) (xandy3) {};\draw (xandy3.output) -- node[above]{\scriptsize $ \bar B.D $} ($(xandy3) + (1.8, 0)$);
-                % Y
-\draw [line width=0.25mm,   red] (noty.output)
-            -- ([xshift=0cm]noty.output) |- (xandy3.input 2);
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 3.60) (xandy3) {};\draw (xandy3.output) -- node[above]{\scriptsize $ \bar A.B.C.D $} ($(xandy3) + (1.8, 0)$);
+                % X
+\draw [line width=0.25mm,   red] (notx.output)
+            -- ([xshift=0cm]notx.output) |- (xandy3.input 1);
+% Y
+\draw ($(y) + (0, -1ex)$)|- (xandy3.input 2);
+% Z
+\draw ($(z) + (0, -1ex)$)|- (xandy3.input 3);
 % W
 \draw ($(w) + (0, -1ex)$)|- (xandy3.input 4);
+ 
+
+ %% ***Function F7 : Gate for term n° 2 [ A.B.C.D' ]***
+  
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 4.80) (xandy4) {};\draw (xandy4.output) -- node[above]{\scriptsize $ A.B.C.\bar D $} ($(xandy4) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy4.input 1);
+% Y
+\draw ($(y) + (0, -1ex)$)|- (xandy4.input 2);
+% Z
+\draw ($(z) + (0, -1ex)$)|- (xandy4.input 3);
+% W
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy4.input 4);
 
 
-%% Function Y Large OR Gate
+%% Function F7 Large OR Gate
 
-\node[nand gate US, draw, rotate=0, logic gate inputs=nnn] at (\FunctionPos, 3.00) (xory2) {};
-
-
-            \draw (xory2.output) -- node[above]{\scriptsize $Y$} ($(xory2.east) + (+3ex, 0)$);
+\node[or gate US, draw, rotate=0, logic gate inputs=nnn] at (\FunctionPos, 4.20) (xory3) {};
 
 
-            \draw (xandy2.output) -- ([xshift=1.60cm]xandy2.output) |- (xory2.input 2);
+            \draw (xory3.output) -- node[above]{\scriptsize $F7$} ($(xory3.east) + (+3ex, 0)$);
 
-\draw (xandy3.output) -- ([xshift=1.55cm]xandy3.output) |- (xory2.input 1);
+
+            \draw (xandy3.output) -- ([xshift=1.60cm]xandy3.output) |- (xory3.input 2);
+
+\draw (xandy4.output) -- ([xshift=1.55cm]xandy4.output) |- (xory3.input 1);
 
  
 
- %% ***Function X : Gate for term n° 1 [ A'.D ]***
+ %% ***Function F5 : Gate for term n° 1 [ A'.B.C'.D ]***
   
-                \node[nand gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 4.80) (xandy4) {};\draw (xandy4.output) -- node[above]{\scriptsize $ \bar A.D $} ($(xandy4) + (1.8, 0)$);
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 6.00) (xandy5) {};\draw (xandy5.output) -- node[above]{\scriptsize $ \bar A.B.\bar C.D $} ($(xandy5) + (1.8, 0)$);
                 % X
 \draw [line width=0.25mm,   red] (notx.output)
-            -- ([xshift=0cm]notx.output) |- (xandy4.input 1);
-% W
-\draw ($(w) + (0, -1ex)$)|- (xandy4.input 4);
- 
-
- %% ***Function X : Gate for term n° 2 [ B'.C ]***
-  
-                \node[nand gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 6.00) (xandy5) {};\draw (xandy5.output) -- node[above]{\scriptsize $ \bar B.C $} ($(xandy5) + (1.8, 0)$);
-                % Y
-\draw [line width=0.25mm,   red] (noty.output)
-            -- ([xshift=0cm]noty.output) |- (xandy5.input 2);
+            -- ([xshift=0cm]notx.output) |- (xandy5.input 1);
+% Y
+\draw ($(y) + (0, -1ex)$)|- (xandy5.input 2);
 % Z
-\draw ($(z) + (0, -1ex)$)|- (xandy5.input 3);
+\draw [line width=0.25mm,   red] (notz.output)
+            -- ([xshift=0cm]notz.output) |- (xandy5.input 3);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy5.input 4);
  
 
- %% ***Function X : Gate for term n° 3 [ C.D ]***
+ %% ***Function F5 : Gate for term n° 2 [ A.B'.C.D' ]***
   
-                \node[nand gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 7.20) (xandy6) {};\draw (xandy6.output) -- node[above]{\scriptsize $ C.D $} ($(xandy6) + (1.8, 0)$);
-                % Z
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 7.20) (xandy6) {};\draw (xandy6.output) -- node[above]{\scriptsize $ A.\bar B.C.\bar D $} ($(xandy6) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy6.input 1);
+% Y
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy6.input 2);
+% Z
 \draw ($(z) + (0, -1ex)$)|- (xandy6.input 3);
 % W
-\draw ($(w) + (0, -1ex)$)|- (xandy6.input 4);
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy6.input 4);
+ 
+
+ %% ***Function F5 : Gate for term n° 3 [ A.B.C.D ]***
+  
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 8.40) (xandy7) {};\draw (xandy7.output) -- node[above]{\scriptsize $ A.B.C.D $} ($(xandy7) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy7.input 1);
+% Y
+\draw ($(y) + (0, -1ex)$)|- (xandy7.input 2);
+% Z
+\draw ($(z) + (0, -1ex)$)|- (xandy7.input 3);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy7.input 4);
 
 
-%% Function X Large OR Gate
+%% Function F5 Large OR Gate
 
-\node[nand gate US, draw, rotate=0, logic gate inputs=nnnn] at (\FunctionPos, 6.00) (xory4) {};
-
-
-            \draw (xory4.output) -- node[above]{\scriptsize $X$} ($(xory4.east) + (+3ex, 0)$);
+\node[or gate US, draw, rotate=0, logic gate inputs=nnnn] at (\FunctionPos, 7.20) (xory5) {};
 
 
-            \draw (xandy4.output) -- ([xshift=1.60cm]xandy4.output) |- (xory4.input 3);
+            \draw (xory5.output) -- node[above]{\scriptsize $F5$} ($(xory5.east) + (+3ex, 0)$);
 
-\draw (xandy5.output) -- ([xshift=1.55cm]xandy5.output) |- (xory4.input 2);
 
-\draw (xandy6.output) -- ([xshift=1.60cm]xandy6.output) |- (xory4.input 1);
+            \draw (xandy5.output) -- ([xshift=1.60cm]xandy5.output) |- (xory5.input 3);
+
+\draw (xandy6.output) -- ([xshift=1.55cm]xandy6.output) |- (xory5.input 2);
+
+\draw (xandy7.output) -- ([xshift=1.60cm]xandy7.output) |- (xory5.input 1);
 
  
 
- %% ***Function W : Gate for term n° 1 [ A'.C ]***
+ %% ***Function F3 : Gate for term n° 1 [ A'.B'.C.D ]***
   
-                \node[nand gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 8.40) (xandy7) {};\draw (xandy7.output) -- node[above]{\scriptsize $ \bar A.C $} ($(xandy7) + (1.8, 0)$);
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 9.60) (xandy8) {};\draw (xandy8.output) -- node[above]{\scriptsize $ \bar A.\bar B.C.D $} ($(xandy8) + (1.8, 0)$);
                 % X
 \draw [line width=0.25mm,   red] (notx.output)
-            -- ([xshift=0cm]notx.output) |- (xandy7.input 1);
+            -- ([xshift=0cm]notx.output) |- (xandy8.input 1);
+% Y
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy8.input 2);
 % Z
-\draw ($(z) + (0, -1ex)$)|- (xandy7.input 3);
+\draw ($(z) + (0, -1ex)$)|- (xandy8.input 3);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy8.input 4);
+ 
+
+ %% ***Function F3 : Gate for term n° 2 [ A'.B.C.D' ]***
+  
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 10.80) (xandy9) {};\draw (xandy9.output) -- node[above]{\scriptsize $ \bar A.B.C.\bar D $} ($(xandy9) + (1.8, 0)$);
+                % X
+\draw [line width=0.25mm,   red] (notx.output)
+            -- ([xshift=0cm]notx.output) |- (xandy9.input 1);
+% Y
+\draw ($(y) + (0, -1ex)$)|- (xandy9.input 2);
+% Z
+\draw ($(z) + (0, -1ex)$)|- (xandy9.input 3);
+% W
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy9.input 4);
+ 
+
+ %% ***Function F3 : Gate for term n° 3 [ A.B'.C'.D ]***
+  
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 12.00) (xandy10) {};\draw (xandy10.output) -- node[above]{\scriptsize $ A.\bar B.\bar C.D $} ($(xandy10) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy10.input 1);
+% Y
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy10.input 2);
+% Z
+\draw [line width=0.25mm,   red] (notz.output)
+            -- ([xshift=0cm]notz.output) |- (xandy10.input 3);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy10.input 4);
+ 
+
+ %% ***Function F3 : Gate for term n° 4 [ A.B.C'.D' ]***
+  
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 13.20) (xandy11) {};\draw (xandy11.output) -- node[above]{\scriptsize $ A.B.\bar C.\bar D $} ($(xandy11) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy11.input 1);
+% Y
+\draw ($(y) + (0, -1ex)$)|- (xandy11.input 2);
+% Z
+\draw [line width=0.25mm,   red] (notz.output)
+            -- ([xshift=0cm]notz.output) |- (xandy11.input 3);
+% W
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy11.input 4);
+ 
+
+ %% ***Function F3 : Gate for term n° 5 [ A.B.C.D ]***
+  
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 14.40) (xandy12) {};\draw (xandy12.output) -- node[above]{\scriptsize $ A.B.C.D $} ($(xandy12) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy12.input 1);
+% Y
+\draw ($(y) + (0, -1ex)$)|- (xandy12.input 2);
+% Z
+\draw ($(z) + (0, -1ex)$)|- (xandy12.input 3);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy12.input 4);
 
 
-%% Function W Large OR Gate
+%% Function F3 Large OR Gate
 
-\node at (\FunctionPos, 8.40) (xory7) {};
-
-
-            \draw (xory7) node[above]{\scriptsize $W$} ($(xory7.east) + (+3ex, 0)$);
+\node[or gate US, draw, rotate=0, logic gate inputs=nnnnnn] at (\FunctionPos, 12.00) (xory8) {};
 
 
-            \draw (xandy7.output) -- ([xshift=1.60cm]xandy7.output) |- (xory7);
+            \draw (xory8.output) -- node[above]{\scriptsize $F3$} ($(xory8.east) + (+3ex, 0)$);
+
+
+            \draw (xandy8.output) -- ([xshift=1.60cm]xandy8.output) |- (xory8.input 5);
+
+\draw (xandy9.output) -- ([xshift=1.55cm]xandy9.output) |- (xory8.input 4);
+
+\draw (xandy10.output) -- ([xshift=1.50cm]xandy10.output) |- (xory8.input 3);
+
+\draw (xandy11.output) -- ([xshift=1.55cm]xandy11.output) |- (xory8.input 2);
+
+\draw (xandy12.output) -- ([xshift=1.60cm]xandy12.output) |- (xory8.input 1);
+
+ 
+
+ %% ***Function F2 : Gate for term n° 1 [ C.D' ]***
+  
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 15.60) (xandy13) {};\draw (xandy13.output) -- node[above]{\scriptsize $ C.\bar D $} ($(xandy13) + (1.8, 0)$);
+                % Z
+\draw ($(z) + (0, -1ex)$)|- (xandy13.input 3);
+% W
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy13.input 4);
+ 
+
+ %% ***Function F2 : Gate for term n° 2 [ B.D' ]***
+  
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 16.80) (xandy14) {};\draw (xandy14.output) -- node[above]{\scriptsize $ B.\bar D $} ($(xandy14) + (1.8, 0)$);
+                % Y
+\draw ($(y) + (0, -1ex)$)|- (xandy14.input 2);
+% W
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy14.input 4);
+ 
+
+ %% ***Function F2 : Gate for term n° 3 [ A.D' ]***
+  
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 18.00) (xandy15) {};\draw (xandy15.output) -- node[above]{\scriptsize $ A.\bar D $} ($(xandy15) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy15.input 1);
+% W
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy15.input 4);
+
+
+%% Function F2 Large OR Gate
+
+\node[or gate US, draw, rotate=0, logic gate inputs=nnnn] at (\FunctionPos, 16.80) (xory13) {};
+
+
+            \draw (xory13.output) -- node[above]{\scriptsize $F2$} ($(xory13.east) + (+3ex, 0)$);
+
+
+            \draw (xandy13.output) -- ([xshift=1.60cm]xandy13.output) |- (xory13.input 3);
+
+\draw (xandy14.output) -- ([xshift=1.55cm]xandy14.output) |- (xory13.input 2);
+
+\draw (xandy15.output) -- ([xshift=1.60cm]xandy15.output) |- (xory13.input 1);
 
  \end{tikzpicture}
 
