@@ -1,0 +1,19 @@
+[project]
+name = "strm-tests"
+version = "0.2.0"
+description = "STRM test generator"
+authors = [
+    { name = "Taha Zerrouki", email = "taha.zerrouki@gmail.com" }
+]
+dependencies = []
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["strm_tests"]
+
+[project.scripts]
+strm-tests = "strm_tests.__main__:main"
+
