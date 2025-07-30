@@ -28,7 +28,7 @@ import sys
 import random
 import webview
 sys.path.append('../')
-import strm_test
+import src
 
 class Api:
     def __init__(self, viewer):
