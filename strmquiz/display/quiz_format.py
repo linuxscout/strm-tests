@@ -262,7 +262,7 @@ class test_format:
         # ~ s = s.replace("c'","\\bar c")
         # ~ s = s.replace("d'","\\bar d")
         return s
-    def draw_map(self, minterms, dontcares=[], correct = False, variables = [], simply_terms=[]):
+    def draw_map(self, minterms, dontcares=[], correct = False, variables = [], simply_terms=[], method="sop"):
         kmap=[]
         maxterms = [x for x in range(16) if x not in minterms and x not in dontcares]
         for x in range(16):
@@ -324,7 +324,7 @@ class test_format:
         }
         lggm ="Draw Logigramm in Text mode, not implemented"
         return lggm
-    def draw_logigram_list(self, sop_list, function_namelist = ["F",], variables = []):
+    def draw_logigram_list(self, sop_list, function_namelist = ["F",], variables = [], method="and"):
         """ draw a logigram """
         varnames = {
             "A":variables[0],

@@ -9,7 +9,7 @@ Usage:
 
 import sys
 import argparse
-from src import test_builder
+from strmquiz import test_builder
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='Create tests for STRM 1 - MI.')
@@ -71,7 +71,7 @@ def main():
     args = parse_arguments()
 
     tester = test_builder.test_builder(
-        output_format=args.outformat,
+        outformat=args.outformat,
         config_file=args.configfile
     )
 

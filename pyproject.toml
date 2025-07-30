@@ -1,19 +1,23 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "strm-tests"
-version = "0.2.0"
-description = "STRM test generator"
+name = "strmquiz"
+version = "0.1.0"
+description = "STRM test generator for Structure Machine courses"
 authors = [
     { name = "Taha Zerrouki", email = "taha.zerrouki@gmail.com" }
 ]
-dependencies = []
-
-[tool.setuptools]
-package-dir = {"" = "src"}
-
-[tool.setuptools.packages.find]
-where = ["src"]
-include = ["strm_tests"]
+readme = "README.md"
+requires-python = ">=3.7"
+license = { text = "MIT" }
+dependencies = [
+    # أضف التبعيات هنا إن وجدت
+]
 
 [project.scripts]
-strm-tests = "strm_tests.__main__:main"
+strmquiz = "strmquiz.__main__:main"
 
+[tool.setuptools]
+packages = { find = { where = ["."] } }

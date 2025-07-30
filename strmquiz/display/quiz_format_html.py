@@ -199,7 +199,7 @@ class test_format_html(test_format.test_format):
         text +="</table>\n"
 
         return text    
-    def draw_map(self, minterms, dontcares=[], correct = False, variables = [], simply_terms=[]):
+    def draw_map(self, minterms, dontcares=[], correct = False, variables = [], simply_terms=[], method="sop"):
         kmap=[]
         maxterms = [x for x in range(16) if x not in minterms and x not in dontcares]
         for x in range(16):

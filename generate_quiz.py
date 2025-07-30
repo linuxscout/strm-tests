@@ -7,7 +7,7 @@ License: GPL v2 or later
 """
 
 import argparse
-from src import test_builder
+from strmquiz import test_builder
 
 
 def parse_args():

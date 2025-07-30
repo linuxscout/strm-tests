@@ -1,5 +1,5 @@
 import unittest
-import src.test_builder as test_builder
+import strmquiz.test_builder as test_builder
 
 class MyTestCase(unittest.TestCase):
     def __init__(self):
