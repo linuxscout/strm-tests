@@ -137,3 +137,4 @@ latex/*.pdf
 /.idea/
 /myenv/
 /doc/*.pdf
+/docs/tikz-timing.pdf
