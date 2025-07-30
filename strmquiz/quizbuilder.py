@@ -32,9 +32,9 @@ from . import question_builder
 
 class QuizBuilder:
     """ Generate the third test """
-    def __init__(self, outformat="", config_file =""):
+    def __init__(self, outformat="", config_file ="", lang="", templates_dir=""):
 
-        self.qsbuilder = question_builder.Question_Builder(outformat)
+        self.qsbuilder = question_builder.Question_Builder(outformat, lang=lang, templates_dir=templates_dir)
         self.formater = quiz_format_factory.quiz_format_factory.factory(outformat)
         # if the file is not configured, use default config file
         if not config_file:

@@ -30,19 +30,19 @@ class quiz_format_factory:
     def __init__(self,):
         pass
     @staticmethod
-    def factory(typef=""):
+    def factory(typef="", lang="ar-en", templates_dir=""):
         """ create a factory for format"""
         #~ print("TypeF", typef)
         if typef.lower()== "latex" or typef.lower() =="tex":
-            return quiz_format_tex.quiz_format_tex()
+            return quiz_format_tex.quiz_format_tex(lang=lang, templates_dir=templates_dir)
         elif typef.lower()== "text":
-            return quiz_format.quiz_format()
+            return quiz_format.quiz_format(lang=lang, templates_dir=templates_dir)
         elif typef.lower()== "html":
-            return quiz_format_html.quiz_format_html()
+            return quiz_format_html.quiz_format_html(lang=lang, templates_dir=templates_dir)
         elif typef.lower()== "json":
-            return quiz_format_json.quiz_format_json()
+            return quiz_format_json.quiz_format_json(lang=lang, templates_dir=templates_dir)
         else:
-            return quiz_format.quiz_format()
+            return quiz_format.quiz_format(lang=lang, templates_dir=templates_dir)
 def main(args):
     outformats = ["tex", "csv", "md"]
     data = {"section":"Test n°1",

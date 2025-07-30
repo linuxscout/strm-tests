@@ -29,8 +29,8 @@ from ..bool import logigram
 
 class quiz_format_tex(quiz_format.quiz_format):
     """ Generate a format for the test """
-    def __init__(self, formatting=""):
-        quiz_format.quiz_format.__init__(self)
+    def __init__(self, formatting="", lang="", templates_dir=""):
+        quiz_format.quiz_format.__init__(self, lang=lang, templates_dir=templates_dir)
         self.formatting = ""
         self.output = [] 
         self.header =""

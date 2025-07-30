@@ -70,6 +70,13 @@ def parse_arguments():
         choices=["arabic", "french", "english", "arabic-english", "arabic-french"],
         default="arabic",
         help="Language of the test content"
+
+    )
+    parser.add_argument(
+        "--templates", "--templates-dir",
+        dest="templates_dir",
+        default="",
+        help="templates for get question formats"
     )
     return parser.parse_args()
 
@@ -78,7 +85,10 @@ def main():
 
     tester = QuizBuilder(
         outformat=args.outformat,
-        config_file=args.configfile
+        config_file=args.configfile,
+        lang = args.language,
+        templates_dir=args.templates_dir,
+
     )
 
     generated_test = tester.get_quiz(args.test_id)

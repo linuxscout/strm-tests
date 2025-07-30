@@ -27,11 +27,13 @@ from . import format_const
 
 class quiz_format:
     """ Generate a format for the test """
-    def __init__(self, formatting=""):
+    def __init__(self, formatting="", lang="ar-en", templates_dir=""):
         self.formatting = ""
         self.output = []
         self.tests = []
         self.newline = "\n"
+        self.lang = lang
+        self.template_dir = templates_dir
         #~ print("quiz_format")
     def header(self,):
         """

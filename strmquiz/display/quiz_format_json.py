@@ -32,9 +32,9 @@ from ..bool import logigram
 
 class quiz_format_json(quiz_format_html.quiz_format_html):
     """ Generate a format for the test """
-    def __init__(self, formatting=""):
+    def __init__(self, formatting="", lang="ar-en", templates_dir=""):
 
-       quiz_format_html.quiz_format_html.__init__(self)
+       quiz_format_html.quiz_format_html.__init__(self, lang=lang, templates_dir=templates_dir)
        pass
 
     def display(self,):

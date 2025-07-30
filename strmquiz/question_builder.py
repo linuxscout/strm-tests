@@ -30,12 +30,12 @@ from .sequentiel import tex_chronograms
 
 class Question_Builder:
     """ Generate the question """
-    def __init__(self, outformat="", config_file =""):
+    def __init__(self, outformat="", config_file ="", lang="ar-en", templates_dir=""):
         self.qs = question.questionGenerator(latex=True)
         self.bq = boolquiz.bool_quiz()
         self.vf = ieee754.float_point()
-        self.formater = quiz_format_factory.quiz_format_factory.factory(outformat)
-        self.answer_formater = quiz_format_factory.quiz_format_factory.factory(outformat)
+        self.formater = quiz_format_factory.quiz_format_factory.factory(outformat, lang=lang, templates_dir=templates_dir)
+        self.answer_formater = quiz_format_factory.quiz_format_factory.factory(outformat, lang=lang, templates_dir=templates_dir)
 
     def question_vf(self,):
         x = self.vf.vf_question()

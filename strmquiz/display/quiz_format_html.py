@@ -28,13 +28,14 @@ import latex2mathml.converter
 
 class quiz_format_html(quiz_format.quiz_format):
     """ Generate a format for the test """
-    def __init__(self, formatting=""):
-        quiz_format.quiz_format.__init__(self)
+    def __init__(self, formatting="", lang ="ar-en", templates_dir=""):
+        quiz_format.quiz_format.__init__(self, lang=lang, templates_dir=templates_dir)
         self.formatting = ""
         self.output =  []
         self.header =""
         self.footer =""
-        self.newline = "<br/>\n"        
+        self.newline = "<br/>\n"
+
 
    
     def header(self,):
