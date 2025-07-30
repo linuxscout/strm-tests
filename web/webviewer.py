@@ -2,12 +2,12 @@ import webview
 import sys
 import time
 sys.path.append('../')
-import strm_test.test_builder
+import src.test_builder
 class mywebviewer:
     def __init__(self, config_file=""):
         self.filename = None
         # parser 
-        self.parser = strm_test.test_builder.test_builder(config_file=config_file)
+        self.parser = src.test_builder.test_builder(config_file=config_file)
     def load_css(self, window, ):
         filepath = "./timetable/css/style.css"
         try:
