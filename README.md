@@ -26,9 +26,9 @@ Features |   value
 ------------|-----------
 Authors  | Taha Zerrouki: http://tahadz.com,  taha dot zerrouki at gmail dot com
 Release  | 0.2
-License  |[GPL](https://github.com/linuxscout/strm-tests/master/LICENSE)
+License  |[GPL](https://github.com/linuxscout/strm-tests/blob/master/LICENSE)
 Tracker  |[linuxscout/strm-tests/Issues](https://github.com/linuxscout/strm-tests/issues)
-Website  |[https://github.com/linuxscout/strm-tes)[github)
+Website  |[GitHub](https://github.com/linuxscout/strm-tests)
 Source  |[Github](https://github.com/linuxscout/strm-tests)
 Feedbacks  |[Comments](https://github.com/linuxscout/strm-tests/issues)
 Accounts  |[@Twitter](https://twitter.com/linuxscout) 
