@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  test_builder.py
+#  quiz_builder.py
 #  
 #  Copyright 2019 zerrouki <zerrouki@majd4>
 #  
@@ -26,16 +26,16 @@ import random
 # ~ from . import boolquiz
 # ~ from . import ieee754
 from . import read_config
-from .display import test_format_factory
+from .display import quiz_format_factory
 from . import question_builder
 # ~ from .sequentiel import tex_chronograms
 
-class test_builder:
+class quiz_builder:
     """ Generate the third test """
     def __init__(self, outformat="", config_file =""):
 
         self.qsbuilder = question_builder.Question_Builder(outformat)
-        self.formater = test_format_factory.test_format_factory.factory(outformat)
+        self.formater = quiz_format_factory.quiz_format_factory.factory(outformat)
         # if the file is not configured, use default config file
         if not config_file:
             config_file = "config/quiz.conf"
@@ -58,20 +58,20 @@ class test_builder:
         "multi_funct",
         "chronogram",
         ]
-        self.test_commands = {}
-        self.test_commands[1] = [["base", "base", "arithm"],
+        self.quiz_commands = {}
+        self.quiz_commands[1] = [["base", "base", "arithm"],
         ["mesure", "base", "arithm"],
         ["base", "mesures", "arithm"],
         
         ]
-        self.test_commands[2] = [["float", "map"],
+        self.quiz_commands[2] = [["float", "map"],
         ["float", "map-sop"],
         ["float", "function"],
         ["complement","complement", "map"],
         ["function", "exp"],
         ["function", "exp"],        
         ]
-        self.test_commands[3] =  [
+        self.quiz_commands[3] =  [
 #       ["float", "map"],
 #        ["float", "map-sop"],
 #        ["float", "function"],
@@ -83,29 +83,29 @@ class test_builder:
         ["function", "map"],
         ["function", "exp"],
         ]        
-        self.test_commands[4] =  [
+        self.quiz_commands[4] =  [
         ["static_funct","nand_funct"],
         ]        
-        self.test_commands[5] =  [
+        self.quiz_commands[5] =  [
         ["multi_funct",],
         ]
-        self.test_commands[6] =  [
+        self.quiz_commands[6] =  [
         ["chronogram",],
         ]
     def set_format(self, outformat="latex"):
         """ set a new format"""
-        self.formater = test_format_factory.test_format_factory.factory(outformat)
+        self.formater = quiz_format_factory.quiz_format_factory.factory(outformat)
 
     def reset(self,):
         """
         reset output
         """
         self.formater.reset()
-    def get_test_config(self, test_id):
+    def get_quiz_config(self, test_id):
         """
         return testif according to config file
         """
-        return self.myconfig.get_test_config(test_id)
+        return self.myconfig.get_quiz_config(test_id)
 
      
 
@@ -139,7 +139,7 @@ class test_builder:
         elif command == "arithm":
             return self.qsbuilder.question_arithm()
         elif command == "chronogram":
-            print("test_builder:debug:arguments",args)
+            print("quiz_builder:debug:arguments",args)
             return self.qsbuilder.question_chronogram(
             varlist= args.get("varlist",{}),
             flip_type=args.get("flip_type","D"),
@@ -173,7 +173,7 @@ class test_builder:
         # generate question from  command
         questions = [self.get_question(q, args=args) for q in questions_names]
         # ~ for i in range(repeat): " ignore repeat"
-        test_questions = []
+        quiz_questions = []
         for cpt, name in enumerate(questions_names):
             generated_question = self.get_question(name, args=args)
         # ~ for cpt, value in enumerate(questions):
@@ -187,8 +187,8 @@ class test_builder:
             "data":data,
             "answer":ans,                
             }
-            test_questions.append(item)
-        self.formater.add_test(test_questions)           
+            quiz_questions.append(item)
+        self.formater.add_test(quiz_questions)
 
     def test2(self, questions_names, rand=True, nb=2, repeat=2, args={}):
         """ generate a test"""
@@ -218,7 +218,7 @@ class test_builder:
         """ list all existing question types """
         return self.commands
 
-    def get_test(self,test_no="test1"):
+    def get_quiz(self,test_no="test1"):
         """
         Generate a test by number according to config file
         """
@@ -239,7 +239,7 @@ class test_builder:
         "method":self.myconfig.method,
         # ~ "simplification":self.myconfig.simplification,
         }
-        test_config = self.get_test_config(test_no)
+        test_config = self.get_quiz_config(test_no)
         for test in test_config:
             for i in range(nb_questions):
                 self.formater.open_question(test)
@@ -254,9 +254,9 @@ class test_builder:
 
 
 def main(args):
-    builder = test_builder()
+    builder = quiz_builder()
     args ={"minterms":[1,2,3]}
-    test = builder.get_test(4,repeat=1, args=args)
+    test = builder.get_quiz(4,repeat=1, args=args)
     print(test)
     return 0
 

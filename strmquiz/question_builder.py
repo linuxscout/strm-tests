@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  test_builder.py
+#  quiz_builder.py
 #  
 #  Copyright 2019 zerrouki <zerrouki@majd4>
 #  
@@ -25,7 +25,7 @@ import random
 from .codage import question_codage as question
 from .bool import boolquiz
 from .codage import ieee754
-from .display import test_format_factory
+from .display import quiz_format_factory
 from .sequentiel import tex_chronograms
 
 class Question_Builder:
@@ -34,8 +34,8 @@ class Question_Builder:
         self.qs = question.questionGenerator(latex=True)
         self.bq = boolquiz.bool_quiz()
         self.vf = ieee754.float_point()
-        self.formater = test_format_factory.test_format_factory.factory(outformat)
-        self.answer_formater = test_format_factory.test_format_factory.factory(outformat)
+        self.formater = quiz_format_factory.quiz_format_factory.factory(outformat)
+        self.answer_formater = quiz_format_factory.quiz_format_factory.factory(outformat)
 
     def question_vf(self,):
         x = self.vf.vf_question()
@@ -557,7 +557,7 @@ class Question_Builder:
                 signal_dict = chrono.question({key:varlist[key]}, length=length)
                 signals[key] = signal_dict[key]
         # ~ signals = chrono.question(varlist, length=length)
-        print("test_builder:signals", signals)
+        print("quiz_builder:signals", signals)
         # set synchronization type
         chrono.set_synch_type(synch_type)
         
@@ -627,7 +627,7 @@ class Question_Builder:
 
 
 def main(args):
-    builder = test_builder()
+    builder = quiz_builder()
     args ={"minterms":[1,2,3]}
     test = builder.get_test(4,repeat=1, args=args)
     print(test)

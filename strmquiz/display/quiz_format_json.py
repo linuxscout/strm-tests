@@ -25,16 +25,16 @@
 import itertools
 import json
 import pprint
-from . import test_format
-from . import test_format_html
+from . import quiz_format
+from . import quiz_format_html
 from . import format_const
 from ..bool import logigram
 
-class test_format_json(test_format_html.test_format_html):
+class quiz_format_json(quiz_format_html.quiz_format_html):
     """ Generate a format for the test """
     def __init__(self, formatting=""):
 
-       test_format_html.test_format_html.__init__(self)
+       quiz_format_html.quiz_format_html.__init__(self)
        pass
 
     def display(self,):

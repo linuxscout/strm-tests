@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  test_format_tex.py
+#  quiz_format_tex.py
 #  
 #  Copyright 2019 zerrouki <zerrouki@majd4>
 #  
@@ -22,14 +22,14 @@
 #  
 #  
 import itertools
-from . import test_format
+from . import quiz_format
 import latex2mathml.converter
 
 
-class test_format_html(test_format.test_format):
+class quiz_format_html(quiz_format.quiz_format):
     """ Generate a format for the test """
     def __init__(self, formatting=""):
-        test_format.test_format.__init__(self)
+        quiz_format.quiz_format.__init__(self)
         self.formatting = ""
         self.output =  []
         self.header =""

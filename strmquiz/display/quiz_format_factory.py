@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  test_format_factory.py
+#  quiz_format_factory.py
 #  
 #  Copyright 2019 zerrouki <zerrouki@majd4>
 #  
@@ -21,11 +21,11 @@
 #  MA 02110-1301, USA.
 #  
 #  
-from . import test_format
-from . import test_format_html
-from . import test_format_tex
-from . import test_format_json
-class test_format_factory:
+from . import quiz_format
+from . import quiz_format_html
+from . import quiz_format_tex
+from . import quiz_format_json
+class quiz_format_factory:
     
     def __init__(self,):
         pass
@@ -34,15 +34,15 @@ class test_format_factory:
         """ create a factory for format"""
         #~ print("TypeF", typef)
         if typef.lower()== "latex" or typef.lower() =="tex":
-            return test_format_tex.test_format_tex()
+            return quiz_format_tex.quiz_format_tex()
         elif typef.lower()== "text":
-            return test_format.test_format()
+            return quiz_format.quiz_format()
         elif typef.lower()== "html":
-            return test_format_html.test_format_html()
+            return quiz_format_html.quiz_format_html()
         elif typef.lower()== "json":
-            return test_format_json.test_format_json()
+            return quiz_format_json.quiz_format_json()
         else:
-            return test_format.test_format()
+            return quiz_format.quiz_format()
 def main(args):
     outformats = ["tex", "csv", "md"]
     data = {"section":"Test n°1",
@@ -51,7 +51,7 @@ def main(args):
         }
     for frmt  in outformats:
         
-        formatter = test_format_factory.factory(frmt)
+        formatter = quiz_format_factory.factory(frmt)
         print(formatter)
         formatter.add_section(data['section'])
         formatter.add_text(data['text'])

@@ -65,7 +65,7 @@ def main():
     version = args.version
 
     # generate a builder with format
-    tester = test_builder.test_builder(outformat, config_file= configfile)
+    tester = test_builder.quiz_builder(outformat, config_file= configfile)
     
     new_test = tester.get_test(test_id)
     

@@ -1,11 +1,11 @@
 import unittest
-import strmquiz.test_builder as test_builder
+import strmquiz.quiz_builder as quiz_builder
 
 class MyTestCase(unittest.TestCase):
     def __init__(self):
         configfile = ""
         outformat = ""
-        self.tester = test_builder.test_builder(outformat, config_file=configfile)
+        self.tester = quiz_builder.quiz_builder(outformat, config_file=configfile)
 
         new_test = tester.get_test(test_id)
 

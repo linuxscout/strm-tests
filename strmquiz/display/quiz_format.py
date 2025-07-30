@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  test_format.py
+#  quiz_format.py
 #  
 #  Copyright 2019 zerrouki <zerrouki@majd4>
 #  
@@ -25,14 +25,14 @@
 import itertools
 from . import format_const
 
-class test_format:
+class quiz_format:
     """ Generate a format for the test """
     def __init__(self, formatting=""):
         self.formatting = ""
         self.output = []
         self.tests = []
         self.newline = "\n"
-        #~ print("test_format")        
+        #~ print("quiz_format")
     def header(self,):
         """
         """
@@ -53,23 +53,23 @@ class test_format:
         """
         """
         self.output = []        
-    def add_test(self, test_question_list):
+    def add_test(self, quiz_question_list):
         """
         """
-        self.tests.append(test_question_list)
+        self.tests.append(quiz_question_list)
 
-    def add_question(self, test_question):
+    def add_question(self, quiz_question):
         """
         Add a question as  template 
         """
         # the test question contains parameters to generate a specific template
         # the category attribute get the destination template
         
-        temp = self.get_template(test_question.get("catagory",""))
+        temp = self.get_template(quiz_question.get("catagory",""))
         if temp:
-            newtext = temp.safe_substitute(test_question)
+            newtext = temp.safe_substitute(quiz_question)
         else:
-            newtext = self.newline.join(test_question.values())
+            newtext = self.newline.join(quiz_question.values())
         self.tests.append(newtext)
 
     def add_section(self, text, trans ="", level=1):

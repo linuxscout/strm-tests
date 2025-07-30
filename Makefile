@@ -35,7 +35,7 @@ doc:
 define test_template
 $(1):
 	@echo "Generating test: $(1)"
-	python3 generate_tests.py -f config/quiz5.conf -d tex -t "$(1)" -o tests/output/test.tex
+	python3 generate_quiz.py -f config/quiz5.conf -d tex -t "$(1)" -o tests/output/test.tex
 	cp tests/output/test.tex latex/test.tex
 	cd latex && xelatex test-n°2.tex
 	mkdir -p edits/test2-$(DATE)

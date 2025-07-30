@@ -103,7 +103,7 @@ class read_config:
             # ~ print("simplification", self.simplification)
      
     
-    def get_test_config(self, select = ""):
+    def get_quiz_config(self, select = ""):
         
         if select in self.test_table:
             return self.test_table[select]

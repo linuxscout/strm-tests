@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  test_factory.py
+#  quiz_factory.py
 #  
 #  Copyright 2019 zerrouki <zerrouki@majd4>
 #  
@@ -22,11 +22,11 @@
 #  
 #  
 
-from .  import test_builder
-class test_factory:
+from .  import quiz_builder
+class quiz_factory:
     def __init__(self,):
         pass
-    def factory(self, test_type=""):
+    def factory(self, quiz_type=""):
         
         pass
 
