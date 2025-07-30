@@ -9,7 +9,7 @@ Usage:
 
 import sys
 import argparse
-from strmquiz import quiz_builder
+from strmquiz.quizbuilder import QuizBuilder
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='Create tests for STRM 1 - MI.')
@@ -64,13 +64,19 @@ def parse_arguments():
         metavar="MINTERMS",
         default=""
     )
-
+    parser.add_argument(
+        "--lang", "--language",
+        dest="language",
+        choices=["arabic", "french", "english", "arabic-english", "arabic-french"],
+        default="arabic",
+        help="Language of the test content"
+    )
     return parser.parse_args()
 
 def main():
     args = parse_arguments()
 
-    tester = quiz_builder.quiz_builder(
+    tester = QuizBuilder(
         outformat=args.outformat,
         config_file=args.configfile
     )

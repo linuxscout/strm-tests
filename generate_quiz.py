@@ -7,7 +7,7 @@ License: GPL v2 or later
 """
 
 import argparse
-from strmquiz import test_builder
+from strmquiz.quizbuilder import QuizBuilder
 
 
 def parse_args():
@@ -51,8 +51,8 @@ def parse_args():
 
 
 def generate_test(args):
-    tester = test_builder.test_builder(args.outformat, config_file=args.configfile)
-    return tester.get_test(args.test_id)
+    tester = QuizBuilder(args.outformat, config_file=args.configfile)
+    return tester.get_quiz(args.test_id)
 
 
 def main():

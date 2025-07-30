@@ -5,7 +5,7 @@ class MyTestCase(unittest.TestCase):
     def __init__(self):
         configfile = ""
         outformat = ""
-        self.tester = quiz_builder.quiz_builder(outformat, config_file=configfile)
+        self.tester = quiz_builder.QuizBuilder(outformat, config_file=configfile)
 
         new_test = tester.get_test(test_id)
 

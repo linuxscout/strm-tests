@@ -627,11 +627,7 @@ class Question_Builder:
 
 
 def main(args):
-    builder = quiz_builder()
-    args ={"minterms":[1,2,3]}
-    test = builder.get_test(4,repeat=1, args=args)
-    print(test)
-    return 0
+    pass
 
 if __name__ == '__main__':
     import sys
