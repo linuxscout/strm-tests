@@ -17,6 +17,14 @@ $F(A,B,C,D) ={{  sop_quest }}$
 
 {% if RENDER_MODE == "answer" %}
 
+${{ function_name }} = {{ minterms }}$
+
+\textbf{Don't Care }
+
+${{ function_name }} = {{ dontcares }}$
+
+
+
 \textbf{Truth Table \aRL{جدول الحقيقة}}
 {{ truthtable }}
 
@@ -40,6 +48,8 @@ $F(A,B,C,D) ={{  sop_quest }}$
 \begin{itemize}
 \item ${{ function_name }}(A,B,C,D) =  {{  dnf }}$
 \item ${{ function_name }}(A,B,C,D) = {{  cnf }}$
+ \item ${{ function_name }}(A,B,C,D) =  \sum({{  data.minterms| join(", ") }})$
+ \item ${{ function_name }}(A,B,C,D) =  \prod({{  data.maxterms| join(", ") }})$
 \end{itemize}
 
 
