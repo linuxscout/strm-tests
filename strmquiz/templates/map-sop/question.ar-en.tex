@@ -1,0 +1,7 @@
+\begin{karnaugh-map}[4][4][1][{{ cd }}][{{ ab }}]
+  \minterms{ {{ minterms | join(", ") }} }
+  \maxterms{ {{ maxterms | join(", ") }} }
+  {% if dontcares %}
+    \terms{ {{ dontcares | join(", ") }} }{X}
+  {% endif %}
+ \end{karnaugh-map}
