@@ -67,7 +67,7 @@ def parse_arguments():
     parser.add_argument(
         "--lang", "--language",
         dest="language",
-        choices=["arabic", "french", "english", "arabic-english", "arabic-french"],
+        choices=["ar", "fr", "en", "ar-en", "ar-fr"],
         default="arabic",
         help="Language of the test content"
 

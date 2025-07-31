@@ -37,129 +37,286 @@ class Question_Builder:
         self.formater = quiz_format_factory.quiz_format_factory.factory(outformat, lang=lang, templates_dir=templates_dir)
         self.answer_formater = quiz_format_factory.quiz_format_factory.factory(outformat, lang=lang, templates_dir=templates_dir)
 
-    def question_vf(self,):
+    # def question_vf(self,):
+    #     x = self.vf.vf_question()
+    #     question = "Representer sous la norme IEEE-754 32 bits le nombre suivant"
+    #     arabic = u"مثل العدد الآتي حسب المعيار IEEE-754 32 bits"
+    #     data ="%0.3f"%x
+    #     answer = "Representer sous la norme IEEE-754 32 bits le nombre suivant : %0.3f\n"%x
+    #     # ~ answer += '\n\\begin{verbatim}'
+    #     answer += self.formater.add_verbatim(self.vf.IEEE754(x, True))
+    #     # ~ answer +='\n\\end{verbatim}'
+    #     return question, arabic, data, answer
+    def question_vf(self):
         x = self.vf.vf_question()
-        question = "Representer sous la norme IEEE-754 32 bits le nombre suivant"
-        arabic = u"مثل العدد الآتي حسب المعيار IEEE-754 32 bits"
-        data ="%0.3f"%x
-        answer = "Representer sous la norme IEEE-754 32 bits le nombre suivant : %0.3f\n"%x
-        # ~ answer += '\n\\begin{verbatim}'
-        answer += self.formater.add_verbatim(self.vf.IEEE754(x, True))
-        # ~ answer +='\n\\end{verbatim}'      
-        return question, arabic, data, answer
-        
+        # ieee_str = self.vf.IEEE754(x, True)
+        ieee_dict = self.vf.ieee754_components(x)
+
+        # context = {
+        #     "number": x,
+        #     "ieee_representation": ieee_str,
+        #     "ieee_repr_dict": ieee_dict,
+        # }
+        context = ieee_dict
+        question, answer = self.formater.render_question_answer("float", context)
+        return question, "arabic", "data", answer
+    #
+    # def question_cp(self,):
+    #     n, a, cp1, cp2 = self.qs.comp_one(8)
+    #
+    #     question = u"Representer en complément à 1 et à 2 le nombre  : -%d"%n
+    #     arabic = u"مثل  العدد الآتي في المتمم إلى الواحد وإلى الاثنين  : -%d"%n
+    #     data = ""
+    #     answer = u"Representer en complément à 1 et à 2 le nombre  : -%d"%n
+    #     answer += self.qs.comp_one(8,n, method=True)
+    #     return question, arabic, data, answer
+
     def question_cp(self,):
-        n, a, cp1, cp2 = self.qs.comp_one(8)        
+        n, a, cp1, cp2 = self.qs.comp_one(8)
+        context = {
+            "number": n,
+            "binary": a,
+            "cp1": cp1,
+            "cp2": cp2,
+        }
 
-        question = u"Representer en complément à 1 et à 2 le nombre  : -%d"%n
-        arabic = u"مثل  العدد الآتي في المتمم إلى الواحد وإلى الاثنين  : -%d"%n
-        data = ""
-        answer = u"Representer en complément à 1 et à 2 le nombre  : -%d"%n
-        answer += self.qs.comp_one(8,n, method=True)
-        return question, arabic, data, answer
-        
+        question, answer = self.formater.render_question_answer("cp", context)
+        return question, "arabic", "data", answer
+    #
+    # def question_intervalle(self,):
+    #
+    #     n =self.qs.intervalle()
+    #
+    #     question = u"Donner les intervalles qu'on peut représenter en nombre positifs, valeur absolue, complément à 1 et complément à 2  sur %d bits\n"%n
+    #     arabic = u"حدد المجالات التي يمكن تمثيلها لأعداد الموجبة والتمثيل بالقيمة المطلقة والمتمم إلى 1 و 2 على   : %d بت"%n
+    #     data = ""
+    #     answer = u"Les intervalles sur %d bits"%n
+    #     answer += self.qs.intervalle(n, method=True)
+    #     return question, arabic, data, answer
     def question_intervalle(self,):
-        
-        n =self.qs.intervalle()        
 
-        question = u"Donner les intervalles qu'on peut représenter en nombre positifs, valeur absolue, complément à 1 et complément à 2  sur %d bits\n"%n
-        arabic = u"حدد المجالات التي يمكن تمثيلها لأعداد الموجبة والتمثيل بالقيمة المطلقة والمتمم إلى 1 و 2 على   : %d بت"%n
-        data = ""
-        answer = u"Les intervalles sur %d bits"%n
-        answer += self.qs.intervalle(n, method=True)
-        return question, arabic, data, answer
-        
+        n = self.qs.intervalle()
+
+        context = {
+            "number": n,
+        }
+
+        question, answer = self.formater.render_question_answer("interval", context)
+        return question, "arabic", "data", answer
+    #
+    # def question_base(self,):
+    #
+    #     res =self.qs.rand_numeral_system()
+    #
+    #     question =u"Faire les conversions suivantes: "
+    #     answer = res.get('reponse','')
+    #     arabic = u"أنجز التحويلات الآتية"
+    #     data =  res.get("question",'')
+    #
+    #     return question, arabic, data, answer
+    #
+
     def question_base(self,):
-        
-        res =self.qs.rand_numeral_system()       
 
-        question =u"Faire les conversions suivantes: " 
-        answer = res.get('reponse','')
-        arabic = u"أنجز التحويلات الآتية"
-        data =  res.get("question",'')
-      
-        return question, arabic, data, answer
+        res =self.qs.rand_numeral_system()
+        context = {
+            "number": res.get("number",0),
+            "in_base": res.get("in_base",10),
+            "out_base": res.get("out_base",10),
+            "output": res.get("output",0),
+        }
+
+        question, answer = self.formater.render_question_answer("base", context)
+        return question, "arabic", "data", answer
+
+    # def question_arithm(self,):
+    #
+    #     res =self.qs.rand_arithm()
+    #
+    #     question =u"Faire les opérations suivantes: "
+    #     answer = res.get('reponse','')
+    #     arabic = u"أنجز العمليات الآتية: "
+    #     data =  res.get("question",'')
+    #
+    #     return question, arabic, data, answer
+
     def question_arithm(self,):
-        
-        res =self.qs.rand_arithm()       
 
-        question =u"Faire les opérations suivantes: " 
+        res =self.qs.rand_arithm()
+
+        question =u"Faire les opérations suivantes: "
         answer = res.get('reponse','')
         arabic = u"أنجز العمليات الآتية: "
-        data =  res.get("question",'')
 
-        return question, arabic, data, answer
+        context = res
+
+        question, answer = self.formater.render_question_answer("arithm", context)
+        return question, "arabic", "data", answer
         
     def question_mesure(self,):
         
         res =self.qs.rand_arithm()       
 
-        question =u"Faire les opérations suivantes: " 
+        question =u"Faire les conversion suivantes: NOT IMPLEMENTED (MESURE questions) "
         answer = res.get('reponse','')
-        arabic = u"أنجز العمليات الآتية: "
+        arabic = u"أنجز التحويلات الآتية: "
         data =  res.get("question",'')
 
         return question, arabic, data, answer
 
-    def question_map(self,):
+    # def question_map(self,):
+    #
+    #
+    #     question = u"Simplifier les fonctions suivantes\n"
+    #     arabic = u"بسّط الدوال الآتية"
+    #     minterms_table =[]
+    #     data = ""
+    #     nb_table = 3
+    #     for i in range(nb_table):
+    #         minterms_table.append(self.bq.rand_funct())
+    #         # ~ data += self.bq.draw_map(minterms_table[i], latex=True)
+    #         data += self.formater.draw_map(minterms_table[i], dontcares=[],
+    #                 variables = self.bq.variables)
+    #
+    #
+    #     answer = u"Simplifier les fonctions suivantes\n"
+    #
+    #     for i in range(nb_table):
+    #         answer += "table %d\n\n"%(i+1)
+    #         sop, pos =self.bq.simplify(minterms_table[i])
+    #         # ~ answer += self.bq.draw_map(minterms_table[i], latex=True, correct=True)
+    #         simply_terms= self.bq.simplify_map(minterms_table[i])
+    #         answer += self.formater.draw_map(minterms_table[i],
+    #                    variables = self.bq.variables,
+    #                    correct=True,
+    #                    simply_terms=simply_terms)
+    #
+    #         answer += "Simplified Sum of products : $%s$\n\n"%self.formater.normalize_formula(sop)
+    #
+    #     return question, arabic, data, answer
+
+    def _prepare_kmap_data(self, minterms, dontcares=[], correct=False, variables=[], simply_terms=[], method="sop"):
+
+
+        maxterms = [x for x in range(16) if x not in minterms and x not in dontcares]
+
+
+        kmap = []
+        for x in range(16):
+            if x in minterms:
+                kmap.append("1")
+            elif x in dontcares:
+                kmap.append("x")
+            else:
+                kmap.append("0")
+        formatted_simplification = []
+        var_names = "".join(variables[:2]) + "\\" + "".join(variables[2:])
+        table = [
+            [var_names, "00", "01", "11", "10"],
+            ["00", kmap[0], kmap[1], kmap[3], kmap[2]],
+            ["00", kmap[4], kmap[5], kmap[7], kmap[6]],
+            ["00", kmap[12], kmap[13], kmap[15], kmap[14]],
+            ["00", kmap[8], kmap[9], kmap[11], kmap[10]],
+        ]
+
+        simplification = ""
+        if correct:
+            simplification = self.bq.simplify_map(minterms, method=method)
+            sop, pos = self.bq.simplify(minterms)
+            formatted_simplification = self.formater.format_map_terms(simplification, method=method)
+            sop = self.formater.normalize_formula(sop)
+            pos = self.formater.normalize_formula(pos)
+
+        return {
+            "minterms": minterms,
+            "maxterms": maxterms,
+            "dontcares": dontcares,
+            "simplification": simplification,
+            "sop": sop,
+            "pos": pos,
+            "formatted_simplification": formatted_simplification,
+            "variables": variables,
+            "ab": "".join(variables[:2]),
+            "cd": "".join(variables[2:]),
+            "table": table,
+        }
+
+    def question_map(self, ):
+
+        nb_table = 3
+        minterms_table = [self.bq.rand_funct() for i in range(nb_table)]
+        question_list = []
+        answer_list = []
+        for minterms in minterms_table:
+            data = self._prepare_kmap_data(minterms=minterms,
+                                          dontcares=[],
+                                          correct=True,
+                                          variables=self.bq.variables
+                                           )
+            question_i, answer_i = self.formater.render_question_answer("map", data)
+            question_list.append(question_i)
+            answer_list.append(answer_i)
+
+        question = "\n".join(question_list)
+        answer = "\n".join(answer_list)
+        return question, "arabic", "data", answer
+
+    #
+    # def question_map_for_sop(self,nb=2):
+    #     question = u"Soit la fonction donnée par sa forme canonique, Tracer la table de karnaugh et simplifier.\n"
+    #     arabic = u"لتكن الدالةالمعطاة بشكلها القانوني، ارسم جدول كارنو وبسطها"
+    #     minterms_table =[]
+    #     data = ""
+    #     for i in range(nb):
+    #         minterms_table.append(self.bq.rand_funct())
+    #         cnf, dnf = self.bq.form_canonique(minterms_table[i])
+    #         data += self.formater.add_formula("F%d(a, b, c, d) = %s"%(i,self.formater.normalize_formula(dnf)))
+    #         data +=  self.formater.add_formula("F%d(a, b, c, d) = \\sum(%s)"%(i,repr(minterms_table[i])))
+    #
+    #     answer = u"Simplifier les fonctions suivantes\n\n"
+    #
+    #     for i in range(nb):
+    #         cnf, dnf = self.bq.form_canonique(minterms_table[i])
+    #         answer +=  self.formater.add_formula("F%d(a, b, c, d) = %s"%(i,dnf))
+    #         answer +=  self.formater.add_formula("F%d(a, b, c, d) = \\sum(%s)"%(i,repr(minterms_table[i])))
+    #         # ~ answer += self.bq.draw_map(minterms_table[i], latex=True, correct=True)
+    #         simply_terms= self.bq.simplify_map(minterms_table[i])
+    #         answer += self.formater.draw_map(minterms_table[i], correct=True,
+    #                    variables = self.bq.variables,
+    #                    simply_terms = simply_terms)
+    #         sop, pos =self.bq.simplify(minterms_table[i])
+    #         answer += self.formater.add_formula("Simplified Sum of products : %s"%sop)
+    #
+    #     return question, arabic, data, answer
         
-
-        question = u"Simplifier les fonctions suivantes\n"
-        arabic = u"بسّط الدوال الآتية"
-        minterms_table =[] 
-        data = ""   
-        nb_table = 3                  
-        for i in range(nb_table):
-            minterms_table.append(self.bq.rand_funct())
-            # ~ data += self.bq.draw_map(minterms_table[i], latex=True)
-            data += self.formater.draw_map(minterms_table[i], dontcares=[],
-                    variables = self.bq.variables)            
- 
-
-        answer = u"Simplifier les fonctions suivantes\n"
-
-        for i in range(nb_table):
-            answer += "table %d\n\n"%(i+1)
-            sop, pos =self.bq.simplify(minterms_table[i])
-            # ~ answer += self.bq.draw_map(minterms_table[i], latex=True, correct=True)
-            simply_terms= self.bq.simplify_map(minterms_table[i])
-            answer += self.formater.draw_map(minterms_table[i], 
-                       variables = self.bq.variables,
-                       correct=True,
-                       simply_terms=simply_terms) 
-            
-            answer += "Simplified Sum of products : $%s$\n\n"%self.formater.normalize_formula(sop)
-
-        return question, arabic, data, answer
 
     def question_map_for_sop(self,nb=2):
         question = u"Soit la fonction donnée par sa forme canonique, Tracer la table de karnaugh et simplifier.\n"
         arabic = u"لتكن الدالةالمعطاة بشكلها القانوني، ارسم جدول كارنو وبسطها"
-        minterms_table =[] 
-        data = ""                     
+        minterms_table =[]
+        data = ""
         for i in range(nb):
             minterms_table.append(self.bq.rand_funct())
-            cnf, dnf = self.bq.form_canonique(minterms_table[i])    
+            cnf, dnf = self.bq.form_canonique(minterms_table[i])
             data += self.formater.add_formula("F%d(a, b, c, d) = %s"%(i,self.formater.normalize_formula(dnf)))
             data +=  self.formater.add_formula("F%d(a, b, c, d) = \\sum(%s)"%(i,repr(minterms_table[i])))
 
         answer = u"Simplifier les fonctions suivantes\n\n"
 
         for i in range(nb):
-            cnf, dnf = self.bq.form_canonique(minterms_table[i])    
+            cnf, dnf = self.bq.form_canonique(minterms_table[i])
             answer +=  self.formater.add_formula("F%d(a, b, c, d) = %s"%(i,dnf))
             answer +=  self.formater.add_formula("F%d(a, b, c, d) = \\sum(%s)"%(i,repr(minterms_table[i])))
             # ~ answer += self.bq.draw_map(minterms_table[i], latex=True, correct=True)
             simply_terms= self.bq.simplify_map(minterms_table[i])
             answer += self.formater.draw_map(minterms_table[i], correct=True,
                        variables = self.bq.variables,
-                       simply_terms = simply_terms) 
-            sop, pos =self.bq.simplify(minterms_table[i])    
+                       simply_terms = simply_terms)
+            sop, pos =self.bq.simplify(minterms_table[i])
             answer += self.formater.add_formula("Simplified Sum of products : %s"%sop)
 
         return question, arabic, data, answer
-        
-                
+
     def question_funct(self,):
         
 

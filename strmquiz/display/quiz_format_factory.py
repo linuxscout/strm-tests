@@ -34,7 +34,7 @@ class quiz_format_factory:
         """ create a factory for format"""
         #~ print("TypeF", typef)
         if typef.lower()== "latex" or typef.lower() =="tex":
-            return quiz_format_tex.quiz_format_tex(lang=lang, templates_dir=templates_dir)
+            return quiz_format_tex.quiz_format_tex(formatting=typef, lang=lang, templates_dir=templates_dir)
         elif typef.lower()== "text":
             return quiz_format.quiz_format(lang=lang, templates_dir=templates_dir)
         elif typef.lower()== "html":

@@ -30,8 +30,8 @@ from ..bool import logigram
 class quiz_format_tex(quiz_format.quiz_format):
     """ Generate a format for the test """
     def __init__(self, formatting="", lang="", templates_dir=""):
-        quiz_format.quiz_format.__init__(self, lang=lang, templates_dir=templates_dir)
-        self.formatting = ""
+        quiz_format.quiz_format.__init__(self, formatting="tex", lang=lang, templates_dir=templates_dir)
+        self.formatting = "tex"
         self.output = [] 
         self.header =""
         self.footer =""
@@ -317,19 +317,25 @@ class quiz_format_tex(quiz_format.quiz_format):
         Gererate diplay for terms
         """
         #print(terms)
-        simpls = []
-        # ~ print("TERMS"+"*"*40, terms)
+        simpls = self.format_map_terms(terms=terms, method=method)
+        return "\n".join(simpls)
+
+    def format_map_terms(self, terms =[], method="sop"):
+        """
+        Gererate diplay for terms
+        """
+
         if method in ("or","nor","pos"):
             reduction_table = format_const.TEX_REDUCTION_TABLE_POS
             # remove extra parenthesis
-            terms = [t.replace("(",'') for t in terms]
-            terms = [t.replace(")",'') for t in terms]
+            terms = [t.replace("(", "").replace(")", "") for t in terms]
+            # terms = [t.replace(")",'') for t in terms]
         else:
-            reduction_table = format_const.TEX_REDUCTION_TABLE            
-        for term in terms:
-            simpls.append(reduction_table.get(term, ""))
-       
-        return "\n".join(simpls)
+            reduction_table = format_const.TEX_REDUCTION_TABLE
+
+        simpls = [reduction_table.get(term, "") for term in terms]
+
+        return simpls
         
     
     def draw_logigram(self, sop, function_name = "F", variables = []):

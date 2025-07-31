@@ -29,8 +29,8 @@ import latex2mathml.converter
 class quiz_format_html(quiz_format.quiz_format):
     """ Generate a format for the test """
     def __init__(self, formatting="", lang ="ar-en", templates_dir=""):
-        quiz_format.quiz_format.__init__(self, lang=lang, templates_dir=templates_dir)
-        self.formatting = ""
+        quiz_format.quiz_format.__init__(self, formatting="html", lang=lang, templates_dir=templates_dir)
+        self.formatting = "html"
         self.output =  []
         self.header =""
         self.footer =""

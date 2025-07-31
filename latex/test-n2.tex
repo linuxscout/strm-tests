@@ -1,0 +1,48 @@
+\documentclass[tikz,11pt,a4paper,booktabs,notitlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage{amsmath}
+%\usepackage{amsfonts}
+%\usepackage{amssymb}
+\usepackage{fullpage}
+\usepackage[margin=1cm]{geometry}
+%\usepackage{fancyhdr}
+%\usepackage{fancybox}
+\usepackage[table]{xcolor}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{booktabs}
+\usepackage{todonotes}
+\usepackage{./karnaugh-map}
+\usepackage{tikz}
+\usetikzlibrary{arrows, shapes.gates.logic.US, calc}
+\usepackage{tikz-timing}[2009/05/15]
+\usetikztiminglibrary{clockarrows}
+% To tell LaTeX to separate numbers into groups of four digits (e.g., 1234 5678),
+%  you can use the siunitx package, which is designed for number formatting.
+\usepackage{siunitx}
+\sisetup{
+  group-separator = {\,},
+  group-minimum-digits = 5,
+%  group-size=4,
+%  group-digits = integer,
+%  group-four-digits = true
+}
+% % Usage: \num{12345678}
+\usepackage[utf]{arabxetex}
+
+%define arabtex
+%\newcommand{\aRL}{\RL} 
+% use arab xe tex, need defining RL
+\newcommand{\aRL}{\textarab[utf]} 
+\newfontfamily\arabicfont[Script=Arabic]{Amiri}
+\author{Taha Zerrouki}
+\setlength{\headheight}{2pt}
+\begin{document}
+%\textbf{Université de Bouira}\hfill \textbf{Faculté de sciences}\\[8pt]
+%\textbf{\LARGE{Test n °3}} \hfill Module: \textbf{Structure Machine 1}\\[5pt]
+%\large{Nom \& Prénom}\dotfill \hfill \large{Groupe:}\dotfill\\
+%\rule{\textwidth}{1pt}
+
+\input{./test.tex}
+\end{document}

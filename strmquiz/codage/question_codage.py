@@ -186,6 +186,10 @@ class questionGenerator:
         
         return {"question":"$(%s)_{%d} = (........)_{%d}$"%(nb,in_base, out_base),
         "reponse":"$(%s)_{%d} = (%s)_{%d}$"%(nb, in_base,res, out_base),
+        "number":nb,
+        "in_base":in_base,
+        "out_base":out_base,
+        "output":res,
         }
     def rand_arithm(self):
         """
@@ -202,6 +206,11 @@ class questionGenerator:
         
         return {"question": " %9s\n%s%9s\n----------\n\n"%(a,op, b),
         "reponse": " %9s\n%s%9s\n----------\n %9s\n"%(a,op,b,c),
+        "number_a":a,
+        "number_b":b,
+        "number_c":c,
+        "operation":op,
+        "base":base,
         }
     def sys_num_reponse(self, x, y):
         """ print the solution"""

@@ -22,18 +22,21 @@
 #  
 #  
 # used for generating truth table
+from jinja2 import Environment, FileSystemLoader, TemplateNotFound
+
 import itertools
 from . import format_const
 
 class quiz_format:
     """ Generate a format for the test """
     def __init__(self, formatting="", lang="ar-en", templates_dir=""):
-        self.formatting = ""
+        self.formatting = formatting
         self.output = []
         self.tests = []
         self.newline = "\n"
         self.lang = lang
-        self.template_dir = templates_dir
+        self.templates_dir = templates_dir
+        self.env = Environment(loader=FileSystemLoader(self.templates_dir))
         #~ print("quiz_format")
     def header(self,):
         """
@@ -59,6 +62,30 @@ class quiz_format:
         """
         """
         self.tests.append(quiz_question_list)
+    def render_question_answer(self, template_base: str, context: dict) -> tuple[str, str]:
+        """
+        عرض نص السؤال والجواب باستخدام القوالب المناسبة للغة والتنسيق.
+
+        Args:
+            template_base (str): اسم الأساس للقالب (مثل 'float' أو 'intervalle')
+            context (dict): البيانات المستعملة في القالب
+
+        Returns:
+            tuple[str, str]: (نص السؤال، نص الجواب)
+        """
+        q_template_name = f"{template_base}/question.{self.formatting}"
+        a_template_name = f"{template_base}/answer.{self.formatting}"
+
+        try:
+            question_template = self.env.get_template(q_template_name)
+            answer_template = self.env.get_template(a_template_name)
+        except TemplateNotFound as e:
+            raise FileNotFoundError(f"Template '{e.name}' not found in {self.templates_dir}.")
+
+        question = question_template.render(context)
+        answer = answer_template.render(context)
+
+        return question, answer
 
     def add_question(self, quiz_question):
         """
@@ -299,12 +326,22 @@ class quiz_format:
         """
         Gererate diplay for terms
         """
-        #print(terms)
-        simpls = []
-        for term in terms:
-            simpls.append(format_const.TEX_REDUCTION_TABLE.get(term, ""))
-       
-        return "\n".join(simpls)  
+        simpls = self.format_map_terms(terms=terms, method=method)
+        return "\n".join(simpls)
+
+    def format_map_terms(self, terms =[], method="sop"):
+        """
+        Gererate diplay for terms
+        """
+
+        if method in ("or","nor","pos"):
+            pass
+        else:
+            pass
+
+        simpls = terms
+
+        return terms
     def draw_logigram(self, sop, function_name = "F", variables = []):
         """ draw a logigram """
         varnames = {
@@ -335,7 +372,7 @@ class quiz_format:
             "D":variables[3],
         }
         lggm ="Draw Logigramm in Text mode, not implemented"
-        return lggm 
+        return lggm
 def main(args):
     return 0
 

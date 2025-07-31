@@ -1,4 +1,6 @@
 import random
+from deprecated import deprecated
+
 class float_point:
     def __init__(self):
         pass
@@ -33,10 +35,9 @@ class float_point:
                 dec = 0
             dec = int(dec)  
             res += str(whole)
-        return res  
-      
+        return res
 
-      
+    @deprecated(reason="Use ieee754_components(n) instead.")
     def IEEE754(self, n, method=False) : 
       
         # identifying whether the number 
@@ -92,9 +93,50 @@ class float_point:
             return text
         # return the answer to the driver code 
         else:
-            return (hstr) 
-  
-# Driver Code 
+            return (hstr)
+
+    def ieee754_components(self, n):
+        """
+        Extracts components needed for IEEE-754 32-bit representation.
+        Returns a dictionary with all intermediate and final values.
+        """
+        original = n
+        sign = 0
+        if n < 0:
+            sign = 1
+            n = -n
+
+        p = 30
+        binary_repr = self.float_bin(n, places=p)
+
+        whole, dec = str(binary_repr).split(".")
+        whole = int(whole)
+
+        exponent = len(str(whole)) - 1
+        exponent_raw = 127 + exponent
+        exponent_bits = bin(exponent_raw).lstrip("0b")
+
+        mantissa = str(whole)[1:exponent + 1] + dec
+        mantissa = mantissa[:23]
+
+        final_binary = f"{sign}{exponent_bits}{mantissa}"
+        hex_repr = '%0*X' % ((len(final_binary) + 3) // 4, int(final_binary, 2))
+
+        return {
+            "number": original,
+            "abs_value": n,
+            "sign": sign,
+            "binary_repr": binary_repr,
+            "exponent": exponent,
+            "exponent_raw": exponent_raw,
+            "exponent_bits": exponent_bits,
+            "mantissa": mantissa,
+            "final_binary": final_binary,
+            "hex": hex_repr
+        }
+
+
+# Driver Code
 if __name__ == "__main__" :
     vf = float_point()
     print (vf.IEEE754(263.3)) 

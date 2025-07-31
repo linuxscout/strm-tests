@@ -1,0 +1,15 @@
+\begin{karnaugh-map}[4][4][1][{{ cd }}][{{ ab }}]
+  \minterms{ {{ minterms | join(", ") }} }
+  \maxterms{ {{ maxterms | join(", ") }} }
+  {% if dontcares %}
+    \terms{ {{ dontcares | join(", ") }} }{X}
+  {% endif %}
+  {{ formatted_simplification |join("\n") }}
+ \end{karnaugh-map}
+
+
+
+ Simplified Sum of products : ${{ sop }}$
+
+ Simplified product of sums : ${{ pos }}$
+
