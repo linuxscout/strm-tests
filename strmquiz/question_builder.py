@@ -33,6 +33,7 @@ class Question_Builder:
     def __init__(self, outformat="", config_file ="", lang="ar-en", templates_dir=""):
         self.qs = question.questionGenerator(latex=True)
         self.bq = boolquiz.bool_quiz()
+        self.bq.set_format('')
         self.vf = ieee754.float_point()
         self.formater = quiz_format_factory.quiz_format_factory.factory(outformat, lang=lang, templates_dir=templates_dir)
         self.answer_formater = quiz_format_factory.quiz_format_factory.factory(outformat, lang=lang, templates_dir=templates_dir)
@@ -195,7 +196,7 @@ class Question_Builder:
     #
     #     return question, arabic, data, answer
 
-    def _prepare_kmap_data(self, minterms, dontcares=[], correct=False, variables=[], simply_terms=[], method="sop"):
+    def _prepare_kmap_data(self, minterms, dontcares=[], correct=False, variables=[], simply_terms=[], method="sop", function_name="F"):
 
 
         maxterms = [x for x in range(16) if x not in minterms and x not in dontcares]
@@ -218,16 +219,25 @@ class Question_Builder:
             ["00", kmap[12], kmap[13], kmap[15], kmap[14]],
             ["00", kmap[8], kmap[9], kmap[11], kmap[10]],
         ]
+        sop, pos = self.bq.simplify(minterms)
+        cnf, dnf = self.bq.form_canonique(minterms)
+        nand_sop = self.bq.normalize_nand_nor(sop, "sop", "nand")
+        nand_dnf = self.bq.normalize_nand_nor(dnf, "sop", "nand")
+        nor_cnf = self.bq.normalize_nand_nor(cnf, "pos", "nor")
+        nor_pos = self.bq.normalize_nand_nor(pos, "pos", "nor")
 
+        cnf = self.formater.normalize_formula(cnf)
+        dnf = self.formater.normalize_formula(dnf)
         simplification = ""
         if correct:
             simplification = self.bq.simplify_map(minterms, method=method)
-            sop, pos = self.bq.simplify(minterms)
+
             formatted_simplification = self.formater.format_map_terms(simplification, method=method)
             sop = self.formater.normalize_formula(sop)
             pos = self.formater.normalize_formula(pos)
 
         return {
+            "function_name":function_name,
             "minterms": minterms,
             "maxterms": maxterms,
             "dontcares": dontcares,
@@ -239,26 +249,30 @@ class Question_Builder:
             "ab": "".join(variables[:2]),
             "cd": "".join(variables[2:]),
             "table": table,
+            "cnf":cnf,
+            "dnf":dnf,
+            "nand_sop":nand_sop,
+            "nand_dnf":nand_dnf,
+            "nor_pos":nor_pos,
+            "nor_cnf":nor_cnf,
+            "method":method,
         }
 
     def question_map(self, ):
 
         nb_table = 3
         minterms_table = [self.bq.rand_funct() for i in range(nb_table)]
-        question_list = []
-        answer_list = []
+        data_list = []
         for minterms in minterms_table:
-            data = self._prepare_kmap_data(minterms=minterms,
+            data_list.append( self._prepare_kmap_data(minterms=minterms,
                                           dontcares=[],
                                           correct=True,
                                           variables=self.bq.variables
                                            )
-            question_i, answer_i = self.formater.render_question_answer("map", data)
-            question_list.append(question_i)
-            answer_list.append(answer_i)
+                              )
 
-        question = "\n".join(question_list)
-        answer = "\n".join(answer_list)
+        context = {"data_list":data_list}
+        question, answer = self.formater.render_question_answer("map", context)
         return question, "arabic", "data", answer
 
     #
@@ -288,410 +302,744 @@ class Question_Builder:
     #         answer += self.formater.add_formula("Simplified Sum of products : %s"%sop)
     #
     #     return question, arabic, data, answer
-        
+    #
 
     def question_map_for_sop(self,nb=2):
-        question = u"Soit la fonction donnée par sa forme canonique, Tracer la table de karnaugh et simplifier.\n"
-        arabic = u"لتكن الدالةالمعطاة بشكلها القانوني، ارسم جدول كارنو وبسطها"
-        minterms_table =[]
-        data = ""
-        for i in range(nb):
-            minterms_table.append(self.bq.rand_funct())
-            cnf, dnf = self.bq.form_canonique(minterms_table[i])
-            data += self.formater.add_formula("F%d(a, b, c, d) = %s"%(i,self.formater.normalize_formula(dnf)))
-            data +=  self.formater.add_formula("F%d(a, b, c, d) = \\sum(%s)"%(i,repr(minterms_table[i])))
 
-        answer = u"Simplifier les fonctions suivantes\n\n"
+        minterms_table =[self.bq.rand_funct() for i in range(nb)]
+        data_list = []
+        for minterms in minterms_table:
+            data_list.append( self._prepare_kmap_data(minterms=minterms,
+                                          dontcares=[],
+                                          correct=True,
+                                          variables=self.bq.variables
+                                           )
+                              )
 
-        for i in range(nb):
-            cnf, dnf = self.bq.form_canonique(minterms_table[i])
-            answer +=  self.formater.add_formula("F%d(a, b, c, d) = %s"%(i,dnf))
-            answer +=  self.formater.add_formula("F%d(a, b, c, d) = \\sum(%s)"%(i,repr(minterms_table[i])))
-            # ~ answer += self.bq.draw_map(minterms_table[i], latex=True, correct=True)
-            simply_terms= self.bq.simplify_map(minterms_table[i])
-            answer += self.formater.draw_map(minterms_table[i], correct=True,
-                       variables = self.bq.variables,
-                       simply_terms = simply_terms)
-            sop, pos =self.bq.simplify(minterms_table[i])
-            answer += self.formater.add_formula("Simplified Sum of products : %s"%sop)
+        context = {"data_list":data_list}
+        question, answer = self.formater.render_question_answer("map-sop", context)
+        return question, "arabic", "data", answer
+    #
+    # def question_funct(self,):
+    #
+    #
+    #     question = u"Etudier la fonction suivante\n"
+    #     arabic = u"ادرس الدالة الآتية"
+    #     sop_quest, minterms =  self.bq.rand_exp()
+    #     #~ minterms =  self.bq.rand_funct()
+    #
+    #     cnf, dnf = self.bq.form_canonique(minterms)
+    #     #~ sop_quest = dnf
+    #     data = self.formater.add_formula("f(a,b,c,d)= %s"%sop_quest)
+    #     # answer
+    #     answer_formater = self.answer_formater
+    #     answer_formater.reset()
+    #     answer = self.formater.add_formula("f(a,b,c,d)=%s"%sop_quest)
+    #     answer += self.formater.add_formula("f(a,b,c,d)=\\sum(%s)"%sop_quest.strip())
+    #     answer +="\n"
+    #     # ~ answer += self.bq.truth_table(minterms, latex =True)
+    #     answer += self.formater.truth_table(minterms, dontcares=[], variables=self.bq.variables, vars_outputs=self.bq.vars_outputs )
+    #     sop, pos = self.bq.simplify(minterms)
+    #     answer += self.formater.add_formula("Sum of products f(a,b,c,d) = \\sum(%s)"%dnf)
+    #     answer +=self.formater.add_formula("Product of sums f(a,b,c,d) = \\prod(%s)"%cnf)
+    #     answer +="\nKarnough map\n"
+    #     # ~ answer += self.bq.draw_map(minterms, latex=True, correct=True)
+    #     simply_terms= self.bq.simplify_map(minterms)
+    #     answer += self.formater.draw_map(minterms,  correct = True,
+    #             variables = self.bq.variables,
+    #             simply_terms= simply_terms)
+    #     answer +="\n\n"
+    #     answer += self.formater.add_formula("Simplified Sum of products: %s"%sop)
+    #     answer += self.formater.add_formula("Simplified Product of sums: %s"%pos)
+    #
+    #     answer += """\paragraph{Logigramme} de la fonction\\\\
+    #     %%\missingfigure[figwidth=6cm]{Logigramme}\n\n"""
+    #
+    #     # ~ answer += self.bq.draw_logigram(sop)
+    #     answer += self.formater.draw_logigram(sop, function_name='F',
+    #        variables = self.bq.variables)
+    #     return question, arabic, data, answer
+    #
 
-        return question, arabic, data, answer
+    def question_funct(self, ):
 
-    def question_funct(self,):
-        
+        self.bq.reset_vars()
+        sop_quest, minterms = self.bq.rand_exp()
 
-        question = u"Etudier la fonction suivante\n"
-        arabic = u"ادرس الدالة الآتية"
-        sop_quest, minterms =  self.bq.rand_exp()
-        #~ minterms =  self.bq.rand_funct()
-        
-        cnf, dnf = self.bq.form_canonique(minterms)
-        #~ sop_quest = dnf
-        data = self.formater.add_formula("f(a,b,c,d)= %s"%sop_quest)
-        # answer
-        answer_formater = self.answer_formater
-        answer_formater.reset()
-        answer = self.formater.add_formula("f(a,b,c,d)=%s"%sop_quest)
-        answer += self.formater.add_formula("f(a,b,c,d)=\\sum(%s)"%sop_quest.strip())
-        answer +="\n"
-        # ~ answer += self.bq.truth_table(minterms, latex =True)
-        answer += self.formater.truth_table(minterms, dontcares=[], variables=self.bq.variables, vars_outputs=self.bq.vars_outputs )
+        sop_quest = self.formater.normalize_formula(sop_quest)
+
+        context  = self._prepare_kmap_data(minterms=minterms,
+                                      dontcares=[],
+                                      correct=True,
+                                      variables=self.bq.variables
+                                       )
+
         sop, pos = self.bq.simplify(minterms)
-        answer += self.formater.add_formula("Sum of products f(a,b,c,d) = \\sum(%s)"%dnf)
-        answer +=self.formater.add_formula("Product of sums f(a,b,c,d) = \\prod(%s)"%cnf)
-        answer +="\nKarnough map\n"
-        # ~ answer += self.bq.draw_map(minterms, latex=True, correct=True)
-        simply_terms= self.bq.simplify_map(minterms)
-        answer += self.formater.draw_map(minterms,  correct = True,
-                variables = self.bq.variables,
-                simply_terms= simply_terms)        
-        answer +="\n\n"
-        answer += self.formater.add_formula("Simplified Sum of products: %s"%sop)
-        answer += self.formater.add_formula("Simplified Product of sums: %s"%pos)
-
-        answer += """\paragraph{Logigramme} de la fonction\\\\
-        %%\missingfigure[figwidth=6cm]{Logigramme}\n\n"""
-        
+        logigram = self.formater.draw_logigram(sop, function_name='F',
+                                              variables=self.bq.variables)
+        context["sop_quest"] = sop_quest
+        context["logicdiagram"] = logigram
+        question, answer = self.formater.render_question_answer("function", context)
+        return question, "arabic", "data", answer
         # ~ answer += self.bq.draw_logigram(sop)
-        answer += self.formater.draw_logigram(sop, function_name='F',
-           variables = self.bq.variables)
-        return question, arabic, data, answer
-        
+
+        return question, "arabic", "data", answer
+
+    # def question_static_funct(self, minterms, var_names=["A","B","C","D"], output_names=["S0","S1","S2","S3"], dont_care=[] ):
+    #     question = u""
+    #     arabic = u""
+    #     # change vars names
+    #     # prepare minterms
+    #
+    #     self.bq.set_vars(var_names, output_names)
+    #     fname = output_names[0]+"(%s)"%(', '.join(var_names))
+    #
+    #     cnf, dnf = self.bq.form_canonique(minterms)
+    #     data = fname + " = $%s$\n"%(minterms)
+    #     sop, pos = self.bq.simplify(minterms, dont_care )
+    #     simply_terms= self.bq.simplify_map(minterms, dont_care)
+    #     # answer
+    #     answer_items = [fname + " =$%s$\n"%str(minterms)
+    #     , fname + " =$ \sum %s $ \n"%str(minterms)
+    #     ,"\n"
+    #     # ~ , self.bq.truth_table(minterms, latex =True)
+    #     ,self.formater.truth_table(minterms, dontcares=dont_care, variables=var_names, vars_outputs=output_names )
+    #
+    #     , "\nSum of products \n "+fname + " = $%s$\n"%self.formater.normalize_formula(dnf)
+    #     ,"\nProduct of sums \n "+fname + " = $%s$\n"%self.formater.normalize_formula(cnf)
+    #     , self.formater.add_section("Karnough map", level=4) +"\n"
+    #     # ~ , self.bq.draw_map(minterms, latex=True, correct=True, dontcares=dont_care)
+    #     # ~ , self.bq.draw_map(minterms, latex=True, correct=True, dontcares=dont_care)
+    #     , self.formater.draw_map(minterms, dontcares=dont_care, correct = True,
+    #             variables = self.bq.variables,
+    #             simply_terms= simply_terms)
+    #     ,"\n\n"
+    #     , "Simplified Sum of products: $%s$\n"%self.formater.normalize_formula(sop)
+    #     , "\nSimplified Product of sums: $%s$\n"%self.formater.normalize_formula(pos)
+    #     , self.formater.add_section("Logigramme de la fonction",  level=4)
+    #     # ~ , self.bq.draw_logigram(sop, function_name=output_names[0])
+    #     , self.formater.draw_logigram(sop, function_name=output_names[0], variables=var_names)
+    #
+    #     ]
+    #     answer  = self.formater.newline.join(answer_items)
+    #     return question, arabic, data, answer
+
+
     def question_static_funct(self, minterms, var_names=["A","B","C","D"], output_names=["S0","S1","S2","S3"], dont_care=[] ):
-        question = u""
-        arabic = u""
-        # change vars names
-        # prepare minterms
 
         self.bq.set_vars(var_names, output_names)
-        fname = output_names[0]+"(%s)"%(', '.join(var_names))
 
-        cnf, dnf = self.bq.form_canonique(minterms)
-        data = fname + " = $%s$\n"%(minterms)
-        sop, pos = self.bq.simplify(minterms, dont_care )        
-        simply_terms= self.bq.simplify_map(minterms, dont_care)        
-        # answer
-        answer_items = [fname + " =$%s$\n"%str(minterms)
-        , fname + " =$ \sum %s $ \n"%str(minterms)
-        ,"\n"
-        # ~ , self.bq.truth_table(minterms, latex =True)
-        ,self.formater.truth_table(minterms, dontcares=dont_care, variables=var_names, vars_outputs=output_names )        
+        sop_quest = ""
+        fname = output_names[0]
+        context = self._prepare_kmap_data(minterms=minterms,
+                                          dontcares=dont_care,
+                                          correct=True,
+                                          variables=var_names,
+                                          function_name=fname
+                                          )
 
-        , "\nSum of products \n "+fname + " = $%s$\n"%self.formater.normalize_formula(dnf)
-        ,"\nProduct of sums \n "+fname + " = $%s$\n"%self.formater.normalize_formula(cnf)
-        , self.formater.add_section("Karnough map", level=4) +"\n"
-        # ~ , self.bq.draw_map(minterms, latex=True, correct=True, dontcares=dont_care)
-        # ~ , self.bq.draw_map(minterms, latex=True, correct=True, dontcares=dont_care)
-        , self.formater.draw_map(minterms, dontcares=dont_care, correct = True,
-                variables = self.bq.variables,
-                simply_terms= simply_terms)
-        ,"\n\n"
-        , "Simplified Sum of products: $%s$\n"%self.formater.normalize_formula(sop)
-        , "\nSimplified Product of sums: $%s$\n"%self.formater.normalize_formula(pos)
-        , self.formater.add_section("Logigramme de la fonction",  level=4)
-        # ~ , self.bq.draw_logigram(sop, function_name=output_names[0])
-        , self.formater.draw_logigram(sop, function_name=output_names[0], variables=var_names)
+        sop, pos = self.bq.simplify(minterms)
+        logigram = self.formater.draw_logigram(sop, function_name=fname,
+                                               variables=var_names)
+        context["sop_quest"] = sop_quest
+        context["logicdiagram"] = logigram
+        question, answer = self.formater.render_question_answer("function", context)
+        return question, "arabic", "data", answer
 
-        ]
-        answer  = self.formater.newline.join(answer_items)
-        return question, arabic, data, answer 
-               
-    def question_static_nand_exp(self, minterms, var_names=["A","B","C","D"], output_names=["S0","S1","S2","S3"], dont_care=[] , method="nand"):
-        question = u""
-        arabic = u""
-        # change vars names
+
+    # def question_static_nand_expXX(self, minterms, var_names=["A","B","C","D"], output_names=["S0","S1","S2","S3"], dont_care=[] , method="nand"):
+    #     question = u""
+    #     arabic = u""
+    #     # change vars names
+    #     self.bq.set_vars(var_names, output_names)
+    #     fname = output_names[0]+"(%s)"%(', '.join(var_names))
+    #
+    #     cnf, dnf = self.bq.form_canonique(minterms)
+    #     data = fname + " = $%s$\n"%(minterms)
+    #     sop, pos = self.bq.simplify(minterms, dont_care )
+    #     simply_terms= self.bq.simplify_map(minterms, dont_care)
+    #     # answer
+    #     answer_items = [fname + " =$%s$\n"%str(minterms)
+    #     , fname + " =$ \\sum(%s) $ \n"%str(minterms)
+    #     ,"\n"
+    #     # ~ , self.bq.truth_table(minterms, latex =True)
+    #
+    #     , "\nSum of products \n "+fname + " = $%s$\n"%self.formater.normalize_formula(dnf)
+    #     ,"\nProduct of sums \n "+fname + " = $%s$\n"%self.formater.normalize_formula(cnf)
+    #     ,self.formater.add_section("Karnough map", level=4)
+    #     # ~ , self.bq.draw_map(minterms, latex=True, correct=True)
+    #
+    #     , self.formater.draw_map(minterms, dontcares=dont_care, correct = True,
+    #             variables = self.bq.variables,
+    #             simply_terms= simply_terms)
+    #     ,"\n\n"
+    #     , "Simplified Sum of products: $%s$\n"%self.formater.normalize_formula(sop)
+    #     , "\nSimplified Product of sums: $%s$\n"%self.formater.normalize_formula(pos)
+    #     # Generate NAND or NOR form
+    #     , "\n%s"%method.upper()
+    #     , " first simplified from: %s"%self.formater.add_formula(self.bq.normalize_nand_nor(sop,"sop", method))
+    #     , "\n%s"%method.upper()
+    #     , " second simplified from: %s"%self.formater.add_formula(self.bq.normalize_nand_nor(pos, "pos", method))
+    #     , "\n%s"%method.upper()
+    #     , " first from: %s"%self.formater.add_formula(self.bq.normalize_nand_nor(dnf,"sop", method))
+    #     , "\n%s"%method.upper()
+    #     , " second from: %s"%self.formater.add_formula(self.bq.normalize_nand_nor(cnf, "pos", method))
+    #
+    #     , self.formater.add_section("Logigramme de la fonction", level=4)
+    #
+    #
+    #     # ~ , self.bq.draw_logigram_nand_nor(sop, function_name=output_names[0], method=method)
+    #     , self.formater.draw_logigram_nand_nor(sop, function_name=output_names[0],
+    #         method=method, variables = var_names)
+    #     ]
+    #     answer = self.formater.newline.join(answer_items)
+    #     return question, arabic, data, answer
+
+    def question_static_nand_exp(self, minterms, var_names=["A", "B", "C", "D"], output_names=["S0", "S1", "S2", "S3"],
+                                 dont_care=[], method="nand"):
         self.bq.set_vars(var_names, output_names)
-        fname = output_names[0]+"(%s)"%(', '.join(var_names))
 
-        cnf, dnf = self.bq.form_canonique(minterms)
-        data = fname + " = $%s$\n"%(minterms)
-        sop, pos = self.bq.simplify(minterms, dont_care )
-        simply_terms= self.bq.simplify_map(minterms, dont_care)
-        # answer
-        answer_items = [fname + " =$%s$\n"%str(minterms)
-        , fname + " =$ \\sum(%s) $ \n"%str(minterms)
-        ,"\n"
-        # ~ , self.bq.truth_table(minterms, latex =True)
+        sop_quest = ""
+        fname = output_names[0]
+        context = self._prepare_kmap_data(minterms=minterms,
+                                          dontcares=dont_care,
+                                          correct=True,
+                                          variables=var_names,
+                                          function_name=fname,
+                                          method=method
+                                          )
 
-        , "\nSum of products \n "+fname + " = $%s$\n"%self.formater.normalize_formula(dnf)
-        ,"\nProduct of sums \n "+fname + " = $%s$\n"%self.formater.normalize_formula(cnf)
-        ,self.formater.add_section("Karnough map", level=4)
-        # ~ , self.bq.draw_map(minterms, latex=True, correct=True)
+        sop, pos = self.bq.simplify(minterms)
+        logigram = self.formater.draw_logigram_nand_nor(sop, function_name=fname,
+                                               variables=var_names, method=method)
 
-        , self.formater.draw_map(minterms, dontcares=dont_care, correct = True,
-                variables = self.bq.variables,
-                simply_terms= simply_terms)        
-        ,"\n\n"
-        , "Simplified Sum of products: $%s$\n"%self.formater.normalize_formula(sop)
-        , "\nSimplified Product of sums: $%s$\n"%self.formater.normalize_formula(pos)
-        # Generate NAND or NOR form
-        , "\n%s"%method.upper() 
-        , " first simplified from: %s"%self.formater.add_formula(self.bq.normalize_nand_nor(sop,"sop", method))
-        , "\n%s"%method.upper()
-        , " second simplified from: %s"%self.formater.add_formula(self.bq.normalize_nand_nor(pos, "pos", method))
-        , "\n%s"%method.upper() 
-        , " first from: %s"%self.formater.add_formula(self.bq.normalize_nand_nor(dnf,"sop", method))
-        , "\n%s"%method.upper()
-        , " second from: %s"%self.formater.add_formula(self.bq.normalize_nand_nor(cnf, "pos", method))
+        context["sop_quest"] = sop_quest
+        context["logicdiagram"] = logigram
+        question, answer = self.formater.render_question_answer("function", context)
+        return question, "arabic", "data", answer
 
-        , self.formater.add_section("Logigramme de la fonction", level=4)
-
-        
-        # ~ , self.bq.draw_logigram_nand_nor(sop, function_name=output_names[0], method=method)
-        , self.formater.draw_logigram_nand_nor(sop, function_name=output_names[0],
-            method=method, variables = var_names)
-        ]
-        answer = self.formater.newline.join(answer_items)
-        return question, arabic, data, answer        
+    # def question_multi_funct(self, minterms_list, var_names=["A","B","C","D"],
+    #  output_names=["S0","S1","S2","S3"], dont_care_list=[], method=""):
+    #     question = u""
+    #     arabic = u""
+    #     answer = ""
+    #     data   = ""
+    #     sop_list= []
+    #     # deprecated ; draw a unique logigramme
+    #     separated_logigram = False
+    #     # prepare minterms
+    #     self.bq.set_vars(var_names, output_names)
+    #
+    #     funct_list = minterms_list
+    #     # dontcare list:
+    #     # init dontcare list with the same length of minterms_list
+    #     if not dont_care_list:
+    #         dont_care_list = [[] for m in minterms_list]
+    #     # step 1 draw truth table
+    #     for i, minterms in enumerate(funct_list):
+    #         data += "%s(%s)"%(output_names[i],', '.join(var_names) ) # function name and arguments
+    #         data += "= $%s$\n\n"%(minterms)
+    #         data += "DONT CARE= $%s$\n\n"%(dont_care_list[i])
+    #
+    #     answer += self.formater.open_enumerate()
+    #     # definition des entrées sorties
+    #     answer += """ \\item Définition des entrées et des sorties \\aRL{تعريف المداخل والمخارج}\n
+    #      \\begin{itemize}\n
+    #      \\item Les entrées \\aRL{المداخل}:\n
+    #      \\begin{itemize}
+    #      """
+    #     answer_parts = [self.formater.open_enumerate(),
+    #     self.formater.add_item("Inputs/Outputs  Definition\\aRL{تعريف المداخل والمخارج}"),
+    #     self.formater.open_itemize(),
+    #     self.formater.add_item("Inputs \\aRL{المداخل}:"),
+    #     self.formater.open_itemize(),
+    #     ]
+    #     for v in var_names:
+    #         answer += "\\item %s: \qquad 'on' denoted 1 \qquad 'off' denoted 0 "%v
+    #         answer_parts.append(self.formater.add_item("%s: \qquad 'on' denoted 1 \qquad 'off' denoted 0 "%v))
+    #
+    #     answer += """\end{itemize}\n
+    #       \\item  Les sorties \\aRL{المخارج}\n
+    #       \\begin{itemize}
+    #       """
+    #     answer_parts.append(self.formater.close_itemize())
+    #     answer_parts.append(self.formater.add_item("Outputs \\aRL{المخارج}"))
+    #     answer_parts.append(self.formater.open_itemize())
+    #
+    #     for v in output_names:
+    #         answer += "\\item %s: \qquad 'on' denoted 1\qquad 'off' denoted  0\n"%v
+    #         answer_parts.append(self.formater.add_item("%s: \qquad 'on' denoted 1\qquad 'off' denoted  0"%v))
+    #
+    #     answer += """\\end{itemize}\n
+    #      \\end{itemize}\n"""
+    #     answer_parts.append(self.formater.close_itemize())
+    #     answer_parts.append(self.formater.close_itemize())
+    #
+    #     answer +="\\item Truth Table \\aRL{جدول الحقيقة}\\\\\n"
+    #     answer_parts.append(self.formater.add_item("Truth Table \\aRL{جدول الحقيقة}"))
+    #     # ~ answer += self.bq.multiple_truth_table(funct_list, latex =True, dontcares_list=dont_care_list)
+    #     answer += self.formater.multiple_truth_table(funct_list, dontcares_list=dont_care_list, variables = self.bq.variables, vars_outputs= self.bq.vars_outputs)
+    #     truth_table = self.formater.multiple_truth_table(funct_list, dontcares_list=dont_care_list, variables = self.bq.variables, vars_outputs= self.bq.vars_outputs)
+    #     answer_parts.append(truth_table)
+    #
+    #
+    #     answer +="\\item Canonical forms \\aRL{الأشكال القانونية}\\\\\n"
+    #     answer_parts.append(self.formater.add_item("canonical forms \\aRL{الأشكال القانونية}"))
+    #
+    #     answer =  "\n".join(answer_parts)
+    #     # tableaux dex forms canoniques
+    #     functions_forms_table={}
+    #
+    #     for i, minterms in enumerate(funct_list):
+    #
+    #         maxterms = [k for k in range(16) if not k in minterms and not k in dont_care_list[i]]
+    #
+    #         # answer
+    #         cnf, dnf = self.bq.form_canonique(minterms)
+    #
+    #         fname  = "%s(%s)"%(output_names[i],', '.join(var_names) ) # function name and arguments
+    #
+    #         functions_forms_table[i]= {"fname": fname,
+    #         "maxterms": "$\prod %s$"%maxterms,
+    #         "minterms": "$\sum %s$"%minterms,
+    #         "dnf": "$\sum %s$"%(self.formater.normalize_formula(dnf)),
+    #         "cnf": "$\prod %s$"%(self.formater.normalize_formula(cnf)),
+    #         }
+    #
+    #
+    #
+    #     forms_types_table = {"dnf": "First canonical form \\aRL{الشكل القانوني الأول}",
+    #     "cnf": "Second canonical form: \\aRL{الشكل القانوني الثاني}",
+    #     "minterms": "First digital canonical form; \\aRL{الشكل القانوني الرقمي الأول}",
+    #     "maxterms": "Second digital canonical form;  \\aRL{الشكل القانوني الرقمي الثاني}",
+    #     }
+    #     answer += "\\begin{itemize}% begin listing forms\n"
+    #     answer_parts.append(self.formater.open_itemize())
+    #
+    #     for ftype in forms_types_table:
+    #         answer += "\\item %s \n\n"% forms_types_table[ftype]
+    #         answer_parts.append(self.formater.add_item("%s"% forms_types_table[ftype]))
+    #         answer += "\\begin{itemize}\n"
+    #         answer_parts.append(self.formater.open_itemize())
+    #         for funct_id in functions_forms_table:
+    #             # list all functions
+    #             fname = functions_forms_table[funct_id].get("fname", "")
+    #             form = functions_forms_table[funct_id].get(ftype, "")
+    #             answer+= "\\item %s = %s \n"%(fname, form)
+    #             answer_parts.append(self.formater.add_item("%s = %s"%(fname, form)))
+    #         answer += "\\end{itemize}\n"
+    #         answer_parts.append(self.formater.close_itemize())
+    #     # ~ answer += "\\end{itemize}\n"
+    #
+    #     answer += "\n\\end{itemize}"           # end formes canoniques
+    #     answer_parts.append(self.formater.close_itemize())
+    #     answer +="\n\\item Karnaugh map\hfill\\aRL{مخطط كارنوف}\n"
+    #     answer_parts.append(self.formater.add_item("Karnaugh map \hfill\\aRL{مخطط كارنوف}"))
+    #     answer += "\n\\begin{itemize} % begin all karnaugh \n"        # begin karnaugh
+    #     answer_parts.append(self.formater.open_itemize())
+    #     answer =  "\n".join(answer_parts)
+    #     for i, minterms in enumerate(funct_list):
+    #         answer += "\\begin{minipage}{.5\\textwidth}\n"
+    #         answer_parts.append(self.formater.open_minipage() )
+    #         answer +="\\item Function  %s \\aRL{الدالة}\n\n"%output_names[i]
+    #         answer_parts.append(self.formater.add_item("Function  %s \\aRL{الدالة}"%output_names[i]))
+    #         # ~ answer += self.bq.draw_map(minterms, latex=True, correct=True,dontcares=dont_care_list[i])
+    #         simply_terms= self.bq.simplify_map(minterms, dont_care_list[i], method = method)
+    #         mapy= self.formater.draw_map(minterms, dontcares=dont_care_list[i], correct = True,
+    #                 variables = self.bq.variables,
+    #                 simply_terms= simply_terms,
+    #                 method = method)
+    #         answer += mapy
+    #
+    #         answer_parts.append(self.formater.newline)
+    #         answer_parts.append(mapy)
+    #         answer_parts.append(self.formater.newline)
+    #
+    #         sop, pos = self.bq.simplify(minterms, dont_care_list[i])
+    #         functions_forms_table[i]['simplified_sop'] = self.formater.normalize_formula(sop)
+    #         functions_forms_table[i]['simplified_pos'] = self.formater.normalize_formula(pos)
+    #         functions_forms_table[i]['nand_form'] = self.bq.normalize_nand_nor(sop, "sop", method="nand")
+    #         functions_forms_table[i]['nor_form'] = self.bq.normalize_nand_nor(pos, "pos", method="nor")
+    #         answer +="\n\n"
+    #         # ~ answer += "\\begin{itemize}\n"
+    #         answer += "\\textbf{Simplified forms \\aRL{الشكل المبسط}} \n\n %s = $%s$\n\n"%(output_names[i],self.formater.normalize_formula(sop))
+    #         answer_parts.append("\\textbf{Simplified form \\aRL{الشكل المبسط}} \n\n %s = $%s$\n\n"%(output_names[i],self.formater.normalize_formula(sop)))
+    #         if method in ("nor", "pos", "or"):
+    #             answer_parts.append("\\textbf{Simplified form 2 \\aRL{الشكل المبسط}} \n\n %s = $%s$\n\n"%(output_names[i],self.formater.normalize_formula(pos)))
+    #         # ~ answer += "\\item La deuxième forme simplifiée \\aRL{الشكل المبسط الثاني} \n\n%s = $%s$\n"%(output_names[i], self.formater.normalize_formula(pos))
+    #         # ~ answer += "\n\\end{itemize}\n"
+    #         answer += "\n\\end{minipage}\n"
+    #
+    #         answer_parts.append(self.formater.close_minipage())
+    #
+    #
+    #     answer += "\n\\end{itemize} %end all karnaugh\n"        # end all karnaugh
+    #     answer_parts.append(self.formater.close_itemize())
+    #
+    #     answer =  "\n".join(answer_parts)
+    #     # display all simplified as a list
+    #     answer += " Simplified forms \n"
+    #     answer_parts.append(" Simplified forms \n")
+    #     answer += "\\begin{itemize}\n"
+    #     if  method.lower()  in ("nor", "or", "pos"):
+    #         simplification_type = 'simplified_pos'
+    #     else:
+    #         simplification_type = 'simplified_sop'
+    #
+    #     answer_parts.append(self.formater.open_itemize())
+    #     for i in range(len(functions_forms_table)):
+    #         fname = functions_forms_table[i].get('fname',"")
+    #         simplified = functions_forms_table[i].get(simplification_type,"")
+    #         answer += "\\item %s = $%s$\n\n"%(fname, simplified)
+    #         answer_parts.append(self.formater.add_item("%s = $%s$"%(fname, simplified)))
+    #     answer += "\n\\end{itemize}\n"
+    #     answer_parts.append(self.formater.close_itemize())
+    #
+    #     # display all NAND or NOR form as a list
+    #     if method.lower()  in ("nand", "nor"):
+    #         answer += " NAND forms \n"
+    #         answer_parts.append(" NAND forms \n")
+    #         answer += "\\begin{itemize}\n"
+    #
+    #         if method.lower() =="nor":
+    #             simplification_type = 'nor_form'
+    #         else:
+    #             simplification_type = 'nand_form'
+    #
+    #         answer_parts.append(self.formater.open_itemize())
+    #         for i in range(len(functions_forms_table)):
+    #             fname = functions_forms_table[i].get('fname',"")
+    #             simplified = functions_forms_table[i].get(simplification_type,"")
+    #             answer += "\\item %s = %s\n\n"%(fname, simplified)
+    #             answer_parts.append(self.formater.add_item("%s = %s"%(fname, simplified)))
+    #         answer += "\n\\end{itemize}\n"
+    #         answer_parts.append(self.formater.close_itemize())
+    #
+    #     answer += "\\item Logic diagrams \\aRL{المخططات المنطقية }\\\\"
+    #     answer_parts.append(self.formater.add_item("Logic diagrams \\aRL{المخططات المنطقية }"))
+    #
+    #     sop_list = []
+    #     pos_list = []
+    #     for i, minterms in enumerate(funct_list):
+    #         sop, pos = self.bq.simplify(minterms, dont_care_list[i])
+    #         sop_list.append(sop)
+    #         pos_list.append(pos)
+    #     if method.lower() in ("pos", 'or',"nor"):
+    #         lggm = self.formater.draw_logigram_list(pos_list, function_namelist=output_names,
+    #             variables = var_names, method=method)
+    #     else:
+    #         lggm = self.formater.draw_logigram_list(sop_list, function_namelist=output_names,
+    #             variables = var_names, method=method)
+    #     answer += lggm
+    #     answer += self.formater.close_enumerate()
+    #     answer_parts.append(lggm)
+    #     answer_parts.append(self.formater.close_enumerate())
+    #
+    #     answer =  self.formater.newline.join(answer_parts)
+    #     return question, arabic, data, answer
 
     def question_multi_funct(self, minterms_list, var_names=["A","B","C","D"],
      output_names=["S0","S1","S2","S3"], dont_care_list=[], method=""):
-        question = u""
-        arabic = u""
-        answer = ""
-        data   = ""
-        sop_list= []
-        # deprecated ; draw a unique logigramme
-        separated_logigram = False
-        # prepare minterms
+
         self.bq.set_vars(var_names, output_names)
-           
-        funct_list = minterms_list 
-        # dontcare list:
-        # init dontcare list with the same length of minterms_list
-        if not dont_care_list:   
-            dont_care_list = [[] for m in minterms_list]
-        # step 1 draw truth table
-        for i, minterms in enumerate(funct_list):
-            data += "%s(%s)"%(output_names[i],', '.join(var_names) ) # function name and arguments
-            data += "= $%s$\n\n"%(minterms)
-            data += "DONT CARE= $%s$\n\n"%(dont_care_list[i])
-            
-        answer += self.formater.open_enumerate()
-        # definition des entrées sorties
-        answer += """ \\item Définition des entrées et des sorties \\aRL{تعريف المداخل والمخارج}\n
-         \\begin{itemize}\n
-         \\item Les entrées \\aRL{المداخل}:\n
-         \\begin{itemize}
-         """
-        answer_parts = [self.formater.open_enumerate(),
-        self.formater.add_item("Inputs/Outputs  Definition\\aRL{تعريف المداخل والمخارج}"),
-        self.formater.open_itemize(),
-        self.formater.add_item("Inputs \\aRL{المداخل}:"),
-        self.formater.open_itemize(),
-        ]
-        for v in var_names:
-            answer += "\\item %s: \qquad 'on' denoted 1 \qquad 'off' denoted 0 "%v
-            answer_parts.append(self.formater.add_item("%s: \qquad 'on' denoted 1 \qquad 'off' denoted 0 "%v))
- 
-        answer += """\end{itemize}\n
-          \\item  Les sorties \\aRL{المخارج}\n
-          \\begin{itemize}
-          """
-        answer_parts.append(self.formater.close_itemize())          
-        answer_parts.append(self.formater.add_item("Outputs \\aRL{المخارج}"))  
-        answer_parts.append(self.formater.open_itemize())          
+
+        sop_quest = ""
+        fname = output_names[0]
+        # one truth table
+        # multiple karnaugh map
+        # one logigram
+        data_list = []
+        sop_list = []
+        for minterms, dont_care, fname in zip(minterms_list, dont_care_list, output_names):
+            data_list.append( self._prepare_kmap_data(minterms=minterms,
+                                              dontcares=dont_care,
+                                              correct=True,
+                                              variables=var_names,
+                                              function_name=fname
+                                              )
+                              )
+            sop, _ = self.bq.simplify(minterms)
+            sop_list.append(sop)
+        logigram = self.formater.draw_logigram_list(sop_list, function_namelist=output_names,
+                                                   variables=var_names)
+        context ={"data_list":data_list,
+                  "minterms_list":minterms_list,
+                  "dontcares_list": dont_care_list,
+                  "function_name_list": output_names,
+                  "variables": var_names,
+                  "sop_quest":sop_quest,
+                  "logicdiagram" : logigram,
+                  }
+        question, answer = self.formater.render_question_answer("multi_funct", context)
+        return question, "arabic", "data", answer
+        #
+        # question = u""
+        # arabic = u""
+        # answer = ""
+        # data   = ""
+        # sop_list= []
+        # # deprecated ; draw a unique logigramme
+        # separated_logigram = False
+        # # prepare minterms
+        # self.bq.set_vars(var_names, output_names)
+        #
+        # funct_list = minterms_list
+        # # dontcare list:
+        # # init dontcare list with the same length of minterms_list
+        # if not dont_care_list:
+        #     dont_care_list = [[] for m in minterms_list]
+        # # step 1 draw truth table
+        # for i, minterms in enumerate(funct_list):
+        #     data += "%s(%s)"%(output_names[i],', '.join(var_names) ) # function name and arguments
+        #     data += "= $%s$\n\n"%(minterms)
+        #     data += "DONT CARE= $%s$\n\n"%(dont_care_list[i])
+        #
+        # answer += self.formater.open_enumerate()
+        # # definition des entrées sorties
+        # answer += """ \\item Définition des entrées et des sorties \\aRL{تعريف المداخل والمخارج}\n
+        #  \\begin{itemize}\n
+        #  \\item Les entrées \\aRL{المداخل}:\n
+        #  \\begin{itemize}
+        #  """
+        # answer_parts = [self.formater.open_enumerate(),
+        # self.formater.add_item("Inputs/Outputs  Definition\\aRL{تعريف المداخل والمخارج}"),
+        # self.formater.open_itemize(),
+        # self.formater.add_item("Inputs \\aRL{المداخل}:"),
+        # self.formater.open_itemize(),
+        # ]
+        # for v in var_names:
+        #     answer += "\\item %s: \qquad 'on' denoted 1 \qquad 'off' denoted 0 "%v
+        #     answer_parts.append(self.formater.add_item("%s: \qquad 'on' denoted 1 \qquad 'off' denoted 0 "%v))
+        #
+        # answer += """\end{itemize}\n
+        #   \\item  Les sorties \\aRL{المخارج}\n
+        #   \\begin{itemize}
+        #   """
+        # answer_parts.append(self.formater.close_itemize())
+        # answer_parts.append(self.formater.add_item("Outputs \\aRL{المخارج}"))
+        # answer_parts.append(self.formater.open_itemize())
+        #
+        # for v in output_names:
+        #     answer += "\\item %s: \qquad 'on' denoted 1\qquad 'off' denoted  0\n"%v
+        #     answer_parts.append(self.formater.add_item("%s: \qquad 'on' denoted 1\qquad 'off' denoted  0"%v))
+        #
+        # answer += """\\end{itemize}\n
+        #  \\end{itemize}\n"""
+        # answer_parts.append(self.formater.close_itemize())
+        # answer_parts.append(self.formater.close_itemize())
+        #
+        # answer +="\\item Truth Table \\aRL{جدول الحقيقة}\\\\\n"
+        # answer_parts.append(self.formater.add_item("Truth Table \\aRL{جدول الحقيقة}"))
+        # # ~ answer += self.bq.multiple_truth_table(funct_list, latex =True, dontcares_list=dont_care_list)
+        # answer += self.formater.multiple_truth_table(funct_list, dontcares_list=dont_care_list, variables = self.bq.variables, vars_outputs= self.bq.vars_outputs)
+        # truth_table = self.formater.multiple_truth_table(funct_list, dontcares_list=dont_care_list, variables = self.bq.variables, vars_outputs= self.bq.vars_outputs)
+        # answer_parts.append(truth_table)
+        #
+        #
+        # answer +="\\item Canonical forms \\aRL{الأشكال القانونية}\\\\\n"
+        # answer_parts.append(self.formater.add_item("canonical forms \\aRL{الأشكال القانونية}"))
+        #
+        # answer =  "\n".join(answer_parts)
+        # # tableaux dex forms canoniques
+        # functions_forms_table={}
+        #
+        # for i, minterms in enumerate(funct_list):
+        #
+        #     maxterms = [k for k in range(16) if not k in minterms and not k in dont_care_list[i]]
+        #
+        #     # answer
+        #     cnf, dnf = self.bq.form_canonique(minterms)
+        #
+        #     fname  = "%s(%s)"%(output_names[i],', '.join(var_names) ) # function name and arguments
+        #
+        #     functions_forms_table[i]= {"fname": fname,
+        #     "maxterms": "$\prod %s$"%maxterms,
+        #     "minterms": "$\sum %s$"%minterms,
+        #     "dnf": "$\sum %s$"%(self.formater.normalize_formula(dnf)),
+        #     "cnf": "$\prod %s$"%(self.formater.normalize_formula(cnf)),
+        #     }
+        #
+        #
+        #
+        # forms_types_table = {"dnf": "First canonical form \\aRL{الشكل القانوني الأول}",
+        # "cnf": "Second canonical form: \\aRL{الشكل القانوني الثاني}",
+        # "minterms": "First digital canonical form; \\aRL{الشكل القانوني الرقمي الأول}",
+        # "maxterms": "Second digital canonical form;  \\aRL{الشكل القانوني الرقمي الثاني}",
+        # }
+        # answer += "\\begin{itemize}% begin listing forms\n"
+        # answer_parts.append(self.formater.open_itemize())
+        #
+        # for ftype in forms_types_table:
+        #     answer += "\\item %s \n\n"% forms_types_table[ftype]
+        #     answer_parts.append(self.formater.add_item("%s"% forms_types_table[ftype]))
+        #     answer += "\\begin{itemize}\n"
+        #     answer_parts.append(self.formater.open_itemize())
+        #     for funct_id in functions_forms_table:
+        #         # list all functions
+        #         fname = functions_forms_table[funct_id].get("fname", "")
+        #         form = functions_forms_table[funct_id].get(ftype, "")
+        #         answer+= "\\item %s = %s \n"%(fname, form)
+        #         answer_parts.append(self.formater.add_item("%s = %s"%(fname, form)))
+        #     answer += "\\end{itemize}\n"
+        #     answer_parts.append(self.formater.close_itemize())
+        # # ~ answer += "\\end{itemize}\n"
+        #
+        # answer += "\n\\end{itemize}"           # end formes canoniques
+        # answer_parts.append(self.formater.close_itemize())
+        # answer +="\n\\item Karnaugh map\hfill\\aRL{مخطط كارنوف}\n"
+        # answer_parts.append(self.formater.add_item("Karnaugh map \hfill\\aRL{مخطط كارنوف}"))
+        # answer += "\n\\begin{itemize} % begin all karnaugh \n"        # begin karnaugh
+        # answer_parts.append(self.formater.open_itemize())
+        # answer =  "\n".join(answer_parts)
+        # for i, minterms in enumerate(funct_list):
+        #     answer += "\\begin{minipage}{.5\\textwidth}\n"
+        #     answer_parts.append(self.formater.open_minipage() )
+        #     answer +="\\item Function  %s \\aRL{الدالة}\n\n"%output_names[i]
+        #     answer_parts.append(self.formater.add_item("Function  %s \\aRL{الدالة}"%output_names[i]))
+        #     # ~ answer += self.bq.draw_map(minterms, latex=True, correct=True,dontcares=dont_care_list[i])
+        #     simply_terms= self.bq.simplify_map(minterms, dont_care_list[i], method = method)
+        #     mapy= self.formater.draw_map(minterms, dontcares=dont_care_list[i], correct = True,
+        #             variables = self.bq.variables,
+        #             simply_terms= simply_terms,
+        #             method = method)
+        #     answer += mapy
+        #
+        #     answer_parts.append(self.formater.newline)
+        #     answer_parts.append(mapy)
+        #     answer_parts.append(self.formater.newline)
+        #
+        #     sop, pos = self.bq.simplify(minterms, dont_care_list[i])
+        #     functions_forms_table[i]['simplified_sop'] = self.formater.normalize_formula(sop)
+        #     functions_forms_table[i]['simplified_pos'] = self.formater.normalize_formula(pos)
+        #     functions_forms_table[i]['nand_form'] = self.bq.normalize_nand_nor(sop, "sop", method="nand")
+        #     functions_forms_table[i]['nor_form'] = self.bq.normalize_nand_nor(pos, "pos", method="nor")
+        #     answer +="\n\n"
+        #     # ~ answer += "\\begin{itemize}\n"
+        #     answer += "\\textbf{Simplified forms \\aRL{الشكل المبسط}} \n\n %s = $%s$\n\n"%(output_names[i],self.formater.normalize_formula(sop))
+        #     answer_parts.append("\\textbf{Simplified form \\aRL{الشكل المبسط}} \n\n %s = $%s$\n\n"%(output_names[i],self.formater.normalize_formula(sop)))
+        #     if method in ("nor", "pos", "or"):
+        #         answer_parts.append("\\textbf{Simplified form 2 \\aRL{الشكل المبسط}} \n\n %s = $%s$\n\n"%(output_names[i],self.formater.normalize_formula(pos)))
+        #     # ~ answer += "\\item La deuxième forme simplifiée \\aRL{الشكل المبسط الثاني} \n\n%s = $%s$\n"%(output_names[i], self.formater.normalize_formula(pos))
+        #     # ~ answer += "\n\\end{itemize}\n"
+        #     answer += "\n\\end{minipage}\n"
+        #
+        #     answer_parts.append(self.formater.close_minipage())
+        #
+        #
+        # answer += "\n\\end{itemize} %end all karnaugh\n"        # end all karnaugh
+        # answer_parts.append(self.formater.close_itemize())
+        #
+        # answer =  "\n".join(answer_parts)
+        # # display all simplified as a list
+        # answer += " Simplified forms \n"
+        # answer_parts.append(" Simplified forms \n")
+        # answer += "\\begin{itemize}\n"
+        # if  method.lower()  in ("nor", "or", "pos"):
+        #     simplification_type = 'simplified_pos'
+        # else:
+        #     simplification_type = 'simplified_sop'
+        #
+        # answer_parts.append(self.formater.open_itemize())
+        # for i in range(len(functions_forms_table)):
+        #     fname = functions_forms_table[i].get('fname',"")
+        #     simplified = functions_forms_table[i].get(simplification_type,"")
+        #     answer += "\\item %s = $%s$\n\n"%(fname, simplified)
+        #     answer_parts.append(self.formater.add_item("%s = $%s$"%(fname, simplified)))
+        # answer += "\n\\end{itemize}\n"
+        # answer_parts.append(self.formater.close_itemize())
+        #
+        # # display all NAND or NOR form as a list
+        # if method.lower()  in ("nand", "nor"):
+        #     answer += " NAND forms \n"
+        #     answer_parts.append(" NAND forms \n")
+        #     answer += "\\begin{itemize}\n"
+        #
+        #     if method.lower() =="nor":
+        #         simplification_type = 'nor_form'
+        #     else:
+        #         simplification_type = 'nand_form'
+        #
+        #     answer_parts.append(self.formater.open_itemize())
+        #     for i in range(len(functions_forms_table)):
+        #         fname = functions_forms_table[i].get('fname',"")
+        #         simplified = functions_forms_table[i].get(simplification_type,"")
+        #         answer += "\\item %s = %s\n\n"%(fname, simplified)
+        #         answer_parts.append(self.formater.add_item("%s = %s"%(fname, simplified)))
+        #     answer += "\n\\end{itemize}\n"
+        #     answer_parts.append(self.formater.close_itemize())
+        #
+        # answer += "\\item Logic diagrams \\aRL{المخططات المنطقية }\\\\"
+        # answer_parts.append(self.formater.add_item("Logic diagrams \\aRL{المخططات المنطقية }"))
+        #
+        # sop_list = []
+        # pos_list = []
+        # for i, minterms in enumerate(funct_list):
+        #     sop, pos = self.bq.simplify(minterms, dont_care_list[i])
+        #     sop_list.append(sop)
+        #     pos_list.append(pos)
+        # if method.lower() in ("pos", 'or',"nor"):
+        #     lggm = self.formater.draw_logigram_list(pos_list, function_namelist=output_names,
+        #         variables = var_names, method=method)
+        # else:
+        #     lggm = self.formater.draw_logigram_list(sop_list, function_namelist=output_names,
+        #         variables = var_names, method=method)
+        # answer += lggm
+        # answer += self.formater.close_enumerate()
+        # answer_parts.append(lggm)
+        # answer_parts.append(self.formater.close_enumerate())
+        #
+        # answer =  self.formater.newline.join(answer_parts)
+        # return question, arabic, data, answer
+
         
-        for v in output_names:
-            answer += "\\item %s: \qquad 'on' denoted 1\qquad 'off' denoted  0\n"%v
-            answer_parts.append(self.formater.add_item("%s: \qquad 'on' denoted 1\qquad 'off' denoted  0"%v))
-
-        answer += """\\end{itemize}\n
-         \\end{itemize}\n"""
-        answer_parts.append(self.formater.close_itemize())            
-        answer_parts.append(self.formater.close_itemize())            
-         
-        answer +="\\item Truth Table \\aRL{جدول الحقيقة}\\\\\n" 
-        answer_parts.append(self.formater.add_item("Truth Table \\aRL{جدول الحقيقة}"))  
-        # ~ answer += self.bq.multiple_truth_table(funct_list, latex =True, dontcares_list=dont_care_list)
-        answer += self.formater.multiple_truth_table(funct_list, dontcares_list=dont_care_list, variables = self.bq.variables, vars_outputs= self.bq.vars_outputs)
-        truth_table = self.formater.multiple_truth_table(funct_list, dontcares_list=dont_care_list, variables = self.bq.variables, vars_outputs= self.bq.vars_outputs)
-        answer_parts.append(truth_table)
-
         
-        answer +="\\item Canonical forms \\aRL{الأشكال القانونية}\\\\\n"   
-        answer_parts.append(self.formater.add_item("canonical forms \\aRL{الأشكال القانونية}"))
-        
-        answer =  "\n".join(answer_parts)
-        # tableaux dex forms canoniques
-        functions_forms_table={}
-
-        for i, minterms in enumerate(funct_list):  
-            
-            maxterms = [k for k in range(16) if not k in minterms and not k in dont_care_list[i]]  
-      
-            # answer
-            cnf, dnf = self.bq.form_canonique(minterms)
-            
-            fname  = "%s(%s)"%(output_names[i],', '.join(var_names) ) # function name and arguments          
-
-            functions_forms_table[i]= {"fname": fname,
-            "maxterms": "$\prod %s$"%maxterms,
-            "minterms": "$\sum %s$"%minterms,
-            "dnf": "$\sum %s$"%(self.formater.normalize_formula(dnf)),
-            "cnf": "$\prod %s$"%(self.formater.normalize_formula(cnf)),
-            }  
-
-
-
-        forms_types_table = {"dnf": "First canonical form \\aRL{الشكل القانوني الأول}",
-        "cnf": "Second canonical form: \\aRL{الشكل القانوني الثاني}",
-        "minterms": "First digital canonical form; \\aRL{الشكل القانوني الرقمي الأول}",            
-        "maxterms": "Second digital canonical form;  \\aRL{الشكل القانوني الرقمي الثاني}",        
-        }
-        answer += "\\begin{itemize}% begin listing forms\n" 
-        answer_parts.append(self.formater.open_itemize())
-                
-        for ftype in forms_types_table:
-            answer += "\\item %s \n\n"% forms_types_table[ftype]
-            answer_parts.append(self.formater.add_item("%s"% forms_types_table[ftype]))            
-            answer += "\\begin{itemize}\n"  
-            answer_parts.append(self.formater.open_itemize())
-            for funct_id in functions_forms_table: 
-                # list all functions
-                fname = functions_forms_table[funct_id].get("fname", "")
-                form = functions_forms_table[funct_id].get(ftype, "")
-                answer+= "\\item %s = %s \n"%(fname, form)
-                answer_parts.append(self.formater.add_item("%s = %s"%(fname, form)))
-            answer += "\\end{itemize}\n" 
-            answer_parts.append(self.formater.close_itemize())
-        # ~ answer += "\\end{itemize}\n"                         
-
-        answer += "\n\\end{itemize}"           # end formes canoniques    
-        answer_parts.append(self.formater.close_itemize())
-        answer +="\n\\item Karnaugh map\hfill\\aRL{مخطط كارنوف}\n"  
-        answer_parts.append(self.formater.add_item("Karnaugh map \hfill\\aRL{مخطط كارنوف}"))
-        answer += "\n\\begin{itemize} % begin all karnaugh \n"        # begin karnaugh
-        answer_parts.append(self.formater.open_itemize())
-        answer =  "\n".join(answer_parts)
-        for i, minterms in enumerate(funct_list):
-            answer += "\\begin{minipage}{.5\\textwidth}\n"
-            answer_parts.append(self.formater.open_minipage() )
-            answer +="\\item Function  %s \\aRL{الدالة}\n\n"%output_names[i]
-            answer_parts.append(self.formater.add_item("Function  %s \\aRL{الدالة}"%output_names[i]))            
-            # ~ answer += self.bq.draw_map(minterms, latex=True, correct=True,dontcares=dont_care_list[i])
-            simply_terms= self.bq.simplify_map(minterms, dont_care_list[i], method = method)
-            mapy= self.formater.draw_map(minterms, dontcares=dont_care_list[i], correct = True,
-                    variables = self.bq.variables,
-                    simply_terms= simply_terms,
-                    method = method) 
-            answer += mapy
-            
-            answer_parts.append(self.formater.newline)
-            answer_parts.append(mapy)            
-            answer_parts.append(self.formater.newline)
-                              
-            sop, pos = self.bq.simplify(minterms, dont_care_list[i])
-            functions_forms_table[i]['simplified_sop'] = self.formater.normalize_formula(sop)
-            functions_forms_table[i]['simplified_pos'] = self.formater.normalize_formula(pos)
-            functions_forms_table[i]['nand_form'] = self.bq.normalize_nand_nor(sop, "sop", method="nand")
-            functions_forms_table[i]['nor_form'] = self.bq.normalize_nand_nor(pos, "pos", method="nor")
-            answer +="\n\n"
-            # ~ answer += "\\begin{itemize}\n"
-            answer += "\\textbf{Simplified forms \\aRL{الشكل المبسط}} \n\n %s = $%s$\n\n"%(output_names[i],self.formater.normalize_formula(sop))
-            answer_parts.append("\\textbf{Simplified form \\aRL{الشكل المبسط}} \n\n %s = $%s$\n\n"%(output_names[i],self.formater.normalize_formula(sop)))
-            if method in ("nor", "pos", "or"):
-                answer_parts.append("\\textbf{Simplified form 2 \\aRL{الشكل المبسط}} \n\n %s = $%s$\n\n"%(output_names[i],self.formater.normalize_formula(pos)))
-            # ~ answer += "\\item La deuxième forme simplifiée \\aRL{الشكل المبسط الثاني} \n\n%s = $%s$\n"%(output_names[i], self.formater.normalize_formula(pos))
-            # ~ answer += "\n\\end{itemize}\n"
-            answer += "\n\\end{minipage}\n"
-           
-            answer_parts.append(self.formater.close_minipage())            
-
-            
-        answer += "\n\\end{itemize} %end all karnaugh\n"        # end all karnaugh
-        answer_parts.append(self.formater.close_itemize())         
-       
-        answer =  "\n".join(answer_parts)       
-        # display all simplified as a list
-        answer += " Simplified forms \n"
-        answer_parts.append(" Simplified forms \n") 
-        answer += "\\begin{itemize}\n"
-        if  method.lower()  in ("nor", "or", "pos"):
-            simplification_type = 'simplified_pos'
-        else:
-            simplification_type = 'simplified_sop'            
-            
-        answer_parts.append(self.formater.open_itemize()) 
-        for i in range(len(functions_forms_table)):
-            fname = functions_forms_table[i].get('fname',"")
-            simplified = functions_forms_table[i].get(simplification_type,"")
-            answer += "\\item %s = $%s$\n\n"%(fname, simplified)
-            answer_parts.append(self.formater.add_item("%s = $%s$"%(fname, simplified)))             
-        answer += "\n\\end{itemize}\n"
-        answer_parts.append(self.formater.close_itemize())  
                
-        # display all NAND or NOR form as a list
-        if method.lower()  in ("nand", "nor"):
-            answer += " NAND forms \n"
-            answer_parts.append(" NAND forms \n") 
-            answer += "\\begin{itemize}\n"
+    # def question_exp(self,):
+    #
+    #
+    #     question = u"Simplifier l'expression suivante par les propriétés algébriques\n"
+    #     arabic = u"بسط العبارة الآتية بالخواص الجبرية"
+    #     sop_quest, minterms = self.bq.rand_exp(4)
+    #
+    #     data = "S = $%s$\n"%self.formater.normalize_formula(sop_quest)
+    #     # answer
+    #     sop_rep, _ = self.bq.simplify(minterms)
+    #
+    #     # answer
+    #     answer = "Simplifier l'expression suivante\n\n"
+    #     answer += "S = $%s$\n\n"%self.formater.normalize_formula(sop_quest)
+    #     answer += " = $%s$\n\n"%self.formater.normalize_formula(sop_rep)
+    #
+    #     answer += "\nKarnough map\n"
+    #     # ~ answer += self.bq.draw_map(minterms, latex=True, correct=True)
+    #     simply_terms= self.bq.simplify_map(minterms)
+    #     answer += self.formater.draw_map(minterms, correct = True,
+    #             variables = self.bq.variables,
+    #             simply_terms= simply_terms)
+    #     answer +="\n\n"
+    #     return question, arabic, data, answer
 
-            if method.lower() =="nor":
-                simplification_type = 'nor_form'
-            else:
-                simplification_type = 'nand_form'            
-                
-            answer_parts.append(self.formater.open_itemize()) 
-            for i in range(len(functions_forms_table)):
-                fname = functions_forms_table[i].get('fname',"")
-                simplified = functions_forms_table[i].get(simplification_type,"")
-                answer += "\\item %s = %s\n\n"%(fname, simplified)
-                answer_parts.append(self.formater.add_item("%s = %s"%(fname, simplified)))             
-            answer += "\n\\end{itemize}\n"
-            answer_parts.append(self.formater.close_itemize())         
-            
-        answer += "\\item Logic diagrams \\aRL{المخططات المنطقية }\\\\"  
-        answer_parts.append(self.formater.add_item("Logic diagrams \\aRL{المخططات المنطقية }"))         
-        
-        sop_list = []       
-        pos_list = []       
-        for i, minterms in enumerate(funct_list):
-            sop, pos = self.bq.simplify(minterms, dont_care_list[i])       
-            sop_list.append(sop)     
-            pos_list.append(pos)     
-        if method.lower() in ("pos", 'or',"nor"):
-            lggm = self.formater.draw_logigram_list(pos_list, function_namelist=output_names,
-                variables = var_names, method=method)
-        else:
-            lggm = self.formater.draw_logigram_list(sop_list, function_namelist=output_names,
-                variables = var_names, method=method)
-        answer += lggm
-        answer += self.formater.close_enumerate() 
-        answer_parts.append(lggm) 
-        answer_parts.append(self.formater.close_enumerate()) 
-        
-        answer =  self.formater.newline.join(answer_parts)  
-        return question, arabic, data, answer 
-        
-        
-        
-               
+
     def question_exp(self,):
-        
 
-        question = u"Simplifier l'expression suivante par les propriétés algébriques\n"
-        arabic = u"بسط العبارة الآتية بالخواص الجبرية"
-        sop_quest, minterms = self.bq.rand_exp(4)
+        self.bq.reset_vars()
+        sop_quest, minterms = self.bq.rand_exp()
 
-        data = "S = $%s$\n"%self.formater.normalize_formula(sop_quest)        
-        # answer
-        sop_rep, _ = self.bq.simplify(minterms)
+        sop_quest = self.formater.normalize_formula(sop_quest)
 
-        # answer
-        answer = "Simplifier l'expression suivante\n\n"
-        answer += "S = $%s$\n\n"%self.formater.normalize_formula(sop_quest)
-        answer += " = $%s$\n\n"%self.formater.normalize_formula(sop_rep)
+        context  = self._prepare_kmap_data(minterms=minterms,
+                                      dontcares=[],
+                                      correct=True,
+                                      variables=self.bq.variables,
+                                      function_name="S",
+                                       )
 
-        answer += "\nKarnough map\n"
-        # ~ answer += self.bq.draw_map(minterms, latex=True, correct=True)
-        simply_terms= self.bq.simplify_map(minterms)
-        answer += self.formater.draw_map(minterms, correct = True,
-                variables = self.bq.variables,
-                simply_terms= simply_terms)        
-        answer +="\n\n"
-        return question, arabic, data, answer
-        
+
+        context["sop_quest"] = sop_quest
+
+        question, answer = self.formater.render_question_answer("exp", context)
+        return question, "arabic", "data", answer
+    #
         
     def question_chronogram(self, varlist={}, flip_type="D", length=20, synch_type="rising", output_vars=["Q",]):
         

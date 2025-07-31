@@ -1,9 +1,13 @@
 Calculate  the following operations in base {{ base }} : \hfill\aRL{  أنجز العمليات الآتية في الأساس {{ base }}}
+
 \begin{verbatim}
   {{ number_a }}
 {{ operation }} {{ number_b }}
 -------------------
+{% if RENDER_MODE == "question" %}
 =  ........
+{% elif RENDER_MODE == "answer" %}
+=  {{ number_c }}
+{% endif %}
 \end{verbatim}
-
 

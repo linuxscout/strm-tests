@@ -19,6 +19,7 @@ class bool_quiz:
     def __init__(self):
         
         self.variables = ["A", "B","C", "D"]
+        self.default_vars = ["A", "B","C", "D"]
         # ~ self.variables = ["A", "B","C", "D"]
         self.vars_outputs = ["S0","S1", "S2","S3", "S4", "S5", "S6", "S7", "S8", "S9","S10"]
         self.format = "latex"
@@ -28,6 +29,11 @@ class bool_quiz:
         """
         self.variables = entries
         self.vars_outputs = outputs
+
+    def reset_vars(self,):
+        """ Set variable names instead of ABCD,
+        """
+        self.variables = self.default_vars
 
     def set_format(self, outformat):
         """ Set output format,
@@ -295,7 +301,8 @@ class bool_quiz:
         cnf = " . ".join([self.maxterm_str(x) for x in range(16) if x in maxterms])
         
         return cnf, dnf
-        
+
+
     def draw_map(self, minterms, dontcares=[], latex=False, correct = False):
         kmap=[]
         maxterms = [x for x in range(16) if x not in minterms and x not in dontcares]

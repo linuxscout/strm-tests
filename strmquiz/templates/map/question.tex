@@ -1,7 +1,25 @@
-\begin{karnaugh-map}[4][4][1][{{ cd }}][{{ ab }}]
-  \minterms{ {{ minterms | join(", ") }} }
-  \maxterms{ {{ maxterms | join(", ") }} }
+{% if RENDER_MODE == "question" %}
+{% if "en" in languages %}
+Simplify the following Karnaugh table
+{% endif %}
+
+\begin{arab}[utf]
+بسّط الدوال الآتية باستعمال جدول كارنوف.
+\end{arab}
+ {% endif %}
+{% for data in data_list %}
+\begin{karnaugh-map}[4][4][1][{{ data.cd }}][{{ data.ab }}]
+  \minterms{ {{ data.minterms | join(", ") }} }
+  \maxterms{ {{ data.maxterms | join(", ") }} }
   {% if dontcares %}
-    \terms{ {{ dontcares | join(", ") }} }{X}
+    \terms{ {{ data.dontcares | join(", ") }} }{X}
   {% endif %}
+ {% if RENDER_MODE == "answer" %}
+    {{ data.formatted_simplification |join("\n") }}
+ {% endif %}
  \end{karnaugh-map}
+{% if RENDER_MODE == "answer" %}
+    Simplified Sum of products : ${{ data.sop }}$\\
+    Simplified product of sums : ${{ data.pos }}$
+{% endif %}
+{% endfor %}

@@ -1,7 +1,20 @@
+Represent in 1's and 2's complement, the following number
+
+{% if "fr" in languages %}
 Representer en complément à 1 et à 2 le nombre suivant :
+{% endif %}
 
 \begin{arab}[utf]
 مثل  العدد الآتي في المتمم إلى الواحد وإلى الاثنين  :
 \end{arab}
 
 {{  number }}
+
+{% if RENDER_MODE == "answer" %}
+\begin{itemize}
+\item $-{{ number }} = ( {{ binary }} )_{2}$
+\item $( {{ cp1 }} )_{c1}$
+\item +1
+\item $( {{ cp2 }} )_{c2}$
+\end{itemize}
+{% endif %}

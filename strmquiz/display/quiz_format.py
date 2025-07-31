@@ -74,16 +74,19 @@ class quiz_format:
             tuple[str, str]: (نص السؤال، نص الجواب)
         """
         q_template_name = f"{template_base}/question.{self.formatting}"
-        a_template_name = f"{template_base}/answer.{self.formatting}"
+        # a_template_name = f"{template_base}/answer.{self.formatting}"
 
         try:
             question_template = self.env.get_template(q_template_name)
-            answer_template = self.env.get_template(a_template_name)
+            # answer_template = self.env.get_template(a_template_name)
         except TemplateNotFound as e:
             raise FileNotFoundError(f"Template '{e.name}' not found in {self.templates_dir}.")
+        context["languages"] = ["ar","en", "fr"]
 
+        context["RENDER_MODE"] = "question"
         question = question_template.render(context)
-        answer = answer_template.render(context)
+        context["RENDER_MODE"] = "answer"
+        answer = question_template.render(context)
 
         return question, answer
 
