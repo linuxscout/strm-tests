@@ -48,8 +48,8 @@ ${{ function_name }} = {{ dontcares }}$
 \begin{itemize}
 \item ${{ function_name }}(A,B,C,D) =  {{  dnf }}$
 \item ${{ function_name }}(A,B,C,D) = {{  cnf }}$
- \item ${{ function_name }}(A,B,C,D) =  \sum({{  data.minterms| join(", ") }})$
- \item ${{ function_name }}(A,B,C,D) =  \prod({{  data.maxterms| join(", ") }})$
+ \item ${{ function_name }}(A,B,C,D) =  \sum({{  minterms| join(", ") }})$
+ \item ${{ function_name }}(A,B,C,D) =  \prod({{  maxterms| join(", ") }})$
 \end{itemize}
 
 
