@@ -1,0 +1,69 @@
+LOGIGRAM-FILE-TEMPLATE
+
+
+{% set function_index = 0 %}
+{% set gates_space = 1.2 %}
+{% set var_space = 1.32 %}
+
+\begin{tikzpicture}
+
+%%Paramaters
+%% var position, can be modified
+\def\varPos{ {{ var_space * (terms|length)}} }
+
+\def\FunctionPos{6}
+{% set start = 0.0 %}
+{% set step = 0.5 %}
+{% for name in variables %}
+    \node (x{{ loop.index }}) at ({{ start + step * (loop.index0) }}, \varPos) {$ {{ name }} $};
+    \node[not gate US, draw, rotate=270] at ($(x{{ loop.index }}) + (0.25, -0.6)$) (notx{{ loop.index }}) {};
+    \draw ($(x{{ loop.index }})+(0,-1ex)$) -| (notx{{ loop.index }}.input);
+{% endfor %}
+
+
+{% set start = 0.0 %}
+{% set step =  gates_space %}
+{% set terms_string_list = sop.split("+") %}
+
+
+{% for term in terms %}
+ %% ***Function {{ function_name }} : Gate for term n° {{ loop.index }} [ {{ terms_string_list[loop.index0] }} ]***
+     {% set ti = loop.index %}
+       \node[and gate US, draw, rotate=0, logic gate inputs={{ "n" * (terms[loop.index0] | length) }}] at (2.5, {{ start + step * (loop.index0) }}) (xandy{{ ti }}) {};
+       \draw (xandy{{ ti }}.output) -- node[above]{\scriptsize $ {{ terms_string_list[loop.index0] }} $} ($(xandy{{ ti }}) + (1.8, 0)$);
+
+    {% set ns = namespace(counter=1) %}
+    {%for var in variables  %}
+        {% if var+"'" in term %}
+            \draw [line width=0.25mm,   red] (notx{{ loop.index }}.output)
+            -- ([xshift=0cm]notx{{ loop.index }}.output) |- (xandy{{ ti }}.input {{ ns.counter }});
+            {% set ns.counter = ns.counter + 1 %}
+        {% elif var in term %}
+            \draw ($(x{{ loop.index }}) + (0, -1ex)$)|- (xandy{{ ti }}.input {{ ns.counter }});
+            {% set ns.counter = ns.counter + 1 %}
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+
+
+%% y_pos : the position of OR gate according to their related gates
+{% set f_y_pos = (function_index + ((terms|length)-1)/2)* gates_space %}
+%% {{ f_y_pos }}
+
+%% Function {{ function_name }} Large OR Gate
+\node[or gate US, draw, rotate=0, logic gate inputs={{ "n" * (terms | length) }}] at (\FunctionPos, {{ f_y_pos }}) (xory{{ function_name }}) {};
+\draw (xory{{ function_name }}.output) -- node[above]{\scriptsize ${{ function_name }}$} ($(xory{{ function_name }}.east) + (+3ex, 0)$);
+
+{% set start = 1.6 %}
+{% set step = 0.05 %}
+{% set ns = namespace(shift=start) %}
+{% for term in terms %}
+      \draw (xandy{{ loop.index }}.output) -- ([xshift={{ ns.shift }}cm]xandy{{ loop.index }}.output) |- (xory{{ function_name }}.input {{ loop.revindex }});
+      {% if loop.index < loop.length//2 %}
+        {% set ns.shift = ns.shift - step %}
+      {% else %}
+        {% set ns.shift = ns.shift + step %}
+      {% endif %}
+{% endfor %}
+
+ \end{tikzpicture}

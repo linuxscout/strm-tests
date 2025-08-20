@@ -26,6 +26,7 @@ from jinja2 import Environment, FileSystemLoader, TemplateNotFound
 
 import itertools
 from . import format_const
+from ..bool import logigram
 
 class quiz_format:
     """ Generate a format for the test """
@@ -81,6 +82,9 @@ class quiz_format:
             # answer_template = self.env.get_template(a_template_name)
         except TemplateNotFound as e:
             raise FileNotFoundError(f"Template '{e.name}' not found in {self.templates_dir}.")
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
         context["languages"] = ["ar","en", "fr"]
 
         context["RENDER_MODE"] = "question"
@@ -376,6 +380,16 @@ class quiz_format:
         }
         lggm ="Draw Logigramm in Text mode, not implemented"
         return lggm
+    def prepare_logigram_list(self, sop_list, function_namelist = ["F",], variables = [], method=""):
+        """ draw a logigram """
+        varnames = {
+            "A":variables[0],
+            "B":variables[1],
+            "C":variables[2],
+            "D":variables[3],
+        }
+        lg = logigram.logigram(varnames, method=method)
+        return lg.prepare_logigram_list(sop_list, function_namelist)
 def main(args):
     return 0
 

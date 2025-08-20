@@ -1,0 +1,16 @@
+<p>
+  Calculate the following operations in base {{ base }} :
+  <span dir="rtl">أنجز العمليات الآتية في الأساس {{ base }}</span>
+</p>
+
+<pre>
+  {{ number_a }}
+{{ operation }} {{ number_b }}
+-------------------
+{% if RENDER_MODE == "question" %}
+= ........
+{% elif RENDER_MODE == "answer" %}
+= {{ number_c }}
+{% endif %}
+</pre>
+

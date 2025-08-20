@@ -443,6 +443,7 @@ class Question_Builder:
                                                variables=var_names)
         context["sop_quest"] = sop_quest
         context["logicdiagram"] = logigram
+        context["terms"] = [[t.strip() for t in term.split(".")] for term in sop.upper().split("+")]
         question, answer = self.formater.render_question_answer("function", context)
         return question, "arabic", "data", answer
 
@@ -750,6 +751,7 @@ class Question_Builder:
         # one logigram
         data_list = []
         sop_list = []
+        terms_list  = []
         for minterms, dont_care, fname in zip(minterms_list, dont_care_list, output_names):
             data_list.append( self._prepare_kmap_data(minterms=minterms,
                                               dontcares=dont_care,
@@ -760,6 +762,9 @@ class Question_Builder:
                               )
             sop, _ = self.bq.simplify(minterms)
             sop_list.append(sop)
+            terms_list.append([[t.strip() for t in term.split(".")] for term in sop.upper().split("+")])
+        logigramdict = self.formater.prepare_logigram_list(sop_list, function_namelist=output_names,
+                                                   variables=var_names)
         logigram = self.formater.draw_logigram_list(sop_list, function_namelist=output_names,
                                                    variables=var_names)
         context ={"data_list":data_list,
@@ -768,7 +773,10 @@ class Question_Builder:
                   "function_name_list": output_names,
                   "variables": var_names,
                   "sop_quest":sop_quest,
+                  "terms_list":terms_list,
                   "logicdiagram" : logigram,
+                  "logicdiagramdict" : logigramdict,
+                  "sop_list":sop_list,
                   }
         question, answer = self.formater.render_question_answer("multi_funct", context)
         return question, "arabic", "data", answer

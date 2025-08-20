@@ -1,0 +1,92 @@
+LOGIGRAM-FILE-TEMPLATE
+
+{% set gates_space = 1.2 %}
+{% set var_space = 1.32 %}
+
+\begin{tikzpicture}
+
+%%Paramaters
+%% var position, can be modified
+{% set ns = namespace(nb_terms=0) %}
+{% for sub in terms_list %}
+  {% set ns.nb_terms = ns.nb_terms + (sub | length) %}
+{% endfor %}
+\def\varPos{ {{ var_space* ns.nb_terms}} }
+
+
+
+\def\FunctionPos{6}
+{% set start = 0.0 %}
+{% set step = 0.5 %}
+{% for name in variables %}
+    \node (x{{ loop.index }}) at ({{ start + step * (loop.index0) }}, \varPos) {$ {{ name }} $};
+    \node[not gate US, draw, rotate=270] at ($(x{{ loop.index }}) + (0.25, -0.6)$) (notx{{ loop.index }}) {};
+    \draw ($(x{{ loop.index }})+(0,-1ex)$) -| (notx{{ loop.index }}.input);
+{% endfor %}
+
+
+{% set start = 0.0 %}
+{% set step =  gates_space %}
+{% set ns = namespace(counter=1, ti=0,ti0=0, shift=0, function_index=0, gate_ypos=0, gate_and_counter =0, terms_string_list =[], terms=[], gate_id="", label="") %}
+{% for function_name in function_name_list %}
+    {% set ns.terms_string_list = sop_list[loop.revindex0].split("+") %}
+    {% set ns.terms = terms_list[loop.index0] %}
+    {% set ns.function_index = loop.index0 %}
+
+    {% for term in ns.terms %}
+        {% set ns.gate_ypos = start + step * ns.gate_and_counter %}
+        {% set ns.ti = loop.index %}
+        {% set ns.ti0 = loop.index0 %}
+        {% set ns.label = ns.terms_string_list[loop.index0] %}
+        {% set ns.gate_id= "xandy"+function_name ~(ns.ti|string) %}
+     %% ***Function {{ function_name }} : Gate for term n° {{ loop.index }} [ {{ ns.label }} ]***
+
+           \node[and gate US, draw, rotate=0, logic gate inputs={{ "n" * (ns.terms[loop.index0] | length) }}] at (2.5, {{ ns.gate_ypos  }}) (xandy{{ function_name }}{{ ns.ti }}) {};
+           \draw (xandy{{ function_name }}{{ ns.ti }}.output) -- node[above]{\scriptsize $ {{ ns.label }} $} ($(xandy{{ function_name }}{{ ns.ti }}) + (1.8, 0)$);
+
+        {% set ns.counter=1 %}
+        {%for var in variables  %}
+            {% if var+"'" in term %}
+                \draw [line width=0.25mm,   red] (notx{{ loop.index }}.output)
+                -- ([xshift=0cm]notx{{ loop.index }}.output) |- (xandy{{ function_name }}{{ ns.ti }}.input {{ ns.counter }});
+                {% set ns.counter = ns.counter + 1 %}
+            {% elif var in term %}
+                \draw ($(x{{ loop.index }}) + (0, -1ex)$)|- (xandy{{ function_name }}{{ ns.ti }}.input {{ ns.counter }});
+                {% set ns.counter = ns.counter + 1 %}
+            {% endif %}
+        {% endfor %}
+     {% set ns.gate_and_counter = ns.gate_and_counter +1 %}
+    {% endfor %}
+
+
+    %% y_pos : the position of OR gate according to their related gates
+    {% set f_ypos = (ns.gate_and_counter-1  - ((terms_list[loop.index0]|length)-1)/2)* gates_space %}
+
+    %% Function {{ function_name }} Large OR Gate
+    {% if (ns.terms | length) > 1 %}
+        \node[or gate US, draw, rotate=0, logic gate inputs={{ "n" * (ns.terms | length) }}] at (\FunctionPos, {{ f_ypos }}) (xory{{ function_name }}) {};
+        \draw (xory{{ function_name }}.output) -- node[above]{\scriptsize ${{ function_name }}$} ($(xory{{ function_name }}.east) + (+3ex, 0)$);
+    {% else %}
+        \node at (\FunctionPos, {{ f_ypos }}) (xory{{ function_name }}) {};
+        \draw (xory{{ function_name }})  node[above]{\scriptsize ${{ function_name }}$} ($(xory{{ function_name }}.east) + (+3ex, 0)$);
+    {% endif %}
+
+
+    {% set start = 1.6 %}
+    {% set step = 0.05 %}
+    {% set ns.shift=start %}
+    {% for term in ns.terms %}
+        {% if (ns.terms | length) > 1 %}
+             \draw (xandy{{ function_name }}{{ loop.index }}.output) -- ([xshift={{ ns.shift }}cm]xandy{{ function_name }}{{ loop.index }}.output) |- (xory{{ function_name }}.input {{ loop.revindex }});
+        {% else %}
+             \draw (xandy{{ function_name }}{{ loop.index }}.output) -- ([xshift={{ ns.shift }}cm]xandy{{ function_name }}{{ loop.index }}.output) |- (xory{{ function_name }});
+        {% endif %}
+        {% if loop.index < loop.length//2 %}
+            {% set ns.shift = ns.shift - step %}
+        {% else %}
+            {% set ns.shift = ns.shift + step %}
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+
+ \end{tikzpicture}

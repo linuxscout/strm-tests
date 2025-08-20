@@ -6,6 +6,7 @@ DATE := $(shell date +'%y.%m.%d-%H:%M')
 
 # List of test IDs
 TESTS := test0 test1 test2 test3 test4 test5 test6 test7 test8 test9 bankquestion
+TESTSHTML := test0h test1h test2h test3h test4h test5h test6h test7h test8h test9h bankquestionh
 
 # Default target
 default: all
@@ -67,6 +68,24 @@ moodle:
 	python3 tests/genmoodle.py
 	@echo "Result saved to tests/output/test.txt"
 
+# Remove last character from a string
+chop = $(subst $(space),,$(wordlist 1,$(call decr,$(words $(foreach c,$(1),$(c)))),$(foreach c,$(1),$(c))))
+
+
+
+# Rule template to generate tests
+test0h:TEST_ID=test0
+test1h:TEST_ID=test1
+test2h:TEST_ID=test2
+test3h:TEST_ID=test3
+test0h test1h test2h test3h:
+	@echo "Generating test: $(TEST_ID)"
+	python3 -m strmquiz -f config/quiz6.conf --lang="ar-en" --templates strmquiz/templates -d html -t "$(TEST_ID)" -o tests/output/test.html
+	mkdir -p edits/test2-$(DATE)
+	cp tests/output/test.html edits/test2-$(DATE)/
+
+# Generate one rule per test
+$(foreach T,$(TESTSHTML),$(eval $(call test_template_html,$(T))))
 # Generate random minterms
 minterms:
 	python3 tests/gen_random_minterms.py

@@ -1,0 +1,21 @@
+Represent in 1's and 2's complement, the following number
+
+{% if "fr" in languages %}
+Representer en complément à 1 et à 2 le nombre suivant :
+{% endif %}
+
+
+مثل  العدد الآتي في المتمم إلى الواحد وإلى الاثنين  :
+
+
+{{  number }}
+
+{% if RENDER_MODE == "answer" %}
+<ul>
+<li> $-{{ number }} = ( {{ binary }} )_{2}$ </li>
+    <li> $( {{ cp1 }} )_{c1}$ </li>
+    <li> +1 </li>
+    <li> $( {{ cp2 }} )_{c2}$</li>
+</ul>
+\end{itemize}
+{% endif %}

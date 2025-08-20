@@ -259,6 +259,57 @@ class logigram:
             total_terms += len(terms)
         latex += " \\end{tikzpicture}\n\n"        
         return latex
+
+
+    def prepare_logigram_list(self, sop_list=[], function_namelist=["F",]):
+        """ draw a logigram from an sop """
+        # latex = " \\label{logigrammefonction%s}\n\n"%'-'.join(function_namelist)
+        # latex += " \\begin{tikzpicture}\n\n"
+        # latex += " %%Paramaters\n"
+        # the pos (position of Y) of a var is defined according to
+        # the total number of AND gates to draw (gates_count)
+        size_terms = sum([len(l.split(self.get_term_sep())) for l in sop_list])
+        graph = {"variables":list(self.var_names.values()),
+                "functions":[],
+                 "method":self.method,
+                 "term_gate":self.get_gate_code("and"),
+                 "function_gate":self.get_gate_code("or"),
+                 'size_terms':size_terms,
+        }
+
+        # latex += "%% var position, can be modified\n"
+        # latex += "\\def\\varPos{%.2f}\n"%(size_terms * self.vars_space)
+        # latex += "\\def\\FunctionPos{6}\n"
+        # ~ latex +="%% sizeterms : %d\n%%%s\n"%(size_terms, repr(sop_list))
+        total_terms = 0
+        # inverse index
+        # we inverse index to get functions ordred in logigram
+        sop_list.reverse()
+        # reduce function names to be similar to SOP list to avoid any extra name
+        function_namelist = function_namelist[:len(sop_list)]
+        function_namelist.reverse()
+        for i in range(len(sop_list)):
+            sop =  sop_list[i]
+            function_name =  function_namelist[i]
+            terms = [t.strip() for t in sop.upper().split(self.get_term_sep())]
+            # reverse terms
+            terms.reverse()
+            terms_list = []
+            for ti, term in enumerate(terms):
+                terms_list.append({"id":f"xandy{function_name}g{ti}",
+                    "label":term,
+                    "name":term,
+                    "vars": [v.strip() for v in term.strip().split(self.get_var_sep())]
+                })
+            total_terms += len(terms)
+            function_item ={"name":function_name,
+                            "terms":terms_list,
+                            "nb_terms":len(terms)}
+            graph["functions"].append(function_item)
+        # latex += " \\end{tikzpicture}\n\n"
+        return graph
+
+
     def normalize_latex(self,s):
         """ normalize boolean string"""
         s= str(s)

@@ -383,7 +383,18 @@ class quiz_format_tex(quiz_format.quiz_format):
             "D":variables[3],
         }
         lg = logigram.logigram(varnames, method=method)
-        return lg.draw_logigram_list(sop_list, function_namelist)                      
+        return lg.draw_logigram_list(sop_list, function_namelist)
+
+    def prepare_logigram_list(self, sop_list, function_namelist = ["F",], variables = [], method=""):
+        """ draw a logigram """
+        varnames = {
+            "A":variables[0],
+            "B":variables[1],
+            "C":variables[2],
+            "D":variables[3],
+        }
+        lg = logigram.logigram(varnames, method=method)
+        return lg.prepare_logigram_list(sop_list, function_namelist)
 def main(args):
     return 0
 

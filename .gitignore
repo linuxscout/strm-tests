@@ -138,3 +138,4 @@ latex/*.pdf
 /myenv/
 /doc/*.pdf
 /docs/tikz-timing.pdf
+/latex/tests/

@@ -1,0 +1,37 @@
+
+{% if "fr" in languages %}
+Soit la fonction donnée par sa forme canonique, Tracer la table de karnaugh et simplifier.
+{% endif %}
+
+
+Let the function be given by its canonical form, Draw the Karnaugh table and simplify.
+
+\begin{arab}[utf]
+لتكن الدالة المعطاة بشكلها القانوني، ارسم جدول كارنو وبسطها
+\end{arab}
+{% if RENDER_MODE == "question" %}
+{% for data in data_list %}
+    $F{{ loop.index }}(A,B,C,D) = {{ data.dnf }}$
+{% endfor %}
+ {% endif %}
+
+ {% if RENDER_MODE == "answer" %}
+{% for data in data_list %}
+    $F{{ loop.index }}(A,B,C,D) = {{ data.dnf }}$
+
+\begin{karnaugh-map}[4][4][1][{{ data.cd }}][{{ data.ab }}]
+  \minterms{ {{ data.minterms | join(", ") }} }
+  \maxterms{ {{ data.maxterms | join(", ") }} }
+  {% if dontcares %}
+    \terms{ {{ data.dontcares | join(", ") }} }{X}
+  {% endif %}
+
+    {{ data.formatted_simplification |join("\n") }}
+
+ \end{karnaugh-map}
+
+    Simplified Sum of products : ${{ data.sop }}$\\
+    Simplified product of sums : ${{ data.pos }}$
+
+{% endfor %}
+ {% endif %}

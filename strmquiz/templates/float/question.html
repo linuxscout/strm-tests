@@ -1,0 +1,21 @@
+Representer sous la norme IEEE-754 32 bits le nombre suivant
+
+
+مثل العدد الآتي حسب المعيار IEEE-754 32 bits
+
+
+{{  number }}
+{% if RENDER_MODE == "answer" %}
+\num{ {{ binary_repr }} }
+
+<ul>
+<li> <b>Input:</b> ${{ "%.4f"|format(abs_value) }} = \num{ {{ binary_repr }} }$  </li>
+  <li> <b>Normalized form:</b> $1.{{ mantissa }} \times 2^{{ exponent }}$  </li>
+  <li> <b>Sign bit:</b> {% if sign == 1 %}-{% else %}+{% endif %} $\Rightarrow$ {{ sign }}  </li>
+  <li> <b>Exponent:</b> ${{ exponent }} + 127 = {{ exponent_raw }} \Rightarrow {{ exponent_bits }}$  </li>
+  <li> <b>Pseudo-mantissa:</b> ${{ mantissa }}$  </li>
+  <li> <b>Final binary representation:</b>  ${{ final_binary }} $  </li>
+  <li> <b>Hexadecimal form:</b> $ {{ hex }} $  </li>
+</ul>
+
+{% endif %}
