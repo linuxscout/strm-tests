@@ -1,7 +1,9 @@
-Convert the following numbers, \hfill\aRL{أنجز التحويلات الآتية}
-
+<p>
+Convert the following numbers
+<span dir="rtl">أنجز التحويلات الآتية}</span><br/>
 {% if RENDER_MODE == "question" %}
-$({{ number }})_{ {{ in_base }} } = (........)_{ {{ out_base }}}$
+({{ number }})<sub>{{ in_base }} </sub> = (........)<sub>{{ out_base }} </sub> <br/>
 {% elif RENDER_MODE == "answer" %}
-$({{ number }})_{ {{ in_base }} } = (  {{ output }})_{ {{ out_base }}}$
+({{ number }})<sub>{{ in_base }} </sub>  = (  {{ output }})<sub>{{ out_base }} </sub><br/>
 {% endif %}
+</p>

@@ -29,21 +29,29 @@ ${{ function_name }} = {{ dontcares }}$
 \textbf{Truth Table \aRL{جدول الحقيقة}}
 {{ truthtable }}
 
+  <table style="width: 100%" border="1">
+          <tbody>
+            <tr>
+              <th> {{ variables[0] }} </th><th> {{ variables[1] }} </th><th>  {{ variables[2] }} </th><th>  {{ variables[3] }} </th><th>  F  </th>
+            </tr>
 
-\begin{tabular}{|c|c|c|c||c|}
-\hline
-{{ variables[0] }} & {{ variables[1] }} & {{ variables[2] }} & {{ variables[3] }} & F \\
+
 {% for i in range(16) %}
     {% if i%4==0 %}
         \hline
     {% endif %}
   {% set bits = '{:04b}'.format(i) %}
   {% set bit_list = bits | list %}
-  {{ bit_list[0] }} & {{ bit_list[1] }} & {{ bit_list[2] }} & {{ bit_list[3] }} & {{ '1' if i in minterms else 'x' if i in dontcares else 0 }} \\
+    <tr>
+      <td> {{ bit_list[0] }} </td>
+        <td> {{ bit_list[1] }} </td>
+        <td> {{ bit_list[2] }} </td>
+        <td> {{ bit_list[3] }} </td>
+        <td> {{ '1' if i in minterms else 'x' if i in dontcares else 0 }} </td>
+    </tr>
 {% endfor %}
-\hline
-\end{tabular}
-
+  </tbody>
+</table>
 
 \textbf{Canonical Forms \aRL{الأشكال القانونية}}
 \begin{itemize}
