@@ -1,25 +1,27 @@
-{% if RENDER_MODE == "question" %}
-{% if "en" in languages %}
+
+<p>
 Simplify the following Karnaugh table
-{% endif %}
-
-
+<span dir="rtl">
 بسّط الدوال الآتية باستعمال جدول كارنوف.
+</span><br/>
+{% if "fr" in languages %}
+Simplifier le tableau de Karnaugh suivant:
+    <br/>
+{% endif %}
+</p>
 
+{% if RENDER_MODE == "question" %}
  {% endif %}
 {% for data in data_list %}
-\begin{karnaugh-map}[4][4][1][{{ data.cd }}][{{ data.ab }}]
-  \minterms{ {{ data.minterms | join(", ") }} }
-  \maxterms{ {{ data.maxterms | join(", ") }} }
-  {% if dontcares %}
-    \terms{ {{ data.dontcares | join(", ") }} }{X}
-  {% endif %}
- {% if RENDER_MODE == "answer" %}
-    {{ data.formatted_simplification |join("\n") }}
- {% endif %}
- \end{karnaugh-map}
+
+{% import "map/kmap_macros.html" as kmap %}
+{{ kmap.kmap4(data.minterms, data.maxterms, data.dontcares, data.ab, data.cd) }}
+<br/>
+
 {% if RENDER_MODE == "answer" %}
-    Simplified Sum of products : ${{ data.sop }}$\\
-    Simplified product of sums : ${{ data.pos }}$
+<ul>
+    <li> Simplified Sum of products : {{ data.sop }}</li>
+    <li> Simplified product of sums : {{ data.pos }}</li>
+</ul>
 {% endif %}
 {% endfor %}

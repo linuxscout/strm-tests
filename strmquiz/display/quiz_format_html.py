@@ -127,7 +127,7 @@ class quiz_format_html(quiz_format.quiz_format):
     def add_formula(self, text, trans=""): 
         
         text = self.normalize_formula(text)   
-        newtext= '<math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>%s</mrow></math>'%text
+        newtext = '<math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>%s</mrow></math>'%text
         newtext += self.newline
         self.output.append(newtext)
         return newtext    
@@ -250,8 +250,8 @@ class quiz_format_html(quiz_format.quiz_format):
         lines = s.split("\n")
         newtext_list = []
         for line in lines:
-            newtext_list.append("<br/>")
             newtext_list.append('<math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>%s</mrow></math>'%line)
+            newtext_list.append("<br/>")
         newtext = "\n".join(newtext_list)
         self.output.append(newtext)
         return newtext         

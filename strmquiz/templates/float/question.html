@@ -1,21 +1,27 @@
-Representer sous la norme IEEE-754 32 bits le nombre suivant
-
-
+<p>
+Represent under IEEE-754 32 bits standard the following number:
+<span dir="rtl">
 مثل العدد الآتي حسب المعيار IEEE-754 32 bits
+</span><br/>
+{% if "fr" in languages %}
+Representer sous la norme IEEE-754 32 bits le nombre suivant:
+  <br/>
+{% endif %}
 
-
-{{  number }}
+<b>{{  number }}</b>
+ </p>
 {% if RENDER_MODE == "answer" %}
-\num{ {{ binary_repr }} }
+ Final binary representation:<b> {{ binary_repr }}</b><sub>IEEE-754-32bits</sub>
+ <br/>
 
-<ul>
-<li> <b>Input:</b> ${{ "%.4f"|format(abs_value) }} = \num{ {{ binary_repr }} }$  </li>
-  <li> <b>Normalized form:</b> $1.{{ mantissa }} \times 2^{{ exponent }}$  </li>
-  <li> <b>Sign bit:</b> {% if sign == 1 %}-{% else %}+{% endif %} $\Rightarrow$ {{ sign }}  </li>
-  <li> <b>Exponent:</b> ${{ exponent }} + 127 = {{ exponent_raw }} \Rightarrow {{ exponent_bits }}$  </li>
-  <li> <b>Pseudo-mantissa:</b> ${{ mantissa }}$  </li>
-  <li> <b>Final binary representation:</b>  ${{ final_binary }} $  </li>
-  <li> <b>Hexadecimal form:</b> $ {{ hex }} $  </li>
-</ul>
+<table>
+<tr> <td>Input:</td><td> ({{ "%.4f"|format(abs_value) }})<sub>10 </sub> = ({{ binary_repr }})<sub>2</sub>  </td></tr>
+  <tr> <td>Normalized form:</td><td> 1.{{ mantissa }} * 2<sup>{{ exponent }}</sup>  </tr>
+  <tr> <td>Sign bit:</td><td> {% if sign == 1 %}-{% else %}+{% endif %}  ==&gt; {{ sign }}  </td></tr>
+  <tr> <td>Exponent:</td><td> {{ exponent }} + 127 = {{ exponent_raw }} ==&gt; ({{ exponent_bits }})<sub>2 </sub>  </td></tr>
+  <tr> <td>Pseudo-mantissa:</td><td> {{ mantissa }}  </td></tr>
+  <tr> <td>Final binary representation:</td><td>  {{ final_binary }}   </td></tr>
+  <tr> <td>Hexadecimal form:</td><td>  ({{ hex }})<sub>16 </sub>  </td></tr>
+</table>
 
 {% endif %}

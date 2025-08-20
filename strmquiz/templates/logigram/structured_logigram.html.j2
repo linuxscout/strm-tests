@@ -1,0 +1,56 @@
+{% set functions = logicdiagramdict.functions %}
+{% set lg = logicdiagramdict %}
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="180" viewBox="0 0 900 180" preserveAspectRatio="xMinYMin meet">
+  <style>
+    .wire { stroke: #222; stroke-width: 2; fill: none; }
+    .gate { stroke: #222; stroke-width: 2; fill: white; }
+    .not-bubble { stroke: #222; stroke-width: 2; fill: white; }
+    .label { font-family: "DejaVu Sans", "Arial", sans-serif; font-size:14px; text-anchor: middle; }
+    .var-name { font-weight: bold; }
+  </style>
+
+  {# layout parameters (tweakable) #}
+  {% set x_start = x_start | default(80) %}
+  {% set x_step  = x_step  | default(170) %}
+  {% set baseline_y = baseline_y | default(90) %}
+  {% set label_y = baseline_y - 28 %}
+  {% set tri_w = tri_w | default(18) %}
+  {% set tri_h = tri_h | default(26) %}
+  {% set circle_r = circle_r | default(4) %}
+  {% set output_len = output_len | default(60) %}
+
+  {# draw each variable (centered at its label x) #}
+  {% for var in lg.variables %}
+    {% set i = loop.index0 %}
+    {% set x_label = x_start + i * x_step %}
+    {# triangle left / right coords #}
+    {% set x_tri_left = x_label + 26 %}
+    {% set x_tri_right = x_tri_left + tri_w %}
+    {% set y_top = baseline_y - tri_h/2 %}
+    {% set y_bot = baseline_y + tri_h/2 %}
+    {# positions for wires #}
+    {% set x_input_from = x_label - 28 %}
+    {% set x_after_not = x_tri_right + circle_r*2 %}
+
+    {# variable name above baseline #}
+    <text class="label var-name" x="{{ x_label }}" y="{{ label_y }}">{{ var }}</text>
+
+    {# input wire from left to triangle start #}
+    <line class="wire" x1="{{ x_input_from }}" y1="{{ baseline_y }}" x2="{{ x_tri_left }}" y2="{{ baseline_y }}" />
+
+    {# triangle (NOT gate body) as polygon #}
+    <polygon class="gate"
+      points="{{ x_tri_left }},{{ y_top }} {{ x_tri_left }},{{ y_bot }} {{ x_tri_right }},{{ baseline_y }}"
+    />
+
+    {# NOT bubble (small circle) #}
+    <circle class="not-bubble" cx="{{ x_tri_right + circle_r }}" cy="{{ baseline_y }}" r="{{ circle_r }}" />
+
+    {# output wire to the right of NOT bubble #}
+    <line class="wire"
+      x1="{{ x_tri_right + circle_r*2 }}" y1="{{ baseline_y }}"
+      x2="{{ x_tri_right + circle_r*2 + output_len }}" y2="{{ baseline_y }}" />
+  {% endfor %}
+</svg>
+
+</svg>

@@ -1,16 +1,14 @@
+<p>
+Study the following function:
+<span dir="rtl">
+ادرس الدالة الآتية:
+</span><br/>
 
 {% if "fr" in languages %}
 Etudier la fonction suivante:
-{% endif %}
+{% endif %}<br/>
 
-
-Study the following function:
-
-
-ادرس الدالة الآتية:
-
-
-$F(A,B,C,D) ={{  sop_quest }}$
+F(A,B,C,D) ={{  sop_quest }}
 
 {% if RENDER_MODE == "question" %}
 
@@ -18,31 +16,28 @@ $F(A,B,C,D) ={{  sop_quest }}$
 
 {% if RENDER_MODE == "answer" %}
 
-${{ function_name }} = {{ minterms }}$
-
-\textbf{Don't Care }
-
-${{ function_name }} = {{ dontcares }}$
+{{ function_name }} = {{ minterms }}
 
 
+<p><strong>Don't Care </strong></p>
+{{ function_name }} = {{ dontcares }}
 
-\textbf{Truth Table \aRL{جدول الحقيقة}}
-{{ truthtable }}
 
-  <table style="width: 100%" border="1">
-          <tbody>
+<p><strong>Truth Table <span dir="rtl">جدول الحقيقة</span></strong></p>
+
+<table cellspacing="0" cellpadding="5"
+       style="text-align:center; border-collapse:collapse;" class="truthtable">
+          <thead>
             <tr>
-              <th> {{ variables[0] }} </th><th> {{ variables[1] }} </th><th>  {{ variables[2] }} </th><th>  {{ variables[3] }} </th><th>  F  </th>
+              <th> Num </th><th> {{ variables[0] }} </th><th> {{ variables[1] }} </th><th>  {{ variables[2] }} </th><th>  {{ variables[3] }} </th><th>  F  </th>
             </tr>
-
-
+          </thead>
+<tbody>
 {% for i in range(16) %}
-    {% if i%4==0 %}
-        \hline
-    {% endif %}
   {% set bits = '{:04b}'.format(i) %}
   {% set bit_list = bits | list %}
     <tr>
+      <td> {{ loop.index0 }} </td>
       <td> {{ bit_list[0] }} </td>
         <td> {{ bit_list[1] }} </td>
         <td> {{ bit_list[2] }} </td>
@@ -53,13 +48,14 @@ ${{ function_name }} = {{ dontcares }}$
   </tbody>
 </table>
 
-\textbf{Canonical Forms \aRL{الأشكال القانونية}}
-\begin{itemize}
-\item ${{ function_name }}(A,B,C,D) =  {{  dnf }}$
-\item ${{ function_name }}(A,B,C,D) = {{  cnf }}$
- \item ${{ function_name }}(A,B,C,D) =  \sum({{  minterms| join(", ") }})$
- \item ${{ function_name }}(A,B,C,D) =  \prod({{  maxterms| join(", ") }})$
-\end{itemize}
+<p><strong>Canonical Forms <span dir="rtl">الأشكال القانونية</span></strong></p>
+<ul>
+    <li>{{ function_name }}(A, B, C, D) = {{ dnf }}</li>
+    <li>{{ function_name }}(A, B, C, D) = {{ cnf }}</li>
+    <li>{{ function_name }}(A, B, C, D) = Σ({{ minterms | join(", ") }})</li>
+    <li>{{ function_name }}(A, B, C, D) = Π({{ maxterms | join(", ") }})</li>
+</ul>
+
 
 
 
@@ -81,27 +77,21 @@ ${{ function_name }} = {{ dontcares }}$
  {% endif %}
 
 
-\textbf{Karnaugh Table \aRL{جدول كارنوف}}
+<p><strong>Karnaugh map <span dir="rtl">جدول كارنوف</span></strong></p>
 
-\begin{karnaugh-map}[4][4][1][{{ cd }}][{{ ab }}]
-  \minterms{ {{ minterms | join(", ") }} }
-  \maxterms{ {{ maxterms | join(", ") }} }
-  {% if dontcares %}
-    \terms{ {{ dontcares | join(", ") }} }{X}
-  {% endif %}
+{% import "map/kmap_macros.html" as kmap %}
+{{ kmap.kmap4(minterms, maxterms, dontcares, ab, cd) }}
 
-    {{ formatted_simplification |join("\n") }}
-
- \end{karnaugh-map}
-
-    Simplified Sum of products : ${{ sop }}$\\
-    Simplified product of sums : ${{ pos }}$
+<br/>
+<ul>
+    <li>Simplified Sum of products : {{ sop }}</li>
+    <li>Simplified product of sums : {{ pos }}</li>
+    </ul>
 
 \textbf{Logic diagram \aRL{المخطط المنطقي}}
-
-{{ logicdiagram }}
-
-
+<pre>
 {% include "logigram/logigram.html.j2" %}
+</pre>
+
 
 {% endif %}

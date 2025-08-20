@@ -1,37 +1,31 @@
+<p>
+    Simpilfy the following expression
+<span dir="rtl">
+ بسّط العبارة الآتية:
+</span><br/>
 
 {% if "fr" in languages %}
-Simplifier l'expression suivant.
+Simplifier l'expression suivant:<br/>
 {% endif %}
-
-
-Simpilfy the following expression
-
-بسّط العبارة الآتية
-
-
 {{ function_name }} ={{  sop_quest }}
+</p>
 
 {% if RENDER_MODE == "question" %}
-
- {% endif %}
+{% endif %}
 
 {% if RENDER_MODE == "answer" %}
 
+{% import "map/kmap_macros.html" as kmap %}
+{% set ab = "WX" %}
+{% set cd = "YZ" %}
+{{ kmap.kmap4(minterms, maxterms, dontcares, ab, cd) }}
 
-\textbf{Karnaugh Table \aRL{جدول كارنوف}}
+<br/>
+<ul>
+    <li>Simplified Sum of products : {{ sop }}</li>
+    <li>Simplified product of sums : {{ pos }}</li>
+    </ul>
 
-\begin{karnaugh-map}[4][4][1][{{ cd }}][{{ ab }}]
-  \minterms{ {{ minterms | join(", ") }} }
-  \maxterms{ {{ maxterms | join(", ") }} }
-  {% if dontcares %}
-    \terms{ {{ dontcares | join(", ") }} }{X}
-  {% endif %}
 
-    {{ formatted_simplification |join("\n") }}
-
- \end{karnaugh-map}
-
-    Simplified Sum of products : ${{ sop }}$\\
-    Simplified product of sums : ${{ pos }}$
 
 {% endif %}
