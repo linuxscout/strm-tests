@@ -16,36 +16,10 @@
               x2="0"
               y2="{{ (k+1) * H // (inputs+1) }}"
               stroke="black"/>
-
       {% endfor %}
     {% endif %}
     <!-- Output -->
     <line x1="{{ W }}" y1="{{ H/2 }}" x2="{{ W+20 }}" y2="{{ H/2 }}" stroke="black"/>
-  </g>
-{% endmacro %}
-
-{% macro draw_wires(N=4, step=10, gate_space=50) %}
-  <g id="wires">
-    <!-- wires from AND to OR -->
-    {% for k in range(N) %}
-        {% set shift = 0 if (N % 2 == 1 and k == N // 2) else ([k, N - 1 - k]|min) %}
-        {% set xpos = -step*shift-5 %}
-        {% set y1pos = 5+10*k %}
-        {% set y2pos = -5-((N-1)/2-shift)*gate_space+25 if (k < N // 2) else -5+((N-1)/2-shift)*gate_space+25 %}
-    <!-- vertical wire -->
-      {% if not (N % 2 == 1 and k == N // 2) %}
-        <line x1="{{xpos}}" y1="{{y1pos}}" x2="{{xpos}}" y2="{{y2pos}}" stroke="green"/>
-        <!-- horizental wire -->
-        <line x1="{{xpos}}" y1="{{y1pos}}" x2="20" y2="{{y1pos}}" stroke="red"/>
-        {% endif %}
-       {#
-        <text x="{{xpos}}" y="{{5+10*k}}"  font-family="serif" font-size="8">x={{xpos}} y={{y1pos}}</text>
-        <text x="{{xpos-20}}" y="{{y1pos}}"  font-family="serif" font-size="8">x={{xpos}} y2={{y2pos}}</text>
-
-        <text x="{{xpos-40}}" y="{{y1pos}}"  font-family="serif" font-size="6">shift= {{shift}} k={{k}} x={{xpos}} y2={{y2pos}}</text>
-        #}
-
-      {% endfor %}
   </g>
 {% endmacro %}
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 900 180" preserveAspectRatio="xMinYMin meet">
@@ -85,22 +59,7 @@
                Q20,40 40,20
                Q20,0 0,0
                Z"
-            stroke="black" fill="white"/>
-
-      <!-- Input wires -->
-      <!-- Output wire -->
-      <line x1="40" y1="20" x2="70" y2="20" stroke="red"/>
-    </g>
-
- <!-- Define OR gate as reusable symbol -->
-    <g id="or-gate4">
-      <!-- OR gate body (shorter) -->
-      <path d="M0,0
-               Q8,20 0,40
-               Q20,40 40,20
-               Q20,0 0,0
-               Z"
-            stroke="black" fill="white"/>
+            stroke="black" fill="none"/>
 
       <!-- Input wires -->
         <line x1="-20" y1="5" x2="0" y2="5" stroke="black"/>
@@ -111,6 +70,8 @@
       <!-- Output wire -->
       <line x1="40" y1="20" x2="70" y2="20" stroke="red"/>
     </g>
+
+
 
 <!-- Define BIG OR gate as reusable symbol -->
     <g id="big-or-gate3">
@@ -237,9 +198,9 @@
         <use href="#and-gate{{ term.vars|length }}" x="15" y="0"/>
 
         <!-- Extend output line -->
-        {% set offset = -2.5 if (nb_terms % 2 == 1 and loop.index0 == nb_terms // 2) else ([loop.index0, nb_terms - 1 - loop.index0]|min) %}
+
         {% if function.nb_terms > 1 %}
-                <line x1="80" y1="20" x2="{{195-offset*step}}" y2="20" stroke="blue"/>
+            <line x1="80" y1="20" x2="195" y2="20" stroke="blue"/>
         {% else %}
             <line x1="80" y1="20" x2="280" y2="20" stroke="blue"/>
         {% endif %}
@@ -259,14 +220,15 @@
       </g>
       {% endfor %}
 
-        <g transform="translate(500,{{50+(ns.i - (function.nb_terms-1)/2)*gate_space}})">
+        <g transform="translate(470,{{60+(ns.i - function.nb_terms +1)*gate_space}})">
         <!-- {{function.name}} -->
-        <text x="60" y="15" font-family="serif" font-size="10">{{function.name}}</text>
+        <text x="60" y="{{(function.nb_terms-1)*gate_space/2}}" font-family="serif" font-size="10">{{function.name}}</text>
       {% if function.nb_terms > 1 %}
+        {#
+        <use href="#big-or-gate3" x="15" y="0"/>
+        #}
+        {{big_or_gate(60, (function.nb_terms)*gate_space-20, 0, 100,0) }}
 
-
-        {{ draw_wires(N=function.nb_terms, step=10, gate_space=50) }}
-       <use href="#or-gate" x="15" y="0"/>
 
       {% endif %}
         </g>
