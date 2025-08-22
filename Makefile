@@ -78,8 +78,9 @@ test0h:TEST_ID=test0
 test1h:TEST_ID=test1
 test2h:TEST_ID=test2
 test3h:TEST_ID=test3
+test5h:TEST_ID=test5
 test9h:TEST_ID=test9
-test0h test1h test2h test3h test9h:
+test0h test1h test2h test3h test9h test5h:
 	@echo "Generating test: $(TEST_ID)"
 	python3 -m strmquiz -f config/quiz6.conf --lang="ar-en" --templates strmquiz/templates -d html -t "$(TEST_ID)" -o tests/output/test.html
 	mkdir -p edits/test2-$(DATE)
