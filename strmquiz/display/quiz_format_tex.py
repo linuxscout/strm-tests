@@ -166,8 +166,9 @@ class quiz_format_tex(quiz_format.quiz_format):
             for question in test:
                 # print question
                 self.add_section(question.get("id","ID"),level=4)
-                self.add_text(question.get("question","QUESTION"),question.get("arabic","ARABIC"))
-                self.add_text(question.get("data","DATA"))
+                # self.add_text(question.get("question","QUESTION"),question.get("arabic","ARABIC"))
+                self.add_text(question.get("question","QUESTION"))
+                # self.add_text(question.get("data","DATA"))
             self.add_hrule()
             self.add_newpage()
             self.add_section("Correction",level=2)                

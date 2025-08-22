@@ -254,8 +254,8 @@ class QuizBuilder:
             item = {"id":q_no,
             "category": name,
             "question":qtext,
-            "arabic":ar,
-            "data":data,
+            # "arabic":ar,
+            # "data":data,
             "answer":ans,                
             }
             quiz_questions.append(item)
