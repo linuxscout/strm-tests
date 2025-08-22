@@ -1,4 +1,5 @@
 import random
+import re
 import sympy
 from sympy.logic import SOPform
 from sympy.logic import POSform
@@ -150,10 +151,7 @@ class bool_quiz:
         s= str(s)
         s = s.replace(" & ",".")
         s = s.replace(" | ","+")
-        s = s.replace("~a","a'")
-        s = s.replace("~b","b'")
-        s = s.replace("~c","c'")
-        s = s.replace("~d","d'")
+        s = re.sub(r"~([A-Za-z0-9_]+)", r"\1'", s)
         # reorder terms
         if mode: # Sum of product
             var_op = "."
