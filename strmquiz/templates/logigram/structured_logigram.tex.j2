@@ -11,7 +11,7 @@ STRUCTURED LOGIGRAM-FILE-TEMPLATE
 
 %%Paramaters
 %% var position, can be modified
-\def\varPos{ {{ var_space * (lg.size_terms-1)}} }
+\def\varPos{ {{ var_space * (lg.size_terms-1) if lg.size_terms > 1 else var_space*1.5}} }
 
 
 \def\FunctionPos{6}

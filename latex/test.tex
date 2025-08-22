@@ -4,6 +4,1389 @@
 
 \paragraph{Q1}
 
+Representer sous la norme IEEE-754 32 bits le nombre suivant
+
+\begin{arab}[utf]
+مثل العدد الآتي حسب المعيار IEEE-754 32 bits
+\end{arab}
+
+-91.977
+
+data
+
+
+\hrule width 1\linewidth
+\pagebreak
+
+\subsection{Correction}
+
+
+\paragraph{Q1}
+
+Representer sous la norme IEEE-754 32 bits le nombre suivant
+
+\begin{arab}[utf]
+مثل العدد الآتي حسب المعيار IEEE-754 32 bits
+\end{arab}
+
+-91.977
+
+\num{ 1011011.111110110001111010111011001100 }
+
+\begin{itemize}
+  \item \textbf{Input:} $91.9770 = \num{ 1011011.111110110001111010111011001100 }$
+  \item \textbf{Normalized form:} $1.01101111111011000111101 \times 2^6$
+  \item \textbf{Sign bit:} - $\Rightarrow$ 1
+  \item \textbf{Exponent:} $6 + 127 = 133 \Rightarrow 10000101$
+  \item \textbf{Pseudo-mantissa:} $01101111111011000111101$
+  \item \textbf{Final binary representation:}  $11000010101101111111011000111101 $
+  \item \textbf{Hexadecimal form:} $ C2B7F63D $
+  \end{itemize}
+
+\pagebreak
+
+\paragraph{Q1}
+
+
+Donner les intervalles qu'on peut représenter en nombre positifs, valeur absolue, complément à 1 et complément à 2  sur 91 bits
+
+
+Give the intervals which can be represented in posiitve numbers, absolute value, 1's complement and 2's complement on 91 bits
+
+\begin{arab}[utf]
+حدد المجالات التي يمكن تمثيلها لأعداد الموجبة والتمثيل بالقيمة المطلقة والمتمم إلى 1 و 2 على   : 91 بت
+\end{arab}
+
+
+data
+
+
+\hrule width 1\linewidth
+\pagebreak
+
+\subsection{Correction}
+
+
+\paragraph{Q1}
+
+
+Donner les intervalles qu'on peut représenter en nombre positifs, valeur absolue, complément à 1 et complément à 2  sur 91 bits
+
+
+Give the intervals which can be represented in posiitve numbers, absolute value, 1's complement and 2's complement on 91 bits
+
+\begin{arab}[utf]
+حدد المجالات التي يمكن تمثيلها لأعداد الموجبة والتمثيل بالقيمة المطلقة والمتمم إلى 1 و 2 على   : 91 بت
+\end{arab}
+
+
+\begin{itemize}
+\item \textbf{Positifs}: $[0; 2^{ 91-1 }] = [0; 2475880078570760549798248447]$
+\item \textbf{Unsigned value} $[-(2^{ 90 }-1 );2^{ 90 }-1] = [-1237940039285380274899124223, 1237940039285380274899124223]$
+\item \textbf{One's compelement} $[-(2^{ 90 }-1 );2^{ 90 }-1] = [-1237940039285380274899124223, 1237940039285380274899124223]$
+\item \textbf{Two's compelement} $[-2^{ 90 } ;2^{ 90 }-1] = [-1237940039285380274899124224, 1237940039285380274899124223]$
+\end{itemize}
+
+\pagebreak
+
+\paragraph{Q1}
+
+Represent in 1's and 2's complement, the following number
+
+
+Representer en complément à 1 et à 2 le nombre suivant :
+
+
+\begin{arab}[utf]
+مثل  العدد الآتي في المتمم إلى الواحد وإلى الاثنين  :
+\end{arab}
+
+50
+
+
+data
+
+
+\hrule width 1\linewidth
+\pagebreak
+
+\subsection{Correction}
+
+
+\paragraph{Q1}
+
+Represent in 1's and 2's complement, the following number
+
+
+Representer en complément à 1 et à 2 le nombre suivant :
+
+
+\begin{arab}[utf]
+مثل  العدد الآتي في المتمم إلى الواحد وإلى الاثنين  :
+\end{arab}
+
+50
+
+
+\begin{itemize}
+\item $-50 = ( -110010 )_{2}$
+\item $( 11001101 )_{c1}$
+\item +1
+\item $( 11001110 )_{c2}$
+\end{itemize}
+
+\pagebreak
+
+\paragraph{Q1}
+
+
+
+Simplifier l'expression suivant.
+
+
+
+Simpilfy the following expression
+\begin{arab}[utf]
+بسّط العبارة الآتية
+\end{arab}
+
+$S = a.\overline{b} + \overline{b}.c + a.c.d + b.\overline{c}.\overline{d}  +  a.\overline{b}.c + \overline{b}.c.\overline{d} + \overline{a}.b.c.d + \overline{a}.b.\overline{c}.\overline{d} $
+
+
+
+ 
+
+
+data
+
+
+\hrule width 1\linewidth
+\pagebreak
+
+\subsection{Correction}
+
+
+\paragraph{Q1}
+
+
+
+Simplifier l'expression suivant.
+
+
+
+Simpilfy the following expression
+\begin{arab}[utf]
+بسّط العبارة الآتية
+\end{arab}
+
+$S = a.\overline{b} + \overline{b}.c + a.c.d + b.\overline{c}.\overline{d}  +  a.\overline{b}.c + \overline{b}.c.\overline{d} + \overline{a}.b.c.d + \overline{a}.b.\overline{c}.\overline{d} $
+
+
+
+
+
+
+\textbf{Karnaugh Table \aRL{جدول كارنوف}}
+
+\begin{karnaugh-map}[4][4][1][CD][AB]
+  \minterms{ 2, 3, 4, 7, 8, 9, 10, 11, 12, 15 }
+  \maxterms{ 0, 1, 5, 6, 13, 14 }
+  
+
+    \implicant{3}{11}
+\implicant{8}{10}
+\implicantedge{3}{2}{11}{10}
+\implicant{4}{12}
+
+ \end{karnaugh-map}
+
+    Simplified Sum of products : $ c.d + a.\overline{b} + \overline{b}.c + b.\overline{c}.\overline{d} $\\
+    Simplified product of sums : $(a+b+c).(\overline{b}+c+\overline{d}).(\overline{b}+\overline{c}+d)$
+
+
+\pagebreak
+
+\paragraph{Q1}
+
+
+
+Simplify the following Karnaugh table
+
+
+\begin{arab}[utf]
+بسّط الدوال الآتية باستعمال جدول كارنوف.
+\end{arab}
+ 
+
+\begin{karnaugh-map}[4][4][1][CD][AB]
+  \minterms{ 1, 2, 3, 4, 5, 7, 8, 10, 12, 14, 15 }
+  \maxterms{ 0, 6, 9, 11, 13 }
+  
+ 
+ \end{karnaugh-map}
+
+
+\begin{karnaugh-map}[4][4][1][CD][AB]
+  \minterms{ 2, 3, 4, 6, 7, 8, 9 }
+  \maxterms{ 0, 1, 5, 10, 11, 12, 13, 14, 15 }
+  
+ 
+ \end{karnaugh-map}
+
+
+\begin{karnaugh-map}[4][4][1][CD][AB]
+  \minterms{ 0, 1, 2, 5, 6, 7, 9, 15 }
+  \maxterms{ 3, 4, 8, 10, 11, 12, 13, 14 }
+  
+ 
+ \end{karnaugh-map}
+
+
+data
+
+
+\hrule width 1\linewidth
+\pagebreak
+
+\subsection{Correction}
+
+
+\paragraph{Q1}
+
+
+
+\begin{karnaugh-map}[4][4][1][CD][AB]
+  \minterms{ 1, 2, 3, 4, 5, 7, 8, 10, 12, 14, 15 }
+  \maxterms{ 0, 6, 9, 11, 13 }
+  
+ 
+    \implicantedge{12}{8}{14}{10}
+\implicant{1}{7}
+\implicant{7}{15}
+\implicant{4}{5}
+\implicant{3}{2}
+ 
+ \end{karnaugh-map}
+
+    Simplified Sum of products : $ a.\overline{d} + \overline{a}.d + b.c.d + \overline{a}.b.\overline{c} + \overline{a}.\overline{b}.c $\\
+    Simplified product of sums : $(a+b+c+d).(\overline{a}+b+\overline{d}).(\overline{a}+c+\overline{d}).(a+\overline{b}+\overline{c}+d)$
+
+
+\begin{karnaugh-map}[4][4][1][CD][AB]
+  \minterms{ 2, 3, 4, 6, 7, 8, 9 }
+  \maxterms{ 0, 1, 5, 10, 11, 12, 13, 14, 15 }
+  
+ 
+    \implicant{3}{6}
+\implicant{8}{9}
+\implicantedge{4}{4}{6}{6}
+ 
+ \end{karnaugh-map}
+
+    Simplified Sum of products : $ \overline{a}.c + a.\overline{b}.\overline{c} + \overline{a}.b.\overline{d} $\\
+    Simplified product of sums : $(a+b+c).(\overline{a}+\overline{b}).(\overline{a}+\overline{c}).(a+c+\overline{d})$
+
+
+\begin{karnaugh-map}[4][4][1][CD][AB]
+  \minterms{ 0, 1, 2, 5, 6, 7, 9, 15 }
+  \maxterms{ 3, 4, 8, 10, 11, 12, 13, 14 }
+  
+ 
+    \implicant{7}{15}
+\implicant{2}{6}
+\implicant{1}{5}
+\implicantedge{1}{1}{9}{9}
+\implicantedge{0}{0}{2}{2}
+ 
+ \end{karnaugh-map}
+
+    Simplified Sum of products : $ b.c.d + \overline{a}.c.\overline{d} + \overline{a}.\overline{c}.d + \overline{b}.\overline{c}.d + \overline{a}.\overline{b}.\overline{d} $\\
+    Simplified product of sums : $(\overline{a}+d).(\overline{b}+c+d).(b+\overline{c}+\overline{d}).(\overline{a}+\overline{b}+c)$
+
+
+\pagebreak
+
+\paragraph{Q1}
+
+
+
+Soit la fonction donnée par sa forme canonique, Tracer la table de karnaugh et simplifier.
+
+
+
+Let the function be given by its canonical form, Draw the Karnaugh table and simplify.
+
+\begin{arab}[utf]
+لتكن الدالة المعطاة بشكلها القانوني، ارسم جدول كارنو وبسطها
+\end{arab}
+
+
+    $F1(A,B,C,D) = \overline{A}.\overline{B}.\overline{C}.\overline{D} + \overline{A}.\overline{B}.\overline{C}.D + \overline{A}.\overline{B}.C.\overline{D} + A.\overline{B}.\overline{C}.D + A.B.C.\overline{D}$
+
+    $F2(A,B,C,D) = \overline{A}.\overline{B}.\overline{C}.D + \overline{A}.\overline{B}.C.D + \overline{A}.B.\overline{C}.D + \overline{A}.B.C.D + A.\overline{B}.\overline{C}.\overline{D} + A.\overline{B}.C.D + A.B.C.D$
+
+ 
+
+ 
+data
+
+
+\hrule width 1\linewidth
+\pagebreak
+
+\subsection{Correction}
+
+
+\paragraph{Q1}
+
+
+
+Soit la fonction donnée par sa forme canonique, Tracer la table de karnaugh et simplifier.
+
+
+
+Let the function be given by its canonical form, Draw the Karnaugh table and simplify.
+
+\begin{arab}[utf]
+لتكن الدالة المعطاة بشكلها القانوني، ارسم جدول كارنو وبسطها
+\end{arab}
+
+
+ 
+
+    $F1(A,B,C,D) = \overline{A}.\overline{B}.\overline{C}.\overline{D} + \overline{A}.\overline{B}.\overline{C}.D + \overline{A}.\overline{B}.C.\overline{D} + A.\overline{B}.\overline{C}.D + A.B.C.\overline{D}$
+
+\begin{karnaugh-map}[4][4][1][CD][AB]
+  \minterms{ 0, 1, 2, 9, 14 }
+  \maxterms{ 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 15 }
+  
+
+    \implicantedge{1}{1}{9}{9}
+\implicant{14}{14}
+\implicantedge{0}{0}{2}{2}
+
+ \end{karnaugh-map}
+
+    Simplified Sum of products : $ \overline{b}.\overline{c}.d + a.b.c.\overline{d} + \overline{a}.\overline{b}.\overline{d} $\\
+    Simplified product of sums : $(a+\overline{b}).(\overline{b}+c).(\overline{c}+\overline{d}).(\overline{a}+b+d)$
+
+
+    $F2(A,B,C,D) = \overline{A}.\overline{B}.\overline{C}.D + \overline{A}.\overline{B}.C.D + \overline{A}.B.\overline{C}.D + \overline{A}.B.C.D + A.\overline{B}.\overline{C}.\overline{D} + A.\overline{B}.C.D + A.B.C.D$
+
+\begin{karnaugh-map}[4][4][1][CD][AB]
+  \minterms{ 1, 3, 5, 7, 8, 11, 15 }
+  \maxterms{ 0, 2, 4, 6, 9, 10, 12, 13, 14 }
+  
+
+    \implicant{3}{11}
+\implicant{1}{7}
+\implicant{8}{8}
+
+ \end{karnaugh-map}
+
+    Simplified Sum of products : $ c.d + \overline{a}.d + a.\overline{b}.\overline{c}.\overline{d} $\\
+    Simplified product of sums : $(a+d).(\overline{b}+d).(\overline{c}+d).(\overline{a}+c+\overline{d})$
+
+
+ 
+\pagebreak
+
+\paragraph{Q1}
+
+
+
+Etudier la fonction suivante:
+
+
+
+Study the following function:
+
+\begin{arab}[utf]
+ادرس الدالة الآتية:
+\end{arab}
+$F(A,B,C,D) = \overline{b}.c + \overline{a}.d + \overline{b}.d + a.b.\overline{d} + b.\overline{c}.\overline{d}  +  b.\overline{c}.d + \overline{a}.c.d + \overline{a}.b.\overline{c} + \overline{a}.\overline{b}.c + a.\overline{b}.\overline{c}.\overline{d} $
+
+
+
+ 
+
+
+data
+
+
+\hrule width 1\linewidth
+\pagebreak
+
+\subsection{Correction}
+
+
+\paragraph{Q1}
+
+
+
+Etudier la fonction suivante:
+
+
+
+Study the following function:
+
+\begin{arab}[utf]
+ادرس الدالة الآتية:
+\end{arab}
+$F(A,B,C,D) = \overline{b}.c + \overline{a}.d + \overline{b}.d + a.b.\overline{d} + b.\overline{c}.\overline{d}  +  b.\overline{c}.d + \overline{a}.c.d + \overline{a}.b.\overline{c} + \overline{a}.\overline{b}.c + a.\overline{b}.\overline{c}.\overline{d} $
+
+
+
+
+
+$F = [1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14]$
+
+\textbf{Don't Care }
+
+$F = []$
+
+
+
+\textbf{Truth Table \aRL{جدول الحقيقة}}
+
+
+
+\begin{tabular}{|c|c|c|c||c|}
+\hline
+A & B & C & D & F \\
+
+    
+        \hline
+    
+  
+  
+  0 & 0 & 0 & 0 & 0 \\
+
+    
+  
+  
+  0 & 0 & 0 & 1 & 1 \\
+
+    
+  
+  
+  0 & 0 & 1 & 0 & 1 \\
+
+    
+  
+  
+  0 & 0 & 1 & 1 & 1 \\
+
+    
+        \hline
+    
+  
+  
+  0 & 1 & 0 & 0 & 1 \\
+
+    
+  
+  
+  0 & 1 & 0 & 1 & 1 \\
+
+    
+  
+  
+  0 & 1 & 1 & 0 & 0 \\
+
+    
+  
+  
+  0 & 1 & 1 & 1 & 1 \\
+
+    
+        \hline
+    
+  
+  
+  1 & 0 & 0 & 0 & 1 \\
+
+    
+  
+  
+  1 & 0 & 0 & 1 & 1 \\
+
+    
+  
+  
+  1 & 0 & 1 & 0 & 1 \\
+
+    
+  
+  
+  1 & 0 & 1 & 1 & 1 \\
+
+    
+        \hline
+    
+  
+  
+  1 & 1 & 0 & 0 & 1 \\
+
+    
+  
+  
+  1 & 1 & 0 & 1 & 1 \\
+
+    
+  
+  
+  1 & 1 & 1 & 0 & 1 \\
+
+    
+  
+  
+  1 & 1 & 1 & 1 & 0 \\
+
+\hline
+\end{tabular}
+
+
+\textbf{Canonical Forms \aRL{الأشكال القانونية}}
+\begin{itemize}
+\item $F(A,B,C,D) =  \overline{A}.\overline{B}.\overline{C}.D + \overline{A}.\overline{B}.C.\overline{D} + \overline{A}.\overline{B}.C.D + \overline{A}.B.\overline{C}.\overline{D} + \overline{A}.B.\overline{C}.D + \overline{A}.B.C.D + A.\overline{B}.\overline{C}.\overline{D} + A.\overline{B}.\overline{C}.D + A.\overline{B}.C.\overline{D} + A.\overline{B}.C.D + A.B.\overline{C}.\overline{D} + A.B.\overline{C}.D + A.B.C.\overline{D}$
+\item $F(A,B,C,D) = (A+B+C+D) . (A+\overline{B}+\overline{C}+D) . (\overline{A}+\overline{B}+\overline{C}+\overline{D})$
+ \item $F(A,B,C,D) =  \sum(1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14)$
+ \item $F(A,B,C,D) =  \prod(0, 6, 15)$
+\end{itemize}
+
+
+
+
+ 
+
+
+
+
+\textbf{Karnaugh Table \aRL{جدول كارنوف}}
+
+\begin{karnaugh-map}[4][4][1][CD][AB]
+  \minterms{ 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14 }
+  \maxterms{ 0, 6, 15 }
+  
+
+    \implicantedge{12}{8}{14}{10}
+\implicant{4}{13}
+\implicantedge{3}{2}{11}{10}
+\implicant{1}{7}
+\implicantedge{1}{3}{9}{11}
+
+ \end{karnaugh-map}
+
+    Simplified Sum of products : $ a.\overline{d} + b.\overline{c} + \overline{b}.c + \overline{a}.d + \overline{b}.d $\\
+    Simplified product of sums : $(a+b+c+d).(a+\overline{b}+\overline{c}+d).(\overline{a}+\overline{b}+\overline{c}+\overline{d})$
+
+\textbf{Logic diagram \aRL{المخطط المنطقي}}
+
+ \label{logigram-F}
+\begin{tikzpicture}
+
+ %%Paramaters
+%% var position, can be modified
+\def\varPos{5.00}
+\def\FunctionPos{6}
+\node (x) at (0, \varPos) {$A$};
+\node (y) at (0.5, \varPos) {$B$};
+\node (z) at (1, \varPos) {$C$};
+\node (w) at (1.5, \varPos) {$D$};
+
+                \node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.6)$) (notx) {};
+                \draw ($(x)+(0,-1ex)$) -| (notx.input); 
+                \node[not gate US, draw, rotate=270] at ($(y) + (0.25, -0.6)$) (noty) {};
+                \draw ($(y)+(0,-1ex)$) -| (noty.input); 
+                \node[not gate US, draw, rotate=270] at ($(z) + (0.25, -0.6)$) (notz) {};
+                \draw ($(z)+(0,-1ex)$) -| (notz.input);
+                \node[not gate US, draw, rotate=270] at ($(w) + (0.25, -0.6)$) (notw) {};
+                \draw ($(w)+(0,-1ex)$) -| (notw.input);
+             
+
+ %% ***Function  : Gate for term n° 1 [ A.D' ]***
+  
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 0.00) (xandy0) {};\draw (xandy0.output) -- node[above]{\scriptsize $ A.\overline{D} $} ($(xandy0) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy0.input 1);
+% W
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy0.input 4);
+ 
+
+ %% ***Function  : Gate for term n° 1 [ B.C' ]***
+  
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 1.20) (xandy1) {};\draw (xandy1.output) -- node[above]{\scriptsize $ B.\overline{C} $} ($(xandy1) + (1.8, 0)$);
+                % Y
+\draw ($(y) + (0, -1ex)$)|- (xandy1.input 2);
+% Z
+\draw [line width=0.25mm,   red] (notz.output)
+            -- ([xshift=0cm]notz.output) |- (xandy1.input 3);
+ 
+
+ %% ***Function  : Gate for term n° 1 [ B'.C ]***
+  
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 2.40) (xandy2) {};\draw (xandy2.output) -- node[above]{\scriptsize $ \overline{B}.C $} ($(xandy2) + (1.8, 0)$);
+                % Y
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy2.input 2);
+% Z
+\draw ($(z) + (0, -1ex)$)|- (xandy2.input 3);
+ 
+
+ %% ***Function  : Gate for term n° 1 [ A'.D ]***
+  
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 3.60) (xandy3) {};\draw (xandy3.output) -- node[above]{\scriptsize $ \overline{A}.D $} ($(xandy3) + (1.8, 0)$);
+                % X
+\draw [line width=0.25mm,   red] (notx.output)
+            -- ([xshift=0cm]notx.output) |- (xandy3.input 1);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy3.input 4);
+ 
+
+ %% ***Function  : Gate for term n° 1 [ B'.D ]***
+  
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 4.80) (xandy4) {};\draw (xandy4.output) -- node[above]{\scriptsize $ \overline{B}.D $} ($(xandy4) + (1.8, 0)$);
+                % Y
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy4.input 2);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy4.input 4);
+
+
+%% Function F Large OR Gate
+
+\node[or gate US, draw, rotate=0, logic gate inputs=nnnnnn] at (\FunctionPos, 2.40) (xory0) {};
+
+
+            \draw (xory0.output) -- node[above]{\scriptsize $F$} ($(xory0.east) + (+3ex, 0)$);
+
+
+            \draw (xandy0.output) -- ([xshift=1.60cm]xandy0.output) |- (xory0.input 5);
+
+\draw (xandy1.output) -- ([xshift=1.55cm]xandy1.output) |- (xory0.input 4);
+
+\draw (xandy2.output) -- ([xshift=1.50cm]xandy2.output) |- (xory0.input 3);
+
+\draw (xandy3.output) -- ([xshift=1.55cm]xandy3.output) |- (xory0.input 2);
+
+\draw (xandy4.output) -- ([xshift=1.60cm]xandy4.output) |- (xory0.input 1);
+
+ \end{tikzpicture}
+
+
+
+
+STRUCTURED LOGIGRAM-FILE-TEMPLATE
+\begin{verbatim}
+{'function_gate': 'or',
+ 'functions': [{'name': 'F',
+                'nb_terms': 5,
+                'terms': [{'id': 'xandyFg0',
+                           'label': {'default': "b'.d",
+                                     'formatted': '\\overline{b}.d'},
+                           'name': "B'.D",
+                           'vars': ["B'", 'D']},
+                          {'id': 'xandyFg1',
+                           'label': {'default': "a'.d",
+                                     'formatted': '\\overline{a}.d'},
+                           'name': "A'.D",
+                           'vars': ["A'", 'D']},
+                          {'id': 'xandyFg2',
+                           'label': {'default': "b'.c",
+                                     'formatted': '\\overline{b}.c'},
+                           'name': "B'.C",
+                           'vars': ["B'", 'C']},
+                          {'id': 'xandyFg3',
+                           'label': {'default': "b.c'",
+                                     'formatted': 'b.\\overline{c}'},
+                           'name': "B.C'",
+                           'vars': ['B', "C'"]},
+                          {'id': 'xandyFg4',
+                           'label': {'default': "a.d'",
+                                     'formatted': 'a.\\overline{d}'},
+                           'name': "A.D'",
+                           'vars': ['A', "D'"]}]}],
+ 'method': '',
+ 'size_terms': 5,
+ 'term_gate': 'and',
+ 'variables': {'A': 'A', 'B': 'B', 'C': 'C', 'D': 'D'}}
+\end{verbatim}
+
+
+
+
+
+\begin{tikzpicture}
+
+%%Paramaters
+%% var position, can be modified
+\def\varPos{ 5.28 }
+
+
+\def\FunctionPos{6}
+
+
+
+    \node (x1) at (0.0, \varPos) {$ A $};
+    \node[not gate US, draw, rotate=270] at ($(x1) + (0.25, -0.6)$) (notx1) {};
+    \draw ($(x1)+(0,-1ex)$) -| (notx1.input);
+
+    \node (x2) at (0.5, \varPos) {$ B $};
+    \node[not gate US, draw, rotate=270] at ($(x2) + (0.25, -0.6)$) (notx2) {};
+    \draw ($(x2)+(0,-1ex)$) -| (notx2.input);
+
+    \node (x3) at (1.0, \varPos) {$ C $};
+    \node[not gate US, draw, rotate=270] at ($(x3) + (0.25, -0.6)$) (notx3) {};
+    \draw ($(x3)+(0,-1ex)$) -| (notx3.input);
+
+    \node (x4) at (1.5, \varPos) {$ D $};
+    \node[not gate US, draw, rotate=270] at ($(x4) + (0.25, -0.6)$) (notx4) {};
+    \draw ($(x4)+(0,-1ex)$) -| (notx4.input);
+
+
+
+
+
+
+
+
+    
+        
+     %% ***Function F : Gate for term n° 1 [ {'default': "b'.d", 'formatted': '\\overline{b}.d'} ]***
+
+           \node[and gate US, draw, rotate=0, logic gate inputs=nn] at (2.5, 0.0) (xandyFg0) {};
+           \draw (xandyFg0.output) -- node[above]{\scriptsize $ \overline{b}.d $} ($(xandyFg0) + (1.8, 0)$);
+
+        
+        
+            
+        
+            
+                \draw [line width=0.25mm,   red] (notx2.output)
+                -- ([xshift=0cm]notx2.output) |- (xandyFg0.input 1);
+                
+            
+        
+            
+        
+            
+                \draw ($(x4) + (0, -1ex)$)|- (xandyFg0.input 2);
+                
+            
+        
+     
+    
+        
+     %% ***Function F : Gate for term n° 2 [ {'default': "a'.d", 'formatted': '\\overline{a}.d'} ]***
+
+           \node[and gate US, draw, rotate=0, logic gate inputs=nn] at (2.5, 1.2) (xandyFg1) {};
+           \draw (xandyFg1.output) -- node[above]{\scriptsize $ \overline{a}.d $} ($(xandyFg1) + (1.8, 0)$);
+
+        
+        
+            
+                \draw [line width=0.25mm,   red] (notx1.output)
+                -- ([xshift=0cm]notx1.output) |- (xandyFg1.input 1);
+                
+            
+        
+            
+        
+            
+        
+            
+                \draw ($(x4) + (0, -1ex)$)|- (xandyFg1.input 2);
+                
+            
+        
+     
+    
+        
+     %% ***Function F : Gate for term n° 3 [ {'default': "b'.c", 'formatted': '\\overline{b}.c'} ]***
+
+           \node[and gate US, draw, rotate=0, logic gate inputs=nn] at (2.5, 2.4) (xandyFg2) {};
+           \draw (xandyFg2.output) -- node[above]{\scriptsize $ \overline{b}.c $} ($(xandyFg2) + (1.8, 0)$);
+
+        
+        
+            
+        
+            
+                \draw [line width=0.25mm,   red] (notx2.output)
+                -- ([xshift=0cm]notx2.output) |- (xandyFg2.input 1);
+                
+            
+        
+            
+                \draw ($(x3) + (0, -1ex)$)|- (xandyFg2.input 2);
+                
+            
+        
+            
+        
+     
+    
+        
+     %% ***Function F : Gate for term n° 4 [ {'default': "b.c'", 'formatted': 'b.\\overline{c}'} ]***
+
+           \node[and gate US, draw, rotate=0, logic gate inputs=nn] at (2.5, 3.5999999999999996) (xandyFg3) {};
+           \draw (xandyFg3.output) -- node[above]{\scriptsize $ b.\overline{c} $} ($(xandyFg3) + (1.8, 0)$);
+
+        
+        
+            
+        
+            
+                \draw ($(x2) + (0, -1ex)$)|- (xandyFg3.input 1);
+                
+            
+        
+            
+                \draw [line width=0.25mm,   red] (notx3.output)
+                -- ([xshift=0cm]notx3.output) |- (xandyFg3.input 2);
+                
+            
+        
+            
+        
+     
+    
+        
+     %% ***Function F : Gate for term n° 5 [ {'default': "a.d'", 'formatted': 'a.\\overline{d}'} ]***
+
+           \node[and gate US, draw, rotate=0, logic gate inputs=nn] at (2.5, 4.8) (xandyFg4) {};
+           \draw (xandyFg4.output) -- node[above]{\scriptsize $ a.\overline{d} $} ($(xandyFg4) + (1.8, 0)$);
+
+        
+        
+            
+                \draw ($(x1) + (0, -1ex)$)|- (xandyFg4.input 1);
+                
+            
+        
+            
+        
+            
+        
+            
+                \draw [line width=0.25mm,   red] (notx4.output)
+                -- ([xshift=0cm]notx4.output) |- (xandyFg4.input 2);
+                
+            
+        
+     
+    
+
+
+    %% y_pos : the position of OR gate according to their related gates
+    
+
+    %% Function F Large OR Gate
+    
+
+    
+        \node[or gate US, draw, rotate=0, logic gate inputs=nnnnn] at (\FunctionPos, 2.4) (xoryF) {};
+        \draw (xoryF.output) -- node[above]{\scriptsize $F$} ($(xoryF.east) + (+3ex, 0)$);
+    
+
+
+    
+    
+    
+    
+
+        
+             \draw (xandyFg0.output) -- ++(1.6,0) |- (xoryF.input 5);
+
+        
+        
+
+    
+
+        
+             \draw (xandyFg1.output) -- ++(1.55,0) |- (xoryF.input 4);
+
+        
+        
+
+    
+
+        
+             \draw (xandyFg2.output) -- ++(1.6,0) |- (xoryF.input 3);
+
+        
+        
+
+    
+
+        
+             \draw (xandyFg3.output) -- ++(1.6500000000000001,0) |- (xoryF.input 2);
+
+        
+        
+
+    
+
+        
+             \draw (xandyFg4.output) -- ++(1.7000000000000002,0) |- (xoryF.input 1);
+
+        
+        
+
+    
+
+
+ \end{tikzpicture}
+
+
+\pagebreak
+
+\paragraph{Q1}
+
+Convert the following numbers, \hfill\aRL{أنجز التحويلات الآتية}
+
+
+$(115105090)_{ 2 } = (........)_{ 12}$
+
+data
+
+
+\hrule width 1\linewidth
+\pagebreak
+
+\subsection{Correction}
+
+
+\paragraph{Q1}
+
+Convert the following numbers, \hfill\aRL{أنجز التحويلات الآتية}
+
+
+$(115105090)_{ 2 } = (  3266b8aa)_{ 12}$
+
+\pagebreak
+
+\paragraph{Q1}
+
+Calculate  the following operations in base 6 :  أنجز العمليات الآتية في الأساس 6
+
+<pre>
+  54435213
++ 2455523
+-------------------
+
+=  ........
+
+</pre>
+
+data
+
+
+\hrule width 1\linewidth
+\pagebreak
+
+\subsection{Correction}
+
+
+\paragraph{Q1}
+
+Calculate  the following operations in base 6 :  أنجز العمليات الآتية في الأساس 6
+
+<pre>
+  54435213
++ 2455523
+-------------------
+
+=  101335140
+
+</pre>
+
+\pagebreak
+
+\paragraph{Q1}
+
+Faire les conversion suivantes: NOT IMPLEMENTED (MESURE questions) 
+  41433140
+- 23340313
+----------
+
+
+
+
+\hrule width 1\linewidth
+\pagebreak
+
+\subsection{Correction}
+
+
+\paragraph{Q1}
+
+  41433140
+- 23340313
+----------
+  13042322
+
+\pagebreak
+
+\paragraph{Q1}
+
+
+
+Etudier la fonction suivante:
+
+
+
+Study the following function:
+
+\begin{arab}[utf]
+ادرس الدالة الآتية:
+\end{arab}
+$F(A,B,C,D) =$
+
+
+
+ 
+
+
+data
+
+
+\hrule width 1\linewidth
+\pagebreak
+
+\subsection{Correction}
+
+
+\paragraph{Q1}
+
+
+
+Etudier la fonction suivante:
+
+
+
+Study the following function:
+
+\begin{arab}[utf]
+ادرس الدالة الآتية:
+\end{arab}
+$F(A,B,C,D) =$
+
+
+
+
+
+$Fx0 = [15]$
+
+\textbf{Don't Care }
+
+$Fx0 = []$
+
+
+
+\textbf{Truth Table \aRL{جدول الحقيقة}}
+
+
+
+\begin{tabular}{|c|c|c|c||c|}
+\hline
+X & Y & Z & W & F \\
+
+    
+        \hline
+    
+  
+  
+  0 & 0 & 0 & 0 & 0 \\
+
+    
+  
+  
+  0 & 0 & 0 & 1 & 0 \\
+
+    
+  
+  
+  0 & 0 & 1 & 0 & 0 \\
+
+    
+  
+  
+  0 & 0 & 1 & 1 & 0 \\
+
+    
+        \hline
+    
+  
+  
+  0 & 1 & 0 & 0 & 0 \\
+
+    
+  
+  
+  0 & 1 & 0 & 1 & 0 \\
+
+    
+  
+  
+  0 & 1 & 1 & 0 & 0 \\
+
+    
+  
+  
+  0 & 1 & 1 & 1 & 0 \\
+
+    
+        \hline
+    
+  
+  
+  1 & 0 & 0 & 0 & 0 \\
+
+    
+  
+  
+  1 & 0 & 0 & 1 & 0 \\
+
+    
+  
+  
+  1 & 0 & 1 & 0 & 0 \\
+
+    
+  
+  
+  1 & 0 & 1 & 1 & 0 \\
+
+    
+        \hline
+    
+  
+  
+  1 & 1 & 0 & 0 & 0 \\
+
+    
+  
+  
+  1 & 1 & 0 & 1 & 0 \\
+
+    
+  
+  
+  1 & 1 & 1 & 0 & 0 \\
+
+    
+  
+  
+  1 & 1 & 1 & 1 & 1 \\
+
+\hline
+\end{tabular}
+
+
+\textbf{Canonical Forms \aRL{الأشكال القانونية}}
+\begin{itemize}
+\item $Fx0(A,B,C,D) =  X.Y.Z.W$
+\item $Fx0(A,B,C,D) = (X+Y+Z+W) . (X+Y+Z+\overline{W}) . (X+Y+\overline{Z}+W) . (X+Y+\overline{Z}+\overline{W}) . (X+\overline{Y}+Z+W) . (X+\overline{Y}+Z+\overline{W}) . (X+\overline{Y}+\overline{Z}+W) . (X+\overline{Y}+\overline{Z}+\overline{W}) . (\overline{X}+Y+Z+W) . (\overline{X}+Y+Z+\overline{W}) . (\overline{X}+Y+\overline{Z}+W) . (\overline{X}+Y+\overline{Z}+\overline{W}) . (\overline{X}+\overline{Y}+Z+W) . (\overline{X}+\overline{Y}+Z+\overline{W}) . (\overline{X}+\overline{Y}+\overline{Z}+W)$
+ \item $Fx0(A,B,C,D) =  \sum(15)$
+ \item $Fx0(A,B,C,D) =  \prod(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14)$
+\end{itemize}
+
+
+
+
+ 
+
+
+
+
+\textbf{Karnaugh Table \aRL{جدول كارنوف}}
+
+\begin{karnaugh-map}[4][4][1][ZW][XY]
+  \minterms{ 15 }
+  \maxterms{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 }
+  
+
+    \implicant{15}{15}
+
+ \end{karnaugh-map}
+
+    Simplified Sum of products : $ w.x.y.z $\\
+    Simplified product of sums : $(w).(x).(y).(z)$
+
+\textbf{Logic diagram \aRL{المخطط المنطقي}}
+
+ \label{logigram-Fx0}
+\begin{tikzpicture}
+
+ %%Paramaters
+%% var position, can be modified
+\def\varPos{1.00}
+\def\FunctionPos{6}
+\node (x) at (0, \varPos) {$X$};
+\node (y) at (0.5, \varPos) {$Y$};
+\node (z) at (1, \varPos) {$Z$};
+\node (w) at (1.5, \varPos) {$W$};
+
+                \node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.6)$) (notx) {};
+                \draw ($(x)+(0,-1ex)$) -| (notx.input); 
+                \node[not gate US, draw, rotate=270] at ($(y) + (0.25, -0.6)$) (noty) {};
+                \draw ($(y)+(0,-1ex)$) -| (noty.input); 
+                \node[not gate US, draw, rotate=270] at ($(z) + (0.25, -0.6)$) (notz) {};
+                \draw ($(z)+(0,-1ex)$) -| (notz.input);
+                \node[not gate US, draw, rotate=270] at ($(w) + (0.25, -0.6)$) (notw) {};
+                \draw ($(w)+(0,-1ex)$) -| (notw.input);
+             
+
+ %% ***Function  : Gate for term n° 1 [ W.X.Y.Z ]***
+  
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 0.00) (xandy0) {};\draw (xandy0.output) -- node[above]{\scriptsize $ W.X.Y.Z $} ($(xandy0) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy0.input 1);
+% Y
+\draw ($(y) + (0, -1ex)$)|- (xandy0.input 2);
+% Z
+\draw ($(z) + (0, -1ex)$)|- (xandy0.input 3);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy0.input 4);
+
+
+%% Function Fx0 Large OR Gate
+
+\node at (\FunctionPos, 0.00) (xory0) {};
+
+
+            \draw (xory0) node[above]{\scriptsize $Fx0$} ($(xory0.east) + (+3ex, 0)$);
+
+
+            \draw (xandy0.output) -- ([xshift=1.60cm]xandy0.output) |- (xory0);
+
+ \end{tikzpicture}
+
+
+
+
+STRUCTURED LOGIGRAM-FILE-TEMPLATE
+\begin{verbatim}
+{'function_gate': 'or',
+ 'functions': [{'name': 'Fx0',
+                'nb_terms': 1,
+                'terms': [{'id': 'xandyFx0g0',
+                           'label': {'default': 'w.x.y.z',
+                                     'formatted': 'w.x.y.z'},
+                           'name': 'W.X.Y.Z',
+                           'vars': ['W', 'X', 'Y', 'Z']}]}],
+ 'method': '',
+ 'size_terms': 1,
+ 'term_gate': 'and',
+ 'variables': {'A': 'X', 'B': 'Y', 'C': 'Z', 'D': 'W'}}
+\end{verbatim}
+
+
+
+
+
+\begin{tikzpicture}
+
+%%Paramaters
+%% var position, can be modified
+\def\varPos{ 1.98 }
+
+
+\def\FunctionPos{6}
+
+
+
+    \node (x1) at (0.0, \varPos) {$ X $};
+    \node[not gate US, draw, rotate=270] at ($(x1) + (0.25, -0.6)$) (notx1) {};
+    \draw ($(x1)+(0,-1ex)$) -| (notx1.input);
+
+    \node (x2) at (0.5, \varPos) {$ Y $};
+    \node[not gate US, draw, rotate=270] at ($(x2) + (0.25, -0.6)$) (notx2) {};
+    \draw ($(x2)+(0,-1ex)$) -| (notx2.input);
+
+    \node (x3) at (1.0, \varPos) {$ Z $};
+    \node[not gate US, draw, rotate=270] at ($(x3) + (0.25, -0.6)$) (notx3) {};
+    \draw ($(x3)+(0,-1ex)$) -| (notx3.input);
+
+    \node (x4) at (1.5, \varPos) {$ W $};
+    \node[not gate US, draw, rotate=270] at ($(x4) + (0.25, -0.6)$) (notx4) {};
+    \draw ($(x4)+(0,-1ex)$) -| (notx4.input);
+
+
+
+
+
+
+
+
+    
+        
+     %% ***Function Fx0 : Gate for term n° 1 [ {'default': 'w.x.y.z', 'formatted': 'w.x.y.z'} ]***
+
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 0.0) (xandyFx0g0) {};
+           \draw (xandyFx0g0.output) -- node[above]{\scriptsize $ w.x.y.z $} ($(xandyFx0g0) + (1.8, 0)$);
+
+        
+        
+            
+                \draw ($(x1) + (0, -1ex)$)|- (xandyFx0g0.input 1);
+                
+            
+        
+            
+                \draw ($(x2) + (0, -1ex)$)|- (xandyFx0g0.input 2);
+                
+            
+        
+            
+                \draw ($(x3) + (0, -1ex)$)|- (xandyFx0g0.input 3);
+                
+            
+        
+            
+                \draw ($(x4) + (0, -1ex)$)|- (xandyFx0g0.input 4);
+                
+            
+        
+     
+    
+
+
+    %% y_pos : the position of OR gate according to their related gates
+    
+
+    %% Function Fx0 Large OR Gate
+    
+
+    
+        \node at (\FunctionPos, 0.0) (xoryFx0) {};
+        \draw (xoryFx0)  node[above]{\scriptsize $Fx0$} ($(xoryFx0.east) + (+3ex, 0)$);
+    
+
+
+    
+    
+    
+    
+
+        
+             \draw (xandyFx0g0.output) -- (xoryFx0);
+        
+        
+
+    
+
+
+ \end{tikzpicture}
+
+
+\pagebreak
+
+\paragraph{Q1}
+
 
 
 Etudier le circuit suivant:
@@ -18,43 +1401,25 @@ Study the following circuit:
 
  
 
-$F2 = [2, 4, 6, 8, 10, 12, 14]$
+$Fx0 = [15]$
 
 
 
-$F3 = [3, 6, 9, 12, 15]$
+$F0 = [3, 5, 6, 7, 9, 10, 11, 12, 13, 14]$
 
 
 
-$F5 = [5, 10, 15]$
-
-
-
-$F7 = [7, 14]$
-
-
-
-$F11 = [11]$
-
-
-
-$F13 = [13]$
+$F1 = [1, 2, 4, 7, 8, 11, 13, 14]$
 
 
 
 \textbf{Don't Care }
  
-$F2 = []$
+$Fx0 = []$
 
-$F3 = []$
+$F0 = []$
 
-$F5 = []$
-
-$F7 = []$
-
-$F11 = []$
-
-$F13 = []$
+$F1 = []$
 
 
 
@@ -90,43 +1455,25 @@ Study the following circuit:
 
  
 
-$F2 = [2, 4, 6, 8, 10, 12, 14]$
+$Fx0 = [15]$
 
 
 
-$F3 = [3, 6, 9, 12, 15]$
+$F0 = [3, 5, 6, 7, 9, 10, 11, 12, 13, 14]$
 
 
 
-$F5 = [5, 10, 15]$
-
-
-
-$F7 = [7, 14]$
-
-
-
-$F11 = [11]$
-
-
-
-$F13 = [13]$
+$F1 = [1, 2, 4, 7, 8, 11, 13, 14]$
 
 
 
 \textbf{Don't Care }
  
-$F2 = []$
+$Fx0 = []$
 
-$F3 = []$
+$F0 = []$
 
-$F5 = []$
-
-$F7 = []$
-
-$F11 = []$
-
-$F13 = []$
+$F1 = []$
 
 
 
@@ -143,68 +1490,44 @@ $F(A,B,C,D) =$
 
     \begin{itemize}
     
-        \item $A = 0 /1 $
+        \item $X = 0 /1 $
     
-        \item $B = 0 /1 $
+        \item $Y = 0 /1 $
     
-        \item $C = 0 /1 $
+        \item $Z = 0 /1 $
     
-        \item $D = 0 /1 $
+        \item $W = 0 /1 $
     
     \end{itemize}
 \item Outputs
     \begin{itemize}
     
-        \item $F2 = 0 /1 $
+        \item $Fx0 = 0 /1 $
     
-        \item $F3 = 0 /1 $
+        \item $F0 = 0 /1 $
     
-        \item $F5 = 0 /1 $
-    
-        \item $F7 = 0 /1 $
-    
-        \item $F11 = 0 /1 $
-    
-        \item $F13 = 0 /1 $
+        \item $F1 = 0 /1 $
     
     \end{itemize}
 \end{itemize}
 
 \textbf{Truth Table \aRL{جدول الحقيقة}}
 
-\begin{tabular}{|c|c|c|c||c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c||c|c|c|}
 \hline
-A & B & C & D
+X & Y & Z & W
 
-  & F2
+  & Fx0
 
-  & F3
+  & F0
 
-  & F5
-
-  & F7
-
-  & F11
-
-  & F13
+  & F1
  \\
 \hline
 
   
   
   0 & 0 & 0 & 0
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
   
     
     
@@ -234,19 +1557,7 @@ A & B & C & D
   
     
     
-    & 0
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
+    & 1
    \\
   
 
@@ -256,27 +1567,15 @@ A & B & C & D
   
     
     
+    & 0
+  
+    
+    
+    & 0
+  
+    
+    
     & 1
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
    \\
   
 
@@ -295,18 +1594,6 @@ A & B & C & D
     
     
     & 0
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
    \\
   \hline
 
@@ -316,27 +1603,15 @@ A & B & C & D
   
     
     
+    & 0
+  
+    
+    
+    & 0
+  
+    
+    
     & 1
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
    \\
   
 
@@ -350,19 +1625,7 @@ A & B & C & D
   
     
     
-    & 0
-  
-    
-    
     & 1
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
   
     
     
@@ -376,23 +1639,11 @@ A & B & C & D
   
     
     
+    & 0
+  
+    
+    
     & 1
-  
-    
-    
-    & 1
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
   
     
     
@@ -410,23 +1661,11 @@ A & B & C & D
   
     
     
-    & 0
-  
-    
-    
-    & 0
-  
-    
-    
     & 1
   
     
     
-    & 0
-  
-    
-    
-    & 0
+    & 1
    \\
   \hline
 
@@ -436,27 +1675,15 @@ A & B & C & D
   
     
     
+    & 0
+  
+    
+    
+    & 0
+  
+    
+    
     & 1
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
    \\
   
 
@@ -475,18 +1702,6 @@ A & B & C & D
     
     
     & 0
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
    \\
   
 
@@ -496,23 +1711,11 @@ A & B & C & D
   
     
     
-    & 1
-  
-    
-    
     & 0
   
     
     
     & 1
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
   
     
     
@@ -530,23 +1733,11 @@ A & B & C & D
   
     
     
-    & 0
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
-  
-    
-    
     & 1
   
     
     
-    & 0
+    & 1
    \\
   \hline
 
@@ -556,23 +1747,11 @@ A & B & C & D
   
     
     
+    & 0
+  
+    
+    
     & 1
-  
-    
-    
-    & 1
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
   
     
     
@@ -590,19 +1769,7 @@ A & B & C & D
   
     
     
-    & 0
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
-  
-    
-    
-    & 0
+    & 1
   
     
     
@@ -616,14 +1783,6 @@ A & B & C & D
   
     
     
-    & 1
-  
-    
-    
-    & 0
-  
-    
-    
     & 0
   
     
@@ -632,11 +1791,7 @@ A & B & C & D
   
     
     
-    & 0
-  
-    
-    
-    & 0
+    & 1
    \\
   
 
@@ -646,19 +1801,7 @@ A & B & C & D
   
     
     
-    & 0
-  
-    
-    
     & 1
-  
-    
-    
-    & 1
-  
-    
-    
-    & 0
   
     
     
@@ -679,68 +1822,44 @@ A & B & C & D
 \item \textbf{First Canonical Forms \aRL{ الأشكال القانونية الأولى}}
     \begin{itemize}
     
-        \item $F2(A,B,C,D) =  \bar A.\bar B.C.\bar D + \bar A.B.\bar C.\bar D + \bar A.B.C.\bar D + A.\bar B.\bar C.\bar D + A.\bar B.C.\bar D + A.B.\bar C.\bar D + A.B.C.\bar D$
+        \item $Fx0(A,B,C,D) =  X.Y.Z.W$
     
-        \item $F3(A,B,C,D) =  \bar A.\bar B.C.D + \bar A.B.C.\bar D + A.\bar B.\bar C.D + A.B.\bar C.\bar D + A.B.C.D$
+        \item $F0(A,B,C,D) =  \overline{X}.\overline{Y}.Z.W + \overline{X}.Y.\overline{Z}.W + \overline{X}.Y.Z.\overline{W} + \overline{X}.Y.Z.W + X.\overline{Y}.\overline{Z}.W + X.\overline{Y}.Z.\overline{W} + X.\overline{Y}.Z.W + X.Y.\overline{Z}.\overline{W} + X.Y.\overline{Z}.W + X.Y.Z.\overline{W}$
     
-        \item $F5(A,B,C,D) =  \bar A.B.\bar C.D + A.\bar B.C.\bar D + A.B.C.D$
-    
-        \item $F7(A,B,C,D) =  \bar A.B.C.D + A.B.C.\bar D$
-    
-        \item $F11(A,B,C,D) =  A.\bar B.C.D$
-    
-        \item $F13(A,B,C,D) =  A.B.\bar C.D$
+        \item $F1(A,B,C,D) =  \overline{X}.\overline{Y}.\overline{Z}.W + \overline{X}.\overline{Y}.Z.\overline{W} + \overline{X}.Y.\overline{Z}.\overline{W} + \overline{X}.Y.Z.W + X.\overline{Y}.\overline{Z}.\overline{W} + X.\overline{Y}.Z.W + X.Y.\overline{Z}.W + X.Y.Z.\overline{W}$
     
     \end{itemize}
 
 \item \textbf{Second Canonical Forms \aRL{ الأشكال القانونية الثانية}}
     \begin{itemize}
     
-        \item $F2(A,B,C,D) =  (A+B+C+D) . (A+B+C+\bar D) . (A+B+\bar C+\bar D) . (A+\bar B+C+\bar D) . (A+\bar B+\bar C+\bar D) . (\bar A+B+C+\bar D) . (\bar A+B+\bar C+\bar D) . (\bar A+\bar B+C+\bar D) . (\bar A+\bar B+\bar C+\bar D)$
+        \item $Fx0(A,B,C,D) =  (X+Y+Z+W) . (X+Y+Z+\overline{W}) . (X+Y+\overline{Z}+W) . (X+Y+\overline{Z}+\overline{W}) . (X+\overline{Y}+Z+W) . (X+\overline{Y}+Z+\overline{W}) . (X+\overline{Y}+\overline{Z}+W) . (X+\overline{Y}+\overline{Z}+\overline{W}) . (\overline{X}+Y+Z+W) . (\overline{X}+Y+Z+\overline{W}) . (\overline{X}+Y+\overline{Z}+W) . (\overline{X}+Y+\overline{Z}+\overline{W}) . (\overline{X}+\overline{Y}+Z+W) . (\overline{X}+\overline{Y}+Z+\overline{W}) . (\overline{X}+\overline{Y}+\overline{Z}+W)$
     
-        \item $F3(A,B,C,D) =  (A+B+C+D) . (A+B+C+\bar D) . (A+B+\bar C+D) . (A+\bar B+C+D) . (A+\bar B+C+\bar D) . (A+\bar B+\bar C+\bar D) . (\bar A+B+C+D) . (\bar A+B+\bar C+D) . (\bar A+B+\bar C+\bar D) . (\bar A+\bar B+C+\bar D) . (\bar A+\bar B+\bar C+D)$
+        \item $F0(A,B,C,D) =  (X+Y+Z+W) . (X+Y+Z+\overline{W}) . (X+Y+\overline{Z}+W) . (X+\overline{Y}+Z+W) . (\overline{X}+Y+Z+W) . (\overline{X}+\overline{Y}+\overline{Z}+\overline{W})$
     
-        \item $F5(A,B,C,D) =  (A+B+C+D) . (A+B+C+\bar D) . (A+B+\bar C+D) . (A+B+\bar C+\bar D) . (A+\bar B+C+D) . (A+\bar B+\bar C+D) . (A+\bar B+\bar C+\bar D) . (\bar A+B+C+D) . (\bar A+B+C+\bar D) . (\bar A+B+\bar C+\bar D) . (\bar A+\bar B+C+D) . (\bar A+\bar B+C+\bar D) . (\bar A+\bar B+\bar C+D)$
-    
-        \item $F7(A,B,C,D) =  (A+B+C+D) . (A+B+C+\bar D) . (A+B+\bar C+D) . (A+B+\bar C+\bar D) . (A+\bar B+C+D) . (A+\bar B+C+\bar D) . (A+\bar B+\bar C+D) . (\bar A+B+C+D) . (\bar A+B+C+\bar D) . (\bar A+B+\bar C+D) . (\bar A+B+\bar C+\bar D) . (\bar A+\bar B+C+D) . (\bar A+\bar B+C+\bar D) . (\bar A+\bar B+\bar C+\bar D)$
-    
-        \item $F11(A,B,C,D) =  (A+B+C+D) . (A+B+C+\bar D) . (A+B+\bar C+D) . (A+B+\bar C+\bar D) . (A+\bar B+C+D) . (A+\bar B+C+\bar D) . (A+\bar B+\bar C+D) . (A+\bar B+\bar C+\bar D) . (\bar A+B+C+D) . (\bar A+B+C+\bar D) . (\bar A+B+\bar C+D) . (\bar A+\bar B+C+D) . (\bar A+\bar B+C+\bar D) . (\bar A+\bar B+\bar C+D) . (\bar A+\bar B+\bar C+\bar D)$
-    
-        \item $F13(A,B,C,D) =  (A+B+C+D) . (A+B+C+\bar D) . (A+B+\bar C+D) . (A+B+\bar C+\bar D) . (A+\bar B+C+D) . (A+\bar B+C+\bar D) . (A+\bar B+\bar C+D) . (A+\bar B+\bar C+\bar D) . (\bar A+B+C+D) . (\bar A+B+C+\bar D) . (\bar A+B+\bar C+D) . (\bar A+B+\bar C+\bar D) . (\bar A+\bar B+C+D) . (\bar A+\bar B+\bar C+D) . (\bar A+\bar B+\bar C+\bar D)$
+        \item $F1(A,B,C,D) =  (X+Y+Z+W) . (X+Y+\overline{Z}+\overline{W}) . (X+\overline{Y}+Z+\overline{W}) . (X+\overline{Y}+\overline{Z}+W) . (\overline{X}+Y+Z+\overline{W}) . (\overline{X}+Y+\overline{Z}+W) . (\overline{X}+\overline{Y}+Z+W) . (\overline{X}+\overline{Y}+\overline{Z}+\overline{W})$
     
     \end{itemize}
 
 \item \textbf{First Canonical Forms \aRL{ الأشكال القانونية الأولى}}
     \begin{itemize}
     
-        \item $F2(A,B,C,D) = \sum(2, 4, 6, 8, 10, 12, 14)$
+        \item $Fx0(A,B,C,D) = \sum(15)$
     
-        \item $F3(A,B,C,D) = \sum(3, 6, 9, 12, 15)$
+        \item $F0(A,B,C,D) = \sum(3, 5, 6, 7, 9, 10, 11, 12, 13, 14)$
     
-        \item $F5(A,B,C,D) = \sum(5, 10, 15)$
-    
-        \item $F7(A,B,C,D) = \sum(7, 14)$
-    
-        \item $F11(A,B,C,D) = \sum(11)$
-    
-        \item $F13(A,B,C,D) = \sum(13)$
+        \item $F1(A,B,C,D) = \sum(1, 2, 4, 7, 8, 11, 13, 14)$
     
     \end{itemize}
 
 \item \textbf{Second Canonical Forms \aRL{ الأشكال القانونية الثانية}}
     \begin{itemize}
     
-        \item $F2(A,B,C,D) =  \prod(0, 1, 3, 5, 7, 9, 11, 13, 15)$
+        \item $Fx0(A,B,C,D) =  \prod(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14)$
     
-        \item $F3(A,B,C,D) =  \prod(0, 1, 2, 4, 5, 7, 8, 10, 11, 13, 14)$
+        \item $F0(A,B,C,D) =  \prod(0, 1, 2, 4, 8, 15)$
     
-        \item $F5(A,B,C,D) =  \prod(0, 1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14)$
-    
-        \item $F7(A,B,C,D) =  \prod(0, 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 15)$
-    
-        \item $F11(A,B,C,D) =  \prod(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15)$
-    
-        \item $F13(A,B,C,D) =  \prod(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15)$
+        \item $F1(A,B,C,D) =  \prod(0, 3, 5, 6, 9, 10, 12, 15)$
     
     \end{itemize}
 
@@ -756,98 +1875,62 @@ A & B & C & D
 
 \textbf{Karnaugh Table \aRL{جدول كارنوف}}
 
-\begin{karnaugh-map}[4][4][1][CD][AB]
-  \minterms{ 2, 4, 6, 8, 10, 12, 14 }
-  \maxterms{ 0, 1, 3, 5, 7, 9, 11, 13, 15 }
-  
- 
-    \implicantedge{12}{8}{14}{10}
-\implicantedge{4}{12}{6}{14}
-\implicant{2}{10}
- 
- \end{karnaugh-map}
-
-    Simplified Sum of products : $F2 =  a.\bar d + b.\bar d + c.\bar d $\\
-    Simplified product of sums : $F2 = (\bar d).(a+b+c)$
-
-
-\begin{karnaugh-map}[4][4][1][CD][AB]
-  \minterms{ 3, 6, 9, 12, 15 }
-  \maxterms{ 0, 1, 2, 4, 5, 7, 8, 10, 11, 13, 14 }
+\begin{karnaugh-map}[4][4][1][ZW][XY]
+  \minterms{ 15 }
+  \maxterms{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 }
   
  
     \implicant{15}{15}
-\implicant{12}{12}
-\implicant{9}{9}
-\implicant{6}{6}
-\implicant{3}{3}
  
  \end{karnaugh-map}
 
-    Simplified Sum of products : $F3 =  a.b.c.d + a.b.\bar c.\bar d + a.\bar b.\bar c.d + \bar a.b.c.\bar d + \bar a.\bar b.c.d $\\
-    Simplified product of sums : $F3 = (a+c).(b+d).(a+\bar b+\bar d).(\bar a+b+\bar c).(\bar b+c+\bar d).(\bar a+\bar c+d)$
+    Simplified Sum of products : $Fx0 =  w.x.y.z $\\
+    Simplified product of sums : $Fx0 = (w).(x).(y).(z)$
 
 
-\begin{karnaugh-map}[4][4][1][CD][AB]
-  \minterms{ 5, 10, 15 }
-  \maxterms{ 0, 1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14 }
+\begin{karnaugh-map}[4][4][1][ZW][XY]
+  \minterms{ 3, 5, 6, 7, 9, 10, 11, 12, 13, 14 }
+  \maxterms{ 0, 1, 2, 4, 8, 15 }
   
  
-    \implicant{15}{15}
-\implicant{10}{10}
-\implicant{5}{5}
+    \implicant{12}{13}
+\implicant{10}{11}
+\implicant{9}{11}
+\implicant{6}{14}
+\implicant{5}{13}
+\implicant{3}{7}
  
  \end{karnaugh-map}
 
-    Simplified Sum of products : $F5 =  a.b.c.d + a.\bar b.c.\bar d + \bar a.b.\bar c.d $\\
-    Simplified product of sums : $F5 = (a+b).(a+\bar c).(b+\bar d).(\bar a+c).(\bar b+d)$
+    Simplified Sum of products : $F0 =  w.x.\overline{y} + w.y.\overline{z} + w.\overline{x}.z + x.y.\overline{z} + x.\overline{y}.z + \overline{w}.y.z $\\
+    Simplified product of sums : $F0 = (w+x+y).(w+x+z).(w+y+z).(x+y+z).(\overline{w}+\overline{x}+\overline{y}+\overline{z})$
 
 
-\begin{karnaugh-map}[4][4][1][CD][AB]
-  \minterms{ 7, 14 }
-  \maxterms{ 0, 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 15 }
+\begin{karnaugh-map}[4][4][1][ZW][XY]
+  \minterms{ 1, 2, 4, 7, 8, 11, 13, 14 }
+  \maxterms{ 0, 3, 5, 6, 9, 10, 12, 15 }
   
  
     \implicant{14}{14}
+\implicant{13}{13}
+\implicant{11}{11}
 \implicant{7}{7}
+\implicant{8}{8}
+\implicant{4}{4}
+\implicant{2}{2}
+\implicant{1}{1}
  
  \end{karnaugh-map}
 
-    Simplified Sum of products : $F7 =  a.b.c.\bar d + \bar a.b.c.d $\\
-    Simplified product of sums : $F7 = (b).(c).(a+d).(\bar a+\bar d)$
-
-
-\begin{karnaugh-map}[4][4][1][CD][AB]
-  \minterms{ 11 }
-  \maxterms{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15 }
-  
- 
-    \implicant{11}{11}
- 
- \end{karnaugh-map}
-
-    Simplified Sum of products : $F11 =  a.\bar b.c.d $\\
-    Simplified product of sums : $F11 = (a).(c).(d).(\bar b)$
-
-
-\begin{karnaugh-map}[4][4][1][CD][AB]
-  \minterms{ 13 }
-  \maxterms{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15 }
-  
- 
-    \implicant{13}{13}
- 
- \end{karnaugh-map}
-
-    Simplified Sum of products : $F13 =  a.b.\bar c.d $\\
-    Simplified product of sums : $F13 = (a).(b).(d).(\bar c)$
+    Simplified Sum of products : $F1 =  w.x.y.\overline{z} + w.x.\overline{y}.z + w.\overline{x}.y.z + \overline{w}.x.y.z + w.\overline{x}.\overline{y}.\overline{z} + \overline{w}.x.\overline{y}.\overline{z} + \overline{w}.\overline{x}.y.\overline{z} + \overline{w}.\overline{x}.\overline{y}.z $\\
+    Simplified product of sums : $F1 = (w+x+y+z).(w+x+\overline{y}+\overline{z}).(w+\overline{x}+y+\overline{z}).(w+\overline{x}+\overline{y}+z).(\overline{w}+x+y+\overline{z}).(\overline{w}+x+\overline{y}+z).(\overline{w}+\overline{x}+y+z).(\overline{w}+\overline{x}+\overline{y}+\overline{z})$
 
 
 
 
 \textbf{Ligc diagram \aRL{المخطط المنطقي}}
 
- \label{logigrammefonctionF2-F3-F5-F7-F11-F13}
+ \label{logigrammefonctionFx0-F0-F1}
 
  \begin{tikzpicture}
 
@@ -855,10 +1938,10 @@ A & B & C & D
 %% var position, can be modified
 \def\varPos{19.80}
 \def\FunctionPos{6}
-\node (x) at (0, \varPos) {$A$};
-\node (y) at (0.5, \varPos) {$B$};
-\node (z) at (1, \varPos) {$C$};
-\node (w) at (1.5, \varPos) {$D$};
+\node (x) at (0, \varPos) {$X$};
+\node (y) at (0.5, \varPos) {$Y$};
+\node (z) at (1, \varPos) {$Z$};
+\node (w) at (1.5, \varPos) {$W$};
 
                 \node[not gate US, draw, rotate=270] at ($(x) + (0.25, -0.6)$) (notx) {};
                 \draw ($(x)+(0,-1ex)$) -| (notx.input); 
@@ -870,90 +1953,84 @@ A & B & C & D
                 \draw ($(w)+(0,-1ex)$) -| (notw.input);
              
 
- %% ***Function F13 : Gate for term n° 1 [ C.D' ]***
+ %% ***Function F1 : Gate for term n° 1 [ W.X.Y.Z ]***
   
-                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 1.20) (xandy1) {};\draw (xandy1.output) -- node[above]{\scriptsize $ C.\bar D $} ($(xandy1) + (1.8, 0)$);
-                % Z
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 1.20) (xandy1) {};\draw (xandy1.output) -- node[above]{\scriptsize $ W.X.Y.Z $} ($(xandy1) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy1.input 1);
+% Y
+\draw ($(y) + (0, -1ex)$)|- (xandy1.input 2);
+% Z
 \draw ($(z) + (0, -1ex)$)|- (xandy1.input 3);
 % W
-\draw [line width=0.25mm,   red] (notw.output)
-            -- ([xshift=0cm]notw.output) |- (xandy1.input 4);
+\draw ($(w) + (0, -1ex)$)|- (xandy1.input 4);
+
+
+%% Function F1 Large OR Gate
+
+\node at (\FunctionPos, 1.20) (xory1) {};
+
+
+            \draw (xory1) node[above]{\scriptsize $F1$} ($(xory1.east) + (+3ex, 0)$);
+
+
+            \draw (xandy1.output) -- ([xshift=1.60cm]xandy1.output) |- (xory1);
+
  
 
- %% ***Function F13 : Gate for term n° 2 [ B.D' ]***
+ %% ***Function F0 : Gate for term n° 1 [ W'.Y.Z ]***
   
-                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 2.40) (xandy2) {};\draw (xandy2.output) -- node[above]{\scriptsize $ B.\bar D $} ($(xandy2) + (1.8, 0)$);
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 2.40) (xandy2) {};\draw (xandy2.output) -- node[above]{\scriptsize $ \overline{W}.Y.Z $} ($(xandy2) + (1.8, 0)$);
                 % Y
 \draw ($(y) + (0, -1ex)$)|- (xandy2.input 2);
+% Z
+\draw ($(z) + (0, -1ex)$)|- (xandy2.input 3);
 % W
 \draw [line width=0.25mm,   red] (notw.output)
             -- ([xshift=0cm]notw.output) |- (xandy2.input 4);
  
 
- %% ***Function F13 : Gate for term n° 3 [ A.D' ]***
+ %% ***Function F0 : Gate for term n° 2 [ X.Y'.Z ]***
   
-                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 3.60) (xandy3) {};\draw (xandy3.output) -- node[above]{\scriptsize $ A.\bar D $} ($(xandy3) + (1.8, 0)$);
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 3.60) (xandy3) {};\draw (xandy3.output) -- node[above]{\scriptsize $ X.\overline{Y}.Z $} ($(xandy3) + (1.8, 0)$);
                 % X
 \draw ($(x) + (0, -1ex)$)|- (xandy3.input 1);
-% W
-\draw [line width=0.25mm,   red] (notw.output)
-            -- ([xshift=0cm]notw.output) |- (xandy3.input 4);
-
-
-%% Function F13 Large OR Gate
-
-\node[or gate US, draw, rotate=0, logic gate inputs=nnnn] at (\FunctionPos, 2.40) (xory1) {};
-
-
-            \draw (xory1.output) -- node[above]{\scriptsize $F13$} ($(xory1.east) + (+3ex, 0)$);
-
-
-            \draw (xandy1.output) -- ([xshift=1.60cm]xandy1.output) |- (xory1.input 3);
-
-\draw (xandy2.output) -- ([xshift=1.55cm]xandy2.output) |- (xory1.input 2);
-
-\draw (xandy3.output) -- ([xshift=1.60cm]xandy3.output) |- (xory1.input 1);
-
- 
-
- %% ***Function F11 : Gate for term n° 1 [ A'.B'.C.D ]***
-  
-                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 4.80) (xandy4) {};\draw (xandy4.output) -- node[above]{\scriptsize $ \bar A.\bar B.C.D $} ($(xandy4) + (1.8, 0)$);
-                % X
-\draw [line width=0.25mm,   red] (notx.output)
-            -- ([xshift=0cm]notx.output) |- (xandy4.input 1);
 % Y
 \draw [line width=0.25mm,   red] (noty.output)
-            -- ([xshift=0cm]noty.output) |- (xandy4.input 2);
+            -- ([xshift=0cm]noty.output) |- (xandy3.input 2);
 % Z
-\draw ($(z) + (0, -1ex)$)|- (xandy4.input 3);
-% W
-\draw ($(w) + (0, -1ex)$)|- (xandy4.input 4);
+\draw ($(z) + (0, -1ex)$)|- (xandy3.input 3);
  
 
- %% ***Function F11 : Gate for term n° 2 [ A'.B.C.D' ]***
+ %% ***Function F0 : Gate for term n° 3 [ X.Y.Z' ]***
   
-                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 6.00) (xandy5) {};\draw (xandy5.output) -- node[above]{\scriptsize $ \bar A.B.C.\bar D $} ($(xandy5) + (1.8, 0)$);
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 4.80) (xandy4) {};\draw (xandy4.output) -- node[above]{\scriptsize $ X.Y.\overline{Z} $} ($(xandy4) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy4.input 1);
+% Y
+\draw ($(y) + (0, -1ex)$)|- (xandy4.input 2);
+% Z
+\draw [line width=0.25mm,   red] (notz.output)
+            -- ([xshift=0cm]notz.output) |- (xandy4.input 3);
+ 
+
+ %% ***Function F0 : Gate for term n° 4 [ W.X'.Z ]***
+  
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 6.00) (xandy5) {};\draw (xandy5.output) -- node[above]{\scriptsize $ W.\overline{X}.Z $} ($(xandy5) + (1.8, 0)$);
                 % X
 \draw [line width=0.25mm,   red] (notx.output)
             -- ([xshift=0cm]notx.output) |- (xandy5.input 1);
-% Y
-\draw ($(y) + (0, -1ex)$)|- (xandy5.input 2);
 % Z
 \draw ($(z) + (0, -1ex)$)|- (xandy5.input 3);
 % W
-\draw [line width=0.25mm,   red] (notw.output)
-            -- ([xshift=0cm]notw.output) |- (xandy5.input 4);
+\draw ($(w) + (0, -1ex)$)|- (xandy5.input 4);
  
 
- %% ***Function F11 : Gate for term n° 3 [ A.B'.C'.D ]***
+ %% ***Function F0 : Gate for term n° 5 [ W.Y.Z' ]***
   
-                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 7.20) (xandy6) {};\draw (xandy6.output) -- node[above]{\scriptsize $ A.\bar B.\bar C.D $} ($(xandy6) + (1.8, 0)$);
-                % X
-\draw ($(x) + (0, -1ex)$)|- (xandy6.input 1);
-% Y
-\draw [line width=0.25mm,   red] (noty.output)
-            -- ([xshift=0cm]noty.output) |- (xandy6.input 2);
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 7.20) (xandy6) {};\draw (xandy6.output) -- node[above]{\scriptsize $ W.Y.\overline{Z} $} ($(xandy6) + (1.8, 0)$);
+                % Y
+\draw ($(y) + (0, -1ex)$)|- (xandy6.input 2);
 % Z
 \draw [line width=0.25mm,   red] (notz.output)
             -- ([xshift=0cm]notz.output) |- (xandy6.input 3);
@@ -961,57 +2038,59 @@ A & B & C & D
 \draw ($(w) + (0, -1ex)$)|- (xandy6.input 4);
  
 
- %% ***Function F11 : Gate for term n° 4 [ A.B.C'.D' ]***
+ %% ***Function F0 : Gate for term n° 6 [ W.X.Y' ]***
   
-                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 8.40) (xandy7) {};\draw (xandy7.output) -- node[above]{\scriptsize $ A.B.\bar C.\bar D $} ($(xandy7) + (1.8, 0)$);
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 8.40) (xandy7) {};\draw (xandy7.output) -- node[above]{\scriptsize $ W.X.\overline{Y} $} ($(xandy7) + (1.8, 0)$);
                 % X
 \draw ($(x) + (0, -1ex)$)|- (xandy7.input 1);
 % Y
-\draw ($(y) + (0, -1ex)$)|- (xandy7.input 2);
-% Z
-\draw [line width=0.25mm,   red] (notz.output)
-            -- ([xshift=0cm]notz.output) |- (xandy7.input 3);
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy7.input 2);
 % W
-\draw [line width=0.25mm,   red] (notw.output)
-            -- ([xshift=0cm]notw.output) |- (xandy7.input 4);
+\draw ($(w) + (0, -1ex)$)|- (xandy7.input 4);
+
+
+%% Function F0 Large OR Gate
+
+\node[or gate US, draw, rotate=0, logic gate inputs=nnnnnnn] at (\FunctionPos, 5.40) (xory2) {};
+
+
+            \draw (xory2.output) -- node[above]{\scriptsize $F0$} ($(xory2.east) + (+3ex, 0)$);
+
+
+            \draw (xandy2.output) -- ([xshift=1.60cm]xandy2.output) |- (xory2.input 6);
+
+\draw (xandy3.output) -- ([xshift=1.55cm]xandy3.output) |- (xory2.input 5);
+
+\draw (xandy4.output) -- ([xshift=1.50cm]xandy4.output) |- (xory2.input 4);
+
+\draw (xandy5.output) -- ([xshift=1.45cm]xandy5.output) |- (xory2.input 3);
+
+\draw (xandy6.output) -- ([xshift=1.50cm]xandy6.output) |- (xory2.input 2);
+
+\draw (xandy7.output) -- ([xshift=1.55cm]xandy7.output) |- (xory2.input 1);
+
  
 
- %% ***Function F11 : Gate for term n° 5 [ A.B.C.D ]***
+ %% ***Function Fx0 : Gate for term n° 1 [ W'.X'.Y'.Z ]***
   
-                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 9.60) (xandy8) {};\draw (xandy8.output) -- node[above]{\scriptsize $ A.B.C.D $} ($(xandy8) + (1.8, 0)$);
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 9.60) (xandy8) {};\draw (xandy8.output) -- node[above]{\scriptsize $ \overline{W}.\overline{X}.\overline{Y}.Z $} ($(xandy8) + (1.8, 0)$);
                 % X
-\draw ($(x) + (0, -1ex)$)|- (xandy8.input 1);
+\draw [line width=0.25mm,   red] (notx.output)
+            -- ([xshift=0cm]notx.output) |- (xandy8.input 1);
 % Y
-\draw ($(y) + (0, -1ex)$)|- (xandy8.input 2);
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy8.input 2);
 % Z
 \draw ($(z) + (0, -1ex)$)|- (xandy8.input 3);
 % W
-\draw ($(w) + (0, -1ex)$)|- (xandy8.input 4);
-
-
-%% Function F11 Large OR Gate
-
-\node[or gate US, draw, rotate=0, logic gate inputs=nnnnnn] at (\FunctionPos, 7.20) (xory4) {};
-
-
-            \draw (xory4.output) -- node[above]{\scriptsize $F11$} ($(xory4.east) + (+3ex, 0)$);
-
-
-            \draw (xandy4.output) -- ([xshift=1.60cm]xandy4.output) |- (xory4.input 5);
-
-\draw (xandy5.output) -- ([xshift=1.55cm]xandy5.output) |- (xory4.input 4);
-
-\draw (xandy6.output) -- ([xshift=1.50cm]xandy6.output) |- (xory4.input 3);
-
-\draw (xandy7.output) -- ([xshift=1.55cm]xandy7.output) |- (xory4.input 2);
-
-\draw (xandy8.output) -- ([xshift=1.60cm]xandy8.output) |- (xory4.input 1);
-
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy8.input 4);
  
 
- %% ***Function F7 : Gate for term n° 1 [ A'.B.C'.D ]***
+ %% ***Function Fx0 : Gate for term n° 2 [ W'.X'.Y.Z' ]***
   
-                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 10.80) (xandy9) {};\draw (xandy9.output) -- node[above]{\scriptsize $ \bar A.B.\bar C.D $} ($(xandy9) + (1.8, 0)$);
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 10.80) (xandy9) {};\draw (xandy9.output) -- node[above]{\scriptsize $ \overline{W}.\overline{X}.Y.\overline{Z} $} ($(xandy9) + (1.8, 0)$);
                 % X
 \draw [line width=0.25mm,   red] (notx.output)
             -- ([xshift=0cm]notx.output) |- (xandy9.input 1);
@@ -1021,98 +2100,73 @@ A & B & C & D
 \draw [line width=0.25mm,   red] (notz.output)
             -- ([xshift=0cm]notz.output) |- (xandy9.input 3);
 % W
-\draw ($(w) + (0, -1ex)$)|- (xandy9.input 4);
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy9.input 4);
  
 
- %% ***Function F7 : Gate for term n° 2 [ A.B'.C.D' ]***
+ %% ***Function Fx0 : Gate for term n° 3 [ W'.X.Y'.Z' ]***
   
-                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 12.00) (xandy10) {};\draw (xandy10.output) -- node[above]{\scriptsize $ A.\bar B.C.\bar D $} ($(xandy10) + (1.8, 0)$);
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 12.00) (xandy10) {};\draw (xandy10.output) -- node[above]{\scriptsize $ \overline{W}.X.\overline{Y}.\overline{Z} $} ($(xandy10) + (1.8, 0)$);
                 % X
 \draw ($(x) + (0, -1ex)$)|- (xandy10.input 1);
 % Y
 \draw [line width=0.25mm,   red] (noty.output)
             -- ([xshift=0cm]noty.output) |- (xandy10.input 2);
 % Z
-\draw ($(z) + (0, -1ex)$)|- (xandy10.input 3);
+\draw [line width=0.25mm,   red] (notz.output)
+            -- ([xshift=0cm]notz.output) |- (xandy10.input 3);
 % W
 \draw [line width=0.25mm,   red] (notw.output)
             -- ([xshift=0cm]notw.output) |- (xandy10.input 4);
  
 
- %% ***Function F7 : Gate for term n° 3 [ A.B.C.D ]***
+ %% ***Function Fx0 : Gate for term n° 4 [ W.X'.Y'.Z' ]***
   
-                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 13.20) (xandy11) {};\draw (xandy11.output) -- node[above]{\scriptsize $ A.B.C.D $} ($(xandy11) + (1.8, 0)$);
-                % X
-\draw ($(x) + (0, -1ex)$)|- (xandy11.input 1);
-% Y
-\draw ($(y) + (0, -1ex)$)|- (xandy11.input 2);
-% Z
-\draw ($(z) + (0, -1ex)$)|- (xandy11.input 3);
-% W
-\draw ($(w) + (0, -1ex)$)|- (xandy11.input 4);
-
-
-%% Function F7 Large OR Gate
-
-\node[or gate US, draw, rotate=0, logic gate inputs=nnnn] at (\FunctionPos, 12.00) (xory9) {};
-
-
-            \draw (xory9.output) -- node[above]{\scriptsize $F7$} ($(xory9.east) + (+3ex, 0)$);
-
-
-            \draw (xandy9.output) -- ([xshift=1.60cm]xandy9.output) |- (xory9.input 3);
-
-\draw (xandy10.output) -- ([xshift=1.55cm]xandy10.output) |- (xory9.input 2);
-
-\draw (xandy11.output) -- ([xshift=1.60cm]xandy11.output) |- (xory9.input 1);
-
- 
-
- %% ***Function F5 : Gate for term n° 1 [ A'.B.C.D ]***
-  
-                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 14.40) (xandy12) {};\draw (xandy12.output) -- node[above]{\scriptsize $ \bar A.B.C.D $} ($(xandy12) + (1.8, 0)$);
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 13.20) (xandy11) {};\draw (xandy11.output) -- node[above]{\scriptsize $ W.\overline{X}.\overline{Y}.\overline{Z} $} ($(xandy11) + (1.8, 0)$);
                 % X
 \draw [line width=0.25mm,   red] (notx.output)
-            -- ([xshift=0cm]notx.output) |- (xandy12.input 1);
+            -- ([xshift=0cm]notx.output) |- (xandy11.input 1);
+% Y
+\draw [line width=0.25mm,   red] (noty.output)
+            -- ([xshift=0cm]noty.output) |- (xandy11.input 2);
+% Z
+\draw [line width=0.25mm,   red] (notz.output)
+            -- ([xshift=0cm]notz.output) |- (xandy11.input 3);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy11.input 4);
+ 
+
+ %% ***Function Fx0 : Gate for term n° 5 [ W'.X.Y.Z ]***
+  
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 14.40) (xandy12) {};\draw (xandy12.output) -- node[above]{\scriptsize $ \overline{W}.X.Y.Z $} ($(xandy12) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy12.input 1);
 % Y
 \draw ($(y) + (0, -1ex)$)|- (xandy12.input 2);
 % Z
 \draw ($(z) + (0, -1ex)$)|- (xandy12.input 3);
 % W
-\draw ($(w) + (0, -1ex)$)|- (xandy12.input 4);
+\draw [line width=0.25mm,   red] (notw.output)
+            -- ([xshift=0cm]notw.output) |- (xandy12.input 4);
  
 
- %% ***Function F5 : Gate for term n° 2 [ A.B.C.D' ]***
+ %% ***Function Fx0 : Gate for term n° 6 [ W.X'.Y.Z ]***
   
-                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 15.60) (xandy13) {};\draw (xandy13.output) -- node[above]{\scriptsize $ A.B.C.\bar D $} ($(xandy13) + (1.8, 0)$);
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 15.60) (xandy13) {};\draw (xandy13.output) -- node[above]{\scriptsize $ W.\overline{X}.Y.Z $} ($(xandy13) + (1.8, 0)$);
                 % X
-\draw ($(x) + (0, -1ex)$)|- (xandy13.input 1);
+\draw [line width=0.25mm,   red] (notx.output)
+            -- ([xshift=0cm]notx.output) |- (xandy13.input 1);
 % Y
 \draw ($(y) + (0, -1ex)$)|- (xandy13.input 2);
 % Z
 \draw ($(z) + (0, -1ex)$)|- (xandy13.input 3);
 % W
-\draw [line width=0.25mm,   red] (notw.output)
-            -- ([xshift=0cm]notw.output) |- (xandy13.input 4);
-
-
-%% Function F5 Large OR Gate
-
-\node[or gate US, draw, rotate=0, logic gate inputs=nnn] at (\FunctionPos, 15.00) (xory12) {};
-
-
-            \draw (xory12.output) -- node[above]{\scriptsize $F5$} ($(xory12.east) + (+3ex, 0)$);
-
-
-            \draw (xandy12.output) -- ([xshift=1.60cm]xandy12.output) |- (xory12.input 2);
-
-\draw (xandy13.output) -- ([xshift=1.55cm]xandy13.output) |- (xory12.input 1);
-
+\draw ($(w) + (0, -1ex)$)|- (xandy13.input 4);
  
 
- %% ***Function F3 : Gate for term n° 1 [ A.B'.C.D ]***
+ %% ***Function Fx0 : Gate for term n° 7 [ W.X.Y'.Z ]***
   
-                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 16.80) (xandy14) {};\draw (xandy14.output) -- node[above]{\scriptsize $ A.\bar B.C.D $} ($(xandy14) + (1.8, 0)$);
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 16.80) (xandy14) {};\draw (xandy14.output) -- node[above]{\scriptsize $ W.X.\overline{Y}.Z $} ($(xandy14) + (1.8, 0)$);
                 % X
 \draw ($(x) + (0, -1ex)$)|- (xandy14.input 1);
 % Y
@@ -1122,23 +2176,11 @@ A & B & C & D
 \draw ($(z) + (0, -1ex)$)|- (xandy14.input 3);
 % W
 \draw ($(w) + (0, -1ex)$)|- (xandy14.input 4);
-
-
-%% Function F3 Large OR Gate
-
-\node at (\FunctionPos, 16.80) (xory14) {};
-
-
-            \draw (xory14) node[above]{\scriptsize $F3$} ($(xory14.east) + (+3ex, 0)$);
-
-
-            \draw (xandy14.output) -- ([xshift=1.60cm]xandy14.output) |- (xory14);
-
  
 
- %% ***Function F2 : Gate for term n° 1 [ A.B.C'.D ]***
+ %% ***Function Fx0 : Gate for term n° 8 [ W.X.Y.Z' ]***
   
-                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 18.00) (xandy15) {};\draw (xandy15.output) -- node[above]{\scriptsize $ A.B.\bar C.D $} ($(xandy15) + (1.8, 0)$);
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 18.00) (xandy15) {};\draw (xandy15.output) -- node[above]{\scriptsize $ W.X.Y.\overline{Z} $} ($(xandy15) + (1.8, 0)$);
                 % X
 \draw ($(x) + (0, -1ex)$)|- (xandy15.input 1);
 % Y
@@ -1150,15 +2192,29 @@ A & B & C & D
 \draw ($(w) + (0, -1ex)$)|- (xandy15.input 4);
 
 
-%% Function F2 Large OR Gate
+%% Function Fx0 Large OR Gate
 
-\node at (\FunctionPos, 18.00) (xory15) {};
-
-
-            \draw (xory15) node[above]{\scriptsize $F2$} ($(xory15.east) + (+3ex, 0)$);
+\node[or gate US, draw, rotate=0, logic gate inputs=nnnnnnnnn] at (\FunctionPos, 13.80) (xory8) {};
 
 
-            \draw (xandy15.output) -- ([xshift=1.60cm]xandy15.output) |- (xory15);
+            \draw (xory8.output) -- node[above]{\scriptsize $Fx0$} ($(xory8.east) + (+3ex, 0)$);
+
+
+            \draw (xandy8.output) -- ([xshift=1.60cm]xandy8.output) |- (xory8.input 8);
+
+\draw (xandy9.output) -- ([xshift=1.55cm]xandy9.output) |- (xory8.input 7);
+
+\draw (xandy10.output) -- ([xshift=1.50cm]xandy10.output) |- (xory8.input 6);
+
+\draw (xandy11.output) -- ([xshift=1.45cm]xandy11.output) |- (xory8.input 5);
+
+\draw (xandy12.output) -- ([xshift=1.40cm]xandy12.output) |- (xory8.input 4);
+
+\draw (xandy13.output) -- ([xshift=1.45cm]xandy13.output) |- (xory8.input 3);
+
+\draw (xandy14.output) -- ([xshift=1.50cm]xandy14.output) |- (xory8.input 2);
+
+\draw (xandy15.output) -- ([xshift=1.55cm]xandy15.output) |- (xory8.input 1);
 
  \end{tikzpicture}
 
@@ -1181,12 +2237,6 @@ LOGIGRAM-FILE-TEMPLATE
 
   
 
-  
-
-  
-
-  
-
 \def\varPos{ 19.8 }
 
 
@@ -1195,19 +2245,19 @@ LOGIGRAM-FILE-TEMPLATE
 
 
 
-    \node (x1) at (0.0, \varPos) {$ A $};
+    \node (x1) at (0.0, \varPos) {$ X $};
     \node[not gate US, draw, rotate=270] at ($(x1) + (0.25, -0.6)$) (notx1) {};
     \draw ($(x1)+(0,-1ex)$) -| (notx1.input);
 
-    \node (x2) at (0.5, \varPos) {$ B $};
+    \node (x2) at (0.5, \varPos) {$ Y $};
     \node[not gate US, draw, rotate=270] at ($(x2) + (0.25, -0.6)$) (notx2) {};
     \draw ($(x2)+(0,-1ex)$) -| (notx2.input);
 
-    \node (x3) at (1.0, \varPos) {$ C $};
+    \node (x3) at (1.0, \varPos) {$ Z $};
     \node[not gate US, draw, rotate=270] at ($(x3) + (0.25, -0.6)$) (notx3) {};
     \draw ($(x3)+(0,-1ex)$) -| (notx3.input);
 
-    \node (x4) at (1.5, \varPos) {$ D $};
+    \node (x4) at (1.5, \varPos) {$ W $};
     \node[not gate US, draw, rotate=270] at ($(x4) + (0.25, -0.6)$) (notx4) {};
     \draw ($(x4)+(0,-1ex)$) -| (notx4.input);
 
@@ -1227,68 +2277,10 @@ LOGIGRAM-FILE-TEMPLATE
         
         
         
-     %% ***Function F2 : Gate for term n° 1 [  a.b.c'.d  ]***
+     %% ***Function Fx0 : Gate for term n° 1 [  w.x.y.z'  ]***
 
-           \node[and gate US, draw, rotate=0, logic gate inputs=nn] at (2.5, 0.0) (xandyF21) {};
-           \draw (xandyF21.output) -- node[above]{\scriptsize $  a.b.c'.d  $} ($(xandyF21) + (1.8, 0)$);
-
-        
-        
-            
-                \draw ($(x1) + (0, -1ex)$)|- (xandyF21.input 1);
-                
-            
-        
-            
-        
-            
-        
-            
-                \draw [line width=0.25mm,   red] (notx4.output)
-                -- ([xshift=0cm]notx4.output) |- (xandyF21.input 2);
-                
-            
-        
-     
-    
-        
-        
-        
-        
-        
-     %% ***Function F2 : Gate for term n° 2 [  ]***
-
-           \node[and gate US, draw, rotate=0, logic gate inputs=nn] at (2.5, 1.2) (xandyF22) {};
-           \draw (xandyF22.output) -- node[above]{\scriptsize $  $} ($(xandyF22) + (1.8, 0)$);
-
-        
-        
-            
-        
-            
-                \draw ($(x2) + (0, -1ex)$)|- (xandyF22.input 1);
-                
-            
-        
-            
-        
-            
-                \draw [line width=0.25mm,   red] (notx4.output)
-                -- ([xshift=0cm]notx4.output) |- (xandyF22.input 2);
-                
-            
-        
-     
-    
-        
-        
-        
-        
-        
-     %% ***Function F2 : Gate for term n° 3 [  ]***
-
-           \node[and gate US, draw, rotate=0, logic gate inputs=nn] at (2.5, 2.4) (xandyF23) {};
-           \draw (xandyF23.output) -- node[above]{\scriptsize $  $} ($(xandyF23) + (1.8, 0)$);
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 0.0) (xandyFx01) {};
+           \draw (xandyFx01.output) -- node[above]{\scriptsize $  w.x.y.z'  $} ($(xandyFx01) + (1.8, 0)$);
 
         
         
@@ -1297,14 +2289,7 @@ LOGIGRAM-FILE-TEMPLATE
             
         
             
-                \draw ($(x3) + (0, -1ex)$)|- (xandyF23.input 1);
-                
-            
         
-            
-                \draw [line width=0.25mm,   red] (notx4.output)
-                -- ([xshift=0cm]notx4.output) |- (xandyF23.input 2);
-                
             
         
      
@@ -1314,10 +2299,10 @@ LOGIGRAM-FILE-TEMPLATE
     %% y_pos : the position of OR gate according to their related gates
     
 
-    %% Function F2 Large OR Gate
+    %% Function Fx0 Large OR Gate
     
-        \node[or gate US, draw, rotate=0, logic gate inputs=nnn] at (\FunctionPos, 1.2) (xoryF2) {};
-        \draw (xoryF2.output) -- node[above]{\scriptsize $F2$} ($(xoryF2.east) + (+3ex, 0)$);
+        \node at (\FunctionPos, 0.0) (xoryFx0) {};
+        \draw (xoryFx0)  node[above]{\scriptsize $Fx0$} ($(xoryFx0.east) + (+3ex, 0)$);
     
 
 
@@ -1326,21 +2311,7 @@ LOGIGRAM-FILE-TEMPLATE
     
     
         
-             \draw (xandyF21.output) -- ([xshift=1.6cm]xandyF21.output) |- (xoryF2.input 3);
-        
-        
-            
-        
-    
-        
-             \draw (xandyF22.output) -- ([xshift=1.6500000000000001cm]xandyF22.output) |- (xoryF2.input 2);
-        
-        
-            
-        
-    
-        
-             \draw (xandyF23.output) -- ([xshift=1.7000000000000002cm]xandyF23.output) |- (xoryF2.input 1);
+             \draw (xandyFx01.output) -- ([xshift=1.6cm]xandyFx01.output) |- (xoryFx0);
         
         
             
@@ -1357,31 +2328,19 @@ LOGIGRAM-FILE-TEMPLATE
         
         
         
-     %% ***Function F3 : Gate for term n° 1 [  a.b'.c.d  ]***
+     %% ***Function F0 : Gate for term n° 1 [  w.x.y'  ]***
 
-           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 3.5999999999999996) (xandyF31) {};
-           \draw (xandyF31.output) -- node[above]{\scriptsize $  a.b'.c.d  $} ($(xandyF31) + (1.8, 0)$);
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnn] at (2.5, 1.2) (xandyF01) {};
+           \draw (xandyF01.output) -- node[above]{\scriptsize $  w.x.y'  $} ($(xandyF01) + (1.8, 0)$);
 
         
         
             
-                \draw ($(x1) + (0, -1ex)$)|- (xandyF31.input 1);
-                
+        
             
         
             
-                \draw ($(x2) + (0, -1ex)$)|- (xandyF31.input 2);
-                
-            
         
-            
-                \draw ($(x3) + (0, -1ex)$)|- (xandyF31.input 3);
-                
-            
-        
-            
-                \draw ($(x4) + (0, -1ex)$)|- (xandyF31.input 4);
-                
             
         
      
@@ -1391,33 +2350,19 @@ LOGIGRAM-FILE-TEMPLATE
         
         
         
-     %% ***Function F3 : Gate for term n° 2 [  ]***
+     %% ***Function F0 : Gate for term n° 2 [  w.y.z'  ]***
 
-           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 4.8) (xandyF32) {};
-           \draw (xandyF32.output) -- node[above]{\scriptsize $  $} ($(xandyF32) + (1.8, 0)$);
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnn] at (2.5, 2.4) (xandyF02) {};
+           \draw (xandyF02.output) -- node[above]{\scriptsize $  w.y.z'  $} ($(xandyF02) + (1.8, 0)$);
 
         
         
             
-                \draw ($(x1) + (0, -1ex)$)|- (xandyF32.input 1);
-                
+        
             
         
             
-                \draw ($(x2) + (0, -1ex)$)|- (xandyF32.input 2);
-                
-            
         
-            
-                \draw [line width=0.25mm,   red] (notx3.output)
-                -- ([xshift=0cm]notx3.output) |- (xandyF32.input 3);
-                
-            
-        
-            
-                \draw [line width=0.25mm,   red] (notx4.output)
-                -- ([xshift=0cm]notx4.output) |- (xandyF32.input 4);
-                
             
         
      
@@ -1427,33 +2372,19 @@ LOGIGRAM-FILE-TEMPLATE
         
         
         
-     %% ***Function F3 : Gate for term n° 3 [  ]***
+     %% ***Function F0 : Gate for term n° 3 [  w.x'.z  ]***
 
-           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 6.0) (xandyF33) {};
-           \draw (xandyF33.output) -- node[above]{\scriptsize $  $} ($(xandyF33) + (1.8, 0)$);
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnn] at (2.5, 3.5999999999999996) (xandyF03) {};
+           \draw (xandyF03.output) -- node[above]{\scriptsize $  w.x'.z  $} ($(xandyF03) + (1.8, 0)$);
 
         
         
             
-                \draw ($(x1) + (0, -1ex)$)|- (xandyF33.input 1);
-                
+        
             
         
             
-                \draw [line width=0.25mm,   red] (notx2.output)
-                -- ([xshift=0cm]notx2.output) |- (xandyF33.input 2);
-                
-            
         
-            
-                \draw [line width=0.25mm,   red] (notx3.output)
-                -- ([xshift=0cm]notx3.output) |- (xandyF33.input 3);
-                
-            
-        
-            
-                \draw ($(x4) + (0, -1ex)$)|- (xandyF33.input 4);
-                
             
         
      
@@ -1463,33 +2394,19 @@ LOGIGRAM-FILE-TEMPLATE
         
         
         
-     %% ***Function F3 : Gate for term n° 4 [  ]***
+     %% ***Function F0 : Gate for term n° 4 [  x.y.z'  ]***
 
-           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 7.199999999999999) (xandyF34) {};
-           \draw (xandyF34.output) -- node[above]{\scriptsize $  $} ($(xandyF34) + (1.8, 0)$);
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnn] at (2.5, 4.8) (xandyF04) {};
+           \draw (xandyF04.output) -- node[above]{\scriptsize $  x.y.z'  $} ($(xandyF04) + (1.8, 0)$);
 
         
         
             
-                \draw [line width=0.25mm,   red] (notx1.output)
-                -- ([xshift=0cm]notx1.output) |- (xandyF34.input 1);
-                
+        
             
         
             
-                \draw ($(x2) + (0, -1ex)$)|- (xandyF34.input 2);
-                
-            
         
-            
-                \draw ($(x3) + (0, -1ex)$)|- (xandyF34.input 3);
-                
-            
-        
-            
-                \draw [line width=0.25mm,   red] (notx4.output)
-                -- ([xshift=0cm]notx4.output) |- (xandyF34.input 4);
-                
             
         
      
@@ -1499,33 +2416,41 @@ LOGIGRAM-FILE-TEMPLATE
         
         
         
-     %% ***Function F3 : Gate for term n° 5 [  ]***
+     %% ***Function F0 : Gate for term n° 5 [  x.y'.z  ]***
 
-           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 8.4) (xandyF35) {};
-           \draw (xandyF35.output) -- node[above]{\scriptsize $  $} ($(xandyF35) + (1.8, 0)$);
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnn] at (2.5, 6.0) (xandyF05) {};
+           \draw (xandyF05.output) -- node[above]{\scriptsize $  x.y'.z  $} ($(xandyF05) + (1.8, 0)$);
 
         
         
             
-                \draw [line width=0.25mm,   red] (notx1.output)
-                -- ([xshift=0cm]notx1.output) |- (xandyF35.input 1);
-                
+        
             
         
             
-                \draw [line width=0.25mm,   red] (notx2.output)
-                -- ([xshift=0cm]notx2.output) |- (xandyF35.input 2);
-                
+        
+            
+        
+     
+    
+        
+        
+        
+        
+        
+     %% ***Function F0 : Gate for term n° 6 [  w'.y.z  ]***
+
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnn] at (2.5, 7.199999999999999) (xandyF06) {};
+           \draw (xandyF06.output) -- node[above]{\scriptsize $  w'.y.z  $} ($(xandyF06) + (1.8, 0)$);
+
+        
+        
             
         
             
-                \draw ($(x3) + (0, -1ex)$)|- (xandyF35.input 3);
-                
-            
         
             
-                \draw ($(x4) + (0, -1ex)$)|- (xandyF35.input 4);
-                
+        
             
         
      
@@ -1535,56 +2460,63 @@ LOGIGRAM-FILE-TEMPLATE
     %% y_pos : the position of OR gate according to their related gates
     
 
-    %% Function F3 Large OR Gate
+    %% Function F0 Large OR Gate
     
-        \node[or gate US, draw, rotate=0, logic gate inputs=nnnnn] at (\FunctionPos, 6.0) (xoryF3) {};
-        \draw (xoryF3.output) -- node[above]{\scriptsize $F3$} ($(xoryF3.east) + (+3ex, 0)$);
+        \node[or gate US, draw, rotate=0, logic gate inputs=nnnnnn] at (\FunctionPos, 4.2) (xoryF0) {};
+        \draw (xoryF0.output) -- node[above]{\scriptsize $F0$} ($(xoryF0.east) + (+3ex, 0)$);
     
 
-
-    
-    
-    
-    
-        
-             \draw (xandyF31.output) -- ([xshift=1.6cm]xandyF31.output) |- (xoryF3.input 5);
-        
-        
-            
-        
-    
-        
-             \draw (xandyF32.output) -- ([xshift=1.55cm]xandyF32.output) |- (xoryF3.input 4);
-        
-        
-            
-        
-    
-        
-             \draw (xandyF33.output) -- ([xshift=1.6cm]xandyF33.output) |- (xoryF3.input 3);
-        
-        
-            
-        
-    
-        
-             \draw (xandyF34.output) -- ([xshift=1.6500000000000001cm]xandyF34.output) |- (xoryF3.input 2);
-        
-        
-            
-        
-    
-        
-             \draw (xandyF35.output) -- ([xshift=1.7000000000000002cm]xandyF35.output) |- (xoryF3.input 1);
-        
-        
-            
-        
-    
 
     
     
     
+    
+        
+             \draw (xandyF01.output) -- ([xshift=1.6cm]xandyF01.output) |- (xoryF0.input 6);
+        
+        
+            
+        
+    
+        
+             \draw (xandyF02.output) -- ([xshift=1.55cm]xandyF02.output) |- (xoryF0.input 5);
+        
+        
+            
+        
+    
+        
+             \draw (xandyF03.output) -- ([xshift=1.5cm]xandyF03.output) |- (xoryF0.input 4);
+        
+        
+            
+        
+    
+        
+             \draw (xandyF04.output) -- ([xshift=1.55cm]xandyF04.output) |- (xoryF0.input 3);
+        
+        
+            
+        
+    
+        
+             \draw (xandyF05.output) -- ([xshift=1.6cm]xandyF05.output) |- (xoryF0.input 2);
+        
+        
+            
+        
+    
+        
+             \draw (xandyF06.output) -- ([xshift=1.6500000000000001cm]xandyF06.output) |- (xoryF0.input 1);
+        
+        
+            
+        
+    
+
+    
+    
+    
 
     
         
@@ -1592,31 +2524,19 @@ LOGIGRAM-FILE-TEMPLATE
         
         
         
-     %% ***Function F5 : Gate for term n° 1 [  a.b.c.d'  ]***
+     %% ***Function F1 : Gate for term n° 1 [  w.x.y.z  ]***
 
-           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 9.6) (xandyF51) {};
-           \draw (xandyF51.output) -- node[above]{\scriptsize $  a.b.c.d'  $} ($(xandyF51) + (1.8, 0)$);
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 8.4) (xandyF11) {};
+           \draw (xandyF11.output) -- node[above]{\scriptsize $  w.x.y.z  $} ($(xandyF11) + (1.8, 0)$);
 
         
         
             
-                \draw ($(x1) + (0, -1ex)$)|- (xandyF51.input 1);
-                
+        
             
         
             
-                \draw ($(x2) + (0, -1ex)$)|- (xandyF51.input 2);
-                
-            
         
-            
-                \draw ($(x3) + (0, -1ex)$)|- (xandyF51.input 3);
-                
-            
-        
-            
-                \draw ($(x4) + (0, -1ex)$)|- (xandyF51.input 4);
-                
             
         
      
@@ -1626,33 +2546,19 @@ LOGIGRAM-FILE-TEMPLATE
         
         
         
-     %% ***Function F5 : Gate for term n° 2 [  a'.b.c.d  ]***
+     %% ***Function F1 : Gate for term n° 2 [  ]***
 
-           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 10.799999999999999) (xandyF52) {};
-           \draw (xandyF52.output) -- node[above]{\scriptsize $  a'.b.c.d  $} ($(xandyF52) + (1.8, 0)$);
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 9.6) (xandyF12) {};
+           \draw (xandyF12.output) -- node[above]{\scriptsize $  $} ($(xandyF12) + (1.8, 0)$);
 
         
         
             
-                \draw ($(x1) + (0, -1ex)$)|- (xandyF52.input 1);
-                
+        
             
         
             
-                \draw [line width=0.25mm,   red] (notx2.output)
-                -- ([xshift=0cm]notx2.output) |- (xandyF52.input 2);
-                
-            
         
-            
-                \draw ($(x3) + (0, -1ex)$)|- (xandyF52.input 3);
-                
-            
-        
-            
-                \draw [line width=0.25mm,   red] (notx4.output)
-                -- ([xshift=0cm]notx4.output) |- (xandyF52.input 4);
-                
             
         
      
@@ -1662,111 +2568,19 @@ LOGIGRAM-FILE-TEMPLATE
         
         
         
-     %% ***Function F5 : Gate for term n° 3 [  ]***
+     %% ***Function F1 : Gate for term n° 3 [  ]***
 
-           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 12.0) (xandyF53) {};
-           \draw (xandyF53.output) -- node[above]{\scriptsize $  $} ($(xandyF53) + (1.8, 0)$);
-
-        
-        
-            
-                \draw [line width=0.25mm,   red] (notx1.output)
-                -- ([xshift=0cm]notx1.output) |- (xandyF53.input 1);
-                
-            
-        
-            
-                \draw ($(x2) + (0, -1ex)$)|- (xandyF53.input 2);
-                
-            
-        
-            
-                \draw [line width=0.25mm,   red] (notx3.output)
-                -- ([xshift=0cm]notx3.output) |- (xandyF53.input 3);
-                
-            
-        
-            
-                \draw ($(x4) + (0, -1ex)$)|- (xandyF53.input 4);
-                
-            
-        
-     
-    
-
-
-    %% y_pos : the position of OR gate according to their related gates
-    
-
-    %% Function F5 Large OR Gate
-    
-        \node[or gate US, draw, rotate=0, logic gate inputs=nnn] at (\FunctionPos, 10.799999999999999) (xoryF5) {};
-        \draw (xoryF5.output) -- node[above]{\scriptsize $F5$} ($(xoryF5.east) + (+3ex, 0)$);
-    
-
-
-    
-    
-    
-    
-        
-             \draw (xandyF51.output) -- ([xshift=1.6cm]xandyF51.output) |- (xoryF5.input 3);
-        
-        
-            
-        
-    
-        
-             \draw (xandyF52.output) -- ([xshift=1.6500000000000001cm]xandyF52.output) |- (xoryF5.input 2);
-        
-        
-            
-        
-    
-        
-             \draw (xandyF53.output) -- ([xshift=1.7000000000000002cm]xandyF53.output) |- (xoryF5.input 1);
-        
-        
-            
-        
-    
-
-    
-    
-    
-
-    
-        
-        
-        
-        
-        
-     %% ***Function F7 : Gate for term n° 1 [  a.b.c.d  ]***
-
-           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 13.2) (xandyF71) {};
-           \draw (xandyF71.output) -- node[above]{\scriptsize $  a.b.c.d  $} ($(xandyF71) + (1.8, 0)$);
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 10.799999999999999) (xandyF13) {};
+           \draw (xandyF13.output) -- node[above]{\scriptsize $  $} ($(xandyF13) + (1.8, 0)$);
 
         
         
             
-                \draw ($(x1) + (0, -1ex)$)|- (xandyF71.input 1);
-                
+        
             
         
             
-                \draw ($(x2) + (0, -1ex)$)|- (xandyF71.input 2);
-                
-            
         
-            
-                \draw ($(x3) + (0, -1ex)$)|- (xandyF71.input 3);
-                
-            
-        
-            
-                \draw [line width=0.25mm,   red] (notx4.output)
-                -- ([xshift=0cm]notx4.output) |- (xandyF71.input 4);
-                
             
         
      
@@ -1776,32 +2590,107 @@ LOGIGRAM-FILE-TEMPLATE
         
         
         
-     %% ***Function F7 : Gate for term n° 2 [  a.b'.c.d'  ]***
+     %% ***Function F1 : Gate for term n° 4 [  ]***
 
-           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 14.399999999999999) (xandyF72) {};
-           \draw (xandyF72.output) -- node[above]{\scriptsize $  a.b'.c.d'  $} ($(xandyF72) + (1.8, 0)$);
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 12.0) (xandyF14) {};
+           \draw (xandyF14.output) -- node[above]{\scriptsize $  $} ($(xandyF14) + (1.8, 0)$);
 
         
         
             
-                \draw [line width=0.25mm,   red] (notx1.output)
-                -- ([xshift=0cm]notx1.output) |- (xandyF72.input 1);
-                
+        
             
         
             
-                \draw ($(x2) + (0, -1ex)$)|- (xandyF72.input 2);
-                
+        
+            
+        
+     
+    
+        
+        
+        
+        
+        
+     %% ***Function F1 : Gate for term n° 5 [  ]***
+
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 13.2) (xandyF15) {};
+           \draw (xandyF15.output) -- node[above]{\scriptsize $  $} ($(xandyF15) + (1.8, 0)$);
+
+        
+        
             
         
             
-                \draw ($(x3) + (0, -1ex)$)|- (xandyF72.input 3);
-                
+        
             
         
             
-                \draw ($(x4) + (0, -1ex)$)|- (xandyF72.input 4);
-                
+        
+     
+    
+        
+        
+        
+        
+        
+     %% ***Function F1 : Gate for term n° 6 [  ]***
+
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 14.399999999999999) (xandyF16) {};
+           \draw (xandyF16.output) -- node[above]{\scriptsize $  $} ($(xandyF16) + (1.8, 0)$);
+
+        
+        
+            
+        
+            
+        
+            
+        
+            
+        
+     
+    
+        
+        
+        
+        
+        
+     %% ***Function F1 : Gate for term n° 7 [  ]***
+
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 15.6) (xandyF17) {};
+           \draw (xandyF17.output) -- node[above]{\scriptsize $  $} ($(xandyF17) + (1.8, 0)$);
+
+        
+        
+            
+        
+            
+        
+            
+        
+            
+        
+     
+    
+        
+        
+        
+        
+        
+     %% ***Function F1 : Gate for term n° 8 [  ]***
+
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 16.8) (xandyF18) {};
+           \draw (xandyF18.output) -- node[above]{\scriptsize $  $} ($(xandyF18) + (1.8, 0)$);
+
+        
+        
+            
+        
+            
+        
+            
+        
             
         
      
@@ -1811,10 +2700,10 @@ LOGIGRAM-FILE-TEMPLATE
     %% y_pos : the position of OR gate according to their related gates
     
 
-    %% Function F7 Large OR Gate
+    %% Function F1 Large OR Gate
     
-        \node[or gate US, draw, rotate=0, logic gate inputs=nn] at (\FunctionPos, 13.799999999999999) (xoryF7) {};
-        \draw (xoryF7.output) -- node[above]{\scriptsize $F7$} ($(xoryF7.east) + (+3ex, 0)$);
+        \node[or gate US, draw, rotate=0, logic gate inputs=nnnnnnnn] at (\FunctionPos, 12.6) (xoryF1) {};
+        \draw (xoryF1.output) -- node[above]{\scriptsize $F1$} ($(xoryF1.east) + (+3ex, 0)$);
     
 
 
@@ -1823,142 +2712,56 @@ LOGIGRAM-FILE-TEMPLATE
     
     
         
-             \draw (xandyF71.output) -- ([xshift=1.6cm]xandyF71.output) |- (xoryF7.input 2);
+             \draw (xandyF11.output) -- ([xshift=1.6cm]xandyF11.output) |- (xoryF1.input 8);
         
         
             
         
     
         
-             \draw (xandyF72.output) -- ([xshift=1.6500000000000001cm]xandyF72.output) |- (xoryF7.input 1);
+             \draw (xandyF12.output) -- ([xshift=1.55cm]xandyF12.output) |- (xoryF1.input 7);
         
         
             
         
     
-
-    
-    
-    
-
-    
         
-        
-        
-        
-        
-     %% ***Function F11 : Gate for term n° 1 [  a.b.c.d  ]***
-
-           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 15.6) (xandyF111) {};
-           \draw (xandyF111.output) -- node[above]{\scriptsize $  a.b.c.d  $} ($(xandyF111) + (1.8, 0)$);
-
-        
-        
-            
-                \draw ($(x1) + (0, -1ex)$)|- (xandyF111.input 1);
-                
-            
-        
-            
-                \draw [line width=0.25mm,   red] (notx2.output)
-                -- ([xshift=0cm]notx2.output) |- (xandyF111.input 2);
-                
-            
-        
-            
-                \draw ($(x3) + (0, -1ex)$)|- (xandyF111.input 3);
-                
-            
-        
-            
-                \draw ($(x4) + (0, -1ex)$)|- (xandyF111.input 4);
-                
-            
-        
-     
-    
-
-
-    %% y_pos : the position of OR gate according to their related gates
-    
-
-    %% Function F11 Large OR Gate
-    
-        \node at (\FunctionPos, 15.6) (xoryF11) {};
-        \draw (xoryF11)  node[above]{\scriptsize $F11$} ($(xoryF11.east) + (+3ex, 0)$);
-    
-
-
-    
-    
-    
-    
-        
-             \draw (xandyF111.output) -- ([xshift=1.6cm]xandyF111.output) |- (xoryF11);
+             \draw (xandyF13.output) -- ([xshift=1.5cm]xandyF13.output) |- (xoryF1.input 6);
         
         
             
         
     
-
-    
-    
-    
-
-    
         
-        
-        
-        
-        
-     %% ***Function F13 : Gate for term n° 1 [  a.d'  ]***
-
-           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 16.8) (xandyF131) {};
-           \draw (xandyF131.output) -- node[above]{\scriptsize $  a.d'  $} ($(xandyF131) + (1.8, 0)$);
-
+             \draw (xandyF14.output) -- ([xshift=1.45cm]xandyF14.output) |- (xoryF1.input 5);
         
         
             
-                \draw ($(x1) + (0, -1ex)$)|- (xandyF131.input 1);
-                
-            
         
-            
-                \draw ($(x2) + (0, -1ex)$)|- (xandyF131.input 2);
-                
-            
-        
-            
-                \draw [line width=0.25mm,   red] (notx3.output)
-                -- ([xshift=0cm]notx3.output) |- (xandyF131.input 3);
-                
-            
-        
-            
-                \draw ($(x4) + (0, -1ex)$)|- (xandyF131.input 4);
-                
-            
-        
-     
-    
-
-
-    %% y_pos : the position of OR gate according to their related gates
-    
-
-    %% Function F13 Large OR Gate
-    
-        \node at (\FunctionPos, 16.8) (xoryF13) {};
-        \draw (xoryF13)  node[above]{\scriptsize $F13$} ($(xoryF13.east) + (+3ex, 0)$);
-    
-
-
-    
-    
-    
     
         
-             \draw (xandyF131.output) -- ([xshift=1.6cm]xandyF131.output) |- (xoryF13);
+             \draw (xandyF15.output) -- ([xshift=1.5cm]xandyF15.output) |- (xoryF1.input 4);
+        
+        
+            
+        
+    
+        
+             \draw (xandyF16.output) -- ([xshift=1.55cm]xandyF16.output) |- (xoryF1.input 3);
+        
+        
+            
+        
+    
+        
+             \draw (xandyF17.output) -- ([xshift=1.6cm]xandyF17.output) |- (xoryF1.input 2);
+        
+        
+            
+        
+    
+        
+             \draw (xandyF18.output) -- ([xshift=1.6500000000000001cm]xandyF18.output) |- (xoryF1.input 1);
         
         
             
@@ -1971,82 +2774,91 @@ LOGIGRAM-FILE-TEMPLATE
 STRUCTURED LOGIGRAM-FILE-TEMPLATE
 \begin{verbatim}
 {'function_gate': 'or',
- 'functions': [{'name': 'F13',
+ 'functions': [{'name': 'F1',
+                'nb_terms': 8,
+                'terms': [{'id': 'xandyF1g0',
+                           'label': {'default': "w'.x'.y'.z",
+                                     'formatted': '\\overline{w}.\\overline{x}.\\overline{y}.z'},
+                           'name': "W'.X'.Y'.Z",
+                           'vars': ["W'", "X'", "Y'", 'Z']},
+                          {'id': 'xandyF1g1',
+                           'label': {'default': "w'.x'.y.z'",
+                                     'formatted': '\\overline{w}.\\overline{x}.y.\\overline{z}'},
+                           'name': "W'.X'.Y.Z'",
+                           'vars': ["W'", "X'", 'Y', "Z'"]},
+                          {'id': 'xandyF1g2',
+                           'label': {'default': "w'.x.y'.z'",
+                                     'formatted': '\\overline{w}.x.\\overline{y}.\\overline{z}'},
+                           'name': "W'.X.Y'.Z'",
+                           'vars': ["W'", 'X', "Y'", "Z'"]},
+                          {'id': 'xandyF1g3',
+                           'label': {'default': "w.x'.y'.z'",
+                                     'formatted': 'w.\\overline{x}.\\overline{y}.\\overline{z}'},
+                           'name': "W.X'.Y'.Z'",
+                           'vars': ['W', "X'", "Y'", "Z'"]},
+                          {'id': 'xandyF1g4',
+                           'label': {'default': "w'.x.y.z",
+                                     'formatted': '\\overline{w}.x.y.z'},
+                           'name': "W'.X.Y.Z",
+                           'vars': ["W'", 'X', 'Y', 'Z']},
+                          {'id': 'xandyF1g5',
+                           'label': {'default': "w.x'.y.z",
+                                     'formatted': 'w.\\overline{x}.y.z'},
+                           'name': "W.X'.Y.Z",
+                           'vars': ['W', "X'", 'Y', 'Z']},
+                          {'id': 'xandyF1g6',
+                           'label': {'default': "w.x.y'.z",
+                                     'formatted': 'w.x.\\overline{y}.z'},
+                           'name': "W.X.Y'.Z",
+                           'vars': ['W', 'X', "Y'", 'Z']},
+                          {'id': 'xandyF1g7',
+                           'label': {'default': "w.x.y.z'",
+                                     'formatted': 'w.x.y.\\overline{z}'},
+                           'name': "W.X.Y.Z'",
+                           'vars': ['W', 'X', 'Y', "Z'"]}]},
+               {'name': 'F0',
+                'nb_terms': 6,
+                'terms': [{'id': 'xandyF0g0',
+                           'label': {'default': "w'.y.z",
+                                     'formatted': '\\overline{w}.y.z'},
+                           'name': "W'.Y.Z",
+                           'vars': ["W'", 'Y', 'Z']},
+                          {'id': 'xandyF0g1',
+                           'label': {'default': "x.y'.z",
+                                     'formatted': 'x.\\overline{y}.z'},
+                           'name': "X.Y'.Z",
+                           'vars': ['X', "Y'", 'Z']},
+                          {'id': 'xandyF0g2',
+                           'label': {'default': "x.y.z'",
+                                     'formatted': 'x.y.\\overline{z}'},
+                           'name': "X.Y.Z'",
+                           'vars': ['X', 'Y', "Z'"]},
+                          {'id': 'xandyF0g3',
+                           'label': {'default': "w.x'.z",
+                                     'formatted': 'w.\\overline{x}.z'},
+                           'name': "W.X'.Z",
+                           'vars': ['W', "X'", 'Z']},
+                          {'id': 'xandyF0g4',
+                           'label': {'default': "w.y.z'",
+                                     'formatted': 'w.y.\\overline{z}'},
+                           'name': "W.Y.Z'",
+                           'vars': ['W', 'Y', "Z'"]},
+                          {'id': 'xandyF0g5',
+                           'label': {'default': "w.x.y'",
+                                     'formatted': 'w.x.\\overline{y}'},
+                           'name': "W.X.Y'",
+                           'vars': ['W', 'X', "Y'"]}]},
+               {'name': 'Fx0',
                 'nb_terms': 1,
-                'terms': [{'id': 'xandyF13g0',
-                           'label': "A.B.C'.D",
-                           'name': "A.B.C'.D",
-                           'vars': ['A', 'B', "C'", 'D']}]},
-               {'name': 'F11',
-                'nb_terms': 1,
-                'terms': [{'id': 'xandyF11g0',
-                           'label': "A.B'.C.D",
-                           'name': "A.B'.C.D",
-                           'vars': ['A', "B'", 'C', 'D']}]},
-               {'name': 'F7',
-                'nb_terms': 2,
-                'terms': [{'id': 'xandyF7g0',
-                           'label': "A'.B.C.D",
-                           'name': "A'.B.C.D",
-                           'vars': ["A'", 'B', 'C', 'D']},
-                          {'id': 'xandyF7g1',
-                           'label': "A.B.C.D'",
-                           'name': "A.B.C.D'",
-                           'vars': ['A', 'B', 'C', "D'"]}]},
-               {'name': 'F5',
-                'nb_terms': 3,
-                'terms': [{'id': 'xandyF5g0',
-                           'label': "A'.B.C'.D",
-                           'name': "A'.B.C'.D",
-                           'vars': ["A'", 'B', "C'", 'D']},
-                          {'id': 'xandyF5g1',
-                           'label': "A.B'.C.D'",
-                           'name': "A.B'.C.D'",
-                           'vars': ['A', "B'", 'C', "D'"]},
-                          {'id': 'xandyF5g2',
-                           'label': 'A.B.C.D',
-                           'name': 'A.B.C.D',
-                           'vars': ['A', 'B', 'C', 'D']}]},
-               {'name': 'F3',
-                'nb_terms': 5,
-                'terms': [{'id': 'xandyF3g0',
-                           'label': "A'.B'.C.D",
-                           'name': "A'.B'.C.D",
-                           'vars': ["A'", "B'", 'C', 'D']},
-                          {'id': 'xandyF3g1',
-                           'label': "A'.B.C.D'",
-                           'name': "A'.B.C.D'",
-                           'vars': ["A'", 'B', 'C', "D'"]},
-                          {'id': 'xandyF3g2',
-                           'label': "A.B'.C'.D",
-                           'name': "A.B'.C'.D",
-                           'vars': ['A', "B'", "C'", 'D']},
-                          {'id': 'xandyF3g3',
-                           'label': "A.B.C'.D'",
-                           'name': "A.B.C'.D'",
-                           'vars': ['A', 'B', "C'", "D'"]},
-                          {'id': 'xandyF3g4',
-                           'label': 'A.B.C.D',
-                           'name': 'A.B.C.D',
-                           'vars': ['A', 'B', 'C', 'D']}]},
-               {'name': 'F2',
-                'nb_terms': 3,
-                'terms': [{'id': 'xandyF2g0',
-                           'label': "C.D'",
-                           'name': "C.D'",
-                           'vars': ['C', "D'"]},
-                          {'id': 'xandyF2g1',
-                           'label': "B.D'",
-                           'name': "B.D'",
-                           'vars': ['B', "D'"]},
-                          {'id': 'xandyF2g2',
-                           'label': "A.D'",
-                           'name': "A.D'",
-                           'vars': ['A', "D'"]}]}],
+                'terms': [{'id': 'xandyFx0g0',
+                           'label': {'default': 'w.x.y.z',
+                                     'formatted': 'w.x.y.z'},
+                           'name': 'W.X.Y.Z',
+                           'vars': ['W', 'X', 'Y', 'Z']}]}],
  'method': '',
  'size_terms': 15,
  'term_gate': 'and',
- 'variables': ['A', 'B', 'C', 'D']}
+ 'variables': {'A': 'X', 'B': 'Y', 'C': 'Z', 'D': 'W'}}
 \end{verbatim}
 
 
@@ -2064,19 +2876,19 @@ STRUCTURED LOGIGRAM-FILE-TEMPLATE
 
 
 
-    \node (x1) at (0.0, \varPos) {$ A $};
+    \node (x1) at (0.0, \varPos) {$ X $};
     \node[not gate US, draw, rotate=270] at ($(x1) + (0.25, -0.6)$) (notx1) {};
     \draw ($(x1)+(0,-1ex)$) -| (notx1.input);
 
-    \node (x2) at (0.5, \varPos) {$ B $};
+    \node (x2) at (0.5, \varPos) {$ Y $};
     \node[not gate US, draw, rotate=270] at ($(x2) + (0.25, -0.6)$) (notx2) {};
     \draw ($(x2)+(0,-1ex)$) -| (notx2.input);
 
-    \node (x3) at (1.0, \varPos) {$ C $};
+    \node (x3) at (1.0, \varPos) {$ Z $};
     \node[not gate US, draw, rotate=270] at ($(x3) + (0.25, -0.6)$) (notx3) {};
     \draw ($(x3)+(0,-1ex)$) -| (notx3.input);
 
-    \node (x4) at (1.5, \varPos) {$ D $};
+    \node (x4) at (1.5, \varPos) {$ W $};
     \node[not gate US, draw, rotate=270] at ($(x4) + (0.25, -0.6)$) (notx4) {};
     \draw ($(x4)+(0,-1ex)$) -| (notx4.input);
 
@@ -2089,510 +2901,256 @@ STRUCTURED LOGIGRAM-FILE-TEMPLATE
 
     
         
-     %% ***Function F13 : Gate for term n° 1 [ A.B.C'.D ]***
+     %% ***Function F1 : Gate for term n° 1 [ {'default': "w'.x'.y'.z", 'formatted': '\\overline{w}.\\overline{x}.\\overline{y}.z'} ]***
 
-           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 0.0) (xandyF13g0) {};
-           \draw (xandyF13g0.output) -- node[above]{\scriptsize $ A.B.C'.D $} ($(xandyF13g0) + (1.8, 0)$);
-
-        
-        
-            
-                \draw ($(x1) + (0, -1ex)$)|- (xandyF13g0.input 1);
-                
-            
-        
-            
-                \draw ($(x2) + (0, -1ex)$)|- (xandyF13g0.input 2);
-                
-            
-        
-            
-                \draw [line width=0.25mm,   red] (notx3.output)
-                -- ([xshift=0cm]notx3.output) |- (xandyF13g0.input 3);
-                
-            
-        
-            
-                \draw ($(x4) + (0, -1ex)$)|- (xandyF13g0.input 4);
-                
-            
-        
-     
-    
-
-
-    %% y_pos : the position of OR gate according to their related gates
-    
-
-    %% Function F13 Large OR Gate
-    
-
-    
-        \node at (\FunctionPos, 0.0) (xoryF13) {};
-        \draw (xoryF13)  node[above]{\scriptsize $F13$} ($(xoryF13.east) + (+3ex, 0)$);
-    
-
-
-    
-    
-    
-    
-
-        
-             \draw (xandyF13g0.output) -- (xoryF13);
-        
-        
-
-    
-
-    
-        
-     %% ***Function F11 : Gate for term n° 1 [ A.B'.C.D ]***
-
-           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 1.2) (xandyF11g0) {};
-           \draw (xandyF11g0.output) -- node[above]{\scriptsize $ A.B'.C.D $} ($(xandyF11g0) + (1.8, 0)$);
-
-        
-        
-            
-                \draw ($(x1) + (0, -1ex)$)|- (xandyF11g0.input 1);
-                
-            
-        
-            
-                \draw [line width=0.25mm,   red] (notx2.output)
-                -- ([xshift=0cm]notx2.output) |- (xandyF11g0.input 2);
-                
-            
-        
-            
-                \draw ($(x3) + (0, -1ex)$)|- (xandyF11g0.input 3);
-                
-            
-        
-            
-                \draw ($(x4) + (0, -1ex)$)|- (xandyF11g0.input 4);
-                
-            
-        
-     
-    
-
-
-    %% y_pos : the position of OR gate according to their related gates
-    
-
-    %% Function F11 Large OR Gate
-    
-
-    
-        \node at (\FunctionPos, 1.2) (xoryF11) {};
-        \draw (xoryF11)  node[above]{\scriptsize $F11$} ($(xoryF11.east) + (+3ex, 0)$);
-    
-
-
-    
-    
-    
-    
-
-        
-             \draw (xandyF11g0.output) -- (xoryF11);
-        
-        
-
-    
-
-    
-        
-     %% ***Function F7 : Gate for term n° 1 [ A'.B.C.D ]***
-
-           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 2.4) (xandyF7g0) {};
-           \draw (xandyF7g0.output) -- node[above]{\scriptsize $ A'.B.C.D $} ($(xandyF7g0) + (1.8, 0)$);
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 0.0) (xandyF1g0) {};
+           \draw (xandyF1g0.output) -- node[above]{\scriptsize $ \overline{w}.\overline{x}.\overline{y}.z $} ($(xandyF1g0) + (1.8, 0)$);
 
         
         
             
                 \draw [line width=0.25mm,   red] (notx1.output)
-                -- ([xshift=0cm]notx1.output) |- (xandyF7g0.input 1);
-                
-            
-        
-            
-                \draw ($(x2) + (0, -1ex)$)|- (xandyF7g0.input 2);
-                
-            
-        
-            
-                \draw ($(x3) + (0, -1ex)$)|- (xandyF7g0.input 3);
-                
-            
-        
-            
-                \draw ($(x4) + (0, -1ex)$)|- (xandyF7g0.input 4);
-                
-            
-        
-     
-    
-        
-     %% ***Function F7 : Gate for term n° 2 [ A.B.C.D' ]***
-
-           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 3.5999999999999996) (xandyF7g1) {};
-           \draw (xandyF7g1.output) -- node[above]{\scriptsize $ A.B.C.D' $} ($(xandyF7g1) + (1.8, 0)$);
-
-        
-        
-            
-                \draw ($(x1) + (0, -1ex)$)|- (xandyF7g1.input 1);
-                
-            
-        
-            
-                \draw ($(x2) + (0, -1ex)$)|- (xandyF7g1.input 2);
-                
-            
-        
-            
-                \draw ($(x3) + (0, -1ex)$)|- (xandyF7g1.input 3);
-                
-            
-        
-            
-                \draw [line width=0.25mm,   red] (notx4.output)
-                -- ([xshift=0cm]notx4.output) |- (xandyF7g1.input 4);
-                
-            
-        
-     
-    
-
-
-    %% y_pos : the position of OR gate according to their related gates
-    
-
-    %% Function F7 Large OR Gate
-    
-
-    
-        \node[or gate US, draw, rotate=0, logic gate inputs=nn] at (\FunctionPos, 3.0) (xoryF7) {};
-        \draw (xoryF7.output) -- node[above]{\scriptsize $F7$} ($(xoryF7.east) + (+3ex, 0)$);
-    
-
-
-    
-    
-    
-    
-
-        
-             \draw (xandyF7g0.output) -- ++(1.6,0) |- (xoryF7.input 2);
-
-        
-        
-
-    
-
-        
-             \draw (xandyF7g1.output) -- ++(1.6,0) |- (xoryF7.input 1);
-
-        
-        
-
-    
-
-    
-        
-     %% ***Function F5 : Gate for term n° 1 [ A'.B.C'.D ]***
-
-           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 4.8) (xandyF5g0) {};
-           \draw (xandyF5g0.output) -- node[above]{\scriptsize $ A'.B.C'.D $} ($(xandyF5g0) + (1.8, 0)$);
-
-        
-        
-            
-                \draw [line width=0.25mm,   red] (notx1.output)
-                -- ([xshift=0cm]notx1.output) |- (xandyF5g0.input 1);
-                
-            
-        
-            
-                \draw ($(x2) + (0, -1ex)$)|- (xandyF5g0.input 2);
-                
-            
-        
-            
-                \draw [line width=0.25mm,   red] (notx3.output)
-                -- ([xshift=0cm]notx3.output) |- (xandyF5g0.input 3);
-                
-            
-        
-            
-                \draw ($(x4) + (0, -1ex)$)|- (xandyF5g0.input 4);
-                
-            
-        
-     
-    
-        
-     %% ***Function F5 : Gate for term n° 2 [ A.B'.C.D' ]***
-
-           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 6.0) (xandyF5g1) {};
-           \draw (xandyF5g1.output) -- node[above]{\scriptsize $ A.B'.C.D' $} ($(xandyF5g1) + (1.8, 0)$);
-
-        
-        
-            
-                \draw ($(x1) + (0, -1ex)$)|- (xandyF5g1.input 1);
+                -- ([xshift=0cm]notx1.output) |- (xandyF1g0.input 1);
                 
             
         
             
                 \draw [line width=0.25mm,   red] (notx2.output)
-                -- ([xshift=0cm]notx2.output) |- (xandyF5g1.input 2);
+                -- ([xshift=0cm]notx2.output) |- (xandyF1g0.input 2);
                 
             
         
             
-                \draw ($(x3) + (0, -1ex)$)|- (xandyF5g1.input 3);
+                \draw ($(x3) + (0, -1ex)$)|- (xandyF1g0.input 3);
                 
             
         
             
                 \draw [line width=0.25mm,   red] (notx4.output)
-                -- ([xshift=0cm]notx4.output) |- (xandyF5g1.input 4);
+                -- ([xshift=0cm]notx4.output) |- (xandyF1g0.input 4);
                 
             
         
      
     
         
-     %% ***Function F5 : Gate for term n° 3 [ A.B.C.D ]***
+     %% ***Function F1 : Gate for term n° 2 [ {'default': "w'.x'.y.z'", 'formatted': '\\overline{w}.\\overline{x}.y.\\overline{z}'} ]***
 
-           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 7.199999999999999) (xandyF5g2) {};
-           \draw (xandyF5g2.output) -- node[above]{\scriptsize $ A.B.C.D $} ($(xandyF5g2) + (1.8, 0)$);
-
-        
-        
-            
-                \draw ($(x1) + (0, -1ex)$)|- (xandyF5g2.input 1);
-                
-            
-        
-            
-                \draw ($(x2) + (0, -1ex)$)|- (xandyF5g2.input 2);
-                
-            
-        
-            
-                \draw ($(x3) + (0, -1ex)$)|- (xandyF5g2.input 3);
-                
-            
-        
-            
-                \draw ($(x4) + (0, -1ex)$)|- (xandyF5g2.input 4);
-                
-            
-        
-     
-    
-
-
-    %% y_pos : the position of OR gate according to their related gates
-    
-
-    %% Function F5 Large OR Gate
-    
-
-    
-        \node[or gate US, draw, rotate=0, logic gate inputs=nnn] at (\FunctionPos, 6.0) (xoryF5) {};
-        \draw (xoryF5.output) -- node[above]{\scriptsize $F5$} ($(xoryF5.east) + (+3ex, 0)$);
-    
-
-
-    
-    
-    
-    
-
-        
-             \draw (xandyF5g0.output) -- ++(1.6,0) |- (xoryF5.input 3);
-
-        
-        
-
-    
-
-        
-             \draw (xandyF5g1.output) -- ++(1.6,0) |- (xoryF5.input 2);
-
-        
-        
-
-    
-
-        
-             \draw (xandyF5g2.output) -- ++(1.6500000000000001,0) |- (xoryF5.input 1);
-
-        
-        
-
-    
-
-    
-        
-     %% ***Function F3 : Gate for term n° 1 [ A'.B'.C.D ]***
-
-           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 8.4) (xandyF3g0) {};
-           \draw (xandyF3g0.output) -- node[above]{\scriptsize $ A'.B'.C.D $} ($(xandyF3g0) + (1.8, 0)$);
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 1.2) (xandyF1g1) {};
+           \draw (xandyF1g1.output) -- node[above]{\scriptsize $ \overline{w}.\overline{x}.y.\overline{z} $} ($(xandyF1g1) + (1.8, 0)$);
 
         
         
             
                 \draw [line width=0.25mm,   red] (notx1.output)
-                -- ([xshift=0cm]notx1.output) |- (xandyF3g0.input 1);
+                -- ([xshift=0cm]notx1.output) |- (xandyF1g1.input 1);
                 
             
         
             
-                \draw [line width=0.25mm,   red] (notx2.output)
-                -- ([xshift=0cm]notx2.output) |- (xandyF3g0.input 2);
+                \draw ($(x2) + (0, -1ex)$)|- (xandyF1g1.input 2);
                 
             
         
             
-                \draw ($(x3) + (0, -1ex)$)|- (xandyF3g0.input 3);
+                \draw [line width=0.25mm,   red] (notx3.output)
+                -- ([xshift=0cm]notx3.output) |- (xandyF1g1.input 3);
                 
             
         
             
-                \draw ($(x4) + (0, -1ex)$)|- (xandyF3g0.input 4);
+                \draw [line width=0.25mm,   red] (notx4.output)
+                -- ([xshift=0cm]notx4.output) |- (xandyF1g1.input 4);
                 
             
         
      
     
         
-     %% ***Function F3 : Gate for term n° 2 [ A'.B.C.D' ]***
+     %% ***Function F1 : Gate for term n° 3 [ {'default': "w'.x.y'.z'", 'formatted': '\\overline{w}.x.\\overline{y}.\\overline{z}'} ]***
 
-           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 9.6) (xandyF3g1) {};
-           \draw (xandyF3g1.output) -- node[above]{\scriptsize $ A'.B.C.D' $} ($(xandyF3g1) + (1.8, 0)$);
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 2.4) (xandyF1g2) {};
+           \draw (xandyF1g2.output) -- node[above]{\scriptsize $ \overline{w}.x.\overline{y}.\overline{z} $} ($(xandyF1g2) + (1.8, 0)$);
+
+        
+        
+            
+                \draw ($(x1) + (0, -1ex)$)|- (xandyF1g2.input 1);
+                
+            
+        
+            
+                \draw [line width=0.25mm,   red] (notx2.output)
+                -- ([xshift=0cm]notx2.output) |- (xandyF1g2.input 2);
+                
+            
+        
+            
+                \draw [line width=0.25mm,   red] (notx3.output)
+                -- ([xshift=0cm]notx3.output) |- (xandyF1g2.input 3);
+                
+            
+        
+            
+                \draw [line width=0.25mm,   red] (notx4.output)
+                -- ([xshift=0cm]notx4.output) |- (xandyF1g2.input 4);
+                
+            
+        
+     
+    
+        
+     %% ***Function F1 : Gate for term n° 4 [ {'default': "w.x'.y'.z'", 'formatted': 'w.\\overline{x}.\\overline{y}.\\overline{z}'} ]***
+
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 3.5999999999999996) (xandyF1g3) {};
+           \draw (xandyF1g3.output) -- node[above]{\scriptsize $ w.\overline{x}.\overline{y}.\overline{z} $} ($(xandyF1g3) + (1.8, 0)$);
 
         
         
             
                 \draw [line width=0.25mm,   red] (notx1.output)
-                -- ([xshift=0cm]notx1.output) |- (xandyF3g1.input 1);
-                
-            
-        
-            
-                \draw ($(x2) + (0, -1ex)$)|- (xandyF3g1.input 2);
-                
-            
-        
-            
-                \draw ($(x3) + (0, -1ex)$)|- (xandyF3g1.input 3);
-                
-            
-        
-            
-                \draw [line width=0.25mm,   red] (notx4.output)
-                -- ([xshift=0cm]notx4.output) |- (xandyF3g1.input 4);
-                
-            
-        
-     
-    
-        
-     %% ***Function F3 : Gate for term n° 3 [ A.B'.C'.D ]***
-
-           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 10.799999999999999) (xandyF3g2) {};
-           \draw (xandyF3g2.output) -- node[above]{\scriptsize $ A.B'.C'.D $} ($(xandyF3g2) + (1.8, 0)$);
-
-        
-        
-            
-                \draw ($(x1) + (0, -1ex)$)|- (xandyF3g2.input 1);
+                -- ([xshift=0cm]notx1.output) |- (xandyF1g3.input 1);
                 
             
         
             
                 \draw [line width=0.25mm,   red] (notx2.output)
-                -- ([xshift=0cm]notx2.output) |- (xandyF3g2.input 2);
+                -- ([xshift=0cm]notx2.output) |- (xandyF1g3.input 2);
                 
             
         
             
                 \draw [line width=0.25mm,   red] (notx3.output)
-                -- ([xshift=0cm]notx3.output) |- (xandyF3g2.input 3);
+                -- ([xshift=0cm]notx3.output) |- (xandyF1g3.input 3);
                 
             
         
             
-                \draw ($(x4) + (0, -1ex)$)|- (xandyF3g2.input 4);
+                \draw ($(x4) + (0, -1ex)$)|- (xandyF1g3.input 4);
                 
             
         
      
     
         
-     %% ***Function F3 : Gate for term n° 4 [ A.B.C'.D' ]***
+     %% ***Function F1 : Gate for term n° 5 [ {'default': "w'.x.y.z", 'formatted': '\\overline{w}.x.y.z'} ]***
 
-           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 12.0) (xandyF3g3) {};
-           \draw (xandyF3g3.output) -- node[above]{\scriptsize $ A.B.C'.D' $} ($(xandyF3g3) + (1.8, 0)$);
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 4.8) (xandyF1g4) {};
+           \draw (xandyF1g4.output) -- node[above]{\scriptsize $ \overline{w}.x.y.z $} ($(xandyF1g4) + (1.8, 0)$);
 
         
         
             
-                \draw ($(x1) + (0, -1ex)$)|- (xandyF3g3.input 1);
+                \draw ($(x1) + (0, -1ex)$)|- (xandyF1g4.input 1);
                 
             
         
             
-                \draw ($(x2) + (0, -1ex)$)|- (xandyF3g3.input 2);
+                \draw ($(x2) + (0, -1ex)$)|- (xandyF1g4.input 2);
                 
             
         
             
-                \draw [line width=0.25mm,   red] (notx3.output)
-                -- ([xshift=0cm]notx3.output) |- (xandyF3g3.input 3);
+                \draw ($(x3) + (0, -1ex)$)|- (xandyF1g4.input 3);
                 
             
         
             
                 \draw [line width=0.25mm,   red] (notx4.output)
-                -- ([xshift=0cm]notx4.output) |- (xandyF3g3.input 4);
+                -- ([xshift=0cm]notx4.output) |- (xandyF1g4.input 4);
                 
             
         
      
     
         
-     %% ***Function F3 : Gate for term n° 5 [ A.B.C.D ]***
+     %% ***Function F1 : Gate for term n° 6 [ {'default': "w.x'.y.z", 'formatted': 'w.\\overline{x}.y.z'} ]***
 
-           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 13.2) (xandyF3g4) {};
-           \draw (xandyF3g4.output) -- node[above]{\scriptsize $ A.B.C.D $} ($(xandyF3g4) + (1.8, 0)$);
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 6.0) (xandyF1g5) {};
+           \draw (xandyF1g5.output) -- node[above]{\scriptsize $ w.\overline{x}.y.z $} ($(xandyF1g5) + (1.8, 0)$);
 
         
         
             
-                \draw ($(x1) + (0, -1ex)$)|- (xandyF3g4.input 1);
+                \draw [line width=0.25mm,   red] (notx1.output)
+                -- ([xshift=0cm]notx1.output) |- (xandyF1g5.input 1);
                 
             
         
             
-                \draw ($(x2) + (0, -1ex)$)|- (xandyF3g4.input 2);
+                \draw ($(x2) + (0, -1ex)$)|- (xandyF1g5.input 2);
                 
             
         
             
-                \draw ($(x3) + (0, -1ex)$)|- (xandyF3g4.input 3);
+                \draw ($(x3) + (0, -1ex)$)|- (xandyF1g5.input 3);
                 
             
         
             
-                \draw ($(x4) + (0, -1ex)$)|- (xandyF3g4.input 4);
+                \draw ($(x4) + (0, -1ex)$)|- (xandyF1g5.input 4);
+                
+            
+        
+     
+    
+        
+     %% ***Function F1 : Gate for term n° 7 [ {'default': "w.x.y'.z", 'formatted': 'w.x.\\overline{y}.z'} ]***
+
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 7.199999999999999) (xandyF1g6) {};
+           \draw (xandyF1g6.output) -- node[above]{\scriptsize $ w.x.\overline{y}.z $} ($(xandyF1g6) + (1.8, 0)$);
+
+        
+        
+            
+                \draw ($(x1) + (0, -1ex)$)|- (xandyF1g6.input 1);
+                
+            
+        
+            
+                \draw [line width=0.25mm,   red] (notx2.output)
+                -- ([xshift=0cm]notx2.output) |- (xandyF1g6.input 2);
+                
+            
+        
+            
+                \draw ($(x3) + (0, -1ex)$)|- (xandyF1g6.input 3);
+                
+            
+        
+            
+                \draw ($(x4) + (0, -1ex)$)|- (xandyF1g6.input 4);
+                
+            
+        
+     
+    
+        
+     %% ***Function F1 : Gate for term n° 8 [ {'default': "w.x.y.z'", 'formatted': 'w.x.y.\\overline{z}'} ]***
+
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 8.4) (xandyF1g7) {};
+           \draw (xandyF1g7.output) -- node[above]{\scriptsize $ w.x.y.\overline{z} $} ($(xandyF1g7) + (1.8, 0)$);
+
+        
+        
+            
+                \draw ($(x1) + (0, -1ex)$)|- (xandyF1g7.input 1);
+                
+            
+        
+            
+                \draw ($(x2) + (0, -1ex)$)|- (xandyF1g7.input 2);
+                
+            
+        
+            
+                \draw [line width=0.25mm,   red] (notx3.output)
+                -- ([xshift=0cm]notx3.output) |- (xandyF1g7.input 3);
+                
+            
+        
+            
+                \draw ($(x4) + (0, -1ex)$)|- (xandyF1g7.input 4);
                 
             
         
@@ -2603,30 +3161,22 @@ STRUCTURED LOGIGRAM-FILE-TEMPLATE
     %% y_pos : the position of OR gate according to their related gates
     
 
-    %% Function F3 Large OR Gate
+    %% Function F1 Large OR Gate
     
 
     
-        \node[or gate US, draw, rotate=0, logic gate inputs=nnnnn] at (\FunctionPos, 10.799999999999999) (xoryF3) {};
-        \draw (xoryF3.output) -- node[above]{\scriptsize $F3$} ($(xoryF3.east) + (+3ex, 0)$);
+        \node[or gate US, draw, rotate=0, logic gate inputs=nnnnnnnn] at (\FunctionPos, 4.2) (xoryF1) {};
+        \draw (xoryF1.output) -- node[above]{\scriptsize $F1$} ($(xoryF1.east) + (+3ex, 0)$);
     
 
 
     
     
     
-    
-
-        
-             \draw (xandyF3g0.output) -- ++(1.6,0) |- (xoryF3.input 5);
-
-        
-        
-
     
 
         
-             \draw (xandyF3g1.output) -- ++(1.55,0) |- (xoryF3.input 4);
+             \draw (xandyF1g0.output) -- ++(1.6,0) |- (xoryF1.input 8);
 
         
         
@@ -2634,7 +3184,7 @@ STRUCTURED LOGIGRAM-FILE-TEMPLATE
     
 
         
-             \draw (xandyF3g2.output) -- ++(1.6,0) |- (xoryF3.input 3);
+             \draw (xandyF1g1.output) -- ++(1.4500000000000002,0) |- (xoryF1.input 7);
 
         
         
@@ -2642,7 +3192,7 @@ STRUCTURED LOGIGRAM-FILE-TEMPLATE
     
 
         
-             \draw (xandyF3g3.output) -- ++(1.6500000000000001,0) |- (xoryF3.input 2);
+             \draw (xandyF1g2.output) -- ++(1.5,0) |- (xoryF1.input 6);
 
         
         
@@ -2650,7 +3200,39 @@ STRUCTURED LOGIGRAM-FILE-TEMPLATE
     
 
         
-             \draw (xandyF3g4.output) -- ++(1.7000000000000002,0) |- (xoryF3.input 1);
+             \draw (xandyF1g3.output) -- ++(1.55,0) |- (xoryF1.input 5);
+
+        
+        
+
+    
+
+        
+             \draw (xandyF1g4.output) -- ++(1.6,0) |- (xoryF1.input 4);
+
+        
+        
+
+    
+
+        
+             \draw (xandyF1g5.output) -- ++(1.6500000000000001,0) |- (xoryF1.input 3);
+
+        
+        
+
+    
+
+        
+             \draw (xandyF1g6.output) -- ++(1.7000000000000002,0) |- (xoryF1.input 2);
+
+        
+        
+
+    
+
+        
+             \draw (xandyF1g7.output) -- ++(1.75,0) |- (xoryF1.input 1);
 
         
         
@@ -2659,75 +3241,168 @@ STRUCTURED LOGIGRAM-FILE-TEMPLATE
 
     
         
-     %% ***Function F2 : Gate for term n° 1 [ C.D' ]***
+     %% ***Function F0 : Gate for term n° 1 [ {'default': "w'.y.z", 'formatted': '\\overline{w}.y.z'} ]***
 
-           \node[and gate US, draw, rotate=0, logic gate inputs=nn] at (2.5, 14.399999999999999) (xandyF2g0) {};
-           \draw (xandyF2g0.output) -- node[above]{\scriptsize $ C.D' $} ($(xandyF2g0) + (1.8, 0)$);
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnn] at (2.5, 9.6) (xandyF0g0) {};
+           \draw (xandyF0g0.output) -- node[above]{\scriptsize $ \overline{w}.y.z $} ($(xandyF0g0) + (1.8, 0)$);
 
         
         
             
         
             
+                \draw ($(x2) + (0, -1ex)$)|- (xandyF0g0.input 1);
+                
+            
         
             
-                \draw ($(x3) + (0, -1ex)$)|- (xandyF2g0.input 1);
+                \draw ($(x3) + (0, -1ex)$)|- (xandyF0g0.input 2);
                 
             
         
             
                 \draw [line width=0.25mm,   red] (notx4.output)
-                -- ([xshift=0cm]notx4.output) |- (xandyF2g0.input 2);
+                -- ([xshift=0cm]notx4.output) |- (xandyF0g0.input 3);
                 
             
         
      
     
         
-     %% ***Function F2 : Gate for term n° 2 [ B.D' ]***
+     %% ***Function F0 : Gate for term n° 2 [ {'default': "x.y'.z", 'formatted': 'x.\\overline{y}.z'} ]***
 
-           \node[and gate US, draw, rotate=0, logic gate inputs=nn] at (2.5, 15.6) (xandyF2g1) {};
-           \draw (xandyF2g1.output) -- node[above]{\scriptsize $ B.D' $} ($(xandyF2g1) + (1.8, 0)$);
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnn] at (2.5, 10.799999999999999) (xandyF0g1) {};
+           \draw (xandyF0g1.output) -- node[above]{\scriptsize $ x.\overline{y}.z $} ($(xandyF0g1) + (1.8, 0)$);
 
         
         
             
+                \draw ($(x1) + (0, -1ex)$)|- (xandyF0g1.input 1);
+                
+            
         
             
-                \draw ($(x2) + (0, -1ex)$)|- (xandyF2g1.input 1);
+                \draw [line width=0.25mm,   red] (notx2.output)
+                -- ([xshift=0cm]notx2.output) |- (xandyF0g1.input 2);
+                
+            
+        
+            
+                \draw ($(x3) + (0, -1ex)$)|- (xandyF0g1.input 3);
+                
+            
+        
+            
+        
+     
+    
+        
+     %% ***Function F0 : Gate for term n° 3 [ {'default': "x.y.z'", 'formatted': 'x.y.\\overline{z}'} ]***
+
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnn] at (2.5, 12.0) (xandyF0g2) {};
+           \draw (xandyF0g2.output) -- node[above]{\scriptsize $ x.y.\overline{z} $} ($(xandyF0g2) + (1.8, 0)$);
+
+        
+        
+            
+                \draw ($(x1) + (0, -1ex)$)|- (xandyF0g2.input 1);
+                
+            
+        
+            
+                \draw ($(x2) + (0, -1ex)$)|- (xandyF0g2.input 2);
+                
+            
+        
+            
+                \draw [line width=0.25mm,   red] (notx3.output)
+                -- ([xshift=0cm]notx3.output) |- (xandyF0g2.input 3);
+                
+            
+        
+            
+        
+     
+    
+        
+     %% ***Function F0 : Gate for term n° 4 [ {'default': "w.x'.z", 'formatted': 'w.\\overline{x}.z'} ]***
+
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnn] at (2.5, 13.2) (xandyF0g3) {};
+           \draw (xandyF0g3.output) -- node[above]{\scriptsize $ w.\overline{x}.z $} ($(xandyF0g3) + (1.8, 0)$);
+
+        
+        
+            
+                \draw [line width=0.25mm,   red] (notx1.output)
+                -- ([xshift=0cm]notx1.output) |- (xandyF0g3.input 1);
                 
             
         
             
         
             
-                \draw [line width=0.25mm,   red] (notx4.output)
-                -- ([xshift=0cm]notx4.output) |- (xandyF2g1.input 2);
+                \draw ($(x3) + (0, -1ex)$)|- (xandyF0g3.input 2);
+                
+            
+        
+            
+                \draw ($(x4) + (0, -1ex)$)|- (xandyF0g3.input 3);
                 
             
         
      
     
         
-     %% ***Function F2 : Gate for term n° 3 [ A.D' ]***
+     %% ***Function F0 : Gate for term n° 5 [ {'default': "w.y.z'", 'formatted': 'w.y.\\overline{z}'} ]***
 
-           \node[and gate US, draw, rotate=0, logic gate inputs=nn] at (2.5, 16.8) (xandyF2g2) {};
-           \draw (xandyF2g2.output) -- node[above]{\scriptsize $ A.D' $} ($(xandyF2g2) + (1.8, 0)$);
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnn] at (2.5, 14.399999999999999) (xandyF0g4) {};
+           \draw (xandyF0g4.output) -- node[above]{\scriptsize $ w.y.\overline{z} $} ($(xandyF0g4) + (1.8, 0)$);
 
         
         
             
-                \draw ($(x1) + (0, -1ex)$)|- (xandyF2g2.input 1);
+        
+            
+                \draw ($(x2) + (0, -1ex)$)|- (xandyF0g4.input 1);
+                
+            
+        
+            
+                \draw [line width=0.25mm,   red] (notx3.output)
+                -- ([xshift=0cm]notx3.output) |- (xandyF0g4.input 2);
+                
+            
+        
+            
+                \draw ($(x4) + (0, -1ex)$)|- (xandyF0g4.input 3);
+                
+            
+        
+     
+    
+        
+     %% ***Function F0 : Gate for term n° 6 [ {'default': "w.x.y'", 'formatted': 'w.x.\\overline{y}'} ]***
+
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnn] at (2.5, 15.6) (xandyF0g5) {};
+           \draw (xandyF0g5.output) -- node[above]{\scriptsize $ w.x.\overline{y} $} ($(xandyF0g5) + (1.8, 0)$);
+
+        
+        
+            
+                \draw ($(x1) + (0, -1ex)$)|- (xandyF0g5.input 1);
+                
+            
+        
+            
+                \draw [line width=0.25mm,   red] (notx2.output)
+                -- ([xshift=0cm]notx2.output) |- (xandyF0g5.input 2);
                 
             
         
             
         
             
-        
-            
-                \draw [line width=0.25mm,   red] (notx4.output)
-                -- ([xshift=0cm]notx4.output) |- (xandyF2g2.input 2);
+                \draw ($(x4) + (0, -1ex)$)|- (xandyF0g5.input 3);
                 
             
         
@@ -2738,12 +3413,110 @@ STRUCTURED LOGIGRAM-FILE-TEMPLATE
     %% y_pos : the position of OR gate according to their related gates
     
 
-    %% Function F2 Large OR Gate
+    %% Function F0 Large OR Gate
     
 
     
-        \node[or gate US, draw, rotate=0, logic gate inputs=nnn] at (\FunctionPos, 15.6) (xoryF2) {};
-        \draw (xoryF2.output) -- node[above]{\scriptsize $F2$} ($(xoryF2.east) + (+3ex, 0)$);
+        \node[or gate US, draw, rotate=0, logic gate inputs=nnnnnn] at (\FunctionPos, 12.6) (xoryF0) {};
+        \draw (xoryF0.output) -- node[above]{\scriptsize $F0$} ($(xoryF0.east) + (+3ex, 0)$);
+    
+
+
+    
+    
+    
+    
+
+        
+             \draw (xandyF0g0.output) -- ++(1.6,0) |- (xoryF0.input 6);
+
+        
+        
+
+    
+
+        
+             \draw (xandyF0g1.output) -- ++(1.5,0) |- (xoryF0.input 5);
+
+        
+        
+
+    
+
+        
+             \draw (xandyF0g2.output) -- ++(1.55,0) |- (xoryF0.input 4);
+
+        
+        
+
+    
+
+        
+             \draw (xandyF0g3.output) -- ++(1.6,0) |- (xoryF0.input 3);
+
+        
+        
+
+    
+
+        
+             \draw (xandyF0g4.output) -- ++(1.6500000000000001,0) |- (xoryF0.input 2);
+
+        
+        
+
+    
+
+        
+             \draw (xandyF0g5.output) -- ++(1.7000000000000002,0) |- (xoryF0.input 1);
+
+        
+        
+
+    
+
+    
+        
+     %% ***Function Fx0 : Gate for term n° 1 [ {'default': 'w.x.y.z', 'formatted': 'w.x.y.z'} ]***
+
+           \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 16.8) (xandyFx0g0) {};
+           \draw (xandyFx0g0.output) -- node[above]{\scriptsize $ w.x.y.z $} ($(xandyFx0g0) + (1.8, 0)$);
+
+        
+        
+            
+                \draw ($(x1) + (0, -1ex)$)|- (xandyFx0g0.input 1);
+                
+            
+        
+            
+                \draw ($(x2) + (0, -1ex)$)|- (xandyFx0g0.input 2);
+                
+            
+        
+            
+                \draw ($(x3) + (0, -1ex)$)|- (xandyFx0g0.input 3);
+                
+            
+        
+            
+                \draw ($(x4) + (0, -1ex)$)|- (xandyFx0g0.input 4);
+                
+            
+        
+     
+    
+
+
+    %% y_pos : the position of OR gate according to their related gates
+    
+
+    %% Function Fx0 Large OR Gate
+    
+
+    
+        \node at (\FunctionPos, 16.8) (xoryFx0) {};
+        \draw (xoryFx0)  node[above]{\scriptsize $Fx0$} ($(xoryFx0.east) + (+3ex, 0)$);
     
 
 
@@ -2753,24 +3526,7 @@ STRUCTURED LOGIGRAM-FILE-TEMPLATE
     
 
         
-             \draw (xandyF2g0.output) -- ++(1.6,0) |- (xoryF2.input 3);
-
-        
-        
-
-    
-
-        
-             \draw (xandyF2g1.output) -- ++(1.6,0) |- (xoryF2.input 2);
-
-        
-        
-
-    
-
-        
-             \draw (xandyF2g2.output) -- ++(1.6500000000000001,0) |- (xoryF2.input 1);
-
+             \draw (xandyFx0g0.output) -- (xoryFx0);
         
         
 

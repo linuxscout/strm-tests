@@ -308,7 +308,7 @@ class Question_Builder:
     #
 
     def question_map_for_sop(self,nb=2):
-
+        self.bq.reset_vars()
         minterms_table =[self.bq.rand_funct() for i in range(nb)]
         data_list = []
         for minterms in minterms_table:
@@ -382,6 +382,9 @@ class Question_Builder:
                                               variables=self.bq.variables)
         context["sop_quest"] = sop_quest
         context["logicdiagram"] = logigram
+        logigramdict = self.formater.prepare_logigram_list([sop, ], function_namelist=["F",],
+                                                   variables=["A","B","C","D"])
+        context["logicdiagramdict"] = logigramdict
         question, answer = self.formater.render_question_answer("function", context)
         return question, "arabic", "data", answer
         # ~ answer += self.bq.draw_logigram(sop)
@@ -447,6 +450,10 @@ class Question_Builder:
         context["sop_quest"] = sop_quest
         context["logicdiagram"] = logigram
         context["terms"] = [[t.strip() for t in term.split(".")] for term in sop.split("+")]
+
+        logigramdict = self.formater.prepare_logigram_list([sop, ], function_namelist=[fname,],
+                                                   variables=var_names)
+        context["logicdiagramdict"] = logigramdict
         question, answer = self.formater.render_question_answer("function", context)
         return question, "arabic", "data", answer
 
@@ -519,6 +526,9 @@ class Question_Builder:
 
         context["sop_quest"] = sop_quest
         context["logicdiagram"] = logigram
+        logigramdict = self.formater.prepare_logigram_list([sop, ], function_namelist=[fname,],
+                                                   variables=var_names)
+        context["logicdiagramdict"] = logigramdict
         question, answer = self.formater.render_question_answer("function", context)
         return question, "arabic", "data", answer
 

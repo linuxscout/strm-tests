@@ -80,7 +80,7 @@ F(A,B,C,D) ={{  sop_quest }}
 <p><strong>Karnaugh map <span dir="rtl">جدول كارنوف</span></strong></p>
 
 {% import "map/kmap_macros.html" as kmap %}
-{{ kmap.kmap4(minterms, maxterms, dontcares, ab, cd) }}
+{{ kmap.kmap4svg(minterms,  dontcares, groups=formatted_simplification, ab=ab, cd=cd) }}
 
 <br/>
 <ul>
@@ -89,9 +89,10 @@ F(A,B,C,D) ={{  sop_quest }}
     </ul>
 
 \textbf{Logic diagram \aRL{المخطط المنطقي}}
-<pre>
-{% include "logigram/logigram.html.j2" %}
-</pre>
-
+<p><strong>Logic diagram <span dir="rtl">المخطط المنطقي</span></strong></p>
+    <pre>
+{{logicdiagramdict|pprint }}
+    </pre>
+{% include "logigram/structured_logigram.html.j2" %}
 
 {% endif %}

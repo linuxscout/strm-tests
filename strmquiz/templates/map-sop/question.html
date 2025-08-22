@@ -25,6 +25,8 @@ Soit la fonction donnée par sa forme canonique, Tracer la table de karnaugh et 
 
 {% import "map/kmap_macros.html" as kmap %}
 {{ kmap.kmap4(data.minterms, data.maxterms, data.dontcares, data.ab, data.cd) }}
+
+{{ kmap.kmap4svg(data.minterms, data.dontcares, groups=data.formatted_simplification, ab=data.ab, cd=data.cd) }}
 <br/>
 
 <ul>

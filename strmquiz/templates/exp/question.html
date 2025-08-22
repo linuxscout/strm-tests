@@ -16,10 +16,10 @@ Simplifier l'expression suivant:<br/>
 {% if RENDER_MODE == "answer" %}
 
 {% import "map/kmap_macros.html" as kmap %}
-{% set ab = "WX" %}
-{% set cd = "YZ" %}
+
 {{ kmap.kmap4(minterms, maxterms, dontcares, ab, cd) }}
 
+{{ kmap.kmap4svg(minterms, dontcares, groups=formatted_simplification, ab=ab, cd=cd) }}
 <br/>
 <ul>
     <li>Simplified Sum of products : {{ sop }}</li>
