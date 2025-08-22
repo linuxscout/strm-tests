@@ -23,6 +23,7 @@
 #  
 import itertools
 from . import quiz_format
+from . import format_const
 import latex2mathml.converter
 
 
@@ -256,7 +257,23 @@ class quiz_format_html(quiz_format.quiz_format):
         self.output.append(newtext)
         return newtext         
 
-        return s                 
+        return s
+    def format_map_terms(self, terms =[], method="sop"):
+        """
+        Gererate diplay for terms
+        """
+
+        if method in ("or","nor","pos"):
+            reduction_table = format_const.HTML_REDUCTION_TABLE_POS
+            # remove extra parenthesis
+            terms = [t.replace("(", "").replace(")", "") for t in terms]
+            # terms = [t.replace(")",'') for t in terms]
+        else:
+            reduction_table = format_const.HTML_REDUCTION_TABLE
+
+        simpls = [reduction_table.get(term, "") for term in terms]
+
+        return simpls
 def main(args):
     return 0
 
