@@ -29,8 +29,12 @@
     <!-- wires from AND to OR -->
     {% for k in range(N) %}
         {% set shift = 0 if (N % 2 == 1 and k == N // 2) else ([k, N - 1 - k]|min) %}
+        {% set gate_size = 40 %}
+        {% set margin = 5 %}
+        {% set wire_space = (gate_size -2*margin)/(N-1)  %}
+        {#% set wire_space = 10  %#}
         {% set xpos = -step*shift-5 %}
-        {% set y1pos = 5+10*k %}
+        {% set y1pos = margin + wire_space*k %}
         {% set y2pos = -5-((N-1)/2-shift)*gate_space+25 if (k < N // 2) else -5+((N-1)/2-shift)*gate_space+25 %}
     <!-- vertical wire -->
       {% if not (N % 2 == 1 and k == N // 2) %}
