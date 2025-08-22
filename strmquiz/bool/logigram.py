@@ -21,82 +21,82 @@
 #  MA 02110-1301, USA.
 #  
 #  
-
-#~ def normalize(self, s):
-def normalize_latex( s):
-    """ normalize boolean string"""
-    s= str(s)
-    s = s.replace("A'","\\bar A")
-    s = s.replace("B'","\\bar B")
-    s = s.replace("C'","\\bar C")
-    s = s.replace("D'","\\bar D")
-    return s
-
-
-def draw_gate(term):
-    latex_term = normalize(term)
-        
-    latex = """
-    \\begin{tikzpicture}
-        \\node (x) at (0, 1.5) {$A$};
-        \\node (y) at (0, 1) {$B$};
-        \\node (z) at (0, 0.5) {$C$};
-        \\node (w) at (0, 0) {$D$};
-      
-        \\node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at ($(w) + (2.5, 0.8)$) (xory) {};
-        \\draw (xory.output) -- node[above]{$%s$} ($(xory) + (3, 0)$);
-        """%latex_term
-    if "A'" in term:
-        latex += """
-        %% X'
-        \\node[not gate US, draw] at ($(x) + (0.8, 0)$) (notx) {};
-        \\draw (x) -- (notx.input);
-        \\draw (notx.output) -- ([xshift=0.35cm]notx.output) |- (xory.input 1);
-        """
-    elif "A" in term:
-        latex += """%% X
-        \\draw (x) -| ($(x) + (1.6, -0.4)$) |- (xory.input 1);
-        """
-    if "B'" in term:
-        latex += """
-        %Y'
-        \\node[not gate US, draw] at ($(y) + (0.8, 0)$) (noty) {};
-        \\draw (y) -- (noty.input);    
-        \\draw (noty.output) -- ([xshift=0.2cm]noty.output) |- (xory.input 2);
-      """
-    elif "B" in term:
-        latex +="""  
-        %% Y
-        \\draw (y) -| ($(y) + (1.5, -0.1)$) |- (xory.input 2);
-    """
-    if "C'" in term:
-        latex += """
-        %%Z'
-        \\node[not gate US, draw] at ($(z) + (0.8, 0)$) (notz) {};
-        \\draw (z) -- (notz.input);
-        \\draw (notz.output) -- ([xshift=0.2cm]notz.output) |- (xory.input 3);
-      """
-    elif "C" in term:
-        latex +="""
-        %%Z
-        \\draw (z) -| ($(z) + (1.5, 0.2)$) |- (xory.input 3);
-    """
-    if "D'" in term:
-        latex += """
-        %%W
-        \\node[not gate US, draw] at ($(w) + (0.8, 0)$) (notw) {};
-        \\draw (w) -- (notw.input);
-        \\draw (notw.output) -- ([xshift=0.35cm]notw.output) |- (xory.input 4);
-      """
-    elif "D" in term:
-        latex +="""    %%W
-        \\draw (w) -| ($(w) + (1.6, 0.3)$) |- (xory.input 4);
-    """
-        
-    latex +=""" 
-    \\end{tikzpicture}
-    """
-    return latex
+import re
+# #~ def normalize(self, s):
+# def normalize_latex( s):
+#     """ normalize boolean string"""
+#     s= str(s)
+#     s = s.replace("A'","\\bar A")
+#     s = s.replace("B'","\\bar B")
+#     s = s.replace("C'","\\bar C")
+#     s = s.replace("D'","\\bar D")
+#     return s
+#
+#
+# def draw_gate(term):
+#     latex_term = normalize(term)
+#
+#     latex = """
+#     \\begin{tikzpicture}
+#         \\node (x) at (0, 1.5) {$A$};
+#         \\node (y) at (0, 1) {$B$};
+#         \\node (z) at (0, 0.5) {$C$};
+#         \\node (w) at (0, 0) {$D$};
+#
+#         \\node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at ($(w) + (2.5, 0.8)$) (xory) {};
+#         \\draw (xory.output) -- node[above]{$%s$} ($(xory) + (3, 0)$);
+#         """%latex_term
+#     if "A'" in term:
+#         latex += """
+#         %% X'
+#         \\node[not gate US, draw] at ($(x) + (0.8, 0)$) (notx) {};
+#         \\draw (x) -- (notx.input);
+#         \\draw (notx.output) -- ([xshift=0.35cm]notx.output) |- (xory.input 1);
+#         """
+#     elif "A" in term:
+#         latex += """%% X
+#         \\draw (x) -| ($(x) + (1.6, -0.4)$) |- (xory.input 1);
+#         """
+#     if "B'" in term:
+#         latex += """
+#         %Y'
+#         \\node[not gate US, draw] at ($(y) + (0.8, 0)$) (noty) {};
+#         \\draw (y) -- (noty.input);
+#         \\draw (noty.output) -- ([xshift=0.2cm]noty.output) |- (xory.input 2);
+#       """
+#     elif "B" in term:
+#         latex +="""
+#         %% Y
+#         \\draw (y) -| ($(y) + (1.5, -0.1)$) |- (xory.input 2);
+#     """
+#     if "C'" in term:
+#         latex += """
+#         %%Z'
+#         \\node[not gate US, draw] at ($(z) + (0.8, 0)$) (notz) {};
+#         \\draw (z) -- (notz.input);
+#         \\draw (notz.output) -- ([xshift=0.2cm]notz.output) |- (xory.input 3);
+#       """
+#     elif "C" in term:
+#         latex +="""
+#         %%Z
+#         \\draw (z) -| ($(z) + (1.5, 0.2)$) |- (xory.input 3);
+#     """
+#     if "D'" in term:
+#         latex += """
+#         %%W
+#         \\node[not gate US, draw] at ($(w) + (0.8, 0)$) (notw) {};
+#         \\draw (w) -- (notw.input);
+#         \\draw (notw.output) -- ([xshift=0.35cm]notw.output) |- (xory.input 4);
+#       """
+#     elif "D" in term:
+#         latex +="""    %%W
+#         \\draw (w) -| ($(w) + (1.6, 0.3)$) |- (xory.input 4);
+#     """
+#
+#     latex +="""
+#     \\end{tikzpicture}
+#     """
+#     return latex
 
 # ~ term="A'.B.C'.D"
 
@@ -261,7 +261,7 @@ class logigram:
         return latex
 
 
-    def prepare_logigram_list(self, sop_list=[], function_namelist=["F",]):
+    def prepare_logigram_list(self, sop_list=[], function_namelist=["F",],):
         """ draw a logigram from an sop """
         # latex = " \\label{logigrammefonction%s}\n\n"%'-'.join(function_namelist)
         # latex += " \\begin{tikzpicture}\n\n"
@@ -269,7 +269,7 @@ class logigram:
         # the pos (position of Y) of a var is defined according to
         # the total number of AND gates to draw (gates_count)
         size_terms = sum([len(l.split(self.get_term_sep())) for l in sop_list])
-        graph = {"variables":list(self.var_names.values()),
+        graph = {"variables":self.var_names,
                 "functions":[],
                  "method":self.method,
                  "term_gate":self.get_gate_code("and"),
@@ -291,15 +291,15 @@ class logigram:
         for i in range(len(sop_list)):
             sop =  sop_list[i]
             function_name =  function_namelist[i]
-            terms = [t.strip() for t in sop.upper().split(self.get_term_sep())]
+            terms = [t.strip() for t in sop.split(self.get_term_sep())]
             # reverse terms
             terms.reverse()
             terms_list = []
             for ti, term in enumerate(terms):
                 terms_list.append({"id":f"xandy{function_name}g{ti}",
-                    "label":term,
-                    "name":term,
-                    "vars": [v.strip() for v in term.strip().split(self.get_var_sep())]
+                    "label":{"default":term, "formatted":term},
+                    "name":term.upper(),
+                    "vars": [v.strip().upper() for v in term.strip().split(self.get_var_sep())]
                 })
             total_terms += len(terms)
             function_item ={"name":function_name,
@@ -310,18 +310,10 @@ class logigram:
         return graph
 
 
-    def normalize_latex(self,s):
-        """ normalize boolean string"""
-        s= str(s)
-        s = s.replace("A'","\\bar A")
-        s = s.replace("B'","\\bar B")
-        s = s.replace("C'","\\bar C")
-        s = s.replace("D'","\\bar D")
-        s = s.replace("a'","\\bar a")
-        s = s.replace("b'","\\bar b")
-        s = s.replace("c'","\\bar c")
-        s = s.replace("d'","\\bar d")
-        return s        
+    @staticmethod
+    def normalize_latex(expr: str) -> str:
+        # Match a word (letters/numbers/underscore) followed by a '
+        return re.sub(r"([A-Za-z0-9_]+)'", r"\\overline{\1}", expr)
     def draw_vars(self, gates_count):
         """ draw vars lines """
         
