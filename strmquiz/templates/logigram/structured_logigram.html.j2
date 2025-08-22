@@ -1,5 +1,10 @@
 {% set functions = logicdiagramdict.functions %}
 {% set lg = logicdiagramdict %}
+  {% set gate_space = 50 %}  <!-- Define space between gates -->
+  {% set var_space = 60 %}   <!-- Define space between vars -->
+  {% set var_gate_size = 40 %}   <!-- Define space between gates vars -->
+  {% set step = 10 %}   <!-- Define step offset lines entred into a function gate -->
+  {% set table_var_xpos = {lg.variables["A"]:-270, lg.variables["B"]:-210, lg.variables["C"]:-150, lg.variables["D"]:-90} %}   <!-- Define space between vars -->
 
 {% macro big_or_gate(W=60, H=120, inputs=0, xpos=0, ypos=0) %}
   <g id="or-gateX">
@@ -53,7 +58,7 @@
       {% endfor %}
   </g>
 {% endmacro %}
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 900 180" preserveAspectRatio="xMinYMin meet">
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="{{gate_space * (lg.size_terms+3)}}" viewBox="0 0 900 180" preserveAspectRatio="xMinYMin meet">
   <style>
     .wire { stroke: #222; stroke-width: 2; fill: none; }
     .gate { stroke: #222; stroke-width: 2; fill: white; }
@@ -61,12 +66,7 @@
     .label { font-family: "DejaVu Sans", "Arial", sans-serif; font-size:14px; text-anchor: middle; }
     .var-name { font-weight: bold; }
   </style>
-  {% set gate_space = 50 %}  <!-- Define space between gates -->
-  {% set var_space = 60 %}   <!-- Define space between vars -->
-  {% set var_gate_size = 40 %}   <!-- Define space between gates vars -->
-  {% set step = 10 %}   <!-- Define step offset lines entred into a function gate -->
-  {% set table_var_xpos = {lg.variables["A"]:-270, lg.variables["B"]:-210, lg.variables["C"]:-150, lg.variables["D"]:-90} %}   <!-- Define space between vars -->
->
+
   <!-- Define NOT gate as reusable symbol -->
   <defs>
     <g id="not-gate">
@@ -181,6 +181,12 @@
         <line x1="40" y1="20" x2="80" y2="20" stroke="red"/>
       </g>
 
+
+      <g id="and-gate1">
+        <!-- replacement Output wire -->
+        <line x1="-20" y1="20" x2="80" y2="20" stroke="orange"/>
+      </g>
+
       <!-- NAND Gate -->
     <g id="nand-gate">
       <!-- AND body -->
@@ -232,7 +238,9 @@
 
       {% set ns.shift = 0 %}
       {% set nb_terms = function.nb_terms %}
+
       <!-- Draw terms of fucntion -->
+
       {% for term in function.terms %}
       {% set ns.i = ns.i + 1 %}
 
@@ -249,15 +257,17 @@
             <line x1="80" y1="20" x2="280" y2="20" stroke="blue"/>
         {% endif %}
 
-
+      <!-- Draw vars of term  -->
 
         {% set ns.counter=0 %}
+
         {%for var in lg.variables.values()  %}
+            {% set ypos = 5+ns.counter*10 if (term.vars|length)>1 else 20 %}
             {% if var+"'" in term.vars %}
-                <line x1="{{table_var_xpos[var]+var_gate_size}}" y1="{{5+ns.counter*10}}" x2="0" y2="{{5+ns.counter*10}}" stroke="red"/>
+                <line x1="{{table_var_xpos[var]+var_gate_size}}" y1="{{ypos}}" x2="0" y2="{{ypos}}" stroke="red"/>
                 {% set ns.counter = ns.counter + 1 %}
             {% elif var in term.vars %}
-                <line x1="{{table_var_xpos[var]}}" y1="{{5+ns.counter*10}}" x2="0" y2="{{5+ns.counter*10}}" stroke="black"/>
+                <line x1="{{table_var_xpos[var]}}" y1="{{ypos}}" x2="0" y2="{{ypos}}" stroke="black"/>
                 {% set ns.counter = ns.counter + 1 %}
             {% endif %}
         {% endfor %}
@@ -276,8 +286,6 @@
       {% endif %}
         </g>
   {% endfor %}
-
-
 
 
 </svg>

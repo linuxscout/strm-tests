@@ -248,7 +248,7 @@ class QuizBuilder:
         for cpt, name in enumerate(questions_names):
             generated_question = self.get_question(name, args=args)
         # ~ for cpt, value in enumerate(questions):
-            qtext, ar, data, ans = generated_question
+            qtext, _, _, ans = generated_question
             # ~ qtext, ar, data, ans = value
             q_no = "Q%d"%(cpt+1)
             item = {"id":q_no,
