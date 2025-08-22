@@ -97,7 +97,7 @@
 
 
 
-{% macro kmap4svg(minterms=[], dontcares=[], groups=[]) %}
+{% macro kmap4svg(minterms=[], dontcares=[], groups=[], ab="AB1", cd="CD1") %}
     {% set size = 60 %}
     {% set rows = ["00","01","11","10"] %}
     {% set cols = ["00","01","11","10"] %}
@@ -105,8 +105,8 @@
 
     <svg width="{{ size * (cols|length) + 100 }}" height="{{ size * (rows|length) + 100 }}">
       <!-- Variable labels -->
-      <text x="100" y="20" font-size="16" font-family="sans-serif">CD</text>
-      <text x="20" y="100" font-size="16" font-family="sans-serif" transform="rotate(-90,20,100)">AB</text>
+      <text x="100" y="20" font-size="16" font-family="sans-serif">{{cd}}</text>
+      <text x="20" y="100" font-size="16" font-family="sans-serif" transform="rotate(-90,20,100)">{{ab}}</text>
 
       <!-- Column labels -->
       {% for c in cols %}
@@ -170,7 +170,7 @@
         %}
       {% set round_size = 14 %}
       {% set ns = namespace(row_coords = [], col_coords = [], grp_counter=0) %}
-      {% for grptype, group,color in groups %}
+      {% for term, group, grptype in groups %}
           {% set ns.row_coords = [] %}
           {% set ns.col_coords = [] %}
           {% set color = colors[ns.grp_counter%10] %}

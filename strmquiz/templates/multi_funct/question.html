@@ -181,7 +181,7 @@ F(A,B,C,D) ={{  sop_quest }}
     {{ data.formatted_simplification }}
     </pre>
 
-{{ kmap.kmap4svg(minterms=data.minterms, dontcares=data.dontcares, groups=data.formatted_simplification) }}
+{{ kmap.kmap4svg(minterms=data.minterms, dontcares=data.dontcares, groups=data.formatted_simplification, ab=data.ab, cd=data.cd) }}
 <ul>
     <li>Simplified Sum of products : {{ data.function_name }} = {{ data.sop }}</li>
     <li>Simplified product of sums : {{ data.function_name }} = {{ data.pos }}</li>
@@ -189,7 +189,9 @@ F(A,B,C,D) ={{  sop_quest }}
 {% endfor %}
 
 <p><strong>Logic diagram <span dir="rtl">المخطط المنطقي</span></strong></p>
-
+    <pre>
+{{logicdiagramdict|pprint }}
+    </pre>
 {% include "logigram/structured_logigram.html.j2" %}
 
 

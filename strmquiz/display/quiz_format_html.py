@@ -22,9 +22,10 @@
 #  
 #  
 import itertools
+import re
 from . import quiz_format
 from . import format_const
-import latex2mathml.converter
+
 
 
 class quiz_format_html(quiz_format.quiz_format):
@@ -231,33 +232,80 @@ class quiz_format_html(quiz_format.quiz_format):
         text += "</td></tr>\n</table>\n"       
 
         return text   
-    def normalize_formula(self,s):
-        """ normalize boolean string"""
+    # def normalize_formula(self,s):
+    #     """ normalize boolean string"""
+    #     s = str(s)
+    #
+    #     # for x in ("A", "B", "C", "D", 'a', 'b', 'c', 'd'):
+    #     for x in self.variables:
+    #         s = s.replace(f"{x.lower()}'",f"<mover><mi>{x.lower()}</mi><mo>&OverBar;</mo></mover>" )
+    #         s = s.replace(f"{x.upper()}'",f"<mover><mi>{x.upper()}</mi><mo>&OverBar;</mo></mover>" )
+    #         s = s.replace(f"\\bar {x.lower()}'",f"<mover><mi>{x.lower()}</mi><mo>&OverBar;</mo></mover>" )
+    #         s = s.replace(f"\\bar {x.upper()}'",f"<mover><mi>{x.upper()}</mi><mo>&OverBar;</mo></mover>" )
+    #     # sum sympbol
+    #     s = s.replace("\\sum", "&sum;")
+    #     s = s.replace("\\prod", "&prod;")
+    #     s = s.replace("\\uparrow", "&uparrow;")
+    #     s = s.replace("\\downarrow", "&downarrow;")
+    #     s = s.replace("\\overline{","<mover><mrow>")
+    #     s = s.replace("}","</mrow><mo>&OverBar;</mo></mover>")
+    #     # ~ s = s.replace("\n","<mspace linebreak='newline'/>")
+    #     s = s.replace("$$","")
+    #     # ~ text = s
+    #     lines = s.split("\n")
+    #     newtext_list = []
+    #     for line in lines:
+    #         newtext_list.append('<math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>%s</mrow></math>'%line)
+    #         # newtext_list.append("\n")
+    #     newtext = "\n".join(newtext_list)
+    #     self.output.append(newtext)
+    #     return newtext
+    #
+    #     return s
+
+    import re
+    @staticmethod
+    def normalize_formula( s: str):
+        """Normalize a boolean string into MathML"""
         s = str(s)
 
-        for x in ("A", "B", "C", "D", 'a', 'b', 'c', 'd'):
-            s = s.replace(x+"'","<mover><mi>%s</mi><mo>&OverBar;</mo></mover>"%x )
-            s = s.replace("\\bar "+x ,"<mover><mi>%s</mi><mo>&OverBar;</mo></mover>"%x)
-        # sum sympbol
-        s = s.replace("\\sum", "&sum;")
-        s = s.replace("\\prod", "&prod;")
-        s = s.replace("\\uparrow", "&uparrow;")
-        s = s.replace("\\downarrow", "&downarrow;")
-        s = s.replace("\\overline{","<mover><mrow>")
-        s = s.replace("}","</mrow><mo>&OverBar;</mo></mover>")
-        # ~ s = s.replace("\n","<mspace linebreak='newline'/>")
-        s = s.replace("$$","")
-        # ~ text = s
-        lines = s.split("\n")
-        newtext_list = []
-        for line in lines:
-            newtext_list.append('<math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>%s</mrow></math>'%line)
-            newtext_list.append("<br/>")
-        newtext = "\n".join(newtext_list)
-        self.output.append(newtext)
-        return newtext         
+        # 1. Handle negation with trailing prime: A' -> <mover>...</mover>
+        s = re.sub(
+            r"([A-Za-z0-9_]+)'",
+            r"<mover><mi>\1</mi><mo>&OverBar;</mo></mover>",
+            s
+        )
 
-        return s
+        # 2. Handle LaTeX \overline{...} -> MathML mover
+        s = re.sub(
+            r"\\overline\{([^}]+)\}",
+            r"<mover><mrow>\1</mrow><mo>&OverBar;</mo></mover>",
+            s
+        )
+
+        # 3. Replace sum/product/uparrow/downarrow with MathML entities
+        symbols = {
+            "\\sum": "&sum;",
+            "\\prod": "&prod;",
+            "\\uparrow": "&uparrow;",
+            "\\downarrow": "&downarrow;",
+        }
+        for k, v in symbols.items():
+            s = s.replace(k, v)
+
+        # 4. Strip math mode markers
+        s = s.replace("$$", "")
+
+        # 5. Wrap each line as <math> ... </math>
+        lines = s.split("\n")
+        newtext_list = [
+            f'<math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{line}</mrow></math>'
+            for line in lines if line.strip()
+        ]
+
+        newtext = "\n".join(newtext_list)
+        return newtext
+
     def format_map_terms(self, terms =[], method="sop"):
         """
         Gererate diplay for terms
@@ -270,8 +318,12 @@ class quiz_format_html(quiz_format.quiz_format):
             # terms = [t.replace(")",'') for t in terms]
         else:
             reduction_table = format_const.HTML_REDUCTION_TABLE
+        simpls = [
+            (term, item[0], item[1])
+            for term in terms
+            if (item := reduction_table.get(term, [])) and len(item) > 1
+        ]
 
-        simpls = [reduction_table.get(term, "") for term in terms]
 
         return simpls
 def main(args):

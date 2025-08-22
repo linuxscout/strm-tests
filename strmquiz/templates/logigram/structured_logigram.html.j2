@@ -1,5 +1,6 @@
 {% set functions = logicdiagramdict.functions %}
 {% set lg = logicdiagramdict %}
+
 {% macro big_or_gate(W=60, H=120, inputs=0, xpos=0, ypos=0) %}
   <g id="or-gateX">
     <!-- OR gate body -->
@@ -64,7 +65,7 @@
   {% set var_space = 60 %}   <!-- Define space between vars -->
   {% set var_gate_size = 40 %}   <!-- Define space between gates vars -->
   {% set step = 10 %}   <!-- Define step offset lines entred into a function gate -->
-  {% set table_var_xpos = {"A":-270, "B":-210, "C":-150, "D":-90} %}   <!-- Define space between vars -->
+  {% set table_var_xpos = {lg.variables["A"]:-270, lg.variables["B"]:-210, lg.variables["C"]:-150, lg.variables["D"]:-90} %}   <!-- Define space between vars -->
 >
   <!-- Define NOT gate as reusable symbol -->
   <defs>
@@ -215,7 +216,7 @@
 
    <!-- Draw variables A, B, C, D with NOT gates -->
 
-  {% for var in lg.variables %}
+  {% for var in lg.variables.values() %}
   {% set i = loop.index0 %}
   <g transform="translate({{i*var_space+20}},30)">
     <!-- {{var}} -->
@@ -237,7 +238,7 @@
 
       <g transform="translate(300,{{50+ns.i* gate_space}})">
         <!-- Draw the term {{term.label}} -->
-        <text x="60" y="15" font-family="serif" font-size="10">{{function.name+":"+term.label}}</text>
+        <text x="60" y="15" font-family="serif" font-size="10">{{function.name+"  :  "+term.label.default}}</text>
         <use href="#and-gate{{ term.vars|length }}" x="15" y="0"/>
 
         <!-- Extend output line -->
@@ -251,7 +252,7 @@
 
 
         {% set ns.counter=0 %}
-        {%for var in lg.variables  %}
+        {%for var in lg.variables.values()  %}
             {% if var+"'" in term.vars %}
                 <line x1="{{table_var_xpos[var]+var_gate_size}}" y1="{{5+ns.counter*10}}" x2="0" y2="{{5+ns.counter*10}}" stroke="red"/>
                 {% set ns.counter = ns.counter + 1 %}

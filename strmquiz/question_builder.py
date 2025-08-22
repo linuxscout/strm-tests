@@ -228,13 +228,16 @@ class Question_Builder:
 
         cnf = self.formater.normalize_formula(cnf)
         dnf = self.formater.normalize_formula(dnf)
-        simplification = ""
-        if correct:
-            simplification = self.bq.simplify_map(minterms, method=method)
 
-            formatted_simplification = self.formater.format_map_terms(simplification, method=method)
-            sop = self.formater.normalize_formula(sop)
-            pos = self.formater.normalize_formula(pos)
+        # simplification = ""
+
+        simplification = self.bq.simplify_map(minterms, method=method)
+
+        formatted_simplification = self.formater.format_map_terms(simplification, method=method)
+
+
+        sop = self.formater.normalize_formula(sop)
+        pos = self.formater.normalize_formula(pos)
 
         return {
             "function_name":function_name,
@@ -443,7 +446,7 @@ class Question_Builder:
                                                variables=var_names)
         context["sop_quest"] = sop_quest
         context["logicdiagram"] = logigram
-        context["terms"] = [[t.strip() for t in term.split(".")] for term in sop.upper().split("+")]
+        context["terms"] = [[t.strip() for t in term.split(".")] for term in sop.split("+")]
         question, answer = self.formater.render_question_answer("function", context)
         return question, "arabic", "data", answer
 
@@ -761,8 +764,9 @@ class Question_Builder:
                                               )
                               )
             sop, _ = self.bq.simplify(minterms)
+            # sop = self.formater.normalize_formula(sop)
             sop_list.append(sop)
-            terms_list.append([[t.strip() for t in term.split(".")] for term in sop.upper().split("+")])
+            terms_list.append([[t.strip() for t in term.split(".")] for term in sop.split("+")])
         logigramdict = self.formater.prepare_logigram_list(sop_list, function_namelist=output_names,
                                                    variables=var_names)
         logigram = self.formater.draw_logigram_list(sop_list, function_namelist=output_names,

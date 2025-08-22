@@ -38,6 +38,7 @@ class quiz_format:
         self.lang = lang
         self.templates_dir = templates_dir
         self.env = Environment(loader=FileSystemLoader(self.templates_dir))
+        # self.variables = ["a","b","c","d"]
         #~ print("quiz_format")
     def header(self,):
         """
@@ -286,18 +287,13 @@ class quiz_format:
             text += "\t".join([str(x) for x in case]) +"\n"
 
         return text
+    # def set_vars(self, variables=[]):
+    #     if variables:
+    #         self.variables = variables
     def normalize_formula(self,s):
         """ normalize boolean string"""
-        s= str(s)
-        # ~ s = s.replace("A'","\\bar A")
-        # ~ s = s.replace("B'","\\bar B")
-        # ~ s = s.replace("C'","\\bar C")
-        # ~ s = s.replace("D'","\\bar D")
-        # ~ s = s.replace("a'","\\bar a")
-        # ~ s = s.replace("b'","\\bar b")
-        # ~ s = s.replace("c'","\\bar c")
-        # ~ s = s.replace("d'","\\bar d")
-        return s
+        return str(s)
+
     def draw_map(self, minterms, dontcares=[], correct = False, variables = [], simply_terms=[], method="sop"):
         kmap=[]
         maxterms = [x for x in range(16) if x not in minterms and x not in dontcares]
@@ -329,7 +325,7 @@ class quiz_format:
 
         return text
 
-    def simplify_map(self, terms =[]):
+    def simplify_map(self, terms =[], method='and'):
         """
         Gererate diplay for terms
         """
@@ -389,7 +385,16 @@ class quiz_format:
             "D":variables[3],
         }
         lg = logigram.logigram(varnames, method=method)
-        return lg.prepare_logigram_list(sop_list, function_namelist)
+        lgdict = lg.prepare_logigram_list(sop_list, function_namelist)
+        ## format labels
+        for func_item in lgdict.get("functions", []):
+            for term in func_item.get("terms", []):
+                label = term.get("label", {})
+                if "default" in label:
+                    label["formatted"] = self.normalize_formula(label["default"])
+        return lgdict
+
+
 def main(args):
     return 0
 

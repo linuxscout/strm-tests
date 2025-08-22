@@ -17,7 +17,7 @@ STRUCTURED LOGIGRAM-FILE-TEMPLATE
 \def\FunctionPos{6}
 {% set start = 0.0 %}
 {% set step = 0.5 %}
-{% for name in lg.variables %}
+{% for name in lg.variables.values() %}
     \node (x{{ loop.index }}) at ({{ start + step * (loop.index0) }}, \varPos) {$ {{ name }} $};
     \node[not gate US, draw, rotate=270] at ($(x{{ loop.index }}) + (0.25, -0.6)$) (notx{{ loop.index }}) {};
     \draw ($(x{{ loop.index }})+(0,-1ex)$) -| (notx{{ loop.index }}.input);
@@ -34,10 +34,10 @@ STRUCTURED LOGIGRAM-FILE-TEMPLATE
      %% ***Function {{ funct_item.name }} : Gate for term n° {{ loop.index }} [ {{ term.label }} ]***
 
            \node[{{lg.term_gate}} gate US, draw, rotate=0, logic gate inputs={{ "n" * (term.vars | length) }}] at (2.5, {{ ns.gate_ypos  }}) ({{term.id}}) {};
-           \draw ({{term.id}}.output) -- node[above]{\scriptsize $ {{ term.label }} $} ($({{term.id}}) + (1.8, 0)$);
+           \draw ({{term.id}}.output) -- node[above]{\scriptsize $ {{ term.label.formatted }} $} ($({{term.id}}) + (1.8, 0)$);
 
         {% set ns.counter=1 %}
-        {%for var in lg.variables  %}
+        {%for var in lg.variables.values()  %}
             {% if var+"'" in term.vars %}
                 \draw [line width=0.25mm,   red] (notx{{ loop.index }}.output)
                 -- ([xshift=0cm]notx{{ loop.index }}.output) |- ({{term.id}}.input {{ ns.counter }});

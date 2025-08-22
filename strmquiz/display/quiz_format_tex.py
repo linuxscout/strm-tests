@@ -23,6 +23,7 @@
 #  
 
 import itertools
+import re
 from . import quiz_format
 from . import format_const
 from ..bool import logigram
@@ -251,20 +252,20 @@ class quiz_format_tex(quiz_format.quiz_format):
         self.output.append(tex)
         
         return tex
-        
-    def normalize_formula(self,s):
+
+
+    def normalize_formula2(self,s):
         """ normalize boolean string"""
         s= str(s)
-        s = s.replace("A'","\\bar A")
-        s = s.replace("B'","\\bar B")
-        s = s.replace("C'","\\bar C")
-        s = s.replace("D'","\\bar D")
-        s = s.replace("a'","\\bar a")
-        s = s.replace("b'","\\bar b")
-        s = s.replace("c'","\\bar c")
-        s = s.replace("d'","\\bar d")
+        for v in self.variables:
+            s = s.replace(f"{v.lower()}'", f'\\bar {v.lower()}')
+            s = s.replace(f"{v.upper()}'", f'\\bar {v.upper()}')
         return s
-        
+    @staticmethod
+    def normalize_formula(expr: str) -> str:
+        # Match a word (letters/numbers/underscore) followed by a '
+        return re.sub(r"([A-Za-z0-9_]+)'", r"\\overline{\1}", expr)
+
     def draw_map(self, minterms, dontcares=[], correct = False, variables = [], simply_terms=[],
     method="sop"):
         kmap=[]
@@ -385,16 +386,6 @@ class quiz_format_tex(quiz_format.quiz_format):
         lg = logigram.logigram(varnames, method=method)
         return lg.draw_logigram_list(sop_list, function_namelist)
 
-    def prepare_logigram_list(self, sop_list, function_namelist = ["F",], variables = [], method=""):
-        """ draw a logigram """
-        varnames = {
-            "A":variables[0],
-            "B":variables[1],
-            "C":variables[2],
-            "D":variables[3],
-        }
-        lg = logigram.logigram(varnames, method=method)
-        return lg.prepare_logigram_list(sop_list, function_namelist)
 def main(args):
     return 0
 
