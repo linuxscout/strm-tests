@@ -71,7 +71,7 @@ TEX_REDUCTION_TABLE ={
      "a.b.d": "\\implicant{13}{15}",     
      "a.b.d'": "\\implicantedge{12}{12}{14}{14}", 
      
-     "a.b'.c": "\\implicant{10}{10}",     
+     "a.b'.c": "\\implicant{10}{11}",
      "a.b'.c'": "\\implicant{8}{9}",     
      "a.b'.d": "\\implicant{9}{11}",     
      "a.b'.d'": "\\implicantedge{8}{8}{10}{10}", 
@@ -262,7 +262,7 @@ HTML_REDUCTION_TABLE = {
     "a.b.d": ("implicant", [13, 15], "red"),
     "a.b.d'": ("edge", [12, 12, 14, 14], "red"),
 
-    "a.b'.c": ("implicant", [10, 10], "red"),
+    "a.b'.c": ("implicant", [10, 11], "red"),
     "a.b'.c'": ("implicant", [8, 9], "red"),
     "a.b'.d": ("implicant", [9, 11], "red"),
     "a.b'.d'": ("edge", [8, 8, 10, 10], "red"),
