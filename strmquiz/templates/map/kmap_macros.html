@@ -197,7 +197,7 @@
             {# <rect x="{{ cmin*size + 60 }}" y="{{ rmin*size + 80 }}"  width="{{ (cmax-cmin+1)*size +40 }}" height="{{ (rmax-rmin+1)*size }}"
                   fill="none" stroke="{{ color }}" stroke-width="2"  rx="{{round_size}}" ry="{{round_size}}"/>
         #}
-            <text x="150" y="{{10*ns.grp_counter}}"  font-family="serif" font-size="8">cmin={{cmin}} cmax={{cmax}} rmin={{rmin}} rmax={{rmax}} </text>
+            <!-- <text x="150" y="{{10*ns.grp_counter}}"  font-family="serif" font-size="8">cmin={{cmin}} cmax={{cmax}} rmin={{rmin}} rmax={{rmax}} </text>-->
             {% set width = (cmax - cmin + 1) * size %} 
             {% set height = (rmax - rmin + 1) * size %}
             {% set cols_size = 4 %}

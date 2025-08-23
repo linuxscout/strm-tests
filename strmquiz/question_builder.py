@@ -446,8 +446,13 @@ class Question_Builder:
                                               variables=self.bq.variables)
         context["sop_quest"] = sop_quest
         context["logicdiagram"] = logigram
+        equations_list = [{"sop": sop,
+                           "pos": pos,
+                           "nor_pos": context.get("nor_pos", ""),
+                           "nand_sop": context.get("nand_sop", '')},
+                          ]
         logigramdict = self.formater.prepare_logigram_list([sop, ], function_namelist=["F",],
-                                                   variables=["A","B","C","D"])
+                                                   variables=["A","B","C","D"], equations_list=equations_list)
         context["logicdiagramdict"] = logigramdict
         question, answer = self.formater.render_question_answer("function", context)
         return question, "arabic", "data", answer
@@ -524,9 +529,13 @@ class Question_Builder:
         context["sop_quest"] = sop_quest
         context["logicdiagram"] = logigram
         context["terms"] = [[t.strip() for t in term.split(".")] for term in sop.split("+")]
-
+        equations_list  = [{"sop": sop,
+                               "pos": pos,
+                               "nor_pos": context.get("nor_pos", ""),
+                               "nand_sop": context.get("nand_sop", '')},
+                            ]
         logigramdict = self.formater.prepare_logigram_list([sop, ], function_namelist=[fname,],
-                                                   variables=var_names, )
+                                                   variables=var_names,  equations_list= equations_list)
         context["logicdiagramdict"] = logigramdict
         question, answer = self.formater.render_question_answer("function", context)
         return question, "arabic", "data", answer

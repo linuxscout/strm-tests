@@ -17,13 +17,12 @@ Simplifier l'expression suivant:<br/>
 
 {% import "map/kmap_macros.html" as kmap %}
 
-{{ kmap.kmap4(minterms, maxterms, dontcares, ab, cd) }}
 
 {{ kmap.kmap4svg(minterms, dontcares, groups=formatted_simplification, ab=ab, cd=cd) }}
 <br/>
 <ul>
-    <li>Simplified Sum of products : {{ sop }}</li>
-    <li>Simplified product of sums : {{ pos }}</li>
+    <li>Simplified Sum of products : {{ sop_dict.formatted }}</li>
+    <li>Simplified product of sums : {{ pos_dict.formatted }}</li>
     </ul>
 
 

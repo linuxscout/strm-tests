@@ -11,13 +11,13 @@ Let the function be given by its canonical form, Draw the Karnaugh table and sim
 \end{arab}
 {% if RENDER_MODE == "question" %}
 {% for data in data_list %}
-    $F{{ loop.index }}(A,B,C,D) = {{ data.dnf }}$
+    $F{{ loop.index }}(A,B,C,D) = {{ data.dnf_dict.formatted }}$
 {% endfor %}
  {% endif %}
 
  {% if RENDER_MODE == "answer" %}
 {% for data in data_list %}
-    $F{{ loop.index }}(A,B,C,D) = {{ data.dnf }}$
+    $F{{ loop.index }}(A,B,C,D) = {{ data.dnf_dict.formatted }}$
 
 \begin{karnaugh-map}[4][4][1][{{ data.cd }}][{{ data.ab }}]
   \minterms{ {{ data.minterms | join(", ") }} }
@@ -30,8 +30,8 @@ Let the function be given by its canonical form, Draw the Karnaugh table and sim
 
  \end{karnaugh-map}
 
-    Simplified Sum of products : ${{ data.sop }}$\\
-    Simplified product of sums : ${{ data.pos }}$
+    Simplified Sum of products : ${{ data.sop_dict.formatted }}$\\
+    Simplified product of sums : ${{ data.pos_dict.formatted }}$
 
 {% endfor %}
  {% endif %}

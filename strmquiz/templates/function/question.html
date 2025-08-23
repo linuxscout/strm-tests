@@ -50,8 +50,8 @@ F(A,B,C,D) ={{  sop_quest }}
 
 <p><strong>Canonical Forms <span dir="rtl">الأشكال القانونية</span></strong></p>
 <ul>
-    <li>{{ function_name }}(A, B, C, D) = {{ dnf }}</li>
-    <li>{{ function_name }}(A, B, C, D) = {{ cnf }}</li>
+    <li>{{ function_name }}(A, B, C, D) = {{ dnf_dict.formatted }}</li>
+    <li>{{ function_name }}(A, B, C, D) = {{ cnf_dict.formatted }}</li>
     <li>{{ function_name }}(A, B, C, D) = Σ({{ minterms | join(", ") }})</li>
     <li>{{ function_name }}(A, B, C, D) = Π({{ maxterms | join(", ") }})</li>
 </ul>
@@ -84,15 +84,12 @@ F(A,B,C,D) ={{  sop_quest }}
 
 <br/>
 <ul>
-    <li>Simplified Sum of products : {{ sop }}</li>
-    <li>Simplified product of sums : {{ pos }}</li>
+    <li>Simplified Sum of products : {{ sop_dict.formatted }}</li>
+    <li>Simplified product of sums : {{ pos_dict.formatted }}</li>
     </ul>
 
-\textbf{Logic diagram \aRL{المخطط المنطقي}}
 <p><strong>Logic diagram <span dir="rtl">المخطط المنطقي</span></strong></p>
-    <pre>
-{{logicdiagramdict|pprint }}
-    </pre>
+
 {% include "logigram/structured_logigram.html.j2" %}
 
 {% endif %}

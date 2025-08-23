@@ -46,8 +46,8 @@ ${{ function_name }} = {{ dontcares }}$
 
 \textbf{Canonical Forms \aRL{الأشكال القانونية}}
 \begin{itemize}
-\item ${{ function_name }}(A,B,C,D) =  {{  dnf }}$
-\item ${{ function_name }}(A,B,C,D) = {{  cnf }}$
+\item ${{ function_name }}(A,B,C,D) =  {{  dnf_dict.formatted }}$
+\item ${{ function_name }}(A,B,C,D) = {{  cnf_dict.formatted }}$
  \item ${{ function_name }}(A,B,C,D) =  \sum({{  minterms| join(", ") }})$
  \item ${{ function_name }}(A,B,C,D) =  \prod({{  maxterms| join(", ") }})$
 \end{itemize}

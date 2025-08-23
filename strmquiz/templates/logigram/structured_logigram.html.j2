@@ -6,6 +6,24 @@
   {% set step = 10 %}   <!-- Define step offset lines entred into a function gate -->
   {% set table_var_xpos = {lg.variables["A"]:-270, lg.variables["B"]:-210, lg.variables["C"]:-150, lg.variables["D"]:-90} %}   <!-- Define space between vars -->
 
+{% if lg.method.upper() == "NAND" %}
+    {% set function_gate = "nand-gate" %}
+    {% set term_gate = "nand-gate" %}
+    {% set not_gate = "nand-gate-not" %}
+{% elif lg.method.upper() == "NOR" %}
+    {% set function_gate = "nor-gate" %}
+    {% set term_gate = "nor-gate" %}
+    {% set not_gate = "nor-gate-not" %}
+{% elif lg.method.upper() == "POS" %}
+    {% set function_gate = "and-gate" %}
+    {% set term_gate = "or-gate" %}
+    {% set not_gate = "not-gate" %}
+{% else %}
+    {% set function_gate = "or-gate" %}
+    {% set term_gate = "and-gate" %}
+    {% set not_gate = "not-gate" %}
+{% endif %}
+
 {% macro big_or_gate(W=60, H=120, inputs=0, xpos=0, ypos=0) %}
   <g id="or-gateX">
     <!-- OR gate body -->
@@ -78,14 +96,11 @@
     <text x="0" y="-5" font-family="serif" font-size="20">{{var}}</text>
     <line x1="10" y1="0" x2="10" y2="{{100+lg.size_terms*50}}" stroke="black"/>
     <line x1="50" y1="10" x2="50" y2="{{100+lg.size_terms*50}}" stroke="red"/>
-        {% if lg.method.upper() == "NAND" %}
-            <use href="#nand-gate-not" x="40" y="0" transform="scale(0.5)"/>
-        {% elif lg.method.upper() == "NOR" %}
-            <use href="#nor-gate-not" x="40" y="0"  transform="scale(0.5)"/>
+        {% if lg.method.upper() in ("NAND","OR") %}
+        <use href="#{{not_gate}}" x="40" y="0" transform="scale(0.5)"/>
         {% else %}
-             <use href="#not-gate" x="15" y="0"/>
+        <use href="#not-gate" x="15" y="0"/>
         {% endif %}
-
   </g>
   {% endfor %}
   {% set ns = namespace(i = 0, counter=0, shift=0) %}
@@ -103,16 +118,8 @@
       <g transform="translate(300,{{50+ns.i* gate_space}})">
         <!-- Draw the term {{term.label}} -->
         <text x="60" y="15" font-family="serif" font-size="10">{{function.name+"  :  "+term.label.default}}</text>
+        <use href="#{{term_gate}}{{ term.vars|length }}" x="15" y="0"/>
 
-        {% if lg.method.upper() == "NAND" %}
-            <use href="#nand-gate{{ term.vars|length }}" x="15" y="0"/>
-        {% elif lg.method.upper() == "NOR" %}
-            <use href="#nor-gate{{ term.vars|length }}" x="15" y="0"/>
-        {% elif lg.method.upper() == "POS" %}
-            <use href="#or-gate{{ term.vars|length }}" x="15" y="0"/>
-        {% else %}
-             <use href="#and-gate{{ term.vars|length }}" x="15" y="0"/>
-        {% endif %}
 
         <!-- Extend output line -->
         {% set offset = -2.5 if (nb_terms % 2 == 1 and loop.index0 == nb_terms // 2) else ([loop.index0, nb_terms - 1 - loop.index0]|min) %}
@@ -144,15 +151,7 @@
         <text x="60" y="15" font-family="serif" font-size="10">{{function.name}}</text>
       {% if function.nb_terms > 1 %}
         {{ draw_wires(N=function.nb_terms, step=10, gate_space=50) }}
-        {% if lg.method.upper() == "NAND" %}
-            <use href="#nand-gate0" x="15" y="0"/>
-        {% elif lg.method.upper() == "NOR" %}
-            <use href="#nor-gate0" x="15" y="0"/>
-        {% elif lg.method.upper() == "POS" %}
-            <use href="#and-gate0" x="15" y="0"/>
-        {% else %}
-            <use href="#or-gate0" x="15" y="0"/>
-        {% endif %}
+        <use href="#{{function_gate}}0" x="15" y="0"/>
 
 
       {% endif %}
