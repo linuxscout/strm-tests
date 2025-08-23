@@ -377,7 +377,7 @@ class quiz_format:
         }
         lggm ="Draw Logigramm in Text mode, not implemented"
         return lggm
-    def prepare_logigram_list(self, sop_list, function_namelist = ["F",], variables = [], method=""):
+    def prepare_logigram_list(self, sop_list, function_namelist = ["F",], variables = [], method="", equations_list=[]):
         """ draw a logigram """
         varnames = {
             "A":variables[0],
@@ -386,7 +386,7 @@ class quiz_format:
             "D":variables[3],
         }
         lg = logigram.logigram(varnames, method=method)
-        lgdict = lg.prepare_logigram_list(sop_list, function_namelist)
+        lgdict = lg.prepare_logigram_list(sop_list, function_namelist, equations_list=equations_list)
         ## format labels
         for func_item in lgdict.get("functions", []):
             for term in func_item.get("terms", []):

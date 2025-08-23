@@ -1,7 +1,9 @@
 STRUCTURED LOGIGRAM-FILE-TEMPLATE
+{% if debug %}
 \begin{verbatim}
 {{logicdiagramdict|pprint}}
 \end{verbatim}
+{% endif %}
 
 {% set gates_space = 1.2 %}
 {% set var_space = 1.36 %}
@@ -19,8 +21,13 @@ STRUCTURED LOGIGRAM-FILE-TEMPLATE
 {% set step = 0.5 %}
 {% for name in lg.variables.values() %}
     \node (x{{ loop.index }}) at ({{ start + step * (loop.index0) }}, \varPos) {$ {{ name }} $};
-    \node[not gate US, draw, rotate=270] at ($(x{{ loop.index }}) + (0.25, -0.6)$) (notx{{ loop.index }}) {};
-    \draw ($(x{{ loop.index }})+(0,-1ex)$) -| (notx{{ loop.index }}.input);
+    \node[{{lg.notvar_gate}} gate US, draw, rotate=270, scale=0.7] at ($(x{{ loop.index }}) + (0.25, -0.6)$) (notx{{ loop.index }}) {};
+    {% if lg.notvar_gate.lower() == "not"%}
+        \draw ($(x{{ loop.index }})+(0,-1ex)$) -| (notx{{ loop.index }}.input);
+    {% elif lg.notvar_gate.lower()  in ["nand", "nor"] %}
+        \draw ($(x{{ loop.index }})+(0,-1ex)$) -| (notx{{ loop.index }}.input 1);
+        \draw ($(x{{ loop.index }})+(0,-1ex)$) -| (notx{{ loop.index }}.input 2);
+    {% endif %}
 {% endfor %}
 
 

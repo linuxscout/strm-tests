@@ -27,6 +27,7 @@ import re
 from . import quiz_format
 from . import format_const
 from ..bool import logigram
+from ..bool import bool_const
 
 class quiz_format_tex(quiz_format.quiz_format):
     """ Generate a format for the test """
@@ -265,7 +266,30 @@ class quiz_format_tex(quiz_format.quiz_format):
     @staticmethod
     def normalize_formula(expr: str) -> str:
         # Match a word (letters/numbers/underscore) followed by a '
-        return re.sub(r"([A-Za-z0-9_]+)'", r"\\overline{\1}", expr)
+        expr = re.sub(r"([A-Za-z0-9_]+)'", r"\\overline{\1}", expr)
+        # 3. Handle LaTeX \overline{...} -> MathML mover
+        s = expr
+        while True:
+            s_out = re.sub(
+                r"¬\{([^}]+)\}",
+                r"\\overline{\1}",
+                s
+            )
+            if s_out == s:
+                break
+            s = s_out
+        # 5. Replace sum/product/uparrow/downarrow with MathML entities
+        symbols = {
+            bool_const.BIG_NAND_SYMB: '\\big\\uparrow ',
+            bool_const.NAND_SYMB: "\\uparrow ",
+            bool_const.BIG_NOR_SYMB: '\\big\\downarrow ',
+            bool_const.NOR_SYMB: '\\downarrow ',
+
+        }
+        for k, v in symbols.items():
+            s = s.replace(k, v)
+
+        return s
 
     def draw_map(self, minterms, dontcares=[], correct = False, variables = [], simply_terms=[],
     method="sop"):

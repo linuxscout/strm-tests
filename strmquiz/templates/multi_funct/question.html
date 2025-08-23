@@ -109,7 +109,7 @@ F(A,B,C,D) ={{  sop_quest }}
     <b>First Canonical Forms <span dir="rtl">الأشكال القانونية الأولى</span></b>
     <ul>
       {% for data in data_list %}
-        <li>{{ data.function_name }}(A,B,C,D) = {{ data.dnf }}</li>
+        <li>{{ data.function_name }}(A,B,C,D) = {{ data.dnf_dict.formatted }}</li>
       {% endfor %}
     </ul>
   </li>
@@ -118,7 +118,7 @@ F(A,B,C,D) ={{  sop_quest }}
     <b>Second Canonical Forms <span dir="rtl">الأشكال القانونية الثانية</span></b>
     <ul>
       {% for data in data_list %}
-        <li>{{ data.function_name }}(A,B,C,D) = {{ data.cnf }}</li>
+        <li>{{ data.function_name }}(A,B,C,D) = {{ data.cnf_dict.formatted }}</li>
       {% endfor %}
     </ul>
   </li>
@@ -144,24 +144,52 @@ F(A,B,C,D) ={{  sop_quest }}
 
 
 
+{% if True or method.lower() == "nand" %}
+  <p>
+    <strong>NAND forms</strong>
+    <span dir="rtl">بوابات نفي الوصل</span>
+  </p>
+  <ol>
+    {% for data in data_list %}
+      <li>
+         {{ data.function_name }}  =  {{ data.nand_sop_dict.formatted }} 
 
- {% if method == "nand" %}
- \textbf{ NAND forms  \aRL{بوابات نفي الوصل}}
- {% for data in data_list %}
-{{ data.function_name }} = {{ data.nand_sop }}
+        <p>Explanation</p>
+        <ul>
+          <li> {{ data.function_name }}  =  {{ data.sop_dict.formatted }} </li>
 
-{{ data.function_name }} = {{ data.nand_dnf }}
-{% endfor %}
- {% endif %}
+          {% for explain in data.nand_sop_dict.explained %}
+            <li> {{ data.function_name }}  =  {{ explain }} </li>
+          {% endfor %}
+        </ul>
+      </li>
+    {% endfor %}
+  </ol>
+{% endif %}
 
-{% if method == "nor" %}
- \textbf{ NOR forms  \aRL{بوابات نفي الفصل}}
-  {% for data in data_list %}
-{{ data.function_name }} = {{ data.nor_pos }}
+{% if True or method.lower() == "nor" %}
+  <p>
+    <strong>NOR forms</strong>
+    <span dir="rtl">بوابات نفي الفصل</span>
+  </p>
+  <ol>
+    {% for data in data_list %}
+      <li>
+         {{ data.function_name }}  =  {{ data.nor_pos_dict.formatted }} 
 
-{{ data.function_name }} =  {{ data.nor_cnf }}
-{% endfor %}
- {% endif %}
+        <p>Explanation</p>
+        <ul>
+          <li> {{ data.function_name }}  =  {{ data.pos_dict.formatted }} </li>
+
+          {% for explain in data.nor_pos_dict.explained %}
+            <li> {{ data.function_name }}  =  {{ explain }} </li>
+          {% endfor %}
+        </ul>
+      </li>
+    {% endfor %}
+  </ol>
+{% endif %}
+
 
 
 <p><strong>Karnaugh map <span dir="rtl">جدول كارنوف</span></strong></p>
@@ -183,17 +211,19 @@ F(A,B,C,D) ={{  sop_quest }}
 
 {{ kmap.kmap4svg(minterms=data.minterms, dontcares=data.dontcares, groups=data.formatted_simplification, ab=data.ab, cd=data.cd) }}
 <ul>
-    <li>Simplified Sum of products : {{ data.function_name }} = {{ data.sop }}</li>
-    <li>Simplified product of sums : {{ data.function_name }} = {{ data.pos }}</li>
+    <li>Simplified Sum of products : {{ data.function_name }} = {{ data.sop_formatted }}</li>
+    <li>Simplified product of sums : {{ data.function_name }} = {{ data.pos_formatted }}</li>
     </ul>
 {% endfor %}
 
 <p><strong>Logic diagram <span dir="rtl">المخطط المنطقي</span></strong></p>
-    <pre>
-{{logicdiagramdict|pprint }}
-    </pre>
+
 {% include "logigram/structured_logigram.html.j2" %}
 
 <hr/>
-
+  {%if debug %}
+      <pre>
+  {{logicdiagramdict|pprint }}
+      </pre>
+  {% endif %}
 {% endif %}

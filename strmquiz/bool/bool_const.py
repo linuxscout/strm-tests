@@ -21,6 +21,12 @@
 #  MA 02110-1301, USA.
 #  
 #  
+NOR_SYMB = "\u2193"
+BIG_NOR_SYMB = "\u22BD"
+NAND_SYMB = "\u2191"
+BIG_NAND_SYMB = "\u22BC"
+NOT_TERM_SYMB = "\u00AC"
+NOT_VAR_SYMB = "'"
 
 REDUCTION_TABLE ={
     # one variable

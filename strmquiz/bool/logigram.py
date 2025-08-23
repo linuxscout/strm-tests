@@ -101,7 +101,7 @@ import re
 # ~ term="A'.B.C'.D"
 
 # ~ print draw_gate(term)
-
+from . import bool_const
 
 class logigram:
     """ Trace a latex logigram for a given function"""
@@ -126,7 +126,6 @@ class logigram:
         self.and_gates_space = 1.2
         # define basic step of vars in figure
         self.vars_space =1.32
-        method = method.upper()
         method = method.upper()
         if method.upper() in ("NAND", "NOR","SOP", "POS", "OR", "AND"):
             self.method = method
@@ -165,10 +164,18 @@ class logigram:
         in sop: product
         in pos: sum
         """
-        if self.method.upper() in ("NOR", "POS","OR" ):
-            return '+'
-        else:
-            return "."
+        # if self.method.upper() in ("NOR", "POS","OR" ):
+        #     return '+'
+        # else:
+        #     return "."
+        seps = {
+            'sop':".",
+            'nand':bool_const.NAND_SYMB,
+            'nor':bool_const.NOR_SYMB,
+            'pos':"+",
+        }
+        sep = seps.get(self.method.lower(),".")
+        return sep
 
     def get_term_sep(self,):
         """
@@ -178,10 +185,18 @@ class logigram:
         in sop: sum
         in pos: product
         """
-        if self.method.upper() in ("NOR", "POS","OR" ):
-            return '.'
-        else:
-            return "+"
+        # if self.method.upper() in ("NOR", "POS","OR" ):
+        #     return '.'
+        # else:
+        #     return "+"
+        seps = {
+            'sop':"+",
+            'nand':bool_const.BIG_NAND_SYMB,
+            'nor':bool_const.BIG_NOR_SYMB,
+            'pos':".",
+        }
+        sep = seps.get(self.method.lower(),"+")
+        return sep
 
     def get_gate_type(self):
         """
@@ -261,51 +276,68 @@ class logigram:
         return latex
 
 
-    def prepare_logigram_list(self, sop_list=[], function_namelist=["F",],):
+    def get_terms(self, equation_item={}):
+        """ return terms according to used method"""
+
+        expression = equation_item.get("sop","")
+        print("LOGIGRAM", self.method)
+        if self.method.upper() in ["NAND"] :
+            expression = equation_item.get("nand_sop","")
+        elif self.method.upper() == "NOR" :
+            expression = equation_item.get("nor_pos","")
+        elif self.method.upper() in ["OR", 'POS'] :
+            expression = equation_item.get("pos","")
+
+        terms = [t.replace("(","").replace(")","").strip()
+                 for t in expression.split(self.get_term_sep())]
+        print("TERMS", terms)
+        print("equation nand sop", equation_item.get("nand_sop",""))
+        return terms
+
+
+    def prepare_logigram_list(self, sop_list=[], function_namelist=["F",], equations_list=[]):
         """ draw a logigram from an sop """
-        # latex = " \\label{logigrammefonction%s}\n\n"%'-'.join(function_namelist)
-        # latex += " \\begin{tikzpicture}\n\n"
-        # latex += " %%Paramaters\n"
-        # the pos (position of Y) of a var is defined according to
-        # the total number of AND gates to draw (gates_count)
-        size_terms = sum([len(l.split(self.get_term_sep())) for l in sop_list])
+
         graph = {"variables":self.var_names,
                 "functions":[],
                  "method":self.method,
+                 "notvar_gate": self.get_gate_code("not"),
                  "term_gate":self.get_gate_code("and"),
                  "function_gate":self.get_gate_code("or"),
-                 'size_terms':size_terms,
+                 'size_terms':0,
         }
 
-        # latex += "%% var position, can be modified\n"
-        # latex += "\\def\\varPos{%.2f}\n"%(size_terms * self.vars_space)
-        # latex += "\\def\\FunctionPos{6}\n"
-        # ~ latex +="%% sizeterms : %d\n%%%s\n"%(size_terms, repr(sop_list))
+        # the total number of AND gates to draw (gates_count)
         total_terms = 0
         # inverse index
         # we inverse index to get functions ordred in logigram
-        sop_list.reverse()
+        # sop_list.reverse()
         # reduce function names to be similar to SOP list to avoid any extra name
         function_namelist = function_namelist[:len(sop_list)]
-        function_namelist.reverse()
+        # function_namelist.reverse()
+
+
         for i in range(len(sop_list)):
             sop =  sop_list[i]
             function_name =  function_namelist[i]
-            terms = [t.strip() for t in sop.split(self.get_term_sep())]
+            terms = self.get_terms(equations_list[i])
             # reverse terms
             terms.reverse()
             terms_list = []
             for ti, term in enumerate(terms):
+                vars = [v.strip().upper() for v in term.strip().split(self.get_var_sep())]
                 terms_list.append({"id":f"xandy{function_name}g{ti}",
                     "label":{"default":term, "formatted":term},
                     "name":term.upper(),
-                    "vars": [v.strip().upper() for v in term.strip().split(self.get_var_sep())]
+                    "vars": vars,
+                    "nb_vars":len(vars),
                 })
             total_terms += len(terms)
             function_item ={"name":function_name,
                             "terms":terms_list,
                             "nb_terms":len(terms)}
             graph["functions"].append(function_item)
+        graph["size_terms"]= total_terms
         # latex += " \\end{tikzpicture}\n\n"
         return graph
 

@@ -1,4 +1,4 @@
-
+{%set debug = True %}
 {% if "fr" in languages %}
 Etudier le circuit suivant:
 {% endif %}
@@ -29,6 +29,8 @@ $F(A,B,C,D) ={{  sop_quest }}$
  {% endif %}
 
 {% if RENDER_MODE == "answer" %}
+
+
 
 \textbf{Inputs and Outputs \aRL{المداخل والمخارج}}
 
@@ -77,14 +79,14 @@ $F(A,B,C,D) ={{  sop_quest }}$
 \item \textbf{First Canonical Forms \aRL{ الأشكال القانونية الأولى}}
     \begin{itemize}
     {% for data in data_list %}
-        \item ${{ data.function_name }}(A,B,C,D) =  {{  data.dnf }}$
+        \item ${{ data.function_name }}(A,B,C,D) =  {{  data.dnf_dict.formatted }}$
     {% endfor %}
     \end{itemize}
 
 \item \textbf{Second Canonical Forms \aRL{ الأشكال القانونية الثانية}}
     \begin{itemize}
     {% for data in data_list %}
-        \item ${{ data.function_name }}(A,B,C,D) =  {{  data.cnf }}$
+        \item ${{ data.function_name }}(A,B,C,D) =  {{  data.cnf_dict.formatted }}$
     {% endfor %}
     \end{itemize}
 
@@ -107,23 +109,43 @@ $F(A,B,C,D) ={{  sop_quest }}$
 
 
 
- {% if method == "nand" %}
+ {% if True or method.lower() == "nand" %}
  \textbf{ NAND forms  \aRL{بوابات نفي الوصل}}
+ \begin{enumerate}
  {% for data in data_list %}
-${{ data.function_name }} = {{ data.nand_sop }}$
 
-${{ data.function_name }} = {{ data.nand_dnf }}$
-{% endfor %}
- {% endif %}
+    \item ${{ data.function_name }}$ = ${{ data.nand_sop_dict.formatted }}$
 
-{% if method == "nor" %}
+    Explanation
+    \begin{itemize}
+        \item ${{ data.function_name }}$ = ${{ data.sop_dict.formatted }}$
+
+        {% for explain in data.nand_sop_dict.explained %}
+            \item  ${{ data.function_name }}$ = ${{ explain }}$
+        {% endfor %}
+    \end{itemize}
+ {% endfor %}
+ \end{enumerate}
+{% endif %}
+
+{% if method.lower() == "nor" %}
  \textbf{ NOR forms  \aRL{بوابات نفي الفصل}}
-  {% for data in data_list %}
-${{ data.function_name }} = {{ data.nor_pos }}$
+ \begin{enumerate}
+ {% for data in data_list %}
 
-${{ data.function_name }} =  {{ data.nor_cnf }}$
-{% endfor %}
- {% endif %}
+    \item ${{ data.function_name }}$ = ${{ data.nor_pos_dict.formatted }}$
+
+    Explanation
+    \begin{itemize}
+        \item ${{ data.function_name }}$ = ${{ data.pos_dict.formatted }}$
+
+        {% for explain in data.nor_pos_dict.explained %}
+            \item  ${{ data.function_name }}$ = ${{ explain }}$
+        {% endfor %}
+    \end{itemize}
+ {% endfor %}
+ \end{enumerate}
+{% endif %}
 
 
 \textbf{Karnaugh Table \aRL{جدول كارنوف}}
@@ -139,8 +161,8 @@ ${{ data.function_name }} =  {{ data.nor_cnf }}$
  {% endif %}
  \end{karnaugh-map}
 {% if RENDER_MODE == "answer" %}
-    Simplified Sum of products : ${{ data.function_name }} = {{ data.sop }}$\\
-    Simplified product of sums : ${{ data.function_name }} = {{ data.pos }}$
+    Simplified Sum of products : ${{ data.function_name }} = {{ data.sop_formatted }}$\\
+    Simplified product of sums : ${{ data.function_name }} = {{ data.pos_formatted }}$
 {% endif %}
 {% endfor %}
 
@@ -152,4 +174,13 @@ ${{ data.function_name }} =  {{ data.nor_cnf }}$
 {#% include "logigram/multi_logigram.tex.j2" %#}
 
 {% include "logigram/structured_logigram.tex.j2" %}
+{% endif %}
+
+{% if RENDER_MODE == "answer" %}
+    {% if debug %}
+        DATA list
+        \begin{verbatim}
+        {{data_list|pprint}}
+        \end{verbatim}
+    {% endif %}
 {% endif %}

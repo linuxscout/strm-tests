@@ -1,0 +1,363 @@
+ <!-- Define NOT gate as reusable symbol -->
+  <defs>
+    <g id="not-gate">
+      <!-- Triangle -->
+      <polygon points="0,0 20,10 0,20" stroke="black" fill="none"/>
+      <!-- Circle (inversion bubble) -->
+      <circle cx="25" cy="10" r="5" stroke="black" fill="none"/>
+      <!-- Input wire -->
+      <line x1="-5" y1="10" x2="0" y2="10" stroke="black"/>
+      <!-- Output wire -->
+      <line x1="30" y1="10" x2="35" y2="10" stroke="red"/>
+    </g>
+
+ <!-- Define NOR gate as reusable symbol -->
+    <g id="nor-gate">
+      <!-- OR gate body (shorter) -->
+      <path d="M0,0
+               Q8,20 0,40
+               Q20,40 40,20
+               Q20,0 0,0
+               Z"
+            stroke="black" fill="white"/>
+
+      <!-- Input wires -->
+      <!-- Output wire -->
+      <line x1="40" y1="20" x2="70" y2="20" stroke="red"/>
+    </g>
+
+ <!-- Define OR gate as reusable symbol  NO wires-->
+    <g id="or-gate0">
+      <!-- OR gate body (shorter) -->
+      <path d="M0,0
+               Q8,20 0,40
+               Q20,40 40,20
+               Q20,0 0,0
+               Z"
+            stroke="black" fill="white"/>
+
+      <!-- Input wires -->
+      <!-- Output wire -->
+      <line x1="40" y1="20" x2="70" y2="20" stroke="red"/>
+    </g>
+
+      <g id="or-gate4">
+      <!-- OR gate body (shorter) -->
+      <path d="M0,0
+               Q8,20 0,40
+               Q20,40 40,20
+               Q20,0 0,0
+               Z"
+            stroke="black" fill="white"/>
+        <!-- Input wires -->
+        <line x1="-20" y1="5" x2="0" y2="5" stroke="black"/>
+        <line x1="-20" y1="15" x2="0" y2="15" stroke="black"/>
+        <line x1="-20" y1="25" x2="0" y2="25" stroke="black"/>
+        <line x1="-20" y1="35" x2="0" y2="35" stroke="black"/>
+        <!-- Output wire -->
+        <line x1="40" y1="20" x2="80" y2="20" stroke="red"/>
+      </g>
+
+
+ <!-- Define OR gate as reusable symbol -->
+    <g id="or-gate4">
+      <!-- OR gate body (shorter) -->
+      <path d="M0,0
+               Q8,20 0,40
+               Q20,40 40,20
+               Q20,0 0,0
+               Z"
+            stroke="black" fill="white"/>
+
+      <!-- Input wires -->
+        <line x1="-20" y1="5" x2="0" y2="5" stroke="black"/>
+        <line x1="-20" y1="15" x2="0" y2="15" stroke="black"/>
+        <line x1="-20" y1="25" x2="0" y2="25" stroke="black"/>
+        <line x1="-20" y1="35" x2="0" y2="35" stroke="black"/>
+
+      <!-- Output wire -->
+      <line x1="40" y1="20" x2="70" y2="20" stroke="red"/>
+    </g>
+    <g id="or-gate3">
+      <!-- OR gate body (shorter) -->
+      <path d="M0,0
+               Q8,20 0,40
+               Q20,40 40,20
+               Q20,0 0,0
+               Z"
+            stroke="black" fill="white"/>
+
+      <!-- Input wires -->
+        <line x1="-20" y1="5" x2="0" y2="5" stroke="black"/>
+        <line x1="-20" y1="15" x2="0" y2="15" stroke="black"/>
+        <line x1="-20" y1="25" x2="0" y2="25" stroke="black"/>
+
+      <!-- Output wire -->
+      <line x1="40" y1="20" x2="70" y2="20" stroke="red"/>
+    </g>
+    <g id="or-gate2">
+      <!-- OR gate body (shorter) -->
+      <path d="M0,0
+               Q8,20 0,40
+               Q20,40 40,20
+               Q20,0 0,0
+               Z"
+            stroke="black" fill="white"/>
+
+      <!-- Input wires -->
+        <line x1="-20" y1="5" x2="0" y2="5" stroke="black"/>
+        <line x1="-20" y1="15" x2="0" y2="15" stroke="black"/>
+      <!-- Output wire -->
+      <line x1="40" y1="20" x2="70" y2="20" stroke="red"/>
+    </g>
+      <g id="or-gate1">
+        <!-- replacement Output wire -->
+        <use href="#and-gate1" x="0" y="0"/>
+      </g>
+
+<!-- Define BIG OR gate as reusable symbol -->
+    <g id="big-or-gate3">
+      <!-- OR gate body (shorter) -->
+      <!-- OR gate body -->
+      <path d="M0,0
+               Q40,60 0,125
+               Q100,125 125,60
+               Q100,0 0,0"
+            stroke="black" fill="none"/>
+      <!-- Output wire -->
+      <line x1="250" y1="120" x2="300" y2="120" stroke="red"/>
+    </g>
+        <g id="big-or-gate2">
+      <!-- OR gate body (shorter) -->
+      <!-- OR gate body -->
+     <path d="M0,0
+               Q40,40 0,80
+               Q80,80 80,40
+               Q80,0 0,0"
+            stroke="black" fill="none"/>
+      <!-- Output wire -->
+      <line x1="80" y1="40" x2="100" y2="40" stroke="red"/>
+    </g>
+
+
+    <!-- Define AND gate as reusable symbol -->
+
+      <g id="and-gate4">
+        <!-- Left side (flat) -->
+        <line x1="0" y1="0" x2="0" y2="40" stroke="black"/>
+        <!-- Top arc -->
+        <path d="M0,0 H20 A20,20 0 0,1 20,40 H0" stroke="black" fill="none"/>
+        <!-- Input wires -->
+        <line x1="-20" y1="5" x2="0" y2="5" stroke="black"/>
+        <line x1="-20" y1="15" x2="0" y2="15" stroke="black"/>
+        <line x1="-20" y1="25" x2="0" y2="25" stroke="black"/>
+        <line x1="-20" y1="35" x2="0" y2="35" stroke="black"/>
+        <!-- Output wire -->
+        <line x1="40" y1="20" x2="80" y2="20" stroke="red"/>
+      </g>
+      <g id="and-gate3">
+        <!-- Left side (flat) -->
+        <line x1="0" y1="0" x2="0" y2="40" stroke="black"/>
+        <!-- Top arc -->
+        <path d="M0,0 H20 A20,20 0 0,1 20,40 H0" stroke="black" fill="none"/>
+        <!-- Input wires -->
+        <line x1="-20" y1="5" x2="0" y2="5" stroke="black"/>
+        <line x1="-20" y1="15" x2="0" y2="15" stroke="black"/>
+        <line x1="-20" y1="25" x2="0" y2="25" stroke="black"/>
+        <!-- Output wire -->
+        <line x1="40" y1="20" x2="80" y2="20" stroke="red"/>
+      </g>
+
+      <g id="and-gate2">
+        <!-- Left side (flat) -->
+        <line x1="0" y1="0" x2="0" y2="40" stroke="black"/>
+        <!-- Top arc -->
+        <path d="M0,0 H20 A20,20 0 0,1 20,40 H0" stroke="black" fill="none"/>
+        <!-- Input wires -->
+        <line x1="-20" y1="5" x2="0" y2="5" stroke="black"/>
+        <line x1="-20" y1="15" x2="0" y2="15" stroke="black"/>
+        <!-- Output wire -->
+        <line x1="40" y1="20" x2="80" y2="20" stroke="red"/>
+      </g>
+
+
+      <g id="and-gate1">
+        <!-- replacement Output wire -->
+        <line x1="-20" y1="20" x2="80" y2="20" stroke="orange"/>
+      </g>
+
+      <g id="and-gate0">
+        <!-- Left side (flat) -->
+        <line x1="0" y1="0" x2="0" y2="40" stroke="black"/>
+        <!-- Top arc -->
+        <path d="M0,0 H20 A20,20 0 0,1 20,40 H0" stroke="black" fill="white"/>
+        <!-- Input wires -->
+        <!-- Output wire -->
+        <line x1="40" y1="20" x2="80" y2="20" stroke="red"/>
+      </g>
+
+      <!-- NAND Gate -->
+    <g id="nand-gate0">
+      <!-- AND body -->
+      <path d="M0,0 H20 A20,20 0 0,1 20,40 H0 Z"
+            stroke="black" fill="white"/>
+      <!-- Inputs -->
+      <!-- Inversion bubble -->
+      <circle cx="40" cy="20" r="5" stroke="black" fill="white"/>
+      <!-- Output -->
+      <line x1="45" y1="20" x2="70" y2="20" stroke="red"/>
+    </g>
+    <g id="nand-gate">
+      <!-- AND body -->
+      <path d="M0,0 H20 A20,20 0 0,1 20,40 H0 Z"
+            stroke="black" fill="white"/>
+      <!-- Inputs -->
+      <line x1="-20" y1="10" x2="0" y2="10" stroke="black"/>
+      <line x1="-20" y1="30" x2="0" y2="30" stroke="black"/>
+      <!-- Inversion bubble -->
+      <circle cx="40" cy="20" r="5" stroke="black" fill="white"/>
+      <!-- Output -->
+      <line x1="45" y1="20" x2="70" y2="20" stroke="red"/>
+    </g>
+    <g id="nand-gate4">
+      <!-- AND body -->
+      <path d="M0,0 H20 A20,20 0 0,1 20,40 H0 Z"
+            stroke="black" fill="white"/>
+      <!-- Inputs -->
+        <line x1="-20" y1="5" x2="0" y2="5" stroke="black"/>
+        <line x1="-20" y1="15" x2="0" y2="15" stroke="black"/>
+        <line x1="-20" y1="25" x2="0" y2="25" stroke="black"/>
+        <line x1="-20" y1="35" x2="0" y2="35" stroke="black"/>
+      <!-- Inversion bubble -->
+      <circle cx="40" cy="20" r="5" stroke="black" fill="white"/>
+      <!-- Output -->
+      <line x1="45" y1="20" x2="70" y2="20" stroke="red"/>
+    </g>
+    <g id="nand-gate3">
+      <!-- AND body -->
+      <path d="M0,0 H20 A20,20 0 0,1 20,40 H0 Z"
+            stroke="black" fill="white"/>
+      <!-- Inputs -->
+        <line x1="-20" y1="5" x2="0" y2="5" stroke="black"/>
+        <line x1="-20" y1="15" x2="0" y2="15" stroke="black"/>
+        <line x1="-20" y1="25" x2="0" y2="25" stroke="black"/>
+      <!-- Inversion bubble -->
+      <circle cx="40" cy="20" r="5" stroke="black" fill="white"/>
+      <!-- Output -->
+      <line x1="45" y1="20" x2="70" y2="20" stroke="red"/>
+    </g>
+    <g id="nand-gate2">
+      <!-- AND body -->
+      <path d="M0,0 H20 A20,20 0 0,1 20,40 H0 Z"
+            stroke="black" fill="white"/>
+      <!-- Inputs -->
+        <line x1="-20" y1="5" x2="0" y2="5" stroke="black"/>
+        <line x1="-20" y1="15" x2="0" y2="15" stroke="black"/>
+      <!-- Inversion bubble -->
+      <circle cx="40" cy="20" r="5" stroke="black" fill="white"/>
+      <!-- Output -->
+      <line x1="45" y1="20" x2="70" y2="20" stroke="red"/>
+    </g>
+    <g id="nand-gate1">
+        <use href="#and-gate1" x="0" y="0"/>
+    </g>
+    <!-- NOR Gate -->
+    <g id="nor-gate0">
+      <!-- OR body -->
+      <path d="M0,0
+               Q8,20 0,40
+               Q25,40 45,20
+               Q25,0 0,0 Z"
+            stroke="black" fill="none"/>
+      <!-- Inputs -->
+      <!-- Inversion bubble -->
+      <circle cx="50" cy="20" r="4" stroke="black" fill="white"/>
+      <!-- Output -->
+      <line x1="54" y1="20" x2="70" y2="20" stroke="red"/>
+    </g>
+    <!-- NOR Gate -->
+    <g id="nor-gate4">
+      <!-- OR body -->
+      <path d="M0,0
+               Q8,20 0,40
+               Q25,40 45,20
+               Q25,0 0,0 Z"
+            stroke="black" fill="none"/>
+      <!-- Inputs -->
+        <line x1="-20" y1="5" x2="0" y2="5" stroke="black"/>
+        <line x1="-20" y1="15" x2="0" y2="15" stroke="black"/>
+        <line x1="-20" y1="25" x2="0" y2="25" stroke="black"/>
+        <line x1="-20" y1="35" x2="0" y2="35" stroke="black"/>
+      <!-- Inversion bubble -->
+      <circle cx="50" cy="20" r="4" stroke="black" fill="white"/>
+      <!-- Output -->
+      <line x1="54" y1="20" x2="70" y2="20" stroke="red"/>
+    </g>
+    <g id="nor-gate3">
+      <!-- OR body -->
+      <path d="M0,0
+               Q8,20 0,40
+               Q25,40 45,20
+               Q25,0 0,0 Z"
+            stroke="black" fill="none"/>
+      <!-- Inputs -->
+        <line x1="-20" y1="5" x2="0" y2="5" stroke="black"/>
+        <line x1="-20" y1="15" x2="0" y2="15" stroke="black"/>
+        <line x1="-20" y1="25" x2="0" y2="25" stroke="black"/>
+      <!-- Inversion bubble -->
+      <circle cx="50" cy="20" r="4" stroke="black" fill="white"/>
+      <!-- Output -->
+      <line x1="54" y1="20" x2="70" y2="20" stroke="red"/>
+    </g>
+
+    <g id="nor-gate2">
+      <!-- OR body -->
+      <path d="M0,0
+               Q8,20 0,40
+               Q25,40 45,20
+               Q25,0 0,0 Z"
+            stroke="black" fill="none"/>
+      <!-- Inputs -->
+        <line x1="-20" y1="5" x2="0" y2="5" stroke="black"/>
+        <line x1="-20" y1="15" x2="0" y2="15" stroke="black"/>
+      <!-- Inversion bubble -->
+      <circle cx="50" cy="20" r="4" stroke="black" fill="white"/>
+      <!-- Output -->
+      <line x1="54" y1="20" x2="70" y2="20" stroke="red"/>
+    </g>
+
+
+    <g id="nor-gate1">
+      <use href="#and-gate1" x="0" y="0"/>
+    </g>
+
+    <g id="nor-gate-not">
+      <!-- OR body -->
+      <path d="M0,0
+               Q8,20 0,40
+               Q25,40 45,20
+               Q25,0 0,0 Z"
+            stroke="black" fill="none"/>
+      <!-- Inputs -->
+        <line x1="-20" y1="5" x2="0" y2="5" stroke="black"/>
+
+        <line x1="-20" y1="35" x2="0" y2="35" stroke="black"/>
+      <!-- Inversion bubble -->
+      <circle cx="50" cy="20" r="4" stroke="black" fill="white"/>
+      <!-- Output -->
+      <line x1="54" y1="20" x2="60" y2="20" stroke="red"/>
+    </g>
+
+    <g id="nand-gate-not">
+      <!-- AND body -->
+      <path d="M0,0 H20 A20,20 0 0,1 20,40 H0 Z"
+            stroke="black" fill="white"/>
+      <!-- Inputs -->
+        <line x1="-20" y1="5" x2="0" y2="5" stroke="black"/>
+        <line x1="-20" y1="35" x2="0" y2="35" stroke="black"/>
+      <!-- Inversion bubble -->
+      <circle cx="40" cy="20" r="5" stroke="black" fill="white"/>
+      <!-- Output -->
+      <line x1="45" y1="20" x2="60" y2="20" stroke="red"/>
+    </g>
+    </defs>

@@ -25,7 +25,7 @@ import itertools
 import re
 from . import quiz_format
 from . import format_const
-
+from ..bool import bool_const
 
 
 class quiz_format_html(quiz_format.quiz_format):
@@ -267,28 +267,52 @@ class quiz_format_html(quiz_format.quiz_format):
     @staticmethod
     def normalize_formula( s: str):
         """Normalize a boolean string into MathML"""
+
         s = str(s)
 
         # 1. Handle negation with trailing prime: A' -> <mover>...</mover>
         s = re.sub(
-            r"([A-Za-z0-9_]+)'",
+            r"([A-Za-z0-9_]+)%s"%bool_const.NOT_VAR_SYMB,
             r"<mover><mi>\1</mi><mo>&OverBar;</mo></mover>",
             s
         )
 
         # 2. Handle LaTeX \overline{...} -> MathML mover
-        s = re.sub(
-            r"\\overline\{([^}]+)\}",
-            r"<mover><mrow>\1</mrow><mo>&OverBar;</mo></mover>",
+        while True:
+            s_out = re.sub(
+                r"\\overline\{([^}]+)\}",
+                r"<mover><mrow>\1</mrow><mo>&OverBar;</mo></mover>",
+                s
+            )
+            if s_out == s:
+                break
+            s = s_out
+        # 3. Handle LaTeX \overline{...} -> MathML mover
+        while True:
+            s_out = re.sub(
+                r"%s\{([^}]+)\}"%bool_const.NOT_TERM_SYMB,
+                r"<mover><mrow>\1</mrow><mo>&OverBar;</mo></mover>",
+                s
+            )
+            if s_out == s:
+                break
+            s = s_out
+        # 4". Handle LaTeX \big{...} -> MathML mover
+
+        s= re.sub(
+            r"\\big\{([^}]+)\}",
+            r'<mo stretchy="false" mathsize="150%">\1</mo>',
             s
         )
 
-        # 3. Replace sum/product/uparrow/downarrow with MathML entities
+        # 5. Replace sum/product/uparrow/downarrow with MathML entities
         symbols = {
             "\\sum": "&sum;",
             "\\prod": "&prod;",
-            "\\uparrow": "&uparrow;",
-            "\\downarrow": "&downarrow;",
+            bool_const.BIG_NAND_SYMB: '<mo stretchy="false" mathsize="150%">&uparrow;</mo>',
+            bool_const.NAND_SYMB: "&uparrow;",
+            bool_const.BIG_NOR_SYMB: '<mo stretchy="false" mathsize="150%">&downarrow;</mo>',
+            bool_const.NOR_SYMB: '&downarrow;',
         }
         for k, v in symbols.items():
             s = s.replace(k, v)

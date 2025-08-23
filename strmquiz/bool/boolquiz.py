@@ -360,7 +360,208 @@ class bool_quiz:
         s = s.replace("c'","\\bar c")
         s = s.replace("d'","\\bar d")
         return s
-        
+
+    def make_nand_norXX(self, exp, type_exp="sop", method="NAND"):
+        """ normalize boolean string into NOR or NAND
+        """
+        varlist = ["A", "B", "C", "D"]
+        s = str(exp).upper()
+        opr_sym = ""
+        # used to illiustrate the expression
+        explain_str = ""
+        UPARROW =  "\u2191"
+        BIG_UPARROW =  "[\u2191]"
+        DOWNARROW = "\u2193"
+        BIG_DOWNARROW = "[\u2193]"
+        NOTSYMBOLE = "\u00AC"
+        if method.upper() == "NAND":
+            opr_sym = UPARROW
+            s = "(%s)" % s
+            if type_exp == "sop":
+                #
+                explain_str = exp +"\n"
+                explain_str += "¬{¬{"+ exp + "}}\n"
+                explain_str += "¬{¬{" + exp.replace("+", "}).(¬{") + "})}\n"
+                # replace all 'not A' by 'A NAND A'
+                for var in varlist:
+                    s = s.replace("%s'" % var, "(%s %s %s)" % (var.upper(), opr_sym, var.upper()))
+                # replace all '+' by "NAND"
+                s = s.replace("+", ")[%s](" % opr_sym)
+                # replace all '.' by "NAND"
+                s = s.replace(".", opr_sym)
+
+
+            elif type_exp == "pos":
+                # if no parenthesis in expression
+                exp2 = exp
+                if "(" not in exp2:
+                    exp2 = "(" + exp2.replace(".", ").(") + ")"
+                    s = exp2.upper()
+
+                exp2 = exp2.replace("(", "(¬{¬{")
+                exp2 = exp2.replace(")", "}})")
+                explain_str =   exp + "\n"
+                explain_str +=  exp2 + "\n"
+                explain_str += "¬{¬{" + exp2 + "}}\n"
+
+                # replace all 'not A' by 'W'
+                for var in varlist:
+                    # to avoid non suitable replacement
+                    tmp_var = chr(ord(var.upper()) + 22)
+                    s = s.replace("%s'" % var, tmp_var)
+
+                # replace all 'A' by 'A NAND A'
+                for var in varlist:
+                    s = s.replace("%s" % var, "(%s %s %s)" % (var.upper(), opr_sym, var.upper()))
+
+                # replace temp vars
+                for var in varlist:
+                    # to avoid non suitable replacement
+                    tmp_var = chr(ord(var.upper()) + 22)
+                    s = s.replace(tmp_var, var)
+
+                # replace all '+' by "NAND"
+                s = s.replace("+", "%s" % opr_sym)
+                # replace all '.' by "NAND"
+                s = s.replace(".", opr_sym)
+                # duplicate s
+                s = s + opr_sym + s
+        elif method.upper() == "NOR":
+            opr_sym = DOWNARROW
+            s = "(%s)" % s
+            if type_exp == "pos":
+                #
+                explain_str =  exp + "\n"
+                explain_str += "¬{¬{" + exp + "}}\n"
+                explain_str += "¬{(¬{" + exp.replace(".", "}+¬{") + "})}\n"
+                # replace all 'not A' by 'A NOR A'
+                for var in varlist:
+                    s = s.replace("%s'" % var, "(%s %s %s)" % (var.upper(), opr_sym, var.upper()))
+                # replace all '+' by "NOR"
+                s = s.replace("+", opr_sym)
+                # replace all '.' by "NOR"
+                s = s.replace(".", "%s" % opr_sym)
+
+
+            elif type_exp == "sop":
+                # if no parenthesis in expression
+                exp2 = exp
+                if "(" not in exp2:
+                    exp2 = "(" + exp2.replace("+", ")+(") + ")"
+                    s = exp2.upper()
+                    # ~ exp2 = "("+exp.replace("+",")+(")+")"
+                exp2 = exp2.replace("(", "(¬{¬{")
+                # ~ exp2 = exp2.replace("(", "(\\overline{\\overline{")
+                exp2 = exp2.replace(")", "}})")
+                explain_str =  exp + "\n"
+                explain_str +=  exp2 + "\n"
+                explain_str += "¬{¬{" + exp2 + "}}\n"
+
+                # replace all 'not A' by 'W'
+                for var in varlist:
+                    # to avoid non suitable replacement
+                    tmp_var = chr(ord(var.upper()) + 22)
+                    s = s.replace("%s'" % var, tmp_var)
+
+                # replace all 'A' by 'A NOR A'
+                for var in varlist:
+                    s = s.replace("%s" % var, "(%s %s %s)" % (var.upper(), opr_sym, var.upper()))
+
+                # replace temp vars
+                for var in varlist:
+                    # to avoid non suitable replacement
+                    tmp_var = chr(ord(var.upper()) + 22)
+                    s = s.replace(tmp_var, var)
+
+                # replace all '+' by "NOR"
+                s = s.replace(".", "%s" % opr_sym)
+                # replace all '.' by "NOR"
+                s = s.replace("+", opr_sym)
+                # duplicate s
+                s = s + opr_sym + s
+                # add explaination to result string
+        result = explain_str +  s
+        result = self.normalize_latex(result)
+
+        return result
+
+    def explain_nand_nor(self, expr, method=""):
+        if method.lower() == "nand":
+            term_op = "+"
+            inv_term_op = "."
+            var_op = "."
+            term_joiner = bool_const.BIG_NAND_SYMB
+            var_joiner = bool_const.NAND_SYMB
+        elif method.lower() == "nor":
+            term_op = "."
+            inv_term_op = "+"
+            var_op = "+"
+            term_joiner =  bool_const.BIG_NOR_SYMB
+            var_joiner =  bool_const.NOR_SYMB
+        else:
+            return [expr, ]
+        final_step = self.make_nand_nor_expression(expr, method=method)
+        if final_step == expr:
+            return [expr, ]
+        not_expr_symb =  bool_const.NOT_TERM_SYMB
+        first_step = "%s{%s{%s}}" % (not_expr_symb, not_expr_symb, expr)
+        inv_expr = inv_term_op.join(["%s{%s}" % ( bool_const.NOT_TERM_SYMB, term) for term in expr.split(term_op)])
+        second_step = "%s{%s}" % (not_expr_symb, inv_expr)
+
+
+        explained_expr = [first_step, second_step, final_step]
+
+        return explained_expr
+
+    def explain_nand(self,sop):
+        """make nand expression from sop """
+        return self.explain_nand_nor(sop, "nand")
+
+    def explain_nor(self,pos):
+        """make NOR expression from pos """
+        return self.explain_nand_nor(pos, "nor")
+
+    def make_nand_nor_expression(self, expr, method=""):
+        """Build the NAND/NOR expression from SOP/POS"""
+        if method.lower() == "nand":
+            term_op = "+"
+            var_op = "."
+            term_joiner = bool_const.BIG_NAND_SYMB
+            var_joiner = bool_const.NAND_SYMB
+        elif method.lower() == "nor":
+            term_op = "."
+            var_op = "+"
+            term_joiner = bool_const.BIG_NOR_SYMB
+            var_joiner = bool_const.NOR_SYMB
+        else:
+            return expr
+        # special case one term one var
+        if re.fullmatch(r"\(?[A-Za-z0-9_]+(')?\)?", expr.strip()):
+            return expr
+
+        new_terms = []
+        for term in expr.split(term_op):
+            # remove parenthesis and spaces
+            term = re.sub("[() ]", "", term)
+            vars = term.split(var_op)
+            if len(vars) > 1:
+                new_terms.append("(%s)" % var_joiner.join(vars))
+            elif vars[0].endswith(bool_const.NOT_VAR_SYMB):
+                # strip not symbol
+                new_terms.append(f"({vars[0][:-1]})")
+            elif not vars[0].endswith(bool_const.NOT_VAR_SYMB):
+                # add not symbol
+                new_terms.append(f"({vars[0]}{bool_const.NOT_VAR_SYMB})")
+        new_expr = term_joiner.join(new_terms)
+        return new_expr
+
+    def make_nand(self,sop):
+        """make nand expression from sop """
+        return self.make_nand_nor_expression(sop, "nand")
+
+    def make_nor(self,pos):
+        """make NOR expression from pos """
+        return self.make_nand_nor_expression(pos, "nor")
     def normalize_nand_nor(self, exp,type_exp="sop", method="NAND"):
         """ normalize boolean string into NOR or NAND
         """
@@ -383,7 +584,7 @@ class bool_quiz:
                     s= s.replace("\\BAR %s"%var,"(%s %s %s)"%(var.upper(),opr_sym, var.upper()))
                     s= s.replace("%s'"%var,"(%s %s %s)"%(var.upper(),opr_sym, var.upper()))
                 # replace all '+' by "NAND"
-                s=s.replace("+",")\\big%s("%opr_sym)
+                s=s.replace("+",")\\big{%s}("%opr_sym)
                 # replace all '.' by "NAND"            
                 s=s.replace(".",opr_sym)
                 

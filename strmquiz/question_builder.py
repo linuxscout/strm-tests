@@ -24,6 +24,7 @@
 import random
 from .codage import question_codage as question
 from .bool import boolquiz
+from .bool import bool_const
 from .codage import ieee754
 from .display import quiz_format_factory
 from .sequentiel import tex_chronograms
@@ -221,13 +222,14 @@ class Question_Builder:
         ]
         sop, pos = self.bq.simplify(minterms)
         cnf, dnf = self.bq.form_canonique(minterms)
-        nand_sop = self.bq.normalize_nand_nor(sop, "sop", "nand")
-        nand_dnf = self.bq.normalize_nand_nor(dnf, "sop", "nand")
-        nor_cnf = self.bq.normalize_nand_nor(cnf, "pos", "nor")
-        nor_pos = self.bq.normalize_nand_nor(pos, "pos", "nor")
 
-        cnf = self.formater.normalize_formula(cnf)
-        dnf = self.formater.normalize_formula(dnf)
+
+        nand_sop = self.bq.make_nand(sop)
+        nor_pos = self.bq.make_nor(pos)
+        nand_dnf = self.bq.make_nand(dnf)
+        nor_cnf = self.bq.make_nor(cnf)
+        # nor_pos = self.bq.normalize_nand_nor(pos, "pos", "nor")
+
 
         # simplification = ""
 
@@ -235,10 +237,38 @@ class Question_Builder:
 
         formatted_simplification = self.formater.format_map_terms(simplification, method=method)
 
+        # explained NAND and NOR process
+        # get expalined expression as table,
+        # then format them
+        nand_sop_explained_list = [self.formater.normalize_formula(expr) for expr in self.bq.explain_nand(sop)]
+        nand_dnf_explained_list = [self.formater.normalize_formula(expr) for expr in self.bq.explain_nand(dnf)]
+        nor_pos_explained_list = [self.formater.normalize_formula(expr) for expr in self.bq.explain_nor(pos)]
+        # nor_pos_explained_list = self.bq.explain_nor(pos)
+        print("NOR POS explain", nor_pos_explained_list)
 
-        sop = self.formater.normalize_formula(sop)
-        pos = self.formater.normalize_formula(pos)
+        nor_cnf_explained_list = [self.formater.normalize_formula(expr) for expr in self.bq.explain_nor(cnf)]
 
+
+        # formated forms
+        sop_formatted = self.formater.normalize_formula(sop)
+        pos_formatted = self.formater.normalize_formula(pos)
+        cnf_formatted = self.formater.normalize_formula(cnf)
+        dnf_formatted = self.formater.normalize_formula(dnf)
+        # formatted nand forms
+        nand_sop_formatted = self.formater.normalize_formula(nand_sop)
+        nor_pos_formatted = self.formater.normalize_formula(nor_pos)
+        nand_dnf_formatted = self.formater.normalize_formula(nand_dnf)
+        nor_cnf_formatted = self.formater.normalize_formula(nor_cnf)
+
+        # prepare terms
+        sop_terms = []
+        pos_terms = []
+        dnf_terms = []
+        cnf_terms = []
+        nand_sop_terms = []
+        nor_pos_terms = []
+        nand_dnf_terms = []
+        nor_cnf_terms = []
         return {
             "function_name":function_name,
             "minterms": minterms,
@@ -247,6 +277,40 @@ class Question_Builder:
             "simplification": simplification,
             "sop": sop,
             "pos": pos,
+            "sop_dict":{"default":sop,
+                        "terms": sop_terms,
+                        "formatted":sop_formatted,
+                        "explained":["SOP not explained",]},
+            "pos_dict":{"default":pos,
+                        "terms": pos_terms,
+                        "formatted":pos_formatted,
+                        "explained":"POS not explained"},
+            "nand_sop_dict": {"default": nand_sop,
+                             "terms": nand_sop_terms,
+                             "formatted": nand_sop_formatted,
+                             "explained": nand_sop_explained_list},
+            "nor_pos_dict":{"default":nor_pos,
+                        "terms": nor_pos_terms,
+                        "formatted":nor_pos_formatted,
+                        "explained":nor_pos_explained_list},
+            "dnf_dict": {"default": dnf,
+                         "terms": dnf_terms,
+                         "formatted": dnf_formatted,
+                         "explained": ["dnf not explained",]},
+            "cnf_dict": {"default": cnf,
+                         "terms": cnf_terms,
+                         "formatted": cnf_formatted,
+                         "explained": ["cnf not explained",]},
+            "nand_dnf_dict": {"default": nand_dnf,
+                              "terms": nand_dnf_terms,
+                              "formatted": nand_dnf_formatted,
+                              "explained": nand_dnf_explained_list},
+            "nor_cnf_dict": {"default": nor_cnf,
+                             "terms": nor_cnf_terms,
+                             "formatted": nor_cnf_formatted,
+                             "explained": nor_cnf_explained_list},
+            "sop_formatted": sop_formatted,
+            "pos_formatted": pos_formatted,
             "formatted_simplification": formatted_simplification,
             "variables": variables,
             "ab": "".join(variables[:2]),
@@ -430,6 +494,16 @@ class Question_Builder:
     #     answer  = self.formater.newline.join(answer_items)
     #     return question, arabic, data, answer
 
+    def get_terms(self,expr,method="sop"):
+        """split an expression into terms"""
+        seps = {
+            'sop':"+",
+            'nand':bool_const.BIG_NAND_SYMB,
+            'nor':bool_const.BIG_NOR_SYMB,
+            'pos':".",
+        }
+        sep = seps.get(method.lower(),"+")
+        return [[t.strip() for t in term.split(".")] for term in expr.split("+")]
 
     def question_static_funct(self, minterms, var_names=["A","B","C","D"], output_names=["S0","S1","S2","S3"], dont_care=[] ):
 
@@ -452,7 +526,7 @@ class Question_Builder:
         context["terms"] = [[t.strip() for t in term.split(".")] for term in sop.split("+")]
 
         logigramdict = self.formater.prepare_logigram_list([sop, ], function_namelist=[fname,],
-                                                   variables=var_names)
+                                                   variables=var_names, )
         context["logicdiagramdict"] = logigramdict
         question, answer = self.formater.render_question_answer("function", context)
         return question, "arabic", "data", answer
@@ -527,7 +601,7 @@ class Question_Builder:
         context["sop_quest"] = sop_quest
         context["logicdiagram"] = logigram
         logigramdict = self.formater.prepare_logigram_list([sop, ], function_namelist=[fname,],
-                                                   variables=var_names)
+                                                   variables=var_names, method=method)
         context["logicdiagramdict"] = logigramdict
         question, answer = self.formater.render_question_answer("function", context)
         return question, "arabic", "data", answer
@@ -764,23 +838,30 @@ class Question_Builder:
         # one logigram
         data_list = []
         sop_list = []
+        pos_list = []
         terms_list  = []
+        equations_list  = []
         for minterms, dont_care, fname in zip(minterms_list, dont_care_list, output_names):
-            data_list.append( self._prepare_kmap_data(minterms=minterms,
+            data = self._prepare_kmap_data(minterms=minterms,
                                               dontcares=dont_care,
                                               correct=True,
                                               variables=var_names,
                                               function_name=fname
                                               )
-                              )
-            sop, _ = self.bq.simplify(minterms)
+            data_list.append( data )
+            sop, pos = self.bq.simplify(minterms)
             # sop = self.formater.normalize_formula(sop)
             sop_list.append(sop)
+            equations_list.append( {"sop":sop,
+                                    "pos":pos,
+                                    "nor_pos":data.get("nor_pos",""),
+                                    "nand_sop":data.get("nand_sop",'')})
+
             terms_list.append([[t.strip() for t in term.split(".")] for term in sop.split("+")])
         logigramdict = self.formater.prepare_logigram_list(sop_list, function_namelist=output_names,
-                                                   variables=var_names)
+                                                   variables=var_names, method=method, equations_list=equations_list)
         logigram = self.formater.draw_logigram_list(sop_list, function_namelist=output_names,
-                                                   variables=var_names)
+                                                   variables=var_names, method=method)
         context ={"data_list":data_list,
                   "minterms_list":minterms_list,
                   "dontcares_list": dont_care_list,
@@ -791,6 +872,7 @@ class Question_Builder:
                   "logicdiagram" : logigram,
                   "logicdiagramdict" : logigramdict,
                   "sop_list":sop_list,
+                  "method":method,
                   }
         question, answer = self.formater.render_question_answer("multi_funct", context)
         return question, "arabic", "data", answer
