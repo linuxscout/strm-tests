@@ -1,4 +1,4 @@
-{%set debug = True %}
+{%set debug = False %}
 {% if "fr" in languages %}
 Etudier le circuit suivant:
 {% endif %}
@@ -79,28 +79,28 @@ $F(A,B,C,D) ={{  sop_quest }}$
 \item \textbf{First Canonical Forms \aRL{ الأشكال القانونية الأولى}}
     \begin{itemize}
     {% for data in data_list %}
-        \item ${{ data.function_name }}(A,B,C,D) =  {{  data.dnf_dict.formatted }}$
+        \item ${{ data.function_name }}({{variables|join(", ")}}) =  {{  data.dnf_dict.formatted }}$
     {% endfor %}
     \end{itemize}
 
 \item \textbf{Second Canonical Forms \aRL{ الأشكال القانونية الثانية}}
     \begin{itemize}
     {% for data in data_list %}
-        \item ${{ data.function_name }}(A,B,C,D) =  {{  data.cnf_dict.formatted }}$
+        \item ${{ data.function_name }}({{variables|join(", ")}}) =  {{  data.cnf_dict.formatted }}$
     {% endfor %}
     \end{itemize}
 
 \item \textbf{First Canonical Forms \aRL{ الأشكال القانونية الأولى}}
     \begin{itemize}
     {% for data in data_list %}
-        \item ${{ data.function_name }}(A,B,C,D) = \sum({{  data.minterms| join(", ") }})$
+        \item ${{ data.function_name }}({{variables|join(", ")}}) = \sum({{  data.minterms| join(", ") }})$
     {% endfor %}
     \end{itemize}
 
 \item \textbf{Second Canonical Forms \aRL{ الأشكال القانونية الثانية}}
     \begin{itemize}
     {% for data in data_list %}
-        \item ${{ data.function_name }}(A,B,C,D) =  \prod({{  data.maxterms| join(", ") }})$
+        \item ${{ data.function_name }}({{variables|join(", ")}}) =  \prod({{  data.maxterms| join(", ") }})$
     {% endfor %}
     \end{itemize}
 
@@ -109,7 +109,7 @@ $F(A,B,C,D) ={{  sop_quest }}$
 
 
 
- {% if True or method.lower() == "nand" %}
+ {% if debug or method.lower() == "nand" %}
  \textbf{ NAND forms  \aRL{بوابات نفي الوصل}}
  \begin{enumerate}
  {% for data in data_list %}

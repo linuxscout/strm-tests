@@ -1,3 +1,4 @@
+{%set debug = False %}
 {% import "map/kmap_macros.html" as kmap %}
 <style>
   table .truthtable {
@@ -29,14 +30,14 @@ Etudier le circuit suivant:<br/>
 
 <ul>
 {% for data in data_list %}
-    <li> {{ data.function_name }} = {{ data.minterms }}</li>
+    <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=   {{ data.minterms }}</mrow></math></li>
 {% endfor %}
 </ul>
 
 <strong>Don't Care</strong>
 <ul>
  {% for data in data_list %}
-    <li> {{ data.function_name }} = {{ data.dontcares }}</li>
+    <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=   {{ data.dontcares }}</mrow></math></li>
  {% endfor %}
 </ul>
 
@@ -109,7 +110,7 @@ F(A,B,C,D) ={{  sop_quest }}
     <b>First Canonical Forms <span dir="rtl">الأشكال القانونية الأولى</span></b>
     <ul>
       {% for data in data_list %}
-        <li>{{ data.function_name }}(A,B,C,D) = {{ data.dnf_dict.formatted }}</li>
+        <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>   {{ data.dnf_dict.formatted }}</li>
       {% endfor %}
     </ul>
   </li>
@@ -118,7 +119,7 @@ F(A,B,C,D) ={{  sop_quest }}
     <b>Second Canonical Forms <span dir="rtl">الأشكال القانونية الثانية</span></b>
     <ul>
       {% for data in data_list %}
-        <li>{{ data.function_name }}(A,B,C,D) = {{ data.cnf_dict.formatted }}</li>
+        <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>  {{ data.cnf_dict.formatted }}</li>
       {% endfor %}
     </ul>
   </li>
@@ -127,7 +128,7 @@ F(A,B,C,D) ={{  sop_quest }}
     <b>First Canonical Forms <span dir="rtl">الأشكال القانونية الأولى</span></b>
     <ul>
       {% for data in data_list %}
-        <li>{{ data.function_name }}(A,B,C,D) = ∑({{ data.minterms | join(", ") }})</li>
+        <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}= ∑({{ data.minterms | join(", ") }})</mrow></math> </li>
       {% endfor %}
     </ul>
   </li>
@@ -136,7 +137,7 @@ F(A,B,C,D) ={{  sop_quest }}
     <b>Second Canonical Forms <span dir="rtl">الأشكال القانونية الثانية</span></b>
     <ul>
       {% for data in data_list %}
-        <li>{{ data.function_name }}(A,B,C,D) = ∏({{ data.maxterms | join(", ") }})</li>
+        <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}= ∏({{ data.maxterms | join(", ") }})</mrow></math></li>
       {% endfor %}
     </ul>
   </li>
@@ -144,7 +145,7 @@ F(A,B,C,D) ={{  sop_quest }}
 
 
 
-{% if True or method.lower() == "nand" %}
+{% if debug or method.lower() == "nand" %}
   <p>
     <strong>NAND forms</strong>
     <span dir="rtl">بوابات نفي الوصل</span>
@@ -152,14 +153,14 @@ F(A,B,C,D) ={{  sop_quest }}
   <ol>
     {% for data in data_list %}
       <li>
-         {{ data.function_name }}  =  {{ data.nand_sop_dict.formatted }} 
+         <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>     {{ data.nand_sop_dict.formatted }}
 
         <p>Explanation</p>
         <ul>
-          <li> {{ data.function_name }}  =  {{ data.sop_dict.formatted }} </li>
+          <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>     {{ data.sop_dict.formatted }} </li>
 
           {% for explain in data.nand_sop_dict.explained %}
-            <li> {{ data.function_name }}  =  {{ explain }} </li>
+            <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>  {{ explain }} </li>
           {% endfor %}
         </ul>
       </li>
@@ -167,7 +168,7 @@ F(A,B,C,D) ={{  sop_quest }}
   </ol>
 {% endif %}
 
-{% if True or method.lower() == "nor" %}
+{% if debug or method.lower() == "nor" %}
   <p>
     <strong>NOR forms</strong>
     <span dir="rtl">بوابات نفي الفصل</span>
@@ -175,14 +176,14 @@ F(A,B,C,D) ={{  sop_quest }}
   <ol>
     {% for data in data_list %}
       <li>
-         {{ data.function_name }}  =  {{ data.nor_pos_dict.formatted }} 
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>    {{ data.nor_pos_dict.formatted }}
 
         <p>Explanation</p>
         <ul>
-          <li> {{ data.function_name }}  =  {{ data.pos_dict.formatted }} </li>
+          <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>  {{ data.pos_dict.formatted }} </li>
 
           {% for explain in data.nor_pos_dict.explained %}
-            <li> {{ data.function_name }}  =  {{ explain }} </li>
+            <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>   {{ explain }} </li>
           {% endfor %}
         </ul>
       </li>
@@ -202,8 +203,8 @@ F(A,B,C,D) ={{  sop_quest }}
 
 {{ kmap.kmap4svg(minterms=data.minterms, dontcares=data.dontcares, groups=data.formatted_simplification, ab=data.ab, cd=data.cd) }}
 <ul>
-    <li>Simplified Sum of products : {{ data.function_name }} = {{ data.sop_formatted }}</li>
-    <li>Simplified product of sums : {{ data.function_name }} = {{ data.pos_formatted }}</li>
+    <li>Simplified Sum of products : <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>  {{ data.sop_formatted }}</li>
+    <li>Simplified product of sums : <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math> {{ data.pos_formatted }}</li>
     </ul>
 {% endfor %}
 
