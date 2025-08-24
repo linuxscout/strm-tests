@@ -161,8 +161,8 @@ $F(A,B,C,D) ={{  sop_quest }}$
  {% endif %}
  \end{karnaugh-map}
 {% if RENDER_MODE == "answer" %}
-    Simplified Sum of products : ${{ data.function_name }} = {{ data.sop_formatted }}$\\
-    Simplified product of sums : ${{ data.function_name }} = {{ data.pos_formatted }}$
+    Simplified Sum of products : ${{ data.function_name }} = {{ data.sop_dict.formatted }}$\\
+    Simplified product of sums : ${{ data.function_name }} = {{ data.pos_dict.formatted }}$
 {% endif %}
 {% endfor %}
 

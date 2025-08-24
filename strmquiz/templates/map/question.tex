@@ -19,7 +19,7 @@ Simplify the following Karnaugh table
  {% endif %}
  \end{karnaugh-map}
 {% if RENDER_MODE == "answer" %}
-    Simplified Sum of products : ${{ data.sop }}$\\
-    Simplified product of sums : ${{ data.pos }}$
+    Simplified Sum of products : ${{ data.sop_dict.formatted }}$\\
+    Simplified product of sums : ${{ data.pos_dict.formatted }}$
 {% endif %}
 {% endfor %}

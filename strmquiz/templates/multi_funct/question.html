@@ -203,8 +203,8 @@ F(A,B,C,D) ={{  sop_quest }}
 
 {{ kmap.kmap4svg(minterms=data.minterms, dontcares=data.dontcares, groups=data.formatted_simplification, ab=data.ab, cd=data.cd) }}
 <ul>
-    <li>Simplified Sum of products : <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>  {{ data.sop_formatted }}</li>
-    <li>Simplified product of sums : <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math> {{ data.pos_formatted }}</li>
+    <li>Simplified Sum of products : <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>  {{ data.sop_dict.formatted }}</li>
+    <li>Simplified product of sums : <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math> {{ data.pos_dict.formatted }}</li>
     </ul>
 {% endfor %}
 
