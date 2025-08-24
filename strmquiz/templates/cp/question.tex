@@ -8,13 +8,13 @@ Representer en complément à 1 et à 2 le nombre suivant :
 مثل  العدد الآتي في المتمم إلى الواحد وإلى الاثنين  :
 \end{arab}
 
-{{  number }}
+${{  number }}$
 
 {% if RENDER_MODE == "answer" %}
 \begin{itemize}
-\item $-{{ number }} = ( {{ binary }} )_{2}$
-\item $( {{ cp1 }} )_{c1}$
+\item $-{{ number }} = ( {{ binary|group4 }} )_{2}$
+\item $( {{ cp1|group4 }} )_{c1}$
 \item +1
-\item $( {{ cp2 }} )_{c2}$
+\item $( {{ cp2|group4 }} )_{c2}$
 \end{itemize}
 {% endif %}

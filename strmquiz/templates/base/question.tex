@@ -1,7 +1,7 @@
 Convert the following numbers, \hfill\aRL{أنجز التحويلات الآتية}
 
 {% if RENDER_MODE == "question" %}
-$({{ number }})_{ {{ in_base }} } = (........)_{ {{ out_base }}}$
+$({{ number|group4 }})_{ {{ in_base }} } = (........)_{ {{ out_base }}}$
 {% elif RENDER_MODE == "answer" %}
-$({{ number }})_{ {{ in_base }} } = (  {{ output }})_{ {{ out_base }}}$
+$({{ number|group4 }})_{ {{ in_base }} } = (  {{ output|group4 }})_{ {{ out_base }}}$
 {% endif %}

@@ -4,13 +4,13 @@
 </p>
 
 <pre>
-  {{ number_a }}
-{{ operation }} {{ number_b }}
+  {{ number_a|group4 }}
+{{ operation }} {{ number_b|group4 }}
 -------------------
 {% if RENDER_MODE == "question" %}
 = ........
 {% elif RENDER_MODE == "answer" %}
-= {{ number_c }}
+= {{ number_c|group4 }}
 {% endif %}
 </pre>
 

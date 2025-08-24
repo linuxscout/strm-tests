@@ -38,7 +38,7 @@ class quiz_format_tex(quiz_format.quiz_format):
         self.header =""
         self.footer =""
         self.newline = "\n"
-
+        self.group_digit_sep = "\,"
    
     def header(self,):
         """

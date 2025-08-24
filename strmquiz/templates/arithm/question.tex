@@ -2,13 +2,13 @@ Calculate  the following operations in base {{ base }} :  أنجز العملي�
 
 \begin{verbatim}
 
-  {{ number_a }}
-{{ operation }} {{ number_b }}
+  {{ number_a|group4 }}
+{{ operation }} {{ number_b|group4 }}
 -------------------
 {% if RENDER_MODE == "question" %}
 =  ........
 {% elif RENDER_MODE == "answer" %}
-=  {{ number_c }}
+=  {{ number_c|group4 }}
 {% endif %}
 
 \end{verbatim}

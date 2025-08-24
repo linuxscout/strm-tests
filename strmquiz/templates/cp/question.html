@@ -11,9 +11,9 @@ Representer en complément à 1 et à 2 le nombre suivant :<br/>
 
 {% if RENDER_MODE == "answer" %}
 <ul>
-<li> -{{ number }} = ( {{ binary }} )<sub>2</sub> </li>
-    <li> ( {{ cp1 }} )<sub>c1</sub> </li>
+<li> -{{ number }} = ( {{ binary|group4 }} )<sub>2</sub> </li>
+    <li> ( {{ cp1|group4 }} )<sub>c1</sub> </li>
     <li> +1 </li>
-    <li> ( {{ cp2 }} )<sub>c2</sub></li>
+    <li> ( {{ cp2|group4 }} )<sub>c2</sub></li>
 </ul>
 {% endif %}

@@ -24,6 +24,7 @@
 # used for generating truth table
 from jinja2 import Environment, FileSystemLoader, TemplateNotFound
 
+
 import itertools
 from . import format_const
 from ..bool import logigram
@@ -38,6 +39,8 @@ class quiz_format:
         self.lang = lang
         self.templates_dir = templates_dir
         self.env = Environment(loader=FileSystemLoader(self.templates_dir))
+        self.env.filters['group4'] = self.group_digits_by_4
+        self.group_digit_sep = " "
         # self.variables = ["a","b","c","d"]
         #~ print("quiz_format")
     def header(self,):
@@ -64,6 +67,25 @@ class quiz_format:
         """
         """
         self.tests.append(quiz_question_list)
+
+    def group_digits_by_4(self, value):
+        try:
+            s = str(value)
+            int_part, dot, frac_part = s.partition('.')
+
+            # Group integer part from the right
+            int_groups = [int_part[max(i - 4, 0):i] for i in range(len(int_part), 0, -4)]
+            int_part_grouped = self.group_digit_sep.join(reversed(int_groups))
+
+            # Group fractional part from the left (if any)
+            if frac_part:
+                frac_groups = [frac_part[i:i + 4] for i in range(0, len(frac_part), 4)]
+                frac_part_grouped = self.group_digit_sep.join(frac_groups)
+                return f"{int_part_grouped}.{frac_part_grouped}"
+            else:
+                return int_part_grouped
+        except Exception:
+            return value  # fallback
     def render_question_answer(self, template_base: str, context: dict) -> tuple[str, str]:
         """
         عرض نص السؤال والجواب باستخدام القوالب المناسبة للغة والتنسيق.

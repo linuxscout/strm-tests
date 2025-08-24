@@ -10,7 +10,7 @@ Representer sous la norme IEEE-754 32 bits le nombre suivant
 مثل العدد الآتي حسب المعيار IEEE-754 32 bits
 \end{arab}
 
--235.302
+133.172
 
 
 
@@ -28,18 +28,18 @@ Representer sous la norme IEEE-754 32 bits le nombre suivant
 مثل العدد الآتي حسب المعيار IEEE-754 32 bits
 \end{arab}
 
--235.302
+133.172
 
-\num{ 11101011.010011010100111111011111001110 }
+$1000\,0101.0010\,1111\,0011\,0011\,0011\,0011\,0011\,00$
 
 \begin{itemize}
-  \item \textbf{Input:} $235.3020 = \num{ 11101011.010011010100111111011111001110 }$
-  \item \textbf{Normalized form:} $1.11010110100110101001111 \times 2^7$
-  \item \textbf{Sign bit:} - $\Rightarrow$ 1
-  \item \textbf{Exponent:} $7 + 127 = 134 \Rightarrow 10000110$
-  \item \textbf{Pseudo-mantissa:} $11010110100110101001111$
-  \item \textbf{Final binary representation:}  $11000011011010110100110101001111 $
-  \item \textbf{Hexadecimal form:} $ C36B4D4F $
+  \item \textbf{Input:} $133.1720 =  1000\,0101.0010\,1111\,0011\,0011\,0011\,0011\,0011\,00 $
+  \item \textbf{Normalized form:} $1.000\,0101\,0010\,1111\,0011\,0011 \times 2^7$
+  \item \textbf{Sign bit:} + $\Rightarrow$ 0
+  \item \textbf{Exponent:} $7 + 127 = 134 \Rightarrow 1000\,0110$
+  \item \textbf{Pseudo-mantissa:} $000\,0101\,0010\,1111\,0011\,0011$
+  \item \textbf{Final binary representation:}  $0100\,0011\,0000\,0101\,0010\,1111\,0011\,0011 $
+  \item \textbf{Hexadecimal form:} $ 4305\,2F33 $
   \end{itemize}
 
 \pagebreak
@@ -47,13 +47,13 @@ Representer sous la norme IEEE-754 32 bits le nombre suivant
 \paragraph{Q1}
 
 
-Donner les intervalles qu'on peut représenter en nombre positifs, valeur absolue, complément à 1 et complément à 2  sur 33 bits
+Donner les intervalles qu'on peut représenter en nombre positifs, valeur absolue, complément à 1 et complément à 2  sur 6 bits
 
 
-Give the intervals which can be represented in posiitve numbers, absolute value, 1's complement and 2's complement on 33 bits
+Give the intervals which can be represented in posiitve numbers, absolute value, 1's complement and 2's complement on 6 bits
 
 \begin{arab}[utf]
-حدد المجالات التي يمكن تمثيلها لأعداد الموجبة والتمثيل بالقيمة المطلقة والمتمم إلى 1 و 2 على   : 33 بت
+حدد المجالات التي يمكن تمثيلها لأعداد الموجبة والتمثيل بالقيمة المطلقة والمتمم إلى 1 و 2 على   : 6 بت
 \end{arab}
 
 
@@ -68,21 +68,21 @@ Give the intervals which can be represented in posiitve numbers, absolute value,
 \paragraph{Q1}
 
 
-Donner les intervalles qu'on peut représenter en nombre positifs, valeur absolue, complément à 1 et complément à 2  sur 33 bits
+Donner les intervalles qu'on peut représenter en nombre positifs, valeur absolue, complément à 1 et complément à 2  sur 6 bits
 
 
-Give the intervals which can be represented in posiitve numbers, absolute value, 1's complement and 2's complement on 33 bits
+Give the intervals which can be represented in posiitve numbers, absolute value, 1's complement and 2's complement on 6 bits
 
 \begin{arab}[utf]
-حدد المجالات التي يمكن تمثيلها لأعداد الموجبة والتمثيل بالقيمة المطلقة والمتمم إلى 1 و 2 على   : 33 بت
+حدد المجالات التي يمكن تمثيلها لأعداد الموجبة والتمثيل بالقيمة المطلقة والمتمم إلى 1 و 2 على   : 6 بت
 \end{arab}
 
 
 \begin{itemize}
-\item \textbf{Positifs}: $[0; 2^{ 33-1 }] = [0; 8589934591]$
-\item \textbf{Unsigned value} $[-(2^{ 32 }-1 );2^{ 32 }-1] = [-4294967295, 4294967295]$
-\item \textbf{One's compelement} $[-(2^{ 32 }-1 );2^{ 32 }-1] = [-4294967295, 4294967295]$
-\item \textbf{Two's compelement} $[-2^{ 32 } ;2^{ 32 }-1] = [-4294967296, 4294967295]$
+\item \textbf{Positifs}: $[0; 2^{ 6-1 }] = [0; 63]$
+\item \textbf{Unsigned value} $[-(2^{ 5 }-1 );2^{ 5 }-1] = [-31, 31]$
+\item \textbf{One's compelement} $[-(2^{ 5 }-1 );2^{ 5 }-1] = [-31, 31]$
+\item \textbf{Two's compelement} $[-2^{ 5 } ;2^{ 5 }-1] = [-32, 31]$
 \end{itemize}
 
 \pagebreak
@@ -99,7 +99,7 @@ Representer en complément à 1 et à 2 le nombre suivant :
 مثل  العدد الآتي في المتمم إلى الواحد وإلى الاثنين  :
 \end{arab}
 
-97
+$34$
 
 
 
@@ -122,14 +122,14 @@ Representer en complément à 1 et à 2 le nombre suivant :
 مثل  العدد الآتي في المتمم إلى الواحد وإلى الاثنين  :
 \end{arab}
 
-97
+$34$
 
 
 \begin{itemize}
-\item $-97 = ( -1100001 )_{2}$
-\item $( 10011110 )_{c1}$
+\item $-34 = ( -10\,0010 )_{2}$
+\item $( 1101\,1101 )_{c1}$
 \item +1
-\item $( 10011111 )_{c2}$
+\item $( 1101\,1110 )_{c2}$
 \end{itemize}
 
 \pagebreak
@@ -147,7 +147,7 @@ Simpilfy the following expression
 بسّط العبارة الآتية
 \end{arab}
 
-$S = b.c + a.c.d + \overline{a}.c.\overline{d} + \overline{a}.\overline{c}.d + a.\overline{b}.\overline{c}.\overline{d}  +  a.\overline{b}.\overline{d} + a.\overline{c}.\overline{d} + \overline{b}.\overline{c}.\overline{d} + \overline{a}.\overline{b}.c.d $
+$S = a.\overline{b}.c + \overline{a}.b.c + a.b.\overline{c}.d  +  a.b.c + b.c.d + a.\overline{b}.\overline{c}.\overline{d} $
 
 
 
@@ -175,7 +175,7 @@ Simpilfy the following expression
 بسّط العبارة الآتية
 \end{arab}
 
-$S = b.c + a.c.d + \overline{a}.c.\overline{d} + \overline{a}.\overline{c}.d + a.\overline{b}.\overline{c}.\overline{d}  +  a.\overline{b}.\overline{d} + a.\overline{c}.\overline{d} + \overline{b}.\overline{c}.\overline{d} + \overline{a}.\overline{b}.c.d $
+$S = a.\overline{b}.c + \overline{a}.b.c + a.b.\overline{c}.d  +  a.b.c + b.c.d + a.\overline{b}.\overline{c}.\overline{d} $
 
 
 
@@ -185,19 +185,19 @@ $S = b.c + a.c.d + \overline{a}.c.\overline{d} + \overline{a}.\overline{c}.d + a
 \textbf{Karnaugh Table \aRL{جدول كارنوف}}
 
 \begin{karnaugh-map}[4][4][1][CD][AB]
-  \minterms{ 0, 1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 14, 15 }
-  \maxterms{ 4, 9, 13 }
+  \minterms{ 6, 7, 8, 10, 11, 13, 14, 15 }
+  \maxterms{ 0, 1, 2, 3, 4, 5, 9, 12 }
   
 
-    \implicant{3}{10}
-\implicantedge{12}{8}{14}{10}
-\implicant{1}{7}
-\implicant{0}{2}
+    \implicant{15}{10}
+\implicant{7}{14}
+\implicant{13}{15}
+\implicantedge{8}{8}{10}{10}
 
  \end{karnaugh-map}
 
-    Simplified Sum of products : $ c + a.\overline{d} + \overline{a}.d + \overline{a}.\overline{b} $\\
-    Simplified product of sums : $(\overline{a}+c+\overline{d}).(a+\overline{b}+c+d)$
+    Simplified Sum of products : $ a.c + b.c + a.b.d + a.\overline{b}.\overline{d} $\\
+    Simplified product of sums : $(a+b).(a+c).(b+c+\overline{d}).(\overline{b}+c+d)$
 
 
 \pagebreak
@@ -215,24 +215,24 @@ Simplify the following Karnaugh table
  
 
 \begin{karnaugh-map}[4][4][1][CD][AB]
-  \minterms{ 0, 3, 6, 9, 12, 13, 14, 15 }
-  \maxterms{ 1, 2, 4, 5, 7, 8, 10, 11 }
+  \minterms{ 0, 2, 3, 5, 7, 8, 9, 10, 12, 15 }
+  \maxterms{ 1, 4, 6, 11, 13, 14 }
   
  
  \end{karnaugh-map}
 
 
 \begin{karnaugh-map}[4][4][1][CD][AB]
-  \minterms{ 0, 1, 2, 3, 4, 7, 10, 11, 12, 13, 15 }
-  \maxterms{ 5, 6, 8, 9, 14 }
+  \minterms{ 0, 1, 5, 6, 9, 10, 12, 15 }
+  \maxterms{ 2, 3, 4, 7, 8, 11, 13, 14 }
   
  
  \end{karnaugh-map}
 
 
 \begin{karnaugh-map}[4][4][1][CD][AB]
-  \minterms{ 2, 3, 4, 7, 10, 13, 15 }
-  \maxterms{ 0, 1, 5, 6, 8, 9, 11, 12, 14 }
+  \minterms{ 0, 1, 3, 4, 8, 11, 12 }
+  \maxterms{ 2, 5, 6, 7, 9, 10, 13, 14, 15 }
   
  
  \end{karnaugh-map}
@@ -251,137 +251,140 @@ Simplify the following Karnaugh table
 
 
 \begin{karnaugh-map}[4][4][1][CD][AB]
-  \minterms{ 0, 3, 6, 9, 12, 13, 14, 15 }
-  \maxterms{ 1, 2, 4, 5, 7, 8, 10, 11 }
+  \minterms{ 0, 2, 3, 5, 7, 8, 9, 10, 12, 15 }
+  \maxterms{ 1, 4, 6, 11, 13, 14 }
   
  
-    \implicant{12}{14}
-\implicant{13}{9}
-\implicant{6}{14}
-\implicant{3}{3}
-\implicant{0}{0}
- 
- \end{karnaugh-map}
-
-    Simplified Sum of products : $ a.b + a.c'.d + b.c.d' + a'.b'.c.d + a'.b'.c'.d' $\\
-    Simplified product of sums : $(a+b'+c).(a+c+d').(a'+b+d).(b+c'+d).(a+b'+d').(a'+b+c')$
-
-
-\begin{karnaugh-map}[4][4][1][CD][AB]
-  \minterms{ 0, 1, 2, 3, 4, 7, 10, 11, 12, 13, 15 }
-  \maxterms{ 5, 6, 8, 9, 14 }
-  
- 
-    \implicant{3}{11}
-\implicantedge{3}{2}{11}{10}
-\implicant{0}{2}
-\implicant{12}{13}
-\implicant{4}{12}
- 
- \end{karnaugh-map}
-
-    Simplified Sum of products : $ c.d + b'.c + a'.b' + a.b.c' + b.c'.d' $\\
-    Simplified product of sums : $(a'+b+c).(b'+c'+d).(a+b'+c+d')$
-
-
-\begin{karnaugh-map}[4][4][1][CD][AB]
-  \minterms{ 2, 3, 4, 7, 10, 13, 15 }
-  \maxterms{ 0, 1, 5, 6, 8, 9, 11, 12, 14 }
-  
- 
-    \implicant{13}{15}
-\implicant{3}{7}
-\implicantedge{2}{2}{10}{10}
-\implicant{4}{4}
- 
- \end{karnaugh-map}
-
-    Simplified Sum of products : $ a.b.d + a'.c.d + b'.c.d' + a'.b.c'.d' $\\
-    Simplified product of sums : $(b+c).(a+c+d').(a'+c+d).(a'+b+d').(b'+c'+d)$
-
-
-\pagebreak
-
-\paragraph{Q1}
-
-
-
-Soit la fonction donnée par sa forme canonique, Tracer la table de karnaugh et simplifier.
-
-
-
-Let the function be given by its canonical form, Draw the Karnaugh table and simplify.
-
-\begin{arab}[utf]
-لتكن الدالة المعطاة بشكلها القانوني، ارسم جدول كارنو وبسطها
-\end{arab}
-
-
-    $F1(A,B,C,D) = \overline{A}.\overline{B}.\overline{C}.D + \overline{A}.\overline{B}.C.\overline{D} + \overline{A}.\overline{B}.C.D + \overline{A}.B.\overline{C}.D + A.\overline{B}.\overline{C}.D + A.B.\overline{C}.\overline{D} + A.B.\overline{C}.D$
-
-    $F2(A,B,C,D) = \overline{A}.\overline{B}.\overline{C}.\overline{D} + \overline{A}.\overline{B}.\overline{C}.D + \overline{A}.\overline{B}.C.D + \overline{A}.B.\overline{C}.\overline{D} + \overline{A}.B.C.\overline{D} + \overline{A}.B.C.D + A.\overline{B}.\overline{C}.D + A.\overline{B}.C.D + A.B.\overline{C}.\overline{D}$
-
- 
-
- 
-
-
-\hrule width 1\linewidth
-\pagebreak
-
-\subsection{Correction}
-
-
-\paragraph{Q1}
-
-
-
-Soit la fonction donnée par sa forme canonique, Tracer la table de karnaugh et simplifier.
-
-
-
-Let the function be given by its canonical form, Draw the Karnaugh table and simplify.
-
-\begin{arab}[utf]
-لتكن الدالة المعطاة بشكلها القانوني، ارسم جدول كارنو وبسطها
-\end{arab}
-
-
- 
-
-    $F1(A,B,C,D) = \overline{A}.\overline{B}.\overline{C}.D + \overline{A}.\overline{B}.C.\overline{D} + \overline{A}.\overline{B}.C.D + \overline{A}.B.\overline{C}.D + A.\overline{B}.\overline{C}.D + A.B.\overline{C}.\overline{D} + A.B.\overline{C}.D$
-
-\begin{karnaugh-map}[4][4][1][CD][AB]
-  \minterms{ 1, 2, 3, 5, 9, 12, 13 }
-  \maxterms{ 0, 4, 6, 7, 8, 10, 11, 14, 15 }
-  
-
-    \implicant{1}{9}
-\implicant{12}{13}
+    \implicant{7}{15}
+ \implicantcorner{0}{2}
+\implicant{5}{7}
+\implicant{8}{9}
+\implicant{12}{8}
 \implicant{3}{2}
-
+ 
  \end{karnaugh-map}
 
-    Simplified Sum of products : $ \overline{c}.d + a.b.\overline{c} + \overline{a}.\overline{b}.c $\\
-    Simplified product of sums : $(a+c+d).(b+c+d).(\overline{a}+\overline{c}).(\overline{b}+\overline{c})$
+    Simplified Sum of products : $ b.c.d + \overline{b}.\overline{d} + \overline{a}.b.d + a.\overline{b}.\overline{c} + a.\overline{c}.\overline{d} + \overline{a}.\overline{b}.c $\\
+    Simplified product of sums : $(a+\overline{b}+d).(\overline{b}+\overline{c}+d).(a+b+c+\overline{d}).(\overline{a}+b+\overline{c}+\overline{d}).(\overline{a}+\overline{b}+c+\overline{d})$
 
-
-    $F2(A,B,C,D) = \overline{A}.\overline{B}.\overline{C}.\overline{D} + \overline{A}.\overline{B}.\overline{C}.D + \overline{A}.\overline{B}.C.D + \overline{A}.B.\overline{C}.\overline{D} + \overline{A}.B.C.\overline{D} + \overline{A}.B.C.D + A.\overline{B}.\overline{C}.D + A.\overline{B}.C.D + A.B.\overline{C}.\overline{D}$
 
 \begin{karnaugh-map}[4][4][1][CD][AB]
-  \minterms{ 0, 1, 3, 4, 6, 7, 9, 11, 12 }
-  \maxterms{ 2, 5, 8, 10, 13, 14, 15 }
+  \minterms{ 0, 1, 5, 6, 9, 10, 12, 15 }
+  \maxterms{ 2, 3, 4, 7, 8, 11, 13, 14 }
+  
+ 
+    \implicant{15}{15}
+\implicant{1}{5}
+\implicantedge{1}{1}{9}{9}
+\implicant{0}{1}
+\implicant{12}{12}
+\implicant{10}{10}
+\implicant{6}{6}
+ 
+ \end{karnaugh-map}
+
+    Simplified Sum of products : $ a.b.c.d + \overline{a}.\overline{c}.d + \overline{b}.\overline{c}.d + \overline{a}.\overline{b}.\overline{c} + a.b.\overline{c}.\overline{d} + a.\overline{b}.c.\overline{d} + \overline{a}.b.c.\overline{d} $\\
+    Simplified product of sums : $(a+b+\overline{c}).(a+\overline{c}+\overline{d}).(b+\overline{c}+\overline{d}).(a+\overline{b}+c+d).(\overline{a}+b+c+d).(\overline{a}+\overline{b}+c+\overline{d}).(\overline{a}+\overline{b}+\overline{c}+d)$
+
+
+\begin{karnaugh-map}[4][4][1][CD][AB]
+  \minterms{ 0, 1, 3, 4, 8, 11, 12 }
+  \maxterms{ 2, 5, 6, 7, 9, 10, 13, 14, 15 }
+  
+ 
+    \implicant{0}{8}
+\implicantedge{3}{3}{11}{11}
+\implicant{0}{1}
+ 
+ \end{karnaugh-map}
+
+    Simplified Sum of products : $ \overline{c}.\overline{d} + \overline{b}.c.d + \overline{a}.\overline{b}.\overline{c} $\\
+    Simplified product of sums : $(\overline{c}+d).(\overline{b}+\overline{d}).(\overline{a}+c+\overline{d})$
+
+
+\pagebreak
+
+\paragraph{Q1}
+
+
+
+Soit la fonction donnée par sa forme canonique, Tracer la table de karnaugh et simplifier.
+
+
+
+Let the function be given by its canonical form, Draw the Karnaugh table and simplify.
+
+\begin{arab}[utf]
+لتكن الدالة المعطاة بشكلها القانوني، ارسم جدول كارنو وبسطها
+\end{arab}
+
+
+    $F1(A,B,C,D) = \overline{A}.\overline{B}.\overline{C}.\overline{D} + \overline{A}.\overline{B}.\overline{C}.D + \overline{A}.\overline{B}.C.\overline{D} + \overline{A}.\overline{B}.C.D + \overline{A}.B.\overline{C}.\overline{D} + \overline{A}.B.C.\overline{D} + A.\overline{B}.C.\overline{D} + A.\overline{B}.C.D + A.B.\overline{C}.\overline{D} + A.B.\overline{C}.D$
+
+    $F2(A,B,C,D) = \overline{A}.\overline{B}.C.D + \overline{A}.B.\overline{C}.\overline{D} + \overline{A}.B.C.\overline{D} + A.\overline{B}.\overline{C}.\overline{D} + A.\overline{B}.\overline{C}.D + A.B.C.\overline{D}$
+
+ 
+
+ 
+
+
+\hrule width 1\linewidth
+\pagebreak
+
+\subsection{Correction}
+
+
+\paragraph{Q1}
+
+
+
+Soit la fonction donnée par sa forme canonique, Tracer la table de karnaugh et simplifier.
+
+
+
+Let the function be given by its canonical form, Draw the Karnaugh table and simplify.
+
+\begin{arab}[utf]
+لتكن الدالة المعطاة بشكلها القانوني، ارسم جدول كارنو وبسطها
+\end{arab}
+
+
+ 
+
+    $F1(A,B,C,D) = \overline{A}.\overline{B}.\overline{C}.\overline{D} + \overline{A}.\overline{B}.\overline{C}.D + \overline{A}.\overline{B}.C.\overline{D} + \overline{A}.\overline{B}.C.D + \overline{A}.B.\overline{C}.\overline{D} + \overline{A}.B.C.\overline{D} + A.\overline{B}.C.\overline{D} + A.\overline{B}.C.D + A.B.\overline{C}.\overline{D} + A.B.\overline{C}.D$
+
+\begin{karnaugh-map}[4][4][1][CD][AB]
+  \minterms{ 0, 1, 2, 3, 4, 6, 10, 11, 12, 13 }
+  \maxterms{ 5, 7, 8, 9, 14, 15 }
   
 
-    \implicantedge{1}{3}{9}{11}
-\implicant{7}{6}
-\implicant{4}{12}
-\implicant{0}{1}
+    \implicantedge{3}{2}{11}{10}
+\implicant{0}{2}
+\implicantedge{0}{4}{2}{6}
+\implicant{12}{13}
 
  \end{karnaugh-map}
 
-    Simplified Sum of products : $ \overline{b}.d + \overline{a}.b.c + b.\overline{c}.\overline{d} + \overline{a}.\overline{b}.\overline{c} $\\
-    Simplified product of sums : $(\overline{a}+b+d).(b+\overline{c}+d).(\overline{b}+c+\overline{d}).(\overline{a}+\overline{b}+\overline{c})$
+    Simplified Sum of products : $ \overline{b}.c + \overline{a}.\overline{b} + \overline{a}.\overline{d} + a.b.\overline{c} $\\
+    Simplified product of sums : $(\overline{a}+b+c).(a+\overline{b}+\overline{d}).(\overline{a}+\overline{b}+\overline{c})$
+
+
+    $F2(A,B,C,D) = \overline{A}.\overline{B}.C.D + \overline{A}.B.\overline{C}.\overline{D} + \overline{A}.B.C.\overline{D} + A.\overline{B}.\overline{C}.\overline{D} + A.\overline{B}.\overline{C}.D + A.B.C.\overline{D}$
+
+\begin{karnaugh-map}[4][4][1][CD][AB]
+  \minterms{ 3, 4, 6, 8, 9, 14 }
+  \maxterms{ 0, 1, 2, 5, 7, 10, 11, 12, 13, 15 }
+  
+
+    \implicant{6}{14}
+\implicant{8}{9}
+\implicantedge{4}{4}{6}{6}
+\implicant{3}{3}
+
+ \end{karnaugh-map}
+
+    Simplified Sum of products : $ b.c.\overline{d} + a.\overline{b}.\overline{c} + \overline{a}.b.\overline{d} + \overline{a}.\overline{b}.c.d $\\
+    Simplified product of sums : $(a+b+c).(a+b+d).(\overline{b}+\overline{d}).(\overline{a}+b+\overline{c}).(\overline{a}+\overline{b}+c)$
 
 
  
@@ -400,7 +403,7 @@ Study the following function:
 \begin{arab}[utf]
 ادرس الدالة الآتية:
 \end{arab}
-$F(A,B,C,D) = a.\overline{c}.\overline{d} + \overline{a}.c.\overline{d} + \overline{b}.c.\overline{d}  +  a.\overline{b}.c + b.c.\overline{d} + a.\overline{b}.\overline{d} + \overline{a}.\overline{b}.\overline{c}.d $
+$F(A,B,C,D) = a.\overline{d} + a.b.c + \overline{a}.\overline{c} + \overline{a}.\overline{b}.d  +  a.b.c.\overline{d} + a.b.\overline{c}.d + \overline{a}.b.c.d $
 
 
 
@@ -428,13 +431,13 @@ Study the following function:
 \begin{arab}[utf]
 ادرس الدالة الآتية:
 \end{arab}
-$F(A,B,C,D) = a.\overline{c}.\overline{d} + \overline{a}.c.\overline{d} + \overline{b}.c.\overline{d}  +  a.\overline{b}.c + b.c.\overline{d} + a.\overline{b}.\overline{d} + \overline{a}.\overline{b}.\overline{c}.d $
+$F(A,B,C,D) = a.\overline{d} + a.b.c + \overline{a}.\overline{c} + \overline{a}.\overline{b}.d  +  a.b.c.\overline{d} + a.b.\overline{c}.d + \overline{a}.b.c.d $
 
 
 
 
 
-$F = [1, 2, 6, 8, 10, 11, 12, 14]$
+$F = [0, 1, 3, 4, 5, 7, 8, 10, 12, 13, 14, 15]$
 
 \textbf{Don't Care }
 
@@ -455,7 +458,7 @@ A & B & C & D & F \\
     
   
   
-  0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 1 \\
 
     
   
@@ -465,34 +468,34 @@ A & B & C & D & F \\
     
   
   
-  0 & 0 & 1 & 0 & 1 \\
+  0 & 0 & 1 & 0 & 0 \\
 
     
   
   
-  0 & 0 & 1 & 1 & 0 \\
+  0 & 0 & 1 & 1 & 1 \\
 
     
         \hline
     
   
   
-  0 & 1 & 0 & 0 & 0 \\
+  0 & 1 & 0 & 0 & 1 \\
 
     
   
   
-  0 & 1 & 0 & 1 & 0 \\
+  0 & 1 & 0 & 1 & 1 \\
 
     
   
   
-  0 & 1 & 1 & 0 & 1 \\
+  0 & 1 & 1 & 0 & 0 \\
 
     
   
   
-  0 & 1 & 1 & 1 & 0 \\
+  0 & 1 & 1 & 1 & 1 \\
 
     
         \hline
@@ -514,7 +517,7 @@ A & B & C & D & F \\
     
   
   
-  1 & 0 & 1 & 1 & 1 \\
+  1 & 0 & 1 & 1 & 0 \\
 
     
         \hline
@@ -526,7 +529,7 @@ A & B & C & D & F \\
     
   
   
-  1 & 1 & 0 & 1 & 0 \\
+  1 & 1 & 0 & 1 & 1 \\
 
     
   
@@ -536,7 +539,7 @@ A & B & C & D & F \\
     
   
   
-  1 & 1 & 1 & 1 & 0 \\
+  1 & 1 & 1 & 1 & 1 \\
 
 \hline
 \end{tabular}
@@ -544,10 +547,10 @@ A & B & C & D & F \\
 
 \textbf{Canonical Forms \aRL{الأشكال القانونية}}
 \begin{itemize}
-\item $F(A,B,C,D) =  \overline{A}.\overline{B}.\overline{C}.D + \overline{A}.\overline{B}.C.\overline{D} + \overline{A}.B.C.\overline{D} + A.\overline{B}.\overline{C}.\overline{D} + A.\overline{B}.C.\overline{D} + A.\overline{B}.C.D + A.B.\overline{C}.\overline{D} + A.B.C.\overline{D}$
-\item $F(A,B,C,D) = (A+B+C+D) . (A+B+\overline{C}+\overline{D}) . (A+\overline{B}+C+D) . (A+\overline{B}+C+\overline{D}) . (A+\overline{B}+\overline{C}+\overline{D}) . (\overline{A}+B+C+\overline{D}) . (\overline{A}+\overline{B}+C+\overline{D}) . (\overline{A}+\overline{B}+\overline{C}+\overline{D})$
- \item $F(A,B,C,D) =  \sum(1, 2, 6, 8, 10, 11, 12, 14)$
- \item $F(A,B,C,D) =  \prod(0, 3, 4, 5, 7, 9, 13, 15)$
+\item $F(A,B,C,D) =  \overline{A}.\overline{B}.\overline{C}.\overline{D} + \overline{A}.\overline{B}.\overline{C}.D + \overline{A}.\overline{B}.C.D + \overline{A}.B.\overline{C}.\overline{D} + \overline{A}.B.\overline{C}.D + \overline{A}.B.C.D + A.\overline{B}.\overline{C}.\overline{D} + A.\overline{B}.C.\overline{D} + A.B.\overline{C}.\overline{D} + A.B.\overline{C}.D + A.B.C.\overline{D} + A.B.C.D$
+\item $F(A,B,C,D) = (A+B+\overline{C}+D) . (A+\overline{B}+\overline{C}+D) . (\overline{A}+B+C+\overline{D}) . (\overline{A}+B+\overline{C}+\overline{D})$
+ \item $F(A,B,C,D) =  \sum(0, 1, 3, 4, 5, 7, 8, 10, 12, 13, 14, 15)$
+ \item $F(A,B,C,D) =  \prod(2, 6, 9, 11)$
 \end{itemize}
 
 
@@ -561,19 +564,19 @@ A & B & C & D & F \\
 \textbf{Karnaugh Table \aRL{جدول كارنوف}}
 
 \begin{karnaugh-map}[4][4][1][CD][AB]
-  \minterms{ 1, 2, 6, 8, 10, 11, 12, 14 }
-  \maxterms{ 0, 3, 4, 5, 7, 9, 13, 15 }
+  \minterms{ 0, 1, 3, 4, 5, 7, 8, 10, 12, 13, 14, 15 }
+  \maxterms{ 2, 6, 9, 11 }
   
 
-    \implicantedge{12}{8}{14}{10}
-\implicant{2}{10}
-\implicant{10}{11}
-\implicant{1}{1}
+    \implicant{5}{15}
+\implicantedge{12}{8}{14}{10}
+\implicant{1}{7}
+\implicant{0}{5}
 
  \end{karnaugh-map}
 
-    Simplified Sum of products 2: $ a.\overline{d} + c.\overline{d} + a.\overline{b}.c + \overline{a}.\overline{b}.\overline{c}.d $\\
-    Simplified product of sums : $(a+c+d).(\overline{b}+\overline{d}).(a+\overline{c}+\overline{d}).(\overline{a}+c+\overline{d})$
+    Simplified Sum of products : $ b.d + a.\overline{d} + \overline{a}.d + \overline{a}.\overline{c} $\\
+    Simplified product of sums : $(a+\overline{c}+d).(\overline{a}+b+\overline{d})$
 
 \textbf{Logic diagram \aRL{المخطط المنطقي}}
 
@@ -599,52 +602,44 @@ A & B & C & D & F \\
                 \draw ($(w)+(0,-1ex)$) -| (notw.input);
              
 
- %% ***Function  : Gate for term n° 1 [ A.D' ]***
+ %% ***Function  : Gate for term n° 1 [ B.D ]***
   
-                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 0.00) (xandy0) {};\draw (xandy0.output) -- node[above]{\scriptsize $ A.\overline{D} $} ($(xandy0) + (1.8, 0)$);
-                % X
-\draw ($(x) + (0, -1ex)$)|- (xandy0.input 1);
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 0.00) (xandy0) {};\draw (xandy0.output) -- node[above]{\scriptsize $ B.D $} ($(xandy0) + (1.8, 0)$);
+                % Y
+\draw ($(y) + (0, -1ex)$)|- (xandy0.input 2);
 % W
-\draw [line width=0.25mm,   red] (notw.output)
-            -- ([xshift=0cm]notw.output) |- (xandy0.input 4);
+\draw ($(w) + (0, -1ex)$)|- (xandy0.input 4);
  
 
- %% ***Function  : Gate for term n° 1 [ C.D' ]***
+ %% ***Function  : Gate for term n° 1 [ A.D' ]***
   
-                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 1.20) (xandy1) {};\draw (xandy1.output) -- node[above]{\scriptsize $ C.\overline{D} $} ($(xandy1) + (1.8, 0)$);
-                % Z
-\draw ($(z) + (0, -1ex)$)|- (xandy1.input 3);
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 1.20) (xandy1) {};\draw (xandy1.output) -- node[above]{\scriptsize $ A.\overline{D} $} ($(xandy1) + (1.8, 0)$);
+                % X
+\draw ($(x) + (0, -1ex)$)|- (xandy1.input 1);
 % W
 \draw [line width=0.25mm,   red] (notw.output)
             -- ([xshift=0cm]notw.output) |- (xandy1.input 4);
  
 
- %% ***Function  : Gate for term n° 1 [ A.B'.C ]***
+ %% ***Function  : Gate for term n° 1 [ A'.D ]***
   
-                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 2.40) (xandy2) {};\draw (xandy2.output) -- node[above]{\scriptsize $ A.\overline{B}.C $} ($(xandy2) + (1.8, 0)$);
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 2.40) (xandy2) {};\draw (xandy2.output) -- node[above]{\scriptsize $ \overline{A}.D $} ($(xandy2) + (1.8, 0)$);
                 % X
-\draw ($(x) + (0, -1ex)$)|- (xandy2.input 1);
-% Y
-\draw [line width=0.25mm,   red] (noty.output)
-            -- ([xshift=0cm]noty.output) |- (xandy2.input 2);
-% Z
-\draw ($(z) + (0, -1ex)$)|- (xandy2.input 3);
+\draw [line width=0.25mm,   red] (notx.output)
+            -- ([xshift=0cm]notx.output) |- (xandy2.input 1);
+% W
+\draw ($(w) + (0, -1ex)$)|- (xandy2.input 4);
  
 
- %% ***Function  : Gate for term n° 1 [ A'.B'.C'.D ]***
+ %% ***Function  : Gate for term n° 1 [ A'.C' ]***
   
-                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 3.60) (xandy3) {};\draw (xandy3.output) -- node[above]{\scriptsize $ \overline{A}.\overline{B}.\overline{C}.D $} ($(xandy3) + (1.8, 0)$);
+                \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 3.60) (xandy3) {};\draw (xandy3.output) -- node[above]{\scriptsize $ \overline{A}.\overline{C} $} ($(xandy3) + (1.8, 0)$);
                 % X
 \draw [line width=0.25mm,   red] (notx.output)
             -- ([xshift=0cm]notx.output) |- (xandy3.input 1);
-% Y
-\draw [line width=0.25mm,   red] (noty.output)
-            -- ([xshift=0cm]noty.output) |- (xandy3.input 2);
 % Z
 \draw [line width=0.25mm,   red] (notz.output)
             -- ([xshift=0cm]notz.output) |- (xandy3.input 3);
-% W
-\draw ($(w) + (0, -1ex)$)|- (xandy3.input 4);
 
 
 %% Function F Large OR Gate
@@ -719,10 +714,10 @@ STRUCTURED LOGIGRAM-FILE-TEMPLATE
 
     
         
-     %% ***Function F : Gate for term n° 1 [ {'default': "a'.b'.c'.d", 'formatted': '\\overline{a}.\\overline{b}.\\overline{c}.d'} ]***
+     %% ***Function F : Gate for term n° 1 [ {'default': "a'.c'", 'formatted': '\\overline{a}.\\overline{c}'} ]***
         
            \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 0.0) (xandyFg0) {};
-           \draw (xandyFg0.output) -- node[above]{\scriptsize $ \overline{a}.\overline{b}.\overline{c}.d $} ($(xandyFg0) + (1.8, 0)$);
+           \draw (xandyFg0.output) -- node[above]{\scriptsize $ \overline{a}.\overline{c} $} ($(xandyFg0) + (1.8, 0)$);
         
         
             
@@ -732,67 +727,57 @@ STRUCTURED LOGIGRAM-FILE-TEMPLATE
             
         
             
-                \draw [line width=0.25mm,   red] (notx2.output)
-                -- ([xshift=0cm]notx2.output) |- (xandyFg0.input 2);
-                
-            
         
             
                 \draw [line width=0.25mm,   red] (notx3.output)
-                -- ([xshift=0cm]notx3.output) |- (xandyFg0.input 3);
+                -- ([xshift=0cm]notx3.output) |- (xandyFg0.input 2);
                 
             
         
-            
-                \draw ($(x4) + (0, -1ex)$)|- (xandyFg0.input 4);
-                
             
         
         
      
     
         
-     %% ***Function F : Gate for term n° 2 [ {'default': "a.b'.c", 'formatted': 'a.\\overline{b}.c'} ]***
+     %% ***Function F : Gate for term n° 2 [ {'default': "a'.d", 'formatted': '\\overline{a}.d'} ]***
         
            \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 1.2) (xandyFg1) {};
-           \draw (xandyFg1.output) -- node[above]{\scriptsize $ a.\overline{b}.c $} ($(xandyFg1) + (1.8, 0)$);
+           \draw (xandyFg1.output) -- node[above]{\scriptsize $ \overline{a}.d $} ($(xandyFg1) + (1.8, 0)$);
         
         
             
-                \draw ($(x1) + (0, -1ex)$)|- (xandyFg1.input 1);
+                \draw [line width=0.25mm,   red] (notx1.output)
+                -- ([xshift=0cm]notx1.output) |- (xandyFg1.input 1);
                 
             
         
             
-                \draw [line width=0.25mm,   red] (notx2.output)
-                -- ([xshift=0cm]notx2.output) |- (xandyFg1.input 2);
-                
+        
             
         
             
-                \draw ($(x3) + (0, -1ex)$)|- (xandyFg1.input 3);
+                \draw ($(x4) + (0, -1ex)$)|- (xandyFg1.input 2);
                 
-            
-        
             
         
         
      
     
         
-     %% ***Function F : Gate for term n° 3 [ {'default': "c.d'", 'formatted': 'c.\\overline{d}'} ]***
+     %% ***Function F : Gate for term n° 3 [ {'default': "a.d'", 'formatted': 'a.\\overline{d}'} ]***
         
            \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 2.4) (xandyFg2) {};
-           \draw (xandyFg2.output) -- node[above]{\scriptsize $ c.\overline{d} $} ($(xandyFg2) + (1.8, 0)$);
+           \draw (xandyFg2.output) -- node[above]{\scriptsize $ a.\overline{d} $} ($(xandyFg2) + (1.8, 0)$);
         
         
             
-        
-            
-        
-            
-                \draw ($(x3) + (0, -1ex)$)|- (xandyFg2.input 1);
+                \draw ($(x1) + (0, -1ex)$)|- (xandyFg2.input 1);
                 
+            
+        
+            
+        
             
         
             
@@ -805,24 +790,23 @@ STRUCTURED LOGIGRAM-FILE-TEMPLATE
      
     
         
-     %% ***Function F : Gate for term n° 4 [ {'default': "a.d'", 'formatted': 'a.\\overline{d}'} ]***
+     %% ***Function F : Gate for term n° 4 [ {'default': 'b.d', 'formatted': 'b.d'} ]***
         
            \node[and gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, 3.5999999999999996) (xandyFg3) {};
-           \draw (xandyFg3.output) -- node[above]{\scriptsize $ a.\overline{d} $} ($(xandyFg3) + (1.8, 0)$);
+           \draw (xandyFg3.output) -- node[above]{\scriptsize $ b.d $} ($(xandyFg3) + (1.8, 0)$);
         
         
             
-                \draw ($(x1) + (0, -1ex)$)|- (xandyFg3.input 1);
+        
+            
+                \draw ($(x2) + (0, -1ex)$)|- (xandyFg3.input 1);
                 
             
         
             
         
             
-        
-            
-                \draw [line width=0.25mm,   red] (notx4.output)
-                -- ([xshift=0cm]notx4.output) |- (xandyFg3.input 2);
+                \draw ($(x4) + (0, -1ex)$)|- (xandyFg3.input 2);
                 
             
         
@@ -892,6 +876,8 @@ STRUCTURED LOGIGRAM-FILE-TEMPLATE
  \end{tikzpicture}
 
 
+
+
 \pagebreak
 
 \paragraph{Q1}
@@ -899,7 +885,7 @@ STRUCTURED LOGIGRAM-FILE-TEMPLATE
 Convert the following numbers, \hfill\aRL{أنجز التحويلات الآتية}
 
 
-$(4816654)_{ 2 } = (........)_{ 8}$
+$(915\,8988)_{ 2 } = (........)_{ 8}$
 
 
 
@@ -914,7 +900,7 @@ $(4816654)_{ 2 } = (........)_{ 8}$
 Convert the following numbers, \hfill\aRL{أنجز التحويلات الآتية}
 
 
-$(4816654)_{ 2 } = (  22277416)_{ 8}$
+$(915\,8988)_{ 2 } = (  4274\,0514)_{ 8}$
 
 \pagebreak
 
@@ -924,8 +910,8 @@ Calculate  the following operations in base 8 :  أنجز العمليات ال�
 
 \begin{verbatim}
 
-  65556032
-- 14526304
+  1012\,4064
+- 245\,5447
 -------------------
 
 =  ........
@@ -946,11 +932,11 @@ Calculate  the following operations in base 8 :  أنجز العمليات ال�
 
 \begin{verbatim}
 
-  65556032
-- 14526304
+  1012\,4064
+- 245\,5447
 -------------------
 
-=  51027526
+=  544\,6415
 
 
 \end{verbatim}
@@ -969,10 +955,10 @@ Faire les conversion suivantes: NOT IMPLEMENTED (MESURE questions)
 
 \paragraph{Q1}
 
-  bf67521f
-+ ae2dff73
+  10001111
++ 10011010
 ----------
- 16d955192
+ 100101001
 
 \pagebreak
 
@@ -1158,7 +1144,7 @@ X & Y & Z & W & F \\
 
  \end{karnaugh-map}
 
-    Simplified Sum of products 2: $ w.x.y.z $\\
+    Simplified Sum of products : $ w.x.y.z $\\
     Simplified product of sums : $(w).(x).(y).(z)$
 
 \textbf{Logic diagram \aRL{المخطط المنطقي}}
@@ -1323,6 +1309,8 @@ STRUCTURED LOGIGRAM-FILE-TEMPLATE
 
 
  \end{tikzpicture}
+
+
 
 
 \pagebreak
@@ -1927,60 +1915,60 @@ X & Y & Z & W
 \item \textbf{First Canonical Forms \aRL{ الأشكال القانونية الأولى}}
     \begin{itemize}
     
-        \item $Fx0(A,B,C,D) =  X.Y.Z.W$
+        \item $Fx0(X, Y, Z, W) =  X.Y.Z.W$
     
-        \item $F0(A,B,C,D) =  \overline{X}.\overline{Y}.Z.W + \overline{X}.Y.\overline{Z}.W + \overline{X}.Y.Z.\overline{W} + \overline{X}.Y.Z.W + X.\overline{Y}.\overline{Z}.W + X.\overline{Y}.Z.\overline{W} + X.\overline{Y}.Z.W + X.Y.\overline{Z}.\overline{W} + X.Y.\overline{Z}.W + X.Y.Z.\overline{W}$
+        \item $F0(X, Y, Z, W) =  \overline{X}.\overline{Y}.Z.W + \overline{X}.Y.\overline{Z}.W + \overline{X}.Y.Z.\overline{W} + \overline{X}.Y.Z.W + X.\overline{Y}.\overline{Z}.W + X.\overline{Y}.Z.\overline{W} + X.\overline{Y}.Z.W + X.Y.\overline{Z}.\overline{W} + X.Y.\overline{Z}.W + X.Y.Z.\overline{W}$
     
-        \item $F1(A,B,C,D) =  \overline{X}.\overline{Y}.\overline{Z}.W + \overline{X}.\overline{Y}.Z.\overline{W} + \overline{X}.Y.\overline{Z}.\overline{W} + \overline{X}.Y.Z.W + X.\overline{Y}.\overline{Z}.\overline{W} + X.\overline{Y}.Z.W + X.Y.\overline{Z}.W + X.Y.Z.\overline{W}$
+        \item $F1(X, Y, Z, W) =  \overline{X}.\overline{Y}.\overline{Z}.W + \overline{X}.\overline{Y}.Z.\overline{W} + \overline{X}.Y.\overline{Z}.\overline{W} + \overline{X}.Y.Z.W + X.\overline{Y}.\overline{Z}.\overline{W} + X.\overline{Y}.Z.W + X.Y.\overline{Z}.W + X.Y.Z.\overline{W}$
     
-        \item $F2(A,B,C,D) =  \overline{X}.\overline{Y}.\overline{Z}.\overline{W} + \overline{X}.\overline{Y}.\overline{Z}.W + \overline{X}.\overline{Y}.Z.\overline{W} + \overline{X}.\overline{Y}.Z.W + \overline{X}.Y.\overline{Z}.\overline{W} + \overline{X}.Y.\overline{Z}.W + \overline{X}.Y.Z.\overline{W} + \overline{X}.Y.Z.W + X.\overline{Y}.Z.W + X.Y.\overline{Z}.\overline{W}$
+        \item $F2(X, Y, Z, W) =  \overline{X}.\overline{Y}.\overline{Z}.\overline{W} + \overline{X}.\overline{Y}.\overline{Z}.W + \overline{X}.\overline{Y}.Z.\overline{W} + \overline{X}.\overline{Y}.Z.W + \overline{X}.Y.\overline{Z}.\overline{W} + \overline{X}.Y.\overline{Z}.W + \overline{X}.Y.Z.\overline{W} + \overline{X}.Y.Z.W + X.\overline{Y}.Z.W + X.Y.\overline{Z}.\overline{W}$
     
-        \item $F3(A,B,C,D) =  \overline{X}.\overline{Y}.\overline{Z}.\overline{W} + \overline{X}.\overline{Y}.\overline{Z}.W + \overline{X}.\overline{Y}.Z.\overline{W} + \overline{X}.\overline{Y}.Z.W + \overline{X}.Y.\overline{Z}.\overline{W} + \overline{X}.Y.\overline{Z}.W + \overline{X}.Y.Z.\overline{W} + \overline{X}.Y.Z.W$
+        \item $F3(X, Y, Z, W) =  \overline{X}.\overline{Y}.\overline{Z}.\overline{W} + \overline{X}.\overline{Y}.\overline{Z}.W + \overline{X}.\overline{Y}.Z.\overline{W} + \overline{X}.\overline{Y}.Z.W + \overline{X}.Y.\overline{Z}.\overline{W} + \overline{X}.Y.\overline{Z}.W + \overline{X}.Y.Z.\overline{W} + \overline{X}.Y.Z.W$
     
     \end{itemize}
 
 \item \textbf{Second Canonical Forms \aRL{ الأشكال القانونية الثانية}}
     \begin{itemize}
     
-        \item $Fx0(A,B,C,D) =  (X+Y+Z+W) . (X+Y+Z+\overline{W}) . (X+Y+\overline{Z}+W) . (X+Y+\overline{Z}+\overline{W}) . (X+\overline{Y}+Z+W) . (X+\overline{Y}+Z+\overline{W}) . (X+\overline{Y}+\overline{Z}+W) . (X+\overline{Y}+\overline{Z}+\overline{W}) . (\overline{X}+Y+Z+W) . (\overline{X}+Y+Z+\overline{W}) . (\overline{X}+Y+\overline{Z}+W) . (\overline{X}+Y+\overline{Z}+\overline{W}) . (\overline{X}+\overline{Y}+Z+W) . (\overline{X}+\overline{Y}+Z+\overline{W}) . (\overline{X}+\overline{Y}+\overline{Z}+W)$
+        \item $Fx0(X, Y, Z, W) =  (X+Y+Z+W) . (X+Y+Z+\overline{W}) . (X+Y+\overline{Z}+W) . (X+Y+\overline{Z}+\overline{W}) . (X+\overline{Y}+Z+W) . (X+\overline{Y}+Z+\overline{W}) . (X+\overline{Y}+\overline{Z}+W) . (X+\overline{Y}+\overline{Z}+\overline{W}) . (\overline{X}+Y+Z+W) . (\overline{X}+Y+Z+\overline{W}) . (\overline{X}+Y+\overline{Z}+W) . (\overline{X}+Y+\overline{Z}+\overline{W}) . (\overline{X}+\overline{Y}+Z+W) . (\overline{X}+\overline{Y}+Z+\overline{W}) . (\overline{X}+\overline{Y}+\overline{Z}+W)$
     
-        \item $F0(A,B,C,D) =  (X+Y+Z+W) . (X+Y+Z+\overline{W}) . (X+Y+\overline{Z}+W) . (X+\overline{Y}+Z+W) . (\overline{X}+Y+Z+W) . (\overline{X}+\overline{Y}+\overline{Z}+\overline{W})$
+        \item $F0(X, Y, Z, W) =  (X+Y+Z+W) . (X+Y+Z+\overline{W}) . (X+Y+\overline{Z}+W) . (X+\overline{Y}+Z+W) . (\overline{X}+Y+Z+W) . (\overline{X}+\overline{Y}+\overline{Z}+\overline{W})$
     
-        \item $F1(A,B,C,D) =  (X+Y+Z+W) . (X+Y+\overline{Z}+\overline{W}) . (X+\overline{Y}+Z+\overline{W}) . (X+\overline{Y}+\overline{Z}+W) . (\overline{X}+Y+Z+\overline{W}) . (\overline{X}+Y+\overline{Z}+W) . (\overline{X}+\overline{Y}+Z+W) . (\overline{X}+\overline{Y}+\overline{Z}+\overline{W})$
+        \item $F1(X, Y, Z, W) =  (X+Y+Z+W) . (X+Y+\overline{Z}+\overline{W}) . (X+\overline{Y}+Z+\overline{W}) . (X+\overline{Y}+\overline{Z}+W) . (\overline{X}+Y+Z+\overline{W}) . (\overline{X}+Y+\overline{Z}+W) . (\overline{X}+\overline{Y}+Z+W) . (\overline{X}+\overline{Y}+\overline{Z}+\overline{W})$
     
-        \item $F2(A,B,C,D) =  (\overline{X}+Y+Z+W) . (\overline{X}+Y+Z+\overline{W}) . (\overline{X}+Y+\overline{Z}+W) . (\overline{X}+\overline{Y}+Z+\overline{W}) . (\overline{X}+\overline{Y}+\overline{Z}+W) . (\overline{X}+\overline{Y}+\overline{Z}+\overline{W})$
+        \item $F2(X, Y, Z, W) =  (\overline{X}+Y+Z+W) . (\overline{X}+Y+Z+\overline{W}) . (\overline{X}+Y+\overline{Z}+W) . (\overline{X}+\overline{Y}+Z+\overline{W}) . (\overline{X}+\overline{Y}+\overline{Z}+W) . (\overline{X}+\overline{Y}+\overline{Z}+\overline{W})$
     
-        \item $F3(A,B,C,D) =  (\overline{X}+Y+Z+W) . (\overline{X}+Y+Z+\overline{W}) . (\overline{X}+Y+\overline{Z}+W) . (\overline{X}+Y+\overline{Z}+\overline{W}) . (\overline{X}+\overline{Y}+Z+W) . (\overline{X}+\overline{Y}+Z+\overline{W}) . (\overline{X}+\overline{Y}+\overline{Z}+W) . (\overline{X}+\overline{Y}+\overline{Z}+\overline{W})$
+        \item $F3(X, Y, Z, W) =  (\overline{X}+Y+Z+W) . (\overline{X}+Y+Z+\overline{W}) . (\overline{X}+Y+\overline{Z}+W) . (\overline{X}+Y+\overline{Z}+\overline{W}) . (\overline{X}+\overline{Y}+Z+W) . (\overline{X}+\overline{Y}+Z+\overline{W}) . (\overline{X}+\overline{Y}+\overline{Z}+W) . (\overline{X}+\overline{Y}+\overline{Z}+\overline{W})$
     
     \end{itemize}
 
 \item \textbf{First Canonical Forms \aRL{ الأشكال القانونية الأولى}}
     \begin{itemize}
     
-        \item $Fx0(A,B,C,D) = \sum(15)$
+        \item $Fx0(X, Y, Z, W) = \sum(15)$
     
-        \item $F0(A,B,C,D) = \sum(3, 5, 6, 7, 9, 10, 11, 12, 13, 14)$
+        \item $F0(X, Y, Z, W) = \sum(3, 5, 6, 7, 9, 10, 11, 12, 13, 14)$
     
-        \item $F1(A,B,C,D) = \sum(1, 2, 4, 7, 8, 11, 13, 14)$
+        \item $F1(X, Y, Z, W) = \sum(1, 2, 4, 7, 8, 11, 13, 14)$
     
-        \item $F2(A,B,C,D) = \sum(0, 1, 2, 3, 4, 5, 6, 7, 11, 12)$
+        \item $F2(X, Y, Z, W) = \sum(0, 1, 2, 3, 4, 5, 6, 7, 11, 12)$
     
-        \item $F3(A,B,C,D) = \sum(0, 1, 2, 3, 4, 5, 6, 7)$
+        \item $F3(X, Y, Z, W) = \sum(0, 1, 2, 3, 4, 5, 6, 7)$
     
     \end{itemize}
 
 \item \textbf{Second Canonical Forms \aRL{ الأشكال القانونية الثانية}}
     \begin{itemize}
     
-        \item $Fx0(A,B,C,D) =  \prod(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14)$
+        \item $Fx0(X, Y, Z, W) =  \prod(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14)$
     
-        \item $F0(A,B,C,D) =  \prod(0, 1, 2, 4, 8, 15)$
+        \item $F0(X, Y, Z, W) =  \prod(0, 1, 2, 4, 8, 15)$
     
-        \item $F1(A,B,C,D) =  \prod(0, 3, 5, 6, 9, 10, 12, 15)$
+        \item $F1(X, Y, Z, W) =  \prod(0, 3, 5, 6, 9, 10, 12, 15)$
     
-        \item $F2(A,B,C,D) =  \prod(8, 9, 10, 13, 14, 15)$
+        \item $F2(X, Y, Z, W) =  \prod(8, 9, 10, 13, 14, 15)$
     
-        \item $F3(A,B,C,D) =  \prod(8, 9, 10, 11, 12, 13, 14, 15)$
+        \item $F3(X, Y, Z, W) =  \prod(8, 9, 10, 11, 12, 13, 14, 15)$
     
     \end{itemize}
 
@@ -1990,87 +1978,6 @@ X & Y & Z & W
 
 
  
- \textbf{ NAND forms  \aRL{بوابات نفي الوصل}}
- \begin{enumerate}
- 
-
-    \item $Fx0$ = $(w\uparrow x\uparrow y\uparrow z)$
-
-    Explanation
-    \begin{itemize}
-        \item $Fx0$ = $ w.x.y.z $
-
-        
-            \item  $Fx0$ = $\overline{\overline{ w.x.y.z }}$
-        
-            \item  $Fx0$ = $\overline{\overline{ w.x.y.z }}$
-        
-            \item  $Fx0$ = $(w\uparrow x\uparrow y\uparrow z)$
-        
-    \end{itemize}
- 
-
-    \item $F0$ = $(w\uparrow x\uparrow \overline{y})\big\uparrow (w\uparrow y\uparrow \overline{z})\big\uparrow (w\uparrow \overline{x}\uparrow z)\big\uparrow (x\uparrow y\uparrow \overline{z})\big\uparrow (x\uparrow \overline{y}\uparrow z)\big\uparrow (\overline{w}\uparrow y\uparrow z)$
-
-    Explanation
-    \begin{itemize}
-        \item $F0$ = $ w.x.\overline{y} + w.y.\overline{z} + w.\overline{x}.z + x.y.\overline{z} + x.\overline{y}.z + \overline{w}.y.z $
-
-        
-            \item  $F0$ = $\overline{\overline{ w.x.\overline{y} + w.y.\overline{z} + w.\overline{x}.z + x.y.\overline{z} + x.\overline{y}.z + \overline{w}.y.z }}$
-        
-            \item  $F0$ = $\overline{\overline{ w.x.\overline{y} }.\overline{ w.y.\overline{z} }.\overline{ w.\overline{x}.z }.\overline{ x.y.\overline{z} }.\overline{ x.\overline{y}.z }.\overline{ \overline{w}.y.z }}$
-        
-            \item  $F0$ = $(w\uparrow x\uparrow \overline{y})\big\uparrow (w\uparrow y\uparrow \overline{z})\big\uparrow (w\uparrow \overline{x}\uparrow z)\big\uparrow (x\uparrow y\uparrow \overline{z})\big\uparrow (x\uparrow \overline{y}\uparrow z)\big\uparrow (\overline{w}\uparrow y\uparrow z)$
-        
-    \end{itemize}
- 
-
-    \item $F1$ = $(w\uparrow x\uparrow y\uparrow \overline{z})\big\uparrow (w\uparrow x\uparrow \overline{y}\uparrow z)\big\uparrow (w\uparrow \overline{x}\uparrow y\uparrow z)\big\uparrow (\overline{w}\uparrow x\uparrow y\uparrow z)\big\uparrow (w\uparrow \overline{x}\uparrow \overline{y}\uparrow \overline{z})\big\uparrow (\overline{w}\uparrow x\uparrow \overline{y}\uparrow \overline{z})\big\uparrow (\overline{w}\uparrow \overline{x}\uparrow y\uparrow \overline{z})\big\uparrow (\overline{w}\uparrow \overline{x}\uparrow \overline{y}\uparrow z)$
-
-    Explanation
-    \begin{itemize}
-        \item $F1$ = $ w.x.y.\overline{z} + w.x.\overline{y}.z + w.\overline{x}.y.z + \overline{w}.x.y.z + w.\overline{x}.\overline{y}.\overline{z} + \overline{w}.x.\overline{y}.\overline{z} + \overline{w}.\overline{x}.y.\overline{z} + \overline{w}.\overline{x}.\overline{y}.z $
-
-        
-            \item  $F1$ = $\overline{\overline{ w.x.y.\overline{z} + w.x.\overline{y}.z + w.\overline{x}.y.z + \overline{w}.x.y.z + w.\overline{x}.\overline{y}.\overline{z} + \overline{w}.x.\overline{y}.\overline{z} + \overline{w}.\overline{x}.y.\overline{z} + \overline{w}.\overline{x}.\overline{y}.z }}$
-        
-            \item  $F1$ = $\overline{\overline{ w.x.y.\overline{z} }.\overline{ w.x.\overline{y}.z }.\overline{ w.\overline{x}.y.z }.\overline{ \overline{w}.x.y.z }.\overline{ w.\overline{x}.\overline{y}.\overline{z} }.\overline{ \overline{w}.x.\overline{y}.\overline{z} }.\overline{ \overline{w}.\overline{x}.y.\overline{z} }.\overline{ \overline{w}.\overline{x}.\overline{y}.z }}$
-        
-            \item  $F1$ = $(w\uparrow x\uparrow y\uparrow \overline{z})\big\uparrow (w\uparrow x\uparrow \overline{y}\uparrow z)\big\uparrow (w\uparrow \overline{x}\uparrow y\uparrow z)\big\uparrow (\overline{w}\uparrow x\uparrow y\uparrow z)\big\uparrow (w\uparrow \overline{x}\uparrow \overline{y}\uparrow \overline{z})\big\uparrow (\overline{w}\uparrow x\uparrow \overline{y}\uparrow \overline{z})\big\uparrow (\overline{w}\uparrow \overline{x}\uparrow y\uparrow \overline{z})\big\uparrow (\overline{w}\uparrow \overline{x}\uparrow \overline{y}\uparrow z)$
-        
-    \end{itemize}
- 
-
-    \item $F2$ = $(x)\big\uparrow (w\uparrow \overline{y}\uparrow z)\big\uparrow (\overline{w}\uparrow y\uparrow \overline{z})$
-
-    Explanation
-    \begin{itemize}
-        \item $F2$ = $ \overline{x} + w.\overline{y}.z + \overline{w}.y.\overline{z} $
-
-        
-            \item  $F2$ = $\overline{\overline{ \overline{x} + w.\overline{y}.z + \overline{w}.y.\overline{z} }}$
-        
-            \item  $F2$ = $\overline{\overline{ \overline{x} }.\overline{ w.\overline{y}.z }.\overline{ \overline{w}.y.\overline{z} }}$
-        
-            \item  $F2$ = $(x)\big\uparrow (w\uparrow \overline{y}\uparrow z)\big\uparrow (\overline{w}\uparrow y\uparrow \overline{z})$
-        
-    \end{itemize}
- 
-
-    \item $F3$ = $ \overline{x} $
-
-    Explanation
-    \begin{itemize}
-        \item $F3$ = $ \overline{x} $
-
-        
-            \item  $F3$ = $ \overline{x} $
-        
-    \end{itemize}
- 
- \end{enumerate}
-
 
 
 
@@ -2522,139 +2429,6 @@ X & Y & Z & W
 
 
 STRUCTURED LOGIGRAM-FILE-TEMPLATE
-
-\begin{verbatim}
-{'function_gate': 'or',
- 'functions': [{'name': 'Fx0',
-                'nb_terms': 1,
-                'terms': [{'id': 'xandyFx0g0',
-                           'label': {'default': 'w.x.y.z',
-                                     'formatted': 'w.x.y.z'},
-                           'name': 'W.X.Y.Z',
-                           'nb_vars': 4,
-                           'vars': ['W', 'X', 'Y', 'Z']}]},
-               {'name': 'F0',
-                'nb_terms': 6,
-                'terms': [{'id': 'xandyF0g0',
-                           'label': {'default': "w'.y.z",
-                                     'formatted': '\\overline{w}.y.z'},
-                           'name': "W'.Y.Z",
-                           'nb_vars': 3,
-                           'vars': ["W'", 'Y', 'Z']},
-                          {'id': 'xandyF0g1',
-                           'label': {'default': "x.y'.z",
-                                     'formatted': 'x.\\overline{y}.z'},
-                           'name': "X.Y'.Z",
-                           'nb_vars': 3,
-                           'vars': ['X', "Y'", 'Z']},
-                          {'id': 'xandyF0g2',
-                           'label': {'default': "x.y.z'",
-                                     'formatted': 'x.y.\\overline{z}'},
-                           'name': "X.Y.Z'",
-                           'nb_vars': 3,
-                           'vars': ['X', 'Y', "Z'"]},
-                          {'id': 'xandyF0g3',
-                           'label': {'default': "w.x'.z",
-                                     'formatted': 'w.\\overline{x}.z'},
-                           'name': "W.X'.Z",
-                           'nb_vars': 3,
-                           'vars': ['W', "X'", 'Z']},
-                          {'id': 'xandyF0g4',
-                           'label': {'default': "w.y.z'",
-                                     'formatted': 'w.y.\\overline{z}'},
-                           'name': "W.Y.Z'",
-                           'nb_vars': 3,
-                           'vars': ['W', 'Y', "Z'"]},
-                          {'id': 'xandyF0g5',
-                           'label': {'default': "w.x.y'",
-                                     'formatted': 'w.x.\\overline{y}'},
-                           'name': "W.X.Y'",
-                           'nb_vars': 3,
-                           'vars': ['W', 'X', "Y'"]}]},
-               {'name': 'F1',
-                'nb_terms': 8,
-                'terms': [{'id': 'xandyF1g0',
-                           'label': {'default': "w'.x'.y'.z",
-                                     'formatted': '\\overline{w}.\\overline{x}.\\overline{y}.z'},
-                           'name': "W'.X'.Y'.Z",
-                           'nb_vars': 4,
-                           'vars': ["W'", "X'", "Y'", 'Z']},
-                          {'id': 'xandyF1g1',
-                           'label': {'default': "w'.x'.y.z'",
-                                     'formatted': '\\overline{w}.\\overline{x}.y.\\overline{z}'},
-                           'name': "W'.X'.Y.Z'",
-                           'nb_vars': 4,
-                           'vars': ["W'", "X'", 'Y', "Z'"]},
-                          {'id': 'xandyF1g2',
-                           'label': {'default': "w'.x.y'.z'",
-                                     'formatted': '\\overline{w}.x.\\overline{y}.\\overline{z}'},
-                           'name': "W'.X.Y'.Z'",
-                           'nb_vars': 4,
-                           'vars': ["W'", 'X', "Y'", "Z'"]},
-                          {'id': 'xandyF1g3',
-                           'label': {'default': "w.x'.y'.z'",
-                                     'formatted': 'w.\\overline{x}.\\overline{y}.\\overline{z}'},
-                           'name': "W.X'.Y'.Z'",
-                           'nb_vars': 4,
-                           'vars': ['W', "X'", "Y'", "Z'"]},
-                          {'id': 'xandyF1g4',
-                           'label': {'default': "w'.x.y.z",
-                                     'formatted': '\\overline{w}.x.y.z'},
-                           'name': "W'.X.Y.Z",
-                           'nb_vars': 4,
-                           'vars': ["W'", 'X', 'Y', 'Z']},
-                          {'id': 'xandyF1g5',
-                           'label': {'default': "w.x'.y.z",
-                                     'formatted': 'w.\\overline{x}.y.z'},
-                           'name': "W.X'.Y.Z",
-                           'nb_vars': 4,
-                           'vars': ['W', "X'", 'Y', 'Z']},
-                          {'id': 'xandyF1g6',
-                           'label': {'default': "w.x.y'.z",
-                                     'formatted': 'w.x.\\overline{y}.z'},
-                           'name': "W.X.Y'.Z",
-                           'nb_vars': 4,
-                           'vars': ['W', 'X', "Y'", 'Z']},
-                          {'id': 'xandyF1g7',
-                           'label': {'default': "w.x.y.z'",
-                                     'formatted': 'w.x.y.\\overline{z}'},
-                           'name': "W.X.Y.Z'",
-                           'nb_vars': 4,
-                           'vars': ['W', 'X', 'Y', "Z'"]}]},
-               {'name': 'F2',
-                'nb_terms': 3,
-                'terms': [{'id': 'xandyF2g0',
-                           'label': {'default': "w'.y.z'",
-                                     'formatted': '\\overline{w}.y.\\overline{z}'},
-                           'name': "W'.Y.Z'",
-                           'nb_vars': 3,
-                           'vars': ["W'", 'Y', "Z'"]},
-                          {'id': 'xandyF2g1',
-                           'label': {'default': "w.y'.z",
-                                     'formatted': 'w.\\overline{y}.z'},
-                           'name': "W.Y'.Z",
-                           'nb_vars': 3,
-                           'vars': ['W', "Y'", 'Z']},
-                          {'id': 'xandyF2g2',
-                           'label': {'default': "x'",
-                                     'formatted': '\\overline{x}'},
-                           'name': "X'",
-                           'nb_vars': 1,
-                           'vars': ["X'"]}]},
-               {'name': 'F3',
-                'nb_terms': 1,
-                'terms': [{'id': 'xandyF3g0',
-                           'label': {'default': "x'",
-                                     'formatted': '\\overline{x}'},
-                           'name': "X'",
-                           'nb_vars': 1,
-                           'vars': ["X'"]}]}],
- 'method': 'SOP',
- 'notvar_gate': 'not',
- 'size_terms': 19,
- 'term_gate': 'and',
- 'variables': {'A': 'X', 'B': 'Y', 'C': 'Z', 'D': 'W'}}
-\end{verbatim}
 
 
 
@@ -3555,1164 +3329,8 @@ STRUCTURED LOGIGRAM-FILE-TEMPLATE
 
 
 
-    
-        DATA list
-        \begin{verbatim}
-        [{'ab': 'XY',
-  'cd': 'ZW',
-  'cnf': "(X+Y+Z+W) . (X+Y+Z+W') . (X+Y+Z'+W) . (X+Y+Z'+W') . (X+Y'+Z+W) . "
-         "(X+Y'+Z+W') . (X+Y'+Z'+W) . (X+Y'+Z'+W') . (X'+Y+Z+W) . (X'+Y+Z+W') "
-         ". (X'+Y+Z'+W) . (X'+Y+Z'+W') . (X'+Y'+Z+W) . (X'+Y'+Z+W') . "
-         "(X'+Y'+Z'+W)",
-  'cnf_dict': {'default': "(X+Y+Z+W) . (X+Y+Z+W') . (X+Y+Z'+W) . (X+Y+Z'+W') . "
-                          "(X+Y'+Z+W) . (X+Y'+Z+W') . (X+Y'+Z'+W) . "
-                          "(X+Y'+Z'+W') . (X'+Y+Z+W) . (X'+Y+Z+W') . "
-                          "(X'+Y+Z'+W) . (X'+Y+Z'+W') . (X'+Y'+Z+W) . "
-                          "(X'+Y'+Z+W') . (X'+Y'+Z'+W)",
-               'explained': ['cnf not explained'],
-               'formatted': '(X+Y+Z+W) . (X+Y+Z+\\overline{W}) . '
-                            '(X+Y+\\overline{Z}+W) . '
-                            '(X+Y+\\overline{Z}+\\overline{W}) . '
-                            '(X+\\overline{Y}+Z+W) . '
-                            '(X+\\overline{Y}+Z+\\overline{W}) . '
-                            '(X+\\overline{Y}+\\overline{Z}+W) . '
-                            '(X+\\overline{Y}+\\overline{Z}+\\overline{W}) . '
-                            '(\\overline{X}+Y+Z+W) . '
-                            '(\\overline{X}+Y+Z+\\overline{W}) . '
-                            '(\\overline{X}+Y+\\overline{Z}+W) . '
-                            '(\\overline{X}+Y+\\overline{Z}+\\overline{W}) . '
-                            '(\\overline{X}+\\overline{Y}+Z+W) . '
-                            '(\\overline{X}+\\overline{Y}+Z+\\overline{W}) . '
-                            '(\\overline{X}+\\overline{Y}+\\overline{Z}+W)',
-               'terms': []},
-  'dnf': 'X.Y.Z.W',
-  'dnf_dict': {'default': 'X.Y.Z.W',
-               'explained': ['dnf not explained'],
-               'formatted': 'X.Y.Z.W',
-               'terms': []},
-  'dontcares': [],
-  'formatted_simplification': ['\\implicant{15}{15}'],
-  'function_name': 'Fx0',
-  'maxterms': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-  'method': 'sop',
-  'minterms': [15],
-  'nand_dnf': '(X↑Y↑Z↑W)',
-  'nand_dnf_dict': {'default': '(X↑Y↑Z↑W)',
-                    'explained': ['\\overline{\\overline{X.Y.Z.W}}',
-                                  '\\overline{\\overline{X.Y.Z.W}}',
-                                  '(X\\uparrow Y\\uparrow Z\\uparrow W)'],
-                    'formatted': '(X\\uparrow Y\\uparrow Z\\uparrow W)',
-                    'terms': []},
-  'nand_sop': '(w↑x↑y↑z)',
-  'nand_sop_dict': {'default': '(w↑x↑y↑z)',
-                    'explained': ['\\overline{\\overline{ w.x.y.z }}',
-                                  '\\overline{\\overline{ w.x.y.z }}',
-                                  '(w\\uparrow x\\uparrow y\\uparrow z)'],
-                    'formatted': '(w\\uparrow x\\uparrow y\\uparrow z)',
-                    'terms': []},
-  'nor_cnf': "(X↓Y↓Z↓W)⊽(X↓Y↓Z↓W')⊽(X↓Y↓Z'↓W)⊽(X↓Y↓Z'↓W')⊽(X↓Y'↓Z↓W)⊽(X↓Y'↓Z↓W')⊽(X↓Y'↓Z'↓W)⊽(X↓Y'↓Z'↓W')⊽(X'↓Y↓Z↓W)⊽(X'↓Y↓Z↓W')⊽(X'↓Y↓Z'↓W)⊽(X'↓Y↓Z'↓W')⊽(X'↓Y'↓Z↓W)⊽(X'↓Y'↓Z↓W')⊽(X'↓Y'↓Z'↓W)",
-  'nor_cnf_dict': {'default': "(X↓Y↓Z↓W)⊽(X↓Y↓Z↓W')⊽(X↓Y↓Z'↓W)⊽(X↓Y↓Z'↓W')⊽(X↓Y'↓Z↓W)⊽(X↓Y'↓Z↓W')⊽(X↓Y'↓Z'↓W)⊽(X↓Y'↓Z'↓W')⊽(X'↓Y↓Z↓W)⊽(X'↓Y↓Z↓W')⊽(X'↓Y↓Z'↓W)⊽(X'↓Y↓Z'↓W')⊽(X'↓Y'↓Z↓W)⊽(X'↓Y'↓Z↓W')⊽(X'↓Y'↓Z'↓W)",
-                   'explained': ['\\overline{\\overline{(X+Y+Z+W) . '
-                                 '(X+Y+Z+\\overline{W}) . '
-                                 '(X+Y+\\overline{Z}+W) . '
-                                 '(X+Y+\\overline{Z}+\\overline{W}) . '
-                                 '(X+\\overline{Y}+Z+W) . '
-                                 '(X+\\overline{Y}+Z+\\overline{W}) . '
-                                 '(X+\\overline{Y}+\\overline{Z}+W) . '
-                                 '(X+\\overline{Y}+\\overline{Z}+\\overline{W}) '
-                                 '. (\\overline{X}+Y+Z+W) . '
-                                 '(\\overline{X}+Y+Z+\\overline{W}) . '
-                                 '(\\overline{X}+Y+\\overline{Z}+W) . '
-                                 '(\\overline{X}+Y+\\overline{Z}+\\overline{W}) '
-                                 '. (\\overline{X}+\\overline{Y}+Z+W) . '
-                                 '(\\overline{X}+\\overline{Y}+Z+\\overline{W}) '
-                                 '. '
-                                 '(\\overline{X}+\\overline{Y}+\\overline{Z}+W)}}',
-                                 '\\overline{\\overline{(X+Y+Z+W) '
-                                 '}+\\overline{ (X+Y+Z+\\overline{W}) '
-                                 '}+\\overline{ (X+Y+\\overline{Z}+W) '
-                                 '}+\\overline{ '
-                                 '(X+Y+\\overline{Z}+\\overline{W}) '
-                                 '}+\\overline{ (X+\\overline{Y}+Z+W) '
-                                 '}+\\overline{ '
-                                 '(X+\\overline{Y}+Z+\\overline{W}) '
-                                 '}+\\overline{ '
-                                 '(X+\\overline{Y}+\\overline{Z}+W) '
-                                 '}+\\overline{ '
-                                 '(X+\\overline{Y}+\\overline{Z}+\\overline{W}) '
-                                 '}+\\overline{ (\\overline{X}+Y+Z+W) '
-                                 '}+\\overline{ '
-                                 '(\\overline{X}+Y+Z+\\overline{W}) '
-                                 '}+\\overline{ '
-                                 '(\\overline{X}+Y+\\overline{Z}+W) '
-                                 '}+\\overline{ '
-                                 '(\\overline{X}+Y+\\overline{Z}+\\overline{W}) '
-                                 '}+\\overline{ '
-                                 '(\\overline{X}+\\overline{Y}+Z+W) '
-                                 '}+\\overline{ '
-                                 '(\\overline{X}+\\overline{Y}+Z+\\overline{W}) '
-                                 '}+\\overline{ '
-                                 '(\\overline{X}+\\overline{Y}+\\overline{Z}+W)}}',
-                                 '(X\\downarrow Y\\downarrow Z\\downarrow '
-                                 'W)\\big\\downarrow (X\\downarrow '
-                                 'Y\\downarrow Z\\downarrow '
-                                 '\\overline{W})\\big\\downarrow (X\\downarrow '
-                                 'Y\\downarrow \\overline{Z}\\downarrow '
-                                 'W)\\big\\downarrow (X\\downarrow '
-                                 'Y\\downarrow \\overline{Z}\\downarrow '
-                                 '\\overline{W})\\big\\downarrow (X\\downarrow '
-                                 '\\overline{Y}\\downarrow Z\\downarrow '
-                                 'W)\\big\\downarrow (X\\downarrow '
-                                 '\\overline{Y}\\downarrow Z\\downarrow '
-                                 '\\overline{W})\\big\\downarrow (X\\downarrow '
-                                 '\\overline{Y}\\downarrow '
-                                 '\\overline{Z}\\downarrow W)\\big\\downarrow '
-                                 '(X\\downarrow \\overline{Y}\\downarrow '
-                                 '\\overline{Z}\\downarrow '
-                                 '\\overline{W})\\big\\downarrow '
-                                 '(\\overline{X}\\downarrow Y\\downarrow '
-                                 'Z\\downarrow W)\\big\\downarrow '
-                                 '(\\overline{X}\\downarrow Y\\downarrow '
-                                 'Z\\downarrow \\overline{W})\\big\\downarrow '
-                                 '(\\overline{X}\\downarrow Y\\downarrow '
-                                 '\\overline{Z}\\downarrow W)\\big\\downarrow '
-                                 '(\\overline{X}\\downarrow Y\\downarrow '
-                                 '\\overline{Z}\\downarrow '
-                                 '\\overline{W})\\big\\downarrow '
-                                 '(\\overline{X}\\downarrow '
-                                 '\\overline{Y}\\downarrow Z\\downarrow '
-                                 'W)\\big\\downarrow (\\overline{X}\\downarrow '
-                                 '\\overline{Y}\\downarrow Z\\downarrow '
-                                 '\\overline{W})\\big\\downarrow '
-                                 '(\\overline{X}\\downarrow '
-                                 '\\overline{Y}\\downarrow '
-                                 '\\overline{Z}\\downarrow W)'],
-                   'formatted': '(X\\downarrow Y\\downarrow Z\\downarrow '
-                                'W)\\big\\downarrow (X\\downarrow Y\\downarrow '
-                                'Z\\downarrow \\overline{W})\\big\\downarrow '
-                                '(X\\downarrow Y\\downarrow '
-                                '\\overline{Z}\\downarrow W)\\big\\downarrow '
-                                '(X\\downarrow Y\\downarrow '
-                                '\\overline{Z}\\downarrow '
-                                '\\overline{W})\\big\\downarrow (X\\downarrow '
-                                '\\overline{Y}\\downarrow Z\\downarrow '
-                                'W)\\big\\downarrow (X\\downarrow '
-                                '\\overline{Y}\\downarrow Z\\downarrow '
-                                '\\overline{W})\\big\\downarrow (X\\downarrow '
-                                '\\overline{Y}\\downarrow '
-                                '\\overline{Z}\\downarrow W)\\big\\downarrow '
-                                '(X\\downarrow \\overline{Y}\\downarrow '
-                                '\\overline{Z}\\downarrow '
-                                '\\overline{W})\\big\\downarrow '
-                                '(\\overline{X}\\downarrow Y\\downarrow '
-                                'Z\\downarrow W)\\big\\downarrow '
-                                '(\\overline{X}\\downarrow Y\\downarrow '
-                                'Z\\downarrow \\overline{W})\\big\\downarrow '
-                                '(\\overline{X}\\downarrow Y\\downarrow '
-                                '\\overline{Z}\\downarrow W)\\big\\downarrow '
-                                '(\\overline{X}\\downarrow Y\\downarrow '
-                                '\\overline{Z}\\downarrow '
-                                '\\overline{W})\\big\\downarrow '
-                                '(\\overline{X}\\downarrow '
-                                '\\overline{Y}\\downarrow Z\\downarrow '
-                                'W)\\big\\downarrow (\\overline{X}\\downarrow '
-                                '\\overline{Y}\\downarrow Z\\downarrow '
-                                '\\overline{W})\\big\\downarrow '
-                                '(\\overline{X}\\downarrow '
-                                '\\overline{Y}\\downarrow '
-                                '\\overline{Z}\\downarrow W)',
-                   'terms': []},
-  'nor_pos': "(w')⊽(x')⊽(y')⊽(z')",
-  'nor_pos_dict': {'default': "(w')⊽(x')⊽(y')⊽(z')",
-                   'explained': ['\\overline{\\overline{(w).(x).(y).(z)}}',
-                                 '\\overline{\\overline{(w)}+\\overline{(x)}+\\overline{(y)}+\\overline{(z)}}',
-                                 '(\\overline{w})\\big\\downarrow '
-                                 '(\\overline{x})\\big\\downarrow '
-                                 '(\\overline{y})\\big\\downarrow '
-                                 '(\\overline{z})'],
-                   'formatted': '(\\overline{w})\\big\\downarrow '
-                                '(\\overline{x})\\big\\downarrow '
-                                '(\\overline{y})\\big\\downarrow '
-                                '(\\overline{z})',
-                   'terms': []},
-  'pos': '(w).(x).(y).(z)',
-  'pos_dict': {'default': '(w).(x).(y).(z)',
-               'explained': 'POS not explained',
-               'formatted': '(w).(x).(y).(z)',
-               'terms': []},
-  'pos_formatted': '(w).(x).(y).(z)',
-  'simplification': ['a.b.c.d'],
-  'sop': ' w.x.y.z ',
-  'sop_dict': {'default': ' w.x.y.z ',
-               'explained': ['SOP not explained'],
-               'formatted': ' w.x.y.z ',
-               'terms': []},
-  'sop_formatted': ' w.x.y.z ',
-  'table': [['XY\\ZW', '00', '01', '11', '10'],
-            ['00', '0', '0', '0', '0'],
-            ['00', '0', '0', '0', '0'],
-            ['00', '0', '0', '1', '0'],
-            ['00', '0', '0', '0', '0']],
-  'variables': ['X', 'Y', 'Z', 'W']},
- {'ab': 'XY',
-  'cd': 'ZW',
-  'cnf': "(X+Y+Z+W) . (X+Y+Z+W') . (X+Y+Z'+W) . (X+Y'+Z+W) . (X'+Y+Z+W) . "
-         "(X'+Y'+Z'+W')",
-  'cnf_dict': {'default': "(X+Y+Z+W) . (X+Y+Z+W') . (X+Y+Z'+W) . (X+Y'+Z+W) . "
-                          "(X'+Y+Z+W) . (X'+Y'+Z'+W')",
-               'explained': ['cnf not explained'],
-               'formatted': '(X+Y+Z+W) . (X+Y+Z+\\overline{W}) . '
-                            '(X+Y+\\overline{Z}+W) . (X+\\overline{Y}+Z+W) . '
-                            '(\\overline{X}+Y+Z+W) . '
-                            '(\\overline{X}+\\overline{Y}+\\overline{Z}+\\overline{W})',
-               'terms': []},
-  'dnf': "X'.Y'.Z.W + X'.Y.Z'.W + X'.Y.Z.W' + X'.Y.Z.W + X.Y'.Z'.W + X.Y'.Z.W' "
-         "+ X.Y'.Z.W + X.Y.Z'.W' + X.Y.Z'.W + X.Y.Z.W'",
-  'dnf_dict': {'default': "X'.Y'.Z.W + X'.Y.Z'.W + X'.Y.Z.W' + X'.Y.Z.W + "
-                          "X.Y'.Z'.W + X.Y'.Z.W' + X.Y'.Z.W + X.Y.Z'.W' + "
-                          "X.Y.Z'.W + X.Y.Z.W'",
-               'explained': ['dnf not explained'],
-               'formatted': '\\overline{X}.\\overline{Y}.Z.W + '
-                            '\\overline{X}.Y.\\overline{Z}.W + '
-                            '\\overline{X}.Y.Z.\\overline{W} + '
-                            '\\overline{X}.Y.Z.W + '
-                            'X.\\overline{Y}.\\overline{Z}.W + '
-                            'X.\\overline{Y}.Z.\\overline{W} + '
-                            'X.\\overline{Y}.Z.W + '
-                            'X.Y.\\overline{Z}.\\overline{W} + '
-                            'X.Y.\\overline{Z}.W + X.Y.Z.\\overline{W}',
-               'terms': []},
-  'dontcares': [],
-  'formatted_simplification': ['\\implicant{12}{13}',
-                               '\\implicant{10}{11}',
-                               '\\implicant{9}{11}',
-                               '\\implicant{6}{14}',
-                               '\\implicant{5}{13}',
-                               '\\implicant{3}{7}'],
-  'function_name': 'F0',
-  'maxterms': [0, 1, 2, 4, 8, 15],
-  'method': 'sop',
-  'minterms': [3, 5, 6, 7, 9, 10, 11, 12, 13, 14],
-  'nand_dnf': "(X'↑Y'↑Z↑W)⊼(X'↑Y↑Z'↑W)⊼(X'↑Y↑Z↑W')⊼(X'↑Y↑Z↑W)⊼(X↑Y'↑Z'↑W)⊼(X↑Y'↑Z↑W')⊼(X↑Y'↑Z↑W)⊼(X↑Y↑Z'↑W')⊼(X↑Y↑Z'↑W)⊼(X↑Y↑Z↑W')",
-  'nand_dnf_dict': {'default': "(X'↑Y'↑Z↑W)⊼(X'↑Y↑Z'↑W)⊼(X'↑Y↑Z↑W')⊼(X'↑Y↑Z↑W)⊼(X↑Y'↑Z'↑W)⊼(X↑Y'↑Z↑W')⊼(X↑Y'↑Z↑W)⊼(X↑Y↑Z'↑W')⊼(X↑Y↑Z'↑W)⊼(X↑Y↑Z↑W')",
-                    'explained': ['\\overline{\\overline{\\overline{X}.\\overline{Y}.Z.W '
-                                  '+ \\overline{X}.Y.\\overline{Z}.W + '
-                                  '\\overline{X}.Y.Z.\\overline{W} + '
-                                  '\\overline{X}.Y.Z.W + '
-                                  'X.\\overline{Y}.\\overline{Z}.W + '
-                                  'X.\\overline{Y}.Z.\\overline{W} + '
-                                  'X.\\overline{Y}.Z.W + '
-                                  'X.Y.\\overline{Z}.\\overline{W} + '
-                                  'X.Y.\\overline{Z}.W + X.Y.Z.\\overline{W}}}',
-                                  '\\overline{\\overline{\\overline{X}.\\overline{Y}.Z.W '
-                                  '}.\\overline{ '
-                                  '\\overline{X}.Y.\\overline{Z}.W '
-                                  '}.\\overline{ '
-                                  '\\overline{X}.Y.Z.\\overline{W} '
-                                  '}.\\overline{ \\overline{X}.Y.Z.W '
-                                  '}.\\overline{ '
-                                  'X.\\overline{Y}.\\overline{Z}.W '
-                                  '}.\\overline{ '
-                                  'X.\\overline{Y}.Z.\\overline{W} '
-                                  '}.\\overline{ X.\\overline{Y}.Z.W '
-                                  '}.\\overline{ '
-                                  'X.Y.\\overline{Z}.\\overline{W} '
-                                  '}.\\overline{ X.Y.\\overline{Z}.W '
-                                  '}.\\overline{ X.Y.Z.\\overline{W}}}',
-                                  '(\\overline{X}\\uparrow '
-                                  '\\overline{Y}\\uparrow Z\\uparrow '
-                                  'W)\\big\\uparrow (\\overline{X}\\uparrow '
-                                  'Y\\uparrow \\overline{Z}\\uparrow '
-                                  'W)\\big\\uparrow (\\overline{X}\\uparrow '
-                                  'Y\\uparrow Z\\uparrow '
-                                  '\\overline{W})\\big\\uparrow '
-                                  '(\\overline{X}\\uparrow Y\\uparrow '
-                                  'Z\\uparrow W)\\big\\uparrow (X\\uparrow '
-                                  '\\overline{Y}\\uparrow '
-                                  '\\overline{Z}\\uparrow W)\\big\\uparrow '
-                                  '(X\\uparrow \\overline{Y}\\uparrow '
-                                  'Z\\uparrow \\overline{W})\\big\\uparrow '
-                                  '(X\\uparrow \\overline{Y}\\uparrow '
-                                  'Z\\uparrow W)\\big\\uparrow (X\\uparrow '
-                                  'Y\\uparrow \\overline{Z}\\uparrow '
-                                  '\\overline{W})\\big\\uparrow (X\\uparrow '
-                                  'Y\\uparrow \\overline{Z}\\uparrow '
-                                  'W)\\big\\uparrow (X\\uparrow Y\\uparrow '
-                                  'Z\\uparrow \\overline{W})'],
-                    'formatted': '(\\overline{X}\\uparrow '
-                                 '\\overline{Y}\\uparrow Z\\uparrow '
-                                 'W)\\big\\uparrow (\\overline{X}\\uparrow '
-                                 'Y\\uparrow \\overline{Z}\\uparrow '
-                                 'W)\\big\\uparrow (\\overline{X}\\uparrow '
-                                 'Y\\uparrow Z\\uparrow '
-                                 '\\overline{W})\\big\\uparrow '
-                                 '(\\overline{X}\\uparrow Y\\uparrow '
-                                 'Z\\uparrow W)\\big\\uparrow (X\\uparrow '
-                                 '\\overline{Y}\\uparrow '
-                                 '\\overline{Z}\\uparrow W)\\big\\uparrow '
-                                 '(X\\uparrow \\overline{Y}\\uparrow '
-                                 'Z\\uparrow \\overline{W})\\big\\uparrow '
-                                 '(X\\uparrow \\overline{Y}\\uparrow '
-                                 'Z\\uparrow W)\\big\\uparrow (X\\uparrow '
-                                 'Y\\uparrow \\overline{Z}\\uparrow '
-                                 '\\overline{W})\\big\\uparrow (X\\uparrow '
-                                 'Y\\uparrow \\overline{Z}\\uparrow '
-                                 'W)\\big\\uparrow (X\\uparrow Y\\uparrow '
-                                 'Z\\uparrow \\overline{W})',
-                    'terms': []},
-  'nand_sop': "(w↑x↑y')⊼(w↑y↑z')⊼(w↑x'↑z)⊼(x↑y↑z')⊼(x↑y'↑z)⊼(w'↑y↑z)",
-  'nand_sop_dict': {'default': "(w↑x↑y')⊼(w↑y↑z')⊼(w↑x'↑z)⊼(x↑y↑z')⊼(x↑y'↑z)⊼(w'↑y↑z)",
-                    'explained': ['\\overline{\\overline{ w.x.\\overline{y} + '
-                                  'w.y.\\overline{z} + w.\\overline{x}.z + '
-                                  'x.y.\\overline{z} + x.\\overline{y}.z + '
-                                  '\\overline{w}.y.z }}',
-                                  '\\overline{\\overline{ w.x.\\overline{y} '
-                                  '}.\\overline{ w.y.\\overline{z} '
-                                  '}.\\overline{ w.\\overline{x}.z '
-                                  '}.\\overline{ x.y.\\overline{z} '
-                                  '}.\\overline{ x.\\overline{y}.z '
-                                  '}.\\overline{ \\overline{w}.y.z }}',
-                                  '(w\\uparrow x\\uparrow '
-                                  '\\overline{y})\\big\\uparrow (w\\uparrow '
-                                  'y\\uparrow \\overline{z})\\big\\uparrow '
-                                  '(w\\uparrow \\overline{x}\\uparrow '
-                                  'z)\\big\\uparrow (x\\uparrow y\\uparrow '
-                                  '\\overline{z})\\big\\uparrow (x\\uparrow '
-                                  '\\overline{y}\\uparrow z)\\big\\uparrow '
-                                  '(\\overline{w}\\uparrow y\\uparrow z)'],
-                    'formatted': '(w\\uparrow x\\uparrow '
-                                 '\\overline{y})\\big\\uparrow (w\\uparrow '
-                                 'y\\uparrow \\overline{z})\\big\\uparrow '
-                                 '(w\\uparrow \\overline{x}\\uparrow '
-                                 'z)\\big\\uparrow (x\\uparrow y\\uparrow '
-                                 '\\overline{z})\\big\\uparrow (x\\uparrow '
-                                 '\\overline{y}\\uparrow z)\\big\\uparrow '
-                                 '(\\overline{w}\\uparrow y\\uparrow z)',
-                    'terms': []},
-  'nor_cnf': "(X↓Y↓Z↓W)⊽(X↓Y↓Z↓W')⊽(X↓Y↓Z'↓W)⊽(X↓Y'↓Z↓W)⊽(X'↓Y↓Z↓W)⊽(X'↓Y'↓Z'↓W')",
-  'nor_cnf_dict': {'default': "(X↓Y↓Z↓W)⊽(X↓Y↓Z↓W')⊽(X↓Y↓Z'↓W)⊽(X↓Y'↓Z↓W)⊽(X'↓Y↓Z↓W)⊽(X'↓Y'↓Z'↓W')",
-                   'explained': ['\\overline{\\overline{(X+Y+Z+W) . '
-                                 '(X+Y+Z+\\overline{W}) . '
-                                 '(X+Y+\\overline{Z}+W) . '
-                                 '(X+\\overline{Y}+Z+W) . '
-                                 '(\\overline{X}+Y+Z+W) . '
-                                 '(\\overline{X}+\\overline{Y}+\\overline{Z}+\\overline{W})}}',
-                                 '\\overline{\\overline{(X+Y+Z+W) '
-                                 '}+\\overline{ (X+Y+Z+\\overline{W}) '
-                                 '}+\\overline{ (X+Y+\\overline{Z}+W) '
-                                 '}+\\overline{ (X+\\overline{Y}+Z+W) '
-                                 '}+\\overline{ (\\overline{X}+Y+Z+W) '
-                                 '}+\\overline{ '
-                                 '(\\overline{X}+\\overline{Y}+\\overline{Z}+\\overline{W})}}',
-                                 '(X\\downarrow Y\\downarrow Z\\downarrow '
-                                 'W)\\big\\downarrow (X\\downarrow '
-                                 'Y\\downarrow Z\\downarrow '
-                                 '\\overline{W})\\big\\downarrow (X\\downarrow '
-                                 'Y\\downarrow \\overline{Z}\\downarrow '
-                                 'W)\\big\\downarrow (X\\downarrow '
-                                 '\\overline{Y}\\downarrow Z\\downarrow '
-                                 'W)\\big\\downarrow (\\overline{X}\\downarrow '
-                                 'Y\\downarrow Z\\downarrow W)\\big\\downarrow '
-                                 '(\\overline{X}\\downarrow '
-                                 '\\overline{Y}\\downarrow '
-                                 '\\overline{Z}\\downarrow \\overline{W})'],
-                   'formatted': '(X\\downarrow Y\\downarrow Z\\downarrow '
-                                'W)\\big\\downarrow (X\\downarrow Y\\downarrow '
-                                'Z\\downarrow \\overline{W})\\big\\downarrow '
-                                '(X\\downarrow Y\\downarrow '
-                                '\\overline{Z}\\downarrow W)\\big\\downarrow '
-                                '(X\\downarrow \\overline{Y}\\downarrow '
-                                'Z\\downarrow W)\\big\\downarrow '
-                                '(\\overline{X}\\downarrow Y\\downarrow '
-                                'Z\\downarrow W)\\big\\downarrow '
-                                '(\\overline{X}\\downarrow '
-                                '\\overline{Y}\\downarrow '
-                                '\\overline{Z}\\downarrow \\overline{W})',
-                   'terms': []},
-  'nor_pos': "(w↓x↓y)⊽(w↓x↓z)⊽(w↓y↓z)⊽(x↓y↓z)⊽(w'↓x'↓y'↓z')",
-  'nor_pos_dict': {'default': "(w↓x↓y)⊽(w↓x↓z)⊽(w↓y↓z)⊽(x↓y↓z)⊽(w'↓x'↓y'↓z')",
-                   'explained': ['\\overline{\\overline{(w+x+y).(w+x+z).(w+y+z).(x+y+z).(\\overline{w}+\\overline{x}+\\overline{y}+\\overline{z})}}',
-                                 '\\overline{\\overline{(w+x+y)}+\\overline{(w+x+z)}+\\overline{(w+y+z)}+\\overline{(x+y+z)}+\\overline{(\\overline{w}+\\overline{x}+\\overline{y}+\\overline{z})}}',
-                                 '(w\\downarrow x\\downarrow '
-                                 'y)\\big\\downarrow (w\\downarrow '
-                                 'x\\downarrow z)\\big\\downarrow '
-                                 '(w\\downarrow y\\downarrow '
-                                 'z)\\big\\downarrow (x\\downarrow '
-                                 'y\\downarrow z)\\big\\downarrow '
-                                 '(\\overline{w}\\downarrow '
-                                 '\\overline{x}\\downarrow '
-                                 '\\overline{y}\\downarrow \\overline{z})'],
-                   'formatted': '(w\\downarrow x\\downarrow y)\\big\\downarrow '
-                                '(w\\downarrow x\\downarrow z)\\big\\downarrow '
-                                '(w\\downarrow y\\downarrow z)\\big\\downarrow '
-                                '(x\\downarrow y\\downarrow z)\\big\\downarrow '
-                                '(\\overline{w}\\downarrow '
-                                '\\overline{x}\\downarrow '
-                                '\\overline{y}\\downarrow \\overline{z})',
-                   'terms': []},
-  'pos': "(w+x+y).(w+x+z).(w+y+z).(x+y+z).(w'+x'+y'+z')",
-  'pos_dict': {'default': "(w+x+y).(w+x+z).(w+y+z).(x+y+z).(w'+x'+y'+z')",
-               'explained': 'POS not explained',
-               'formatted': '(w+x+y).(w+x+z).(w+y+z).(x+y+z).(\\overline{w}+\\overline{x}+\\overline{y}+\\overline{z})',
-               'terms': []},
-  'pos_formatted': '(w+x+y).(w+x+z).(w+y+z).(x+y+z).(\\overline{w}+\\overline{x}+\\overline{y}+\\overline{z})',
-  'simplification': ["a.b.c'",
-                     "a.b'.c",
-                     "a.b'.d",
-                     "b.c.d'",
-                     "b.c'.d",
-                     "a'.c.d"],
-  'sop': " w.x.y' + w.y.z' + w.x'.z + x.y.z' + x.y'.z + w'.y.z ",
-  'sop_dict': {'default': " w.x.y' + w.y.z' + w.x'.z + x.y.z' + x.y'.z + "
-                          "w'.y.z ",
-               'explained': ['SOP not explained'],
-               'formatted': ' w.x.\\overline{y} + w.y.\\overline{z} + '
-                            'w.\\overline{x}.z + x.y.\\overline{z} + '
-                            'x.\\overline{y}.z + \\overline{w}.y.z ',
-               'terms': []},
-  'sop_formatted': ' w.x.\\overline{y} + w.y.\\overline{z} + w.\\overline{x}.z '
-                   '+ x.y.\\overline{z} + x.\\overline{y}.z + '
-                   '\\overline{w}.y.z ',
-  'table': [['XY\\ZW', '00', '01', '11', '10'],
-            ['00', '0', '0', '1', '0'],
-            ['00', '0', '1', '1', '1'],
-            ['00', '1', '1', '0', '1'],
-            ['00', '0', '1', '1', '1']],
-  'variables': ['X', 'Y', 'Z', 'W']},
- {'ab': 'XY',
-  'cd': 'ZW',
-  'cnf': "(X+Y+Z+W) . (X+Y+Z'+W') . (X+Y'+Z+W') . (X+Y'+Z'+W) . (X'+Y+Z+W') . "
-         "(X'+Y+Z'+W) . (X'+Y'+Z+W) . (X'+Y'+Z'+W')",
-  'cnf_dict': {'default': "(X+Y+Z+W) . (X+Y+Z'+W') . (X+Y'+Z+W') . (X+Y'+Z'+W) "
-                          ". (X'+Y+Z+W') . (X'+Y+Z'+W) . (X'+Y'+Z+W) . "
-                          "(X'+Y'+Z'+W')",
-               'explained': ['cnf not explained'],
-               'formatted': '(X+Y+Z+W) . (X+Y+\\overline{Z}+\\overline{W}) . '
-                            '(X+\\overline{Y}+Z+\\overline{W}) . '
-                            '(X+\\overline{Y}+\\overline{Z}+W) . '
-                            '(\\overline{X}+Y+Z+\\overline{W}) . '
-                            '(\\overline{X}+Y+\\overline{Z}+W) . '
-                            '(\\overline{X}+\\overline{Y}+Z+W) . '
-                            '(\\overline{X}+\\overline{Y}+\\overline{Z}+\\overline{W})',
-               'terms': []},
-  'dnf': "X'.Y'.Z'.W + X'.Y'.Z.W' + X'.Y.Z'.W' + X'.Y.Z.W + X.Y'.Z'.W' + "
-         "X.Y'.Z.W + X.Y.Z'.W + X.Y.Z.W'",
-  'dnf_dict': {'default': "X'.Y'.Z'.W + X'.Y'.Z.W' + X'.Y.Z'.W' + X'.Y.Z.W + "
-                          "X.Y'.Z'.W' + X.Y'.Z.W + X.Y.Z'.W + X.Y.Z.W'",
-               'explained': ['dnf not explained'],
-               'formatted': '\\overline{X}.\\overline{Y}.\\overline{Z}.W + '
-                            '\\overline{X}.\\overline{Y}.Z.\\overline{W} + '
-                            '\\overline{X}.Y.\\overline{Z}.\\overline{W} + '
-                            '\\overline{X}.Y.Z.W + '
-                            'X.\\overline{Y}.\\overline{Z}.\\overline{W} + '
-                            'X.\\overline{Y}.Z.W + X.Y.\\overline{Z}.W + '
-                            'X.Y.Z.\\overline{W}',
-               'terms': []},
-  'dontcares': [],
-  'formatted_simplification': ['\\implicant{14}{14}',
-                               '\\implicant{13}{13}',
-                               '\\implicant{11}{11}',
-                               '\\implicant{7}{7}',
-                               '\\implicant{8}{8}',
-                               '\\implicant{4}{4}',
-                               '\\implicant{2}{2}',
-                               '\\implicant{1}{1}'],
-  'function_name': 'F1',
-  'maxterms': [0, 3, 5, 6, 9, 10, 12, 15],
-  'method': 'sop',
-  'minterms': [1, 2, 4, 7, 8, 11, 13, 14],
-  'nand_dnf': "(X'↑Y'↑Z'↑W)⊼(X'↑Y'↑Z↑W')⊼(X'↑Y↑Z'↑W')⊼(X'↑Y↑Z↑W)⊼(X↑Y'↑Z'↑W')⊼(X↑Y'↑Z↑W)⊼(X↑Y↑Z'↑W)⊼(X↑Y↑Z↑W')",
-  'nand_dnf_dict': {'default': "(X'↑Y'↑Z'↑W)⊼(X'↑Y'↑Z↑W')⊼(X'↑Y↑Z'↑W')⊼(X'↑Y↑Z↑W)⊼(X↑Y'↑Z'↑W')⊼(X↑Y'↑Z↑W)⊼(X↑Y↑Z'↑W)⊼(X↑Y↑Z↑W')",
-                    'explained': ['\\overline{\\overline{\\overline{X}.\\overline{Y}.\\overline{Z}.W '
-                                  '+ '
-                                  '\\overline{X}.\\overline{Y}.Z.\\overline{W} '
-                                  '+ '
-                                  '\\overline{X}.Y.\\overline{Z}.\\overline{W} '
-                                  '+ \\overline{X}.Y.Z.W + '
-                                  'X.\\overline{Y}.\\overline{Z}.\\overline{W} '
-                                  '+ X.\\overline{Y}.Z.W + X.Y.\\overline{Z}.W '
-                                  '+ X.Y.Z.\\overline{W}}}',
-                                  '\\overline{\\overline{\\overline{X}.\\overline{Y}.\\overline{Z}.W '
-                                  '}.\\overline{ '
-                                  '\\overline{X}.\\overline{Y}.Z.\\overline{W} '
-                                  '}.\\overline{ '
-                                  '\\overline{X}.Y.\\overline{Z}.\\overline{W} '
-                                  '}.\\overline{ \\overline{X}.Y.Z.W '
-                                  '}.\\overline{ '
-                                  'X.\\overline{Y}.\\overline{Z}.\\overline{W} '
-                                  '}.\\overline{ X.\\overline{Y}.Z.W '
-                                  '}.\\overline{ X.Y.\\overline{Z}.W '
-                                  '}.\\overline{ X.Y.Z.\\overline{W}}}',
-                                  '(\\overline{X}\\uparrow '
-                                  '\\overline{Y}\\uparrow '
-                                  '\\overline{Z}\\uparrow W)\\big\\uparrow '
-                                  '(\\overline{X}\\uparrow '
-                                  '\\overline{Y}\\uparrow Z\\uparrow '
-                                  '\\overline{W})\\big\\uparrow '
-                                  '(\\overline{X}\\uparrow Y\\uparrow '
-                                  '\\overline{Z}\\uparrow '
-                                  '\\overline{W})\\big\\uparrow '
-                                  '(\\overline{X}\\uparrow Y\\uparrow '
-                                  'Z\\uparrow W)\\big\\uparrow (X\\uparrow '
-                                  '\\overline{Y}\\uparrow '
-                                  '\\overline{Z}\\uparrow '
-                                  '\\overline{W})\\big\\uparrow (X\\uparrow '
-                                  '\\overline{Y}\\uparrow Z\\uparrow '
-                                  'W)\\big\\uparrow (X\\uparrow Y\\uparrow '
-                                  '\\overline{Z}\\uparrow W)\\big\\uparrow '
-                                  '(X\\uparrow Y\\uparrow Z\\uparrow '
-                                  '\\overline{W})'],
-                    'formatted': '(\\overline{X}\\uparrow '
-                                 '\\overline{Y}\\uparrow '
-                                 '\\overline{Z}\\uparrow W)\\big\\uparrow '
-                                 '(\\overline{X}\\uparrow '
-                                 '\\overline{Y}\\uparrow Z\\uparrow '
-                                 '\\overline{W})\\big\\uparrow '
-                                 '(\\overline{X}\\uparrow Y\\uparrow '
-                                 '\\overline{Z}\\uparrow '
-                                 '\\overline{W})\\big\\uparrow '
-                                 '(\\overline{X}\\uparrow Y\\uparrow '
-                                 'Z\\uparrow W)\\big\\uparrow (X\\uparrow '
-                                 '\\overline{Y}\\uparrow '
-                                 '\\overline{Z}\\uparrow '
-                                 '\\overline{W})\\big\\uparrow (X\\uparrow '
-                                 '\\overline{Y}\\uparrow Z\\uparrow '
-                                 'W)\\big\\uparrow (X\\uparrow Y\\uparrow '
-                                 '\\overline{Z}\\uparrow W)\\big\\uparrow '
-                                 '(X\\uparrow Y\\uparrow Z\\uparrow '
-                                 '\\overline{W})',
-                    'terms': []},
-  'nand_sop': "(w↑x↑y↑z')⊼(w↑x↑y'↑z)⊼(w↑x'↑y↑z)⊼(w'↑x↑y↑z)⊼(w↑x'↑y'↑z')⊼(w'↑x↑y'↑z')⊼(w'↑x'↑y↑z')⊼(w'↑x'↑y'↑z)",
-  'nand_sop_dict': {'default': "(w↑x↑y↑z')⊼(w↑x↑y'↑z)⊼(w↑x'↑y↑z)⊼(w'↑x↑y↑z)⊼(w↑x'↑y'↑z')⊼(w'↑x↑y'↑z')⊼(w'↑x'↑y↑z')⊼(w'↑x'↑y'↑z)",
-                    'explained': ['\\overline{\\overline{ w.x.y.\\overline{z} '
-                                  '+ w.x.\\overline{y}.z + w.\\overline{x}.y.z '
-                                  '+ \\overline{w}.x.y.z + '
-                                  'w.\\overline{x}.\\overline{y}.\\overline{z} '
-                                  '+ '
-                                  '\\overline{w}.x.\\overline{y}.\\overline{z} '
-                                  '+ '
-                                  '\\overline{w}.\\overline{x}.y.\\overline{z} '
-                                  '+ '
-                                  '\\overline{w}.\\overline{x}.\\overline{y}.z '
-                                  '}}',
-                                  '\\overline{\\overline{ w.x.y.\\overline{z} '
-                                  '}.\\overline{ w.x.\\overline{y}.z '
-                                  '}.\\overline{ w.\\overline{x}.y.z '
-                                  '}.\\overline{ \\overline{w}.x.y.z '
-                                  '}.\\overline{ '
-                                  'w.\\overline{x}.\\overline{y}.\\overline{z} '
-                                  '}.\\overline{ '
-                                  '\\overline{w}.x.\\overline{y}.\\overline{z} '
-                                  '}.\\overline{ '
-                                  '\\overline{w}.\\overline{x}.y.\\overline{z} '
-                                  '}.\\overline{ '
-                                  '\\overline{w}.\\overline{x}.\\overline{y}.z '
-                                  '}}',
-                                  '(w\\uparrow x\\uparrow y\\uparrow '
-                                  '\\overline{z})\\big\\uparrow (w\\uparrow '
-                                  'x\\uparrow \\overline{y}\\uparrow '
-                                  'z)\\big\\uparrow (w\\uparrow '
-                                  '\\overline{x}\\uparrow y\\uparrow '
-                                  'z)\\big\\uparrow (\\overline{w}\\uparrow '
-                                  'x\\uparrow y\\uparrow z)\\big\\uparrow '
-                                  '(w\\uparrow \\overline{x}\\uparrow '
-                                  '\\overline{y}\\uparrow '
-                                  '\\overline{z})\\big\\uparrow '
-                                  '(\\overline{w}\\uparrow x\\uparrow '
-                                  '\\overline{y}\\uparrow '
-                                  '\\overline{z})\\big\\uparrow '
-                                  '(\\overline{w}\\uparrow '
-                                  '\\overline{x}\\uparrow y\\uparrow '
-                                  '\\overline{z})\\big\\uparrow '
-                                  '(\\overline{w}\\uparrow '
-                                  '\\overline{x}\\uparrow '
-                                  '\\overline{y}\\uparrow z)'],
-                    'formatted': '(w\\uparrow x\\uparrow y\\uparrow '
-                                 '\\overline{z})\\big\\uparrow (w\\uparrow '
-                                 'x\\uparrow \\overline{y}\\uparrow '
-                                 'z)\\big\\uparrow (w\\uparrow '
-                                 '\\overline{x}\\uparrow y\\uparrow '
-                                 'z)\\big\\uparrow (\\overline{w}\\uparrow '
-                                 'x\\uparrow y\\uparrow z)\\big\\uparrow '
-                                 '(w\\uparrow \\overline{x}\\uparrow '
-                                 '\\overline{y}\\uparrow '
-                                 '\\overline{z})\\big\\uparrow '
-                                 '(\\overline{w}\\uparrow x\\uparrow '
-                                 '\\overline{y}\\uparrow '
-                                 '\\overline{z})\\big\\uparrow '
-                                 '(\\overline{w}\\uparrow '
-                                 '\\overline{x}\\uparrow y\\uparrow '
-                                 '\\overline{z})\\big\\uparrow '
-                                 '(\\overline{w}\\uparrow '
-                                 '\\overline{x}\\uparrow '
-                                 '\\overline{y}\\uparrow z)',
-                    'terms': []},
-  'nor_cnf': "(X↓Y↓Z↓W)⊽(X↓Y↓Z'↓W')⊽(X↓Y'↓Z↓W')⊽(X↓Y'↓Z'↓W)⊽(X'↓Y↓Z↓W')⊽(X'↓Y↓Z'↓W)⊽(X'↓Y'↓Z↓W)⊽(X'↓Y'↓Z'↓W')",
-  'nor_cnf_dict': {'default': "(X↓Y↓Z↓W)⊽(X↓Y↓Z'↓W')⊽(X↓Y'↓Z↓W')⊽(X↓Y'↓Z'↓W)⊽(X'↓Y↓Z↓W')⊽(X'↓Y↓Z'↓W)⊽(X'↓Y'↓Z↓W)⊽(X'↓Y'↓Z'↓W')",
-                   'explained': ['\\overline{\\overline{(X+Y+Z+W) . '
-                                 '(X+Y+\\overline{Z}+\\overline{W}) . '
-                                 '(X+\\overline{Y}+Z+\\overline{W}) . '
-                                 '(X+\\overline{Y}+\\overline{Z}+W) . '
-                                 '(\\overline{X}+Y+Z+\\overline{W}) . '
-                                 '(\\overline{X}+Y+\\overline{Z}+W) . '
-                                 '(\\overline{X}+\\overline{Y}+Z+W) . '
-                                 '(\\overline{X}+\\overline{Y}+\\overline{Z}+\\overline{W})}}',
-                                 '\\overline{\\overline{(X+Y+Z+W) '
-                                 '}+\\overline{ '
-                                 '(X+Y+\\overline{Z}+\\overline{W}) '
-                                 '}+\\overline{ '
-                                 '(X+\\overline{Y}+Z+\\overline{W}) '
-                                 '}+\\overline{ '
-                                 '(X+\\overline{Y}+\\overline{Z}+W) '
-                                 '}+\\overline{ '
-                                 '(\\overline{X}+Y+Z+\\overline{W}) '
-                                 '}+\\overline{ '
-                                 '(\\overline{X}+Y+\\overline{Z}+W) '
-                                 '}+\\overline{ '
-                                 '(\\overline{X}+\\overline{Y}+Z+W) '
-                                 '}+\\overline{ '
-                                 '(\\overline{X}+\\overline{Y}+\\overline{Z}+\\overline{W})}}',
-                                 '(X\\downarrow Y\\downarrow Z\\downarrow '
-                                 'W)\\big\\downarrow (X\\downarrow '
-                                 'Y\\downarrow \\overline{Z}\\downarrow '
-                                 '\\overline{W})\\big\\downarrow (X\\downarrow '
-                                 '\\overline{Y}\\downarrow Z\\downarrow '
-                                 '\\overline{W})\\big\\downarrow (X\\downarrow '
-                                 '\\overline{Y}\\downarrow '
-                                 '\\overline{Z}\\downarrow W)\\big\\downarrow '
-                                 '(\\overline{X}\\downarrow Y\\downarrow '
-                                 'Z\\downarrow \\overline{W})\\big\\downarrow '
-                                 '(\\overline{X}\\downarrow Y\\downarrow '
-                                 '\\overline{Z}\\downarrow W)\\big\\downarrow '
-                                 '(\\overline{X}\\downarrow '
-                                 '\\overline{Y}\\downarrow Z\\downarrow '
-                                 'W)\\big\\downarrow (\\overline{X}\\downarrow '
-                                 '\\overline{Y}\\downarrow '
-                                 '\\overline{Z}\\downarrow \\overline{W})'],
-                   'formatted': '(X\\downarrow Y\\downarrow Z\\downarrow '
-                                'W)\\big\\downarrow (X\\downarrow Y\\downarrow '
-                                '\\overline{Z}\\downarrow '
-                                '\\overline{W})\\big\\downarrow (X\\downarrow '
-                                '\\overline{Y}\\downarrow Z\\downarrow '
-                                '\\overline{W})\\big\\downarrow (X\\downarrow '
-                                '\\overline{Y}\\downarrow '
-                                '\\overline{Z}\\downarrow W)\\big\\downarrow '
-                                '(\\overline{X}\\downarrow Y\\downarrow '
-                                'Z\\downarrow \\overline{W})\\big\\downarrow '
-                                '(\\overline{X}\\downarrow Y\\downarrow '
-                                '\\overline{Z}\\downarrow W)\\big\\downarrow '
-                                '(\\overline{X}\\downarrow '
-                                '\\overline{Y}\\downarrow Z\\downarrow '
-                                'W)\\big\\downarrow (\\overline{X}\\downarrow '
-                                '\\overline{Y}\\downarrow '
-                                '\\overline{Z}\\downarrow \\overline{W})',
-                   'terms': []},
-  'nor_pos': "(w↓x↓y↓z)⊽(w↓x↓y'↓z')⊽(w↓x'↓y↓z')⊽(w↓x'↓y'↓z)⊽(w'↓x↓y↓z')⊽(w'↓x↓y'↓z)⊽(w'↓x'↓y↓z)⊽(w'↓x'↓y'↓z')",
-  'nor_pos_dict': {'default': "(w↓x↓y↓z)⊽(w↓x↓y'↓z')⊽(w↓x'↓y↓z')⊽(w↓x'↓y'↓z)⊽(w'↓x↓y↓z')⊽(w'↓x↓y'↓z)⊽(w'↓x'↓y↓z)⊽(w'↓x'↓y'↓z')",
-                   'explained': ['\\overline{\\overline{(w+x+y+z).(w+x+\\overline{y}+\\overline{z}).(w+\\overline{x}+y+\\overline{z}).(w+\\overline{x}+\\overline{y}+z).(\\overline{w}+x+y+\\overline{z}).(\\overline{w}+x+\\overline{y}+z).(\\overline{w}+\\overline{x}+y+z).(\\overline{w}+\\overline{x}+\\overline{y}+\\overline{z})}}',
-                                 '\\overline{\\overline{(w+x+y+z)}+\\overline{(w+x+\\overline{y}+\\overline{z})}+\\overline{(w+\\overline{x}+y+\\overline{z})}+\\overline{(w+\\overline{x}+\\overline{y}+z)}+\\overline{(\\overline{w}+x+y+\\overline{z})}+\\overline{(\\overline{w}+x+\\overline{y}+z)}+\\overline{(\\overline{w}+\\overline{x}+y+z)}+\\overline{(\\overline{w}+\\overline{x}+\\overline{y}+\\overline{z})}}',
-                                 '(w\\downarrow x\\downarrow y\\downarrow '
-                                 'z)\\big\\downarrow (w\\downarrow '
-                                 'x\\downarrow \\overline{y}\\downarrow '
-                                 '\\overline{z})\\big\\downarrow (w\\downarrow '
-                                 '\\overline{x}\\downarrow y\\downarrow '
-                                 '\\overline{z})\\big\\downarrow (w\\downarrow '
-                                 '\\overline{x}\\downarrow '
-                                 '\\overline{y}\\downarrow z)\\big\\downarrow '
-                                 '(\\overline{w}\\downarrow x\\downarrow '
-                                 'y\\downarrow \\overline{z})\\big\\downarrow '
-                                 '(\\overline{w}\\downarrow x\\downarrow '
-                                 '\\overline{y}\\downarrow z)\\big\\downarrow '
-                                 '(\\overline{w}\\downarrow '
-                                 '\\overline{x}\\downarrow y\\downarrow '
-                                 'z)\\big\\downarrow (\\overline{w}\\downarrow '
-                                 '\\overline{x}\\downarrow '
-                                 '\\overline{y}\\downarrow \\overline{z})'],
-                   'formatted': '(w\\downarrow x\\downarrow y\\downarrow '
-                                'z)\\big\\downarrow (w\\downarrow x\\downarrow '
-                                '\\overline{y}\\downarrow '
-                                '\\overline{z})\\big\\downarrow (w\\downarrow '
-                                '\\overline{x}\\downarrow y\\downarrow '
-                                '\\overline{z})\\big\\downarrow (w\\downarrow '
-                                '\\overline{x}\\downarrow '
-                                '\\overline{y}\\downarrow z)\\big\\downarrow '
-                                '(\\overline{w}\\downarrow x\\downarrow '
-                                'y\\downarrow \\overline{z})\\big\\downarrow '
-                                '(\\overline{w}\\downarrow x\\downarrow '
-                                '\\overline{y}\\downarrow z)\\big\\downarrow '
-                                '(\\overline{w}\\downarrow '
-                                '\\overline{x}\\downarrow y\\downarrow '
-                                'z)\\big\\downarrow (\\overline{w}\\downarrow '
-                                '\\overline{x}\\downarrow '
-                                '\\overline{y}\\downarrow \\overline{z})',
-                   'terms': []},
-  'pos': "(w+x+y+z).(w+x+y'+z').(w+x'+y+z').(w+x'+y'+z).(w'+x+y+z').(w'+x+y'+z).(w'+x'+y+z).(w'+x'+y'+z')",
-  'pos_dict': {'default': "(w+x+y+z).(w+x+y'+z').(w+x'+y+z').(w+x'+y'+z).(w'+x+y+z').(w'+x+y'+z).(w'+x'+y+z).(w'+x'+y'+z')",
-               'explained': 'POS not explained',
-               'formatted': '(w+x+y+z).(w+x+\\overline{y}+\\overline{z}).(w+\\overline{x}+y+\\overline{z}).(w+\\overline{x}+\\overline{y}+z).(\\overline{w}+x+y+\\overline{z}).(\\overline{w}+x+\\overline{y}+z).(\\overline{w}+\\overline{x}+y+z).(\\overline{w}+\\overline{x}+\\overline{y}+\\overline{z})',
-               'terms': []},
-  'pos_formatted': '(w+x+y+z).(w+x+\\overline{y}+\\overline{z}).(w+\\overline{x}+y+\\overline{z}).(w+\\overline{x}+\\overline{y}+z).(\\overline{w}+x+y+\\overline{z}).(\\overline{w}+x+\\overline{y}+z).(\\overline{w}+\\overline{x}+y+z).(\\overline{w}+\\overline{x}+\\overline{y}+\\overline{z})',
-  'simplification': ["a.b.c.d'",
-                     "a.b.c'.d",
-                     "a.b'.c.d",
-                     "a'.b.c.d",
-                     "a.b'.c'.d'",
-                     "a'.b.c'.d'",
-                     "a'.b'.c.d'",
-                     "a'.b'.c'.d"],
-  'sop': " w.x.y.z' + w.x.y'.z + w.x'.y.z + w'.x.y.z + w.x'.y'.z' + w'.x.y'.z' "
-         "+ w'.x'.y.z' + w'.x'.y'.z ",
-  'sop_dict': {'default': " w.x.y.z' + w.x.y'.z + w.x'.y.z + w'.x.y.z + "
-                          "w.x'.y'.z' + w'.x.y'.z' + w'.x'.y.z' + w'.x'.y'.z ",
-               'explained': ['SOP not explained'],
-               'formatted': ' w.x.y.\\overline{z} + w.x.\\overline{y}.z + '
-                            'w.\\overline{x}.y.z + \\overline{w}.x.y.z + '
-                            'w.\\overline{x}.\\overline{y}.\\overline{z} + '
-                            '\\overline{w}.x.\\overline{y}.\\overline{z} + '
-                            '\\overline{w}.\\overline{x}.y.\\overline{z} + '
-                            '\\overline{w}.\\overline{x}.\\overline{y}.z ',
-               'terms': []},
-  'sop_formatted': ' w.x.y.\\overline{z} + w.x.\\overline{y}.z + '
-                   'w.\\overline{x}.y.z + \\overline{w}.x.y.z + '
-                   'w.\\overline{x}.\\overline{y}.\\overline{z} + '
-                   '\\overline{w}.x.\\overline{y}.\\overline{z} + '
-                   '\\overline{w}.\\overline{x}.y.\\overline{z} + '
-                   '\\overline{w}.\\overline{x}.\\overline{y}.z ',
-  'table': [['XY\\ZW', '00', '01', '11', '10'],
-            ['00', '0', '1', '0', '1'],
-            ['00', '1', '0', '1', '0'],
-            ['00', '0', '1', '0', '1'],
-            ['00', '1', '0', '1', '0']],
-  'variables': ['X', 'Y', 'Z', 'W']},
- {'ab': 'XY',
-  'cd': 'ZW',
-  'cnf': "(X'+Y+Z+W) . (X'+Y+Z+W') . (X'+Y+Z'+W) . (X'+Y'+Z+W') . (X'+Y'+Z'+W) "
-         ". (X'+Y'+Z'+W')",
-  'cnf_dict': {'default': "(X'+Y+Z+W) . (X'+Y+Z+W') . (X'+Y+Z'+W) . "
-                          "(X'+Y'+Z+W') . (X'+Y'+Z'+W) . (X'+Y'+Z'+W')",
-               'explained': ['cnf not explained'],
-               'formatted': '(\\overline{X}+Y+Z+W) . '
-                            '(\\overline{X}+Y+Z+\\overline{W}) . '
-                            '(\\overline{X}+Y+\\overline{Z}+W) . '
-                            '(\\overline{X}+\\overline{Y}+Z+\\overline{W}) . '
-                            '(\\overline{X}+\\overline{Y}+\\overline{Z}+W) . '
-                            '(\\overline{X}+\\overline{Y}+\\overline{Z}+\\overline{W})',
-               'terms': []},
-  'dnf': "X'.Y'.Z'.W' + X'.Y'.Z'.W + X'.Y'.Z.W' + X'.Y'.Z.W + X'.Y.Z'.W' + "
-         "X'.Y.Z'.W + X'.Y.Z.W' + X'.Y.Z.W + X.Y'.Z.W + X.Y.Z'.W'",
-  'dnf_dict': {'default': "X'.Y'.Z'.W' + X'.Y'.Z'.W + X'.Y'.Z.W' + X'.Y'.Z.W + "
-                          "X'.Y.Z'.W' + X'.Y.Z'.W + X'.Y.Z.W' + X'.Y.Z.W + "
-                          "X.Y'.Z.W + X.Y.Z'.W'",
-               'explained': ['dnf not explained'],
-               'formatted': '\\overline{X}.\\overline{Y}.\\overline{Z}.\\overline{W} '
-                            '+ \\overline{X}.\\overline{Y}.\\overline{Z}.W + '
-                            '\\overline{X}.\\overline{Y}.Z.\\overline{W} + '
-                            '\\overline{X}.\\overline{Y}.Z.W + '
-                            '\\overline{X}.Y.\\overline{Z}.\\overline{W} + '
-                            '\\overline{X}.Y.\\overline{Z}.W + '
-                            '\\overline{X}.Y.Z.\\overline{W} + '
-                            '\\overline{X}.Y.Z.W + X.\\overline{Y}.Z.W + '
-                            'X.Y.\\overline{Z}.\\overline{W}',
-               'terms': []},
-  'dontcares': [],
-  'formatted_simplification': ['\\implicant{0}{6}',
-                               '\\implicantedge{3}{3}{11}{11}',
-                               '\\implicant{4}{12}'],
-  'function_name': 'F2',
-  'maxterms': [8, 9, 10, 13, 14, 15],
-  'method': 'sop',
-  'minterms': [0, 1, 2, 3, 4, 5, 6, 7, 11, 12],
-  'nand_dnf': "(X'↑Y'↑Z'↑W')⊼(X'↑Y'↑Z'↑W)⊼(X'↑Y'↑Z↑W')⊼(X'↑Y'↑Z↑W)⊼(X'↑Y↑Z'↑W')⊼(X'↑Y↑Z'↑W)⊼(X'↑Y↑Z↑W')⊼(X'↑Y↑Z↑W)⊼(X↑Y'↑Z↑W)⊼(X↑Y↑Z'↑W')",
-  'nand_dnf_dict': {'default': "(X'↑Y'↑Z'↑W')⊼(X'↑Y'↑Z'↑W)⊼(X'↑Y'↑Z↑W')⊼(X'↑Y'↑Z↑W)⊼(X'↑Y↑Z'↑W')⊼(X'↑Y↑Z'↑W)⊼(X'↑Y↑Z↑W')⊼(X'↑Y↑Z↑W)⊼(X↑Y'↑Z↑W)⊼(X↑Y↑Z'↑W')",
-                    'explained': ['\\overline{\\overline{\\overline{X}.\\overline{Y}.\\overline{Z}.\\overline{W} '
-                                  '+ '
-                                  '\\overline{X}.\\overline{Y}.\\overline{Z}.W '
-                                  '+ '
-                                  '\\overline{X}.\\overline{Y}.Z.\\overline{W} '
-                                  '+ \\overline{X}.\\overline{Y}.Z.W + '
-                                  '\\overline{X}.Y.\\overline{Z}.\\overline{W} '
-                                  '+ \\overline{X}.Y.\\overline{Z}.W + '
-                                  '\\overline{X}.Y.Z.\\overline{W} + '
-                                  '\\overline{X}.Y.Z.W + X.\\overline{Y}.Z.W + '
-                                  'X.Y.\\overline{Z}.\\overline{W}}}',
-                                  '\\overline{\\overline{\\overline{X}.\\overline{Y}.\\overline{Z}.\\overline{W} '
-                                  '}.\\overline{ '
-                                  '\\overline{X}.\\overline{Y}.\\overline{Z}.W '
-                                  '}.\\overline{ '
-                                  '\\overline{X}.\\overline{Y}.Z.\\overline{W} '
-                                  '}.\\overline{ '
-                                  '\\overline{X}.\\overline{Y}.Z.W '
-                                  '}.\\overline{ '
-                                  '\\overline{X}.Y.\\overline{Z}.\\overline{W} '
-                                  '}.\\overline{ '
-                                  '\\overline{X}.Y.\\overline{Z}.W '
-                                  '}.\\overline{ '
-                                  '\\overline{X}.Y.Z.\\overline{W} '
-                                  '}.\\overline{ \\overline{X}.Y.Z.W '
-                                  '}.\\overline{ X.\\overline{Y}.Z.W '
-                                  '}.\\overline{ '
-                                  'X.Y.\\overline{Z}.\\overline{W}}}',
-                                  '(\\overline{X}\\uparrow '
-                                  '\\overline{Y}\\uparrow '
-                                  '\\overline{Z}\\uparrow '
-                                  '\\overline{W})\\big\\uparrow '
-                                  '(\\overline{X}\\uparrow '
-                                  '\\overline{Y}\\uparrow '
-                                  '\\overline{Z}\\uparrow W)\\big\\uparrow '
-                                  '(\\overline{X}\\uparrow '
-                                  '\\overline{Y}\\uparrow Z\\uparrow '
-                                  '\\overline{W})\\big\\uparrow '
-                                  '(\\overline{X}\\uparrow '
-                                  '\\overline{Y}\\uparrow Z\\uparrow '
-                                  'W)\\big\\uparrow (\\overline{X}\\uparrow '
-                                  'Y\\uparrow \\overline{Z}\\uparrow '
-                                  '\\overline{W})\\big\\uparrow '
-                                  '(\\overline{X}\\uparrow Y\\uparrow '
-                                  '\\overline{Z}\\uparrow W)\\big\\uparrow '
-                                  '(\\overline{X}\\uparrow Y\\uparrow '
-                                  'Z\\uparrow \\overline{W})\\big\\uparrow '
-                                  '(\\overline{X}\\uparrow Y\\uparrow '
-                                  'Z\\uparrow W)\\big\\uparrow (X\\uparrow '
-                                  '\\overline{Y}\\uparrow Z\\uparrow '
-                                  'W)\\big\\uparrow (X\\uparrow Y\\uparrow '
-                                  '\\overline{Z}\\uparrow \\overline{W})'],
-                    'formatted': '(\\overline{X}\\uparrow '
-                                 '\\overline{Y}\\uparrow '
-                                 '\\overline{Z}\\uparrow '
-                                 '\\overline{W})\\big\\uparrow '
-                                 '(\\overline{X}\\uparrow '
-                                 '\\overline{Y}\\uparrow '
-                                 '\\overline{Z}\\uparrow W)\\big\\uparrow '
-                                 '(\\overline{X}\\uparrow '
-                                 '\\overline{Y}\\uparrow Z\\uparrow '
-                                 '\\overline{W})\\big\\uparrow '
-                                 '(\\overline{X}\\uparrow '
-                                 '\\overline{Y}\\uparrow Z\\uparrow '
-                                 'W)\\big\\uparrow (\\overline{X}\\uparrow '
-                                 'Y\\uparrow \\overline{Z}\\uparrow '
-                                 '\\overline{W})\\big\\uparrow '
-                                 '(\\overline{X}\\uparrow Y\\uparrow '
-                                 '\\overline{Z}\\uparrow W)\\big\\uparrow '
-                                 '(\\overline{X}\\uparrow Y\\uparrow '
-                                 'Z\\uparrow \\overline{W})\\big\\uparrow '
-                                 '(\\overline{X}\\uparrow Y\\uparrow '
-                                 'Z\\uparrow W)\\big\\uparrow (X\\uparrow '
-                                 '\\overline{Y}\\uparrow Z\\uparrow '
-                                 'W)\\big\\uparrow (X\\uparrow Y\\uparrow '
-                                 '\\overline{Z}\\uparrow \\overline{W})',
-                    'terms': []},
-  'nand_sop': "(x)⊼(w↑y'↑z)⊼(w'↑y↑z')",
-  'nand_sop_dict': {'default': "(x)⊼(w↑y'↑z)⊼(w'↑y↑z')",
-                    'explained': ['\\overline{\\overline{ \\overline{x} + '
-                                  'w.\\overline{y}.z + '
-                                  '\\overline{w}.y.\\overline{z} }}',
-                                  '\\overline{\\overline{ \\overline{x} '
-                                  '}.\\overline{ w.\\overline{y}.z '
-                                  '}.\\overline{ \\overline{w}.y.\\overline{z} '
-                                  '}}',
-                                  '(x)\\big\\uparrow (w\\uparrow '
-                                  '\\overline{y}\\uparrow z)\\big\\uparrow '
-                                  '(\\overline{w}\\uparrow y\\uparrow '
-                                  '\\overline{z})'],
-                    'formatted': '(x)\\big\\uparrow (w\\uparrow '
-                                 '\\overline{y}\\uparrow z)\\big\\uparrow '
-                                 '(\\overline{w}\\uparrow y\\uparrow '
-                                 '\\overline{z})',
-                    'terms': []},
-  'nor_cnf': "(X'↓Y↓Z↓W)⊽(X'↓Y↓Z↓W')⊽(X'↓Y↓Z'↓W)⊽(X'↓Y'↓Z↓W')⊽(X'↓Y'↓Z'↓W)⊽(X'↓Y'↓Z'↓W')",
-  'nor_cnf_dict': {'default': "(X'↓Y↓Z↓W)⊽(X'↓Y↓Z↓W')⊽(X'↓Y↓Z'↓W)⊽(X'↓Y'↓Z↓W')⊽(X'↓Y'↓Z'↓W)⊽(X'↓Y'↓Z'↓W')",
-                   'explained': ['\\overline{\\overline{(\\overline{X}+Y+Z+W) '
-                                 '. (\\overline{X}+Y+Z+\\overline{W}) . '
-                                 '(\\overline{X}+Y+\\overline{Z}+W) . '
-                                 '(\\overline{X}+\\overline{Y}+Z+\\overline{W}) '
-                                 '. '
-                                 '(\\overline{X}+\\overline{Y}+\\overline{Z}+W) '
-                                 '. '
-                                 '(\\overline{X}+\\overline{Y}+\\overline{Z}+\\overline{W})}}',
-                                 '\\overline{\\overline{(\\overline{X}+Y+Z+W) '
-                                 '}+\\overline{ '
-                                 '(\\overline{X}+Y+Z+\\overline{W}) '
-                                 '}+\\overline{ '
-                                 '(\\overline{X}+Y+\\overline{Z}+W) '
-                                 '}+\\overline{ '
-                                 '(\\overline{X}+\\overline{Y}+Z+\\overline{W}) '
-                                 '}+\\overline{ '
-                                 '(\\overline{X}+\\overline{Y}+\\overline{Z}+W) '
-                                 '}+\\overline{ '
-                                 '(\\overline{X}+\\overline{Y}+\\overline{Z}+\\overline{W})}}',
-                                 '(\\overline{X}\\downarrow Y\\downarrow '
-                                 'Z\\downarrow W)\\big\\downarrow '
-                                 '(\\overline{X}\\downarrow Y\\downarrow '
-                                 'Z\\downarrow \\overline{W})\\big\\downarrow '
-                                 '(\\overline{X}\\downarrow Y\\downarrow '
-                                 '\\overline{Z}\\downarrow W)\\big\\downarrow '
-                                 '(\\overline{X}\\downarrow '
-                                 '\\overline{Y}\\downarrow Z\\downarrow '
-                                 '\\overline{W})\\big\\downarrow '
-                                 '(\\overline{X}\\downarrow '
-                                 '\\overline{Y}\\downarrow '
-                                 '\\overline{Z}\\downarrow W)\\big\\downarrow '
-                                 '(\\overline{X}\\downarrow '
-                                 '\\overline{Y}\\downarrow '
-                                 '\\overline{Z}\\downarrow \\overline{W})'],
-                   'formatted': '(\\overline{X}\\downarrow Y\\downarrow '
-                                'Z\\downarrow W)\\big\\downarrow '
-                                '(\\overline{X}\\downarrow Y\\downarrow '
-                                'Z\\downarrow \\overline{W})\\big\\downarrow '
-                                '(\\overline{X}\\downarrow Y\\downarrow '
-                                '\\overline{Z}\\downarrow W)\\big\\downarrow '
-                                '(\\overline{X}\\downarrow '
-                                '\\overline{Y}\\downarrow Z\\downarrow '
-                                '\\overline{W})\\big\\downarrow '
-                                '(\\overline{X}\\downarrow '
-                                '\\overline{Y}\\downarrow '
-                                '\\overline{Z}\\downarrow W)\\big\\downarrow '
-                                '(\\overline{X}\\downarrow '
-                                '\\overline{Y}\\downarrow '
-                                '\\overline{Z}\\downarrow \\overline{W})',
-                   'terms': []},
-  'nor_pos': "(x'↓y↓z)⊽(w↓x'↓z')⊽(w'↓x'↓y')",
-  'nor_pos_dict': {'default': "(x'↓y↓z)⊽(w↓x'↓z')⊽(w'↓x'↓y')",
-                   'explained': ['\\overline{\\overline{(\\overline{x}+y+z).(w+\\overline{x}+\\overline{z}).(\\overline{w}+\\overline{x}+\\overline{y})}}',
-                                 '\\overline{\\overline{(\\overline{x}+y+z)}+\\overline{(w+\\overline{x}+\\overline{z})}+\\overline{(\\overline{w}+\\overline{x}+\\overline{y})}}',
-                                 '(\\overline{x}\\downarrow y\\downarrow '
-                                 'z)\\big\\downarrow (w\\downarrow '
-                                 '\\overline{x}\\downarrow '
-                                 '\\overline{z})\\big\\downarrow '
-                                 '(\\overline{w}\\downarrow '
-                                 '\\overline{x}\\downarrow \\overline{y})'],
-                   'formatted': '(\\overline{x}\\downarrow y\\downarrow '
-                                'z)\\big\\downarrow (w\\downarrow '
-                                '\\overline{x}\\downarrow '
-                                '\\overline{z})\\big\\downarrow '
-                                '(\\overline{w}\\downarrow '
-                                '\\overline{x}\\downarrow \\overline{y})',
-                   'terms': []},
-  'pos': "(x'+y+z).(w+x'+z').(w'+x'+y')",
-  'pos_dict': {'default': "(x'+y+z).(w+x'+z').(w'+x'+y')",
-               'explained': 'POS not explained',
-               'formatted': '(\\overline{x}+y+z).(w+\\overline{x}+\\overline{z}).(\\overline{w}+\\overline{x}+\\overline{y})',
-               'terms': []},
-  'pos_formatted': '(\\overline{x}+y+z).(w+\\overline{x}+\\overline{z}).(\\overline{w}+\\overline{x}+\\overline{y})',
-  'simplification': ["a'", "b'.c.d", "b.c'.d'"],
-  'sop': " x' + w.y'.z + w'.y.z' ",
-  'sop_dict': {'default': " x' + w.y'.z + w'.y.z' ",
-               'explained': ['SOP not explained'],
-               'formatted': ' \\overline{x} + w.\\overline{y}.z + '
-                            '\\overline{w}.y.\\overline{z} ',
-               'terms': []},
-  'sop_formatted': ' \\overline{x} + w.\\overline{y}.z + '
-                   '\\overline{w}.y.\\overline{z} ',
-  'table': [['XY\\ZW', '00', '01', '11', '10'],
-            ['00', '1', '1', '1', '1'],
-            ['00', '1', '1', '1', '1'],
-            ['00', '1', '0', '0', '0'],
-            ['00', '0', '0', '1', '0']],
-  'variables': ['X', 'Y', 'Z', 'W']},
- {'ab': 'XY',
-  'cd': 'ZW',
-  'cnf': "(X'+Y+Z+W) . (X'+Y+Z+W') . (X'+Y+Z'+W) . (X'+Y+Z'+W') . (X'+Y'+Z+W) "
-         ". (X'+Y'+Z+W') . (X'+Y'+Z'+W) . (X'+Y'+Z'+W')",
-  'cnf_dict': {'default': "(X'+Y+Z+W) . (X'+Y+Z+W') . (X'+Y+Z'+W) . "
-                          "(X'+Y+Z'+W') . (X'+Y'+Z+W) . (X'+Y'+Z+W') . "
-                          "(X'+Y'+Z'+W) . (X'+Y'+Z'+W')",
-               'explained': ['cnf not explained'],
-               'formatted': '(\\overline{X}+Y+Z+W) . '
-                            '(\\overline{X}+Y+Z+\\overline{W}) . '
-                            '(\\overline{X}+Y+\\overline{Z}+W) . '
-                            '(\\overline{X}+Y+\\overline{Z}+\\overline{W}) . '
-                            '(\\overline{X}+\\overline{Y}+Z+W) . '
-                            '(\\overline{X}+\\overline{Y}+Z+\\overline{W}) . '
-                            '(\\overline{X}+\\overline{Y}+\\overline{Z}+W) . '
-                            '(\\overline{X}+\\overline{Y}+\\overline{Z}+\\overline{W})',
-               'terms': []},
-  'dnf': "X'.Y'.Z'.W' + X'.Y'.Z'.W + X'.Y'.Z.W' + X'.Y'.Z.W + X'.Y.Z'.W' + "
-         "X'.Y.Z'.W + X'.Y.Z.W' + X'.Y.Z.W",
-  'dnf_dict': {'default': "X'.Y'.Z'.W' + X'.Y'.Z'.W + X'.Y'.Z.W' + X'.Y'.Z.W + "
-                          "X'.Y.Z'.W' + X'.Y.Z'.W + X'.Y.Z.W' + X'.Y.Z.W",
-               'explained': ['dnf not explained'],
-               'formatted': '\\overline{X}.\\overline{Y}.\\overline{Z}.\\overline{W} '
-                            '+ \\overline{X}.\\overline{Y}.\\overline{Z}.W + '
-                            '\\overline{X}.\\overline{Y}.Z.\\overline{W} + '
-                            '\\overline{X}.\\overline{Y}.Z.W + '
-                            '\\overline{X}.Y.\\overline{Z}.\\overline{W} + '
-                            '\\overline{X}.Y.\\overline{Z}.W + '
-                            '\\overline{X}.Y.Z.\\overline{W} + '
-                            '\\overline{X}.Y.Z.W',
-               'terms': []},
-  'dontcares': [],
-  'formatted_simplification': ['\\implicant{0}{6}'],
-  'function_name': 'F3',
-  'maxterms': [8, 9, 10, 11, 12, 13, 14, 15],
-  'method': 'sop',
-  'minterms': [0, 1, 2, 3, 4, 5, 6, 7],
-  'nand_dnf': "(X'↑Y'↑Z'↑W')⊼(X'↑Y'↑Z'↑W)⊼(X'↑Y'↑Z↑W')⊼(X'↑Y'↑Z↑W)⊼(X'↑Y↑Z'↑W')⊼(X'↑Y↑Z'↑W)⊼(X'↑Y↑Z↑W')⊼(X'↑Y↑Z↑W)",
-  'nand_dnf_dict': {'default': "(X'↑Y'↑Z'↑W')⊼(X'↑Y'↑Z'↑W)⊼(X'↑Y'↑Z↑W')⊼(X'↑Y'↑Z↑W)⊼(X'↑Y↑Z'↑W')⊼(X'↑Y↑Z'↑W)⊼(X'↑Y↑Z↑W')⊼(X'↑Y↑Z↑W)",
-                    'explained': ['\\overline{\\overline{\\overline{X}.\\overline{Y}.\\overline{Z}.\\overline{W} '
-                                  '+ '
-                                  '\\overline{X}.\\overline{Y}.\\overline{Z}.W '
-                                  '+ '
-                                  '\\overline{X}.\\overline{Y}.Z.\\overline{W} '
-                                  '+ \\overline{X}.\\overline{Y}.Z.W + '
-                                  '\\overline{X}.Y.\\overline{Z}.\\overline{W} '
-                                  '+ \\overline{X}.Y.\\overline{Z}.W + '
-                                  '\\overline{X}.Y.Z.\\overline{W} + '
-                                  '\\overline{X}.Y.Z.W}}',
-                                  '\\overline{\\overline{\\overline{X}.\\overline{Y}.\\overline{Z}.\\overline{W} '
-                                  '}.\\overline{ '
-                                  '\\overline{X}.\\overline{Y}.\\overline{Z}.W '
-                                  '}.\\overline{ '
-                                  '\\overline{X}.\\overline{Y}.Z.\\overline{W} '
-                                  '}.\\overline{ '
-                                  '\\overline{X}.\\overline{Y}.Z.W '
-                                  '}.\\overline{ '
-                                  '\\overline{X}.Y.\\overline{Z}.\\overline{W} '
-                                  '}.\\overline{ '
-                                  '\\overline{X}.Y.\\overline{Z}.W '
-                                  '}.\\overline{ '
-                                  '\\overline{X}.Y.Z.\\overline{W} '
-                                  '}.\\overline{ \\overline{X}.Y.Z.W}}',
-                                  '(\\overline{X}\\uparrow '
-                                  '\\overline{Y}\\uparrow '
-                                  '\\overline{Z}\\uparrow '
-                                  '\\overline{W})\\big\\uparrow '
-                                  '(\\overline{X}\\uparrow '
-                                  '\\overline{Y}\\uparrow '
-                                  '\\overline{Z}\\uparrow W)\\big\\uparrow '
-                                  '(\\overline{X}\\uparrow '
-                                  '\\overline{Y}\\uparrow Z\\uparrow '
-                                  '\\overline{W})\\big\\uparrow '
-                                  '(\\overline{X}\\uparrow '
-                                  '\\overline{Y}\\uparrow Z\\uparrow '
-                                  'W)\\big\\uparrow (\\overline{X}\\uparrow '
-                                  'Y\\uparrow \\overline{Z}\\uparrow '
-                                  '\\overline{W})\\big\\uparrow '
-                                  '(\\overline{X}\\uparrow Y\\uparrow '
-                                  '\\overline{Z}\\uparrow W)\\big\\uparrow '
-                                  '(\\overline{X}\\uparrow Y\\uparrow '
-                                  'Z\\uparrow \\overline{W})\\big\\uparrow '
-                                  '(\\overline{X}\\uparrow Y\\uparrow '
-                                  'Z\\uparrow W)'],
-                    'formatted': '(\\overline{X}\\uparrow '
-                                 '\\overline{Y}\\uparrow '
-                                 '\\overline{Z}\\uparrow '
-                                 '\\overline{W})\\big\\uparrow '
-                                 '(\\overline{X}\\uparrow '
-                                 '\\overline{Y}\\uparrow '
-                                 '\\overline{Z}\\uparrow W)\\big\\uparrow '
-                                 '(\\overline{X}\\uparrow '
-                                 '\\overline{Y}\\uparrow Z\\uparrow '
-                                 '\\overline{W})\\big\\uparrow '
-                                 '(\\overline{X}\\uparrow '
-                                 '\\overline{Y}\\uparrow Z\\uparrow '
-                                 'W)\\big\\uparrow (\\overline{X}\\uparrow '
-                                 'Y\\uparrow \\overline{Z}\\uparrow '
-                                 '\\overline{W})\\big\\uparrow '
-                                 '(\\overline{X}\\uparrow Y\\uparrow '
-                                 '\\overline{Z}\\uparrow W)\\big\\uparrow '
-                                 '(\\overline{X}\\uparrow Y\\uparrow '
-                                 'Z\\uparrow \\overline{W})\\big\\uparrow '
-                                 '(\\overline{X}\\uparrow Y\\uparrow '
-                                 'Z\\uparrow W)',
-                    'terms': []},
-  'nand_sop': " x' ",
-  'nand_sop_dict': {'default': " x' ",
-                    'explained': [' \\overline{x} '],
-                    'formatted': ' \\overline{x} ',
-                    'terms': []},
-  'nor_cnf': "(X'↓Y↓Z↓W)⊽(X'↓Y↓Z↓W')⊽(X'↓Y↓Z'↓W)⊽(X'↓Y↓Z'↓W')⊽(X'↓Y'↓Z↓W)⊽(X'↓Y'↓Z↓W')⊽(X'↓Y'↓Z'↓W)⊽(X'↓Y'↓Z'↓W')",
-  'nor_cnf_dict': {'default': "(X'↓Y↓Z↓W)⊽(X'↓Y↓Z↓W')⊽(X'↓Y↓Z'↓W)⊽(X'↓Y↓Z'↓W')⊽(X'↓Y'↓Z↓W)⊽(X'↓Y'↓Z↓W')⊽(X'↓Y'↓Z'↓W)⊽(X'↓Y'↓Z'↓W')",
-                   'explained': ['\\overline{\\overline{(\\overline{X}+Y+Z+W) '
-                                 '. (\\overline{X}+Y+Z+\\overline{W}) . '
-                                 '(\\overline{X}+Y+\\overline{Z}+W) . '
-                                 '(\\overline{X}+Y+\\overline{Z}+\\overline{W}) '
-                                 '. (\\overline{X}+\\overline{Y}+Z+W) . '
-                                 '(\\overline{X}+\\overline{Y}+Z+\\overline{W}) '
-                                 '. '
-                                 '(\\overline{X}+\\overline{Y}+\\overline{Z}+W) '
-                                 '. '
-                                 '(\\overline{X}+\\overline{Y}+\\overline{Z}+\\overline{W})}}',
-                                 '\\overline{\\overline{(\\overline{X}+Y+Z+W) '
-                                 '}+\\overline{ '
-                                 '(\\overline{X}+Y+Z+\\overline{W}) '
-                                 '}+\\overline{ '
-                                 '(\\overline{X}+Y+\\overline{Z}+W) '
-                                 '}+\\overline{ '
-                                 '(\\overline{X}+Y+\\overline{Z}+\\overline{W}) '
-                                 '}+\\overline{ '
-                                 '(\\overline{X}+\\overline{Y}+Z+W) '
-                                 '}+\\overline{ '
-                                 '(\\overline{X}+\\overline{Y}+Z+\\overline{W}) '
-                                 '}+\\overline{ '
-                                 '(\\overline{X}+\\overline{Y}+\\overline{Z}+W) '
-                                 '}+\\overline{ '
-                                 '(\\overline{X}+\\overline{Y}+\\overline{Z}+\\overline{W})}}',
-                                 '(\\overline{X}\\downarrow Y\\downarrow '
-                                 'Z\\downarrow W)\\big\\downarrow '
-                                 '(\\overline{X}\\downarrow Y\\downarrow '
-                                 'Z\\downarrow \\overline{W})\\big\\downarrow '
-                                 '(\\overline{X}\\downarrow Y\\downarrow '
-                                 '\\overline{Z}\\downarrow W)\\big\\downarrow '
-                                 '(\\overline{X}\\downarrow Y\\downarrow '
-                                 '\\overline{Z}\\downarrow '
-                                 '\\overline{W})\\big\\downarrow '
-                                 '(\\overline{X}\\downarrow '
-                                 '\\overline{Y}\\downarrow Z\\downarrow '
-                                 'W)\\big\\downarrow (\\overline{X}\\downarrow '
-                                 '\\overline{Y}\\downarrow Z\\downarrow '
-                                 '\\overline{W})\\big\\downarrow '
-                                 '(\\overline{X}\\downarrow '
-                                 '\\overline{Y}\\downarrow '
-                                 '\\overline{Z}\\downarrow W)\\big\\downarrow '
-                                 '(\\overline{X}\\downarrow '
-                                 '\\overline{Y}\\downarrow '
-                                 '\\overline{Z}\\downarrow \\overline{W})'],
-                   'formatted': '(\\overline{X}\\downarrow Y\\downarrow '
-                                'Z\\downarrow W)\\big\\downarrow '
-                                '(\\overline{X}\\downarrow Y\\downarrow '
-                                'Z\\downarrow \\overline{W})\\big\\downarrow '
-                                '(\\overline{X}\\downarrow Y\\downarrow '
-                                '\\overline{Z}\\downarrow W)\\big\\downarrow '
-                                '(\\overline{X}\\downarrow Y\\downarrow '
-                                '\\overline{Z}\\downarrow '
-                                '\\overline{W})\\big\\downarrow '
-                                '(\\overline{X}\\downarrow '
-                                '\\overline{Y}\\downarrow Z\\downarrow '
-                                'W)\\big\\downarrow (\\overline{X}\\downarrow '
-                                '\\overline{Y}\\downarrow Z\\downarrow '
-                                '\\overline{W})\\big\\downarrow '
-                                '(\\overline{X}\\downarrow '
-                                '\\overline{Y}\\downarrow '
-                                '\\overline{Z}\\downarrow W)\\big\\downarrow '
-                                '(\\overline{X}\\downarrow '
-                                '\\overline{Y}\\downarrow '
-                                '\\overline{Z}\\downarrow \\overline{W})',
-                   'terms': []},
-  'nor_pos': "(x')",
-  'nor_pos_dict': {'default': "(x')",
-                   'explained': ['(\\overline{x})'],
-                   'formatted': '(\\overline{x})',
-                   'terms': []},
-  'pos': "(x')",
-  'pos_dict': {'default': "(x')",
-               'explained': 'POS not explained',
-               'formatted': '(\\overline{x})',
-               'terms': []},
-  'pos_formatted': '(\\overline{x})',
-  'simplification': ["a'"],
-  'sop': " x' ",
-  'sop_dict': {'default': " x' ",
-               'explained': ['SOP not explained'],
-               'formatted': ' \\overline{x} ',
-               'terms': []},
-  'sop_formatted': ' \\overline{x} ',
-  'table': [['XY\\ZW', '00', '01', '11', '10'],
-            ['00', '1', '1', '1', '1'],
-            ['00', '1', '1', '1', '1'],
-            ['00', '0', '0', '0', '0'],
-            ['00', '0', '0', '0', '0']],
-  'variables': ['X', 'Y', 'Z', 'W']}]
-        \end{verbatim}
+
+
     
 
 \pagebreak

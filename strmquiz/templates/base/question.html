@@ -2,8 +2,8 @@
 Convert the following numbers
 <span dir="rtl">أنجز التحويلات الآتية</span><br/>
 {% if RENDER_MODE == "question" %}
-({{ number }})<sub>{{ in_base }} </sub> = (........)<sub>{{ out_base }} </sub> <br/>
+({{ number|group4 }})<sub>{{ in_base }} </sub> = (........)<sub>{{ out_base }} </sub> <br/>
 {% elif RENDER_MODE == "answer" %}
-({{ number }})<sub>{{ in_base }} </sub>  = (  {{ output }})<sub>{{ out_base }} </sub><br/>
+({{ number|group4 }})<sub>{{ in_base }} </sub>  = (  {{ output|group4 }})<sub>{{ out_base }} </sub><br/>
 {% endif %}
 </p>
