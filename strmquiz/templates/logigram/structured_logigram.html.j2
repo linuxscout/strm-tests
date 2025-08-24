@@ -1,10 +1,11 @@
 {% set functions = logicdiagramdict.functions %}
 {% set lg = logicdiagramdict %}
   {% set gate_space = 50 %}  <!-- Define space between gates -->
-  {% set var_space = 60 %}   <!-- Define space between vars -->
-  {% set var_gate_size = 40 %}   <!-- Define space between gates vars -->
+  {% set var_space = 50 %}   <!-- Define space between vars -->
+  {% set var_gate_size = 25 %}   <!-- Define space between gates vars -->
   {% set step = 10 %}   <!-- Define step offset lines entred into a function gate -->
   {% set table_var_xpos = {lg.variables["A"]:-270, lg.variables["B"]:-210, lg.variables["C"]:-150, lg.variables["D"]:-90} %}   <!-- Define space between vars -->
+  {% set table_var_xpos = {lg.variables["A"]:-220, lg.variables["B"]:-170, lg.variables["C"]:-120, lg.variables["D"]:-70} %}   <!-- Define space between vars -->
 
 {% if lg.method.upper() == "NAND" %}
     {% set function_gate = "nand" %}
@@ -46,13 +47,13 @@
     <!-- {{var}} -->
     <text x="0" y="-5" font-family="serif" font-size="20">{{var}}</text>
     <line x1="10" y1="0" x2="10" y2="{{100+lg.size_terms*50}}" stroke="black"/>
-    <line x1="50" y1="10" x2="50" y2="{{100+lg.size_terms*50}}" stroke="red"/>
+    <line x1="{{var_space/2+10}}" y1="10" x2="{{var_space/2+10}}" y2="{{100+lg.size_terms*50}}" stroke="red"/>
         {% if lg.method.upper() in ("NAND","NOR") %}
         {#<use href="#{{not_gate}}-gate-not" x="40" y="0" transform="scale(0.5)"/>#}
-        <g transform="translate(15,0)"> {{ mygates.gate(not_gate, 2) }}</g>
+        <g transform="translate(13,5)"> {{ mygates.gate(not_gate, 2, W=16,H=12) }}</g>
         {% else %}
        {# <use href="#not-gate" x="15" y="0"/>#}
-        <g transform="translate(25,5)"> {{ mygates.gate(not_gate, 1, W=15,H=10) }}</g>
+        <g transform="translate(15,5)"> {{ mygates.gate(not_gate, 1, W=15,H=10) }}</g>
         {% endif %}
 
   </g>
@@ -69,7 +70,7 @@
       {% for term in function.terms %}
       {% set ns.i = ns.i + 1 %}
 
-      <g transform="translate(300,{{50+ns.i* gate_space}})">
+      <g transform="translate({{var_space*5}},{{50+ns.i* gate_space}})">
         <!-- Draw the term {{term.label}} -->
         <text x="60" y="15" font-family="serif" font-size="10">{{function.name+"  :  "+term.label.default}}</text>
         {# <use href="#{{term_gate}}-gate{{ term.vars|length }}" x="15" y="0"/>#}
@@ -100,7 +101,7 @@
       </g>
       {% endfor %}
 
-        <g transform="translate(500,{{50+(ns.i - (function.nb_terms-1)/2)*gate_space}})">
+        <g transform="translate({{var_space*5+200}},{{50+(ns.i - (function.nb_terms-1)/2)*gate_space}})">
         <!-- {{function.name}} -->
         <text x="60" y="15" font-family="serif" font-size="10">{{function.name}}</text>
       {% if function.nb_terms > 1 %}

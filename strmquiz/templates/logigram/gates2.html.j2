@@ -79,21 +79,29 @@
           {% endif %}
         {% elif type == "not" %}
           {{ not_body(W,H) }}
-          <line x1="-15" y1="{{ ymid }}" x2="0" y2="{{ ymid }}" stroke="black"/>
+          <line x1="-5" y1="{{ ymid }}" x2="0" y2="{{ ymid }}" stroke="black"/>
           {{ bubble(W+5, ymid, 4) }}
           {{ draw_output(W+10, ymid, 0) }}
         {% elif type == "nand-not" %}
-          {{ and_body(W/2,H/2) }}
-          <line x1="-5" y1="{{ ymid/4 }}" x2="0" y2="{{ ymid/4 }}" stroke="black"/>
-          <line x1="-5" y1="{{ ymid/4+10 }}" x2="0" y2="{{ ymid/4+10 }}" stroke="green"/>
-          {{ bubble(W/2+5, ymid/2, 4) }}
-          {{ draw_output(W/2+9, ymid/2, 6) }}
+          {{ and_body(W,H) }}
+          {% set xpos = -H/4 %}
+          {% set ypos1 = H/4 %}
+          {% set ypos2 = 3*H/4 %}
+          {% set ray = W/8 %}
+          <line x1="{{xpos}}" y1="{{ ypos1 }}" x2="0" y2="{{ ypos1 }}" stroke="black"/>
+          <line x1="{{xpos}}" y1="{{ ypos2 }}" x2="0" y2="{{ ypos2 }}" stroke="green"/>
+          {{ bubble(W+ray, ymid, ray) }}
+          {{ draw_output(W+2*ray, ymid, ray) }}
         {% elif type == "nor-not" %}
-          {{ or_body(W/2,H/2) }}
-          <line x1="-5" y1="{{ ymid/4 }}" x2="0" y2="{{ ymid/4 }}" stroke="black"/>
-          <line x1="-5" y1="{{ ymid/4+10 }}" x2="0" y2="{{ ymid/4+10 }}" stroke="green"/>
-          {{ bubble(W/2+5, ymid/2, 4) }}
-          {{ draw_output(W/2+9, ymid/2, 6) }}
+          {{ or_body(W,H) }}
+          {% set xpos = -H/4 %}
+          {% set ypos1 = H/4 %}
+          {% set ypos2 = 3*H/4 %}
+          {% set ray = W/8 %}
+          <line x1="{{xpos}}" y1="{{ ypos1 }}" x2="0" y2="{{ ypos1 }}" stroke="black"/>
+          <line x1="{{xpos}}" y1="{{ ypos2 }}" x2="0" y2="{{ ypos2 }}" stroke="green"/>
+          {{ bubble(W+ray, ymid, ray) }}
+          {{ draw_output(W+2*ray, ymid, ray) }}
         {% endif %}
       </g>
     {%- endmacro %}
