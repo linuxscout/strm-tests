@@ -7,75 +7,25 @@
   {% set table_var_xpos = {lg.variables["A"]:-270, lg.variables["B"]:-210, lg.variables["C"]:-150, lg.variables["D"]:-90} %}   <!-- Define space between vars -->
 
 {% if lg.method.upper() == "NAND" %}
-    {% set function_gate = "nand-gate" %}
-    {% set term_gate = "nand-gate" %}
-    {% set not_gate = "nand-gate-not" %}
+    {% set function_gate = "nand" %}
+    {% set term_gate = "nand" %}
+    {% set not_gate = "nand-not" %}
 {% elif lg.method.upper() == "NOR" %}
-    {% set function_gate = "nor-gate" %}
-    {% set term_gate = "nor-gate" %}
-    {% set not_gate = "nor-gate-not" %}
+    {% set function_gate = "nor" %}
+    {% set term_gate = "nor" %}
+    {% set not_gate = "nor-not" %}
 {% elif lg.method.upper() == "POS" %}
-    {% set function_gate = "and-gate" %}
-    {% set term_gate = "or-gate" %}
-    {% set not_gate = "not-gate" %}
+    {% set function_gate = "and" %}
+    {% set term_gate = "or" %}
+    {% set not_gate = "not" %}
 {% else %}
-    {% set function_gate = "or-gate" %}
-    {% set term_gate = "and-gate" %}
-    {% set not_gate = "not-gate" %}
+    {% set function_gate = "or" %}
+    {% set term_gate = "and" %}
+    {% set not_gate = "not" %}
 {% endif %}
 
-{% macro big_or_gate(W=60, H=120, inputs=0, xpos=0, ypos=0) %}
-  <g id="or-gateX">
-    <!-- OR gate body -->
-    <path d="M{{ W*0.2 }},0
-             Q40,{{ H/2 }} {{ W*0.2 }},{{ H }}
-             Q{{ W*0.7 }},{{ H }} {{ W }},{{ H/2 }}
-             Q{{ W*0.7 }},0 {{ W*0.2 }},0 Z"
-          fill="white" stroke="black"/>
-    <!-- Inputs -->
-    {% if inputs > 0 %}
-      {% for k in range(inputs) %}
-        <line x1="-20"
-              y1="{{ (k+1) * H // (inputs+1) }}"
-              x2="0"
-              y2="{{ (k+1) * H // (inputs+1) }}"
-              stroke="black"/>
 
-      {% endfor %}
-    {% endif %}
-    <!-- Output -->
-    <line x1="{{ W }}" y1="{{ H/2 }}" x2="{{ W+20 }}" y2="{{ H/2 }}" stroke="black"/>
-  </g>
-{% endmacro %}
 
-{% macro draw_wires(N=4, step=10, gate_space=50) %}
-  <g id="wires">
-    <!-- wires from AND to OR -->
-    {% for k in range(N) %}
-        {% set shift = 0 if (N % 2 == 1 and k == N // 2) else ([k, N - 1 - k]|min) %}
-        {% set gate_size = 40 %}
-        {% set margin = 5 %}
-        {% set wire_space = (gate_size -2*margin)/(N-1)  %}
-        {#% set wire_space = 10  %#}
-        {% set xpos = -step*shift-5 %}
-        {% set y1pos = margin + wire_space*k %}
-        {% set y2pos = -5-((N-1)/2-shift)*gate_space+25 if (k < N // 2) else -5+((N-1)/2-shift)*gate_space+25 %}
-    <!-- vertical wire -->
-      {% if not (N % 2 == 1 and k == N // 2) %}
-        <line x1="{{xpos}}" y1="{{y1pos}}" x2="{{xpos}}" y2="{{y2pos}}" stroke="green"/>
-        <!-- horizental wire -->
-        <line x1="{{xpos}}" y1="{{y1pos}}" x2="20" y2="{{y1pos}}" stroke="red"/>
-        {% endif %}
-       {#
-        <text x="{{xpos}}" y="{{5+10*k}}"  font-family="serif" font-size="8">x={{xpos}} y={{y1pos}}</text>
-        <text x="{{xpos-20}}" y="{{y1pos}}"  font-family="serif" font-size="8">x={{xpos}} y2={{y2pos}}</text>
-
-        <text x="{{xpos-40}}" y="{{y1pos}}"  font-family="serif" font-size="6">shift= {{shift}} k={{k}} x={{xpos}} y2={{y2pos}}</text>
-        #}
-
-      {% endfor %}
-  </g>
-{% endmacro %}
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="{{gate_space * (lg.size_terms+3)}}" viewBox="0 0 900 180" preserveAspectRatio="xMinYMin meet">
   <style>
     .wire { stroke: #222; stroke-width: 2; fill: none; }
@@ -85,6 +35,7 @@
     .var-name { font-weight: bold; }
   </style>
 {% include "logigram/gates.html" %}
+{% import "logigram/gates2.html.j2" as mygates %}
 
 
    <!-- Draw variables A, B, C, D with NOT gates -->
@@ -96,11 +47,14 @@
     <text x="0" y="-5" font-family="serif" font-size="20">{{var}}</text>
     <line x1="10" y1="0" x2="10" y2="{{100+lg.size_terms*50}}" stroke="black"/>
     <line x1="50" y1="10" x2="50" y2="{{100+lg.size_terms*50}}" stroke="red"/>
-        {% if lg.method.upper() in ("NAND","OR") %}
-        <use href="#{{not_gate}}" x="40" y="0" transform="scale(0.5)"/>
+        {% if lg.method.upper() in ("NAND","NOR") %}
+        {#<use href="#{{not_gate}}-gate-not" x="40" y="0" transform="scale(0.5)"/>#}
+        <g transform="translate(15,0)"> {{ mygates.gate(not_gate, 2) }}</g>
         {% else %}
-        <use href="#not-gate" x="15" y="0"/>
+       {# <use href="#not-gate" x="15" y="0"/>#}
+        <g transform="translate(25,5)"> {{ mygates.gate(not_gate, 1, W=15,H=10) }}</g>
         {% endif %}
+
   </g>
   {% endfor %}
   {% set ns = namespace(i = 0, counter=0, shift=0) %}
@@ -118,8 +72,8 @@
       <g transform="translate(300,{{50+ns.i* gate_space}})">
         <!-- Draw the term {{term.label}} -->
         <text x="60" y="15" font-family="serif" font-size="10">{{function.name+"  :  "+term.label.default}}</text>
-        <use href="#{{term_gate}}{{ term.vars|length }}" x="15" y="0"/>
-
+        {# <use href="#{{term_gate}}-gate{{ term.vars|length }}" x="15" y="0"/>#}
+        <g transform="translate(15,0)"> {{ mygates.gate(term_gate, term.vars|length) }}</g>
 
         <!-- Extend output line -->
         {% set offset = -2.5 if (nb_terms % 2 == 1 and loop.index0 == nb_terms // 2) else ([loop.index0, nb_terms - 1 - loop.index0]|min) %}
@@ -150,8 +104,9 @@
         <!-- {{function.name}} -->
         <text x="60" y="15" font-family="serif" font-size="10">{{function.name}}</text>
       {% if function.nb_terms > 1 %}
-        {{ draw_wires(N=function.nb_terms, step=10, gate_space=50) }}
-        <use href="#{{function_gate}}0" x="15" y="0"/>
+        {{ mygates.draw_wires(N=function.nb_terms, step=10, gate_space=50) }}
+        {#<use href="#{{function_gate}}-gate0" x="15" y="0"/>#}
+        <g transform="translate(15,0)"> {{ mygates.gate(function_gate, 0) }}</g>
 
 
       {% endif %}
@@ -160,4 +115,5 @@
 
 
 </svg>
+{% include "logigram/gates2.html.j2" %}
 
