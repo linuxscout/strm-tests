@@ -7,7 +7,21 @@ Usage:
     python -m strm_tests [options]
 """
 
+import logging
 import sys
+
+def setup_logging():
+    logging.basicConfig(
+        level=logging.DEBUG,  # Default log level
+        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+        handlers=[
+            logging.StreamHandler(sys.stdout),         # Console output
+            logging.FileHandler("tmp/logs/quiz.log", encoding="utf-8")  # File output
+        ]
+    )
+
+logger = logging.getLogger(__name__)
+
 import argparse
 from strmquiz.quizbuilder import QuizBuilder
 
@@ -81,6 +95,10 @@ def parse_arguments():
     return parser.parse_args()
 
 def main():
+    setup_logging()
+    logger = logging.getLogger(__name__)  # module-level logger
+    logger.info("Application started")
+    logger.debug("Debug message for developers")
     args = parse_arguments()
 
     tester = QuizBuilder(

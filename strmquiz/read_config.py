@@ -25,6 +25,7 @@ import sys
 import os.path
 import configparser
 import ast
+import logging
 class read_config:
     def __init__(self, filename):
         # list of args
@@ -39,6 +40,7 @@ class read_config:
         self.commands = []
         self.quizes = []
         self.debug = True
+        # self.debug = False
         # args for logigram
         self.method = ""
         self.simplification = ""
@@ -88,20 +90,19 @@ class read_config:
         for qz in self.quizes:
             self.test_table[qz] = ast.literal_eval(config.get('Tests', qz))
         if self.debug:
-            print("Quizes: ", self.quizes)
-            print("Tests", self.test_table)
-            print("Commands", self.commands)
-            print("repeat", self.repeat)
-            print("minterms", self.minterms)
-            print("flip_type", self.flip_type)
-            print("self.length", self.length)
-            print("varlist", self.varlist)
-            print("synch_type", self.synch_type)
-            print("size", self.questions_size)
-            print("random", self.random_question)
-            print("method", self.method)
-            # ~ print("simplification", self.simplification)
-     
+            logging.debug(f"Quizes:  '{self.quizes}'")
+            logging.debug(f"Tests: '{self.test_table}'")
+            logging.debug(f"Commands: '{self.commands}'")
+            logging.debug(f"repeat: '{self.repeat}'")
+            logging.debug(f"minterms: '{self.minterms}'")
+            logging.debug(f"flip_type :'{self.flip_type}'")
+            logging.debug(f"length: '{self.length}'")
+            logging.debug(f"varlist :'{self.varlist}'")
+            logging.debug(f"synch_type: '{self.synch_type}'")
+            logging.debug(f"size :'{self.questions_size}'")
+            logging.debug(f"random: '{self.random_question}'")
+            logging.debug(f"method: '{self.method}'")
+
     
     def get_quiz_config(self, select = ""):
         
