@@ -139,3 +139,4 @@ latex/*.pdf
 /doc/*.pdf
 /docs/tikz-timing.pdf
 /latex/tests/
+/tests/jinja/
