@@ -7,38 +7,26 @@
 
 
 
+\subsection*{Encode the following text into Ascii}
+\subsection*{Encode the following text into Ascii}
+    \textbf{Text:} \aRL{``Learn ASCII fast''}
 
-
-Convert the following numbers, \hfill\aRL{أنجز التحويلات الآتية}
-
-$(193)_{ 8 } = (........)_{ 2}$
-
+\subsection*{Decode the following Ascii codes into text}
+\textbf{Codes:} ['0x4c', '0x65', '0x61', '0x72', '0x6e', '0x20', '0x41', '0x53', '0x43', '0x49', '0x49', '0x20', '0x66', '0x61', '0x73', '0x74']
 
 
 \paragraph{Q2}
 
-Donner les intervalles qu'on peut représenter en nombre positifs, valeur absolue, complément à 1 et complément à 2  sur 52 bits
-
-Give the intervals which can be represented in posiitve numbers, absolute value, 1's complement and 2's complement on 52 bits
-
-\begin{arab}[utf]
-حدد المجالات التي يمكن تمثيلها لأعداد الموجبة والتمثيل بالقيمة المطلقة والمتمم إلى 1 و 2 على   : 52 بت
-\end{arab}
 
 
 
-\paragraph{Q3}
+\subsection*{Encode the following text into Unicode}
+\subsection*{Encode the following text into Unicode}
+    \textbf{Text:} \aRL{``برمجة\$\$''}
 
-Calculate  the following operations in base 8 :  أنجز العمليات الآتية في الأساس 8
+\subsection*{Decode the following Unicode codes into text}
+\textbf{Codes:} ['0x628', '0x631', '0x645', '0x62c', '0x629', '0x24', '0x24']
 
-\begin{verbatim}
-
-  3530\,0315
-- 1251\,2130
--------------------
-=  ........
-
-\end{verbatim}
 
 
 \hrule width 1\linewidth
@@ -52,512 +40,201 @@ Calculate  the following operations in base 8 :  أنجز العمليات ال�
 
 
 
+\subsection*{Encode the following text into Ascii}
+      \textbf{Encode the following text into Ascii}\\
+  \textbf{Text:} \aRL{"Learn ASCII fast"}\\[6pt]
+
+      \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        Character
+          &                 L
+          &                 e
+          &                 a
+          &                 r
+          &                 n
+          &                 space
+          &                 A
+          &                 S
+          &                 C
+          &                 I
+ \\
+        \hline
+        Ascii Code Point
+          & 0x4c
+          & 0x65
+          & 0x61
+          & 0x72
+          & 0x6e
+          & 0x20
+          & 0x41
+          & 0x53
+          & 0x43
+          & 0x49
+ \\
+        \hline
+      \end{tabular}
 
 
-Convert the following numbers, \hfill\aRL{أنجز التحويلات الآتية}
+    \vspace{1em} % spacing between tables
 
-$(193)_{ 8 } = (  1100\,0001)_{ 2}$
-
-
-
-\textbf{Explanation of Base 10 to X}\\
-\begin{tikzpicture}[x=1cm,y=1cm]
-  % Draw title info
-      \begin{scope}[shift={(0cm,-0cm)}]
-  % Vertical bar
-  \draw (0.75,0) -- (0.75,-2);
-  % Horizontal bar
-  \draw (0.75,-1) -- (1.5,-1);
-  % Dividend
-    \node[anchor=west] at (0,-0.5*1) { 193 };
-  % Divisor
-    \node[anchor=west] at (0.95,-0.5*1) { 2 };
-  % Quotient
-    \node[anchor=west] at (0.95,-1.5*1) { 96 };
-  % Remainder
-    \node[anchor=center] at (0.375,-1.5*1) { 1 };
-\end{scope}
-
-    \begin{scope}[shift={(0.75cm,-1cm)}]
-  % Vertical bar
-  \draw (0.75,0) -- (0.75,-2);
-  % Horizontal bar
-  \draw (0.75,-1) -- (1.5,-1);
-  % Dividend
-  % Divisor
-    \node[anchor=west] at (0.95,-0.5*1) { 2 };
-  % Quotient
-    \node[anchor=west] at (0.95,-1.5*1) { 48 };
-  % Remainder
-    \node[anchor=center] at (0.375,-1.5*1) { 0 };
-\end{scope}
-
-    \begin{scope}[shift={(1.5cm,-2cm)}]
-  % Vertical bar
-  \draw (0.75,0) -- (0.75,-2);
-  % Horizontal bar
-  \draw (0.75,-1) -- (1.5,-1);
-  % Dividend
-  % Divisor
-    \node[anchor=west] at (0.95,-0.5*1) { 2 };
-  % Quotient
-    \node[anchor=west] at (0.95,-1.5*1) { 24 };
-  % Remainder
-    \node[anchor=center] at (0.375,-1.5*1) { 0 };
-\end{scope}
-
-    \begin{scope}[shift={(2.25cm,-3cm)}]
-  % Vertical bar
-  \draw (0.75,0) -- (0.75,-2);
-  % Horizontal bar
-  \draw (0.75,-1) -- (1.5,-1);
-  % Dividend
-  % Divisor
-    \node[anchor=west] at (0.95,-0.5*1) { 2 };
-  % Quotient
-    \node[anchor=west] at (0.95,-1.5*1) { 12 };
-  % Remainder
-    \node[anchor=center] at (0.375,-1.5*1) { 0 };
-\end{scope}
-
-    \begin{scope}[shift={(3.0cm,-4cm)}]
-  % Vertical bar
-  \draw (0.75,0) -- (0.75,-2);
-  % Horizontal bar
-  \draw (0.75,-1) -- (1.5,-1);
-  % Dividend
-  % Divisor
-    \node[anchor=west] at (0.95,-0.5*1) { 2 };
-  % Quotient
-    \node[anchor=west] at (0.95,-1.5*1) { 6 };
-  % Remainder
-    \node[anchor=center] at (0.375,-1.5*1) { 0 };
-\end{scope}
-
-    \begin{scope}[shift={(3.75cm,-5cm)}]
-  % Vertical bar
-  \draw (0.75,0) -- (0.75,-2);
-  % Horizontal bar
-  \draw (0.75,-1) -- (1.5,-1);
-  % Dividend
-  % Divisor
-    \node[anchor=west] at (0.95,-0.5*1) { 2 };
-  % Quotient
-    \node[anchor=west] at (0.95,-1.5*1) { 3 };
-  % Remainder
-    \node[anchor=center] at (0.375,-1.5*1) { 0 };
-\end{scope}
-
-    \begin{scope}[shift={(4.5cm,-6cm)}]
-  % Vertical bar
-  \draw (0.75,0) -- (0.75,-2);
-  % Horizontal bar
-  \draw (0.75,-1) -- (1.5,-1);
-  % Dividend
-  % Divisor
-    \node[anchor=west] at (0.95,-0.5*1) { 2 };
-  % Quotient
-    \node[anchor=west] at (0.95,-1.5*1) { 1 };
-  % Remainder
-    \node[anchor=center] at (0.375,-1.5*1) { 1 };
-\end{scope}
-
-    \begin{scope}[shift={(5.25cm,-7cm)}]
-  % Vertical bar
-  \draw (0.75,0) -- (0.75,-2);
-  % Horizontal bar
-  \draw (0.75,-1) -- (1.5,-1);
-  % Dividend
-  % Divisor
-    \node[anchor=west] at (0.95,-0.5*1) { 2 };
-  % Quotient
-    \node[anchor=west] at (0.95,-1.5*1) { 0 };
-  % Remainder
-    \node[anchor=center] at (0.375,-1.5*1) { 1 };
-\end{scope}
-
-\end{tikzpicture}
+      \begin{tabular}{|c|c|c|c|c|c|c|}
+        \hline
+        Character
+          &                 I
+          &                 space
+          &                 f
+          &                 a
+          &                 s
+          &                 t
+ \\
+        \hline
+        Ascii Code Point
+          & 0x49
+          & 0x20
+          & 0x66
+          & 0x61
+          & 0x73
+          & 0x74
+ \\
+        \hline
+      \end{tabular}
 
 
-Result (bottom→top remainders): 11000001
+    \vspace{1em} % spacing between tables
 
+
+          \textbf{Decode the following Ascii codes into text}\\
+      \textbf{Codes:} ['0x4c', '0x65', '0x61', '0x72', '0x6e', '0x20', '0x41', '0x53', '0x43', '0x49', '0x49', '0x20', '0x66', '0x61', '0x73', '0x74']\\[6pt]
+
+
+
+      \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        Ascii Code Point
+          & 0x4c
+          & 0x65
+          & 0x61
+          & 0x72
+          & 0x6e
+          & 0x20
+          & 0x41
+          & 0x53
+          & 0x43
+          & 0x49
+ \\
+        \hline
+        Character
+          &                 L
+          &                 e
+          &                 a
+          &                 r
+          &                 n
+          &                 space
+          &                 A
+          &                 S
+          &                 C
+          &                 I
+ \\
+        \hline
+      \end{tabular}
+
+    \vspace{1em} % spacing between tables
+
+
+
+      \begin{tabular}{|c|c|c|c|c|c|c|}
+        \hline
+        Ascii Code Point
+          & 0x49
+          & 0x20
+          & 0x66
+          & 0x61
+          & 0x73
+          & 0x74
+ \\
+        \hline
+        Character
+          &                 I
+          &                 space
+          &                 f
+          &                 a
+          &                 s
+          &                 t
+ \\
+        \hline
+      \end{tabular}
+
+    \vspace{1em} % spacing between tables
 
 
 
 \paragraph{Q2}
 
-Donner les intervalles qu'on peut représenter en nombre positifs, valeur absolue, complément à 1 et complément à 2  sur 52 bits
 
-Give the intervals which can be represented in posiitve numbers, absolute value, 1's complement and 2's complement on 52 bits
 
-\begin{arab}[utf]
-حدد المجالات التي يمكن تمثيلها لأعداد الموجبة والتمثيل بالقيمة المطلقة والمتمم إلى 1 و 2 على   : 52 بت
-\end{arab}
 
-\begin{itemize}
-\item \textbf{Positifs}: $[0; 2^{ 52-1 }] = [0; 4503599627370495]$
-\item \textbf{Unsigned value} $[-(2^{ 51 }-1 );2^{ 51 }-1] = [-2251799813685247, 2251799813685247]$
-\item \textbf{One's compelement} $[-(2^{ 51 }-1 );2^{ 51 }-1] = [-2251799813685247, 2251799813685247]$
-\item \textbf{Two's compelement} $[-2^{ 51 } ;2^{ 51 }-1] = [-2251799813685248, 2251799813685247]$
-\end{itemize}
+\subsection*{Encode the following text into Unicode}
+      \textbf{Encode the following text into Unicode}\\
+  \textbf{Text:} \aRL{"برمجة\$\$"}\\[6pt]
+
+      \begin{tabular}{|c|c|c|c|c|c|c|c|}
+        \hline
+        Character
+          &                 \aRL{ ب }
+          &                 \aRL{ ر }
+          &                 \aRL{ م }
+          &                 \aRL{ ج }
+          &                 \aRL{ ة }
+          &                 \$
+          &                 \$
+ \\
+        \hline
+        Unicode Code Point
+          & 0x628
+          & 0x631
+          & 0x645
+          & 0x62c
+          & 0x629
+          & 0x24
+          & 0x24
+ \\
+        \hline
+      \end{tabular}
+
+
+    \vspace{1em} % spacing between tables
+
+
+          \textbf{Decode the following Unicode codes into text}\\
+      \textbf{Codes:} ['0x628', '0x631', '0x645', '0x62c', '0x629', '0x24', '0x24']\\[6pt]
+
+
+
+      \begin{tabular}{|c|c|c|c|c|c|c|c|}
+        \hline
+        Unicode Code Point
+          & 0x628
+          & 0x631
+          & 0x645
+          & 0x62c
+          & 0x629
+          & 0x24
+          & 0x24
+ \\
+        \hline
+        Character
+          &                 \aRL{ ب }
+          &                 \aRL{ ر }
+          &                 \aRL{ م }
+          &                 \aRL{ ج }
+          &                 \aRL{ ة }
+          &                 \$
+          &                 \$
+ \\
+        \hline
+      \end{tabular}
+
+    \vspace{1em} % spacing between tables
 
 
-\paragraph{Q3}
-
-Calculate  the following operations in base 8 :  أنجز العمليات الآتية في الأساس 8
-
-\begin{verbatim}
-
-  3530\,0315
-- 1251\,2130
--------------------
-=  2256\,6165
-
-\end{verbatim}
-\pagebreak
-
-\paragraph{Q1}
-
-Faire les conversion suivantes: NOT IMPLEMENTED (MESURE questions) 
-
-\paragraph{Q2}
-
-
-
-
-
-
-Convert the following numbers, \hfill\aRL{أنجز التحويلات الآتية}
-
-$(9\,4275\,8564)_{ 2 } = (........)_{ 16}$
-
-
-
-\paragraph{Q3}
-
-Calculate  the following operations in base 16 :  أنجز العمليات الآتية في الأساس 16
-
-\begin{verbatim}
-
-  bce6\,c463
-- a15\,8c8d
--------------------
-=  ........
-
-\end{verbatim}
-
-
-\hrule width 1\linewidth
-\pagebreak
-
-\subsection{Correction}
-
-
-\paragraph{Q1}
-
-  44410010
-- 32441214
-----------
-  11413241
-
-
-\paragraph{Q2}
-
-
-
-
-
-
-Convert the following numbers, \hfill\aRL{أنجز التحويلات الآتية}
-
-$(9\,4275\,8564)_{ 2 } = (  3831\,5aa4)_{ 16}$
-
-
-
-\textbf{Explanation of Base 10 to X}\\
-\begin{tikzpicture}[x=1cm,y=1cm]
-  % Draw title info
-      \begin{scope}[shift={(0cm,-0cm)}]
-  % Vertical bar
-  \draw (2.25,0) -- (2.25,-2);
-  % Horizontal bar
-  \draw (2.25,-1) -- (4.5,-1);
-  % Dividend
-    \node[anchor=west] at (0,-0.5*1) { 942758564 };
-  % Divisor
-    \node[anchor=west] at (2.45,-0.5*1) { 16 };
-  % Quotient
-    \node[anchor=west] at (2.45,-1.5*1) { 58922410 };
-  % Remainder
-    \node[anchor=center] at (1.125,-1.5*1) { 4 };
-\end{scope}
-
-    \begin{scope}[shift={(2.25cm,-1cm)}]
-  % Vertical bar
-  \draw (2.25,0) -- (2.25,-2);
-  % Horizontal bar
-  \draw (2.25,-1) -- (4.5,-1);
-  % Dividend
-  % Divisor
-    \node[anchor=west] at (2.45,-0.5*1) { 16 };
-  % Quotient
-    \node[anchor=west] at (2.45,-1.5*1) { 3682650 };
-  % Remainder
-    \node[anchor=center] at (1.125,-1.5*1) { 10 };
-\end{scope}
-
-    \begin{scope}[shift={(4.5cm,-2cm)}]
-  % Vertical bar
-  \draw (2.25,0) -- (2.25,-2);
-  % Horizontal bar
-  \draw (2.25,-1) -- (4.5,-1);
-  % Dividend
-  % Divisor
-    \node[anchor=west] at (2.45,-0.5*1) { 16 };
-  % Quotient
-    \node[anchor=west] at (2.45,-1.5*1) { 230165 };
-  % Remainder
-    \node[anchor=center] at (1.125,-1.5*1) { 10 };
-\end{scope}
-
-    \begin{scope}[shift={(6.75cm,-3cm)}]
-  % Vertical bar
-  \draw (2.25,0) -- (2.25,-2);
-  % Horizontal bar
-  \draw (2.25,-1) -- (4.5,-1);
-  % Dividend
-  % Divisor
-    \node[anchor=west] at (2.45,-0.5*1) { 16 };
-  % Quotient
-    \node[anchor=west] at (2.45,-1.5*1) { 14385 };
-  % Remainder
-    \node[anchor=center] at (1.125,-1.5*1) { 5 };
-\end{scope}
-
-    \begin{scope}[shift={(9.0cm,-4cm)}]
-  % Vertical bar
-  \draw (2.25,0) -- (2.25,-2);
-  % Horizontal bar
-  \draw (2.25,-1) -- (4.5,-1);
-  % Dividend
-  % Divisor
-    \node[anchor=west] at (2.45,-0.5*1) { 16 };
-  % Quotient
-    \node[anchor=west] at (2.45,-1.5*1) { 899 };
-  % Remainder
-    \node[anchor=center] at (1.125,-1.5*1) { 1 };
-\end{scope}
-
-    \begin{scope}[shift={(11.25cm,-5cm)}]
-  % Vertical bar
-  \draw (2.25,0) -- (2.25,-2);
-  % Horizontal bar
-  \draw (2.25,-1) -- (4.5,-1);
-  % Dividend
-  % Divisor
-    \node[anchor=west] at (2.45,-0.5*1) { 16 };
-  % Quotient
-    \node[anchor=west] at (2.45,-1.5*1) { 56 };
-  % Remainder
-    \node[anchor=center] at (1.125,-1.5*1) { 3 };
-\end{scope}
-
-    \begin{scope}[shift={(13.5cm,-6cm)}]
-  % Vertical bar
-  \draw (2.25,0) -- (2.25,-2);
-  % Horizontal bar
-  \draw (2.25,-1) -- (4.5,-1);
-  % Dividend
-  % Divisor
-    \node[anchor=west] at (2.45,-0.5*1) { 16 };
-  % Quotient
-    \node[anchor=west] at (2.45,-1.5*1) { 3 };
-  % Remainder
-    \node[anchor=center] at (1.125,-1.5*1) { 8 };
-\end{scope}
-
-    \begin{scope}[shift={(15.75cm,-7cm)}]
-  % Vertical bar
-  \draw (2.25,0) -- (2.25,-2);
-  % Horizontal bar
-  \draw (2.25,-1) -- (4.5,-1);
-  % Dividend
-  % Divisor
-    \node[anchor=west] at (2.45,-0.5*1) { 16 };
-  % Quotient
-    \node[anchor=west] at (2.45,-1.5*1) { 0 };
-  % Remainder
-    \node[anchor=center] at (1.125,-1.5*1) { 3 };
-\end{scope}
-
-\end{tikzpicture}
-
-
-Result (bottom→top remainders): 38315aa4
-
-
-
-
-\paragraph{Q3}
-
-Calculate  the following operations in base 16 :  أنجز العمليات الآتية في الأساس 16
-
-\begin{verbatim}
-
-  bce6\,c463
-- a15\,8c8d
--------------------
-=  b2d1\,37d6
-
-\end{verbatim}
-\pagebreak
-
-\paragraph{Q1}
-
-
-
-
-
-
-Convert the following numbers, \hfill\aRL{أنجز التحويلات الآتية}
-
-$(24)_{ 8 } = (........)_{ 2}$
-
-
-
-\paragraph{Q2}
-
-Unknown command: mesures
-
-\paragraph{Q3}
-
-Calculate  the following operations in base 8 :  أنجز العمليات الآتية في الأساس 8
-
-\begin{verbatim}
-
-  5341\,6306
-- 2254\,5644
--------------------
-=  ........
-
-\end{verbatim}
-
-
-\hrule width 1\linewidth
-\pagebreak
-
-\subsection{Correction}
-
-
-\paragraph{Q1}
-
-
-
-
-
-
-Convert the following numbers, \hfill\aRL{أنجز التحويلات الآتية}
-
-$(24)_{ 8 } = (  1\,1000)_{ 2}$
-
-
-
-\textbf{Explanation of Base 10 to X}\\
-\begin{tikzpicture}[x=1cm,y=1cm]
-  % Draw title info
-      \begin{scope}[shift={(0cm,-0cm)}]
-  % Vertical bar
-  \draw (0.5,0) -- (0.5,-2);
-  % Horizontal bar
-  \draw (0.5,-1) -- (1.0,-1);
-  % Dividend
-    \node[anchor=west] at (0,-0.5*1) { 24 };
-  % Divisor
-    \node[anchor=west] at (0.7,-0.5*1) { 2 };
-  % Quotient
-    \node[anchor=west] at (0.7,-1.5*1) { 12 };
-  % Remainder
-    \node[anchor=center] at (0.25,-1.5*1) { 0 };
-\end{scope}
-
-    \begin{scope}[shift={(0.5cm,-1cm)}]
-  % Vertical bar
-  \draw (0.5,0) -- (0.5,-2);
-  % Horizontal bar
-  \draw (0.5,-1) -- (1.0,-1);
-  % Dividend
-  % Divisor
-    \node[anchor=west] at (0.7,-0.5*1) { 2 };
-  % Quotient
-    \node[anchor=west] at (0.7,-1.5*1) { 6 };
-  % Remainder
-    \node[anchor=center] at (0.25,-1.5*1) { 0 };
-\end{scope}
-
-    \begin{scope}[shift={(1.0cm,-2cm)}]
-  % Vertical bar
-  \draw (0.5,0) -- (0.5,-2);
-  % Horizontal bar
-  \draw (0.5,-1) -- (1.0,-1);
-  % Dividend
-  % Divisor
-    \node[anchor=west] at (0.7,-0.5*1) { 2 };
-  % Quotient
-    \node[anchor=west] at (0.7,-1.5*1) { 3 };
-  % Remainder
-    \node[anchor=center] at (0.25,-1.5*1) { 0 };
-\end{scope}
-
-    \begin{scope}[shift={(1.5cm,-3cm)}]
-  % Vertical bar
-  \draw (0.5,0) -- (0.5,-2);
-  % Horizontal bar
-  \draw (0.5,-1) -- (1.0,-1);
-  % Dividend
-  % Divisor
-    \node[anchor=west] at (0.7,-0.5*1) { 2 };
-  % Quotient
-    \node[anchor=west] at (0.7,-1.5*1) { 1 };
-  % Remainder
-    \node[anchor=center] at (0.25,-1.5*1) { 1 };
-\end{scope}
-
-    \begin{scope}[shift={(2.0cm,-4cm)}]
-  % Vertical bar
-  \draw (0.5,0) -- (0.5,-2);
-  % Horizontal bar
-  \draw (0.5,-1) -- (1.0,-1);
-  % Dividend
-  % Divisor
-    \node[anchor=west] at (0.7,-0.5*1) { 2 };
-  % Quotient
-    \node[anchor=west] at (0.7,-1.5*1) { 0 };
-  % Remainder
-    \node[anchor=center] at (0.25,-1.5*1) { 1 };
-\end{scope}
-
-\end{tikzpicture}
-
-
-Result (bottom→top remainders): 11000
-
-
-
-
-\paragraph{Q2}
-
-Answer
-
-\paragraph{Q3}
-
-Calculate  the following operations in base 8 :  أنجز العمليات الآتية في الأساس 8
-
-\begin{verbatim}
-
-  5341\,6306
-- 2254\,5644
--------------------
-=  3065\,0442
-
-\end{verbatim}
 \pagebreak

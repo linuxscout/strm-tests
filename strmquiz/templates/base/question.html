@@ -1,4 +1,12 @@
+<style>
 
+    table .baseto10 { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+    th, td { border: 1px solid #ddd; padding: 8px 10px; text-align: center; }
+    th { background: #f5f5f5; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+
+</style>
+{% import "base/binmacros.html" as binmacro %}
 {# Macro: one manual vertical division step #}
 {% macro division_step(dividend, divisor, quotient, remainder, x=0, y=0, cell_w=30, cell_h=30, font_size=16) %}
   {% set char_size = 12 %}
@@ -48,6 +56,77 @@
 </svg>
 {% endmacro %}
 
+{% macro base_conversion_table(digits, base, number_label="") %}
+  <h4>Table: base {{ base }} representation</h4>
+  {% if number_label %}
+    <div class="small">Number in base {{ base }}: <span class="mono">{{ number_label }}</span></div>
+  {% endif %}
+  <table class="baseto10">
+    <tr>
+      {# First row: powers of base #}
+      {% for d in digits %}
+        <th class="mono">{{ base }}<sup>{{ loop.revindex0 }}</sup></th>
+      {% endfor %}
+    </tr>
+    <tr>
+      {# Second row: the digits themselves #}
+      {% for d in digits %}
+        <td class="mono">{{ d.symbol }}</td>
+      {% endfor %}
+    </tr>
+  </table>
+{% endmacro %}
+
+
+ {% macro base_sum_expression(digits, base) %}
+  <h4>Base {{ base }} → 10 Expansion</h4>
+  <ul>
+    {# 1) symbolic line with digit symbols #}
+    <li>
+      <span class="mono">
+        N =
+        {% for d in digits %}
+          {% set i = loop.revindex0 %}
+          {{ d.symbol }}·{{ base }}<sup>{{ i }}</sup>
+          {% if not loop.last %}+{% endif %}
+        {% endfor %}
+      </span>
+    </li>
+
+    {# 2) replace symbols with values #}
+    <li>
+      <span class="mono">
+        N =
+        {% for d in digits %}
+          {% set i = loop.revindex0 %}
+          {{ d.value }}·{{ base }}<sup>{{ i }}</sup>
+          {% if not loop.last %}+{% endif %}
+        {% endfor %}
+      </span>
+    </li>
+
+    {# 3) just numeric products #}
+    <li>
+      <span class="mono">
+        N =
+        {% set ns = namespace(total = 0) %}
+        {% for d in digits %}
+          {% set i = loop.revindex0 %}
+          {% set product = d.value * (base ** i) %}
+          {% set ns.total = ns.total + product %}
+          {{ product }}
+          {% if not loop.last %}+{% endif %}
+        {% endfor %}
+      </span>
+    </li>
+
+    {# 4) final total #}
+    <li>
+      <span class="mono">N = {{ ns.total }}</span>
+    </li>
+  </ul>
+{% endmacro %}
+
 
 <p>
 Convert the following numbers
@@ -64,25 +143,64 @@ Convert the following numbers
   .vr { border-left: 1px solid black; padding-left: 4px; }
   .hr { border-top: 1px solid black; margin-top: -1px; }
 </style>
+{% if binary_mode %}
+  {{ binmacro.base_convert_table(number, in_base, out_base) }}
+{% endif %}
+{% if steps_to10 and steps_from10 %}
+  <h3>Convert from base {{ in_base }} to {{ out_base }}</h3>
+<ol>
+  <li>Convert from base {{ in_base }} to base 10</li>
+  <li>Convert from base 10 to base {{ out_base }}</li>
+  </ol>
+{% endif %}
 
+<!-- Explanation of Base X to 10 -->
+{% if steps_to10 %}
+{% set digits = steps_to10 %}
+  <h3>Convert from base {{ in_base }} to base 10</h3>
+
+  {{ base_conversion_table(digits, in_base, number_label) }}
+  {{ base_sum_expression(digits, in_base) }}
+
+Result : {{ output }}
+
+{% endif %}
 
 <!-- Explanation of Base 10 to X -->
 
 {% if steps_from10 %}
-    Explanation شرح
+  <h3>Convert from base 10 to base {{ out_base }}</h3>
+ {% set number_b10 = number_tmp if number_tmp else number %}
+{{ division_process( number_b10, out_base, steps_from10, cell_h=30)}}
 
-{{ division_process(number, out_base, steps_from10, cell_h=30)}}
 
-
-<!--<svg xmlns="http://www.w3.org/2000/svg"-->
-<!--     width="600" height="300">-->
-<!--{{ division_step(100025000000000, 100, 1000, 25, x=20, y=20, cell_w=100, cell_h=30) }}-->
-
-<!--  {{ division_step(125, 10, 12, 5, x=20, y=120, cell_w=100, cell_h=30) }}-->
-<!--</svg>-->
-<!--{% endif %}-->
-
-<br><br>
-Result (bottom→top remainders): {{ output }}
+Result (bottom→top remainders): ({{ output }})<sub>{{out_base}}</sub>
 
 {% endif %}
+
+{% endif %}
+
+
+
+{% if debug %}
+
+  {{ binmacro.bin2hex_table("101110101101") }}
+  <br/>
+  {{ binmacro.bin2oct_table("101110101101") }}
+  <br/>
+  {{ binmacro.hex2bin_table("BAD") }}
+  <br/>
+  {{ binmacro.oct2bin_table("5725") }}
+
+  <br/>
+  {{ binmacro.hex2oct_table("62F") }}
+  <br/>
+  {{ binmacro.oct2hex_table("745") }}
+
+  <br/>
+  {{ binmacro.base_convert_table("1A3", 16, 8) }}
+  <br/>
+  {{ binmacro.base_convert_table("745", 8, 2) }}
+  <br/>
+  {{ binmacro.base_convert_table("1011101", 2, 16) }}
+{%endif%}

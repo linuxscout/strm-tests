@@ -1,0 +1,162 @@
+{% macro bin2hex_table(binary_str) %}
+\[
+\begin{tabular}{|c|*{ {{ (binary_str|length // 4) + (1 if (binary_str|length % 4) else 0) }} }{c|}}
+\hline
+Base 2
+{% for group in binary_str|batch(4, "0")|map("join") %}
+ & {{ group }}
+{% endfor %} \\
+\hline
+Base 16
+{% for group in binary_str|batch(4, "0")|map("join") %}
+ & {{ "%X"|format(group|int(base=2)) }}
+{% endfor %} \\
+\hline
+\end{tabular}
+\]
+{% endmacro %}
+
+
+{% macro bin2oct_table(binary_str) %}
+\[
+\begin{tabular}{|c|*{ {{ (binary_str|length // 3) + (1 if (binary_str|length % 3) else 0) }} }{c|}}
+\hline
+Base 2
+{% for group in binary_str|batch(3, "0")|map("join") %}
+ & {{ group }}
+{% endfor %} \\
+\hline
+Base 8
+{% for group in binary_str|batch(3, "0")|map("join") %}
+ & {{ group|int(base=2) }}
+{% endfor %} \\
+\hline
+\end{tabular}
+\]
+{% endmacro %}
+
+
+{% macro hex2bin_table(hex_str) %}
+\[
+\begin{tabular}{|c|*{ {{ hex_str|length }} }{c|}}
+\hline
+Base 16
+{% for c in hex_str %}
+ & {{ c }}
+{% endfor %} \\
+\hline
+Base 2
+{% for c in hex_str %}
+ & {{ c|int(base=16)|to_bin(4) }}
+{% endfor %} \\
+\hline
+\end{tabular}
+\]
+{% endmacro %}
+
+
+{% macro oct2bin_table(oct_str) %}
+\[
+\begin{tabular}{|c|*{ {{ oct_str|length }} }{c|}}
+\hline
+Base 8
+{% for c in oct_str %}
+ & {{ c }}
+{% endfor %} \\
+\hline
+Base 2
+{% for c in oct_str %}
+ & {{ c|int(base=8)|to_bin(3) }}
+{% endfor %} \\
+\hline
+\end{tabular}
+\]
+{% endmacro %}
+
+
+{% macro hex2oct_table(hex_str) %}
+{% set ns=namespace(bin_str = "", oct_digits = []) %}
+{% for c in hex_str %}
+  {% set ns.bin_str = ns.bin_str + (c|int(base=16)|to_bin(4)) %}
+{% endfor %}
+{% set pad = (-(ns.bin_str|length)%3) %}
+{% set ns.bin_str = "0"*pad + ns.bin_str %}
+{% for g in ns.bin_str|batch(3, "0") %}
+  {% set ns.oct_digits = ns.oct_digits + [g|join] %}
+{% endfor %}
+
+\[
+\begin{tabular}{|c|*{ {{ ns.bin_str|length }} }{c|}}
+\hline
+Hex
+{% if pad > 0 %} & \multicolumn{ {{ pad }} }{|c|}{} {% endif %}
+{% for c in hex_str %}
+ & \multicolumn{4}{|c|}{ {{ c }} }
+{% endfor %} \\
+\hline
+Bin
+{% for b in ns.bin_str %}
+ & {{ b }}
+{% endfor %} \\
+\hline
+Oct
+{% for g in ns.oct_digits %}
+ & \multicolumn{3}{|c|}{ {{ g|int(base=2) }} }
+{% endfor %} \\
+\hline
+\end{tabular}
+\]
+{% endmacro %}
+
+
+{% macro oct2hex_table(oct_str) %}
+{% set ns=namespace(bin_str = "") %}
+{% for c in oct_str %}
+  {% set ns.bin_str = ns.bin_str + (c|int(base=8)|to_bin(3)) %}
+{% endfor %}
+{% set pad = -(ns.bin_str|length) % 4 %}
+{% set bin4 = "0"*pad + ns.bin_str %}
+
+\[
+\begin{tabular}{|c|*{ {{ bin4|length }} }{c|}}
+\hline
+Oct
+{% if pad > 0 %} & \multicolumn{ {{ pad }} }{|c|}{} {% endif %}
+{% for c in oct_str %}
+ & \multicolumn{3}{|c|}{ {{ c }} }
+{% endfor %} \\
+\hline
+Bin
+{% for i in range(bin4|length) %}
+ & {{ bin4[i] }}
+{% endfor %} \\
+\hline
+Hex
+{% for i in range(0, bin4|length, 4) %}
+ {% set g = bin4[i:i+4] %}
+ & \multicolumn{4}{|c|}{ {{ "%X"|format(g|int(base=2)) }} }
+{% endfor %} \\
+\hline
+\end{tabular}
+\]
+{% endmacro %}
+
+
+{% macro base_convert_table(num_str, from_base, to_base) %}
+\subsection*{Convert from base {{ from_base }} to base {{ to_base }}}
+{% if from_base == 16 and to_base == 8 %}
+  {{ hex2oct_table(num_str) }}
+{% elif from_base == 8 and to_base == 16 %}
+  {{ oct2hex_table(num_str) }}
+{% elif from_base == 2 and to_base == 16 %}
+  {{ bin2hex_table(num_str) }}
+{% elif from_base == 16 and to_base == 2 %}
+  {{ hex2bin_table(num_str) }}
+{% elif from_base == 2 and to_base == 8 %}
+  {{ bin2oct_table(num_str) }}
+{% elif from_base == 8 and to_base == 2 %}
+  {{ oct2bin_table(num_str) }}
+{% else %}
+  Not implemented.
+{% endif %}
+{% endmacro %}

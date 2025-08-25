@@ -57,6 +57,8 @@ class QuizBuilder:
         "nor_funct",
         "multi_funct",
         "chronogram",
+        "ascii",
+        "ascii_text",
         ]
         self.quiz_commands = {}
         self.quiz_commands[1] = [["base", "base", "arithm"],
@@ -204,6 +206,8 @@ class QuizBuilder:
             return self.qsbuilder.question_multi_funct(minterms_list=args["minterms"],
                    var_names=args["var_names"], output_names=args["output_names"],
                    dont_care_list=args["dontcare"], method=args["method"])
+        def command_ascii_text(args={}):
+            return self.qsbuilder.question_ascii(text=args["text"], method=args["method"])
         # خارطة تربط كل أمر بدالة إنشاء السؤال وما إذا كانت تتطلب معطيات
         question_map = {
             "float": (self.qsbuilder.question_vf, False),
@@ -216,6 +220,12 @@ class QuizBuilder:
             "base": (self.qsbuilder.question_base, False),
             "arithm": (self.qsbuilder.question_arithm, False),
             "mesure": (self.qsbuilder.question_mesure, False),
+            "ascii":(self.qsbuilder.question_ascii, False),
+            "unicode":(self.qsbuilder.question_unicode, False),
+            "bcd-x3":(self.qsbuilder.question_bcd_x3, False),
+            "gray":(self.qsbuilder.question_gray, False),
+            # command with parameters
+            "ascii_text": (command_ascii_text, True),
             "static_funct": (command_static_funct, True),
             "nand_funct": (command_nand_funct, True),
             "nor_funct": (command_nor_funct, True),
@@ -284,6 +294,7 @@ class QuizBuilder:
         "flip_type":self.myconfig.flip_type,
         "output":self.myconfig.output,
         "method":self.myconfig.method,
+        "text":self.myconfig.text,
         # ~ "simplification":self.myconfig.simplification,
         }
         test_config = self.get_quiz_config(test_no)

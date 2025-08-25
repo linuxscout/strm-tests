@@ -44,6 +44,8 @@ class read_config:
         # args for logigram
         self.method = ""
         self.simplification = ""
+        # args for encoding
+        self.text = ""
         # args for chronogram
         self.length = 10
         self.flip_type = ""
@@ -72,6 +74,7 @@ class read_config:
         self.commands = ast.literal_eval(config.get('QUIZES','commands'))
         self.repeat = ast.literal_eval(config.get('Args','repeat'))
         self.method = ast.literal_eval(config.get('Args','method'))
+        self.text = ast.literal_eval(config.get('Args','text'))
         # ~ self.simplification = ast.literal_eval(config.get('Args','simplification'))
         self.random_question  = ast.literal_eval(config.get('Args','random'))
         self.questions_size = ast.literal_eval(config.get('Args','size'))
@@ -102,6 +105,7 @@ class read_config:
             logging.debug(f"size :'{self.questions_size}'")
             logging.debug(f"random: '{self.random_question}'")
             logging.debug(f"method: '{self.method}'")
+            logging.debug(f"text: '{self.text}'")
 
     
     def get_quiz_config(self, select = ""):

@@ -1,26 +1,4 @@
-{% macro fill(n, offset, filler=" ") -%}
-  {%- set s = n|string -%}
-  {%- set ln = offset - s|length -%}
-  {{ filler * ln }}{{ s }}
-{%- endmacro %}
-
-{% macro base_from10(n, b, steps) -%}
-{% set num_width = ((n|string)|length) %}
-{% set sep = " " %}
-{{ fill(n, num_width) }}|{{ b }}
-{% for step in steps %}
-{% set i=loop.index0 %}
-{# indentation per step #}
-{% set indent = sep * (i * num_width + i) %}
-{{ indent }}{{ sep * num_width }}└─────
-{% if step.quotient != 0 %}
-{{ indent }}{{ fill(step.symbol, num_width, sep) }}|{{ fill(step.quotient, num_width, sep) }}|{{ b }}
-{% else %}
-{{ indent }}{{ fill(step.symbol, num_width, sep) }}| 0
-{% endif %}
-{% endfor %}
-{%- endmacro %}
-
+{% import "base/binmacros.tex" as binmacro %}
 {% macro division_step(dividend="", divisor="", quotient="", remainder="", x=0, y=0, w=1.2, h=1) %}
 \begin{scope}[shift={({{x}}cm,-{{y}}cm)}]
   % Vertical bar
@@ -68,6 +46,71 @@
 \end{tikzpicture}
 {% endmacro %}
 
+{% macro base_conversion_table(digits, base, number_label="") %}
+\subsubsection*{Table: base {{ base }} representation}
+{% if number_label %}
+  \textit{Number in base {{ base }}:} \texttt{ {{ number_label }} }
+{% endif %}
+
+\[
+\begin{array}{|{% for d in digits %}c|{% endfor %}|}
+\hline
+{% for d in digits %}
+  {{ base }}^{ {{ loop.revindex0 }} }
+  {% if not loop.last %} & {% endif %}
+{% endfor %} \\
+\hline
+{% for d in digits %}
+  {{ d.symbol }}
+  {% if not loop.last %} & {% endif %}
+{% endfor %} \\
+\hline
+\end{array}
+\]
+{% endmacro %}
+
+
+{% macro base_sum_expression(digits, base) %}
+\subsubsection*{Base {{ base }} $\to$ 10 Expansion}
+\begin{enumerate}
+  % 1) symbolic line with digit symbols
+  \item
+    $N =
+    {% for d in digits %}
+      {{ d.symbol }} \cdot {{ base }}^{ {{ loop.revindex0 }} }
+      {% if not loop.last %}+{% endif %}
+    {% endfor %}$
+
+  % 2) replace symbols with values
+  \item
+    $N =
+    {% for d in digits %}
+      {{ d.value }} \cdot {{ base }}^{ {{ loop.revindex0 }} }
+      {% if not loop.last %}+{% endif %}
+    {% endfor %}$
+
+  % 3) numeric products
+  \item
+    $N =
+    {% set ns = namespace(total = 0) %}
+    {% for d in digits %}
+      {% set i = loop.revindex0 %}
+      {% set product = d.value * (base ** i) %}
+      {% set ns.total = ns.total + product %}
+      {{ product }}
+      {% if not loop.last %}+{% endif %}
+    {% endfor %}$
+
+  % 4) final total
+  \item
+    $N = {{ ns.total }}$
+\end{enumerate}
+{% endmacro %}
+
+
+
+
+
 Convert the following numbers, \hfill\aRL{أنجز التحويلات الآتية}
 
 {% if RENDER_MODE == "question" %}
@@ -76,10 +119,34 @@ $({{ number|group4 }})_{ {{ in_base }} } = (........)_{ {{ out_base }}}$
 $({{ number|group4 }})_{ {{ in_base }} } = (  {{ output|group4 }})_{ {{ out_base }}}$
 
 
+{% if binary_mode %}
+  {{ binmacro.base_convert_table(number, in_base, out_base) }}
+{% endif %}
+
+{% if steps_to10 and steps_from10 %}
+\textbf{Convert from base {{ in_base }} to {{ out_base }}}
+\begin{enumerate}
+  \item Convert from base {{ in_base }} to base 10
+  \item Convert from base 10 to base {{ out_base }}
+\end{enumerate}
+{% endif %}
+
+%<!-- Explanation of Base X to 10 -->
+{% if steps_to10 %}
+{% set digits = steps_to10 %}
+  \textbf{Convert from base {{ in_base }} to base 10}
+
+  {{ base_conversion_table(digits, in_base, number_label) }}
+  {{ base_sum_expression(digits, in_base) }}
+
+Result : {{ output }}
+
+{% endif %}
 
 {% if steps_from10 %}
-\textbf{Explanation of Base 10 to X}\\
-{{ division_process(number, out_base, steps_from10) }}
+\textbf{Explanation of Base 10 to {{ out_base }}}\\
+ {% set number_b10 = number_tmp if number_tmp else number %}
+{{ division_process(number_b10, out_base, steps_from10) }}
 {% endif %}
 
 Result (bottom→top remainders): {{ output }}
@@ -96,4 +163,14 @@ Result (bottom→top remainders): {{ output }}
 ] %}
 
 {{ division_process(19000, 2, steps) }}
-{% endif %}
+
+  {{ binmacro.bin2hex_table("101110101101") }}
+  {{ binmacro.bin2oct_table("101110101101") }}
+  {{ binmacro.hex2bin_table("BAD") }}
+  {{ binmacro.oct2bin_table("5725") }}
+  {{ binmacro.hex2oct_table("62F") }}
+  {{ binmacro.oct2hex_table("745") }}
+  {{ binmacro.base_convert_table("1A3", 16, 8) }}
+  {{ binmacro.base_convert_table("745", 8, 2) }}
+  {{ binmacro.base_convert_table("1011101", 2, 16) }}
+  {% endif %}

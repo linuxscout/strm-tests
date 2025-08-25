@@ -29,6 +29,10 @@ import itertools
 from . import format_const
 from ..bool import logigram
 
+def to_bin(value, width=0):
+    s = bin(value)[2:]  # remove '0b'
+    return s.zfill(width)
+
 class quiz_format:
     """ Generate a format for the test """
     def __init__(self, formatting="", lang="ar-en", templates_dir=""):
@@ -42,7 +46,9 @@ class quiz_format:
                                trim_blocks=True,
                                lstrip_blocks=True,
                                )
+        # self.env.globals.update(enumerate=enumerate)
         self.env.filters['group4'] = self.group_digits_by_4
+        self.env.filters["to_bin"] = to_bin
         self.group_digit_sep = " "
         # self.variables = ["a","b","c","d"]
         #~ print("quiz_format")
@@ -71,6 +77,11 @@ class quiz_format:
         """
         self.tests.append(quiz_question_list)
 
+    import html
+
+    # Escape for HTML
+    def escape_string(self, s: str) -> str:
+        return list(s)
 
     def group_digits_by_4(self, value):
         try:

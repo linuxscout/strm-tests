@@ -23,8 +23,7 @@
 # 
 import string
 import random
-from .  import ieee754
-
+from . import codequestion_const as cqconst
 class questionGenerator:
     """ class to generate question about some course parts"""
     def __init__(self, latex=False):
@@ -182,8 +181,12 @@ class questionGenerator:
         in_base = random.choice(base_list)
         while in_base == out_base:
             in_base = random.choice(base_list)
-        nb = random.randint(12, out_base**8)
-        res = self.int2base(nb, out_base)
+        nb10 = random.randint(12, out_base**8)
+        res = self.int2base(nb10, out_base)
+        if in_base != 10:
+            nb = self.int2base(nb10, in_base)
+        else:
+            nb = nb10
         
         return {"question":"$(%s)_{%d} = (........)_{%d}$"%(nb,in_base, out_base),
         "reponse":"$(%s)_{%d} = (%s)_{%d}$"%(nb, in_base,res, out_base),
@@ -317,10 +320,43 @@ class questionGenerator:
         else:
             return u" ".join(a)
 
+    def encode(self, s):
+        """ convert a string to ascii code/unicode """
+        return [hex(ord(c)) for c in s]
 
+    def rand_text(self, code="ascii"):
+
+        if code.lower() == "ascii":
+            return random.choice(cqconst.ASCII_STRINGS)
+        elif code.lower() == "unicode":
+            return random.choice(cqconst.UNICODE_STRINGS)
+        else:
+            return random.choice(cqconst.ASCII_STRINGS)
 
     def to_symbol(self, x: int) -> str:
         return self.DIGITS[x]
+
+    def from_symbol(self, ch: str) -> int:
+        """Convert a digit symbol to its integer value."""
+        ch = ch.upper()
+        if ch not in self.DIGITS:
+            raise ValueError(f"Invalid digit symbol: {ch}")
+        return self.DIGITS.index(ch)
+
+    def number_to_digits(self, num_str: str, base: int):
+        """
+        Convert a number string in base X into a list of dicts:
+        [{"symbol": "A", "value": 10}, ...]
+        """
+        digits = []
+        num_str = str(num_str)
+        for ch in num_str.upper():
+            value = self.from_symbol(ch)
+            if value >= base:
+                raise ValueError(f"Digit '{ch}' not valid in base {base}")
+            digits.append({"symbol": ch, "value": value})
+        return digits
+
     def make_steps_from10(self, n: int, b: int):
         """explain convert base from 10 to base x"""
         steps = []
@@ -360,9 +396,6 @@ def main(args):
     print(qs.comp_one(8, method=True))
     print(qs.intervalle(16))
     print(qs.ascii("Taha Zerrouki@gmail.com", True))
-    # float point
-    vf = ieee754.float_point()
-    vf.vf_question()
     return 0
 
 if __name__ == '__main__':

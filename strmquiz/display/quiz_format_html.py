@@ -23,6 +23,7 @@
 #  
 import itertools
 import re
+import html
 from . import quiz_format
 from . import format_const
 from ..bool import bool_const
@@ -144,7 +145,14 @@ class quiz_format_html(quiz_format.quiz_format):
     def add_newpage(self):    
         newtext= '' 
         self.output.append(newtext)
-        return newtext  
+        return newtext
+
+
+
+    # Escape for HTML
+    @staticmethod
+    def escape_string(s: str) -> str:
+        return [html.escape(x) for x in s]
     # ~ def display(self,):
         # ~ """
         # ~ """

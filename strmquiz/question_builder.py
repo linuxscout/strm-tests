@@ -79,29 +79,103 @@ class Question_Builder:
 
         res =self.qs.rand_numeral_system()
         number = res.get("number",0)
-        in_base = 10 #  res.get("in_base", 10)
+        in_base =   res.get("in_base", 10)
         out_base = res.get("out_base", 10)
+        output = res.get("output",0)
         steps_from10 = []
         steps_to10 = []
-
+        number_tmp = 0
+        binary_mode = False
 
         if in_base == 10 and out_base != 10:
             steps_from10 = self.qs.make_steps_from10(number, out_base)
         elif in_base != 10 and out_base == 10:
-            steps_to10 = self.qs.make_steps_to10(number, in_base)
+            steps_to10 = self.qs.number_to_digits(number, in_base)
+        elif in_base in (2,8,16) and out_base in (2,8,16):
+            binary_mode = True
+        elif in_base != 10 and out_base != 10:
+            steps_to10 = self.qs.number_to_digits(number, in_base)
+            number_tmp = self.qs.base2int(number, in_base)
+            steps_from10 = self.qs.make_steps_from10(number_tmp, out_base)
 
         context = {
-            "number": res.get("number",0),
-            "in_base": res.get("in_base",10),
-            "out_base": res.get("out_base",10),
-            "output": res.get("output",0),
+            "number": number,
+            "number_tmp": number_tmp,
+            "number_label": str(number),
+            "in_base": in_base,
+            "out_base": out_base,
+            "output": output,
             "steps_from10": steps_from10,
             "steps_to10": steps_to10,
+            "binary_mode":binary_mode,
+
         }
 
         question, answer = self.formater.render_question_answer("base", context)
         return question, "arabic", "data", answer
 
+
+
+    def question_bcd_x3(self,):
+
+        text  = self.qs.rand_numeral_system()
+        context = {
+            "text": text,
+            "method": "encode",
+        }
+
+        question, answer = self.formater.render_question_answer("encoding", context)
+        return question, "arabic", "data", answer
+
+    def question_gray(self,):
+
+        text  = self.qs.rand_numeral_system()
+        context = {
+            "text": text,
+            "method": "encode",
+        }
+
+        question, answer = self.formater.render_question_answer("encoding", context)
+        return question, "arabic", "data", answer
+
+    def question_unicode(self,):
+
+        text  = self.qs.rand_numeral_system()
+        context = {
+            "text": self.formater.escape_string(text),
+            "method": "encode",
+
+        }
+
+        question, answer = self.formater.render_question_answer("encoding", context)
+        return question, "arabic", "data", answer
+
+    def question_ascii(self,method="both", text=""):
+        """ encode/ decode in ASCII """
+        return self.question_charcode(text=text,scheme="ascii", method=method)
+
+    def question_unicode(self,method="both", text=""):
+        """ encode/ decode in ASCII """
+        return self.question_charcode(text=text,scheme="unicode", method=method)
+
+    def question_charcode(self,text="",scheme="ascii", method="both"):
+        """ encode/ decode in ASCII and unicode
+        """
+        if not text:
+            text  = self.qs.rand_text(code=scheme)
+        charcodes = self.qs.encode(text)
+        if method not in ("encode", "decode", "both"):
+            method = "both"
+        context = {
+            # "text": self.formater.escape_string(text),
+            "charlist": self.formater.escape_string(text),
+            "method": method, # encode decode
+            "scheme":scheme,
+            "charcodes":charcodes,
+        }
+
+        question, answer = self.formater.render_question_answer("encoding/charcode", context)
+        return question, "arabic", "data", answer
 
     def question_arithm(self,):
 

@@ -140,7 +140,26 @@ class quiz_format_tex(quiz_format.quiz_format):
     def add_hrule(self):    
         self.output.append('\n\n\\hrule width 1\linewidth')
     def add_newpage(self):    
-        self.output.append('\pagebreak')    
+        self.output.append('\pagebreak')
+
+        # Escape for LaTeX
+    @staticmethod
+    def escape_string(s: str) -> str:
+        replacements = {
+            '\\': r'\\textbackslash{}',
+            '{': r'\{',
+            '}': r'\}',
+            '$': r'\$',
+            '&': r'\&',
+            '#': r'\#',
+            '_': r'\_',
+            '%': r'\%',
+            '^': r'\textasciicircum{}',
+            '~': r'\textasciitilde{}',
+        }
+        return [replacements.get(c,c) for c in s]
+
+
     def display2(self,):
         """
         """
