@@ -21,6 +21,53 @@
 {% endfor %}
 {%- endmacro %}
 
+{% macro division_step(dividend="", divisor="", quotient="", remainder="", x=0, y=0, w=1.2, h=1) %}
+\begin{scope}[shift={({{x}}cm,-{{y}}cm)}]
+  % Vertical bar
+  \draw ({{w}},0) -- ({{w}},-{{2*h}});
+  % Horizontal bar
+  \draw ({{w}},-{{h}}) -- ({{2*w}},-{{h}});
+  % Dividend
+  {% if dividend != "" %}
+    \node[anchor=west] at (0,-0.5*{{h}}) { {{ dividend }} };
+  {% endif %}
+  % Divisor
+  {% if divisor != "" %}
+    \node[anchor=west] at ({{w+0.2}},-0.5*{{h}}) { {{ divisor }} };
+  {% endif %}
+  % Quotient
+  {% if quotient != "" %}
+    \node[anchor=west] at ({{w+0.2}},-1.5*{{h}}) { {{ quotient }} };
+  {% endif %}
+  % Remainder
+  {% if remainder != "" %}
+    \node[anchor=center] at ({{w/2}},-1.5*{{h}}) { {{ remainder }} };
+  {% endif %}
+\end{scope}
+{% endmacro %}
+
+
+{% macro division_process(dividend, divisor, steps) %}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  % Draw title info
+  {% set ns=namespace(x_offset = 0, y_offset=0) %}
+  {% set num_width = (dividend|string)|length %}
+  {% set step_width = num_width * 0.25 %}  {# rough factor in cm #}
+  {% set y_offset = 0 %}
+  {% for s in steps %}
+    {{ division_step(
+         dividend=(dividend if loop.first else ""),
+         divisor=divisor,
+         quotient=s.quotient,
+         remainder=s.remainder,
+         x=ns.x_offset, y=ns.y_offset, w=step_width, h=1
+       ) }}
+    {% set ns.x_offset = loop.index * step_width %}
+    {% set ns.y_offset = ns.y_offset + 1 %}
+  {% endfor %}
+\end{tikzpicture}
+{% endmacro %}
+
 Convert the following numbers, \hfill\aRL{أنجز التحويلات الآتية}
 
 {% if RENDER_MODE == "question" %}
@@ -32,11 +79,21 @@ $({{ number|group4 }})_{ {{ in_base }} } = (  {{ output|group4 }})_{ {{ out_base
 
 {% if steps_from10 %}
 \textbf{Explanation of Base 10 to X}\\
-\begin{verbatim}
-    {{ base_from10(number, out_base, steps_from10) }}
-\end{verbatim}
+{{ division_process(number, out_base, steps_from10) }}
 {% endif %}
 
 Result (bottom→top remainders): {{ output }}
 
+{% endif %}
+
+{% if debug %}
+{% set steps = [
+  {"quotient": 9500, "remainder": 1},
+  {"quotient": 4, "remainder": 1},
+  {"quotient": 2, "remainder": 0},
+  {"quotient": 1, "remainder": 0},
+  {"quotient": 0, "remainder": 1},
+] %}
+
+{{ division_process(19000, 2, steps) }}
 {% endif %}
