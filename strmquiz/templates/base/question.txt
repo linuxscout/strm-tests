@@ -1,0 +1,53 @@
+{% macro fill(n, offset, filler="&nbsp;") -%}
+  {%- set s = n|string -%}
+  {%- set ln = offset - s|length -%}
+  {{ filler * ln }}{{ s }}
+{%- endmacro %}
+
+{% macro base_from10(n, b, steps) -%}
+{% set num_width = ((n|string)|length) %}
+{{ fill(number, num_width) }}|{{ b }}
+{% for step in steps %}
+{% set i=loop.index0 %}
+{# indentation per step #}
+{% set indent = "&nbsp;" * (i * num_width + i) %}
+{{ indent }}{{ "&nbsp;" * num_width }}└─────
+{% if step.quotient != 0 %}
+{{ indent }}{{ fill(step.symbol, num_width, "&nbsp;") }}|{{ fill(step.quotient, num_width, "&nbsp;") }}|{{ b }}
+{% else %}
+{{ indent }}{{ fill(step.symbol, num_width, "&nbsp;") }}| 0
+{% endif %}
+{% endfor %}
+{%- endmacro %}
+
+<p>
+Convert the following numbers
+<span dir="rtl">أنجز التحويلات الآتية</span><br/>
+</p>
+{% if RENDER_MODE == "question" %}
+({{ number|group4 }})<sub>{{ in_base }} </sub> = (........)<sub>{{ out_base }} </sub> <br/>
+{% elif RENDER_MODE == "answer" %}
+({{ number|group4 }})<sub>{{ in_base }} </sub>  = (  {{ output|group4 }})<sub>{{ out_base }} </sub><br/>
+
+
+
+<style>
+  .vr { border-left: 1px solid black; padding-left: 4px; }
+  .hr { border-top: 1px solid black; margin-top: -1px; }
+</style>
+
+
+<!-- Explanation of Base 10 to X -->
+
+{% if steps_from10 %}
+    Explanation شرح
+<pre>
+{{ base_from10(number,out_base, steps_from10) }}
+</pre>
+
+<!--{% endif %}-->
+
+<br><br>
+Result (bottom→top remainders): {{ output }}
+
+{% endif %}

@@ -1,7 +1,42 @@
+{% macro fill(n, offset, filler=" ") -%}
+  {%- set s = n|string -%}
+  {%- set ln = offset - s|length -%}
+  {{ filler * ln }}{{ s }}
+{%- endmacro %}
+
+{% macro base_from10(n, b, steps) -%}
+{% set num_width = ((n|string)|length) %}
+{% set sep = " " %}
+{{ fill(n, num_width) }}|{{ b }}
+{% for step in steps %}
+{% set i=loop.index0 %}
+{# indentation per step #}
+{% set indent = sep * (i * num_width + i) %}
+{{ indent }}{{ sep * num_width }}└─────
+{% if step.quotient != 0 %}
+{{ indent }}{{ fill(step.symbol, num_width, sep) }}|{{ fill(step.quotient, num_width, sep) }}|{{ b }}
+{% else %}
+{{ indent }}{{ fill(step.symbol, num_width, sep) }}| 0
+{% endif %}
+{% endfor %}
+{%- endmacro %}
+
 Convert the following numbers, \hfill\aRL{أنجز التحويلات الآتية}
 
 {% if RENDER_MODE == "question" %}
 $({{ number|group4 }})_{ {{ in_base }} } = (........)_{ {{ out_base }}}$
 {% elif RENDER_MODE == "answer" %}
 $({{ number|group4 }})_{ {{ in_base }} } = (  {{ output|group4 }})_{ {{ out_base }}}$
+
+
+
+{% if steps_from10 %}
+\textbf{Explanation of Base 10 to X}\\
+\begin{verbatim}
+    {{ base_from10(number, out_base, steps_from10) }}
+\end{verbatim}
+{% endif %}
+
+Result (bottom→top remainders): {{ output }}
+
 {% endif %}

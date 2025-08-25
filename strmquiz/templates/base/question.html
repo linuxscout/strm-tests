@@ -1,9 +1,90 @@
+
+{# Macro: one manual vertical division step #}
+{% macro division_step(dividend, divisor, quotient, remainder, x=0, y=0, cell_w=30, cell_h=30) %}
+  {% set char_size = 12 %}
+<g transform="translate({{x}},{{y}})" font-family="monospace" font-size="16" text-anchor="right">
+  {% set quotient_width = char_size*((quotient|string)|length) %}
+  {% set cell_w2= quotient_width %}
+  {% set cell_w1= cell_w %}
+  {% set cell_w2= cell_w %}
+  <!-- Draw vertical bar -->
+  <line x1="{{ cell_w1 }}" y1="0" x2="{{ cell_w1 }}" y2="{{ cell_h*2 }}" stroke="black"/>
+  <!-- Draw Horizental  bar -->
+  <line x1="{{ cell_w1 }}" y1="{{ cell_h }}" x2="{{ cell_w1+cell_w2 }}" y2="{{ cell_h }}" stroke="black"/>
+  <!-- Dividend -->
+  <text x="0" y="{{ cell_h*0.75 }}">{{ dividend }}</text>
+  <!-- Divisor -->
+  <text x="{{ cell_w1+char_size }}" y="{{ cell_h*0.75 }}">{{ divisor }}</text>
+  <!-- Quotient -->
+  <text x="{{ cell_w1+char_size/2 }}" y="{{ cell_h*1.75 }}">{{ quotient }}</text>
+  <!-- Remainder -->
+  <text x="{{ cell_w1/2 }}" y="{{ cell_h*1.75 }}">{{ remainder }}</text>
+<!--  <text x="{{ cell_w1 }}" y="{{ cell_h*2.75 }}">num_width={{ div_width }},cell_w1={{cell_w1}}, cell_w2={{cell_w2}}</text>-->
+</g>
+{% endmacro %}
+
+
+{# Macro: whole division with successive steps #}
+{% macro division_process(dividend, divisor, steps, cell_h=30) %}
+{% set char_size = 12 %}
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="{{ (steps|length+1) * char_size*((dividend|string)|length)*1.2 + 20 }}" height="{{ (steps|length+1) * cell_h*1.2 + 50 }}">
+  <!-- First header -->
+  <g transform="translate(20,20)">
+    <text x="0" y="{{cell_h*0.75}}">Dividend: {{ dividend }}</text>
+    <text x="200" y="{{cell_h*0.75}}">Divisor: {{ divisor }}</text>
+  </g>
+
+  {% set div_width = char_size*((dividend|string)|length) %}
+  {% set cell_w = div_width %}
+  <!-- Steps -->
+  {% set ns= namespace(y_offset = 80, x_offset=20) %}
+  {% set x_offset = 20 %}
+  {% for s in steps %}
+  <!-- In case of first step, display dividend, else not, it's the previous quotient -->
+    {%set dividend_str = s.dividend if loop.first else "" %}
+    {{ division_step(dividend_str, divisor, s.quotient, s.remainder, ns.x_offset, ns.y_offset, cell_w, cell_h) }}
+    {% set ns.y_offset = ns.y_offset + cell_h %}
+    {% set ns.x_offset = ns.x_offset + cell_w*1.1 %}
+  {% endfor %}
+</svg>
+{% endmacro %}
+
+
 <p>
 Convert the following numbers
 <span dir="rtl">أنجز التحويلات الآتية</span><br/>
+</p>
 {% if RENDER_MODE == "question" %}
 ({{ number|group4 }})<sub>{{ in_base }} </sub> = (........)<sub>{{ out_base }} </sub> <br/>
 {% elif RENDER_MODE == "answer" %}
 ({{ number|group4 }})<sub>{{ in_base }} </sub>  = (  {{ output|group4 }})<sub>{{ out_base }} </sub><br/>
+
+
+
+<style>
+  .vr { border-left: 1px solid black; padding-left: 4px; }
+  .hr { border-top: 1px solid black; margin-top: -1px; }
+</style>
+
+
+<!-- Explanation of Base 10 to X -->
+
+{% if steps_from10 %}
+    Explanation شرح
+
+{{ division_process(number, out_base, steps_from10, cell_h=30)}}
+
+
+<!--<svg xmlns="http://www.w3.org/2000/svg"-->
+<!--     width="600" height="300">-->
+<!--{{ division_step(100025000000000, 100, 1000, 25, x=20, y=20, cell_w=100, cell_h=30) }}-->
+
+<!--  {{ division_step(125, 10, 12, 5, x=20, y=120, cell_w=100, cell_h=30) }}-->
+<!--</svg>-->
+<!--{% endif %}-->
+
+<br><br>
+Result (bottom→top remainders): {{ output }}
+
 {% endif %}
-</p>

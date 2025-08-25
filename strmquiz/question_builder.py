@@ -78,11 +78,25 @@ class Question_Builder:
     def question_base(self,):
 
         res =self.qs.rand_numeral_system()
+        number = res.get("number",0)
+        in_base = 10 #  res.get("in_base", 10)
+        out_base = res.get("out_base", 10)
+        steps_from10 = []
+        steps_to10 = []
+
+
+        if in_base == 10 and out_base != 10:
+            steps_from10 = self.qs.make_steps_from10(number, out_base)
+        elif in_base != 10 and out_base == 10:
+            steps_to10 = self.qs.make_steps_to10(number, in_base)
+
         context = {
             "number": res.get("number",0),
             "in_base": res.get("in_base",10),
             "out_base": res.get("out_base",10),
             "output": res.get("output",0),
+            "steps_from10": steps_from10,
+            "steps_to10": steps_to10,
         }
 
         question, answer = self.formater.render_question_answer("base", context)

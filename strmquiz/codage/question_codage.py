@@ -29,6 +29,7 @@ class questionGenerator:
     """ class to generate question about some course parts"""
     def __init__(self, latex=False):
         self.latex= latex
+        self.DIGITS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 
 
@@ -315,6 +316,32 @@ class questionGenerator:
             return text
         else:
             return u" ".join(a)
+
+
+
+    def to_symbol(self, x: int) -> str:
+        return self.DIGITS[x]
+    def make_steps_from10(self, n: int, b: int):
+        """explain convert base from 10 to base x"""
+        steps = []
+        x = n
+        while x > 0:
+            q, r = divmod(x, b)
+            steps.append({
+                "dividend": x,
+                "quotient": q,
+                "remainder": r,
+                "symbol": self.to_symbol(r)
+            })
+            x = q
+        return steps
+
+    def make_steps_to10(self, n: int, b: int):
+        """explain convert base from base X to base 10"""
+        steps = []
+        x = n
+        return steps
+
 def main(args):
     qs = questionGenerator()
     print(qs.numeral_system(12,2))

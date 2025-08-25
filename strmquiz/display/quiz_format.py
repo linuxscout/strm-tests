@@ -38,7 +38,10 @@ class quiz_format:
         self.newline = "\n"
         self.lang = lang
         self.templates_dir = templates_dir
-        self.env = Environment(loader=FileSystemLoader(self.templates_dir))
+        self.env = Environment(loader=FileSystemLoader(self.templates_dir),
+                               trim_blocks=True,
+                               lstrip_blocks=True,
+                               )
         self.env.filters['group4'] = self.group_digits_by_4
         self.group_digit_sep = " "
         # self.variables = ["a","b","c","d"]
@@ -67,6 +70,7 @@ class quiz_format:
         """
         """
         self.tests.append(quiz_question_list)
+
 
     def group_digits_by_4(self, value):
         try:
