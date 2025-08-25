@@ -333,6 +333,41 @@ class questionGenerator:
         else:
             return random.choice(cqconst.ASCII_STRINGS)
 
+    def dec_to_bcd(self, n: int) -> str:
+        """
+        Convert a decimal number to BCD (Binary Coded Decimal).
+        Each digit is represented by 4 bits.
+        """
+        return ' '.join(f"{int(digit):04b}" for digit in str(n))
+
+    def dec_to_excess3(self, n: int) -> str:
+        """
+        Convert a decimal number to Excess-3 code.
+        Each digit is represented by 4 bits after adding 3.
+        """
+        return ' '.join(f"{int(digit) + 3:04b}" for digit in str(n))
+
+    def bcd_to_dec(self, bcd: str) -> int:
+        """
+        Convert a BCD (Binary Coded Decimal) string to decimal.
+        Input format: groups of 4 bits separated by spaces or not.
+        Example: '0101 1001' -> 59
+        """
+        # Remove spaces and split into chunks of 4 bits
+        bcd = bcd.replace(" ", "")
+        digits = [bcd[i:i + 4] for i in range(0, len(bcd), 4)]
+        return int(''.join(str(int(d, 2)) for d in digits))
+
+    def excess3_to_dec(self, ex3: str) -> int:
+        """
+        Convert an Excess-3 code string to decimal.
+        Input format: groups of 4 bits separated by spaces or not.
+        Example: '1000 1100' -> 59
+        """
+        ex3 = ex3.replace(" ", "")
+        digits = [ex3[i:i + 4] for i in range(0, len(ex3), 4)]
+        return int(''.join(str(int(d, 2) - 3) for d in digits))
+
     def to_symbol(self, x: int) -> str:
         return self.DIGITS[x]
 

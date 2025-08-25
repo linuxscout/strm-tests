@@ -59,6 +59,8 @@ class QuizBuilder:
         "chronogram",
         "ascii",
         "ascii_text",
+        "bcdx3",
+
         ]
         self.quiz_commands = {}
         self.quiz_commands[1] = [["base", "base", "arithm"],
@@ -222,7 +224,7 @@ class QuizBuilder:
             "mesure": (self.qsbuilder.question_mesure, False),
             "ascii":(self.qsbuilder.question_ascii, False),
             "unicode":(self.qsbuilder.question_unicode, False),
-            "bcd-x3":(self.qsbuilder.question_bcd_x3, False),
+            "bcdx3":(self.qsbuilder.question_bcd_x3, False),
             "gray":(self.qsbuilder.question_gray, False),
             # command with parameters
             "ascii_text": (command_ascii_text, True),

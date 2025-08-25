@@ -1,0 +1,55 @@
+
+{% if RENDER_MODE == "question" %}
+  {% if scheme in ("bcd", "both", "") %}
+    <h4>Encode the following numbers into BCD:</h4>
+    <p><b>N = </b> "{{ number }}"</p>
+  {% endif %}
+  {% if scheme in ("x3", "both","") %}
+    <h4>Encode the following numbers into Excess3:</h4>
+    <p><b>N = </b> "{{ number }}"</p>
+  {% endif %}{% elif RENDER_MODE == "answer" %}
+
+({{number}})<sub>10 </sub> = ({{bcd}})<sub>bcd </sub>
+<br/>
+
+({{number}})<sub>10 </sub> = ({{x3}})<sub>x3 </sub>
+<br/>
+Explanation
+<br/>
+  {% if method in ("encode", "both", "")%}
+  {% if scheme in ("bcd", "both","") %}
+     Base 10 to BCD<br/>
+
+    {% for c in number|string %} {# as string #}
+      {% set i = loop.index0 %}
+      {{c}} ==&gt; {{bcd_digits[i]}}<br/>
+    {% endfor %}
+  {% endif %}
+  {% if scheme in ("x3", "both","") %}
+     Base 10 to X3<br/>
+
+    {% for c in number|string %} {# as string #}
+      {% set i = loop.index0 %}
+      {{c}} ==&gt; {{x3_digits[i]}}<br/>
+    {% endfor %}
+  {% endif %}
+  {% endif %}
+  {% if method in ("decode", "both", "")%}
+  {% if scheme in ("x3", "both","") %}
+     BCD to Base 10<br/>
+
+    {% for c in bcd_digits %} {# as string #}
+      {% set i = loop.index0 %}
+      {{c}} ==&gt; {{(number|string)[i]}}<br/>
+    {% endfor %}
+  {% endif %}
+  {% if scheme in ("x3", "both","") %}
+     Excess3 to Base 10<br/>
+
+    {% for c in x3_digits %} {# as string #}
+      {% set i = loop.index0 %}
+      {{c}} ==&gt; {{(number|string)[i]}}<br/>
+    {% endfor %}
+  {% endif %}
+  {% endif %}
+{% endif %}

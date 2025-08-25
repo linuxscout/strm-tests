@@ -22,6 +22,7 @@
 #  
 #  
 import logging
+import random
 
 from .codage import question_codage as question
 from .bool import boolquiz
@@ -116,15 +117,26 @@ class Question_Builder:
 
 
 
-    def question_bcd_x3(self,):
+    def question_bcd_x3(self, scheme="", method=""):
 
-        text  = self.qs.rand_numeral_system()
+
+        number  = random.randint(10, 10**8)
+        bcd = self.qs.dec_to_bcd(number)
+        bcd_digits = bcd.split(" ")
+        x3 = self.qs.dec_to_excess3(number)
+        x3_digits = bcd.split(" ")
+
         context = {
-            "text": text,
-            "method": "encode",
+            "number": str(number) ,
+            "bcd": bcd,
+            "bcd_digits": bcd_digits,
+            "x3": x3,
+            "x3_digits": x3_digits,
+            "scheme":scheme,
+            "method":method,
         }
 
-        question, answer = self.formater.render_question_answer("encoding", context)
+        question, answer = self.formater.render_question_answer("encoding/bcdx3", context)
         return question, "arabic", "data", answer
 
     def question_gray(self,):
