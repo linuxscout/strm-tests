@@ -8,18 +8,32 @@
 
 
 
-    \subsection*{Encode the following numbers into BCD}
-    \textbf{N = } 82601
-    \subsection*{Encode the following numbers into Excess-3}
-    \textbf{N = } 82601
-
-  % endif answer
 
 
 
 
 
+% =========================================================
+% Main Template: Binary <-> Gray Exercises (LaTeX)
+% =========================================================
 
+\section*{Exercise}
+
+\textbf{Convert the following number from Binary to Gray:}\\
+حوّل من الثنائي إلى ترميز غراي
+
+\[
+  1000000
+\]
+
+\bigskip
+
+\textbf{Convert the following number from Gray to Binary:}\\
+حوّل من ترميز غراي إلى الثنائي
+
+\[
+  1100000
+\]
 
 
 
@@ -37,149 +51,187 @@
 
 
 
-$(82601)_{10} = (1000 0010 0110 0000 0001)_{BCD}$ \\[6pt]
-
-$(82601)_{10} = (1011 0101 1001 0011 0100)_{Excess\text{-}3}$ \\[6pt]
-
-\textbf{Explanation:} \\[6pt]
-
-      \textit{Base 10 to BCD:} \\[6pt]
-    
-    \textbf{Decimal to BCD} \\
-
-    \begin{tabular}{|c|c|c|c|c|}
-    \hline
- 8  &  2  &  6  &  0  &  1  \\
-    \hline
- 1000  &  0010  &  0110  &  0000  &  0001  \\
-    \hline
-    \end{tabular}
-
-
-
-      \textit{Base 10 to Excess-3:} \\[6pt]
-    
-    \textbf{Decimal to X3} \\
-
-    \begin{tabular}{|c|c|c|c|c|}
-    \hline
- 8  &  2  &  6  &  0  &  1  \\
-    \hline
- 1011  &  0101  &  1001  &  0011  &  0100  \\
-    \hline
-    \end{tabular}
 
 
 
 
-      \textit{BCD to Base 10:} \\[6pt]
-    
-    \textbf{ BCD to Decimal} \\
+% =========================================================
+% Main Template: Binary <-> Gray Exercises (LaTeX)
+% =========================================================
 
-    \begin{tabular}{|c|c|c|c|c|}
-    \hline
- 1000  &  0010  &  0110  &  0000  &  0001  \\
-    \hline
- 8  &  2  &  6  &  0  &  1  \\
-    \hline
-    \end{tabular}
+\section*{Solutions}
 
+\subsection*{Binary $\to$ Gray Conversion}
+\subsection*{Binary $\to$ Gray Conversion}
+
+Binary input: \textbf{ 1000000 }
 
 
-      \textit{Excess-3 to Base 10:} \\[6pt]
-        
-    \textbf{ X3 to Decimal} \\
-
-    \begin{tabular}{|c|c|c|c|c|}
-    \hline
- 1011  &  0101  &  1001  &  0011  &  0100  \\
-    \hline
- 8  &  2  &  6  &  0  &  1  \\
-    \hline
-    \end{tabular}
-
-
-
-
-  
-\section*{ BCD Addition Explanation }
-
-Decimal calculation: $9764 + 9764 = 19528$
-
-\vspace{0.3cm}
-
-\begin{tabular}{l|rrrrr}
-\textbf{Carry In} &  {\scriptsize 1}  &  {\scriptsize 1}  &  {\scriptsize 1}  &  {\scriptsize }  &  {\scriptsize }  \\
-\textbf{A (dec)} &  0  &  9  &  7  &  6  &  4  \\
-\textbf{B (dec)} &  0  &  9  &  7  &  6  &  4  \\
+\begin{tabular}{|c|*7{c|}}
 \hline
-\textbf{Final Digit (dec)} &  1  &  9  &  5  &  2  &  8  \\
-\end{tabular}
-
-\vspace{0.3cm}
-
-\textbf{Addition in BCD}
-\vspace{0.3cm}
-
-\begin{tabular}{l|rrrrr}
-\textbf{Carry In} &  {\scriptsize 1}  &  {\scriptsize }  &  {\scriptsize }  &  {\scriptsize }  &  {\scriptsize }  \\
-\textbf{A (bin)} &  0000  &  1001  &  0111  &  0110  &  0100  \\
-\textbf{B (bin)} &  0000  &  1001  &  0111  &  0110  &  0100 \\\hline
-
-\textbf{Carry Out} &  {\scriptsize }   &  {\scriptsize 1}   &  {\scriptsize 1}   &  {\scriptsize }   &  {\scriptsize }   \\
-\textbf{Raw Sum (bin)} &  0001  &  0010  &  1110  &  1100  &  1000  \\
-\textbf{Correction} &   &   +110  &   +110  &   +110  &   \\
+Binary &  1 &  0 &  0 &  0 &  0 &  0 &  0   \\
 \hline
-
-\textbf{Final Digit (bin)} &  0001  &  1001  &  0101  &  0010  &  1000  \\
-\textbf{Final Digit (dec)} &  1  &  9  &  5  &  2  &  8  \\
+Arrows &     \textcolor{green}{$\downarrow$}
+&    \textcolor{red}{$\searrow\downarrow$}
+&    \textcolor{red}{$\searrow\downarrow$}
+&    \textcolor{red}{$\searrow\downarrow$}
+&    \textcolor{red}{$\searrow\downarrow$}
+&    \textcolor{red}{$\searrow\downarrow$}
+&    \textcolor{red}{$\searrow\downarrow$}
+ \\
+\hline
+Gray &   \textbf{\textcolor{blue}{ 1 }}
+&  \textbf{\textcolor{blue}{ 1 }}
+&  \textbf{\textcolor{blue}{ 0 }}
+&  \textbf{\textcolor{blue}{ 0 }}
+&  \textbf{\textcolor{blue}{ 0 }}
+&  \textbf{\textcolor{blue}{ 0 }}
+&  \textbf{\textcolor{blue}{ 0 }}
+ \\
+\hline
+Steps &   {\small Copy first bit}
+&  {\small $1 \oplus 0 = 1$}
+&  {\small $0 \oplus 0 = 0$}
+&  {\small $0 \oplus 0 = 0$}
+&  {\small $0 \oplus 0 = 0$}
+&  {\small $0 \oplus 0 = 0$}
+&  {\small $0 \oplus 0 = 0$}
+ \\
+\hline
 \end{tabular}
 
 
+\bigskip
+
+\subsection*{Gray $\to$ Binary Conversion}
+\subsection*{Gray $\to$ Binary Conversion}
+
+Gray input: \textbf{ 1100000 }
 
 
-  
-\section*{ EXCESS3 Addition Explanation }
-
-Decimal calculation: $9764 + 9764 = 19528$
-
-\vspace{0.3cm}
-
-\begin{tabular}{l|rrrrr}
-\textbf{Carry In} &  {\scriptsize 1}  &  {\scriptsize 1}  &  {\scriptsize 1}  &  {\scriptsize }  &  {\scriptsize }  \\
-\textbf{A (dec)} &  0  &  9  &  7  &  6  &  4  \\
-\textbf{B (dec)} &  0  &  9  &  7  &  6  &  4  \\
+\begin{tabular}{|c|*7{c|}}
 \hline
-\textbf{Final Digit (dec)} &  1  &  9  &  5  &  2  &  8  \\
+Gray &  1 &  1 &  0 &  0 &  0 &  0 &  0   \\
+\hline
+Arrows &     \textcolor{green}{$\downarrow$}
+&    \textcolor{blue}{$\nearrow\downarrow$}
+&    \textcolor{blue}{$\nearrow\downarrow$}
+&    \textcolor{blue}{$\nearrow\downarrow$}
+&    \textcolor{blue}{$\nearrow\downarrow$}
+&    \textcolor{blue}{$\nearrow\downarrow$}
+&    \textcolor{blue}{$\nearrow\downarrow$}
+ \\
+\hline
+Binary &   \textbf{\textcolor{blue}{ 1 }}
+&  \textbf{\textcolor{blue}{ 0 }}
+&  \textbf{\textcolor{blue}{ 0 }}
+&  \textbf{\textcolor{blue}{ 0 }}
+&  \textbf{\textcolor{blue}{ 0 }}
+&  \textbf{\textcolor{blue}{ 0 }}
+&  \textbf{\textcolor{blue}{ 0 }}
+ \\
+\hline
+Steps &   {\small Copy first bit}
+&  {\small $1 \oplus 1 = 0$}
+&  {\small $0 \oplus 0 = 0$}
+&  {\small $0 \oplus 0 = 0$}
+&  {\small $0 \oplus 0 = 0$}
+&  {\small $0 \oplus 0 = 0$}
+&  {\small $0 \oplus 0 = 0$}
+ \\
+\hline
 \end{tabular}
 
-\vspace{0.3cm}
 
-\textbf{Addition in EXCESS3}
-\vspace{0.3cm}
+\bigskip
 
-\begin{tabular}{l|rrrrr}
-\textbf{Carry In} &  {\scriptsize 1}  &  {\scriptsize 1}  &  {\scriptsize 1}  &  {\scriptsize }  &  {\scriptsize }  \\
-\textbf{A (bin)} &  0011  &  1100  &  1010  &  1001  &  0111  \\
-\textbf{B (bin)} &  0011  &  1100  &  1010  &  1001  &  0111 \\\hline
+\subsection*{Illustration of Bit Change (Next Gray Code)}
+\subsection*{Binary Increment Illustration}
 
-\textbf{Raw Sum (bin)} &  0111  &  1001  &  0101  &  0010  &  1110  \\
-\textbf{Correction} &  -11  &  +11  &  +11  &  +11  &  -11  \\
+$x$: 1100000 $\;\to\;$ $x+1$: 1100001
+
+\begin{tabular}{|c|*7{c|}}
 \hline
-
-\textbf{Final Digit (bin)} &  0100  &  1100  &  1000  &  0101  &  1011  \\
-\textbf{Final Digit (dec)} &  1  &  9  &  5  &  2  &  8  \\
+Position &  0 &  1 &  2 &  3 &  4 &  5 &  6   \\
+\hline
+$x$ &  1 &  1 &  0 &  0 &  0 &  0 &  0   \\
+\hline
+$x+1$ &     1
+&    1
+&    0
+&    0
+&    0
+&    0
+&    \cellcolor{yellow}\textbf{ 1 }
+ \\
+\hline
 \end{tabular}
 
+\emph{Highlighted cell(s) = changed bit(s)}
 
 
+\bigskip
 
-  % endif answer
+\subsection*{Gray Code Sequence}
+\subsection*{Gray Code Sequence (Bit Changes)}
 
+\begin{tabular}{|c|*7{c|}}
+\hline
+Step &  Bit 0 &  Bit 1 &  Bit 2 &  Bit 3 &  Bit 4 &  Bit 5 &  Bit 6   \\
+\hline
+x + 0 &
+    1
+&    1
+&    0
+&    0
+&    0
+&    0
+&    0
+ \\
+\hline
+x + 1 &
+    1
+&    1
+&    0
+&    0
+&    0
+&    0
+&    \cellcolor{yellow}\textbf{ 1 }
+ \\
+\hline
+x + 2 &
+    1
+&    1
+&    0
+&    0
+&    0
+&    \cellcolor{yellow}\textbf{ 1 }
+&    1
+ \\
+\hline
+x + 3 &
+    1
+&    1
+&    0
+&    0
+&    0
+&    1
+&    \cellcolor{yellow}\textbf{ 0 }
+ \\
+\hline
+x + 4 &
+    1
+&    1
+&    0
+&    0
+&    \cellcolor{yellow}\textbf{ 1 }
+&    1
+&    0
+ \\
+\hline
+\end{tabular}
 
-
-
-
+\emph{Highlighted cell shows the bit that flipped compared to the previous Gray code.}
 
 
 

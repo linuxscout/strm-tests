@@ -1,0 +1,206 @@
+{# =========================================================
+   Enhanced Binary ↔ Gray Conversion with Arrows & Colors
+   ========================================================= #}
+
+{% macro bin_to_gray_table(binary) %}
+<h3>Binary → Gray Conversion</h3>
+
+<p>
+  Binary input: <b>{{ binary|join('') }}</b>
+</p>
+
+{% set gray = [binary[0]|int] %}
+{% set steps = ["Copy first bit"] %}
+{% for i in range(1, binary|length) %}
+    {% set xor_val = (binary[i]|int + binary[i-1]|int) % 2 %}
+    {% set _ = gray.append(xor_val) %}
+    {% set _ = steps.append("XOR " ~ binary[i-1] ~ " ⊕ " ~ binary[i] ~ " = " ~ xor_val) %}
+{% endfor %}
+
+<table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; text-align: center;">
+  <tr style="background:#eef;">
+    <th>Binary</th>
+    {% for b in binary %}
+      <td>{{ b }}</td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <th>Arrows</th>
+    {% for i in range(binary|length) %}
+      {% if i == 0 %}
+        <td style="color:green;">↓</td>
+      {% else %}
+        <td style="color:red;">↘↓</td>
+      {% endif %}
+    {% endfor %}
+  </tr>
+  <tr style="background:#efe;">
+    <th>Gray</th>
+    {% for g in gray %}
+      <td><b style="color:#007;">{{ g }}</b></td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <th>Steps</th>
+    {% for step in steps %}
+      <td style="font-size:0.9em; color:#444;">{{ step }}</td>
+    {% endfor %}
+  </tr>
+
+</table>
+{% endmacro %}
+
+{% macro gray_to_bin_table(gray) %}
+<h3>Gray → Binary Conversion</h3>
+
+<p>
+  Gray input: <b>{{ gray|join('') }}</b>
+</p>
+
+{% set binary = [gray[0]|int] %}
+{% set steps = ["Copy first bit"] %}
+{% for i in range(1, gray|length) %}
+    {% set val = (binary[i-1] + gray[i]|int) % 2 %}
+    {% set _ = binary.append(val) %}
+    {% set _ = steps.append(binary[i-1]|string ~ " ⊕ " ~ gray[i]|string ~ " = " ~ val) %}
+{% endfor %}
+
+<table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; text-align: center;">
+  <tr style="background:#eef;">
+    <th>Gray</th>
+    {% for g in gray %}
+      <td>{{ g }}</td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <th>Arrows</th>
+    {% for i in range(gray|length) %}
+      {% if i == 0 %}
+        <td style="color:green;">↓</td>
+      {% else %}
+        <td style="color:blue;">↗↓</td>
+      {% endif %}
+    {% endfor %}
+  </tr>
+  <tr style="background:#efe;">
+    <th>Binary</th>
+    {% for b in binary %}
+      <td><b style="color:#007;">{{ b }}</b></td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <th>Steps</th>
+    {% for step in steps %}
+      <td style="font-size:0.9em; color:#444;">{{ step }}</td>
+    {% endfor %}
+  </tr>
+
+</table>
+{% endmacro %}
+
+{# =========================================================
+   Illustrate bit changes
+   ========================================================= #}
+{% macro illustrate_bit_change(x, x_next) %}
+  <h3>Binary Increment Illustration</h3>
+  <p><b>x:</b> {{ x|join }} → <b>x+1:</b> {{ x_next|join }}</p>
+
+  <table border="1" cellpadding="6" cellspacing="0">
+    <tr>
+      <th>Position</th>
+      {% for i in range(x|length) %}
+        <th>{{ i }}</th>
+      {% endfor %}
+    </tr>
+    <tr>
+      <td>x</td>
+      {% for bit in x %}
+        <td>{{ bit }}</td>
+      {% endfor %}
+    </tr>
+    <tr>
+      <td>x+1</td>
+      {% for i in range(x|length) %}
+        {% if x[i] != x_next[i] %}
+          <td style="background-color: yellow; font-weight: bold;">{{ x_next[i] }}</td>
+        {% else %}
+          <td>{{ x_next[i] }}</td>
+        {% endif %}
+      {% endfor %}
+    </tr>
+  </table>
+
+  <p><i>Highlighted cell(s) = changed bit(s)</i></p>
+{% endmacro %}
+
+{% macro illustrate_gray_sequence(gray_codes, x_name="x") %}
+  <h3>Gray Code Sequence (Bit Changes)</h3>
+
+  <table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; text-align: center;">
+    <tr>
+      <th>Step</th>
+      {% for b in range(gray_codes[0]|length) %}
+        <th>Bit {{ loop.index0 }}</th>
+      {% endfor %}
+    </tr>
+
+    {% for i in range(gray_codes|length) %}
+      <tr>
+        <td>{{ x_name }} + {{ i }}</td>
+        {% for j in range(gray_codes[i]|length) %}
+          {% if i > 0 and gray_codes[i][j] != gray_codes[i-1][j] %}
+            <td style="background-color: yellow; font-weight: bold;">
+              {{ gray_codes[i][j] }}
+            </td>
+          {% else %}
+            <td>{{ gray_codes[i][j] }}</td>
+          {% endif %}
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </table>
+
+  <p><i>Highlighted cell shows the bit that flipped compared to the previous Gray code.</i></p>
+{% endmacro %}
+
+
+{# =========================================================
+   Main Template: Binary <-> Gray Exercises
+   ========================================================= #}
+{% if RENDER_MODE == "question" %}
+
+  <h3>Convert the following number from Binary to Gray:</h3>
+  <p><b>حوّل من الثنائي إلى ترميز غراي</b></p>
+  <div style="font-size: 18px; letter-spacing: 6px;">
+    {{ number_bin|join }}
+  </div>
+
+  <hr/>
+
+  <h3>Convert the following number from Gray to Binary:</h3>
+  <p><b>حوّل من ترميز غراي إلى الثنائي</b></p>
+  <div style="font-size: 18px; letter-spacing: 6px;">
+    {{ number_gray|join }}
+  </div>
+
+{% elif RENDER_MODE == "answer" %}
+
+  <h3>Binary → Gray Conversion</h3>
+  {{ bin_to_gray_table(number_bin) }}
+
+  <br/>
+
+  <h3>Gray → Binary Conversion</h3>
+  {{ gray_to_bin_table(number_gray) }}
+
+  <br/>
+
+  <h3>Illustration of Bit Change (Next Gray Code)</h3>
+  {{ illustrate_bit_change(gray_sequence[0], gray_sequence[1]) }}
+
+  <br/>
+
+  <h3>Gray Code Sequence</h3>
+  {{ illustrate_gray_sequence(gray_sequence, "x") }}
+
+{% endif %}

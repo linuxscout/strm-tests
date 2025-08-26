@@ -684,6 +684,52 @@ class questionGenerator:
             "sums_dec": tmp_decimals,
             "corrections": corrections,
         }
+
+
+    def binary_to_gray(self, binary_str: str) -> str:
+        """
+        Convert a binary string to Gray code.
+        Example: '1011' -> '1110'
+        """
+        binary = [int(b) for b in binary_str]
+        gray = [binary[0]]  # MSB remains the same
+        for i in range(1, len(binary)):
+            # XOR current bit with previous bit
+            gray.append(binary[i] ^ binary[i - 1])
+        return ''.join(str(b) for b in gray)
+
+
+    def gray_to_binary(self, gray_str: str) -> str:
+        """
+        Convert a Gray code string to binary.
+        Example: '1110' -> '1011'
+        """
+        gray = [int(g) for g in gray_str]
+        binary = [gray[0]]  # MSB remains the same
+        for i in range(1, len(gray)):
+            # XOR previous binary bit with current gray bit
+            binary.append(binary[i - 1] ^ gray[i])
+        return ''.join(str(b) for b in binary)
+
+
+    def gray_sequence_from_binary(self, x: str, n: int) -> list[str]:
+        """
+        Generate a sequence of n Gray codes starting from binary string x.
+
+        :param x: Starting binary string
+        :param n: Number of Gray codes to generate
+        :return: List of Gray code strings
+        """
+        # Convert starting binary to integer
+        start_int = int(x, 2)
+        width = len(x)
+
+        sequence = []
+        for i in range(n):
+            next_bin = f"{start_int + i:0{width}b}"
+            next_gray = self.binary_to_gray(next_bin)
+            sequence.append(next_gray)
+        return sequence
 def main(args):
     qs = questionGenerator()
     print(qs.numeral_system(12,2))

@@ -148,13 +148,23 @@ class Question_Builder:
 
     def question_gray(self,):
 
-        text  = self.qs.rand_numeral_system()
+        x  = random.randint(15, 256)
+
+        x_bin = self.qs.int2base(x, 2)
+        x_gray = self.qs.binary_to_gray(x_bin)
+        seq_len  = random.randint(2, 10)
+        x_gray_sequence = self.qs.gray_sequence_from_binary(x_bin,seq_len)
+
         context = {
-            "text": text,
+            "number_dec": str(x) ,
+            "number_bin": str(x_bin),
+            "number_gray": str(x_gray),
+            "gray_sequence": x_gray_sequence,
+            "sequence_length": seq_len,
             "method": "encode",
         }
 
-        question, answer = self.formater.render_question_answer("encoding", context)
+        question, answer = self.formater.render_question_answer("encoding/gray", context)
         return question, "arabic", "data", answer
 
     def question_unicode(self,):

@@ -1,0 +1,181 @@
+{# =========================================================
+   Enhanced Binary ↔ Gray Conversion (LaTeX Version)
+   ========================================================= #}
+
+{% macro bin_to_gray_table(binary) %}
+\subsection*{Binary $\to$ Gray Conversion}
+
+Binary input: \textbf{ {{ binary|join('') }} }
+
+{% set gray = [binary[0]|int] %}
+{% set steps = ["Copy first bit"] %}
+{% for i in range(1, binary|length) %}
+    {% set xor_val = (binary[i]|int + binary[i-1]|int) % 2 %}
+    {% set _ = gray.append(xor_val) %}
+    {% set _ = steps.append("$" ~ binary[i-1] ~ " \oplus " ~ binary[i] ~ " = " ~ xor_val ~ "$") %}
+{% endfor %}
+
+\begin{tabular}{|c|*{{ binary|length }}{c|}}
+\hline
+Binary & {% for b in binary %} {{ b }} {% if not loop.last %}&{% endif %} {% endfor %} \\
+\hline
+Arrows & {% for i in range(binary|length) %}
+  {% if i == 0 %}
+    \textcolor{green}{$\downarrow$}
+  {% else %}
+    \textcolor{red}{$\searrow\downarrow$}
+  {% endif %}
+  {% if not loop.last %}&{% endif %}
+{% endfor %} \\
+\hline
+Gray & {% for g in gray %}
+  \textbf{\textcolor{blue}{ {{ g }} }}
+  {% if not loop.last %}&{% endif %}
+{% endfor %} \\
+\hline
+Steps & {% for step in steps %}
+  {\small {{ step }}}
+  {% if not loop.last %}&{% endif %}
+{% endfor %} \\
+\hline
+\end{tabular}
+{% endmacro %}
+
+
+{% macro gray_to_bin_table(gray) %}
+\subsection*{Gray $\to$ Binary Conversion}
+
+Gray input: \textbf{ {{ gray|join('') }} }
+
+{% set binary = [gray[0]|int] %}
+{% set steps = ["Copy first bit"] %}
+{% for i in range(1, gray|length) %}
+    {% set val = (binary[i-1] + gray[i]|int) % 2 %}
+    {% set _ = binary.append(val) %}
+    {% set _ = steps.append("$" ~ binary[i-1]|string ~ " \oplus " ~ gray[i]|string ~ " = " ~ val ~ "$") %}
+{% endfor %}
+
+\begin{tabular}{|c|*{{ gray|length }}{c|}}
+\hline
+Gray & {% for g in gray %} {{ g }} {% if not loop.last %}&{% endif %} {% endfor %} \\
+\hline
+Arrows & {% for i in range(gray|length) %}
+  {% if i == 0 %}
+    \textcolor{green}{$\downarrow$}
+  {% else %}
+    \textcolor{blue}{$\nearrow\downarrow$}
+  {% endif %}
+  {% if not loop.last %}&{% endif %}
+{% endfor %} \\
+\hline
+Binary & {% for b in binary %}
+  \textbf{\textcolor{blue}{ {{ b }} }}
+  {% if not loop.last %}&{% endif %}
+{% endfor %} \\
+\hline
+Steps & {% for step in steps %}
+  {\small {{ step }}}
+  {% if not loop.last %}&{% endif %}
+{% endfor %} \\
+\hline
+\end{tabular}
+{% endmacro %}
+
+
+{% macro illustrate_bit_change(x, x_next) %}
+\subsection*{Binary Increment Illustration}
+
+$x$: {{ x|join }} $\;\to\;$ $x+1$: {{ x_next|join }}
+
+\begin{tabular}{|c|*{{ x|length }}{c|}}
+\hline
+Position & {% for i in range(x|length) %} {{ i }} {% if not loop.last %}&{% endif %} {% endfor %} \\
+\hline
+$x$ & {% for bit in x %} {{ bit }} {% if not loop.last %}&{% endif %} {% endfor %} \\
+\hline
+$x+1$ & {% for i in range(x|length) %}
+  {% if x[i] != x_next[i] %}
+    \cellcolor{yellow}\textbf{ {{ x_next[i] }} }
+  {% else %}
+    {{ x_next[i] }}
+  {% endif %}
+  {% if not loop.last %}&{% endif %}
+{% endfor %} \\
+\hline
+\end{tabular}
+
+\emph{Highlighted cell(s) = changed bit(s)}
+{% endmacro %}
+
+
+{% macro illustrate_gray_sequence(gray_codes, x_name="x") %}
+\subsection*{Gray Code Sequence (Bit Changes)}
+
+\begin{tabular}{|c|*{{ gray_codes[0]|length }}{c|}}
+\hline
+Step & {% for b in range(gray_codes[0]|length) %} Bit {{ loop.index0 }} {% if not loop.last %}&{% endif %} {% endfor %} \\
+\hline
+{% for i in range(gray_codes|length) %}
+{{ x_name }} + {{ i }} &
+{% for j in range(gray_codes[i]|length) %}
+  {% if i > 0 and gray_codes[i][j] != gray_codes[i-1][j] %}
+    \cellcolor{yellow}\textbf{ {{ gray_codes[i][j] }} }
+  {% else %}
+    {{ gray_codes[i][j] }}
+  {% endif %}
+  {% if not loop.last %}&{% endif %}
+{% endfor %} \\
+\hline
+{% endfor %}
+\end{tabular}
+
+\emph{Highlighted cell shows the bit that flipped compared to the previous Gray code.}
+{% endmacro %}
+
+
+% =========================================================
+% Main Template: Binary <-> Gray Exercises (LaTeX)
+% =========================================================
+{% if RENDER_MODE == "question" %}
+
+\section*{Exercise}
+
+\textbf{Convert the following number from Binary to Gray:}\\
+حوّل من الثنائي إلى ترميز غراي
+
+\[
+  {{ number_bin|join }}
+\]
+
+\bigskip
+
+\textbf{Convert the following number from Gray to Binary:}\\
+حوّل من ترميز غراي إلى الثنائي
+
+\[
+  {{ number_gray|join }}
+\]
+
+{% elif RENDER_MODE == "answer" %}
+
+\section*{Solutions}
+
+\subsection*{Binary $\to$ Gray Conversion}
+{{ bin_to_gray_table(number_bin) }}
+
+\bigskip
+
+\subsection*{Gray $\to$ Binary Conversion}
+{{ gray_to_bin_table(number_gray) }}
+
+\bigskip
+
+\subsection*{Illustration of Bit Change (Next Gray Code)}
+{{ illustrate_bit_change(gray_sequence[0], gray_sequence[1]) }}
+
+\bigskip
+
+\subsection*{Gray Code Sequence}
+{{ illustrate_gray_sequence(gray_sequence, "x") }}
+
+{% endif %}
