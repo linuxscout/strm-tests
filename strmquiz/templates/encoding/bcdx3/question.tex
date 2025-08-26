@@ -73,12 +73,14 @@ Decimal calculation: ${{result.a_dec}} + {{result.b_dec}} = {{result.total_dec}}
 
 {% if RENDER_MODE == "question" %}
   {% if scheme in ("bcd", "both", "") %}
-    \subsection*{Encode the following numbers into BCD}
-    \textbf{N = } {{ number }}
+    \subsection*{Encode the following numbers into BCD, then illustrate the addition in BCD:}
+    \textbf{A = } {{ number }}
+    \textbf{B = } {{ data_bcd.b_dec }}
   {% endif %}
   {% if scheme in ("x3", "both","") %}
-    \subsection*{Encode the following numbers into Excess-3}
-    \textbf{N = } {{ number }}
+    \subsection*{Encode the following numbers into Excess3, then illustrate the addition in Excess3:}
+    \textbf{A = } {{ number }}
+    \textbf{B = } {{ data_bcd.b_dec }}
   {% endif %}
 
 {% elif RENDER_MODE == "answer" %}
