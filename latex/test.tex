@@ -7,25 +7,20 @@
 
 
 
-\subsection*{Encode the following text into Ascii}
-\subsection*{Encode the following text into Ascii}
-    \textbf{Text:} \aRL{``Learn ASCII fast''}
 
-\subsection*{Decode the following Ascii codes into text}
-\textbf{Codes:} ['0x4c', '0x65', '0x61', '0x72', '0x6e', '0x20', '0x41', '0x53', '0x43', '0x49', '0x49', '0x20', '0x66', '0x61', '0x73', '0x74']
+    \subsection*{Encode the following numbers into BCD}
+    \textbf{N = } 82601
+    \subsection*{Encode the following numbers into Excess-3}
+    \textbf{N = } 82601
 
-
-\paragraph{Q2}
+  % endif answer
 
 
 
 
-\subsection*{Encode the following text into Unicode}
-\subsection*{Encode the following text into Unicode}
-    \textbf{Text:} \aRL{``برمجة\$\$''}
 
-\subsection*{Decode the following Unicode codes into text}
-\textbf{Codes:} ['0x628', '0x631', '0x645', '0x62c', '0x629', '0x24', '0x24']
+
+
 
 
 
@@ -40,201 +35,152 @@
 
 
 
-\subsection*{Encode the following text into Ascii}
-      \textbf{Encode the following text into Ascii}\\
-  \textbf{Text:} \aRL{"Learn ASCII fast"}\\[6pt]
-
-      \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-        \hline
-        Character
-          &                 L
-          &                 e
-          &                 a
-          &                 r
-          &                 n
-          &                 space
-          &                 A
-          &                 S
-          &                 C
-          &                 I
- \\
-        \hline
-        Ascii Code Point
-          & 0x4c
-          & 0x65
-          & 0x61
-          & 0x72
-          & 0x6e
-          & 0x20
-          & 0x41
-          & 0x53
-          & 0x43
-          & 0x49
- \\
-        \hline
-      \end{tabular}
 
 
-    \vspace{1em} % spacing between tables
+$(82601)_{10} = (1000 0010 0110 0000 0001)_{BCD}$ \\[6pt]
 
-      \begin{tabular}{|c|c|c|c|c|c|c|}
-        \hline
-        Character
-          &                 I
-          &                 space
-          &                 f
-          &                 a
-          &                 s
-          &                 t
- \\
-        \hline
-        Ascii Code Point
-          & 0x49
-          & 0x20
-          & 0x66
-          & 0x61
-          & 0x73
-          & 0x74
- \\
-        \hline
-      \end{tabular}
+$(82601)_{10} = (1011 0101 1001 0011 0100)_{Excess\text{-}3}$ \\[6pt]
 
+\textbf{Explanation:} \\[6pt]
 
-    \vspace{1em} % spacing between tables
+      \textit{Base 10 to BCD:} \\[6pt]
+    
+    \textbf{Decimal to BCD} \\
 
-
-          \textbf{Decode the following Ascii codes into text}\\
-      \textbf{Codes:} ['0x4c', '0x65', '0x61', '0x72', '0x6e', '0x20', '0x41', '0x53', '0x43', '0x49', '0x49', '0x20', '0x66', '0x61', '0x73', '0x74']\\[6pt]
+    \begin{tabular}{|c|c|c|c|c|}
+    \hline
+ 8  &  2  &  6  &  0  &  1  \\
+    \hline
+ 1000  &  0010  &  0110  &  0000  &  0001  \\
+    \hline
+    \end{tabular}
 
 
 
-      \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-        \hline
-        Ascii Code Point
-          & 0x4c
-          & 0x65
-          & 0x61
-          & 0x72
-          & 0x6e
-          & 0x20
-          & 0x41
-          & 0x53
-          & 0x43
-          & 0x49
- \\
-        \hline
-        Character
-          &                 L
-          &                 e
-          &                 a
-          &                 r
-          &                 n
-          &                 space
-          &                 A
-          &                 S
-          &                 C
-          &                 I
- \\
-        \hline
-      \end{tabular}
+      \textit{Base 10 to Excess-3:} \\[6pt]
+    
+    \textbf{Decimal to X3} \\
 
-    \vspace{1em} % spacing between tables
-
-
-
-      \begin{tabular}{|c|c|c|c|c|c|c|}
-        \hline
-        Ascii Code Point
-          & 0x49
-          & 0x20
-          & 0x66
-          & 0x61
-          & 0x73
-          & 0x74
- \\
-        \hline
-        Character
-          &                 I
-          &                 space
-          &                 f
-          &                 a
-          &                 s
-          &                 t
- \\
-        \hline
-      \end{tabular}
-
-    \vspace{1em} % spacing between tables
-
-
-
-\paragraph{Q2}
+    \begin{tabular}{|c|c|c|c|c|}
+    \hline
+ 8  &  2  &  6  &  0  &  1  \\
+    \hline
+ 1011  &  0101  &  1001  &  0011  &  0100  \\
+    \hline
+    \end{tabular}
 
 
 
 
-\subsection*{Encode the following text into Unicode}
-      \textbf{Encode the following text into Unicode}\\
-  \textbf{Text:} \aRL{"برمجة\$\$"}\\[6pt]
+      \textit{BCD to Base 10:} \\[6pt]
+    
+    \textbf{ BCD to Decimal} \\
 
-      \begin{tabular}{|c|c|c|c|c|c|c|c|}
-        \hline
-        Character
-          &                 \aRL{ ب }
-          &                 \aRL{ ر }
-          &                 \aRL{ م }
-          &                 \aRL{ ج }
-          &                 \aRL{ ة }
-          &                 \$
-          &                 \$
- \\
-        \hline
-        Unicode Code Point
-          & 0x628
-          & 0x631
-          & 0x645
-          & 0x62c
-          & 0x629
-          & 0x24
-          & 0x24
- \\
-        \hline
-      \end{tabular}
-
-
-    \vspace{1em} % spacing between tables
-
-
-          \textbf{Decode the following Unicode codes into text}\\
-      \textbf{Codes:} ['0x628', '0x631', '0x645', '0x62c', '0x629', '0x24', '0x24']\\[6pt]
+    \begin{tabular}{|c|c|c|c|c|}
+    \hline
+ 1000  &  0010  &  0110  &  0000  &  0001  \\
+    \hline
+ 8  &  2  &  6  &  0  &  1  \\
+    \hline
+    \end{tabular}
 
 
 
-      \begin{tabular}{|c|c|c|c|c|c|c|c|}
-        \hline
-        Unicode Code Point
-          & 0x628
-          & 0x631
-          & 0x645
-          & 0x62c
-          & 0x629
-          & 0x24
-          & 0x24
- \\
-        \hline
-        Character
-          &                 \aRL{ ب }
-          &                 \aRL{ ر }
-          &                 \aRL{ م }
-          &                 \aRL{ ج }
-          &                 \aRL{ ة }
-          &                 \$
-          &                 \$
- \\
-        \hline
-      \end{tabular}
+      \textit{Excess-3 to Base 10:} \\[6pt]
+        
+    \textbf{ X3 to Decimal} \\
 
-    \vspace{1em} % spacing between tables
+    \begin{tabular}{|c|c|c|c|c|}
+    \hline
+ 1011  &  0101  &  1001  &  0011  &  0100  \\
+    \hline
+ 8  &  2  &  6  &  0  &  1  \\
+    \hline
+    \end{tabular}
+
+
+
+
+  
+\section*{ BCD Addition Explanation }
+
+Decimal calculation: $9764 + 9764 = 19528$
+
+\vspace{0.3cm}
+
+\begin{tabular}{l|rrrrr}
+\textbf{Carry In} &  {\scriptsize 1}  &  {\scriptsize 1}  &  {\scriptsize 1}  &  {\scriptsize }  &  {\scriptsize }  \\
+\textbf{A (dec)} &  0  &  9  &  7  &  6  &  4  \\
+\textbf{B (dec)} &  0  &  9  &  7  &  6  &  4  \\
+\hline
+\textbf{Final Digit (dec)} &  1  &  9  &  5  &  2  &  8  \\
+\end{tabular}
+
+\vspace{0.3cm}
+
+\textbf{Addition in BCD}
+\vspace{0.3cm}
+
+\begin{tabular}{l|rrrrr}
+\textbf{Carry In} &  {\scriptsize 1}  &  {\scriptsize }  &  {\scriptsize }  &  {\scriptsize }  &  {\scriptsize }  \\
+\textbf{A (bin)} &  0000  &  1001  &  0111  &  0110  &  0100  \\
+\textbf{B (bin)} &  0000  &  1001  &  0111  &  0110  &  0100 \\\hline
+
+\textbf{Carry Out} &  {\scriptsize }   &  {\scriptsize 1}   &  {\scriptsize 1}   &  {\scriptsize }   &  {\scriptsize }   \\
+\textbf{Raw Sum (bin)} &  0001  &  0010  &  1110  &  1100  &  1000  \\
+\textbf{Correction} &   &   +110  &   +110  &   +110  &   \\
+\hline
+
+\textbf{Final Digit (bin)} &  0001  &  1001  &  0101  &  0010  &  1000  \\
+\textbf{Final Digit (dec)} &  1  &  9  &  5  &  2  &  8  \\
+\end{tabular}
+
+
+
+
+  
+\section*{ EXCESS3 Addition Explanation }
+
+Decimal calculation: $9764 + 9764 = 19528$
+
+\vspace{0.3cm}
+
+\begin{tabular}{l|rrrrr}
+\textbf{Carry In} &  {\scriptsize 1}  &  {\scriptsize 1}  &  {\scriptsize 1}  &  {\scriptsize }  &  {\scriptsize }  \\
+\textbf{A (dec)} &  0  &  9  &  7  &  6  &  4  \\
+\textbf{B (dec)} &  0  &  9  &  7  &  6  &  4  \\
+\hline
+\textbf{Final Digit (dec)} &  1  &  9  &  5  &  2  &  8  \\
+\end{tabular}
+
+\vspace{0.3cm}
+
+\textbf{Addition in EXCESS3}
+\vspace{0.3cm}
+
+\begin{tabular}{l|rrrrr}
+\textbf{Carry In} &  {\scriptsize 1}  &  {\scriptsize 1}  &  {\scriptsize 1}  &  {\scriptsize }  &  {\scriptsize }  \\
+\textbf{A (bin)} &  0011  &  1100  &  1010  &  1001  &  0111  \\
+\textbf{B (bin)} &  0011  &  1100  &  1010  &  1001  &  0111 \\\hline
+
+\textbf{Raw Sum (bin)} &  0111  &  1001  &  0101  &  0010  &  1110  \\
+\textbf{Correction} &  -11  &  +11  &  +11  &  +11  &  -11  \\
+\hline
+
+\textbf{Final Digit (bin)} &  0100  &  1100  &  1000  &  0101  &  1011  \\
+\textbf{Final Digit (dec)} &  1  &  9  &  5  &  2  &  8  \\
+\end{tabular}
+
+
+
+
+  % endif answer
+
+
+
+
+
+
 
 
 \pagebreak

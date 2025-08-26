@@ -412,7 +412,278 @@ class questionGenerator:
         steps = []
         x = n
         return steps
+    def int_to_bin4(self, n: int) -> str:
+        """Convert integer (0–15) to 4-bit binary string."""
+        return format(n & 0xF, "04b")
 
+    def bcd_addition_explainXX(self, a_digits, b_digits):
+        """
+        Perform BCD addition digit by digit (right to left).
+        a_digits, b_digits are lists of 4-bit binary strings (["0010","0101"]).
+        Returns a dict suitable for rendering in HTML.
+        """
+        n = len(a_digits)
+        carries = [0]  # initial carry
+        sums_bin, sums_dec = [], []
+        corrections = []
+        final_digits_bin, final_digits_dec = [], []
+
+        for i in range(n):
+            da = int(a_digits[i], 2)
+            db = int(b_digits[i], 2)
+            raw_sum = da + db + carries[i]
+
+            sums_bin.append(self.int_to_bin4(raw_sum))
+            sums_dec.append(raw_sum)
+
+            if raw_sum > 9:  # needs correction
+                corrections.append("+0110")
+                corrected = raw_sum + 6
+                final_digits_bin.append(self.int_to_bin4(corrected % 16))
+                final_digits_dec.append(corrected % 10)
+                carries.append(1)
+            else:
+                corrections.append("---")
+                final_digits_bin.append(self.int_to_bin4(raw_sum))
+                final_digits_dec.append(raw_sum % 10)
+                carries.append(0)
+
+        # Check for extra carry
+        extra_digit_bin, extra_digit_dec = None, None
+        if carries[-1] == 1:
+            extra_digit_bin = "0001"
+            extra_digit_dec = 1
+
+        return {
+            "digits_a_bin": a_digits,
+            "digits_b_bin": b_digits,
+            "digits_a_dec": [int(x, 2) for x in a_digits],
+            "digits_b_dec": [int(x, 2) for x in b_digits],
+            "carry_in": carries[:-1],
+            "carry_out": carries[1:],
+            "sums_bin": sums_bin,
+            "sums_dec": sums_dec,
+            "corrections": corrections,
+            "final_digits_bin": final_digits_bin,
+            "final_digits_dec": final_digits_dec,
+            "extra_digit_bin": extra_digit_bin,
+            "extra_digit_dec": extra_digit_dec,
+            "A_total_dec": int("".join(str(int(x,2)) for x in a_digits)),
+            "B_total_dec": int("".join(str(int(x,2)) for x in b_digits)),
+            "Result_total_dec": int(
+                (str(extra_digit_dec) if extra_digit_dec else "") +
+                "".join(str(d) for d in final_digits_dec)
+            ),
+        }
+
+    def bcd_addition_explain(self, a, b):
+        """
+        Perform BCD addition digit by digit (right to left).
+        a, b: two integers
+        Returns a dict suitable for rendering in HTML/Latex.
+        """
+        max_digit = 16
+        # detect the max length
+        ln = max(len(str(a)), len(str(b)), len(str(a+b)))
+        # add extra zeros to align numbers
+        a_str = str(a).zfill(ln)
+        b_str = str(b).zfill(ln)
+        c_str = str(a + b).zfill(ln)
+        a_digits = self.dec_to_bcd(a_str).split(" ")
+        b_digits = self.dec_to_bcd(b_str).split(" ")
+        c_digits = self.dec_to_bcd(c_str).split(" ")
+
+        a_decimals = list(a_str)
+        b_decimals = list(b_str)
+        c_decimals = list(c_str)
+        # get carries
+        # to avoid out of range
+        # added to first line
+        carries_before_correct = [0] * (ln + 1)
+        # added to the correciton step
+        carries_after_correct = [0] * (ln + 1)
+        corrections = [0] * ln
+        tmp_decimals = [0] * ln
+        tmp_digits = ["0000"] * ln
+        result_dec = [0]*ln
+        for i in range(ln - 1, -1, -1):
+            ai = int(a_decimals[i])
+            bi = int(b_decimals[i])
+            ci = int(c_decimals[i])
+            # get carries
+            ci_tmp = ai + bi + carries_before_correct[i + 1]
+            if ci_tmp > ci:
+                corrections[i] = 6
+                # if a + b and carry < 16ة
+                # it generate a bin numnber without carry
+                if ci_tmp >= max_digit:
+                    carries_before_correct[i] = 1
+                #
+                # if ci_tmp + carries_after_correct[i + 1] + corrections[i] >= 10:
+                elif (ci_tmp + carries_after_correct[i + 1])>= 10:
+                    carries_after_correct[i] = 1
+
+            tmp_decimals[i] = ci_tmp%16
+            tmp_digits[i] = self.int_to_bin4(ci_tmp%16)
+            # used for test
+            result_dec[i] = (tmp_decimals[i] + corrections[i] + carries_after_correct[i+1]) % max_digit
+            # result_dec[i] = (tmp_decimals[i] + corrections[i] ) % max_digit
+        # test if correct results
+        # if tmp digits + corrections + carries after corrections
+        # are equal to final result,
+        # it's ok
+
+        for i in range(ln):
+            if  result_dec[i] != int(c_decimals[i]):
+                test_ok = False
+                break
+        else:
+            test_ok = True
+
+        return {
+            "scheme": "bcd",
+            "a_dec": a,
+            "b_dec": b,
+            "total_dec": a + b,
+            "test_result_dec":result_dec,
+            "test_ok":test_ok,
+            "digits_a_bin": a_digits,
+            "digits_b_bin": b_digits,
+            "final_digits_bin": c_digits,
+            "digits_a_dec": a_decimals,
+            "digits_b_dec": b_decimals,
+            "final_digits_dec": c_decimals,
+            "carry_in": carries_before_correct[1:],
+            "carry_out": carries_after_correct[1:],
+            "sums_bin": tmp_digits,
+            "sums_dec": tmp_decimals,
+            "corrections": corrections,
+        }
+    def display_bcd_results(self, result):
+
+        fields = [            "a_dec",
+            "b_dec",
+                              '------------------',
+            "total_dec",
+                'test_ok',
+                  'carry_in',
+                  'digits_a_dec',
+                  'digits_b_dec',
+                  '------------------',
+                  'carry_out',
+                  'sums_dec',
+                  'corrections',
+                  '------------------',
+                  'final_digits_dec',
+                  'test_result_dec',
+                  "",
+                  "",
+                  '******* BINARY ***********',
+                  'carry_in',
+                  'digits_a_bin',
+                  'digits_b_bin',
+                  '------------------',
+                  'carry_out',
+                  'sums_bin',
+                  'corrections'
+                  '------------------',
+                  'final_digits_bin',
+                   ]
+
+        ln_max = max([len(f) for f in fields])
+        for f in fields:
+            value = result.get(f,"")
+            text = value
+            if type(value) == list:
+                text = "\t".join([str(v) for v in value])
+            print(f.ljust(ln_max), text)
+    def test_bcd(self,test_set):
+        counter = 0
+        wrong_case = []
+        for a,b in test_set:
+            result = q.bcd_addition_explain(a, b)
+            if not result["test_ok"]:
+                counter += 1
+                wrong_case.append([a,b])
+                # pprint(result)
+                self.display_bcd_results(result)
+        print(f"Error on {counter}/{len(test_set)} cases.")
+        print("wrong_case = ", wrong_case)
+
+    def x3_addition_explain(self, a, b):
+        """
+        Perform X3 addition digit by digit (right to left).
+        a, b: two integers
+        Returns a dict suitable for rendering in HTML/Latex.
+        """
+        max_digit = 16
+        # detect the max length
+        ln = max(len(str(a)), len(str(b)), len(str(a+b)))
+        # add extra zeros to align numbers
+        a_str = str(a).zfill(ln)
+        b_str = str(b).zfill(ln)
+        c_str = str(a + b).zfill(ln)
+        a_digits = self.dec_to_excess3(a_str).split(" ")
+        b_digits = self.dec_to_excess3(b_str).split(" ")
+        c_digits = self.dec_to_excess3(c_str).split(" ")
+
+        a_decimals = list(a_str)
+        b_decimals = list(b_str)
+        c_decimals = list(c_str)
+        # get carries
+        # to avoid out of range
+        # added to first line
+        carries = [0] * (ln + 1)
+        # not used, only for compatibility
+        carries_outs = [0] * (ln + 1)
+        # added to the correciton step
+        corrections = [-3] * ln
+        tmp_decimals = [0] * ln
+        tmp_digits = ["0011"] * ln
+        result_dec = [0]*ln
+        for i in range(ln - 1, -1, -1):
+            ai = int(a_decimals[i]) +3
+            bi = int(b_decimals[i]) +3
+            ci = int(c_decimals[i]) +3
+            # get carries
+            ci_tmp = ai + bi + carries[i + 1]
+            if ci_tmp >= max_digit:
+                corrections[i] = 3
+                carries[i] = 1
+            else:
+                corrections[i] = -3
+                carries[i] = 0
+            tmp_decimals[i] = ci_tmp%16
+            tmp_digits[i] = self.int_to_bin4(ci_tmp%16)
+            # used for test
+            result_dec[i] = tmp_decimals[i] + corrections[i] - 3
+
+        for i in range(ln):
+            if  result_dec[i] != int(c_decimals[i]):
+                test_ok = False
+                break
+        else:
+            test_ok = True
+
+        return {
+            "scheme":"x3",
+            "a_dec": a,
+            "b_dec": b,
+            "total_dec": a + b,
+            "test_result_dec":result_dec,
+            "test_ok":test_ok,
+            "digits_a_bin": a_digits,
+            "digits_b_bin": b_digits,
+            "final_digits_bin": c_digits,
+            "digits_a_dec": a_decimals,
+            "digits_b_dec": b_decimals,
+            "final_digits_dec": c_decimals,
+            "carry_in": carries[1:],
+            "carry_out": carries_outs[1:],
+            "sums_bin": tmp_digits,
+            "sums_dec": tmp_decimals,
+            "corrections": corrections,
+        }
 def main(args):
     qs = questionGenerator()
     print(qs.numeral_system(12,2))

@@ -1,0 +1,147 @@
+
+{# =========================================================
+   BCDExcess-3 → Decimal
+   ========================================================= #}
+{% macro bcdx3_dec(number, bin_digits, scheme="bcd", mode="encode") %}
+
+    {% if mode.lower() == "decode" %}
+    \textbf{ {{scheme|upper}} to Decimal} \\
+        {% set code2_digits = number|list %}
+        {% set code1_digits = bin_digits %}
+    {% else %}
+    \textbf{Decimal to {{scheme|upper}}} \\
+        {% set code1_digits = number|list %}
+        {% set code2_digits = bin_digits %}
+    {% endif %}
+
+    \begin{tabular}{|{% for _ in code1_digits %}c|{% endfor %}}
+    \hline
+    {% for c1 in code1_digits %} {{ c1 }} {% if not loop.last %} & {% endif %}{% endfor %} \\
+    \hline
+    {% for c2 in code2_digits %} {{ c2 }} {% if not loop.last %} & {% endif %}{% endfor %} \\
+    \hline
+    \end{tabular}
+
+{% endmacro %}
+
+
+{# =========================================================
+   Render BCD/X3 Addition Explanation in LaTeX
+   ========================================================= #}
+{% macro render_bcd(result, scheme="bcd") %}
+
+\section*{ {{scheme|upper}} Addition Explanation }
+
+Decimal calculation: ${{result.a_dec}} + {{result.b_dec}} = {{result.total_dec}}$
+
+\vspace{0.3cm}
+
+\begin{tabular}{l|{% for _ in result.digits_a_dec %}r{% endfor %}}
+\textbf{Carry In} & {% for c in result.carry_in %} {\scriptsize {{ '1' if c or result.carry_out[loop.index0] }}} {% if not loop.last %} & {% endif %}{% endfor %} \\
+\textbf{A (dec)} & {% for d in result.digits_a_dec %} {{ d }} {% if not loop.last %} & {% endif %}{% endfor %} \\
+\textbf{B (dec)} & {% for d in result.digits_b_dec %} {{ d }} {% if not loop.last %} & {% endif %}{% endfor %} \\
+\hline
+\textbf{Final Digit (dec)} & {% for f in result.final_digits_dec %} {{ f }} {% if not loop.last %} & {% endif %}{% endfor %} \\
+\end{tabular}
+
+\vspace{0.3cm}
+
+\textbf{Addition in {{scheme|upper}}}
+\vspace{0.3cm}
+
+\begin{tabular}{l|{% for _ in result.digits_a_dec %}r{% endfor %}}
+\textbf{Carry In} & {% for c in result.carry_in %} {\scriptsize {{ '1' if c }}} {% if not loop.last %} & {% endif %}{% endfor %} \\
+\textbf{A (bin)} & {% for d in result.digits_a_bin %} {{ d }} {% if not loop.last %} & {% endif %}{% endfor %} \\
+\textbf{B (bin)} & {% for d in result.digits_b_bin %} {{ d }} {% if not loop.last %} & {% endif %}{% endfor %}
+\\\hline
+
+{% if scheme.lower() == "bcd" %}
+\textbf{Carry Out} & {% for c in result.carry_out %} {\scriptsize {{ '1' if c }}}  {% if not loop.last %} & {% endif %}{% endfor %} \\
+{% endif %}
+\textbf{Raw Sum (bin)} & {% for s in result.sums_bin %} {{ s }} {% if not loop.last %} & {% endif %}{% endfor %} \\
+\textbf{Correction} & {% for corr in result.corrections %}{% if scheme.lower() == "bcd" %} {%if corr %} +{{ corr|to_bin }} {% endif %}{% else %} {{ '+11' if corr > 0 else '-11' }} {% endif %}{% if not loop.last %} & {% endif %}{% endfor %} \\
+\hline
+
+\textbf{Final Digit (bin)} & {% for f in result.final_digits_bin %} {{ f }} {% if not loop.last %} & {% endif %}{% endfor %} \\
+\textbf{Final Digit (dec)} & {% for f in result.final_digits_dec %} {{ f }} {% if not loop.last %} & {% endif %}{% endfor %} \\
+\end{tabular}
+
+{% endmacro %}
+{# =========================================================
+   Main call
+   ========================================================= #}
+
+{% if RENDER_MODE == "question" %}
+  {% if scheme in ("bcd", "both", "") %}
+    \subsection*{Encode the following numbers into BCD}
+    \textbf{N = } {{ number }}
+  {% endif %}
+  {% if scheme in ("x3", "both","") %}
+    \subsection*{Encode the following numbers into Excess-3}
+    \textbf{N = } {{ number }}
+  {% endif %}
+
+{% elif RENDER_MODE == "answer" %}
+
+$({{ number }})_{10} = ({{ bcd }})_{BCD}$ \\[6pt]
+
+$({{ number }})_{10} = ({{ x3 }})_{Excess\text{-}3}$ \\[6pt]
+
+\textbf{Explanation:} \\[6pt]
+
+  {% if method in ("encode", "both", "") %}
+    {% if scheme in ("bcd", "both", "") %}
+      \textit{Base 10 to BCD:} \\[6pt]
+    {{ bcdx3_dec(number, bcd_digits, scheme="bcd", mode="encode")}}
+    {% endif %}
+
+    {% if scheme in ("x3", "both", "") %}
+      \textit{Base 10 to Excess-3:} \\[6pt]
+    {{ bcdx3_dec(number, x3_digits, scheme="x3", mode="encode")}}
+    {% endif %}
+
+  {% endif %}
+
+  {% if method in ("decode", "both", "") %}
+    {% if scheme in ("bcd", "both", "") %}
+      \textit{BCD to Base 10:} \\[6pt]
+    {{ bcdx3_dec(number, bcd_digits, scheme="bcd", mode="decode")}}
+    {% endif %}
+
+    {% if scheme in ("x3", "both", "") %}
+      \textit{Excess-3 to Base 10:} \\[6pt]
+        {{ bcdx3_dec(number, x3_digits, scheme="x3", mode="decode")}}
+    {% endif %}
+  {% endif %}
+
+
+  {{render_bcd(data_bcd)}}
+
+  {% if not data_bcd.test_ok %}
+\section{Warning: Please check addition, there are errors.}
+\begin{verbatim}
+  {{ data_bcd|pprint}}
+\end{verbatim}
+{% endif %}
+
+  {{render_bcd(data_x3, scheme="excess3")}}
+
+  {% if not data_x3.test_ok %}
+\section{Warning: Please check addition, there are errors.}
+\begin{verbatim}
+  {{ data_x3|pprint}}
+\end{verbatim}
+{% endif %}
+
+{% endif %}  % endif answer
+
+
+
+
+{%if debug %}
+
+{%endif%}
+
+
+
+

@@ -120,12 +120,16 @@ class Question_Builder:
     def question_bcd_x3(self, scheme="", method=""):
 
 
-        number  = random.randint(10, 10**8)
+        number  = random.randint(10, 10**5)
+
         bcd = self.qs.dec_to_bcd(number)
         bcd_digits = bcd.split(" ")
         x3 = self.qs.dec_to_excess3(number)
-        x3_digits = bcd.split(" ")
-
+        x3_digits = x3.split(" ")
+        number_a  = number
+        number_b  = random.randint(10, 10**5)
+        data_bcd = self.qs.bcd_addition_explain(number_a, number_b)
+        data_x3 = self.qs.x3_addition_explain(number_a, number_b)
         context = {
             "number": str(number) ,
             "bcd": bcd,
@@ -134,7 +138,10 @@ class Question_Builder:
             "x3_digits": x3_digits,
             "scheme":scheme,
             "method":method,
+            "data_bcd":data_bcd,
+            "data_x3":data_x3,
         }
+
 
         question, answer = self.formater.render_question_answer("encoding/bcdx3", context)
         return question, "arabic", "data", answer
