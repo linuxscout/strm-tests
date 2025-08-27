@@ -1,6 +1,7 @@
 #/usr/bin/sh
 # Makefile - Build alyahmor tests and packages
-
+SHELL := /bin/bash
+.SHELLFLAGS := -e -o pipefail -c
 # Current date format for versioned output folders
 DATE := $(shell date +'%y.%m.%d-%H:%M')
 
