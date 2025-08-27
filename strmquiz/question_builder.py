@@ -154,7 +154,7 @@ class Question_Builder:
         x_gray = self.qs.binary_to_gray(x_bin)
         seq_len  = random.randint(2, 10)
         x_gray_sequence = self.qs.gray_sequence_from_binary(x_bin,seq_len)
-
+        steps = self.qs.gray_explain(x_bin, x_gray)
         context = {
             "number_dec": str(x) ,
             "number_bin": str(x_bin),
@@ -162,6 +162,8 @@ class Question_Builder:
             "gray_sequence": x_gray_sequence,
             "sequence_length": seq_len,
             "method": "encode",
+            "steps_gray2bin": steps.get("steps_gray2bin",[]),
+            "steps_bin2gray": steps.get("steps_bin2gray",[]),
         }
 
         question, answer = self.formater.render_question_answer("encoding/gray", context)

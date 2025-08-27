@@ -730,6 +730,26 @@ class questionGenerator:
             next_gray = self.binary_to_gray(next_bin)
             sequence.append(next_gray)
         return sequence
+    def gray_explain(self, binary_str, gray_str):
+        """" return steps to convert gray to/from binary """
+        bin_number = list(binary_str)
+        gray_number = list(gray_str)
+
+        # Steps for illustration
+        steps_bin2gray = ["Copy first bit"]
+        for i in range(1, len(binary_str)):
+            xor_val = (int(binary_str[i]) ^ int(binary_str[i - 1]))
+            steps_bin2gray.append(f"XOR {binary_str[i - 1]} ⊕ {binary_str[i]} = {xor_val}")
+
+        steps_gray2bin = ["Copy first bit"]
+        binary_from_gray = [gray_number[0]]
+        for i in range(1, len(gray_number)):
+            val = int(binary_from_gray[i - 1]) ^ int(gray_number[i])
+            binary_from_gray.append(str(val))
+            steps_gray2bin.append(f"XOR {binary_from_gray[i - 1]} ⊕ {gray_number[i]} = {val}")
+
+        return {"steps_bin2gray": steps_bin2gray,
+                "steps_gray2bin": steps_gray2bin,}
 def main(args):
     qs = questionGenerator()
     print(qs.numeral_system(12,2))

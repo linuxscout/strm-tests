@@ -1,102 +1,65 @@
 {# =========================================================
-   Enhanced Binary ↔ Gray Conversion with Arrows & Colors
+   Shared Macro: Conversion Table (HTML)
+   Arguments:
+     input_bits : list of input bits (string list)
+     output_bits: list of output bits (string list)
+     steps      : list of step strings
+     mode       : "bin2gray" or "gray2bin"
    ========================================================= #}
-
-{% macro bin_to_gray_table(binary) %}
-<h3>Binary → Gray Conversion</h3>
-
-<p>
-  Binary input: <b>{{ binary|join('') }}</b>
-</p>
-
-{% set gray = [binary[0]|int] %}
-{% set steps = ["Copy first bit"] %}
-{% for i in range(1, binary|length) %}
-    {% set xor_val = (binary[i]|int + binary[i-1]|int) % 2 %}
-    {% set _ = gray.append(xor_val) %}
-    {% set _ = steps.append("XOR " ~ binary[i-1] ~ " ⊕ " ~ binary[i] ~ " = " ~ xor_val) %}
-{% endfor %}
-
+{% macro conversion_table(input_bits, output_bits, steps, mode="bin2gray") %}
 <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; text-align: center;">
   <tr style="background:#eef;">
-    <th>Binary</th>
-    {% for b in binary %}
+    <th>
+      {% if mode == "bin2gray" %}
+        Binary
+      {% else %}
+        Gray
+      {% endif %}
+    </th>
+    {% for b in input_bits %}
       <td>{{ b }}</td>
     {% endfor %}
   </tr>
+
   <tr>
     <th>Arrows</th>
-    {% for i in range(binary|length) %}
-      {% if i == 0 %}
-        <td style="color:green;">↓</td>
-      {% else %}
-        <td style="color:red;">↘↓</td>
-      {% endif %}
+    {% for i in range(input_bits|length) %}
+      <td style="color:blue;">
+        {% if i == 0 %}
+                <b style="color:green;">↓</b>
+        {% else %}
+          {% if mode == "bin2gray" %}
+          <b style="color:red;">↘ ⊕ ↓</b>
+          {% else %}
+             <b style="color:blue;">↗ ⊕ ↓</b>
+          {% endif %}
+        {% endif %}
+      </td>
     {% endfor %}
   </tr>
+
   <tr style="background:#efe;">
-    <th>Gray</th>
-    {% for g in gray %}
-      <td><b style="color:#007;">{{ g }}</b></td>
+    <th>
+      {% if mode == "bin2gray" %}
+        Gray
+      {% else %}
+        Binary
+      {% endif %}
+    </th>
+    {% for o in output_bits %}
+      <td><b style="color:#007;">{{ o }}</b></td>
     {% endfor %}
   </tr>
+
   <tr>
     <th>Steps</th>
     {% for step in steps %}
       <td style="font-size:0.9em; color:#444;">{{ step }}</td>
     {% endfor %}
   </tr>
-
 </table>
 {% endmacro %}
 
-{% macro gray_to_bin_table(gray) %}
-<h3>Gray → Binary Conversion</h3>
-
-<p>
-  Gray input: <b>{{ gray|join('') }}</b>
-</p>
-
-{% set binary = [gray[0]|int] %}
-{% set steps = ["Copy first bit"] %}
-{% for i in range(1, gray|length) %}
-    {% set val = (binary[i-1] + gray[i]|int) % 2 %}
-    {% set _ = binary.append(val) %}
-    {% set _ = steps.append(binary[i-1]|string ~ " ⊕ " ~ gray[i]|string ~ " = " ~ val) %}
-{% endfor %}
-
-<table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; text-align: center;">
-  <tr style="background:#eef;">
-    <th>Gray</th>
-    {% for g in gray %}
-      <td>{{ g }}</td>
-    {% endfor %}
-  </tr>
-  <tr>
-    <th>Arrows</th>
-    {% for i in range(gray|length) %}
-      {% if i == 0 %}
-        <td style="color:green;">↓</td>
-      {% else %}
-        <td style="color:blue;">↗↓</td>
-      {% endif %}
-    {% endfor %}
-  </tr>
-  <tr style="background:#efe;">
-    <th>Binary</th>
-    {% for b in binary %}
-      <td><b style="color:#007;">{{ b }}</b></td>
-    {% endfor %}
-  </tr>
-  <tr>
-    <th>Steps</th>
-    {% for step in steps %}
-      <td style="font-size:0.9em; color:#444;">{{ step }}</td>
-    {% endfor %}
-  </tr>
-
-</table>
-{% endmacro %}
 
 {# =========================================================
    Illustrate bit changes
@@ -186,13 +149,13 @@
 {% elif RENDER_MODE == "answer" %}
 
   <h3>Binary → Gray Conversion</h3>
-  {{ bin_to_gray_table(number_bin) }}
 
+  {{conversion_table(number_bin, number_gray, steps_bin2gray, mode="bin2gray")}}
   <br/>
 
   <h3>Gray → Binary Conversion</h3>
-  {{ gray_to_bin_table(number_gray) }}
 
+  {{conversion_table(number_gray, number_bin, steps_gray2bin, mode="gray2bin")}}
   <br/>
 
   <h3>Illustration of Bit Change (Next Gray Code)</h3>
