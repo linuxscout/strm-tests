@@ -570,94 +570,180 @@ class Question_Builder:
         question, answer = self.formater.render_question_answer("bool/exp", context)
         return question, "arabic", "data", answer
     #
-        
-    def question_chronogram(self, varlist={}, flip_type="D", length=20, synch_type="rising", output_vars=["Q",]):
-        
+    #
+    # def question_chronogramX(self, varlist={}, flip_type="D", length=20, synch_type="rising", output_vars=["Q",]):
+    #
+    #     """
+    #     Generate Chronogram question
+    #     """
+    #     chrono = tex_chronograms.Tex_Chronograms();
+    #     # generate random signals
+    #     # according to prameters
+    #     # ~ signals = {"D":[-1, 3, -0.5, +1.5, -5, 3.5, -6.5],
+    #                # ~ "Q":[-1] }
+    #     if not varlist:
+    #         varlist = {"D":1, "R":-1, "S":-1}
+    #     signals ={}
+    #     for key in varlist:
+    #         if key in output_vars:
+    #             # add an empty signal
+    #             signals[key] = [varlist[key],]
+    #         else:
+    #             signal_dict = chrono.question({key:varlist[key]}, length=length)
+    #             signals[key] = signal_dict[key]
+    #     # ~ signals = chrono.question(varlist, length=length)
+    #     logging.debug("quiz_builder:signals", signals)
+    #     # set synchronization type
+    #     chrono.set_synch_type(synch_type)
+    #
+    #     # generate question
+    #     # 1- clock
+    #     # 2- signals without solution
+    #     clock = chrono.clock_signal(length=length, period=1)
+    #     tex_data_question = chrono.draw(signals, clock)
+    #
+    #     # generate soltution
+    #     # get solution for signal
+    #     # 2 generate chrono for answer
+    #     # if we want to generate multiple cases using "dual" or "all"
+    #     logging.debug("initial: ",signals)
+    #     if synch_type =="all" or synch_type =="dual":
+    #         # set synchronization type
+    #         chrono.set_synch_type("rising")
+    #     out_signal = chrono.resolve(flip_type=flip_type,signals=signals.copy(), period=2)
+    #     # output signal
+    #     tmp_signals =    signals
+    #     tmp_signals[output_vars[0]] = out_signal
+    #     logging.debug("rising: ",out_signal)
+    #     logging.debug("rising: ",signals)
+    #     # add more signals for multi cases
+    #     if synch_type =="all" or synch_type =="dual":
+    #         # set synchronization type
+    #         chrono.set_synch_type("falling")
+    #
+    #         out_signal = chrono.resolve(flip_type=flip_type,signals=signals.copy(), period=2)
+    #         logging.debug("falling: ",signals)
+    #         logging.debug("falling: ",out_signal)
+    #         # output signal
+    #         tmp_signals[output_vars[0]+".desc"] = out_signal
+    #     if synch_type =="all":
+    #         # set synchronization type
+    #         chrono.set_synch_type("asynch")
+    #         out_signal = chrono.resolve(flip_type=flip_type,signals=signals.copy(), period=2)
+    #         # output signal
+    #         logging.debug("asynch: ",out_signal)
+    #         logging.debug("asynch: ",signals)
+    #         tmp_signals[output_vars[0]+".asyn"] = out_signal
+    #
+    #     if synch_type =="all" or synch_type =="dual":
+    #         # set synchronization type
+    #         chrono.set_synch_type("dual")
+    #
+    #     tex_data_answer = chrono.draw(tmp_signals, clock)
+    #
+    #     question =u"Complete the following timing diagram:\n\n "
+    #     arabic = u"أكمل المخطط الزمني: "
+    #
+    #     # make a figure
+    #     answer ="""Chronogramme\n\n\n
+    #     \\scalebox{2}{ %% scale
+    #     %s
+    #     } %%scale\n\n"""%tex_data_answer
+    #     # use scale attribute isntead of scale command
+    #     # ~ answer = tex_data_answer
+    #
+    #     data ="""\n\n%s\n\n"""%tex_data_question
+    #     # ~ data = tex_data_question
+    #
+    #     return question, arabic, data, answer
+
+    def question_chronogram(self, varlist={}, flip_type="D", length=20, synch_type="rising", output_vars=["Q", ]):
+
         """
         Generate Chronogram question
-        """      
+        """
+        context= {}
+
+
+
         chrono = tex_chronograms.Tex_Chronograms();
-        # generate random signals 
-        # according to prameters
-        # ~ signals = {"D":[-1, 3, -0.5, +1.5, -5, 3.5, -6.5],
-                   # ~ "Q":[-1] }
+
         if not varlist:
-            varlist = {"D":1, "R":-1, "S":-1}
-        signals ={}
+            varlist = {"D": 1, "R": -1, "S": -1}
+        init_signals = {}
         for key in varlist:
             if key in output_vars:
                 # add an empty signal
-                signals[key] = [varlist[key],]
+                init_signals[key] = [varlist[key], ]
             else:
-                signal_dict = chrono.question({key:varlist[key]}, length=length)
-                signals[key] = signal_dict[key]
-        # ~ signals = chrono.question(varlist, length=length)
-        logging.debug("quiz_builder:signals", signals)
+                signal_dict = chrono.question({key: varlist[key]}, length=length)
+                init_signals[key] = signal_dict[key]
+        input_vars = [k for k in varlist if k not in output_vars]
         # set synchronization type
         chrono.set_synch_type(synch_type)
-        
+
         # generate question
         # 1- clock
         # 2- signals without solution
-        clock = chrono.clock_signal(length=length, period=1)        
-        tex_data_question = chrono.draw(signals, clock)        
-        
+        clock = chrono.clock_signal(length=length, period=1)
+        tex_data_question = chrono.draw(init_signals, clock)
+
         # generate soltution
         # get solution for signal
         # 2 generate chrono for answer
         # if we want to generate multiple cases using "dual" or "all"
-        logging.debug("initial: ",signals)
-        if synch_type =="all" or synch_type =="dual":
+        if synch_type == "all" or synch_type == "dual":
             # set synchronization type
             chrono.set_synch_type("rising")
-        out_signal = chrono.resolve(flip_type=flip_type,signals=signals.copy(), period=2) 
-        # output signal    
-        tmp_signals =    signals
+        out_signal = chrono.resolve(flip_type=flip_type, signals=init_signals.copy(), period=2)
+        # output signal
+        tmp_signals = init_signals.copy()
         tmp_signals[output_vars[0]] = out_signal
-        logging.debug("rising: ",out_signal)
-        logging.debug("rising: ",signals)
         # add more signals for multi cases
-        if synch_type =="all" or synch_type =="dual":
+        if synch_type == "all" or synch_type == "dual":
             # set synchronization type
             chrono.set_synch_type("falling")
 
-            out_signal = chrono.resolve(flip_type=flip_type,signals=signals.copy(), period=2) 
-            logging.debug("falling: ",signals)
-            logging.debug("falling: ",out_signal)
-            # output signal       
-            tmp_signals[output_vars[0]+".desc"] = out_signal
-        if synch_type =="all":
+            out_signal = chrono.resolve(flip_type=flip_type, signals=init_signals.copy(), period=2)
+            # output signal
+            tmp_signals[output_vars[0] + ".desc"] = out_signal
+        if synch_type == "all":
             # set synchronization type
             chrono.set_synch_type("asynch")
-            out_signal = chrono.resolve(flip_type=flip_type,signals=signals.copy(), period=2) 
-            # output signal       
-            logging.debug("asynch: ",out_signal)
-            logging.debug("asynch: ",signals)
-            tmp_signals[output_vars[0]+".asyn"] = out_signal
-        
-        if synch_type =="all" or synch_type =="dual":
+            out_signal = chrono.resolve(flip_type=flip_type, signals=init_signals.copy(), period=2)
+            tmp_signals[output_vars[0] + ".asyn"] = out_signal
+
+        if synch_type == "all" or synch_type == "dual":
             # set synchronization type
-            chrono.set_synch_type("dual")            
-        
+            chrono.set_synch_type("dual")
+
+        input_signals = {k:v for k,v in tmp_signals.items() if k in input_vars}
+
+        out_signals_initial = {k:v for k,v in init_signals.items() if k in output_vars}
+
+        out_signals_final = {k:v for k,v in tmp_signals.items() if k in output_vars}
+
         tex_data_answer = chrono.draw(tmp_signals, clock)
-            
-        question =u"Complete the following timing diagram:\n\n "
-        arabic = u"أكمل المخطط الزمني: "
-        
-        # make a figure
-        answer ="""Chronogramme\n\n\n
-        \\scalebox{2}{ %% scale
-        %s
-        } %%scale\n\n"""%tex_data_answer
-        # use scale attribute isntead of scale command
-        # ~ answer = tex_data_answer
-        
-        data ="""\n\n%s\n\n"""%tex_data_question
-        # ~ data = tex_data_question
 
-        return question, arabic, data, answer        
-
-
+        context= {"data": {
+        "varlist":varlist,
+        "flip_type":flip_type,
+        "length":length,
+        "synch_type":synch_type,
+        "output_vars":output_vars,
+        "input_vars": input_vars,
+        "input_signals": input_signals,
+        "output_signals":{"initial": out_signals_initial,
+                    "final": out_signals_final,
+                      },
+        "clock":clock,
+        "tmp_signals":tmp_signals,
+        "tmp_signals":tmp_signals,
+        "tex_data_answer":tex_data_answer,
+        },}
+        question, answer = self.formater.render_question_answer("sequential/timing", context)
+        return question, "arabic", "data", answer
+        return question, arabic, data, answer
 
 
 
