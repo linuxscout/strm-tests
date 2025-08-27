@@ -48,7 +48,7 @@ class Question_Builder:
         ieee_dict = self.vf.ieee754_components(x)
 
         context = ieee_dict
-        question, answer = self.formater.render_question_answer("float", context)
+        question, answer = self.formater.render_question_answer("encoding/float", context)
         return question, "arabic", "data", answer
 
 
@@ -61,7 +61,7 @@ class Question_Builder:
             "cp2": cp2,
         }
 
-        question, answer = self.formater.render_question_answer("cp", context)
+        question, answer = self.formater.render_question_answer("encoding/cp", context)
         return question, "arabic", "data", answer
 
     def question_intervalle(self,):
@@ -72,7 +72,7 @@ class Question_Builder:
             "number": n,
         }
 
-        question, answer = self.formater.render_question_answer("interval", context)
+        question, answer = self.formater.render_question_answer("encoding/interval", context)
         return question, "arabic", "data", answer
 
 
@@ -178,7 +178,7 @@ class Question_Builder:
 
         }
 
-        question, answer = self.formater.render_question_answer("encoding", context)
+        question, answer = self.formater.render_question_answer("encoding/charcodes", context)
         return question, "arabic", "data", answer
 
     def question_ascii(self,method="both", text=""):
@@ -372,7 +372,7 @@ class Question_Builder:
                               )
 
         context = {"data_list":data_list}
-        question, answer = self.formater.render_question_answer("map", context)
+        question, answer = self.formater.render_question_answer("bool/map", context)
         return question, "arabic", "data", answer
 
 
@@ -389,7 +389,7 @@ class Question_Builder:
                               )
 
         context = {"data_list":data_list}
-        question, answer = self.formater.render_question_answer("map-sop", context)
+        question, answer = self.formater.render_question_answer("bool/map-sop", context)
         return question, "arabic", "data", answer
 
 
@@ -419,7 +419,7 @@ class Question_Builder:
         logigramdict = self.formater.prepare_logigram_list([sop, ], function_namelist=["F",],
                                                    variables=["A","B","C","D"], equations_list=equations_list)
         context["logicdiagramdict"] = logigramdict
-        question, answer = self.formater.render_question_answer("function", context)
+        question, answer = self.formater.render_question_answer("bool/function", context)
         return question, "arabic", "data", answer
         # ~ answer += self.bq.draw_logigram(sop)
 
@@ -464,7 +464,7 @@ class Question_Builder:
         logigramdict = self.formater.prepare_logigram_list([sop, ], function_namelist=[fname,],
                                                    variables=var_names,  equations_list= equations_list)
         context["logicdiagramdict"] = logigramdict
-        question, answer = self.formater.render_question_answer("function", context)
+        question, answer = self.formater.render_question_answer("bool/function", context)
         return question, "arabic", "data", answer
 
 
@@ -492,7 +492,7 @@ class Question_Builder:
         logigramdict = self.formater.prepare_logigram_list([sop, ], function_namelist=[fname,],
                                                    variables=var_names, method=method)
         context["logicdiagramdict"] = logigramdict
-        question, answer = self.formater.render_question_answer("function", context)
+        question, answer = self.formater.render_question_answer("bool/function", context)
         return question, "arabic", "data", answer
 
 
@@ -546,7 +546,7 @@ class Question_Builder:
                   "sop_list":sop_list,
                   "method":method,
                   }
-        question, answer = self.formater.render_question_answer("multi_funct", context)
+        question, answer = self.formater.render_question_answer("bool/multi_funct", context)
         return question, "arabic", "data", answer
 
 
@@ -567,7 +567,7 @@ class Question_Builder:
 
         context["sop_quest"] = sop_quest
 
-        question, answer = self.formater.render_question_answer("exp", context)
+        question, answer = self.formater.render_question_answer("bool/exp", context)
         return question, "arabic", "data", answer
     #
         

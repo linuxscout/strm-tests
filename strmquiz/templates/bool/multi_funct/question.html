@@ -1,5 +1,5 @@
 {%set debug = False %}
-{% import "map/kmap_macros.html" as kmap %}
+{% import "bool/map/kmap_macros.html" as kmap %}
 <style>
   table .truthtable {
     border-collapse: collapse;
@@ -210,7 +210,7 @@ F(A,B,C,D) ={{  sop_quest }}
 
 <p><strong>Logic diagram <span dir="rtl">المخطط المنطقي</span></strong></p>
 
-{% include "logigram/structured_logigram.html.j2" %}
+{% include "bool/logigram/structured_logigram.html.j2" %}
 
 <hr/>
   {%if debug %}

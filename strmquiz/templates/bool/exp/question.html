@@ -15,7 +15,7 @@ Simplifier l'expression suivant:<br/>
 
 {% if RENDER_MODE == "answer" %}
 
-{% import "map/kmap_macros.html" as kmap %}
+{% import "bool/map/kmap_macros.html" as kmap %}
 
 
 {{ kmap.kmap4svg(minterms, dontcares, groups=formatted_simplification, ab=ab, cd=cd) }}

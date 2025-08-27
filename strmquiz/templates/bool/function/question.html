@@ -106,7 +106,7 @@ Etudier la fonction suivante:
 
 <p><strong>Karnaugh map <span dir="rtl">جدول كارنوف</span></strong></p>
 
-{% import "map/kmap_macros.html" as kmap %}
+{% import "bool/map/kmap_macros.html" as kmap %}
 {{ kmap.kmap4svg(minterms,  dontcares, groups=formatted_simplification, ab=ab, cd=cd) }}
 
 <br/>
@@ -117,6 +117,6 @@ Etudier la fonction suivante:
 
 <p><strong>Logic diagram <span dir="rtl">المخطط المنطقي</span></strong></p>
 
-{% include "logigram/structured_logigram.html.j2" %}
+{% include "bool/logigram/structured_logigram.html.j2" %}
 
 {% endif %}

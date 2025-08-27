@@ -14,7 +14,7 @@ Simplifier le tableau de Karnaugh suivant:
  {% endif %}
 {% for data in data_list %}
 
-{% import "map/kmap_macros.html" as kmap %}
+{% import "bool/map/kmap_macros.html" as kmap %}
 
 {{ kmap.kmap4svg(data.minterms, data.dontcares, groups=data.formatted_simplification, ab=data.ab, cd=data.cd) }}
 <br/>
