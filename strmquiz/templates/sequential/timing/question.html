@@ -70,12 +70,7 @@
 {# --- Compute total length based on the longest signal --- #}
 {% set max_len = diagram_width %}
   {% set total_width = max_len * unit_w %}
-    {# --- clock signal --- #}
-    {{ clock_signal(period_len=clock_period, periods=diagram_width,
-                      unit_w=unit_w, unit_h=unit_h,
-                      stroke="green", stroke_w=2,
-                        var_name=clock_var, label_offset=-20,
-    edge=synch_type) }}
+
    {% set guide_start = 0 if synch_type.lower() in ("dual", "rising") else 0.5 %}
    {% set guide_unit_w = clock_period/2 if synch_type.lower() == "dual" else  clock_period %}
   {# --- Vertical guide lines --- #}
@@ -87,6 +82,13 @@
             stroke="{{ guide_stroke }}" stroke-width="{{ guide_width }}" />
     {% endfor %}
   </g>
+    {# --- clock signal --- #}
+    {{ clock_signal(period_len=clock_period, periods=diagram_width,
+                      unit_w=unit_w, unit_h=unit_h,
+                      stroke="green", stroke_w=2,
+                        var_name=clock_var, label_offset=-20,
+    edge=synch_type) }}
+
 
   {# --- Draw each signal stacked vertically , augmented by one, o allow clock signal--- #}
   {% for k, s in signals.items() %}
@@ -128,6 +130,26 @@ edge = "dual") %}
           dominant-baseline="middle">
       {{ var_name }}
     </text>
+<path d="
+    M 0 {{ unit_h }}
+    {% set half = (period_len * unit_w) / 2 %}
+    {% set ns = namespace(x=0, high=false) %}
+    {% for i in range(periods * 2) %}
+      {% if ns.high %}
+        v {{ unit_h }}
+        h {{ half }}
+        {% set ns.high = false %}
+      {% else %}
+        v -{{ unit_h }}
+        h {{ half }}
+        {% set ns.high = true %}
+      {% endif %}
+      {% set ns.x = ns.x + half %}
+    {% endfor %}
+  "
+  fill="none"
+  stroke="{{ stroke }}"
+  stroke-width="{{ stroke_w }}" />
   {% endif %}
   {% set guide_start = period_len /2 *unit_w %}
   {% set guide_stroke = "red" %}
@@ -150,26 +172,7 @@ edge = "dual") %}
     {% endfor %}
       {% endif %}
   </g>
-  <path d="
-    M 0 {{ unit_h }}
-    {% set half = (period_len * unit_w) / 2 %}
-    {% set ns = namespace(x=0, high=false) %}
-    {% for i in range(periods * 2) %}
-      {% if ns.high %}
-        v {{ unit_h }}
-        h {{ half }}
-        {% set ns.high = false %}
-      {% else %}
-        v -{{ unit_h }}
-        h {{ half }}
-        {% set ns.high = true %}
-      {% endif %}
-      {% set ns.x = ns.x + half %}
-    {% endfor %}
-  "
-  fill="none"
-  stroke="{{ stroke }}"
-  stroke-width="{{ stroke_w }}" />
+
 </g>
 {% endmacro %}
 
