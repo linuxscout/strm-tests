@@ -195,8 +195,8 @@ edge = "dual") %}
 {% set stroke="blue" %}
 {% set stroke_w= 2 %}
 {% set guide_stroke="lightgray" %}
-{% set diagram_width = (data.length+1) * unit_w %}
-{% set diagram_height = ((data.question_signals|length)+1) * (unit_h+v_gap) %}
+{% set canva_width = (data.length+1) * unit_w %}
+{% set canva_height = ((data.question_signals|length)+1) * (unit_h+v_gap) %}
 
 <div class="timing-diagram">
   <p class="title">Timing diagram <span class="aRL">المخطط الزمني</span></p>
@@ -209,7 +209,7 @@ edge = "dual") %}
     {% endif %}
 
 
-<svg xmlns="http://www.w3.org/2000/svg" width="{{diagram_width}}" height="{{diagram_height}}">
+<svg xmlns="http://www.w3.org/2000/svg" width="{{canva_width}}" height="{{canva_height}}">
 <g transform="translate(0,00)">
 {{ multi_signals(signals, unit_w=unit_w, unit_h=unit_h, v_gap=v_gap,
                     stroke=stroke, stroke_w=stroke_w,
