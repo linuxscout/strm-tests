@@ -192,6 +192,42 @@ class QuizBuilder:
             synch_type=args.get("synch_type","rising"),
             output_vars=args.get("output","Q")
             )
+        def command_flip(args={}):
+            # print("quiz_builder:debug:arguments",args)
+            return self.qsbuilder.question_flip(
+            varlist= args.get("varlist",{}),
+            flip_type=args.get("flip_type","D"),
+            length=args.get("length",10),
+            synch_type=args.get("synch_type","rising"),
+            output_vars=args.get("output","Q")
+            )
+        def command_counter(args={}):
+            # print("quiz_builder:debug:arguments",args)
+            return self.qsbuilder.question_counter(
+            varlist= args.get("varlist",{}),
+            flip_type=args.get("flip_type","D"),
+            length=args.get("length",10),
+            synch_type=args.get("synch_type","rising"),
+            output_vars=args.get("output","Q")
+            )
+        def command_register(args={}):
+            # print("quiz_builder:debug:arguments",args)
+            return self.qsbuilder.question_register(
+            varlist= args.get("varlist",{}),
+            flip_type=args.get("flip_type","D"),
+            length=args.get("length",10),
+            synch_type=args.get("synch_type","rising"),
+            output_vars=args.get("output","Q")
+            )
+        def command_seq_misc(args={}):
+            # print("quiz_builder:debug:arguments",args)
+            return self.qsbuilder.question_seq_misc(
+            varlist= args.get("varlist",{}),
+            flip_type=args.get("flip_type","D"),
+            length=args.get("length",10),
+            synch_type=args.get("synch_type","rising"),
+            output_vars=args.get("output","Q")
+            )
         def command_static_funct(args={}):
             return self.qsbuilder.question_static_funct(minterms=args["minterms"][0],
              var_names=args["var_names"], output_names=args["output_names"]
@@ -233,6 +269,10 @@ class QuizBuilder:
             "nor_funct": (command_nor_funct, True),
             "multi_funct": (command_multi_funct, True),
             "chronogram": (command_chronogram, True),
+            "flip": (command_flip, True),
+            "counter": (command_counter, True),
+            "register": (command_register, True),
+            "seq_misc": (command_seq_misc, True),
         }
 
         entry = question_map.get(command)

@@ -18,6 +18,12 @@
 \usetikzlibrary{arrows, shapes.gates.logic.US, calc}
 \usepackage{tikz-timing}[2009/05/15]
 \usetikztiminglibrary{clockarrows}
+% define front montant and descendant
+\def\frontmontant{\texttiming[timing/c/rising arrows]{2{C}}
+}
+\def\frontdescendant{\texttiming[timing/c/falling arrows, timing/slope=.0]{HC}
+}
+\usepackage{circuitikz}
 % To tell LaTeX to separate numbers into groups of four digits (e.g., 1234 5678),
 %  you can use the siunitx package, which is designed for number formatting.
 \usepackage{siunitx}

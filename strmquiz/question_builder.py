@@ -656,14 +656,7 @@ class Question_Builder:
     #     # ~ data = tex_data_question
     #
     #     return question, arabic, data, answer
-
-    def question_chronogram(self, varlist={}, flip_type="D", length=20, synch_type="rising", output_vars=["Q", ]):
-
-        """
-        Generate Chronogram question
-        """
-        context= {}
-
+    def _preprare_chrnonogram(self,  varlist={}, flip_type="D", length=20, synch_type="rising", output_vars=["Q", ]):
 
 
         chrono = tex_chronograms.Tex_Chronograms();
@@ -725,7 +718,7 @@ class Question_Builder:
 
         tex_data_answer = chrono.draw(tmp_signals, clock)
 
-        context= {"data": {
+        data= {
         "varlist":varlist,
         "flip_type":flip_type,
         "length":length,
@@ -740,11 +733,78 @@ class Question_Builder:
         "question_signals":init_signals,
         "answer_signals":tmp_signals,
         "tex_data_answer":tex_data_answer,
-        },}
+        }
+        return data
+    def question_chronogram(self, varlist={}, flip_type="D", length=20, synch_type="rising", output_vars=["Q", ]):
+
+        """
+        Generate Chronogram question
+        """
+        context= {}
+
+        data = self._preprare_chrnonogram(varlist=varlist, flip_type=flip_type, length=length, synch_type=synch_type, output_vars=output_vars)
+
+        context= {"data": data,
+          }
         question, answer = self.formater.render_question_answer("sequential/timing", context)
         return question, "arabic", "data", answer
-        return question, arabic, data, answer
 
+    def question_flip(self, varlist={}, flip_type="D", length=20, synch_type="rising", output_vars=["Q", ]):
+
+        """
+        Generate Chronogram question for a given flip
+        """
+        context= {}
+
+        data = self._preprare_chrnonogram(varlist=varlist, flip_type=flip_type, length=length, synch_type=synch_type, output_vars=output_vars)
+
+        context= {"data": data,
+          }
+        question, answer = self.formater.render_question_answer("sequential/flip", context)
+        return question, "arabic", "data", answer
+
+    def question_counter(self, varlist={}, flip_type="D", length=20, synch_type="rising", output_vars=["Q", ]):
+
+        """
+        Generate Chronogram question for a given counter
+        """
+        context= {}
+
+        data = self._preprare_chrnonogram(varlist=varlist, flip_type=flip_type, length=length, synch_type=synch_type, output_vars=output_vars)
+
+        context= {"data": data,
+          }
+        question, answer = self.formater.render_question_answer("sequential/counter", context)
+        return question, "arabic", "data", answer
+
+    def question_register(self, varlist={}, flip_type="D", length=20, synch_type="rising", output_vars=["Q", ]):
+
+        """
+        Generate Chronogram question for a given register
+        """
+        context= {}
+
+        data = self._preprare_chrnonogram(varlist=varlist, flip_type=flip_type, length=length, synch_type=synch_type, output_vars=output_vars)
+
+        context= {"data": data,
+          }
+        question, answer = self.formater.render_question_answer("sequential/register", context)
+        return question, "arabic", "data", answer
+
+
+    def question_seq_misc(self, varlist={}, flip_type="D", length=20, synch_type="rising", output_vars=["Q", ]):
+
+        """
+        Generate Chronogram question for a given sequential miscellaneous circuit
+        """
+        context= {}
+
+        data = self._preprare_chrnonogram(varlist=varlist, flip_type=flip_type, length=length, synch_type=synch_type, output_vars=output_vars)
+
+        context= {"data": data,
+          }
+        question, answer = self.formater.render_question_answer("sequential/misc", context)
+        return question, "arabic", "data", answer
 
 
 def main(args):

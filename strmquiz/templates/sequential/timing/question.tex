@@ -2,7 +2,8 @@
  Macro: draw clock
 ----------------------------------------------------------#}
 {%- macro draw_clock(data) -%}
-{%set clock_signal ="$"~data.clock.name~"$ & [timing/c/"~data.synch_type~" arrows] C"~data.length~"{"~data.clock.period~"C}"%}
+{% set synch_type = data.synch_type if data.synch_type in ("dual", "falling", "rising", "no") else "no" %}
+{%set clock_signal ="$"~data.clock.name~"$ & [timing/c/"~synch_type~" arrows] C"~data.length~"{"~data.clock.period~"C}"%}
 {{clock_signal}}
 {%endmacro %}
 {#----------------------------------------------------------
@@ -69,7 +70,7 @@ Complete the following timing diagram : \hfill\aRL{أكمل المخطط الز�
 
 
 
-{%if debug %}
+{%if True or debug %}
 \paragraph{ Timing Latex version/old method} 1
 
 {{data.tex_data_answer}}
