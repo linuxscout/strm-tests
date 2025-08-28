@@ -42,7 +42,7 @@
  Macro: draw  timing diagram
 ----------------------------------------------------------#}
 {%- macro draw_timing_diagram(data) -%}
-\paragraph{ Timing Latex } macro version
+\paragraph{ Timing diagram  }\aRL{المخطط الزمني}
 
 \begin{tikztimingtable}
 %[timing/slope=.0, timing/draw grid]
@@ -64,12 +64,19 @@
 ----------------------------------------------------------#}
 Complete the following timing diagram : \hfill\aRL{أكمل المخطط الزمني الآتي}
 
-{% set clock_signal ="$Ck$ & [timing/c/rising arrows] C 24{1C}"%}
-{% set input_signals ="""$J$ &  2.25L 1H 4L 2.5H 1L 1H 0.5L 1H 1L 1H 1L 2H 2L 1H 2.75L\\\\
-$K$ &  1L 4H 1L 2H 4L 3H 1L 4.25H 2L 1.75H"""%}
-{% set output_signals_initial ="""$Q$ &  1L"""%}
-{% set output_signals_final ="""$Q$ &  1L 2H 3L 4.5H"""%}
 
+{{draw_timing_diagram(data)}}
+
+
+
+{%if debug %}
+\paragraph{ Timing Latex version/old method} 1
+
+{{data.tex_data_answer}}
+{% endif %}
+
+{% if RENDER_MODE == "answer" %}
+{%if debug %}
 \begin{verbatim}
 Clock
 {{draw_clock(data)}}
@@ -83,37 +90,8 @@ guidelines
 {{ draw_guide_lines(data.synch_type) }}
 ***********
 \end{verbatim}
-
-
-{{draw_timing_diagram(data)}}
-
-\paragraph{ Timing Latex } new version
-
-\begin{tikztimingtable}
-%[timing/slope=.0, timing/draw grid]
-[timing/slope=.0,  timing/wscale=1, scale=2.5, line width=1.25pt]
-% horloge signal
-{{ draw_clock(data) }}\\
-{{ draw_signals(data.input_signals) }}\\
-{{ draw_out_signals(data.output_signals)}}\\
-\extracode
-\begin{scope}[gray,semitransparent,densely dotted,thin]
-\horlines{}
-\vertlines{0}
-\end{scope}
-{{ draw_guide_lines(data.synch_type) }}
-\end{tikztimingtable}
-
-
-
-
-
-\paragraph{ Timing Latex version/old method} 1
-
-{{data.tex_data_answer}}
-
-{% if RENDER_MODE == "answer" %}
 \begin{verbatim}
    {{data|pprint}}
 \end{verbatim}
-{% endif %}
+{% endif %} %  end if debug
+{% endif %} % end answer

@@ -737,8 +737,8 @@ class Question_Builder:
                     "final": out_signals_final,
                       },
         "clock":clock,
-        "tmp_signals":tmp_signals,
-        "tmp_signals":tmp_signals,
+        "question_signals":init_signals,
+        "answer_signals":tmp_signals,
         "tex_data_answer":tex_data_answer,
         },}
         question, answer = self.formater.render_question_answer("sequential/timing", context)
