@@ -706,7 +706,7 @@ class Question_Builder:
 
             out_signal = chrono.resolve(flip_type=flip_type, signals=init_signals.copy(), period=2)
             # output signal
-            tmp_signals[output_vars[0] + ".desc"] = out_signal
+            tmp_signals[output_vars[0] + ".falling"] = out_signal
         if synch_type == "all":
             # set synchronization type
             chrono.set_synch_type("asynch")
