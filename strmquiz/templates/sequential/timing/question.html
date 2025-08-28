@@ -62,7 +62,7 @@
    ========================================================= #}
 {% macro multi_signals(signals, unit_w=100, unit_h=80, v_gap=40,
                        stroke="black", stroke_w=2,
-                       guide_stroke="gray", guide_width=1, guide_start=0,
+                       guide_stroke="gray",
                         diagram_width=24,
                         clock_period=1, clock_var ="Ck",
                     synch_type="dual") %}
@@ -71,15 +71,22 @@
 {% set max_len = diagram_width %}
   {% set total_width = max_len * unit_w %}
 
-   {% set guide_start = 0 if synch_type.lower() in ("dual", "rising") else 0.5 %}
-   {% set guide_unit_w = clock_period/2 if synch_type.lower() == "dual" else  clock_period %}
+   {% set guide_start = 0 if synch_type.lower() in ("dual", "high","low", "rising") else 0.5 %}
+    {# --- in case of dualn lelevl high, level low, the step between guide line is the half, but the number is doubled --- #}
+   {% if synch_type.lower() in ("dual","high","low")%}
+        {% set guide_unit_w = clock_period/2 %}
+        {% set guide_count = max_len*2 + 1 %}
+    {%else %}
+        {% set guide_unit_w = clock_period %}
+        {% set guide_count = max_len + 1 %}
+    {%endif%}
   {# --- Vertical guide lines --- #}
   <g class="guides">
       <!--initial guide line -->
-    {% for i in range(max_len + 1) %}
+    {% for i in range(guide_count) %}
       <line x1="{{ (guide_start+i) * unit_w * guide_unit_w }}" y1="0"
-            x2="{{ (guide_start+i) * unit_w * guide_unit_w }}" y2="{{ signals | length * (unit_h + v_gap) }}"
-            stroke="{{ guide_stroke }}" stroke-width="{{ guide_width }}" />
+            x2="{{ (guide_start+i) * unit_w * guide_unit_w }}" y2="{{ diagram_width * (unit_h + v_gap) }}"
+            stroke="{{ guide_stroke }}" stroke-width="{{ stroke_w/2 }}" />
     {% endfor %}
   </g>
     {# --- clock signal --- #}
@@ -156,7 +163,7 @@ edge = "dual") %}
   {% set guide_width = 5 %}
   {# --- edge arrows --- #}
   <g class="guides">
-      <!--initial guide line -->
+      <!--font_edge -->
       {% if edge.lower() in ("rising","dual") %}
     {% for i in range(periods + 1) %}
       <g id="uparraw" transform="translate({{ i * unit_w -30}},-10)">
@@ -180,9 +187,19 @@ edge = "dual") %}
    Draw Timing diagram
 ----------------------------------------------------------- #}
 {%- macro draw_timing_diagram(data) -%}
+{# ---------- Configuration ------------#}
+{% set unit_w=60 %}
+{% set unit_w=60 %}
+{% set unit_h=50 %}
+{% set v_gap=30 %}
+{% set stroke="blue" %}
+{% set stroke_w= 2 %}
+{% set guide_stroke="lightgray" %}
+{% set diagram_width = (data.length+1) * unit_w %}
+{% set diagram_height = ((data.question_signals|length)+1) * (unit_h+v_gap) %}
+
 <div class="timing-diagram">
   <p class="title">Timing diagram <span class="aRL">المخطط الزمني</span></p>
-
     {% if RENDER_MODE.lower() == "question" %}
     <h2>Given timing diagram</h2>
     {% set signals = data.question_signals %}
@@ -191,13 +208,12 @@ edge = "dual") %}
     {% set signals = data.answer_signals %}
     {% endif %}
 
-<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400">
 
+<svg xmlns="http://www.w3.org/2000/svg" width="{{diagram_width}}" height="{{diagram_height}}">
 <g transform="translate(0,00)">
-{{ multi_signals(signals, unit_w=60, unit_h=50, v_gap=30,
-                    stroke="blue", stroke_w=2,
-                    guide_stroke="lightgray", guide_width=1,
-                    guide_start=0.5,
+{{ multi_signals(signals, unit_w=unit_w, unit_h=unit_h, v_gap=v_gap,
+                    stroke=stroke, stroke_w=stroke_w,
+                    guide_stroke=guide_stroke,
                     diagram_width=data.length,
                     clock_period=data.clock.period,
                     clock_var =data.clock.name,
@@ -231,8 +247,9 @@ Full data:
 {{ data|pprint }}
   </pre>
 
-    <h2>Test of list of signals</h2>
-<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400">
+{% for edge in ("rising", "falling", "high", "low", "dual") %}
+    <h2>Test of list of signals on {{edge}}</h2>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500">
   {% set s1 = [-1, 2, -2, 3, -1, 2] %}
   {% set s2 = [2, -1, 1, -2, 3] %}
   {% set s3 = [-2, 1, -1, 2, -2, 1] %}
@@ -240,11 +257,11 @@ Full data:
 <g transform="translate(0,00)">
 {{ multi_signals(signals, unit_w=60, unit_h=50, v_gap=30,
                     stroke="blue", stroke_w=2,
-                    guide_stroke="lightgray", guide_width=1,
-                    guide_start=0.5) }}
+                    guide_stroke="lightgray", synch_type=edge) }}
   </g>
-
+{% endfor %}
 </svg>
+
 
 
 <h2>Test of signla from list</h2>
@@ -258,24 +275,33 @@ Full data:
 
 </svg>
 
-      <h2>Test of clock</h2>
+      <h2>Test of clock  dual</h2>
     <svg xmlns="http://www.w3.org/2000/svg" width="800" height="200">
   <g transform="translate(20,60)">
     {{ clock_signal(1, 5, 80, 60, "green", 3) }}
   </g>
 </svg>
 
+      <h2>Test of clock Falling</h2>
+
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="200">
   <g transform="translate(20,60)">
     {{ clock_signal(1, 5, 80, 60, "green", 3,edge="falling") }}
   </g>
 </svg>
-
+      <h2>Test of clock rising</h2>
 
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="200">
   <g transform="translate(20,60)">
     {{ clock_signal(1, 5, 80, 60, "green", 3,edge="rising") }}
   </g>
+      <h2>Test of clock high level</h2>
+
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="200">
+  <g transform="translate(20,60)">
+    {{ clock_signal(1, 5, 80, 60, "green", 3,edge="high") }}
+  </g>
+
 </svg>
 
 {%- endif %}
