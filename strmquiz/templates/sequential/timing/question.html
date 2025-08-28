@@ -66,14 +66,14 @@
                         diagram_width=24,
                         clock_period=1, clock_var ="Ck",
                     synch_type="dual") %}
-<g class="multi-signals" transform="translate(50,00)">
+<g class="multi-signals" transform="translate(80,00)">
 {# --- Compute total length based on the longest signal --- #}
 {% set max_len = diagram_width %}
   {% set total_width = max_len * unit_w %}
 
-   {% set guide_start = 0 if synch_type.lower() in ("dual", "high","low", "rising") else 0.5 %}
+   {% set guide_start = 0 if synch_type.lower() in ("all","dual", "high","low", "rising") else 0.5 %}
     {# --- in case of dualn lelevl high, level low, the step between guide line is the half, but the number is doubled --- #}
-   {% if synch_type.lower() in ("dual","high","low")%}
+   {% if synch_type.lower() in ("all", "dual","high","low")%}
         {% set guide_unit_w = clock_period/2 %}
         {% set guide_count = max_len*2 + 1 %}
     {%else %}
@@ -106,7 +106,7 @@
             x2="{{ total_width }}" y2="{{unit_h}}"
             stroke="{{ guide_stroke }}" stroke-width="{{ guide_width }}" />
   </g>
-      {{ signal_from_list(s, unit_w, unit_h, stroke, stroke_w, var_name=k, label_offset=-20) }}
+      {{ signal_from_list(s, unit_w, unit_h, stroke, stroke_w, var_name=k, label_offset=-10) }}
     </g>
   {% endfor %}
 
@@ -164,17 +164,17 @@ edge = "dual") %}
   {# --- edge arrows --- #}
   <g class="guides">
       <!--font_edge -->
-      {% if edge.lower() in ("rising","dual") %}
+      {% if edge.lower() in ("rising","dual", "all") %}
     {% for i in range(periods + 1) %}
       <g id="uparraw" transform="translate({{ i * unit_w -30}},-10)">
-        <polygon points="20,30 30,10 40,30" fill="black"/>
+        <polygon points="25,20 30,10 35,20" fill="black"/>
     </g>
       {% endfor %}
       {% endif %}
-      {% if edge.lower() in ("falling","dual") %}
+      {% if edge.lower() in ("falling","dual", "all") %}
     {% for i in range(periods + 1) %}
-      <g id="donwarraw" transform="translate({{ (i+0.5) * unit_w -30}},{{unit_h-30}})">
-        <polygon points="20,10 30,30 40,10" fill="green"/>
+      <g id="donwarraw" transform="translate({{ (i+0.5) * unit_w -30}},{{unit_h-20}})">
+        <polygon points="25,10 30,20 35,10" fill="green"/>
     </g>
     {% endfor %}
       {% endif %}
@@ -195,8 +195,8 @@ edge = "dual") %}
 {% set stroke="blue" %}
 {% set stroke_w= 2 %}
 {% set guide_stroke="lightgray" %}
-{% set canva_width = (data.length+1) * unit_w %}
-{% set canva_height = ((data.question_signals|length)+1) * (unit_h+v_gap) %}
+{% set canva_width = (data.length+2) * unit_w %}
+
 
 <div class="timing-diagram">
   <p class="title">Timing diagram <span class="aRL">المخطط الزمني</span></p>
@@ -207,7 +207,7 @@ edge = "dual") %}
     <h2>Resulting timing diagram</h2>
     {% set signals = data.answer_signals %}
     {% endif %}
-
+    {% set canva_height = ((signals|length)+2) * (unit_h+v_gap) %}
 
 <svg xmlns="http://www.w3.org/2000/svg" width="{{canva_width}}" height="{{canva_height}}">
 <g transform="translate(0,00)">
