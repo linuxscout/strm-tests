@@ -1,4 +1,74 @@
+{% import "sequential/macros/flipmacros.tex" as flpmacro%}
+{# -----------------------
+ draw a generic counter
+-------------------#}
+{%macro _draw_counter_generic(flips_list= ["D","JK","RS"], outputs=["Q0","Q1", "Q2"],size=3, counter_type="up")%}
+
+{% if size != flips_list|length or size != outputs|length %}
+ Warning: check parameters, The size '{{size}}' is different from flips list length '{{flips_list|length}}' or
+ '{{outputs|length}}'
+{%else%}
+    {# draw a clock #}
+    {{ flpmacro.draw_clock(name="Ck", label="Ck", xpos=0, ypos=2)}}
+    {# draw a modules #}
+    {% set ns = namespace(name="", id="", xpos=0, prev_name="", prev_type="", type="") %}
+    {% set ypos = 2 %}
+    {% for i in range(size) %}
+        {% set ns.xpos = 2+3*i %}
+        {% set ns.name = "flipc"+(i|string) %}
+        {% set ns.type = flips_list[i].upper() %}
+        {% set ns.id = flips_list[i].upper()+"Mod" %}
+        {{ flpmacro.place_flip(id=ns.id, name=ns.name, xpos=ns.xpos, ypos=ypos)}}
+
+        {# link current with clock #}
+        {% if loop.first %}
+        {{ flpmacro.link_clock (name_clock="Ck", name_target=ns.name, type_target=ns.type)}}
+        {% endif%}
+
+        {# draw a Vcc var #}
+        {{ flpmacro.draw_input_var(name="Vcc"~(i|string), label="Vcc", xpos=ns.xpos-1.5, ypos=ypos+2)}}
+        {{ flpmacro.link_var(name_var="Vcc"~(i|string), name_target=ns.name, type_target=ns.type, target_pins=["up","down","pin 1", "pin 3"])}}
+        {# link previous with current #}
+        {% if ns.prev_name %}
+            {{ flpmacro.link(name_source=ns.prev_name, name_target=ns.name, type_target=ns.type, method="clock")}}
+        {% endif %}
+        {% set ns.prev_name = ns.name %}
+        {% set ns.prev_type = ns.type %}
+    {%endfor%}
+
+{%endif%}
+{%endmacro%}
+
+{# -----------------------
+ draw a counter one type flip
+-------------------#}
+{%macro draw_counter(flip="JKasyn", counter_type="",size=3)%}
+{% set flips_list = [flip]*size %}
+{% set ns = namespace(outputs = []) %}
+{% for i in range(size) %}
+    {% set _ = ns.outputs.append("Q" ~ i|string) %}
+{% endfor %}
+{{ _draw_counter_generic(flips_list= flips_list, outputs=ns.outputs,size=size, counter_type=counter_type)}}
+
+{%endmacro%}
 {#----------------------------------------------------------
  Main_call
 ----------------------------------------------------------#}
 \section{Counter}
+
+
+ \textbf{Counter  n bits Jk}
+
+
+
+\begin{circuitikz}
+
+{{draw_counter(flip="JKa", counter_type="",size=4)}}
+
+\end{circuitikz}
+
+ \textbf{flipfop syn/asyn Jk}
+
+\begin{circuitikz}
+{{ flpmacro.place_flip(id="JKAMod", name="jk4", xpos=5, ypos=4)}}
+\end{circuitikz}

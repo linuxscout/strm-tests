@@ -1,0 +1,184 @@
+{# -----------------------
+ define a basic flip
+-------------------#}
+{%macro define_basic_flip(type="D", id="DMod", output_var="Q")%}
+{% if type.lower() == "d" %}
+    \tikzset{flipflop {{id}}/.style={flipflop, dot on notQ,
+        flipflop def={t1=D, t6=${{output_var}}$,t4={\ctikztextnot{${{output_var}}$}},
+           c3=1},
+    },
+    }
+{%elif type.lower() == "jk"%}
+\tikzset{flipflop {{id}}/.style={flipflop,  dot on notQ,
+            flipflop def={t1=J, t3=K,t6=${{output_var}}$, t4={\ctikztextnot{${{output_var}}$}},
+               c2=1},
+        },
+}
+{%elif type.lower() == "rs"%}
+\tikzset{flipflop {{id}}/.style={flipflop,  dot on notQ,
+                    flipflop def={t1=R,t3=S,t6=${{output_var}}$, t4={\ctikztextnot{${{output_var}}$}},
+                       n4=1, c2=0},
+                },
+}
+{%elif type.lower() == "jkasyn"%}
+\tikzset{flipflop {{id}}/.style={flipflop,  dot on notQ,
+            flipflop def={t1=J, t3=K,t6=Q, t4={\ctikztextnot{Q}},
+                tu={\ctikztextnot{pr}}, nu=1, td={\ctikztextnot{cl}}, nd=1, c2=1},
+        }}
+{%endif%}
+{%endmacro%}
+
+
+{# -----------------------
+ draw a link between two flips
+-------------------#}
+{%macro link(name_source, name_target, type_target="D", method="direct")%}
+{% if type_target.lower() == "d" %}
+    {% if method.lower() == "direct" %}
+       \draw ({{name_source}}.pin 6) -- ({{name_target}}.pin 1);
+    {% elif method.lower() == "inverse" %}
+       \draw ({{name_source}}.pin 4) -- ({{name_target}}.pin 1);
+    {% elif method.lower() == "clock" %}
+       \draw ({{name_source}}.pin 6) -- ({{name_target}}.pin 3);
+    {% elif method.lower() == "inverse_clock" %}
+       \draw ({{name_source}}.pin 4) -- ({{name_target}}.pin 3);
+    {% endif%}
+{%elif type_target.lower() in ("rs", "jk", "jka") %}
+    {% if method.lower() == "direct" %}
+       \draw ({{name_source}}.pin 4) -- ({{name_target}}.pin 3);
+       \draw ({{name_source}}.pin 6) -- ({{name_target}}.pin 1);
+    {% elif method.lower() == "inverse" %}
+       \draw ({{name_source}}.pin 4) -- ({{name_target}}.pin 1);
+       \draw ({{name_source}}.pin 6) -- ({{name_target}}.pin 3);
+    {% elif method.lower() == "clock" %}
+       \draw ({{name_source}}.pin 6) -- ({{name_target}}.pin 2);
+    {% elif method.lower() == "inverse_clock" %}
+       \draw ({{name_source}}.pin 4) -- ({{name_target}}.pin 2);
+    {% endif%}
+
+{%endif%}
+{%endmacro%}
+{%macro truth_table(type="D",edge="rising", customized=False, custom_vars =["X","Y"], custom_values=["1","Q","X","Q'"])%}
+\textbf{ Truth table of {{type}} flipflop }\\
+{% set edge_symbol = '\\frontmontant' if edge == "rising" else '\\frontmontant' %}
+{% if type.lower() in ("custom","customized") %}
+\begin{tabular}{|c|c|c||c|}
+  \hline Ck & {{custom_vars[0]}} & {{custom_vars[1]}} &  $Q_t$ \\
+  \hline 0 & X & X & $Q_{t-1}$ \\
+  \hline {{edge_symbol}}&0 & 0 & ${{custom_values[0]}}$ \\
+  \hline {{edge_symbol}}& 0 & 1 & ${{custom_values[1]}}$\\
+  \hline  {{edge_symbol}}&1 & 0 & ${{custom_values[2]}}$ \\
+  \hline  {{edge_symbol}}& 1 & 1 & ${{custom_values[3]}}$\\
+  \hline
+  \end{tabular}
+{% elif type.lower() == "d" %}
+  \begin{tabular}{|c|c|c|}
+   \hline Ck & D & $Q_t$\\
+   \hline 0/1 & X & $Q_{t-1}$\\
+   \hline {{edge_symbol}}&  0 & 0\\
+   \hline {{edge_symbol}}&   1 & 1\\
+   \hline
+    \end{tabular}
+{% elif type.lower() == "dlatch" %}
+ \begin{tabular}{|c|c|c|}
+  \hline V & D & $Q_t$\\
+  \hline 0 & X & $Q_{t-1}$\\
+  \hline 1 &0 & 0\\
+  \hline 1 & 1 & 1\\
+  \hline
+   \end{tabular}
+{% elif type.lower() == "jk" %}
+\begin{tabular}{|c|c|c||c|l|}
+  \hline Ck & J & K &  $Q_t$ &\\
+  \hline 0 & X & X & $Q_{t-1}$ &\\
+  \hline {{edge_symbol}}&0 & 0 & $Q_{t-1}$ &\\
+  \hline {{edge_symbol}}& 0 & 1 & 0&\\
+  \hline  {{edge_symbol}}&1 & 0 & 1 &\\
+  \hline  {{edge_symbol}}& 1 & 1 & $\overline{Q_{t-1}}$ & \textcolor{red}{Toggle}\\
+  \hline
+  \end{tabular}
+{% elif type.lower() == "jkasyn" %}
+\begin{tabular}{|l|c|c|c|c|c||c|l|}
+  \hline
+  Mode & Pr & Cl & Ck & J & K & Q+ & Remark \hfill\aRL{ملاحظة} \\
+  \hline
+  Asynchronous & 0 & 0 & X & X & X & X & Forbidden\hfill\aRL{ممنوع} \\
+  \aRL{نمط غير متزامن} & 0 & 1 & X & X & X & 1 & Set to 1 \hfill\aRL{توحيد} \\
+  & 1 & 0 & X & X & X & 0 & Set to 0 \hfill\aRL{تصفير} \\
+  \hline
+  \hline
+  Synchronous & 1 &1 & 0/1 & X & X & Q & Memory State \hfill\aRL{ذاكرة} \\
+  \aRL{نمط متزامن} & 1 &1 & {{edge_symbol}}&  0 & 0 & Q & Memory State \hfill\aRL{ذاكرة} \\
+  & 1 &1 & {{edge_symbol}}&  0 & 1 & 0 & Set to 0 \hfill \aRL{تصفير} \\
+  & 1 &1 & {{edge_symbol}}&  1 & 0 & 1 & Set to 1\hfill \aRL{توحيد} \\
+  & 1 &1 & {{edge_symbol}}&  1 & 1 & $\overline{Q}$ & Toggle \hfill\aRL{قلب} \\
+  \hline
+  \end{tabular}
+{% elif type.lower() == "rs" %}
+\begin{tabular}{|c|c||c|l|}
+	\hline R & S & $Q_t$ &\\
+	\hline 0 & 0 & $Q_{t}$ &Memory State \aRL{ذاكرة}\\
+	\hline 0 & 1 & 1 &Set to 1 \aRL{توحيد}\\
+	\hline 1 & 0 & 0 & Reset to 0 \aRL{تصفير}\\
+	\hline 1 & 1 & X &  {\color{red}Forbidden \aRL{ممنوعة}}\\
+	\hline
+ \end{tabular}
+{% elif type.lower() == "rst" %}
+ \begin{tabular}{|c|c|c||c|c|l|}
+  \hline Ck & R & S &  $Q_t$ & $\overline{Q_t}$&\\
+  \hline 0 & X & X & $Q_{t-1}$ & $\overline{Q_{t-1}}$&\\
+  \hline {{edge_symbol}}&0 & 0 & $Q_{t-1}$ & $\overline{Q_{t-1}}$&\\
+  \hline {{edge_symbol}}& 0 & 1 & 1 & 0&\\
+  \hline  {{edge_symbol}}&1 & 0 & 0 & 1&\\
+  \hline  {{edge_symbol}}& 1 & 1 & X & X & {\color{red}Forbidden}\\
+  \hline
+  \end{tabular}
+{% else%}
+    \textbf{No Table to display, please check the flip type "{{type}}", use customized type if needed }
+{% endif%}
+{%endmacro%}
+{# -----------------------
+ Draw a basic flip by id and x, y pos
+-------------------#}
+
+{%macro place_flip(id="DMod", name="", xpos=0, ypos=0)%}
+\node[flipflop {{id}}] ({{name}}) at ({{xpos}},{{ypos}}) {};
+{%endmacro%}
+{# -----------------------
+ Draw a clock
+-------------------#}
+{%macro draw_clock(name="Ck", label="Ck", xpos=0.4, ypos=-1)%}
+\draw ({{xpos}},{{ypos}}) node[circle, fill, inner sep=1pt] {};
+\draw ({{xpos}},{{ypos}}) node[left] ({{name}})  {${{label}}$};
+{%endmacro%}
+
+
+{# -----------------------
+ link  a clock
+-------------------#}
+{%macro link_clock(name_clock="Ck", name_target="D", type_target="d")%}
+
+{% if type_target.lower() == "d" %}
+       \draw ({{name_clock}}) -| ({{name_target}}.pin 3);
+{%elif type_target.lower() in ("rs", "jk", 'jka') %}
+       \draw ({{name_clock}}) -| ({{name_target}}.pin 2);
+{%endif%}
+{%endmacro%}
+
+
+{# -----------------------
+ Draw a vcc
+-------------------#}
+{%macro draw_input_var(name="Vcc", label="Vcc", xpos=0, ypos=0)%}
+\draw ({{xpos}},{{ypos}}) node[circle, fill, inner sep=1pt] {};
+\draw ({{xpos}},{{ypos}}) node[above] ({{name}})  {${{label}}$};
+{%endmacro%}
+
+{# -----------------------
+ link  a var point
+-------------------#}
+{%macro link_var(name_var="Vcc", name_target="D", type_target="d", target_pins=[])%}
+{% for pin_str in target_pins %}
+  \draw ({{name_var}}) |- ({{name_target}}.{{pin_str}});
+{% endfor %}
+{%endmacro%}
