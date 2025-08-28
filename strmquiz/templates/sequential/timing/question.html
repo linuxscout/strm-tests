@@ -235,7 +235,7 @@ edge = "dual") %}
    DEBUG
 ---------------------------------------------------------- #}
 {% if RENDER_MODE.lower() == "answer" %}
-{%- if True or debug %}
+{%- if debug %}
   <pre class="debug">
 Clock:
 {{ data.clock|pprint }}
