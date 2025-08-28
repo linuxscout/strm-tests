@@ -20,6 +20,11 @@
                        n4=1, c2=0},
                 },
 }
+{%elif type.lower() == "jkasyn"%}
+\tikzset{flipflop {{id}}/.style={flipflop,  dot on notQ,
+            flipflop def={t1=J, t3=K,t6=Q, t4={\ctikztextnot{Q}},
+                tu={\ctikztextnot{pr}}, nu=1, td={\ctikztextnot{cl}}, nd=1, c2=1},
+        }}
 {%endif%}
 {%endmacro%}
 
@@ -38,7 +43,7 @@
     {% elif method.lower() == "inverse_clock" %}
        \draw ({{name_source}}.pin 4) -- ({{name_target}}.pin 3);
     {% endif%}
-{%elif type_target.lower() in ("rs", "jk") %}
+{%elif type_target.lower() in ("rs", "jk", "jka") %}
     {% if method.lower() == "direct" %}
        \draw ({{name_source}}.pin 4) -- ({{name_target}}.pin 3);
        \draw ({{name_source}}.pin 6) -- ({{name_target}}.pin 1);
@@ -147,6 +152,7 @@
 \draw ({{xpos}},{{ypos}}) node[left] ({{name}})  {${{label}}$};
 {%endmacro%}
 
+
 {# -----------------------
  link  a clock
 -------------------#}
@@ -154,9 +160,26 @@
 
 {% if type_target.lower() == "d" %}
        \draw ({{name_clock}}) -| ({{name_target}}.pin 3);
-{%elif type_target.lower() in ("rs", "jk") %}
+{%elif type_target.lower() in ("rs", "jk", 'jka') %}
        \draw ({{name_clock}}) -| ({{name_target}}.pin 2);
 {%endif%}
+{%endmacro%}
+
+{# -----------------------
+ Draw a vcc
+-------------------#}
+{%macro draw_input_var(name="Vcc", label="Vcc", xpos=0, ypos=0)%}
+\draw ({{xpos}},{{ypos}}) node[circle, fill, inner sep=1pt] {};
+\draw ({{xpos}},{{ypos}}) node[above] ({{name}})  {${{label}}$};
+{%endmacro%}
+
+{# -----------------------
+ link  a var point
+-------------------#}
+{%macro link_var(name_var="Vcc", name_target="D", type_target="d", target_pins=[])%}
+{% for pin_str in target_pins %}
+  \draw ({{name_var}}) |- ({{name_target}}.{{pin_str}});
+{% endfor %}
 {%endmacro%}
 
 
@@ -221,17 +244,25 @@
  '{{outputs|length}}'
 {%else%}
     {# draw a clock #}
-    {{draw_clock(name="Ck", label="Ck", xpos=0, ypos=0)}}
+    {{draw_clock(name="Ck", label="Ck", xpos=0, ypos=2)}}
     {# draw a modules #}
     {% set ns = namespace(name="", id="", xpos=0, prev_name="", prev_type="", type="") %}
     {% set ypos = 2 %}
     {% for i in range(size) %}
         {% set ns.xpos = 2+3*i %}
-        {% set ns.name = "flip"+(i|string) %}
+        {% set ns.name = "flipc"+(i|string) %}
         {% set ns.type = flips_list[i].upper() %}
         {% set ns.id = flips_list[i].upper()+"Mod" %}
         {{place_flip(id=ns.id, name=ns.name, xpos=ns.xpos, ypos=ypos)}}
 
+        {# link current with clock #}
+        {% if loop.first %}
+        {{link_clock (name_clock="Ck", name_target=ns.name, type_target=ns.type)}}
+        {% endif%}
+
+        {# draw a Vcc var #}
+        {{draw_input_var(name="Vcc"~(i|string), label="Vcc", xpos=ns.xpos-1.5, ypos=ypos+2)}}
+        {{link_var(name_var="Vcc"~(i|string), name_target=ns.name, type_target=ns.type, target_pins=["up","down","pin 1", "pin 3"])}}
         {# link previous with current #}
         {% if ns.prev_name %}
             {{link(name_source=ns.prev_name, name_target=ns.name, type_target=ns.type, method="clock")}}
@@ -246,7 +277,7 @@
 {# -----------------------
  draw a counter one type flip
 -------------------#}
-{%macro draw_counter(flip="JK", counter_type="",size=3)%}
+{%macro draw_counter(flip="JKasyn", counter_type="",size=3)%}
 {% set flips_list = [flip]*size %}
 {% set ns = namespace(outputs = []) %}
 {% for i in range(size) %}
@@ -263,6 +294,7 @@
 {{ define_basic_flip(type="D", id="DMod", output_var="Q2")}}
 {{ define_basic_flip(type="JK", id="JKMod", output_var="Q0")}}
 {{ define_basic_flip(type="RS", id="RSMod", output_var="Q1")}}
+{{ define_basic_flip(type="jkasyn", id="JKAMod", output_var="Q")}}
 
 
 \section{Flip}
@@ -362,9 +394,19 @@
 
 \end{circuitikz}
 
+\newpage
  \textbf{Counter  n bits Jk}
 
-\begin{circuitikz}
-{{draw_counter(flip="JK", counter_type="",size=6)}}
 
+
+\begin{circuitikz}
+
+{{draw_counter(flip="JKa", counter_type="",size=4)}}
+
+\end{circuitikz}
+
+ \textbf{flipfop syn/asyn Jk}
+
+\begin{circuitikz}
+{{place_flip(id="JKAMod", name="jk4", xpos=5, ypos=4)}}
 \end{circuitikz}

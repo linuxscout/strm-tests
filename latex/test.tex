@@ -4,40 +4,488 @@
 
 \paragraph{Q1}
 
-Complete the following timing diagram : \hfill\aRL{أكمل المخطط الزمني الآتي}
-
-
-\paragraph{ Timing diagram  }\aRL{المخطط الزمني}
-
-\begin{tikztimingtable}
-%[timing/slope=.0, timing/draw grid]
-[timing/slope=.0,  timing/wscale=1, scale=2.5, line width=1.25pt]
-% horloge signal
-$Ck$ & [timing/c/falling arrows] C24{1C}
-\\
-$J$ &1H 2.5L 1H 2.5L 2H 1L 0.25H 1L 4H 4L 0.5H 2L 2.25H \\
-$K$ &1L 2.5H 4L 4.75H 1L 0.75H 1L 3H 3L 0.75H 2.25L \\
-$Q$ &1L \\
-$Q0$ &1L \\
-$Q0'$ &1H \\
-$Q1$ &1L 
-\\
-\extracode
-\begin{scope}[gray,semitransparent,densely dotted,thin]
-\horlines{}
-\vertlines{0}
-\end{scope}
-\begin{scope}[red,semitransparent,densely dotted,thin]
-\vertlines{2,4,...,\twidth}
-\end{scope}
-
-\end{tikztimingtable}
 
 
 
 
 
- % end answer
+
+
+
+
+
+
+
+
+
+    \tikzset{flipflop DMod/.style={flipflop, dot on notQ,
+        flipflop def={t1=D, t6=$Q2$,t4={\ctikztextnot{$Q2$}},
+           c3=1},
+    },
+    }
+
+\tikzset{flipflop JKMod/.style={flipflop,  dot on notQ,
+            flipflop def={t1=J, t3=K,t6=$Q0$, t4={\ctikztextnot{$Q0$}},
+               c2=1},
+        },
+}
+
+\tikzset{flipflop RSMod/.style={flipflop,  dot on notQ,
+                    flipflop def={t1=R,t3=S,t6=$Q1$, t4={\ctikztextnot{$Q1$}},
+                       n4=1, c2=0},
+                },
+}
+
+\tikzset{flipflop JKAMod/.style={flipflop,  dot on notQ,
+            flipflop def={t1=J, t3=K,t6=Q, t4={\ctikztextnot{Q}},
+                tu={\ctikztextnot{pr}}, nu=1, td={\ctikztextnot{cl}}, nd=1, c2=1},
+        }}
+
+
+
+\section{Flip}
+\textbf{ Truth table of D flipflop }\\
+  \begin{tabular}{|c|c|c|}
+   \hline Ck & D & $Q_t$\\
+   \hline 0/1 & X & $Q_{t-1}$\\
+   \hline \frontmontant&  0 & 0\\
+   \hline \frontmontant&   1 & 1\\
+   \hline
+    \end{tabular}
+
+
+\textbf{ Truth table of JK flipflop }\\
+\begin{tabular}{|c|c|c||c|l|}
+  \hline Ck & J & K &  $Q_t$ &\\
+  \hline 0 & X & X & $Q_{t-1}$ &\\
+  \hline \frontmontant&0 & 0 & $Q_{t-1}$ &\\
+  \hline \frontmontant& 0 & 1 & 0&\\
+  \hline  \frontmontant&1 & 0 & 1 &\\
+  \hline  \frontmontant& 1 & 1 & $\overline{Q_{t-1}}$ & \textcolor{red}{Toggle}\\
+  \hline
+  \end{tabular}
+
+
+\textbf{ Truth table of JK flipflop }\\
+\begin{tabular}{|c|c|c||c|l|}
+  \hline Ck & J & K &  $Q_t$ &\\
+  \hline 0 & X & X & $Q_{t-1}$ &\\
+  \hline \frontmontant&0 & 0 & $Q_{t-1}$ &\\
+  \hline \frontmontant& 0 & 1 & 0&\\
+  \hline  \frontmontant&1 & 0 & 1 &\\
+  \hline  \frontmontant& 1 & 1 & $\overline{Q_{t-1}}$ & \textcolor{red}{Toggle}\\
+  \hline
+  \end{tabular}
+
+
+\textbf{ Truth table of RS flipflop }\\
+\begin{tabular}{|c|c||c|l|}
+	\hline R & S & $Q_t$ &\\
+	\hline 0 & 0 & $Q_{t}$ &Memory State \aRL{ذاكرة}\\
+	\hline 0 & 1 & 1 &Set to 1 \aRL{توحيد}\\
+	\hline 1 & 0 & 0 & Reset to 0 \aRL{تصفير}\\
+	\hline 1 & 1 & X &  {\color{red}Forbidden \aRL{ممنوعة}}\\
+	\hline
+ \end{tabular}
+
+
+\textbf{ Truth table of Dlatch flipflop }\\
+ \begin{tabular}{|c|c|c|}
+  \hline V & D & $Q_t$\\
+  \hline 0 & X & $Q_{t-1}$\\
+  \hline 1 &0 & 0\\
+  \hline 1 & 1 & 1\\
+  \hline
+   \end{tabular}
+
+
+\textbf{ Truth table of jkasyn flipflop }\\
+\begin{tabular}{|l|c|c|c|c|c||c|l|}
+  \hline
+  Mode & Pr & Cl & Ck & J & K & Q+ & Remark \hfill\aRL{ملاحظة} \\
+  \hline
+  Asynchronous & 0 & 0 & X & X & X & X & Forbidden\hfill\aRL{ممنوع} \\
+  \aRL{نمط غير متزامن} & 0 & 1 & X & X & X & 1 & Set to 1 \hfill\aRL{توحيد} \\
+  & 1 & 0 & X & X & X & 0 & Set to 0 \hfill\aRL{تصفير} \\
+  \hline
+  \hline
+  Synchronous & 1 &1 & 0/1 & X & X & Q & Memory State \hfill\aRL{ذاكرة} \\
+  \aRL{نمط متزامن} & 1 &1 & \frontmontant&  0 & 0 & Q & Memory State \hfill\aRL{ذاكرة} \\
+  & 1 &1 & \frontmontant&  0 & 1 & 0 & Set to 0 \hfill \aRL{تصفير} \\
+  & 1 &1 & \frontmontant&  1 & 0 & 1 & Set to 1\hfill \aRL{توحيد} \\
+  & 1 &1 & \frontmontant&  1 & 1 & $\overline{Q}$ & Toggle \hfill\aRL{قلب} \\
+  \hline
+  \end{tabular}
+
+
+\textbf{ Truth table of custom flipflop }\\
+\begin{tabular}{|c|c|c||c|}
+  \hline Ck & X & Y &  $Q_t$ \\
+  \hline 0 & X & X & $Q_{t-1}$ \\
+  \hline \frontmontant&0 & 0 & $1$ \\
+  \hline \frontmontant& 0 & 1 & $Q$\\
+  \hline  \frontmontant&1 & 0 & $X$ \\
+  \hline  \frontmontant& 1 & 1 & $Q'$\\
+  \hline
+  \end{tabular}
+
+\textbf{ Truth table of customX flipflop }\\
+    \textbf{No Table to display, please check the flip type "customX", use customized type if needed }
+
+
+%---------------------------------------------------
+
+\begin{circuitikz}
+\node[flipflop JKMod] (JK0) at (2,4) {};
+
+\node[flipflop DMod] (D0) at (2,0) {};
+
+\node[flipflop RSMod] (RS0) at (5,4) {};
+
+
+\node[flipflop DMod] (D1) at (2,8) {};
+
+\node[flipflop RSMod] (RS1) at (5,8) {};
+
+\node[flipflop JKMod] (JK1) at (8,8) {};
+
+\node[flipflop JKMod] (JK2) at (11,8) {};
+
+\node[flipflop DMod] (D2) at (14,8) {};
+
+
+\draw (0,6) node[circle, fill, inner sep=1pt] {};
+\draw (0,6) node[left] (Ck)  {$H$};
+
+
+
+       \draw (Ck) -| (D1.pin 3);
+
+
+       \draw (Ck) -| (JK1.pin 2);
+
+
+       \draw (D1.pin 4) -- (RS1.pin 3);
+       \draw (D1.pin 6) -- (RS1.pin 1);
+
+
+       \draw (RS1.pin 4) -- (JK1.pin 1);
+       \draw (RS1.pin 6) -- (JK1.pin 3);
+
+
+       \draw (JK1.pin 6) -- (JK2.pin 2);
+
+
+       \draw (JK1.pin 6) -- (JK2.pin 2);
+
+
+       \draw (JK2.pin 4) -- (D2.pin 3);
+
+       \draw (JK2.pin 6) -- (D2.pin 3);
+
+%\node[flipflop JKMod] (JK0) at (2,4) {};
+%\node[flipflop DMod] (D0) at (2,0) {};
+
+%\node[flipflop RSMod] (RS0) at (5,4) {};
+\node[nor port, scale=0.5] (mynor) at (8,3) {};
+
+
+\draw (JK0.pin 4) -- (RS0.pin 3);
+\draw (JK0.pin 6) -- (RS0.pin 1);
+
+\draw (D0.pin 4) -| ++(0.3,-1) node{} -| (D0.pin 1);
+
+\draw (1.05,-0.83) circle [radius=0.1];
+\fill [white] (1.05,-0.83) circle [radius=0.09];
+
+\node[above] (A0) at (-1.2,4.6) {$A$};
+\node[above] (B0) at (-1.2,2.9) {$B$};
+\node[above] (Q3) at (8.2, 3) {$Q_3$};
+
+\draw (JK0.pin 1) -- (A0);
+\draw (JK0.pin 3) -- (B0);
+
+
+
+\draw (mynor.in 1) -- (RS0.pin 4);
+\draw (mynor.in 2) |- (D0.pin 4);
+
+
+\draw (0.4,-1) node[left] (clk1)  {$clock$};
+\draw (clk1) |- (JK0.pin 2);
+\draw (clk1) |- (D0.pin 3);
+
+
+
+\end{circuitikz}
+
+ \textbf{Register}
+
+\begin{circuitikz}
+
+    \draw (0,0) node[circle, fill, inner sep=1pt] {};
+\draw (0,0) node[left] (Ck)  {$Ck$};
+
+        \node[flipflop DMod] (flip0) at (2,2) {};
+
+
+        
+       \draw (Ck) -| (flip0.pin 3);
+
+
+        \node[flipflop JKMod] (flip1) at (5,2) {};
+
+
+        
+       \draw (Ck) -| (flip1.pin 2);
+
+
+                   \draw (flip0.pin 4) -- (flip1.pin 3);
+       \draw (flip0.pin 6) -- (flip1.pin 1);
+
+
+        \node[flipflop RSMod] (flip2) at (8,2) {};
+
+
+        
+       \draw (Ck) -| (flip2.pin 2);
+
+
+                   \draw (flip1.pin 4) -- (flip2.pin 3);
+       \draw (flip1.pin 6) -- (flip2.pin 1);
+
+
+
+
+
+\end{circuitikz}
+
+ \textbf{Register  n bits}
+
+\begin{circuitikz}
+
+    \draw (0,0) node[circle, fill, inner sep=1pt] {};
+\draw (0,0) node[left] (Ck)  {$Ck$};
+
+        \node[flipflop DMod] (flip0) at (2,2) {};
+
+
+        
+       \draw (Ck) -| (flip0.pin 3);
+
+
+        \node[flipflop DMod] (flip1) at (5,2) {};
+
+
+        
+       \draw (Ck) -| (flip1.pin 3);
+
+
+                   \draw (flip0.pin 6) -- (flip1.pin 1);
+
+        \node[flipflop DMod] (flip2) at (8,2) {};
+
+
+        
+       \draw (Ck) -| (flip2.pin 3);
+
+
+                   \draw (flip1.pin 6) -- (flip2.pin 1);
+
+        \node[flipflop DMod] (flip3) at (11,2) {};
+
+
+        
+       \draw (Ck) -| (flip3.pin 3);
+
+
+                   \draw (flip2.pin 6) -- (flip3.pin 1);
+
+        \node[flipflop DMod] (flip4) at (14,2) {};
+
+
+        
+       \draw (Ck) -| (flip4.pin 3);
+
+
+                   \draw (flip3.pin 6) -- (flip4.pin 1);
+
+        \node[flipflop DMod] (flip5) at (17,2) {};
+
+
+        
+       \draw (Ck) -| (flip5.pin 3);
+
+
+                   \draw (flip4.pin 6) -- (flip5.pin 1);
+
+
+
+
+
+
+\end{circuitikz}
+
+ \textbf{Register  n bits Jk}
+
+\begin{circuitikz}
+
+    \draw (0,0) node[circle, fill, inner sep=1pt] {};
+\draw (0,0) node[left] (Ck)  {$Ck$};
+
+        \node[flipflop JKMod] (flip0) at (2,2) {};
+
+
+        
+       \draw (Ck) -| (flip0.pin 2);
+
+
+        \node[flipflop JKMod] (flip1) at (5,2) {};
+
+
+        
+       \draw (Ck) -| (flip1.pin 2);
+
+
+                   \draw (flip0.pin 4) -- (flip1.pin 3);
+       \draw (flip0.pin 6) -- (flip1.pin 1);
+
+
+        \node[flipflop JKMod] (flip2) at (8,2) {};
+
+
+        
+       \draw (Ck) -| (flip2.pin 2);
+
+
+                   \draw (flip1.pin 4) -- (flip2.pin 3);
+       \draw (flip1.pin 6) -- (flip2.pin 1);
+
+
+        \node[flipflop JKMod] (flip3) at (11,2) {};
+
+
+        
+       \draw (Ck) -| (flip3.pin 2);
+
+
+                   \draw (flip2.pin 4) -- (flip3.pin 3);
+       \draw (flip2.pin 6) -- (flip3.pin 1);
+
+
+        \node[flipflop JKMod] (flip4) at (14,2) {};
+
+
+        
+       \draw (Ck) -| (flip4.pin 2);
+
+
+                   \draw (flip3.pin 4) -- (flip4.pin 3);
+       \draw (flip3.pin 6) -- (flip4.pin 1);
+
+
+        \node[flipflop JKMod] (flip5) at (17,2) {};
+
+
+        
+       \draw (Ck) -| (flip5.pin 2);
+
+
+                   \draw (flip4.pin 4) -- (flip5.pin 3);
+       \draw (flip4.pin 6) -- (flip5.pin 1);
+
+
+
+
+
+
+
+\end{circuitikz}
+
+\newpage
+ \textbf{Counter  n bits Jk}
+
+
+
+\begin{circuitikz}
+
+
+    \draw (0,2) node[circle, fill, inner sep=1pt] {};
+\draw (0,2) node[left] (Ck)  {$Ck$};
+
+        \node[flipflop JKAMod] (flipc0) at (2,2) {};
+
+
+        
+       \draw (Ck) -| (flipc0.pin 2);
+
+
+        \draw (0.5,4) node[circle, fill, inner sep=1pt] {};
+\draw (0.5,4) node[above] (Vcc0)  {$Vcc$};
+
+          \draw (Vcc0) |- (flipc0.up);
+  \draw (Vcc0) |- (flipc0.down);
+  \draw (Vcc0) |- (flipc0.pin 1);
+  \draw (Vcc0) |- (flipc0.pin 3);
+
+        \node[flipflop JKAMod] (flipc1) at (5,2) {};
+
+
+
+        \draw (3.5,4) node[circle, fill, inner sep=1pt] {};
+\draw (3.5,4) node[above] (Vcc1)  {$Vcc$};
+
+          \draw (Vcc1) |- (flipc1.up);
+  \draw (Vcc1) |- (flipc1.down);
+  \draw (Vcc1) |- (flipc1.pin 1);
+  \draw (Vcc1) |- (flipc1.pin 3);
+
+                   \draw (flipc0.pin 6) -- (flipc1.pin 2);
+
+
+        \node[flipflop JKAMod] (flipc2) at (8,2) {};
+
+
+
+        \draw (6.5,4) node[circle, fill, inner sep=1pt] {};
+\draw (6.5,4) node[above] (Vcc2)  {$Vcc$};
+
+          \draw (Vcc2) |- (flipc2.up);
+  \draw (Vcc2) |- (flipc2.down);
+  \draw (Vcc2) |- (flipc2.pin 1);
+  \draw (Vcc2) |- (flipc2.pin 3);
+
+                   \draw (flipc1.pin 6) -- (flipc2.pin 2);
+
+
+        \node[flipflop JKAMod] (flipc3) at (11,2) {};
+
+
+
+        \draw (9.5,4) node[circle, fill, inner sep=1pt] {};
+\draw (9.5,4) node[above] (Vcc3)  {$Vcc$};
+
+          \draw (Vcc3) |- (flipc3.up);
+  \draw (Vcc3) |- (flipc3.down);
+  \draw (Vcc3) |- (flipc3.pin 1);
+  \draw (Vcc3) |- (flipc3.pin 3);
+
+                   \draw (flipc2.pin 6) -- (flipc3.pin 2);
+
+
+
+
+
+
+
+\end{circuitikz}
+
+ \textbf{flipfop syn/asyn Jk}
+
+\begin{circuitikz}
+\node[flipflop JKAMod] (jk4) at (5,4) {};
+
+\end{circuitikz}
 
 
 \hrule width 1\linewidth
@@ -48,39 +496,486 @@ $Q1$ &1L
 
 \paragraph{Q1}
 
-Complete the following timing diagram : \hfill\aRL{أكمل المخطط الزمني الآتي}
-
-
-\paragraph{ Timing diagram  }\aRL{المخطط الزمني}
-
-\begin{tikztimingtable}
-%[timing/slope=.0, timing/draw grid]
-[timing/slope=.0,  timing/wscale=1, scale=2.5, line width=1.25pt]
-% horloge signal
-$Ck$ & [timing/c/falling arrows] C24{1C}
-\\
-$J$ &1H 2.5L 1H 2.5L 2H 1L 0.25H 1L 4H 4L 0.5H 2L 2.25H \\
-$K$ &1L 2.5H 4L 4.75H 1L 0.75H 1L 3H 3L 0.75H 2.25L \\
-$Q$ &2L 2L 2H 2H 2L 2L 2H 2L 2L 2L 2L 2H 2H \\
-$Q0$ &1L \\
-$Q0'$ &1H \\
-$Q1$ &1L 
-\\
-\extracode
-\begin{scope}[gray,semitransparent,densely dotted,thin]
-\horlines{}
-\vertlines{0}
-\end{scope}
-\begin{scope}[red,semitransparent,densely dotted,thin]
-\vertlines{2,4,...,\twidth}
-\end{scope}
-
-\end{tikztimingtable}
 
 
 
 
 
- %  end if debug
- % end answer
+
+
+
+
+
+
+
+
+
+    \tikzset{flipflop DMod/.style={flipflop, dot on notQ,
+        flipflop def={t1=D, t6=$Q2$,t4={\ctikztextnot{$Q2$}},
+           c3=1},
+    },
+    }
+
+\tikzset{flipflop JKMod/.style={flipflop,  dot on notQ,
+            flipflop def={t1=J, t3=K,t6=$Q0$, t4={\ctikztextnot{$Q0$}},
+               c2=1},
+        },
+}
+
+\tikzset{flipflop RSMod/.style={flipflop,  dot on notQ,
+                    flipflop def={t1=R,t3=S,t6=$Q1$, t4={\ctikztextnot{$Q1$}},
+                       n4=1, c2=0},
+                },
+}
+
+\tikzset{flipflop JKAMod/.style={flipflop,  dot on notQ,
+            flipflop def={t1=J, t3=K,t6=Q, t4={\ctikztextnot{Q}},
+                tu={\ctikztextnot{pr}}, nu=1, td={\ctikztextnot{cl}}, nd=1, c2=1},
+        }}
+
+
+
+\section{Flip}
+\textbf{ Truth table of D flipflop }\\
+  \begin{tabular}{|c|c|c|}
+   \hline Ck & D & $Q_t$\\
+   \hline 0/1 & X & $Q_{t-1}$\\
+   \hline \frontmontant&  0 & 0\\
+   \hline \frontmontant&   1 & 1\\
+   \hline
+    \end{tabular}
+
+
+\textbf{ Truth table of JK flipflop }\\
+\begin{tabular}{|c|c|c||c|l|}
+  \hline Ck & J & K &  $Q_t$ &\\
+  \hline 0 & X & X & $Q_{t-1}$ &\\
+  \hline \frontmontant&0 & 0 & $Q_{t-1}$ &\\
+  \hline \frontmontant& 0 & 1 & 0&\\
+  \hline  \frontmontant&1 & 0 & 1 &\\
+  \hline  \frontmontant& 1 & 1 & $\overline{Q_{t-1}}$ & \textcolor{red}{Toggle}\\
+  \hline
+  \end{tabular}
+
+
+\textbf{ Truth table of JK flipflop }\\
+\begin{tabular}{|c|c|c||c|l|}
+  \hline Ck & J & K &  $Q_t$ &\\
+  \hline 0 & X & X & $Q_{t-1}$ &\\
+  \hline \frontmontant&0 & 0 & $Q_{t-1}$ &\\
+  \hline \frontmontant& 0 & 1 & 0&\\
+  \hline  \frontmontant&1 & 0 & 1 &\\
+  \hline  \frontmontant& 1 & 1 & $\overline{Q_{t-1}}$ & \textcolor{red}{Toggle}\\
+  \hline
+  \end{tabular}
+
+
+\textbf{ Truth table of RS flipflop }\\
+\begin{tabular}{|c|c||c|l|}
+	\hline R & S & $Q_t$ &\\
+	\hline 0 & 0 & $Q_{t}$ &Memory State \aRL{ذاكرة}\\
+	\hline 0 & 1 & 1 &Set to 1 \aRL{توحيد}\\
+	\hline 1 & 0 & 0 & Reset to 0 \aRL{تصفير}\\
+	\hline 1 & 1 & X &  {\color{red}Forbidden \aRL{ممنوعة}}\\
+	\hline
+ \end{tabular}
+
+
+\textbf{ Truth table of Dlatch flipflop }\\
+ \begin{tabular}{|c|c|c|}
+  \hline V & D & $Q_t$\\
+  \hline 0 & X & $Q_{t-1}$\\
+  \hline 1 &0 & 0\\
+  \hline 1 & 1 & 1\\
+  \hline
+   \end{tabular}
+
+
+\textbf{ Truth table of jkasyn flipflop }\\
+\begin{tabular}{|l|c|c|c|c|c||c|l|}
+  \hline
+  Mode & Pr & Cl & Ck & J & K & Q+ & Remark \hfill\aRL{ملاحظة} \\
+  \hline
+  Asynchronous & 0 & 0 & X & X & X & X & Forbidden\hfill\aRL{ممنوع} \\
+  \aRL{نمط غير متزامن} & 0 & 1 & X & X & X & 1 & Set to 1 \hfill\aRL{توحيد} \\
+  & 1 & 0 & X & X & X & 0 & Set to 0 \hfill\aRL{تصفير} \\
+  \hline
+  \hline
+  Synchronous & 1 &1 & 0/1 & X & X & Q & Memory State \hfill\aRL{ذاكرة} \\
+  \aRL{نمط متزامن} & 1 &1 & \frontmontant&  0 & 0 & Q & Memory State \hfill\aRL{ذاكرة} \\
+  & 1 &1 & \frontmontant&  0 & 1 & 0 & Set to 0 \hfill \aRL{تصفير} \\
+  & 1 &1 & \frontmontant&  1 & 0 & 1 & Set to 1\hfill \aRL{توحيد} \\
+  & 1 &1 & \frontmontant&  1 & 1 & $\overline{Q}$ & Toggle \hfill\aRL{قلب} \\
+  \hline
+  \end{tabular}
+
+
+\textbf{ Truth table of custom flipflop }\\
+\begin{tabular}{|c|c|c||c|}
+  \hline Ck & X & Y &  $Q_t$ \\
+  \hline 0 & X & X & $Q_{t-1}$ \\
+  \hline \frontmontant&0 & 0 & $1$ \\
+  \hline \frontmontant& 0 & 1 & $Q$\\
+  \hline  \frontmontant&1 & 0 & $X$ \\
+  \hline  \frontmontant& 1 & 1 & $Q'$\\
+  \hline
+  \end{tabular}
+
+\textbf{ Truth table of customX flipflop }\\
+    \textbf{No Table to display, please check the flip type "customX", use customized type if needed }
+
+
+%---------------------------------------------------
+
+\begin{circuitikz}
+\node[flipflop JKMod] (JK0) at (2,4) {};
+
+\node[flipflop DMod] (D0) at (2,0) {};
+
+\node[flipflop RSMod] (RS0) at (5,4) {};
+
+
+\node[flipflop DMod] (D1) at (2,8) {};
+
+\node[flipflop RSMod] (RS1) at (5,8) {};
+
+\node[flipflop JKMod] (JK1) at (8,8) {};
+
+\node[flipflop JKMod] (JK2) at (11,8) {};
+
+\node[flipflop DMod] (D2) at (14,8) {};
+
+
+\draw (0,6) node[circle, fill, inner sep=1pt] {};
+\draw (0,6) node[left] (Ck)  {$H$};
+
+
+
+       \draw (Ck) -| (D1.pin 3);
+
+
+       \draw (Ck) -| (JK1.pin 2);
+
+
+       \draw (D1.pin 4) -- (RS1.pin 3);
+       \draw (D1.pin 6) -- (RS1.pin 1);
+
+
+       \draw (RS1.pin 4) -- (JK1.pin 1);
+       \draw (RS1.pin 6) -- (JK1.pin 3);
+
+
+       \draw (JK1.pin 6) -- (JK2.pin 2);
+
+
+       \draw (JK1.pin 6) -- (JK2.pin 2);
+
+
+       \draw (JK2.pin 4) -- (D2.pin 3);
+
+       \draw (JK2.pin 6) -- (D2.pin 3);
+
+%\node[flipflop JKMod] (JK0) at (2,4) {};
+%\node[flipflop DMod] (D0) at (2,0) {};
+
+%\node[flipflop RSMod] (RS0) at (5,4) {};
+\node[nor port, scale=0.5] (mynor) at (8,3) {};
+
+
+\draw (JK0.pin 4) -- (RS0.pin 3);
+\draw (JK0.pin 6) -- (RS0.pin 1);
+
+\draw (D0.pin 4) -| ++(0.3,-1) node{} -| (D0.pin 1);
+
+\draw (1.05,-0.83) circle [radius=0.1];
+\fill [white] (1.05,-0.83) circle [radius=0.09];
+
+\node[above] (A0) at (-1.2,4.6) {$A$};
+\node[above] (B0) at (-1.2,2.9) {$B$};
+\node[above] (Q3) at (8.2, 3) {$Q_3$};
+
+\draw (JK0.pin 1) -- (A0);
+\draw (JK0.pin 3) -- (B0);
+
+
+
+\draw (mynor.in 1) -- (RS0.pin 4);
+\draw (mynor.in 2) |- (D0.pin 4);
+
+
+\draw (0.4,-1) node[left] (clk1)  {$clock$};
+\draw (clk1) |- (JK0.pin 2);
+\draw (clk1) |- (D0.pin 3);
+
+
+
+\end{circuitikz}
+
+ \textbf{Register}
+
+\begin{circuitikz}
+
+    \draw (0,0) node[circle, fill, inner sep=1pt] {};
+\draw (0,0) node[left] (Ck)  {$Ck$};
+
+        \node[flipflop DMod] (flip0) at (2,2) {};
+
+
+        
+       \draw (Ck) -| (flip0.pin 3);
+
+
+        \node[flipflop JKMod] (flip1) at (5,2) {};
+
+
+        
+       \draw (Ck) -| (flip1.pin 2);
+
+
+                   \draw (flip0.pin 4) -- (flip1.pin 3);
+       \draw (flip0.pin 6) -- (flip1.pin 1);
+
+
+        \node[flipflop RSMod] (flip2) at (8,2) {};
+
+
+        
+       \draw (Ck) -| (flip2.pin 2);
+
+
+                   \draw (flip1.pin 4) -- (flip2.pin 3);
+       \draw (flip1.pin 6) -- (flip2.pin 1);
+
+
+
+
+
+\end{circuitikz}
+
+ \textbf{Register  n bits}
+
+\begin{circuitikz}
+
+    \draw (0,0) node[circle, fill, inner sep=1pt] {};
+\draw (0,0) node[left] (Ck)  {$Ck$};
+
+        \node[flipflop DMod] (flip0) at (2,2) {};
+
+
+        
+       \draw (Ck) -| (flip0.pin 3);
+
+
+        \node[flipflop DMod] (flip1) at (5,2) {};
+
+
+        
+       \draw (Ck) -| (flip1.pin 3);
+
+
+                   \draw (flip0.pin 6) -- (flip1.pin 1);
+
+        \node[flipflop DMod] (flip2) at (8,2) {};
+
+
+        
+       \draw (Ck) -| (flip2.pin 3);
+
+
+                   \draw (flip1.pin 6) -- (flip2.pin 1);
+
+        \node[flipflop DMod] (flip3) at (11,2) {};
+
+
+        
+       \draw (Ck) -| (flip3.pin 3);
+
+
+                   \draw (flip2.pin 6) -- (flip3.pin 1);
+
+        \node[flipflop DMod] (flip4) at (14,2) {};
+
+
+        
+       \draw (Ck) -| (flip4.pin 3);
+
+
+                   \draw (flip3.pin 6) -- (flip4.pin 1);
+
+        \node[flipflop DMod] (flip5) at (17,2) {};
+
+
+        
+       \draw (Ck) -| (flip5.pin 3);
+
+
+                   \draw (flip4.pin 6) -- (flip5.pin 1);
+
+
+
+
+
+
+\end{circuitikz}
+
+ \textbf{Register  n bits Jk}
+
+\begin{circuitikz}
+
+    \draw (0,0) node[circle, fill, inner sep=1pt] {};
+\draw (0,0) node[left] (Ck)  {$Ck$};
+
+        \node[flipflop JKMod] (flip0) at (2,2) {};
+
+
+        
+       \draw (Ck) -| (flip0.pin 2);
+
+
+        \node[flipflop JKMod] (flip1) at (5,2) {};
+
+
+        
+       \draw (Ck) -| (flip1.pin 2);
+
+
+                   \draw (flip0.pin 4) -- (flip1.pin 3);
+       \draw (flip0.pin 6) -- (flip1.pin 1);
+
+
+        \node[flipflop JKMod] (flip2) at (8,2) {};
+
+
+        
+       \draw (Ck) -| (flip2.pin 2);
+
+
+                   \draw (flip1.pin 4) -- (flip2.pin 3);
+       \draw (flip1.pin 6) -- (flip2.pin 1);
+
+
+        \node[flipflop JKMod] (flip3) at (11,2) {};
+
+
+        
+       \draw (Ck) -| (flip3.pin 2);
+
+
+                   \draw (flip2.pin 4) -- (flip3.pin 3);
+       \draw (flip2.pin 6) -- (flip3.pin 1);
+
+
+        \node[flipflop JKMod] (flip4) at (14,2) {};
+
+
+        
+       \draw (Ck) -| (flip4.pin 2);
+
+
+                   \draw (flip3.pin 4) -- (flip4.pin 3);
+       \draw (flip3.pin 6) -- (flip4.pin 1);
+
+
+        \node[flipflop JKMod] (flip5) at (17,2) {};
+
+
+        
+       \draw (Ck) -| (flip5.pin 2);
+
+
+                   \draw (flip4.pin 4) -- (flip5.pin 3);
+       \draw (flip4.pin 6) -- (flip5.pin 1);
+
+
+
+
+
+
+
+\end{circuitikz}
+
+\newpage
+ \textbf{Counter  n bits Jk}
+
+
+
+\begin{circuitikz}
+
+
+    \draw (0,2) node[circle, fill, inner sep=1pt] {};
+\draw (0,2) node[left] (Ck)  {$Ck$};
+
+        \node[flipflop JKAMod] (flipc0) at (2,2) {};
+
+
+        
+       \draw (Ck) -| (flipc0.pin 2);
+
+
+        \draw (0.5,4) node[circle, fill, inner sep=1pt] {};
+\draw (0.5,4) node[above] (Vcc0)  {$Vcc$};
+
+          \draw (Vcc0) |- (flipc0.up);
+  \draw (Vcc0) |- (flipc0.down);
+  \draw (Vcc0) |- (flipc0.pin 1);
+  \draw (Vcc0) |- (flipc0.pin 3);
+
+        \node[flipflop JKAMod] (flipc1) at (5,2) {};
+
+
+
+        \draw (3.5,4) node[circle, fill, inner sep=1pt] {};
+\draw (3.5,4) node[above] (Vcc1)  {$Vcc$};
+
+          \draw (Vcc1) |- (flipc1.up);
+  \draw (Vcc1) |- (flipc1.down);
+  \draw (Vcc1) |- (flipc1.pin 1);
+  \draw (Vcc1) |- (flipc1.pin 3);
+
+                   \draw (flipc0.pin 6) -- (flipc1.pin 2);
+
+
+        \node[flipflop JKAMod] (flipc2) at (8,2) {};
+
+
+
+        \draw (6.5,4) node[circle, fill, inner sep=1pt] {};
+\draw (6.5,4) node[above] (Vcc2)  {$Vcc$};
+
+          \draw (Vcc2) |- (flipc2.up);
+  \draw (Vcc2) |- (flipc2.down);
+  \draw (Vcc2) |- (flipc2.pin 1);
+  \draw (Vcc2) |- (flipc2.pin 3);
+
+                   \draw (flipc1.pin 6) -- (flipc2.pin 2);
+
+
+        \node[flipflop JKAMod] (flipc3) at (11,2) {};
+
+
+
+        \draw (9.5,4) node[circle, fill, inner sep=1pt] {};
+\draw (9.5,4) node[above] (Vcc3)  {$Vcc$};
+
+          \draw (Vcc3) |- (flipc3.up);
+  \draw (Vcc3) |- (flipc3.down);
+  \draw (Vcc3) |- (flipc3.pin 1);
+  \draw (Vcc3) |- (flipc3.pin 3);
+
+                   \draw (flipc2.pin 6) -- (flipc3.pin 2);
+
+
+
+
+
+
+
+\end{circuitikz}
+
+ \textbf{flipfop syn/asyn Jk}
+
+\begin{circuitikz}
+\node[flipflop JKAMod] (jk4) at (5,4) {};
+
+\end{circuitikz}
 \pagebreak

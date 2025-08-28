@@ -140,3 +140,5 @@ latex/*.pdf
 /docs/tikz-timing.pdf
 /latex/tests/
 /tests/jinja/
+/docs/circuitikzmanual.pdf
+/latex/test.synctex.gz
