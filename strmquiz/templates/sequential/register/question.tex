@@ -1,4 +1,4 @@
-
+{% set debug = True %}
 {% import "sequential/macros/flipmacros.tex" as flpmacro%}
 {# -----------------------
  draw a resiter generic
@@ -18,7 +18,7 @@
         {% set ns.xpos = 2+3*i %}
         {% set ns.name = "flip"+(i|string) %}
         {% set ns.type = flips_list[i].upper() %}
-        {% set ns.id = flips_list[i].upper()+"Mod" %}
+        {% set ns.id = flips_list[i].upper() %}
         {{ flpmacro.place_flip(id=ns.id, name=ns.name, xpos=ns.xpos, ypos=ypos)}}
 
         {# link current with clock #}
@@ -54,7 +54,9 @@
 ----------------------------------------------------------#}
 \section{Register}
 
+{{flpmacro.define_standard_flips()}}
 
+{%if debug %}
  \textbf{Register}
 
 \begin{circuitikz}
@@ -75,3 +77,4 @@
 {{draw_register(flip="JK", register_type="",size=6)}}
 
 \end{circuitikz}
+{%endif%} % end of if

@@ -1,3 +1,4 @@
+{% set debug = True %}
 {% import "sequential/macros/flipmacros.tex" as flpmacro%}
 {# -----------------------
  draw a generic counter
@@ -17,7 +18,7 @@
         {% set ns.xpos = 2+3*i %}
         {% set ns.name = "flipc"+(i|string) %}
         {% set ns.type = flips_list[i].upper() %}
-        {% set ns.id = flips_list[i].upper()+"Mod" %}
+        {% set ns.id = flips_list[i].upper() %}
         {{ flpmacro.place_flip(id=ns.id, name=ns.name, xpos=ns.xpos, ypos=ypos)}}
 
         {# link current with clock #}
@@ -42,7 +43,7 @@
 {# -----------------------
  draw a counter one type flip
 -------------------#}
-{%macro draw_counter(flip="JKasyn", counter_type="",size=3)%}
+{%macro draw_counter(flip="JKA", counter_type="",size=3)%}
 {% set flips_list = [flip]*size %}
 {% set ns = namespace(outputs = []) %}
 {% for i in range(size) %}
@@ -56,19 +57,19 @@
 ----------------------------------------------------------#}
 \section{Counter}
 
+{{flpmacro.define_standard_flips()}}
 
+{%if debug %}
  \textbf{Counter  n bits Jk}
-
-
-
 \begin{circuitikz}
 
-{{draw_counter(flip="JKa", counter_type="",size=4)}}
+{{draw_counter(flip="JKA", counter_type="",size=4)}}
 
 \end{circuitikz}
 
  \textbf{flipfop syn/asyn Jk}
 
 \begin{circuitikz}
-{{ flpmacro.place_flip(id="JKAMod", name="jk4", xpos=5, ypos=4)}}
+{{ flpmacro.place_flip(id="JKA", name="jk4", xpos=5, ypos=4)}}
 \end{circuitikz}
+{%endif%} % end debug

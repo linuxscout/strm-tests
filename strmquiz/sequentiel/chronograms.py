@@ -23,34 +23,7 @@
 import wavedrom
 import json
 import random
-FLIP_TRUTH_TABLES={
-    
-    "JK":{0:"memory",  #00
-        1: "reset" , #01
-        2:"set" , #10
-        3:"flip", #11
-        },
-    "XY":{0:"reset",  #00
-        1: "flip" , #01
-        2:"flip" , #10
-        3:"set", #11
-        },
-    "UV":{0:"memory",  #00
-        1: "reset" , #01
-        2:"set" , #10
-        3:"memory", #11
-        },
-    "FG":{0:"reset",  #00
-        1: "flip" , #01
-        2:"flip" , #10
-        3:"set", #11
-        },
-    "RS":{0:"memory",  #00
-        1: "set" , #01
-        2:"reset" , #10
-        3:"undef", #11
-        },    
-}
+from . import seqconst
 class Chronograms:
     """
     A class to generate questions and answers on chronograms
@@ -195,7 +168,7 @@ class Chronograms:
             signals[key] = self.random_signal(init=init_value, length=length)        
         return signals;     
                   
-    def resolve(self, flip_type="", signals={}, period=2):
+    def resolve(self, flip_type="", signals={}, period=2, inputs=[]):
         """
         Generate an signal answer for given variables signals especialy for a given flipflop type
         @param flip_type: flip flop name
@@ -222,17 +195,25 @@ class Chronograms:
             k_signal = self.synchronize_signal(signals.get("Y",[]), period=period)
             q_signal = signals.get("Q",[-1,])
             return self.resolve_xy(j_signal, k_signal, q_signal, period=period, flip_type="XY")
-
+        elif len(inputs)>1:
+            x = str(inputs[0])
+            y = str(inputs[1])
+            j_signal = self.synchronize_signal(signals.get(x, []), period=period)
+            k_signal = self.synchronize_signal(signals.get(y,[]), period=period)
+            q_signal = signals.get("Q",[-1,])
+            return self.resolve_xy(j_signal, k_signal, q_signal, period=period, flip_type="XY")
         return out_signal
+
+
     def resolve_jk(self, j_signal, k_signal, q_signal, period=2):
         """
         """
         new_q_signal = [q_signal[0]]
         # ~ return j_signal
         if (not j_signal or not k_signal or not  q_signal):
-            return out_signal;            
+            return new_q_signal
         elif(len(j_signal) != len(k_signal)):
-            return out_signal;
+            return new_q_signal
 
         if self.synch_type == "falling":
             new_q_signal[0] = q_signal[0]*period
@@ -261,9 +242,9 @@ class Chronograms:
         new_q_signal = [q_signal[0]]
         # ~ return j_signal
         if (not j_signal or not k_signal or not  q_signal):
-            return out_signal;            
+            return new_q_signal
         elif(len(j_signal) != len(k_signal)):
-            return out_signal;
+            return new_q_signal
 
         if self.synch_type == "falling":
             new_q_signal[0] = q_signal[0]*period
@@ -299,8 +280,24 @@ class Chronograms:
             i = 2
         if self.is_true(var2):
             j=1
-        if flip_type in FLIP_TRUTH_TABLES:
-            return FLIP_TRUTH_TABLES[flip_type][i+j]
+        # print("chronogram", flip_type, i, j)
+        if flip_type in seqconst.FLIP_TRUTH_TABLES:
+            return seqconst.FLIP_TRUTH_TABLES[flip_type][i+j]
+        elif flip_type in seqconst.FLIPS_DATA:
+            tt = seqconst.FLIPS_DATA[flip_type].get("truth_table",[])
+            value = tt[i+j]
+            value = seqconst.TRUTH_TABLE_MAP.get(value,value)
+            # tt = [seqconst.TRUTH_TABLE_MAP.get(x,x) for x in tt]
+            return value
+        elif flip_type in seqconst.FLIPS_RANDOM:
+            tt = seqconst.FLIPS_DATA[flip_type].get("truth_table",[])
+            value = tt[i+j]
+            value = seqconst.TRUTH_TABLE_MAP.get(value,value)
+            # print("chronogram", flip_type, i, j, tt[i+j], value)
+            # tt = [seqconst.TRUTH_TABLE_MAP.get(x,x) for x in tt]
+            return value
+        else:
+            return seqconst.FLIP_TRUTH_TABLES["default"][i+j]
         return ""
     def is_false(self, var):
         """

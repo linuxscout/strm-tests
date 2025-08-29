@@ -4,20 +4,6 @@
 
 \paragraph{Q1}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     \tikzset{flipflop DMod/.style={flipflop, dot on notQ,
         flipflop def={t1=D, t6=$Q2$,t4={\ctikztextnot{$Q2$}},
            c3=1},
@@ -183,41 +169,17 @@
 
        \draw (JK2.pin 6) -- (D2.pin 3);
 
-%\node[flipflop JKMod] (JK0) at (2,4) {};
-%\node[flipflop DMod] (D0) at (2,0) {};
-
-%\node[flipflop RSMod] (RS0) at (5,4) {};
-\node[nor port, scale=0.5] (mynor) at (8,3) {};
-
-
-\draw (JK0.pin 4) -- (RS0.pin 3);
-\draw (JK0.pin 6) -- (RS0.pin 1);
-
-\draw (D0.pin 4) -| ++(0.3,-1) node{} -| (D0.pin 1);
-
-\draw (1.05,-0.83) circle [radius=0.1];
-\fill [white] (1.05,-0.83) circle [radius=0.09];
-
-\node[above] (A0) at (-1.2,4.6) {$A$};
-\node[above] (B0) at (-1.2,2.9) {$B$};
-\node[above] (Q3) at (8.2, 3) {$Q_3$};
-
-\draw (JK0.pin 1) -- (A0);
-\draw (JK0.pin 3) -- (B0);
-
-
-
-\draw (mynor.in 1) -- (RS0.pin 4);
-\draw (mynor.in 2) |- (D0.pin 4);
-
-
-\draw (0.4,-1) node[left] (clk1)  {$clock$};
-\draw (clk1) |- (JK0.pin 2);
-\draw (clk1) |- (D0.pin 3);
-
-
-
 \end{circuitikz}
+
+
+
+\paragraph{Q2}
+
+
+
+
+\section{Register}
+
 
  \textbf{Register}
 
@@ -402,7 +364,12 @@
 
 \end{circuitikz}
 
-\newpage
+\paragraph{Q3}
+
+
+\section{Counter}
+
+
  \textbf{Counter  n bits Jk}
 
 
@@ -486,6 +453,10 @@
 \node[flipflop JKAMod] (jk4) at (5,4) {};
 
 \end{circuitikz}
+
+\paragraph{Q4}
+
+\section{Misc}
 
 
 \hrule width 1\linewidth
@@ -496,20 +467,6 @@
 
 \paragraph{Q1}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     \tikzset{flipflop DMod/.style={flipflop, dot on notQ,
         flipflop def={t1=D, t6=$Q2$,t4={\ctikztextnot{$Q2$}},
            c3=1},
@@ -675,41 +632,17 @@
 
        \draw (JK2.pin 6) -- (D2.pin 3);
 
-%\node[flipflop JKMod] (JK0) at (2,4) {};
-%\node[flipflop DMod] (D0) at (2,0) {};
-
-%\node[flipflop RSMod] (RS0) at (5,4) {};
-\node[nor port, scale=0.5] (mynor) at (8,3) {};
-
-
-\draw (JK0.pin 4) -- (RS0.pin 3);
-\draw (JK0.pin 6) -- (RS0.pin 1);
-
-\draw (D0.pin 4) -| ++(0.3,-1) node{} -| (D0.pin 1);
-
-\draw (1.05,-0.83) circle [radius=0.1];
-\fill [white] (1.05,-0.83) circle [radius=0.09];
-
-\node[above] (A0) at (-1.2,4.6) {$A$};
-\node[above] (B0) at (-1.2,2.9) {$B$};
-\node[above] (Q3) at (8.2, 3) {$Q_3$};
-
-\draw (JK0.pin 1) -- (A0);
-\draw (JK0.pin 3) -- (B0);
-
-
-
-\draw (mynor.in 1) -- (RS0.pin 4);
-\draw (mynor.in 2) |- (D0.pin 4);
-
-
-\draw (0.4,-1) node[left] (clk1)  {$clock$};
-\draw (clk1) |- (JK0.pin 2);
-\draw (clk1) |- (D0.pin 3);
-
-
-
 \end{circuitikz}
+
+
+
+\paragraph{Q2}
+
+
+
+
+\section{Register}
+
 
  \textbf{Register}
 
@@ -894,7 +827,12 @@
 
 \end{circuitikz}
 
-\newpage
+\paragraph{Q3}
+
+
+\section{Counter}
+
+
  \textbf{Counter  n bits Jk}
 
 
@@ -978,4 +916,8 @@
 \node[flipflop JKAMod] (jk4) at (5,4) {};
 
 \end{circuitikz}
+
+\paragraph{Q4}
+
+\section{Misc}
 \pagebreak

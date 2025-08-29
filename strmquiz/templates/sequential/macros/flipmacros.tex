@@ -1,67 +1,16 @@
 {# -----------------------
- define a basic flip
+ Configuration and global variables
 -------------------#}
-{%macro define_basic_flip(type="D", id="DMod", output_var="Q")%}
-{% if type.lower() == "d" %}
-    \tikzset{flipflop {{id}}/.style={flipflop, dot on notQ,
-        flipflop def={t1=D, t6=${{output_var}}$,t4={\ctikztextnot{${{output_var}}$}},
-           c3=1},
-    },
-    }
-{%elif type.lower() == "jk"%}
-\tikzset{flipflop {{id}}/.style={flipflop,  dot on notQ,
-            flipflop def={t1=J, t3=K,t6=${{output_var}}$, t4={\ctikztextnot{${{output_var}}$}},
-               c2=1},
-        },
-}
-{%elif type.lower() == "rs"%}
-\tikzset{flipflop {{id}}/.style={flipflop,  dot on notQ,
-                    flipflop def={t1=R,t3=S,t6=${{output_var}}$, t4={\ctikztextnot{${{output_var}}$}},
-                       n4=1, c2=0},
-                },
-}
-{%elif type.lower() == "jkasyn"%}
-\tikzset{flipflop {{id}}/.style={flipflop,  dot on notQ,
-            flipflop def={t1=J, t3=K,t6=Q, t4={\ctikztextnot{Q}},
-                tu={\ctikztextnot{pr}}, nu=1, td={\ctikztextnot{cl}}, nd=1, c2=1},
-        }}
-{%endif%}
-{%endmacro%}
-
+{% set globals=namespace(AVAILABLE_FLIPS = ["D","RS","T","JK", "JKA","dlatch"],
+ CUSTOM_FLIPS=[])%}
 
 {# -----------------------
- draw a link between two flips
+ draw a truth table for a flipflop
 -------------------#}
-{%macro link(name_source, name_target, type_target="D", method="direct")%}
-{% if type_target.lower() == "d" %}
-    {% if method.lower() == "direct" %}
-       \draw ({{name_source}}.pin 6) -- ({{name_target}}.pin 1);
-    {% elif method.lower() == "inverse" %}
-       \draw ({{name_source}}.pin 4) -- ({{name_target}}.pin 1);
-    {% elif method.lower() == "clock" %}
-       \draw ({{name_source}}.pin 6) -- ({{name_target}}.pin 3);
-    {% elif method.lower() == "inverse_clock" %}
-       \draw ({{name_source}}.pin 4) -- ({{name_target}}.pin 3);
-    {% endif%}
-{%elif type_target.lower() in ("rs", "jk", "jka") %}
-    {% if method.lower() == "direct" %}
-       \draw ({{name_source}}.pin 4) -- ({{name_target}}.pin 3);
-       \draw ({{name_source}}.pin 6) -- ({{name_target}}.pin 1);
-    {% elif method.lower() == "inverse" %}
-       \draw ({{name_source}}.pin 4) -- ({{name_target}}.pin 1);
-       \draw ({{name_source}}.pin 6) -- ({{name_target}}.pin 3);
-    {% elif method.lower() == "clock" %}
-       \draw ({{name_source}}.pin 6) -- ({{name_target}}.pin 2);
-    {% elif method.lower() == "inverse_clock" %}
-       \draw ({{name_source}}.pin 4) -- ({{name_target}}.pin 2);
-    {% endif%}
-
-{%endif%}
-{%endmacro%}
 {%macro truth_table(type="D",edge="rising", customized=False, custom_vars =["X","Y"], custom_values=["1","Q","X","Q'"])%}
 \textbf{ Truth table of {{type}} flipflop }\\
-{% set edge_symbol = '\\frontmontant' if edge == "rising" else '\\frontmontant' %}
-{% if type.lower() in ("custom","customized") %}
+{% set edge_symbol = '\\frontmontant' if edge == "rising" else '\\frontdescendant'%}
+{% if type.lower() in ("custom","customized") or customized %}
 \begin{tabular}{|c|c|c||c|}
   \hline Ck & {{custom_vars[0]}} & {{custom_vars[1]}} &  $Q_t$ \\
   \hline 0 & X & X & $Q_{t-1}$ \\
@@ -141,9 +90,127 @@
  Draw a basic flip by id and x, y pos
 -------------------#}
 
-{%macro place_flip(id="DMod", name="", xpos=0, ypos=0)%}
-\node[flipflop {{id}}] ({{name}}) at ({{xpos}},{{ypos}}) {};
+{# -----------------------
+ define a basic flip DEPRECATED
+-------------------#}
+{%macro define_basic_flip(type="D", id="DMod", output_var="Q", input_vars=["X", "Y"])%}
+{% if type.lower() == "d" %}
+    \tikzset{flipflop {{id}}/.style={flipflop, dot on notQ,
+        flipflop def={t1=D, t6=${{output_var}}$,t4={\ctikztextnot{${{output_var}}$}},
+           c3=1},
+    },
+    }
+{%elif type.lower() == "jk"%}
+\tikzset{flipflop {{id}}/.style={flipflop,  dot on notQ,
+            flipflop def={t1=J, t3=K,t6=${{output_var}}$, t4={\ctikztextnot{${{output_var}}$}},
+               c2=1},
+        },
+}
+{%elif type.lower() == "rs"%}
+\tikzset{flipflop {{id}}/.style={flipflop,  dot on notQ,
+                    flipflop def={t1=R,t3=S,t6=${{output_var}}$, t4={\ctikztextnot{${{output_var}}$}},
+                       n4=1, c2=0},
+                },
+}
+{%elif type.lower() == "jkasyn"%}
+\tikzset{flipflop {{id}}/.style={flipflop,  dot on notQ,
+            flipflop def={t1=J, t3=K,t6=Q, t4={\ctikztextnot{Q}},
+                tu={\ctikztextnot{pr}}, nu=1, td={\ctikztextnot{cl}}, nd=1, c2=1},
+        }}
+{%elif type.lower() in ("costum","costumized") and input_vars|length>1%}
+\tikzset{flipflop {{id}}/.style={flipflop,  dot on notQ,
+             flipflop def={t1={{input_vars[0]}}, t3={{input_vars[1]}},t6=${{output_var}}$, t4={\ctikztextnot{${{output_var}}$}},
+               c2=1},
+        }}
+{% else %}
+\textbf{Warining in 'define_basic_flip', the given parameters can't generate a flip:  type="{{type}}", id="{{id}}", output_var="{{output_var}}", input_vars="{{input_vars}}".}
+{%endif%}
 {%endmacro%}
+{# -----------------------
+ define a list of basic flips
+-------------------#}
+{%macro define_standard_flips()%}
+\tikzset{
+% async
+latch/.style={flipflop, flipflop def={t1=D, t6=Q, t3=CLK, t4=\ctikztextnot{Q}}},
+flipflop RS/.style={flipflop, flipflop def={t1=S, t3=R, t6=Q, t4=\ctikztextnot{Q}}},
+% sync
+flipflop D/.style={flipflop, flipflop def={t1=D, t6=Q, c3=1, t4=\ctikztextnot{Q}}},
+flipflop T/.style={flipflop, flipflop def={t1=T, t6=Q, c3=1, t4=\ctikztextnot{Q}}},
+flipflop JK/.style={flipflop,
+flipflop def={t1=J, t3=K, c2=1, t6=Q, t4=\ctikztextnot{Q}}},
+flipflop JKA/.style={flipflop,  dot on notQ,
+            flipflop def={t1=J, t3=K,t6=Q, t4={\ctikztextnot{Q}},
+                tu={\ctikztextnot{pr}}, nu=1, td={\ctikztextnot{cl}}, nd=1, c2=1},},
+% additional features
+add async RS/.style={flipflop def={
+tu={\ctikztextnot{SET}}, td={\ctikztextnot{RST}}}},
+dot on notQ/.style={flipflop def={t4={Q}, n4=1}},
+}
+{%endmacro%}
+
+
+{# -----------------------
+ define a costum flip
+
+ the given flips is added to  globals.CUSTOM_FLIPS
+-------------------#}
+{%macro define_costum_flip(id="costum", inputs=["X", "Y"])%}
+{%if inputs|length>1%}
+\tikzset{flipflop {{id}}/.style={flipflop,  dot on notQ,
+flipflop def={t1={{inputs[0]}}, t3={{inputs[1]}}, c2=1, t6=Q, t4=\ctikztextnot{Q}}}
+        }
+ {% if id not in globals.CUSTOM_FLIPS %}
+ {% set globals.CUSTOM_FLIPS = globals.CUSTOM_FLIPS + [id] %}
+ {% endif%}
+{% else %}
+\textbf{Warining in 'define_costum_flip', the given parameters can't generate a flip:  id="{{id}}", inputs="{{inputs}}".}
+{%endif%}
+{%endmacro%}
+{# -----------------------
+ draw a flip at  x, y pos
+-------------------#}
+{%macro place_flip(id="D", name="", xpos=0, ypos=0)%}
+{%if id.lower() == "dlatch" %}
+\node[latch] ({{name}}) at ({{xpos}},{{ypos}}) {};
+{%elif id.upper() in globals.AVAILABLE_FLIPS or id.upper() in globals.CUSTOM_FLIPS %}
+\node[flipflop {{id.upper()}}] ({{name}}) at ({{xpos}},{{ypos}}) {};
+{%else%}
+\draw (0,0) node[above] (warning)  {"Can't place the given flip "{{id}}". Available types are [{{globals.AVAILABLE_FLIPS|join(',')}}] or customized like [{{globals.CUSTOM_FLIPS|join(',')}}]."};
+{%endif%}
+{%endmacro%}
+{# -----------------------
+ draw a link between two flips
+-------------------#}
+{%macro link(name_source, name_target, type_target="D", method="direct")%}
+{% if type_target.lower() == "d" %}
+    {% if method.lower() == "direct" %}
+       \draw ({{name_source}}.pin 6) -- ({{name_target}}.pin 1);
+    {% elif method.lower() == "inverse" %}
+       \draw ({{name_source}}.pin 4) -- ({{name_target}}.pin 1);
+    {% elif method.lower() == "clock" %}
+       \draw ({{name_source}}.pin 6) -- ({{name_target}}.pin 3);
+    {% elif method.lower() == "inverse_clock" %}
+       \draw ({{name_source}}.pin 4) -- ({{name_target}}.pin 3);
+    {% endif%}
+{%elif type_target.lower() in ("rs", "jk", "jka") %}
+    {% if method.lower() == "direct" %}
+       \draw ({{name_source}}.pin 4) -- ({{name_target}}.pin 3);
+       \draw ({{name_source}}.pin 6) -- ({{name_target}}.pin 1);
+    {% elif method.lower() == "inverse" %}
+       \draw ({{name_source}}.pin 4) -- ({{name_target}}.pin 1);
+       \draw ({{name_source}}.pin 6) -- ({{name_target}}.pin 3);
+    {% elif method.lower() == "clock" %}
+       \draw ({{name_source}}.pin 6) -- ({{name_target}}.pin 2);
+    {% elif method.lower() == "inverse_clock" %}
+       \draw ({{name_source}}.pin 4) -- ({{name_target}}.pin 2);
+    {% endif%}
+
+{%endif%}
+{%endmacro%}
+
+
+
 {# -----------------------
  Draw a clock
 -------------------#}

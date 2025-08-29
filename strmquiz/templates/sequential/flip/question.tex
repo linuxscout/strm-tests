@@ -1,13 +1,89 @@
+{% set debug = False %}
 {% import "sequential/macros/flipmacros.tex" as flpmacro%}
+{% import "sequential/macros/timingmacros.tex" as tmmacro%}
 
 {#----------------------------------------------------------
  Main_call
 ----------------------------------------------------------#}
 {#  --------------- Define basic flips -------#}
-{{ flpmacro.define_basic_flip(type="D", id="DMod", output_var="Q2")}}
-{{ flpmacro.define_basic_flip(type="JK", id="JKMod", output_var="Q0")}}
-{{ flpmacro.define_basic_flip(type="RS", id="RSMod", output_var="Q1")}}
-{{ flpmacro.define_basic_flip(type="jkasyn", id="JKAMod", output_var="Q")}}
+{{flpmacro.define_standard_flips()}}
+
+{% if RENDER_MODE == "question" %}
+
+    {%if flip_data.type.upper() in flpmacro.globals.AVAILABLE_FLIPS %}
+
+        Cite the truth table of flipflop {{flip_data.type}}.
+
+        \begin{arab}[utf]
+        اذكر جدول الحقيقة للقلاب \LR{ {{flip_data.type}}}.
+        \end{arab}
+        \begin{circuitikz}
+            {{flpmacro.place_flip(id=flip_data.type, name="f1", xpos=2, ypos=2)}}
+        \end{circuitikz}
+    {%else%}
+        Let have the following flip flop {{flip_data.type}}, with its given truth table.
+        \begin{arab}[utf]
+    نفرض القلاب {{flip_data.type}} المعرّف بجدول الحقيقة الآتي:
+        \end{arab}
+
+            {{flpmacro.define_costum_flip(id=flip_data.type, inputs=flip_data.inputs)}}
+        \begin{circuitikz}
+            {{flpmacro.place_flip(id=flip_data.type, name="f1", xpos=2, ypos=2)}}
+        \end{circuitikz}
+
+        {% set costum_tt = flip_data.truth_table%}
+        {{flpmacro.truth_table(type=flip_data.type,
+                    edge="rising",
+                    customized=True,
+                    custom_vars =flip_data.inputs,
+                    custom_values=flip_data.truth_table)}}
+
+   {%endif%}
+
+   Complete the following timing diaragm, according to given flipflop.
+
+       \begin{arab}[utf]
+أكمل المخطط المنطقي الآتي، حسب القلاب المعطى.
+    \end{arab}
+
+  {{tmmacro.draw_timing_diagram(data, mode="question")}}
+
+{%endif%} % end quesion
+{#----------------------------------------------------------
+  Answer
+----------------------------------------------------------#}
+{% if RENDER_MODE == "answer" %}
+    {%if flip_data.type.upper() in flpmacro.globals.AVAILABLE_FLIPS %}
+
+        Cite the truth table of flipflop {{flip_data.type}}.
+
+        \begin{arab}[utf]
+        اذكر جدول الحقيقة للقلاب \LR{ {{flip_data.type}}}.
+        \end{arab}
+
+        {% set costum_tt = flip_data.truth_table%}
+        {{flpmacro.truth_table(type=flip_data.type,
+                    edge="rising",
+                    customized=True,
+                    custom_vars =flip_data.inputs,
+                    custom_values=flip_data.truth_table)}}
+   {%endif%}
+
+   {{tmmacro.draw_timing_diagram(data, mode="answer")}}
+
+\begin{verbatim}
+ {{flpmacro.globals.AVAILABLE_FLIPS}}
+{{data|pprint}}
+{{flip_data|pprint}}
+\end{verbatim}
+{%endif%}
+{#----------------------------------------------------------
+ Debug
+----------------------------------------------------------#}
+
+
+{% if RENDER_MODE == "answer" %}
+{% if debug %}
 
 
 \section{Flip}
@@ -29,15 +105,15 @@
 %---------------------------------------------------
 
 \begin{circuitikz}
-{{ flpmacro.place_flip(id="JKMod", name="JK0", xpos=2, ypos=4)}}
-{{ flpmacro.place_flip(id="DMod", name="D0", xpos=2, ypos=0)}}
-{{ flpmacro.place_flip(id="RSMod", name="RS0", xpos=5, ypos=4)}}
+{{ flpmacro.place_flip(id="JK", name="JK0", xpos=2, ypos=4)}}
+{{ flpmacro.place_flip(id="D", name="D0", xpos=2, ypos=0)}}
+{{ flpmacro.place_flip(id="RS", name="RS0", xpos=5, ypos=4)}}
 
-{{ flpmacro.place_flip(id="DMod", name="D1", xpos=2, ypos=8)}}
-{{ flpmacro.place_flip(id="RSMod", name="RS1", xpos=5, ypos=8)}}
-{{ flpmacro.place_flip(id="JKMod", name="JK1", xpos=8, ypos=8)}}
-{{ flpmacro.place_flip(id="JKMod", name="JK2", xpos=11, ypos=8)}}
-{{ flpmacro.place_flip(id="DMod", name="D2", xpos=14, ypos=8)}}
+{{ flpmacro.place_flip(id="D", name="D1", xpos=2, ypos=8)}}
+{{ flpmacro.place_flip(id="RS", name="RS1", xpos=5, ypos=8)}}
+{{ flpmacro.place_flip(id="JK", name="JK1", xpos=8, ypos=8)}}
+{{ flpmacro.place_flip(id="JK", name="JK2", xpos=11, ypos=8)}}
+{{ flpmacro.place_flip(id="D", name="D2", xpos=14, ypos=8)}}
 
 {{ flpmacro.draw_clock(name="Ck", label="H", xpos=0, ypos=6)}}
 
@@ -53,3 +129,26 @@
 \end{circuitikz}
 
 
+
+{{flpmacro.define_standard_flips()}}
+{{flpmacro.globals.AVAILABLE_FLIPS}}
+
+{{flpmacro.globals.CUSTOM_FLIPS}}
+
+{{flpmacro.define_costum_flip(id="X", vars =["A","B"])}}
+
+{{flpmacro.globals.CUSTOM_FLIPS}}
+
+\begin{circuitikz}
+{{flpmacro.place_flip(id="D", name="D1", xpos=2, ypos=8)}}
+{{flpmacro.place_flip(id="JK", name="D2", xpos=5, ypos=8)}}
+{{flpmacro.place_flip(id="RS", name="D3", xpos=8, ypos=8)}}
+
+{{flpmacro.place_flip(id="dlatch", name="D1", xpos=11, ypos=8)}}
+{{flpmacro.place_flip(id="M", name="M1", xpos=11, ypos=8)}}
+
+\node[latch] (D3) at (2,12) {};
+\end{circuitikz}
+
+{%endif%} % end if debug
+{%endif%} % end answer
