@@ -32,12 +32,12 @@
 ----------------------------------------------------------#}
 {%- macro draw_guide_lines(synch_type) -%}
 {% if synch_type.lower() in ("falling", "dual") %}
-\begin{scope}[red,semitransparent,densely dotted,thin]
+\begin{scope}[blue,semitransparent,densely dotted,thin]
 \vertlines{2,4,...,\twidth}
 \end{scope}
 {% endif %}
 {% if synch_type.lower() in ("rising", "dual") %}
-\begin{scope}[gray,semitransparent,thin]
+\begin{scope}[red,semitransparent,thin]
 \vertlines{1,3,...,\twidth}
 \end{scope}
 {% endif %}
