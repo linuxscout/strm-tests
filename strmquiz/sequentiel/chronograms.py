@@ -276,7 +276,40 @@ class Chronograms:
         """
         test if true"""
         return var>0
-        
+    @staticmethod
+    def truncate_signal(sig, size: int):
+        """
+        Truncate a signal sequence so that the total absolute length
+        does not exceed the given size.
+
+        Args:
+            sig (list[int]): A sequence of signed integers, where each element
+                             represents a segment length (positive or negative).
+            size (int): Maximum allowed total length.
+
+        Returns:
+            list[int]: A new list with segments truncated if necessary.
+        """
+        total_len = sum(abs(x) for x in sig)
+        if total_len <= size:
+            return sig[:]  # return a copy
+
+        result = []
+        used = 0
+        for x in sig:
+            seg_len = abs(x)
+            if used + seg_len > size:
+                # Truncate current segment
+                remainder = size - used
+                result.append(remainder if x > 0 else -remainder)
+                break
+            else:
+                result.append(x)
+                used += seg_len
+                if used == size:
+                    break
+        return result
+
     def get_truth_value(self, var1, var2, flip_type):
         """
         get value for given fliptype"""

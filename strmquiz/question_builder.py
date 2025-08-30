@@ -780,7 +780,7 @@ class Question_Builder:
         # print(__file__,"before_resolve", flip_type, init_signals)
         # output signal
 
-        tmp_signals = reg_sim.resolve_register(init_signals.copy())
+        tmp_signals = reg_sim.resolve_register(init_signals.copy(), signal_length=length)
         simulator = True
         # simulator = False
         # if simulator:

@@ -57,7 +57,7 @@ class RegisterSimulator(SeqCircuitSimulator):
         return signal_map
 
     # ---------- Simulation ----------
-    def resolve_register(self, tmp_signals: Dict[str, List[int]]) -> Dict[str, List[int]]:
+    def resolve_register(self, tmp_signals: Dict[str, List[int]], signal_length:int=10) -> Dict[str, List[int]]:
         """Resolve signals for a register given initial signals and flip-flop mapping."""
         logger.info("Resolving register with outputs: %s", self.outputs)
 
@@ -82,6 +82,7 @@ class RegisterSimulator(SeqCircuitSimulator):
             logger.debug("INIT_signal %d: %s", i, init_signal)
 
             new_signal = self.resolve(flip_type=self.flip_types[i], signal_dict=init_signal, inputs=list(f_inputs.keys()), index=i)
+            new_signal = self.chrono.truncate_signal(new_signal, size=signal_length)
             tmp_signals[qi] = new_signal
             tmp_signals[qi + "'"] = self.chrono.inverse(new_signal)
 
