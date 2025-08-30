@@ -24,6 +24,8 @@ import wavedrom
 import json
 import random
 from . import seqconst
+from typing import Dict, List, Any, Callable
+
 class Chronograms:
     """
     A class to generate questions and answers on chronograms
@@ -167,7 +169,11 @@ class Chronograms:
             init_value = varlist[key]
             signals[key] = self.random_signal(init=init_value, length=length)        
         return signals;     
-                  
+    @staticmethod
+    def inverse(signal: List[int]) -> List[int]:
+        """Return the inverse (negated) version of a signal list."""
+        return [-x for x in signal]
+
     def resolve(self, flip_type="", signals={}, period=2, inputs=[]):
         """
         Generate an signal answer for given variables signals especialy for a given flipflop type
