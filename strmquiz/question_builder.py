@@ -741,6 +741,90 @@ class Question_Builder:
         }
         return data
 
+    def _preprare_chrnonogram_multi(self,  input_vars=["V",], start_signals={"D": 1,"Q":0}, flip_list=["D",], nbits =4, length=20, synch_type="rising", output_vars=["Q", ]):
+
+        # start_signals = start_signals
+        chrono = tex_chronograms.Tex_Chronograms();
+        flip_type = flip_list[0].get("type","")
+        init_signals = {}
+        for key in start_signals:
+            if key in output_vars:
+                # add an empty signal
+                init_signals[key] = [start_signals[key], ]
+            else:
+                signal_dict = chrono.question({key: start_signals[key]}, length=length)
+                init_signals[key] = signal_dict[key]
+        # input_vars = [k for k in varlist if k not in output_vars]
+        # set synchronization type
+        chrono.set_synch_type(synch_type)
+
+        # generate question
+        # 1- clock
+        # 2- signals without solution
+        clock = chrono.clock_signal(length=length, period=1)
+        # tex_data_question = chrono.draw(init_signals, clock)
+
+        # generate soltution
+        # get solution for signal
+        # 2 generate chrono for answer
+        # if we want to generate multiple cases using "dual" or "all"
+        # if synch_type == "all" or synch_type == "dual":
+            # set synchronization type
+            # chrono.set_synch_type("rising")
+        # print(__file__,"before_resolve", flip_type, init_signals)
+        # output signal
+        tmp_signals = init_signals.copy()
+        for i in range(nbits):
+            out_signal = {"Q":[-3,+3,-3], }
+            flip_i = flip_list[i]
+            flip_type_i = flip_list[i].get("type","")
+            inputs_i = flip_list[i].get("inputs","")
+            init_sig_fi = flip_list[i].get("init_signals","")
+            init_sig_fi = {k:[init_sig_fi[k]] for k in init_sig_fi}
+            logging.debug(msg="init_sig_fi 1 "+str(init_sig_fi))
+            key = list(init_sig_fi.keys())[0]
+            if i == 0:
+                for key in inputs_i:
+                    sig_dict = chrono.question({key: init_sig_fi[key]}, length=length)
+                    init_sig_fi.update(sig_dict.copy())
+            else:
+                for key in inputs_i:
+                    sig_dict = chrono.question({key: init_sig_fi[key]}, length=length)
+                    init_sig_fi[key]  = tmp_signals[output_vars[i-1]]
+            logging.debug(msg="sig_dict_copy 2 "+str(sig_dict))
+            logging.debug(msg="init_sig_fi 2 "+str(init_sig_fi))
+            # out_signal = chrono.resolve(flip_type=flip_list[i], signals=init_signals.copy(), period=2, inputs=input_vars)
+            out_sig_dict = chrono.resolve(flip_type=flip_type_i, signals=init_sig_fi.copy(), period=2, inputs=inputs_i)
+            logging.debug(msg="after resolve sig_dict "+str(out_sig_dict))
+            tmp_signals[output_vars[i]] = out_sig_dict
+            # tmp_signals[output_vars[i]] = out_signal["Q"]
+
+
+        input_signals = {k:v for k,v in tmp_signals.items() if k in input_vars}
+
+        out_signals_initial = {k:v for k,v in init_signals.items() if k in output_vars}
+
+        out_signals_final = {k:v for k,v in tmp_signals.items() if k in output_vars}
+
+        tex_data_answer = chrono.draw(tmp_signals, clock)
+
+        data= {
+        "varlist":start_signals,
+        "flip_type":flip_type,
+        "length":length,
+        "synch_type":synch_type,
+        "output_vars":output_vars,
+        "input_vars": input_vars,
+        "input_signals": input_signals,
+        "output_signals":{"initial": out_signals_initial,
+                    "final": out_signals_final,
+                      },
+        "clock":clock,
+        "question_signals":init_signals,
+        "answer_signals":tmp_signals,
+        "tex_data_answer":tex_data_answer,
+        }
+        return data
     def question_chronogram(self, varlist={}, flip_type="D", length=20, synch_type="rising", output_vars=["Q", ]):
 
         """
@@ -796,6 +880,41 @@ class Question_Builder:
         question, answer = self.formater.render_question_answer("sequential/flip", context)
         return question, "arabic", "data", answer
 
+    def question_register(self, varlist={}, flip_type="D", length=20, synch_type="rising", output_vars=["Q", ]):
+
+        """
+        Generate Chronogram question for a given register
+        """
+        nbits = random.randint(3,6)
+        reg_flip_type_list = random.choices(["D","JK"], k=nbits)
+        # get data from flip standard
+        reg_flip_list = [seqconst.FLIPS_DATA.get(ft,{}) for ft in reg_flip_type_list ]
+        inputs = ["E",]
+        outputs = [f"Q{i}" for i in range(nbits)]
+        vars_ = inputs + outputs
+        init_signals= {e:0 for e in vars_}
+        register_data ={  'inputs': inputs,
+              'outputs': outputs,
+               'init_signals':  init_signals,
+              'flip_list': reg_flip_list,
+               'nbits':nbits,
+              'vars':vars_ }
+
+        data = self._preprare_chrnonogram_multi(input_vars=inputs,
+                                          start_signals=init_signals,
+                                          flip_list = reg_flip_list,
+                                          length=length,
+                                          nbits=nbits,
+                                          synch_type=synch_type,
+                                          output_vars=outputs)
+
+        context= {"data": data,
+                  "regsiter_data": register_data,
+          }
+        question, answer = self.formater.render_question_answer("sequential/register", context)
+        return question, "arabic", "data", answer
+
+
     def question_counter(self, varlist={}, flip_type="D", length=20, synch_type="rising", output_vars=["Q", ]):
 
         """
@@ -808,20 +927,6 @@ class Question_Builder:
         context= {"data": data,
           }
         question, answer = self.formater.render_question_answer("sequential/counter", context)
-        return question, "arabic", "data", answer
-
-    def question_register(self, varlist={}, flip_type="D", length=20, synch_type="rising", output_vars=["Q", ]):
-
-        """
-        Generate Chronogram question for a given register
-        """
-        context= {}
-
-        data = self._preprare_chrnonogram(varlist=varlist, flip_type=flip_type, length=length, synch_type=synch_type, output_vars=output_vars)
-
-        context= {"data": data,
-          }
-        question, answer = self.formater.render_question_answer("sequential/register", context)
         return question, "arabic", "data", answer
 
 
