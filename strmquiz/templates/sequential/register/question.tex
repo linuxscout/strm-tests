@@ -1,5 +1,6 @@
 {% set debug = True %}
 {% import "sequential/macros/flipmacros.tex" as flpmacro%}
+{% import "sequential/macros/timingmacros.tex" as tmmacro%}
 {# -----------------------
  draw a resiter generic
 -------------------#}
@@ -54,9 +55,67 @@
 ----------------------------------------------------------#}
 \section{Register}
 
+{#  --------------- Define basic flips -------#}
 {{flpmacro.define_standard_flips()}}
+%% For test only
+{%set flip_data ={'init_signals': {'D': 0, 'Q': -1, "Q'": 1},
+       'inputs': ['D'],
+       'outputs': ['Q', "Q'"],
+       'truth_table': ["0","1"],
+       'type': 'D',
+       'vars': ['D', 'Q', "Q'"]} %}
+{% if RENDER_MODE == "question" %}
 
-{%if debug %}
+    Let have the following setup
+    \begin{arab}[utf]
+إليك هذا التركيب
+    \end{arab}
+
+    \begin{circuitikz}
+    {{draw_register(flip="D", register_type="",size=6)}}
+    \end{circuitikz}
+
+    Cite the truth table of flipflop {{flip_data.type}}.
+
+    \begin{arab}[utf]
+    اذكر جدول الحقيقة للقلاب \LR{ {{flip_data.type}}}.
+    \end{arab}
+
+   Complete the following timing diaragm, according to given flipflop.
+
+       \begin{arab}[utf]
+أكمل المخطط المنطقي الآتي، حسب القلاب المعطى.
+    \end{arab}
+
+  {{tmmacro.draw_timing_diagram(data, mode="question")}}
+
+{%endif%} % end quesion
+{#----------------------------------------------------------
+  Answer
+----------------------------------------------------------#}
+{% if RENDER_MODE == "answer" %}
+
+        Cite the truth table of flipflop {{flip_data.type}}.
+
+        \begin{arab}[utf]
+        اذكر جدول الحقيقة للقلاب \LR{ {{flip_data.type}}}.
+        \end{arab}
+
+        {{flpmacro.truth_table(type=flip_data.type,
+                    edge="rising",
+                    customized=True,
+                    custom_vars =flip_data.inputs,
+                    custom_values=flip_data.truth_table)}}
+
+   {{tmmacro.draw_timing_diagram(data, mode="answer")}}
+
+{%endif%}
+
+
+
+
+{%if debug and RENDER_MODE == "answer" %}
+\newpage
  \textbf{Register}
 
 \begin{circuitikz}
