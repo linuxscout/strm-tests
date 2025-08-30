@@ -31,6 +31,7 @@ from .codage import ieee754
 from .display import quiz_format_factory
 from .sequentiel import tex_chronograms
 from .sequentiel import seqconst
+from .sequentiel import registersimulator
 
 class Question_Builder:
     """ Generate the question """
@@ -743,7 +744,12 @@ class Question_Builder:
 
     def _preprare_chrnonogram_multi(self,  input_vars=["V",], start_signals={"D": 1,"Q":0}, flip_list=["D",], nbits =4, length=20, synch_type="rising", output_vars=["Q", ]):
 
-        # start_signals = start_signals
+        # start_signals = start_signals*
+        flip_types = [x.get("type","") for x in flip_list]
+        reg_sim = registersimulator.RegisterSimulator(inputs=input_vars, outputs=output_vars,
+                                                      # flip_types=flip_types, register_type="shift-right")
+                                                      flip_types=flip_types, register_type="shift-left")
+
         chrono = tex_chronograms.Tex_Chronograms();
         flip_type = flip_list[0].get("type","")
         init_signals = {}
@@ -773,31 +779,38 @@ class Question_Builder:
             # chrono.set_synch_type("rising")
         # print(__file__,"before_resolve", flip_type, init_signals)
         # output signal
-        tmp_signals = init_signals.copy()
-        for i in range(nbits):
-            out_signal = {"Q":[-3,+3,-3], }
-            flip_i = flip_list[i]
-            flip_type_i = flip_list[i].get("type","")
-            inputs_i = flip_list[i].get("inputs","")
-            init_sig_fi = flip_list[i].get("init_signals","")
-            init_sig_fi = {k:[init_sig_fi[k]] for k in init_sig_fi}
-            logging.debug(msg="init_sig_fi 1 "+str(init_sig_fi))
-            key = list(init_sig_fi.keys())[0]
-            if i == 0:
-                for key in inputs_i:
-                    sig_dict = chrono.question({key: init_sig_fi[key]}, length=length)
-                    init_sig_fi.update(sig_dict.copy())
-            else:
-                for key in inputs_i:
-                    sig_dict = chrono.question({key: init_sig_fi[key]}, length=length)
-                    init_sig_fi[key]  = tmp_signals[output_vars[i-1]]
-            logging.debug(msg="sig_dict_copy 2 "+str(sig_dict))
-            logging.debug(msg="init_sig_fi 2 "+str(init_sig_fi))
-            # out_signal = chrono.resolve(flip_type=flip_list[i], signals=init_signals.copy(), period=2, inputs=input_vars)
-            out_sig_dict = chrono.resolve(flip_type=flip_type_i, signals=init_sig_fi.copy(), period=2, inputs=inputs_i)
-            logging.debug(msg="after resolve sig_dict "+str(out_sig_dict))
-            tmp_signals[output_vars[i]] = out_sig_dict
-            # tmp_signals[output_vars[i]] = out_signal["Q"]
+
+        tmp_signals = reg_sim.resolve_register(init_signals.copy())
+        simulator = True
+        # simulator = False
+        # if simulator:
+        #     tmp_signals = reg_sim.resolve_register(init_signals.copy())
+        # else:
+        #     tmp_signals = init_signals.copy()
+        #     # for i in range(nbits):
+        #     #     out_signal = {"Q":[-3,+3,-3], }
+        #     #     flip_i = flip_list[i]
+        #     #     flip_type_i = flip_list[i].get("type","")
+        #     #     inputs_i = flip_list[i].get("inputs","")
+        #     #     init_sig_fi = flip_list[i].get("init_signals","")
+        #     #     init_sig_fi = {k:[init_sig_fi[k]] for k in init_sig_fi}
+        #     #     logging.debug(msg="init_sig_fi 1 "+str(init_sig_fi))
+        #     #     key = list(init_sig_fi.keys())[0]
+        #     #     if i == 0:
+        #     #         for key in inputs_i:
+        #     #             sig_dict = chrono.question({key: init_sig_fi[key]}, length=length)
+        #     #             init_sig_fi.update(sig_dict.copy())
+        #     #     else:
+        #     #         for key in inputs_i:
+        #     #             sig_dict = chrono.question({key: init_sig_fi[key]}, length=length)
+        #     #             init_sig_fi[key]  = tmp_signals[output_vars[i-1]]
+        #     #     logging.debug(msg="sig_dict_copy 2 "+str(sig_dict))
+        #     #     logging.debug(msg="init_sig_fi 2 "+str(init_sig_fi))
+        #     #     # out_signal = chrono.resolve(flip_type=flip_list[i], signals=init_signals.copy(), period=2, inputs=input_vars)
+        #     #     out_sig_dict = chrono.resolve(flip_type=flip_type_i, signals=init_sig_fi.copy(), period=2, inputs=inputs_i)
+        #     #     logging.debug(msg="after resolve sig_dict "+str(out_sig_dict))
+        #     #     tmp_signals[output_vars[i]] = out_sig_dict
+        #     #     # tmp_signals[output_vars[i]] = out_signal["Q"]
 
 
         input_signals = {k:v for k,v in tmp_signals.items() if k in input_vars}
@@ -897,6 +910,8 @@ class Question_Builder:
               'outputs': outputs,
                'init_signals':  init_signals,
               'flip_list': reg_flip_list,
+              'flip_type_list': reg_flip_type_list,
+                "type":"",
                'nbits':nbits,
               'vars':vars_ }
 
@@ -908,8 +923,9 @@ class Question_Builder:
                                           synch_type=synch_type,
                                           output_vars=outputs)
 
+
         context= {"data": data,
-                  "regsiter_data": register_data,
+                  "register_data": register_data,
           }
         question, answer = self.formater.render_question_answer("sequential/register", context)
         return question, "arabic", "data", answer

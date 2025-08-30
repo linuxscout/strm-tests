@@ -72,7 +72,11 @@
     \end{arab}
 
     \begin{circuitikz}
-    {{draw_register(flip="D", register_type="",size=6)}}
+    {{draw_register(flip= register_data.flip_type_list[0], register_type=register_data.type,size=register_data.nbits)}}
+    \end{circuitikz}
+
+    \begin{circuitikz}
+    {{_draw_register_generic(flips_list= register_data.flip_type_list, outputs=register_data.outputs,size=register_data.nbits)}}
     \end{circuitikz}
 
     Cite the truth table of flipflop {{flip_data.type}}.
