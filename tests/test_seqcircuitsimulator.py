@@ -1,5 +1,5 @@
 import unittest
-from strmquiz.sequentiel.registersimulator import RegisterSimulator
+from strmquiz.sequentiel.seqcircuitsimulator import SeqCircuitSimulator
 
 
 class TestRegisterSimulator(unittest.TestCase):
@@ -10,7 +10,7 @@ class TestRegisterSimulator(unittest.TestCase):
         self.outputs = ["Q0", "Q1", "Q2"]
         self.flip_types = ["D", "JK", "T"]
 
-        self.sim = RegisterSimulator(inputs=self.inputs, outputs=self.outputs, flip_types=self.flip_types)
+        self.sim = SeqCircuitSimulator(self.inputs, self.outputs, self.flip_types)
 
         # initial signals
         self.init_signals = {
@@ -54,10 +54,10 @@ class TestRegisterSimulator(unittest.TestCase):
 
     def test_register_new_flip_flop(self):
         # Add a custom SR flip-flop
-        RegisterSimulator.register_flip_flop(
+        SeqCircuitSimulator.register_flip_flop(
             "SR", lambda prev, first: {"S": prev, "R": first}
         )
-        sim2 = RegisterSimulator(["E"], ["Q0"], ["SR"])
+        sim2 = SeqCircuitSimulator(["E"], ["Q0"], ["SR"])
         mapping = sim2.signal_map["Q0"]
         self.assertIn("S", mapping["inputs"])
         self.assertIn("R", mapping["inputs"])
