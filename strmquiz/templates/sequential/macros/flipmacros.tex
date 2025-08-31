@@ -244,8 +244,8 @@ flipflop def={t1={{inputs[0]}}, t3={{inputs[1]}}, c2=1, t6=Q, t4=\ctikztextnot{Q
 {# -----------------------
  link  a var point
 -------------------#}
-{%macro link_var(name_var="Vcc", name_target="D", type_target="d", target_pins=[])%}
+{%macro link_var(name_var="Vcc", name_target="D", type_target="d", target_pins=[], reverse=False, xshift=0, yshift=0)%}
 {% for pin_str in target_pins %}
-  \draw ({{name_var}}) |- ({{name_target}}.{{pin_str}});
+  \draw ({{name_var}}) +({{xshift}},{{yshift}}) {{'|-' if not reverse else '-|'}} ({{name_target}}.{{pin_str}});
 {% endfor %}
 {%endmacro%}
