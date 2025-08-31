@@ -22,6 +22,12 @@
 #  
 #  
 import logging
+# --- Configure logging ---
+logging.basicConfig(
+    level=logging.DEBUG,  # change to INFO or WARNING in production
+    format="%(levelname)s:%(name)s:%(message)s"
+)
+logger = logging.getLogger(__name__)
 import random
 
 from .codage import question_codage as question
@@ -742,13 +748,14 @@ class Question_Builder:
         }
         return data
 
-    def _preprare_chrnonogram_multi(self,  input_vars=["V",], start_signals={"D": 1,"Q":0}, flip_list=["D",], nbits =4, length=20, synch_type="rising", output_vars=["Q", ]):
+    def _preprare_chrnonogram_multi(self,  input_vars=["V",], start_signals={"D": 1,"Q":0}, flip_list=["D",], nbits =4,
+                                    length=20, synch_type="rising", output_vars=["Q", ],register_type="shift-right"):
 
         # start_signals = start_signals*
         flip_types = [x.get("type","") for x in flip_list]
         reg_sim = registersimulator.RegisterSimulator(inputs=input_vars, outputs=output_vars,
                                                       # flip_types=flip_types, register_type="shift-right")
-                                                      flip_types=flip_types, register_type="shift-left")
+                                                      flip_types=flip_types, register_type=register_type)
 
         chrono = tex_chronograms.Tex_Chronograms();
         flip_type = flip_list[0].get("type","")
@@ -893,19 +900,35 @@ class Question_Builder:
         question, answer = self.formater.render_question_answer("sequential/flip", context)
         return question, "arabic", "data", answer
 
-    def question_register(self, varlist={}, flip_type="D", length=20, synch_type="rising", output_vars=["Q", ]):
+    def question_register(self, varlist={}, flip_types=["D",], length=20, synch_type="rising", output_vars=["Q", ], register_type="shift-right",
+                          nbits:int=2,
+                          register_random:bool=True):
 
         """
         Generate Chronogram question for a given register
         """
-        nbits = random.randint(3,6)
-        reg_flip_type_list = random.choices(["D","JK"], k=nbits)
-        # get data from flip standard
-        reg_flip_list = [seqconst.FLIPS_DATA.get(ft,{}) for ft in reg_flip_type_list ]
+        if register_random:
+            nbits = random.randint(3,6)
+            reg_flip_type_list = random.choices(["D","JK"], k=nbits)
+            # get data from flip standard
+            reg_flip_list = [seqconst.FLIPS_DATA.get(ft,{}) for ft in reg_flip_type_list ]
+        else:
+            reg_flip_type_list = flip_types
+            # in case that configuration fliptypes is missing
+            if len(reg_flip_type_list) < nbits:
+               reg_flip_type_list = reg_flip_type_list + ["D"] * (nbits-len(flip_types))
+            # get data from flip standard
+            reg_flip_list = [seqconst.FLIPS_DATA.get(ft,{}) for ft in reg_flip_type_list ]
+
         inputs = ["E",]
         outputs = [f"Q{i}" for i in range(nbits)]
         vars_ = inputs + outputs
         init_signals= {e:0 for e in vars_}
+        # register_type = "shift-left"
+        if register_type.endswith("left"):
+            shift = "left"
+        else:
+            shift = "right"
         register_data ={  'inputs': inputs,
               'outputs': outputs,
                'init_signals':  init_signals,
@@ -913,6 +936,7 @@ class Question_Builder:
               'flip_type_list': reg_flip_type_list,
                 "type":"",
                'nbits':nbits,
+                "shift":shift,
               'vars':vars_ }
 
         data = self._preprare_chrnonogram_multi(input_vars=inputs,
@@ -921,7 +945,8 @@ class Question_Builder:
                                           length=length,
                                           nbits=nbits,
                                           synch_type=synch_type,
-                                          output_vars=outputs)
+                                          output_vars=outputs,
+                                          register_type=register_type)
 
 
         context= {"data": data,

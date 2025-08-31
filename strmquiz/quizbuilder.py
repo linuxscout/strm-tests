@@ -20,7 +20,14 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 #  
-#  
+#
+import logging
+# --- Configure logging ---
+logging.basicConfig(
+    level=logging.DEBUG,  # change to INFO or WARNING in production
+    format="%(levelname)s:%(name)s:%(message)s"
+)
+logger = logging.getLogger(__name__)
 import random
 # ~ from . import question
 # ~ from . import boolquiz
@@ -40,7 +47,7 @@ class QuizBuilder:
         if not config_file:
             config_file = "config/quiz.conf"
         self.config_file = config_file
-        self.myconfig = read_config.read_config(config_file)
+        self.myconfig = read_config.ReadConfig(config_file)
         #~ print(outformat)
         self.commands = ["float",
          "intervalle",
@@ -214,10 +221,14 @@ class QuizBuilder:
             # print("quiz_builder:debug:arguments",args)
             return self.qsbuilder.question_register(
             varlist= args.get("varlist",{}),
-            flip_type=args.get("flip_type","D"),
+            # flip_type=args.get("flip_type","D"),
             length=args.get("length",10),
             synch_type=args.get("synch_type","rising"),
-            output_vars=args.get("output","Q")
+            output_vars=args.get("output","Q"),
+            register_type=args.get("register_type","shift-right"),
+            flip_types=args.get("register_flips",[]),
+            nbits=args.get("register_nbits",2),
+            register_random=args.get("register_random",False),
             )
         def command_seq_misc(args={}):
             # print("quiz_builder:debug:arguments",args)
@@ -326,19 +337,21 @@ class QuizBuilder:
         randq = self.myconfig.random_question
         nb_questions = self.myconfig.questions_size
         repeat = self.myconfig.repeat
-        args ={"minterms":self.myconfig.minterms,
-        "var_names": self.myconfig.var_names,
-        "output_names": self.myconfig.output_names,
-        "dontcare": self.myconfig.dontcare,
-        "length":self.myconfig.length,
-        "varlist":self.myconfig.varlist,
-        "synch_type":self.myconfig.synch_type,
-        "flip_type":self.myconfig.flip_type,
-        "output":self.myconfig.output,
-        "method":self.myconfig.method,
-        "text":self.myconfig.text,
-        # ~ "simplification":self.myconfig.simplification,
-        }
+        args = self.myconfig.__dict__
+        logger.debug("ARGS:%s"%str(args))
+        # {"minterms":self.myconfig.minterms,
+        # "var_names": self.myconfig.var_names,
+        # "output_names": self.myconfig.output_names,
+        # "dontcare": self.myconfig.dontcare,
+        # "length":self.myconfig.length,
+        # "varlist":self.myconfig.varlist,
+        # "synch_type":self.myconfig.synch_type,
+        # "flip_type":self.myconfig.flip_type,
+        # "output":self.myconfig.output,
+        # "method":self.myconfig.method,
+        # "text":self.myconfig.text,
+        # # ~ "simplification":self.myconfig.simplification,
+        # }
         test_config = self.get_quiz_config(test_no)
         for test in test_config:
             for i in range(nb_questions):
