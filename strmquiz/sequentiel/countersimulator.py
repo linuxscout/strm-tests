@@ -58,7 +58,18 @@ class CounterSimulator(SeqCircuitSimulator):
 
     def resolve(self,flip_type:str, signal_dict: Dict[str, List[int]], inputs: List[str], index: int) -> List[int]:
         """Dummy resolve: multiply Q signal by index for testing."""
-        return self.chrono.resolve(flip_type=flip_type, signals=signal_dict, period=2**(index+1), inputs=inputs)
+        clock_shift = []
+        edge = "rising"
+        if index: # avoid first case
+            edge = "falling" if self.counter_type == "up" else "rising"
+            self.chrono.set_synch_type(edge)
+            clock_shift = [-1] if self.counter_type == "up" else []
+        signal_result =  self.chrono.resolve(flip_type=flip_type, signals=signal_dict, period=2**(index+1), inputs=inputs)
+        #TODO: change clock signal to chronogram
+        signal_result = clock_shift + signal_result
+        return signal_result
+
+
         # return [x * index for x in signal_dict["Q"] * 6]
     # ---------- Simulation ----------
     def resolve_counter(self, tmp_signals: Dict[str, List[int]], signal_length:int=10) -> Dict[str, List[int]]:
@@ -86,7 +97,9 @@ class CounterSimulator(SeqCircuitSimulator):
             logger.debug("INIT_signal %d: %s", i, init_signal)
 
             new_signal = self.resolve(flip_type=self.flip_types[i], signal_dict=init_signal, inputs=list(f_inputs.keys()), index=i)
+            logger.debug(f" Signal before trunct '{qi}':{new_signal}")
             new_signal = self.chrono.truncate_signal(new_signal, size=signal_length)
+            logger.debug(f" Signal after trunct '{qi}':{new_signal}")
             tmp_signals[qi] = new_signal
             tmp_signals[qi + "'"] = self.chrono.inverse(new_signal)
 
@@ -97,7 +110,7 @@ class CounterSimulator(SeqCircuitSimulator):
 
 # ==== Counter built-in flip-flops ====
 CounterSimulator.register_flip_flop("D", lambda prev, first: {"D": prev})
-CounterSimulator.register_flip_flop("JK", lambda prev, first: {"J": prev, "K": prev + "'"})
+CounterSimulator.register_flip_flop("JK", lambda prev, first: {"J": "Vcc", "K": "Vcc"})
 CounterSimulator.register_flip_flop("T", lambda prev, first: {"T": prev})  # example extension
 
 

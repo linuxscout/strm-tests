@@ -863,8 +863,13 @@ class Question_Builder:
                 # add an empty signal
                 init_signals[key] = [start_signals[key], ]
             else:
-                signal_dict = chrono.question({key: start_signals[key]}, length=length)
-                init_signals[key] = signal_dict[key]
+                if key == "Vcc":
+                    init_signals[key] = [length*2]
+                elif key == "Gnd":
+                    init_signals[key] = [-length*2]
+                else:
+                    signal_dict = chrono.question({key: start_signals[key]}, length=length)
+                    init_signals[key] = signal_dict[key]
         # set synchronization type
         chrono.set_synch_type(synch_type)
 
@@ -877,7 +882,9 @@ class Question_Builder:
         # generate solution
         tmp_signals = reg_sim.resolve_counter(init_signals.copy(), signal_length=length)
 
-        input_signals = {k:v for k,v in tmp_signals.items() if k in input_vars}
+        # input_signals = {k:v for k,v in tmp_signals.items() if k in input_vars}
+        # the counter hasn't inputs
+        input_signals = {}
         out_signals_initial = {k:v for k,v in init_signals.items() if k in output_vars}
 
         out_signals_final = {k:v for k,v in tmp_signals.items() if k in output_vars}
@@ -895,8 +902,8 @@ class Question_Builder:
                     "final": out_signals_final,
                       },
         "clock":clock,
-        "question_signals":init_signals,
-        "answer_signals":tmp_signals,
+        "question_signals":out_signals_initial,
+        "answer_signals":out_signals_final,
         "tex_data_answer":tex_data_answer,
         }
         return data
@@ -1027,14 +1034,21 @@ class Question_Builder:
             reg_flip_type_list = flip_types
             # in case that configuration fliptypes is missing
             if len(reg_flip_type_list) < nbits:
-               reg_flip_type_list = reg_flip_type_list + ["D"] * (nbits-len(flip_types))
+               # reg_flip_type_list = reg_flip_type_list + ["D"] * (nbits-len(flip_types))
+               reg_flip_type_list = reg_flip_type_list + ["JK"] * (nbits-len(flip_types))
             # get data from flip standard
             reg_flip_list = [seqconst.FLIPS_DATA.get(ft,{}) for ft in reg_flip_type_list ]
 
-        inputs = ["E",]
+        inputs = ["Vcc","Gnd"]
         outputs = [f"Q{i}" for i in range(nbits)]
         vars_ = inputs + outputs
-        init_signals= {e:0 for e in vars_}
+        if counter_type.lower() == "up":
+            init_signals= {e:0 for e in vars_}
+        else:
+            init_signals= {e:1 for e in vars_}
+        # special signals
+        # init_signals['Vcc'] = [length*2]
+        # init_signals['Gnd'] = [-length*2]
         # register_type = "shift-left"
         counter_data ={  'inputs': inputs,
               'outputs': outputs,

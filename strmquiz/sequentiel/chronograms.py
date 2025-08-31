@@ -19,8 +19,16 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 #  
-#  
-import wavedrom
+#
+import logging
+# --- Configure logging ---
+logging.basicConfig(
+    level=logging.DEBUG,  # change to INFO or WARNING in production
+    format="%(levelname)s:%(name)s:%(message)s"
+)
+logger = logging.getLogger(__name__)
+
+
 import json
 import random
 from . import seqconst
@@ -187,27 +195,28 @@ class Chronograms:
         @rtype:  dict of string keys with int list values
         """
         out_signal = []
+        j_signal = k_signal = []
         if(flip_type.upper()=="D"):
             out_signal = self.synchronize_signal(signals.get("D"), period=period)
-
         elif(flip_type.upper()=="JK"):
             j_signal = self.synchronize_signal(signals.get("J", []), period=period)
             k_signal = self.synchronize_signal(signals.get("K",[]), period=period)
             q_signal = signals.get("Q",[-1,])
-            return self.resolve_xy(j_signal, k_signal, q_signal, period=period, flip_type="JK")
+            out_signal = self.resolve_xy(j_signal, k_signal, q_signal, period=period, flip_type="JK")
             # ~ return self.resolve_jk(j_signal, k_signal, q_signal, period=period)
         elif(flip_type.upper()=="XY"):
             j_signal = self.synchronize_signal(signals.get("X", []), period=period)
             k_signal = self.synchronize_signal(signals.get("Y",[]), period=period)
             q_signal = signals.get("Q",[-1,])
-            return self.resolve_xy(j_signal, k_signal, q_signal, period=period, flip_type="XY")
+            out_signal = self.resolve_xy(j_signal, k_signal, q_signal, period=period, flip_type="XY")
         elif len(inputs)>1:
             x = str(inputs[0])
             y = str(inputs[1])
             j_signal = self.synchronize_signal(signals.get(x, []), period=period)
             k_signal = self.synchronize_signal(signals.get(y,[]), period=period)
             q_signal = signals.get("Q",[-1,])
-            return self.resolve_xy(j_signal, k_signal, q_signal, period=period, flip_type="XY")
+            out_signal = self.resolve_xy(j_signal, k_signal, q_signal, period=period, flip_type="XY")
+        logger.debug(f" in chrono.resolve in period '{period}', signals = {signals}, j='{j_signal}', k= '{k_signal}' OUT {out_signal}")
         return out_signal
 
 
@@ -387,6 +396,10 @@ class Chronograms:
             while n >= period:
                 n -= period
                 out_signal.append(sign*period)
+            # 🔹 add the remainder after consuming periods
+            if n > 0:
+                out_signal.append(sign * n)
+                n = 0
         return out_signal;
     
     def random_signal(self, init=-1, length=10):
@@ -401,6 +414,7 @@ class Chronograms:
         
 def test_draw():
     """ Test draw function """
+    import wavedrom
     svg = wavedrom.render("""
 { "signal": [
  { "name": "H",   "wave": "P.......","period": 2  },

@@ -18,6 +18,8 @@ class TestCounterSimulator(unittest.TestCase):
             "Q0": [1, 0],
             "Q1": [1, 1],
             "Q2": [1, 2],
+            "Vcc":[100],
+            "Gnd":[100],
         }
 
     def test_inverse(self):
@@ -35,8 +37,8 @@ class TestCounterSimulator(unittest.TestCase):
         mapping = self.sim.signal_map["Q1"]
         self.assertIn("J", mapping["inputs"])
         self.assertIn("K", mapping["inputs"])
-        self.assertEqual(mapping["inputs"]["J"], "Q0")
-        self.assertEqual(mapping["inputs"]["K"], "Q0'")
+        self.assertEqual(mapping["inputs"]["J"], "Vcc")
+        self.assertEqual(mapping["inputs"]["K"], "Vcc")
 
     def test_signal_mapping_t(self):
         # Q2 is T flip-flop, should take Q1

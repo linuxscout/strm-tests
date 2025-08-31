@@ -37,7 +37,7 @@ doc:
 define test_template
 $(1):
 	@echo "Generating test: $(1)"
-	python3 -m strmquiz -f config/quiz6.conf --lang="ar-en" --templates strmquiz/templates -d tex -t "$(1)" -o tests/output/test.tex
+	python3 -m strmquiz -f config/quiz6.conf --lang="ar-en" --templates strmquiz/templates -d tex -t "$(1)" -o tests/output/test.tex &> tmp/script.log
 	cp tests/output/test.tex latex/test.tex
 	cd latex && xelatex test-n2.tex
 	mkdir -p edits/test2-$(DATE)

@@ -31,8 +31,10 @@
         {{ flpmacro.draw_input_var(name="Vcc"~(i|string), label="Vcc", xpos=ns.xpos-1.5, ypos=ypos+2)}}
         {{ flpmacro.link_var(name_var="Vcc"~(i|string), name_target=ns.name, type_target=ns.type, target_pins=["up","down","pin 1", "pin 3"])}}
         {# link previous with current #}
-        {% if ns.prev_name %}
-            {{ flpmacro.link(name_source=ns.prev_name, name_target=ns.name, type_target=ns.type, method="clock")}}
+        {% if ns.prev_name and counter_type.lower() in("up","") %}
+             {{ flpmacro.link(name_source=ns.prev_name, name_target=ns.name, type_target=ns.type, method="clock")}}
+        {% elif ns.prev_name and counter_type.lower() == "down" %}
+             {{ flpmacro.link(name_source=ns.prev_name, name_target=ns.name, type_target=ns.type, method="inverse_clock")}}
         {% endif %}
         {% set ns.prev_name = ns.name %}
         {% set ns.prev_type = ns.type %}
@@ -66,13 +68,18 @@
 إليك هذا التركيب
     \end{arab}
 
+    drawn by draw counter
+
    \begin{circuitikz}
     {{draw_counter(flip="JKA", counter_type="",size=4)}}
     \end{circuitikz}
 
+    drawn by draw counter generic as given counter type {{counter_data.type}}
+
     \begin{circuitikz}
     {{_draw_counter_generic(flips_list= counter_data.flip_type_list, outputs=counter_data.outputs,
                             size=counter_data.nbits,
+                            counter_type=counter_data.type,
                             )}}
 
     \end{circuitikz}
