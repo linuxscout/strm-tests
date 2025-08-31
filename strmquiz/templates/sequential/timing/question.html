@@ -1,234 +1,10 @@
-{# =========================================================
-   Macro: signal_from_list
-   Draws a continuous waveform-like signal
-   Parameters:
-     s       : list of integers (positive=high rect, negative=low line)
-     unit_w  : width unit
-     unit_h  : height unit
-     stroke  : stroke color
-     stroke_w: stroke width
-   ========================================================= #}
-{% macro signal_from_list(s, unit_w=100, unit_h=80,
-                          stroke="black", stroke_w=2,
-                          var_name=None, label_offset=-50) %}
-<g class="signal">
-  {# --- Draw variable name if provided --- #}
-  {% if var_name %}
-    <text x="{{ label_offset }}" y="{{ 3*unit_h / 4 }}"
-          font-family="Arial" font-size="16" text-anchor="end"
-          dominant-baseline="middle">
-      {{ var_name }}
-    </text>
-  {% endif %}
-
-  {# --- Draw signal waveform --- #}
-  <path d="
-    {% set ns = namespace(x = 0, level = 'low') %}
-    M 0 {{ unit_h }}
-    {% for val in s %}
-      {% set w = (val | abs) * unit_w %}
-      {% if val > 0 %}
-        {% if ns.level == 'low' %}
-          v -{{ unit_h }}
-          {% set ns.level = 'high' %}
-        {% endif %}
-        h {{ w }}
-      {% else %}
-        {% if ns.level == 'high' %}
-          v {{ unit_h }}
-          {% set ns.level = 'low' %}
-        {% endif %}
-        h {{ w }}
-      {% endif %}
-      {% set ns.x = ns.x + w %}
-    {% endfor %}
-  "
-  fill="none"
-  stroke="{{ stroke }}"
-  stroke-width="{{ stroke_w }}" />
-</g>
-{% endmacro %}
-
-{# =========================================================
-   Macro: multi_signals
-   Draws several signals stacked vertically
-   Parameters:
-     signals : list of lists (each signal = list of segment values)
-     unit_w  : base width unit
-     unit_h  : base height unit
-     v_gap   : vertical gap between signals
-     stroke  : color
-     stroke_w: stroke width
-   ========================================================= #}
-{% macro multi_signals(signals, unit_w=100, unit_h=80, v_gap=40,
-                       stroke="black", stroke_w=2,
-                       guide_stroke="gray",
-                        diagram_width=24,
-                        clock_period=1, clock_var ="Ck",
-                    synch_type="dual") %}
-<g class="multi-signals" transform="translate(80,00)">
-{# --- Compute total length based on the longest signal --- #}
-{% set max_len = diagram_width %}
-  {% set total_width = max_len * unit_w %}
-
-   {% set guide_start = 0 if synch_type.lower() in ("all","dual", "high","low", "rising") else 0.5 %}
-    {# --- in case of dualn lelevl high, level low, the step between guide line is the half, but the number is doubled --- #}
-   {% if synch_type.lower() in ("all", "dual","high","low")%}
-        {% set guide_unit_w = clock_period/2 %}
-        {% set guide_count = max_len*2 + 1 %}
-    {%else %}
-        {% set guide_unit_w = clock_period %}
-        {% set guide_count = max_len + 1 %}
-    {%endif%}
-  {# --- Vertical guide lines --- #}
-  <g class="guides">
-      <!--initial guide line -->
-    {% for i in range(guide_count) %}
-      <line x1="{{ (guide_start+i) * unit_w * guide_unit_w }}" y1="0"
-            x2="{{ (guide_start+i) * unit_w * guide_unit_w }}" y2="{{ diagram_width * (unit_h + v_gap) }}"
-            stroke="{{ guide_stroke }}" stroke-width="{{ stroke_w/2 }}" />
-    {% endfor %}
-  </g>
-    {# --- clock signal --- #}
-    {{ clock_signal(period_len=clock_period, periods=diagram_width,
-                      unit_w=unit_w, unit_h=unit_h,
-                      stroke="green", stroke_w=2,
-                        var_name=clock_var, label_offset=-20,
-    edge=synch_type) }}
-
-
-  {# --- Draw each signal stacked vertically , augmented by one, o allow clock signal--- #}
-  {% for k, s in signals.items() %}
-    <g transform="translate(0, {{ loop.index * (unit_h + v_gap) }})">
-  {# --- horizental guide line --- #}
-  <g class="guides">
-      <line x1="0" y1="{{unit_h}}"
-            x2="{{ total_width }}" y2="{{unit_h}}"
-            stroke="{{ guide_stroke }}" stroke-width="{{ guide_width }}" />
-  </g>
-      {{ signal_from_list(s, unit_w, unit_h, stroke, stroke_w, var_name=k, label_offset=-10) }}
-    </g>
-  {% endfor %}
-
-</g>
-{% endmacro %}
-
-
-{# =========================================================
-   Macro: clock_signal
-   Draws a periodic clock waveform
-   Parameters:
-     period_len : length (in units) of one full period (high + low)
-     periods    : number of periods to draw
-     unit_w     : base unit for width
-     unit_h     : base unit for height
-     stroke     : stroke color
-     stroke_w   : stroke width (px)
-   ========================================================= #}
-{% macro clock_signal(period_len=1, periods=4,
-                      unit_w=100, unit_h=80,
-                      stroke="black", stroke_w=2,var_name="Ck", label_offset=-50,
-edge = "dual") %}
-<g class="clock-signal">
-      {# --- Draw variable name if provided --- #}
-  {% if var_name %}
-    <text x="{{ label_offset }}" y="{{ 3*unit_h / 4 }}"
-          font-family="Arial" font-size="16" text-anchor="end"
-          dominant-baseline="middle">
-      {{ var_name }}
-    </text>
-<path d="
-    M 0 {{ unit_h }}
-    {% set half = (period_len * unit_w) / 2 %}
-    {% set ns = namespace(x=0, high=false) %}
-    {% for i in range(periods * 2) %}
-      {% if ns.high %}
-        v {{ unit_h }}
-        h {{ half }}
-        {% set ns.high = false %}
-      {% else %}
-        v -{{ unit_h }}
-        h {{ half }}
-        {% set ns.high = true %}
-      {% endif %}
-      {% set ns.x = ns.x + half %}
-    {% endfor %}
-  "
-  fill="none"
-  stroke="{{ stroke }}"
-  stroke-width="{{ stroke_w }}" />
-  {% endif %}
-  {% set guide_start = period_len /2 *unit_w %}
-  {% set guide_stroke = "red" %}
-  {% set guide_width = 5 %}
-  {# --- edge arrows --- #}
-  <g class="guides">
-      <!--font_edge -->
-      {% if edge.lower() in ("rising","dual", "all") %}
-    {% for i in range(periods + 1) %}
-      <g id="uparraw" transform="translate({{ i * unit_w -30}},-10)">
-        <polygon points="25,20 30,10 35,20" fill="black"/>
-    </g>
-      {% endfor %}
-      {% endif %}
-      {% if edge.lower() in ("falling","dual", "all") %}
-    {% for i in range(periods + 1) %}
-      <g id="donwarraw" transform="translate({{ (i+0.5) * unit_w -30}},{{unit_h-20}})">
-        <polygon points="25,10 30,20 35,10" fill="green"/>
-    </g>
-    {% endfor %}
-      {% endif %}
-  </g>
-
-</g>
-{% endmacro %}
-
-{# ----------------------------------------------------------
-   Draw Timing diagram
------------------------------------------------------------ #}
-{%- macro draw_timing_diagram(data) -%}
-{# ---------- Configuration ------------#}
-{% set unit_w=60 %}
-{% set unit_w=60 %}
-{% set unit_h=50 %}
-{% set v_gap=30 %}
-{% set stroke="blue" %}
-{% set stroke_w= 2 %}
-{% set guide_stroke="lightgray" %}
-{% set canva_width = (data.length+2) * unit_w %}
-
-
-<div class="timing-diagram">
-  <p class="title">Timing diagram <span class="aRL">المخطط الزمني</span></p>
-    {% if RENDER_MODE.lower() == "question" %}
-    <h2>Given timing diagram</h2>
-    {% set signals = data.question_signals %}
-    {% elif RENDER_MODE.lower() == "answer" %}
-    <h2>Resulting timing diagram</h2>
-    {% set signals = data.answer_signals %}
-    {% endif %}
-    {% set canva_height = ((signals|length)+2) * (unit_h+v_gap) %}
-
-<svg xmlns="http://www.w3.org/2000/svg" width="{{canva_width}}" height="{{canva_height}}">
-<g transform="translate(0,00)">
-{{ multi_signals(signals, unit_w=unit_w, unit_h=unit_h, v_gap=v_gap,
-                    stroke=stroke, stroke_w=stroke_w,
-                    guide_stroke=guide_stroke,
-                    diagram_width=data.length,
-                    clock_period=data.clock.period,
-                    clock_var =data.clock.name,
-                    synch_type=data.synch_type) }}
-  </g>
-</svg>
-</div>
-{%- endmacro -%}
-
+{% import "sequential/macros/timingmacros.html" as tmmacro%}
 {# ----------------------------------------------------------
    Main call (example usage in template)
 ---------------------------------------------------------- #}
 <p>Complete the following timing diagram : <span class="aRL">أكمل المخطط الزمني الآتي</span></p>
 
-{{ draw_timing_diagram(data) }}
+{{ tmmacro.draw_timing_diagram(data) }}
 
 
 {# ----------------------------------------------------------
@@ -255,7 +31,7 @@ Full data:
   {% set s3 = [-2, 1, -1, 2, -2, 1] %}
   {% set signals = {"s1":s1, "s2":s2, "s3":s3} %}
 <g transform="translate(0,00)">
-{{ multi_signals(signals, unit_w=60, unit_h=50, v_gap=30,
+{{ tmmacro.multi_signals(signals, unit_w=60, unit_h=50, v_gap=30,
                     stroke="blue", stroke_w=2,
                     guide_stroke="lightgray", synch_type=edge) }}
   </g>
@@ -269,7 +45,7 @@ Full data:
 
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="800">
   <g transform="translate(120,20)">
-    {{ signal_from_list(s, 60, 80, "blue", 3, var_name="Diga") }}
+    {{ tmmacro.signal_from_list(s, 60, 80, "blue", 3, var_name="Diga") }}
   </g>
 
 
@@ -278,7 +54,7 @@ Full data:
       <h2>Test of clock  dual</h2>
     <svg xmlns="http://www.w3.org/2000/svg" width="800" height="200">
   <g transform="translate(20,60)">
-    {{ clock_signal(1, 5, 80, 60, "green", 3) }}
+    {{ tmmacro.clock_signal(1, 5, 80, 60, "green", 3) }}
   </g>
 </svg>
 
@@ -286,20 +62,20 @@ Full data:
 
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="200">
   <g transform="translate(20,60)">
-    {{ clock_signal(1, 5, 80, 60, "green", 3,edge="falling") }}
+    {{ tmmacro.clock_signal(1, 5, 80, 60, "green", 3,edge="falling") }}
   </g>
 </svg>
       <h2>Test of clock rising</h2>
 
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="200">
   <g transform="translate(20,60)">
-    {{ clock_signal(1, 5, 80, 60, "green", 3,edge="rising") }}
+    {{ tmmacro.clock_signal(1, 5, 80, 60, "green", 3,edge="rising") }}
   </g>
       <h2>Test of clock high level</h2>
 
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="200">
   <g transform="translate(20,60)">
-    {{ clock_signal(1, 5, 80, 60, "green", 3,edge="high") }}
+    {{ tmmacro.clock_signal(1, 5, 80, 60, "green", 3,edge="high") }}
   </g>
 
 </svg>

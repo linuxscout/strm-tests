@@ -1,0 +1,60 @@
+{% set pin_map = namespace(positions={}) %}
+
+{% macro register_pin(ff_id, pin_name, x, y) %}
+  {% set key = ff_id ~ "-" ~ pin_name %}
+  {% set new_positions = {} %}
+  {% for k, v in pin_map.positions.items() %}
+    {% set new_positions = new_positions.update({k:v}) %}
+  {% endfor %}
+  {% set new_positions = new_positions.update({key: {"x":x, "y":y}}) %}
+  {% set pin_map.positions = new_positions %}
+{% endmacro %}
+
+
+{% macro flipflop(type="D", id="FF1", x=100, y=100, w=80, h=100) %}
+<g id="{{id}}" transform="translate({{x}},{{y}})">
+  <rect x="0" y="0" width="{{w}}" height="{{h}}"
+        rx="10" ry="10" fill="white" stroke="black" stroke-width="2"/>
+
+  {% if type == "D" %}
+    <!-- Input D -->
+    <circle id="{{id}}-D" cx="0" cy="{{h/2}}" r="3" fill="black"/>
+    <text x="-10" y="{{h/2}}" dominant-baseline="middle" text-anchor="end">D</text>
+    {{ register_pin(id, "D", x, y + h/2) }}
+
+    <!-- Clock -->
+    <circle id="{{id}}-CLK" cx="{{w/4}}" cy="{{h}}" r="3" fill="black"/>
+    <text x="{{w/4}}" y="{{h+15}}" text-anchor="middle">CLK</text>
+    {{ register_pin(id, "CLK", x + w/4, y + h) }}
+
+    <!-- Output Q -->
+    <circle id="{{id}}-Q" cx="{{w}}" cy="{{h/3}}" r="3" fill="black"/>
+    <text x="{{w+10}}" y="{{h/3}}" dominant-baseline="middle" text-anchor="start">Q</text>
+    {{ register_pin(id, "Q", x + w, y + h/3) }}
+
+    <!-- Output Q' -->
+    <circle id="{{id}}-NQ" cx="{{w}}" cy="{{2*h/3}}" r="3" fill="black"/>
+    <text x="{{w+10}}" y="{{2*h/3}}" dominant-baseline="middle" text-anchor="start">Q'</text>
+    {{ register_pin(id, "NQ", x + w, y + 2*h/3) }}
+  {% endif %}
+</g>
+{% endmacro %}
+
+{% macro link(src, src_pin, dst, dst_pin) %}
+  {% set p1 = pin_map.positions[src ~ "-" ~ src_pin] %}
+  {% set p2 = pin_map.positions[dst ~ "-" ~ dst_pin] %}
+  <line x1="{{p1.x}}" y1="{{p1.y}}"
+        x2="{{p2.x}}" y2="{{p2.y}}"
+        stroke="black" stroke-width="2"/>
+{% endmacro %}
+
+{% macro truth_table_D() %}
+<table border="1" style="border-collapse: collapse; text-align:center;">
+  <tr><th>CLK</th><th>D</th><th>Q(t)</th></tr>
+  <tr><td>0/1</td><td>X</td><td>Q(t-1)</td></tr>
+  <tr><td>↑</td><td>0</td><td>0</td></tr>
+  <tr><td>↑</td><td>1</td><td>1</td></tr>
+</table>
+{% endmacro %}
+
+

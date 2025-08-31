@@ -1,1 +1,13 @@
+{% set debug = False %}
+{% import "sequential/macros/flipmacros.html" as flpmacro%}
+{% import "sequential/macros/timingmacros.html" as tmmacro%}
 <h1>Flip</h1>
+<svg width="600" height="400">
+  {{ flpmacro.flipflop("D", "FF1", 50, 50) }}
+  {{ flpmacro.flipflop("D", "FF2", 250, 50) }}
+  {{ flpmacro.link("FF1","Q","FF2","D") }}
+</svg>
+
+{{ flpmacro.truth_table_D() }}
+
+

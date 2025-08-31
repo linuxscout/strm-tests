@@ -914,7 +914,7 @@ class Question_Builder:
         """
         context= {}
         #TODO: fix in config file
-        input_vars = [k for k in list(varlist.keys()) if not k.upper().startwith("Q")]
+        input_vars = [k for k in list(varlist.keys()) if not k.upper().startswith("Q")]
 
         data = self._preprare_chrnonogram(input_vars=input_vars,start_signals=varlist, flip_type=flip_type, length=length, synch_type=synch_type, output_vars=output_vars)
 
