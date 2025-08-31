@@ -58,3 +58,25 @@
 {% endmacro %}
 
 
+{% macro svg_flipflop_D(name="D1", x=100, y=100, w=80, h=100, q_label="Q", nq_label="Q'") %}
+<g id="{{name}}" transform="translate({{x}},{{y}})">
+  <!-- flipflop body -->
+  <rect x="0" y="0" width="{{w}}" height="{{h}}"
+        rx="10" ry="10" fill="white" stroke="black" stroke-width="2"/>
+
+  <!-- input D (left middle) -->
+  <text x="-15" y="{{h/2}}" dominant-baseline="middle" text-anchor="end">D</text>
+  <circle id="{{name}}-D" cx="0" cy="{{h/2}}" r="3" fill="black"/>
+
+  <!-- clock input (bottom left) -->
+  <text x="10" y="{{h+15}}" text-anchor="middle">CLK</text>
+  <circle id="{{name}}-CLK" cx="20" cy="{{h}}" r="3" fill="black"/>
+
+  <!-- outputs -->
+  <text x="{{w+15}}" y="{{h/3}}" dominant-baseline="middle" text-anchor="start">{{q_label}}</text>
+  <circle id="{{name}}-Q" cx="{{w}}" cy="{{h/3}}" r="3" fill="black"/>
+
+  <text x="{{w+15}}" y="{{2*h/3}}" dominant-baseline="middle" text-anchor="start">{{nq_label}}</text>
+  <circle id="{{name}}-NQ" cx="{{w}}" cy="{{2*h/3}}" r="3" fill="black"/>
+</g>
+{% endmacro %}
