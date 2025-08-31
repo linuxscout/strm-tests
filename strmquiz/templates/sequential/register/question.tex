@@ -82,13 +82,7 @@
 
 {#  --------------- Define basic flips -------#}
 {{flpmacro.define_standard_flips()}}
-%% For test only
-{%set flip_data ={'init_signals': {'D': 0, 'Q': -1, "Q'": 1},
-       'inputs': ['D'],
-       'outputs': ['Q', "Q'"],
-       'truth_table': ["0","1"],
-       'type': 'D',
-       'vars': ['D', 'Q', "Q'"]} %}
+
 {% if RENDER_MODE == "question" %}
 
     Let have the following setup
@@ -106,10 +100,10 @@
                             shift=register_data.shift)}}
     \end{circuitikz}
 
-    Cite the truth table of flipflop {{flip_data.type}}.
+    Cite the truth table of flipflop {{register_data.flip_type_list[0]}}.
 
     \begin{arab}[utf]
-    اذكر جدول الحقيقة للقلاب \LR{ {{flip_data.type}}}.
+    اذكر جدول الحقيقة للقلاب \LR{ {{register_data.flip_type_list[0]}}}.
     \end{arab}
 
    Complete the following timing diaragm, according to given flipflop.
@@ -126,13 +120,13 @@
 ----------------------------------------------------------#}
 {% if RENDER_MODE == "answer" %}
 
-        Cite the truth table of flipflop {{flip_data.type}}.
+        Cite the truth table of flipflop {{register_data.flip_type_list[0]}}.
 
         \begin{arab}[utf]
-        اذكر جدول الحقيقة للقلاب \LR{ {{flip_data.type}}}.
+        اذكر جدول الحقيقة للقلاب \LR{ {{register_data.flip_type_list[0]}}}.
         \end{arab}
 
-        {{flpmacro.truth_table(type=flip_data.type,
+        {{flpmacro.truth_table(type=register_data.flip_type_list[0],
                     edge="rising")}}
 
    {{tmmacro.draw_timing_diagram(data, mode="answer")}}

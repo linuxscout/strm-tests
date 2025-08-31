@@ -212,10 +212,13 @@ class QuizBuilder:
             # print("quiz_builder:debug:arguments",args)
             return self.qsbuilder.question_counter(
             varlist= args.get("varlist",{}),
-            flip_type=args.get("flip_type","D"),
             length=args.get("length",10),
             synch_type=args.get("synch_type","rising"),
-            output_vars=args.get("output","Q")
+            output_vars=args.get("output","Q"),
+            counter_type=args.get("counter_type","up"),
+            flip_types=args.get("counter_flips",[]),
+            nbits=args.get("counter_nbits",2),
+            counter_random=args.get("counter_random",False),
             )
         def command_register(args={}):
             # print("quiz_builder:debug:arguments",args)

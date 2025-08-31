@@ -56,6 +56,10 @@ class CounterSimulator(SeqCircuitSimulator):
             }
         return signal_map
 
+    def resolve(self,flip_type:str, signal_dict: Dict[str, List[int]], inputs: List[str], index: int) -> List[int]:
+        """Dummy resolve: multiply Q signal by index for testing."""
+        return self.chrono.resolve(flip_type=flip_type, signals=signal_dict, period=2**(index+1), inputs=inputs)
+        # return [x * index for x in signal_dict["Q"] * 6]
     # ---------- Simulation ----------
     def resolve_counter(self, tmp_signals: Dict[str, List[int]], signal_length:int=10) -> Dict[str, List[int]]:
         """Resolve signals for a counter given initial signals and flip-flop mapping."""

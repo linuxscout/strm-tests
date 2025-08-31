@@ -1,5 +1,6 @@
-{% set debug = True %}
+{% set debug = False %}
 {% import "sequential/macros/flipmacros.tex" as flpmacro%}
+{% import "sequential/macros/timingmacros.tex" as tmmacro%}
 {# -----------------------
  draw a generic counter
 -------------------#}
@@ -18,7 +19,7 @@
         {% set ns.xpos = 2+3*i %}
         {% set ns.name = "flipc"+(i|string) %}
         {% set ns.type = flips_list[i].upper() %}
-        {% set ns.id = flips_list[i].upper() %}
+        {% set ns.id = "JKA" if flips_list[i].upper() =="JK" else flips_list[i].upper()   %}
         {{ flpmacro.place_flip(id=ns.id, name=ns.name, xpos=ns.xpos, ypos=ypos)}}
 
         {# link current with clock #}
@@ -50,7 +51,6 @@
     {% set _ = ns.outputs.append("Q" ~ i|string) %}
 {% endfor %}
 {{ _draw_counter_generic(flips_list= flips_list, outputs=ns.outputs,size=size, counter_type=counter_type)}}
-
 {%endmacro%}
 {#----------------------------------------------------------
  Main_call
@@ -59,7 +59,60 @@
 
 {{flpmacro.define_standard_flips()}}
 
-{%if debug %}
+{% if RENDER_MODE == "question" %}
+
+    Let have the following setup
+    \begin{arab}[utf]
+إليك هذا التركيب
+    \end{arab}
+
+   \begin{circuitikz}
+    {{draw_counter(flip="JKA", counter_type="",size=4)}}
+    \end{circuitikz}
+
+    \begin{circuitikz}
+    {{_draw_counter_generic(flips_list= counter_data.flip_type_list, outputs=counter_data.outputs,
+                            size=counter_data.nbits,
+                            )}}
+
+    \end{circuitikz}
+
+    Cite the truth table of flipflop {{counter_data.flip_type_list[0]}}.
+
+    \begin{arab}[utf]
+    اذكر جدول الحقيقة للقلاب \LR{ {{counter_data.flip_type_list[0]}}}.
+    \end{arab}
+
+   Complete the following timing diaragm, according to given flipflop.
+
+       \begin{arab}[utf]
+أكمل المخطط المنطقي الآتي، حسب القلاب المعطى.
+    \end{arab}
+
+  {{tmmacro.draw_timing_diagram(data, mode="question")}}
+
+{%endif%} % end quesion
+{#----------------------------------------------------------
+  Answer
+----------------------------------------------------------#}
+{% if RENDER_MODE == "answer" %}
+
+        Cite the truth table of flipflop {{counter_data.flip_type_list[0]}}.
+
+        \begin{arab}[utf]
+        اذكر جدول الحقيقة للقلاب \LR{ {{counter_data.flip_type_list[0]}}}.
+        \end{arab}
+
+        {{flpmacro.truth_table(type=counter_data.flip_type_list[0],
+                    edge="rising")}}
+
+   {{tmmacro.draw_timing_diagram(data, mode="answer")}}
+
+{%endif%}
+{#----------------------------------------------------------
+ Main_call
+----------------------------------------------------------#}
+{%if debug and RENDER_MODE == "answer"  %}
  \textbf{Counter  n bits Jk}
 \begin{circuitikz}
 

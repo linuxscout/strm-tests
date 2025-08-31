@@ -167,6 +167,10 @@ class ReadConfig:
                 "register_nbits": ("register_nbits", 2),
                 "register_flips": ("register_flips", ["D","D"]),
                 "register_random": ("register_random", False),
+                "counter_type": ("counter_type", ""),
+                "counter_nbits": ("counter_nbits", 2),
+                "counter_flips": ("counter_flips", ["JK", "JK"]),
+                "counter_random": ("counter_random", False),
             },
         }
 
