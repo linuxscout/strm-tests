@@ -1,82 +1,399 @@
-{% set pin_map = namespace(positions={}) %}
+{# -----------------------
+ Configuration and global variables
+-------------------#}
+{% set globals=namespace(AVAILABLE_FLIPS = ["D","RST","T","JK", "JKA","dlatch"],
+ CUSTOM_FLIPS=[])%}
 
-{% macro register_pin(ff_id, pin_name, x, y) %}
-  {% set key = ff_id ~ "-" ~ pin_name %}
-  {% set new_positions = {} %}
-  {% for k, v in pin_map.positions.items() %}
-    {% set new_positions = new_positions.update({k:v}) %}
-  {% endfor %}
-  {% set new_positions = new_positions.update({key: {"x":x, "y":y}}) %}
-  {% set pin_map.positions = new_positions %}
-{% endmacro %}
+{# -----------------------
+ draw a truth table for a flipflop (HTML version)
+-------------------#}
+{% macro truth_table(type="D", edge="rising", customized=False, custom_vars=["X","Y"], custom_values=["1","Q","X","Q'"]) %}
+  <h3>Truth table of {{ type }} flip-flop</h3>
 
+  {% set edge_symbol = "↑" if edge == "rising" else "↓" %}
 
-{% macro flipflop(type="D", id="FF1", x=100, y=100, w=80, h=100) %}
-<g id="{{id}}" transform="translate({{x}},{{y}})">
-  <rect x="0" y="0" width="{{w}}" height="{{h}}"
-        rx="10" ry="10" fill="white" stroke="black" stroke-width="2"/>
+  {% if type.lower() in ("custom","customized") or customized %}
+    <table border="1" cellspacing="0" cellpadding="4">
+      <tr>
+        <th>Ck</th><th>{{custom_vars[0]}}</th><th>{{custom_vars[1]}}</th><th>Qₜ</th>
+      </tr>
+      <tr><td>0</td><td>X</td><td>X</td><td>Qₜ₋₁</td></tr>
+      <tr><td>{{edge_symbol}}</td><td>0</td><td>0</td><td>{{custom_values[0]}}</td></tr>
+      <tr><td>{{edge_symbol}}</td><td>0</td><td>1</td><td>{{custom_values[1]}}</td></tr>
+      <tr><td>{{edge_symbol}}</td><td>1</td><td>0</td><td>{{custom_values[2]}}</td></tr>
+      <tr><td>{{edge_symbol}}</td><td>1</td><td>1</td><td>{{custom_values[3]}}</td></tr>
+    </table>
 
-  {% if type == "D" %}
-    <!-- Input D -->
-    <circle id="{{id}}-D" cx="0" cy="{{h/2}}" r="3" fill="black"/>
-    <text x="-10" y="{{h/2}}" dominant-baseline="middle" text-anchor="end">D</text>
-    {{ register_pin(id, "D", x, y + h/2) }}
+  {% elif type.lower() == "d" %}
+    <table border="1" cellspacing="0" cellpadding="4">
+      <tr><th>Ck</th><th>D</th><th>Qₜ</th></tr>
+      <tr><td>0/1</td><td>X</td><td>Qₜ₋₁</td></tr>
+      <tr><td>{{edge_symbol}}</td><td>0</td><td>0</td></tr>
+      <tr><td>{{edge_symbol}}</td><td>1</td><td>1</td></tr>
+    </table>
 
-    <!-- Clock -->
-    <circle id="{{id}}-CLK" cx="{{w/4}}" cy="{{h}}" r="3" fill="black"/>
-    <text x="{{w/4}}" y="{{h+15}}" text-anchor="middle">CLK</text>
-    {{ register_pin(id, "CLK", x + w/4, y + h) }}
+  {% elif type.lower() == "dlatch" %}
+    <table border="1" cellspacing="0" cellpadding="4">
+      <tr><th>V</th><th>D</th><th>Qₜ</th></tr>
+      <tr><td>0</td><td>X</td><td>Qₜ₋₁</td></tr>
+      <tr><td>1</td><td>0</td><td>0</td></tr>
+      <tr><td>1</td><td>1</td><td>1</td></tr>
+    </table>
 
-    <!-- Output Q -->
-    <circle id="{{id}}-Q" cx="{{w}}" cy="{{h/3}}" r="3" fill="black"/>
-    <text x="{{w+10}}" y="{{h/3}}" dominant-baseline="middle" text-anchor="start">Q</text>
-    {{ register_pin(id, "Q", x + w, y + h/3) }}
+  {% elif type.lower() == "jk" %}
+    <table border="1" cellspacing="0" cellpadding="4">
+      <tr><th>Ck</th><th>J</th><th>K</th><th>Qₜ</th><th>Remark</th></tr>
+      <tr><td>0</td><td>X</td><td>X</td><td>Qₜ₋₁</td><td></td></tr>
+      <tr><td>{{edge_symbol}}</td><td>0</td><td>0</td><td>Qₜ₋₁</td><td></td></tr>
+      <tr><td>{{edge_symbol}}</td><td>0</td><td>1</td><td>0</td><td></td></tr>
+      <tr><td>{{edge_symbol}}</td><td>1</td><td>0</td><td>1</td><td></td></tr>
+      <tr><td>{{edge_symbol}}</td><td>1</td><td>1</td><td>¬Qₜ₋₁</td><td style="color:red">Toggle</td></tr>
+    </table>
 
-    <!-- Output Q' -->
-    <circle id="{{id}}-NQ" cx="{{w}}" cy="{{2*h/3}}" r="3" fill="black"/>
-    <text x="{{w+10}}" y="{{2*h/3}}" dominant-baseline="middle" text-anchor="start">Q'</text>
-    {{ register_pin(id, "NQ", x + w, y + 2*h/3) }}
+  {% elif type.lower() == "jkasyn" %}
+    <table border="1" cellspacing="0" cellpadding="4">
+      <tr><th>Mode</th><th>Pr</th><th>Cl</th><th>Ck</th><th>J</th><th>K</th><th>Q+</th><th>Remark</th></tr>
+      <tr><td>Asynchronous</td><td>0</td><td>0</td><td>X</td><td>X</td><td>X</td><td>X</td><td>Forbidden</td></tr>
+      <tr><td></td><td>0</td><td>1</td><td>X</td><td>X</td><td>X</td><td>1</td><td>Set to 1</td></tr>
+      <tr><td></td><td>1</td><td>0</td><td>X</td><td>X</td><td>X</td><td>0</td><td>Set to 0</td></tr>
+      <tr><td>Synchronous</td><td>1</td><td>1</td><td>0/1</td><td>X</td><td>X</td><td>Q</td><td>Memory</td></tr>
+      <tr><td></td><td>1</td><td>1</td><td>{{edge_symbol}}</td><td>0</td><td>0</td><td>Q</td><td>Memory</td></tr>
+      <tr><td></td><td>1</td><td>1</td><td>{{edge_symbol}}</td><td>0</td><td>1</td><td>0</td><td>Reset</td></tr>
+      <tr><td></td><td>1</td><td>1</td><td>{{edge_symbol}}</td><td>1</td><td>0</td><td>1</td><td>Set</td></tr>
+      <tr><td></td><td>1</td><td>1</td><td>{{edge_symbol}}</td><td>1</td><td>1</td><td>¬Q</td><td>Toggle</td></tr>
+    </table>
+
+  {% elif type.lower() == "rs" %}
+    <table border="1" cellspacing="0" cellpadding="4">
+      <tr><th>R</th><th>S</th><th>Qₜ</th><th>Remark</th></tr>
+      <tr><td>0</td><td>0</td><td>Qₜ</td><td>Memory</td></tr>
+      <tr><td>0</td><td>1</td><td>1</td><td>Set</td></tr>
+      <tr><td>1</td><td>0</td><td>0</td><td>Reset</td></tr>
+      <tr><td>1</td><td>1</td><td>X</td><td style="color:red">Forbidden</td></tr>
+    </table>
+
+  {% elif type.lower() == "rst" %}
+    <table border="1" cellspacing="0" cellpadding="4">
+      <tr><th>Ck</th><th>R</th><th>S</th><th>Qₜ</th><th>¬Qₜ</th><th>Remark</th></tr>
+      <tr><td>0</td><td>X</td><td>X</td><td>Qₜ₋₁</td><td>¬Qₜ₋₁</td><td></td></tr>
+      <tr><td>{{edge_symbol}}</td><td>0</td><td>0</td><td>Qₜ₋₁</td><td>¬Qₜ₋₁</td><td></td></tr>
+      <tr><td>{{edge_symbol}}</td><td>0</td><td>1</td><td>1</td><td>0</td><td></td></tr>
+      <tr><td>{{edge_symbol}}</td><td>1</td><td>0</td><td>0</td><td>1</td><td></td></tr>
+      <tr><td>{{edge_symbol}}</td><td>1</td><td>1</td><td>X</td><td>X</td><td style="color:red">Forbidden</td></tr>
+    </table>
+
+  {% else %}
+    <p><strong>No table to display.</strong> Please check the flip-flop type "{{ type }}". Use customized type if needed.</p>
   {% endif %}
+{% endmacro %}
+
+
+{# -----------------------
+ define basic flips
+-------------------#}
+{% macro define_standard_flips() %}
+
+  <style>
+    .overline {
+      text-decoration: overline;
+      /* optional tweaks */
+      text-decoration-color: red;          /* color of the line */
+      text-decoration-thickness: 2px;      /* line thickness (supported in modern browsers) */
+      /* offset is not controllable for overline; see method #2 for precise control */
+    }
+  </style>
+<defs>
+
+<g id="jkbody">
+     <rect x="0" y="0" width="50" height="80" fill="none" stroke="#000" stroke-width="1"/>
+
+    <line x1="-20" y1="10" x2="0" y2="10" stroke="#000" stroke-width="1"/>
+    <line x1="-10" y1="40" x2="0" y2="40" stroke="#000" stroke-width="1"/>
+    <line x1="-20" y1="70" x2="0" y2="70" stroke="#000" stroke-width="1"/>
+
+    <!-- Outputs -->
+    <text x="35" y="15" font-family="Arial" font-size="12">Q</text>
+    <text x="35" y="75" font-family="Arial" class="overline" font-size="12">Q</text>
+
+    <!-- Output lines -->
+    <line x1="50" y1="10" x2="65" y2="10" stroke="#000" stroke-width="1"/>
+    <line x1="55" y1="70" x2="65" y2="70" stroke="#000" stroke-width="1"/>
+
+    <!-- Bubble for Q' -->
+    <circle cx="52.5" cy="70" r="2.5" fill="none" stroke="#000" stroke-width="1"/>
+    <!-- Triangle for CLK -->
+    <polygon points="5,40 0,35 0,45" fill="none" stroke="#000" stroke-width="1"/>
 </g>
-{% endmacro %}
 
-{% macro link(src, src_pin, dst, dst_pin) %}
-  {% set p1 = pin_map.positions[src ~ "-" ~ src_pin] %}
-  {% set p2 = pin_map.positions[dst ~ "-" ~ dst_pin] %}
-  <line x1="{{p1.x}}" y1="{{p1.y}}"
-        x2="{{p2.x}}" y2="{{p2.y}}"
-        stroke="black" stroke-width="2"/>
-{% endmacro %}
-
-{% macro truth_table_D() %}
-<table border="1" style="border-collapse: collapse; text-align:center;">
-  <tr><th>CLK</th><th>D</th><th>Q(t)</th></tr>
-  <tr><td>0/1</td><td>X</td><td>Q(t-1)</td></tr>
-  <tr><td>↑</td><td>0</td><td>0</td></tr>
-  <tr><td>↑</td><td>1</td><td>1</td></tr>
-</table>
-{% endmacro %}
-
-
-{% macro svg_flipflop_D(name="D1", x=100, y=100, w=80, h=100, q_label="Q", nq_label="Q'") %}
-<g id="{{name}}" transform="translate({{x}},{{y}})">
-  <!-- flipflop body -->
-  <rect x="0" y="0" width="{{w}}" height="{{h}}"
-        rx="10" ry="10" fill="white" stroke="black" stroke-width="2"/>
-
-  <!-- input D (left middle) -->
-  <text x="-15" y="{{h/2}}" dominant-baseline="middle" text-anchor="end">D</text>
-  <circle id="{{name}}-D" cx="0" cy="{{h/2}}" r="3" fill="black"/>
-
-  <!-- clock input (bottom left) -->
-  <text x="10" y="{{h+15}}" text-anchor="middle">CLK</text>
-  <circle id="{{name}}-CLK" cx="20" cy="{{h}}" r="3" fill="black"/>
-
-  <!-- outputs -->
-  <text x="{{w+15}}" y="{{h/3}}" dominant-baseline="middle" text-anchor="start">{{q_label}}</text>
-  <circle id="{{name}}-Q" cx="{{w}}" cy="{{h/3}}" r="3" fill="black"/>
-
-  <text x="{{w+15}}" y="{{2*h/3}}" dominant-baseline="middle" text-anchor="start">{{nq_label}}</text>
-  <circle id="{{name}}-NQ" cx="{{w}}" cy="{{2*h/3}}" r="3" fill="black"/>
+<g id="JK">
+    <!-- Inputs -->
+    <text x="5" y="15" font-family="Arial" font-size="12">J</text>
+    <text x="5" y="75" font-family="Arial" font-size="12">K</text>
+    <use href="#jkbody" x="0" y="0"/>
 </g>
-{% endmacro %}
+    <g id="RST">
+    <!-- Inputs -->
+    <text x="5" y="15" font-family="Arial" font-size="12">R</text>
+    <text x="5" y="75" font-family="Arial" font-size="12">S</text>
+    <use href="#jkbody" x="0" y="0"/>
+</g>
+
+<g id="JKA">
+        <!-- Bubble for cl -->
+    <circle cx="25" cy="-2.5" r="2.5" fill="none" stroke="#000" stroke-width="1"/>
+    <line x1="25" y1="-5" x2="25" y2="-10" stroke="#000" stroke-width="1"/>
+    <text x="20" y="10" font-family="Arial" class="overline" font-size="8">cl</text>
+
+    <!-- Bubble for pr -->
+    <circle cx="25" cy="82.5" r="2.5" fill="none" stroke="#000" stroke-width="1"/>
+    <line x1="25" y1="85" x2="25" y2="90" stroke="#000" stroke-width="1"/>
+    <text x="20" y="75" font-family="Arial" class="overline" font-size="8">pr</text>
+    <use href="#JK" x="0" y="0"/>
+</g>
+
+
+<g id="D">
+      <rect x="0" y="0" width="50" height="80" fill="none" stroke="#000" stroke-width="1"/>
+
+      <!-- Inputs -->
+      <text x="5" y="15" font-family="Arial" font-size="12">D</text>
+
+      <line x1="-20" y1="10" x2="0" y2="10" stroke="#000" stroke-width="1"/>
+      <line x1="-10" y1="70" x2="0" y2="70" stroke="#000" stroke-width="1"/>
+
+      <!-- Outputs -->
+      <text x="35" y="15" font-family="Arial" font-size="12">Q</text>
+      <text x="35" y="75" font-family="Arial" class="overline" font-size="12">Q</text>
+
+      <!-- Output lines -->
+      <line x1="50" y1="10" x2="65" y2="10" stroke="#000" stroke-width="1"/>
+      <line x1="55" y1="70" x2="65" y2="70" stroke="#000" stroke-width="1"/>
+
+      <!-- Bubble for Q' -->
+      <circle cx="52.5" cy="70" r="2.5" fill="none" stroke="#000" stroke-width="1"/>
+
+      <!-- Triangle for CLK -->
+      <polygon points="5,70 0,65 0,75" fill="none" stroke="#000" stroke-width="1"/>
+  </g>
+
+<!--  Define a jk flip from as module register  -->
+    <g id="jkreg">
+<!-- Register flip Output  -->
+<text x="90" y="0" font-family="Arial" font-size="12">Q0</text>
+<line x1="85" y1="5" x2="85" y2="30" stroke="#000" stroke-width="1"/>
+
+<!-- Vcc inputs  -->
+<text x="0" y="0" font-family="Arial" font-size="12">Vcc</text>
+<line x1="0" y1="5" x2="0" y2="90" stroke="#000" stroke-width="1"/>
+
+<!-- Vcc inputs to pr/cl  -->
+<text x="0" y="0" font-family="Arial" font-size="12">Vcc</text>
+<line x1="0" y1="5" x2="0" y2="110" stroke="#000" stroke-width="1"/>
+<line x1="0" y1="10" x2="45" y2="10" stroke="#000" stroke-width="1"/>
+<!-- vertical -->
+<line x1="0" y1="110" x2="45" y2="110" stroke="#000" stroke-width="1"/>
+
+<use href="#jkflip" x="20" y="20"/>
+</g>
+<!--  Define a register  -->
+<g id="reg">
+<use href="#clocklink" x="5" y="40"/>
+<use href="#jkreg" x="20" y="20"/>
+<use href="#link" x="105" y="40"/>
+
+<use href="#jkreg" x="140" y="20"/>
+<use href="#link" x="225" y="40"/>
+
+<use href="#jkreg" x="260" y="20"/>
+<use href="#link" x="345" y="40"/>
+
+<use href="#jkreg" x="380" y="20"/>
+
+</g>
+<!--  Define a link  -->
+<g id="link">
+<!-- Q' to clock -->
+<!-- vertical -->
+<line x1="0" y1="40" x2="45" y2="40" stroke="#f00" stroke-width="1"/>
+<line x1="0" y1="40" x2="0" y2="70" stroke="#0f0" stroke-width="1"/>
+</g>
+
+
+<g id="clocklink">
+<!-- Q' to clock -->
+<text x="-20" y="120" font-family="Arial" font-size="12">Clock</text>
+<!-- vertical -->
+<line x1="0" y1="40" x2="25" y2="40" stroke="#0ff" stroke-width="1"/>
+<line x1="0" y1="40" x2="0" y2="120" stroke="#00f" stroke-width="1"/>
+</g>
+
+<g id="varlink">
+    <!-- Register flip Output  -->
+<text x="90" y="0" font-family="Arial" font-size="12">Q0</text>
+<line x1="85" y1="5" x2="85" y2="30" stroke="#000" stroke-width="1"/>
+</g>
+</defs>
+{%endmacro%}
+
+{# -----------------------
+ define a costum flip
+
+ the given flips is added to  globals.CUSTOM_FLIPS
+-------------------#}
+{%macro define_costum_flip(id="costum", inputs=["X", "Y"])%}
+{%if inputs|length>1%}
+<defs>
+<g id="{{id}}">
+    <!-- Inputs -->
+    <text x="5" y="15" font-family="Arial" font-size="12">{{inputs[0]}}</text>
+    <text x="5" y="75" font-family="Arial" font-size="12">{{inputs[1]}}</text>
+    <use href="#jkbody" x="0" y="0"/>
+</g>
+</defs>
+ {% if id not in globals.CUSTOM_FLIPS %}
+ {% set globals.CUSTOM_FLIPS = globals.CUSTOM_FLIPS + [id] %}
+ {% endif%}
+{%endif%}
+{%endmacro%}
+{# -----------------------
+ draw a flip at  x, y pos
+-------------------#}
+{%macro place_flip(id="D", name="", xpos=0, ypos=0)%}
+{%if id.upper() in globals.AVAILABLE_FLIPS or id.upper() in globals.CUSTOM_FLIPS %}
+<use href="#{{id}}" x="{{xpos+20}}" y="{{ypos}}"/>
+{%else%}
+{% set text = "Can't place the given flip '"~id~"'." %}
+<text x="20" y="10" font-family="Arial" font-size="12">{{text}}</text>
+{%endif%}
+{%endmacro%}
+
+
+{# -----------------------
+ draw a link between two flips
+-------------------#}
+{%macro link(name_source, name_target, type_target="D", method="direct", step=20)%}
+<g transform="translate(0,0)">
+{%set xpos1 = -15 %}
+{%set xpos2 = -20+step %}
+{%set ypos1 = 30 %}
+{%set ypos2 = 30 %}
+{%set lines_space = 30 %}
+{% if type_target.lower() == "d" %}
+    {% if method.lower() == "direct" %}
+    <!-- first line -->
+        <line x1="{{xpos1}}" y1="{{ypos1}}" x2="{{xpos2}}" y2="{{ypos2}}" stroke="#f00" stroke-width="1"/>
+    {% elif method.lower() == "inverse" %}
+        <line x1="{{xpos1}}" y1="{{ypos1+lines_space*2}}" x2="{{xpos2}}" y2="{{ypos2}}" stroke="#f00" stroke-width="1"/>
+    {% elif method.lower() == "clock" %}
+        <line x1="{{xpos1}}" y1="{{ypos1}}" x2="{{xpos2}}" y2="{{ypos2+lines_space*2}}" stroke="#0f0" stroke-width="1"/>
+    {% elif method.lower() == "inverse_clock" %}
+<!--    inverse line clock-->
+        <line x1="{{xpos1}}" y1="{{ypos1+lines_space*2}}" x2="{{xpos2}}" y2="{{ypos2+lines_space*2}}" stroke="#0f0" stroke-width="1"/>
+    {% endif%}
+{%elif type_target.lower() in ("rs", "jk", "jka") %}
+    {% if method.lower() == "direct" %}
+    <!-- first line -->
+        <line x1="{{xpos1}}" y1="{{ypos1}}" x2="{{xpos2}}" y2="{{ypos2}}" stroke="#f00" stroke-width="1"/>
+    <!-- second line line -->
+        <line x1="{{xpos1}}" y1="{{ypos1+lines_space*2}}" x2="{{xpos2}}" y2="{{ypos2+lines_space*2}}" stroke="#0f0" stroke-width="1"/>
+    {% elif method.lower() == "inverse" %}
+    <!-- first line -->
+        <line x1="{{xpos1}}" y1="{{ypos1}}" x2="{{xpos2}}" y2="{{ypos2+lines_space*2}}" stroke="#f00" stroke-width="1"/>
+    <!-- second line line -->
+        <line x1="{{xpos1}}" y1="{{ypos1+lines_space*2}}" x2="{{xpos2}}" y2="{{ypos2}}" stroke="#0f0" stroke-width="1"/>
+    {% elif method.lower() == "clock" %}
+        <line x1="{{xpos1}}" y1="{{ypos1}}" x2="{{xpos2+10}}" y2="{{ypos2+lines_space}}" stroke="#0f0" stroke-width="1"/>
+    {% elif method.lower() == "inverse_clock" %}
+<!--    inverse line clock-->
+        <line x1="{{xpos1}}" y1="{{ypos1+lines_space*2}}" x2="{{xpos2+10}}" y2="{{ypos2+lines_space}}" stroke="#0f0" stroke-width="1"/>
+    {% endif%}
+
+{%endif%}
+</g>
+{%endmacro%}
+
+
+
+{# -----------------------
+ Draw a clock
+-------------------#}
+{%macro draw_clock(name="Ck", label="Ck", xpos=0, ypos=0, length=500)%}
+<!--\draw ({{xpos}},{{ypos}}) node[circle, fill, inner sep=1pt] {};-->
+<!--\draw ({{xpos}},{{ypos}}) node[left] ({{name}})  {${{label}}$};-->
+<g transform="translate({{xpos}},{{ypos}})">
+<text x="0" y="-5" font-family="Arial" font-size="12">{{name}}</text>
+<!--<text x="0" y="-10" font-family="Arial" font-size="8">{{name}}({{xpos}},{{ypos}})[{{abs_xpos}}]</text>-->
+<!--   clock line -->
+<line x1="10" y1="0" x2="{{length+15}}" y2="0" stroke="#000" stroke-width="1"/>
+</g>
+{%endmacro%}
+
+
+{# -----------------------
+ link  a clock
+-------------------#}
+{%macro link_clock(name_clock="Ck", name_target="D", type_target="d", xshift=0, yshift=0)%}
+
+<g transform="translate({{5+xshift}},{{yshift}})">
+{% set xpos1 = -10 %}
+{% set hlength = 25 %}
+{% set ypos1 = 60 %}
+{% set vlength = 60 %}
+
+{% if type_target.lower() == "d" %}
+{% set ypos1 = 90 %}
+{% set vlength = 30 %}
+{%endif%}
+<line x1="{{xpos1}}" y1="{{ypos1}}" x2="{{xpos1+hlength}}" y2="{{ypos1}}" stroke="#0ff" stroke-width="1"/>
+<line x1="{{xpos1}}" y1="{{ypos1}}" x2="{{xpos1}}" y2="{{ypos1+vlength}}" stroke="#00f" stroke-width="1"/>
+</g>
+
+{%endmacro%}
+
+
+{# -----------------------
+ Draw a vcc
+-------------------#}
+{%macro draw_input_var(name="Vcc", label="Vcc", xpos=0, ypos=0, abs_xpos=0)%}
+<!-- Register flip Output  var placement  -->
+<g transform="translate({{xpos}},{{ypos}})">
+<text x="0" y="0" font-family="Arial" font-size="12">{{name}}</text>
+<!--<text x="0" y="-10" font-family="Arial" font-size="8">{{name}}({{xpos}},{{ypos}})[{{abs_xpos}}]</text>-->
+</g>
+{%endmacro%}
+
+{# -----------------------
+ link  a var point
+-------------------#}
+{%macro link_var(name_var="Vcc", name_target="D", type_target="d", target_pins=[], reverse=False, xshift=0, yshift=0)%}
+<g transform="translate({{5+xshift}},{{yshift}})">
+{% for pin_str in target_pins %}
+<!-- Register flip Output line -->
+{% if pin_str in ("pin 1",) and reverse %}
+
+    <!--    link var {{name_var }}-->
+    {% set xpos1 = 80 %}
+    {% set hlength = -185 %}
+    {% set ypos1 = 00 %}
+    {% set vlength = 30 -yshift %}
+    <line x1="{{xpos1}}" y1="{{ypos1}}" x2="{{xpos1+hlength}}" y2="{{ypos1}}" stroke="#FCAF3E" stroke-width="1"/>
+    <line x1="{{xpos1+hlength}}" y1="{{ypos1}}" x2="{{xpos1+hlength}}" y2="{{ypos1+vlength}}" stroke="#A40000" stroke-width="1"/>
+    <!--<text x="0" y="-10" font-family="Arial" font-size="8">Link var  {{name_var}}({{xshift}},{{yshift}})</text>-->
+{% elif pin_str in ("pin 6",) %}
+    <line x1="0" y1="5" x2="0" y2="30" stroke="#000" stroke-width="1"/>
+{% elif pin_str in ("pin 3",) %}
+    <line x1="0" y1="5" x2="0" y2="90" stroke="#000" stroke-width="1"/>
+
+{% elif pin_str in ("up",) %}
+    <line x1="0" y1="10" x2="45" y2="10" stroke="#000" stroke-width="1"/>
+
+{% elif pin_str in ("down",) %}
+    <line x1="0" y1="5" x2="0" y2="110" stroke="#000" stroke-width="1"/>
+    <line x1="0" y1="110" x2="45" y2="110" stroke="#000" stroke-width="1"/>
+
+{%else %}
+ <line x1="0" y1="5" x2="0" y2="30" stroke="#000" stroke-width="1"/>
+<!--<text x="0" y="-10" font-family="Arial" font-size="8">Warning not supported pin '{{pin_str}}'</text>-->
+{% endif %}
+{% endfor %}
+</g>{%endmacro%}

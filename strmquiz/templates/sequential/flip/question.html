@@ -1,13 +1,147 @@
-{% set debug = False %}
+{% set debug = True %}
 {% import "sequential/macros/flipmacros.html" as flpmacro%}
 {% import "sequential/macros/timingmacros.html" as tmmacro%}
 <h1>Flip</h1>
 
-
-{{ flpmacro.truth_table_D() }}
-
-<svg width="600" height="400">
-    {{ flpmacro.svg_flipflop_D() }}
+{# --------------- Define basic flips ------- #}
+<svg width="0" height="0" xmlns="http://www.w3.org/2000/svg">
+{{ flpmacro.define_standard_flips() }}
 </svg>
+
+{% if RENDER_MODE == "question" %}
+
+  {% if flip_data.type.upper() in flpmacro.globals.AVAILABLE_FLIPS %}
+
+    <p>
+      Cite the truth table of flipflop <strong>{{ flip_data.type }}</strong>.
+    </p>
+
+    <p dir="rtl" lang="ar">
+      اذكر جدول الحقيقة للقلاب <span dir="ltr">{{ flip_data.type }}</span>.
+    </p>
+
+    <svg width="120" height="120" xmlns="http://www.w3.org/2000/svg">
+      {{ flpmacro.place_flip(id=flip_data.type, name="f1", xpos=20, ypos=20) }}
+    </svg>
+
+  {% else %}
+
+    <p>
+      Let’s consider the following flip flop <strong>{{ flip_data.type }}</strong>, with its given truth table.
+    </p>
+
+    <p dir="rtl" lang="ar">
+      نفرض القلاب {{ flip_data.type }} المعرّف بجدول الحقيقة الآتي:
+    </p>
+    <svg width="1200" height="1200" xmlns="http://www.w3.org/2000/svg">
+    {{ flpmacro.define_costum_flip(id=flip_data.type, inputs=flip_data.inputs) }}
+    {{ flpmacro.place_flip(id=flip_data.type, name="f1", xpos=2, ypos=2) }}
+    </svg>
+
+    {% set costum_tt = flip_data.truth_table %}
+    {{ flpmacro.truth_table(
+        type=flip_data.type,
+        edge="rising",
+        customized=True,
+        custom_vars=flip_data.inputs,
+        custom_values=flip_data.truth_table
+    ) }}
+
+  {% endif %}
+
+  <p>
+    Complete the following timing diagram, according to the given flip-flop.
+  </p>
+
+  <p dir="rtl" lang="ar">
+    أكمل المخطط المنطقي الآتي، حسب القلاب المعطى.
+  </p>
+
+  <div class="timing-diagram">
+    {{ tmmacro.draw_timing_diagram(data, mode="question") }}
+  </div>
+
+{% endif %}
+
+{# ----------------------------------------------------------
+   Answer
+---------------------------------------------------------- #}
+{% if RENDER_MODE == "answer" %}
+  {% if flip_data.type.upper() in flpmacro.globals.AVAILABLE_FLIPS %}
+
+    <p>
+      Cite the truth table of flipflop <strong>{{ flip_data.type }}</strong>.
+    </p>
+
+    <p dir="rtl" lang="ar">
+      اذكر جدول الحقيقة للقلاب <span dir="ltr">{{ flip_data.type }}</span>.
+    </p>
+
+    {% set costum_tt = flip_data.truth_table %}
+    {{ flpmacro.truth_table(
+        type=flip_data.type,
+        edge="rising",
+        customized=True,
+        custom_vars=flip_data.inputs,
+        custom_values=flip_data.truth_table
+    ) }}
+
+  {% endif %}
+
+  <div class="timing-diagram">
+    {{ tmmacro.draw_timing_diagram(data, mode="answer") }}
+  </div>
+
+
+{% endif %}
+
+{# ----------------------------------------------------------
+   Debug
+---------------------------------------------------------- #}
+{% if debug and  RENDER_MODE == "answer" %}
+
+<h1>Test Truth tables</h1>
+{{ flpmacro.truth_table(type="D") }}
+{{ flpmacro.truth_table(type="jk") }}
+{{ flpmacro.truth_table(type="rs") }}
+<h2>Customized table</h2>
+{{ flpmacro.truth_table(type="XY", customized=True) }}
+
+<h1>Test Flips</h1>
+
+<svg width="500" height="200" xmlns="http://www.w3.org/2000/svg">
+{{flpmacro.define_standard_flips()}}
+{{flpmacro.define_costum_flip(id="XY", inputs=["X", "Y"])}}
+{% set step = 100 %}
+{% set xstep = 100 %}
+{{ flpmacro.place_flip(id="JK", name="JK0", xpos=20, ypos=20)}}
+{{ flpmacro.place_flip(id="D", name="D0", xpos=20+xstep, ypos=20)}}
+{{ flpmacro.place_flip(id="RST", name="RS0", xpos=20+2*xstep, ypos=20)}}
+{{ flpmacro.place_flip(id="JKA", name="JK1", xpos=20+3*xstep, ypos=20)}}
+{{ flpmacro.place_flip(id="XY", name="JK2", xpos=20+4*xstep, ypos=20)}}
+</svg>
+<br/>
+<svg width="500" height="200" xmlns="http://www.w3.org/2000/svg">
+{% set step = 100 %}
+{% set xstep = 100 %}
+{{ flpmacro.place_flip(id="JK", name="JK0", xpos=20, ypos=20)}}
+{{ flpmacro.place_flip(id="D", name="D0", xpos=20+xstep, ypos=20)}}
+{{ flpmacro.place_flip(id="RST", name="RS0", xpos=20+2*xstep, ypos=20)}}
+</svg>
+<h1>Test timing diagram</h1>
+<h2>Question Mode</h2>
+{{tmmacro.draw_timing_diagram(data, mode="question")}}
+<h2>Answer Mode</h2>
+{{tmmacro.draw_timing_diagram(data, mode="answer")}}
+
+<h1>Test context data</h1>
+  <pre>
+{{ flpmacro.globals.AVAILABLE_FLIPS }}
+{{ data|pprint }}
+{{ flip_data|pprint }}
+  </pre>
+{%endif%}
+
+
 
 

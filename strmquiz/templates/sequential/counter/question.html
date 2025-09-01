@@ -1,1 +1,154 @@
-<h1>Counter</h1>
+{% set debug = True %}
+{% import "sequential/macros/flipmacros.html" as flpmacro%}
+{% import "sequential/macros/timingmacros.html" as tmmacro%}
+{# -----------------------
+ draw a generic counter
+-------------------#}
+{%macro _draw_counter_generic(flips_list= ["D","JK","RS"], outputs=["Q0","Q1", "Q2"],size=3, counter_type="up")%}
+
+{% if size != flips_list|length or size != outputs|length %}
+ Warning: check parameters, The size '{{size}}' is different from flips list length '{{flips_list|length}}' or
+ '{{outputs|length}}'
+{%else%}
+
+    {# draw a modules #}
+    {% set ns = namespace(name="", id="", xpos=0, prev_name="", prev_type="", type="", output_var_xshift=0) %}
+    {% set ypos = 20 %}
+    {% set flip_shift = 100 %}
+    {% set input_var_xshift = -5 %}
+    {% set input_var_yshift = 0 %}
+    {% set ns.output_var_xshift = 80  %}
+    {% set output_var_yshift = 0 %}
+
+    {% set clk_xpos = -20 %}
+    {% set clk_ypos = 140 %}
+<g transform="translate(25,20)">
+    {# draw a clock #}
+    {{ flpmacro.draw_clock(name="Ck", label="Ck", xpos=clk_xpos, ypos=clk_ypos, length=0)}}
+    {% for i in range(size) %}
+        {% set ns.xpos = flip_shift*i %}
+        {% set ns.name = "flipc"+(i|string) %}
+        {% set ns.type = flips_list[i].upper() %}
+        {% set ns.id = "JKA" if flips_list[i].upper() =="JK" else flips_list[i].upper()   %}
+
+        <g id="countmodule{{i}}" transform="translate({{ns.xpos}},{{ypos}})">
+
+        {{ flpmacro.place_flip(id=ns.id, name=ns.name, xpos=0, ypos=ypos)}}
+
+        {# link current with clock #}
+        {% if loop.first %}
+        {{ flpmacro.link_clock (name_clock="Ck", name_target=ns.name, type_target=ns.type)}}
+        {% endif%}
+
+        {# draw a Vcc var #}
+        {{ flpmacro.draw_input_var(name="Vcc"~(i|string), label="Vcc",  xpos=input_var_xshift, ypos=input_var_yshift)}}
+        {{ flpmacro.link_var(name_var="Vcc"~(i|string), name_target=ns.name, type_target=ns.type, target_pins=["up","down","pin 1", "pin 3"],
+            xshift=input_var_xshift, yshift=input_var_yshift)}}
+
+        {# link previous with current #}
+        {% if ns.prev_name and counter_type.lower() in("up","") %}
+             {{ flpmacro.link(name_source=ns.prev_name, name_target=ns.name, type_target=ns.type, method="clock")}}
+
+        {% elif ns.prev_name and counter_type.lower() == "down" %}
+             {{ flpmacro.link(name_source=ns.prev_name, name_target=ns.name, type_target=ns.type, method="inverse_clock")}}
+        {% endif %}
+        {% set ns.prev_name = ns.name %}
+        {% set ns.prev_type = ns.type %}
+</g>  <!-- end counter module -->
+    {%endfor%}
+</g>  <!-- end counter group-->
+{%endif%}
+{%endmacro%}
+
+{# -----------------------
+ draw a counter one type flip
+-------------------#}
+{%macro draw_counter(flip="JKA", counter_type="",size=3)%}
+{% set flips_list = [flip]*size %}
+{% set ns = namespace(outputs = []) %}
+{% for i in range(size) %}
+    {% set _ = ns.outputs.append("Q" ~ i|string) %}
+{% endfor %}
+{{ _draw_counter_generic(flips_list= flips_list, outputs=ns.outputs,size=size, counter_type=counter_type)}}
+{%endmacro%}
+{#----------------------------------------------------------
+ Main_call
+----------------------------------------------------------#}
+<h2>Counter</h2>
+<svg width="0" height="0" xmlns="http://www.w3.org/2000/svg">
+{{ flpmacro.define_standard_flips() }}
+</svg>
+{% if RENDER_MODE == "question" %}
+
+  <p>
+    Let have the following setup
+    <span dir="rtl" lang="ar">إليك هذا التركيب</span>
+  </p>
+
+  <p>drawn by draw counter</p>
+  <svg xmlns="http://www.w3.org/2000/svg" width="600" height="200">
+    {{ draw_counter(flip="JKA", counter_type="", size=4) }}
+  </svg>
+
+  <p>
+    drawn by draw counter generic as given counter type {{ counter_data.type }}
+  </p>
+  <svg xmlns="http://www.w3.org/2000/svg" width="600" height="200">
+    {{ _draw_counter_generic(
+         flips_list=counter_data.flip_type_list,
+         outputs=counter_data.outputs,
+         size=counter_data.nbits,
+         counter_type=counter_data.type
+       ) }}
+  </svg>
+
+  <p>
+    Cite the truth table of flipflop {{ counter_data.flip_type_list[0] }}.<br/>
+    <span dir="rtl" lang="ar">
+      اذكر جدول الحقيقة للقلاب <span dir="ltr">{{ counter_data.flip_type_list[0] }}</span>.
+    </span>
+  </p>
+
+  <p>
+    Complete the following timing diagram, according to given flipflop.<br/>
+    <span dir="rtl" lang="ar">
+      أكمل المخطط المنطقي الآتي، حسب القلاب المعطى.
+    </span>
+  </p>
+
+  {{ tmmacro.draw_timing_diagram(data, mode="question") }}
+
+{% endif %}
+
+{#----------------------------------------------------------
+ Answer
+----------------------------------------------------------#}
+{% if RENDER_MODE == "answer" %}
+
+  <p>
+    Cite the truth table of flipflop {{ counter_data.flip_type_list[0] }}.<br/>
+    <span dir="rtl" lang="ar">
+      اذكر جدول الحقيقة للقلاب <span dir="ltr">{{ counter_data.flip_type_list[0] }}</span>.
+    </span>
+  </p>
+
+  {{ flpmacro.truth_table(type=counter_data.flip_type_list[0], edge="rising") }}
+
+  {{ tmmacro.draw_timing_diagram(data, mode="answer") }}
+
+{% endif %}
+
+{#----------------------------------------------------------
+ Debug
+----------------------------------------------------------#}
+{% if debug and RENDER_MODE == "answer" %}
+  <b>Counter n bits Jk</b>
+  <svg xmlns="http://www.w3.org/2000/svg" width="600" height="200">
+    {{ draw_counter(flip="JKA", counter_type="", size=4) }}
+  </svg>
+
+  <b>Flipflop syn/asyn Jk</b>
+  <svg xmlns="http://www.w3.org/2000/svg" width="400" height="200">
+    {{ flpmacro.place_flip(id="JKA", name="jk4", xpos=5, ypos=4) }}
+  </svg>
+{% endif %}
