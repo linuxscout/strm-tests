@@ -1,6 +1,6 @@
-pywebview>=3.5
 sympy>=1.7.1
 moodlexport>=0.0.29
-webview>=0.1.5
 jinja2
 deprecated
+wavedrom>=2.0.3
+
