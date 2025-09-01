@@ -22,7 +22,7 @@
 #  
 #  
 
-from .  import quiz_builder
+from .  import quizbuilder
 class quiz_factory:
     def __init__(self,):
         pass

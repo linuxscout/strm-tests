@@ -119,63 +119,6 @@ class QuizBuilder:
         return self.myconfig.get_quiz_config(test_id)
 
      
-    #
-    # def get_questionX(self, command, args={}):
-    #     """
-    #     return question from command
-    #     """
-    #     if command == "float":
-    #         return self.qsbuilder.question_vf()
-    #     elif command == "intervalle":
-    #         return self.qsbuilder.question_intervalle()
-    #     elif command == "complement":
-    #         return self.qsbuilder.question_cp()
-    #     elif command == "exp":
-    #         return self.qsbuilder.question_exp()
-    #     elif command == "map":
-    #
-    #         return self.qsbuilder.question_map()
-    #     elif command == "map-sop":
-    #
-    #         return self.qsbuilder.question_map_for_sop()
-    #     elif command == "function":
-    #
-    #         return self.qsbuilder.question_funct()
-    #     elif command == "base":
-    #         return self.qsbuilder.question_base()
-    #
-    #     elif command == "mesure":
-    #         return self.qsbuilder.question_mesure()
-    #
-    #     elif command == "arithm":
-    #         return self.qsbuilder.question_arithm()
-    #     elif command == "chronogram":
-    #         print("quiz_builder:debug:arguments",args)
-    #         return self.qsbuilder.question_chronogram(
-    #         varlist= args.get("varlist",{}),
-    #         flip_type=args.get("flip_type","D"),
-    #         length=args.get("length",10),
-    #         synch_type=args.get("synch_type","rising"),
-    #         output_vars=args.get("output","Q")
-    #         )
-    #     elif command == "static_funct":
-    #         return self.qsbuilder.question_static_funct(args["minterms"][0],
-    #          args["var_names"], args["output_names"]
-    #          ,args["dontcare"][0])
-    #     elif command == "nand_funct":
-    #         return self.qsbuilder.question_static_nand_exp(args["minterms"][0],
-    #          args["var_names"], args["output_names"]
-    #          ,args["dontcare"][0], method="nand")
-    #     elif command == "nor_funct":
-    #         return self.qsbuilder.question_static_nand_exp(args["minterms"][0],
-    #          args["var_names"], args["output_names"]
-    #          ,args["dontcare"][0], method="nor")
-    #     elif command == "multi_funct":
-    #         return self.qsbuilder.question_multi_funct(args["minterms"],
-    #                args["var_names"], args["output_names"],
-    #                args["dontcare"], method=args["method"])
-    #     else:
-    #         return "Question Error: %s"%command.replace('_',''), "Arabic", "Data", "Answer"
 
     def get_question(self, command, args={}):
         """
@@ -341,20 +284,6 @@ class QuizBuilder:
         nb_questions = self.myconfig.questions_size
         repeat = self.myconfig.repeat
         args = self.myconfig.__dict__
-        logger.debug("ARGS:%s"%str(args))
-        # {"minterms":self.myconfig.minterms,
-        # "var_names": self.myconfig.var_names,
-        # "output_names": self.myconfig.output_names,
-        # "dontcare": self.myconfig.dontcare,
-        # "length":self.myconfig.length,
-        # "varlist":self.myconfig.varlist,
-        # "synch_type":self.myconfig.synch_type,
-        # "flip_type":self.myconfig.flip_type,
-        # "output":self.myconfig.output,
-        # "method":self.myconfig.method,
-        # "text":self.myconfig.text,
-        # # ~ "simplification":self.myconfig.simplification,
-        # }
         test_config = self.get_quiz_config(test_no)
         for test in test_config:
             for i in range(nb_questions):
