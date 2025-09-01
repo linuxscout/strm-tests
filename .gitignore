@@ -142,3 +142,4 @@ latex/*.pdf
 /tests/jinja/
 /docs/circuitikzmanual.pdf
 /latex/test.synctex.gz
+/docs/jk2.svg
