@@ -254,7 +254,8 @@ class QuizBuilder:
 
         entry = question_map.get(command)
         if not entry:
-            return f"Unknown command: {command}", "Arabic", "Data", "Answer"
+            return f"Unknown command: {command}", "Answer"
+            # return f"Unknown command: {command}", "Arabic", "Data", "Answer"
 
         question_func, needs_args = entry
 
@@ -264,7 +265,7 @@ class QuizBuilder:
             import traceback
             traceback_str = traceback.format_exc()
             print(f"Exception in get_question:\n{traceback_str}")
-            return f"Error generating question '{command}': {e}", "Arabic", "Data", "Answer"
+            return f"Error generating question '{command}': {e}", "Answer"
 
     def build_quiz(self, questions_names, rand=True, nb=2, repeat=2, args={}):
         """ generate a test"""
@@ -277,7 +278,18 @@ class QuizBuilder:
         for cpt, name in enumerate(questions_names):
             generated_question = self.get_question(name, args=args)
         # ~ for cpt, value in enumerate(questions):
-            qtext, _, _, ans = generated_question
+            if not isinstance(generated_question, (tuple, list)):
+                raise TypeError(f"Expected tuple/list for question '{name}', got {type(generated_question)}")
+
+            if len(generated_question) == 2:
+                qtext, ans = generated_question
+            else:
+                raise ValueError(
+                    f"Invalid return value for question '{name}': "
+                    f"expected 2  elements, got {len(generated_question)} → {generated_question}"
+                )
+
+            #     qtext, _, _, ans = generated_question
             # ~ qtext, ar, data, ans = value
             q_no = "Q%d"%(cpt+1)
             item = {"id":q_no,

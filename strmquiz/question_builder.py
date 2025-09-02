@@ -31,17 +31,6 @@ logger = logging.getLogger(__name__)
 
 import random
 
-from .bool import bool_const
-from .sequentiel import tex_chronograms
-from .sequentiel import seqconst
-from .sequentiel import registersimulator
-from .sequentiel import countersimulator
-# strmquiz/question_builder.py (refactored skeleton)
-
-
-from .codage import question_codage as question
-from .bool import boolquiz
-from .codage import ieee754
 from .display import quiz_format_factory
 
 
@@ -49,45 +38,19 @@ from .display import quiz_format_factory
 LANG_AR = "arabic"
 LANG_EN = "english"
 
-SECTION_FLOAT = "encoding/float"
-SECTION_CP = "encoding/cp"
-SECTION_INTERVAL = "encoding/interval"
-SECTION_BASE = "base"
-SECTION_ARITHM = "arithm"
-
-SECTION_MAP = "bool/map"
-SECTION_MAP_SOP = "bool/map-sop"
-SECTION_FUNCTION = "bool/function"
-SECTION_EXP = "bool/exp"
-SECTION_MULTI = "bool/multi_funct"
-
-SECTION_CHRONO = "sequential/timing"
-SECTION_FLIP = "sequential/flip"
-SECTION_REGISTER = "sequential/register"
-SECTION_COUNTER = "sequential/counter"
-SECTION_MISC = "sequential/misc"
-
-SECTION_BCDX3 = "encoding/bcdx3"
-SECTION_GRAY = "encoding/gray"
-SECTION_CHARCODE = "encoding/charcode"
-SECTION_MESURE = "mesure"
 
 class Question_Builder:
     """Generate quiz questions for different domains."""
 
-    def __init__(self, outformat="latex", config_file="", lang="ar-en", templates_dir="",
-                 rng=None, formater=None, answer_formater=None, qs=None, bq=None, vf=None):
+    def __init__(self, outformat="latex", config_file="", lang="ar-en", templates_dir="",):
         # 🔹 Inject dependencies (makes testing easier)
-        self.rng = rng or random.Random()
-        self.qs = qs or question.questionGenerator(latex=True)
-        self.bq = bq or boolquiz.bool_quiz()
-        self.bq.set_format('')
-        self.vf = vf or ieee754.float_point()
+        self.rng = random.Random()
+        # self.qs = question.questionGenerator(latex=True)
+        # self.bq = boolquiz.bool_quiz()
+        # self.bq.set_format('')
+        # self.vf = ieee754.float_point()
 
-        self.formater = formater or quiz_format_factory.quiz_format_factory.factory(
-            outformat, lang=lang, templates_dir=templates_dir
-        )
-        self.answer_formater = answer_formater or quiz_format_factory.quiz_format_factory.factory(
+        self.formater = quiz_format_factory.quiz_format_factory.factory(
             outformat, lang=lang, templates_dir=templates_dir
         )
 
@@ -96,10 +59,27 @@ class Question_Builder:
         """Render a question and answer using the current formatter."""
         try:
             q, a = self.formater.render_question_answer(template, context)
-            return q, LANG_AR, "data", a
+            # return q, LANG_AR, "data", a
+            return q, a
         except Exception as e:
             logger.exception("Error rendering template %s", template)
-            return f"Error: {e}", LANG_AR, "data", "Error"
+            return f"Error: {e}",  "Error"
+
+    def use_fixed_random(self, rng=None):
+        self.rng = rng
+
+    def use_formatter(self, formatter=None):
+        obj = formatter
+        method_name = "render_question_answer"
+        method = getattr(obj, method_name, None)
+        if not callable(method):
+            raise AttributeError(f"In method 'use_formatter', {obj.__class__.__name__} has no callable method '{method_name}'")
+        else:
+            self.formater = formatter
+        return method
+
+
+
 
     # --- Example Questions (refactored) ---
     #

@@ -31,18 +31,10 @@ logger = logging.getLogger(__name__)
 
 import random
 
-from .bool import bool_const
-from .sequentiel import tex_chronograms
-from .sequentiel import seqconst
-from .sequentiel import registersimulator
-from .sequentiel import countersimulator
-# strmquiz/question_builder.py (refactored skeleton)
 
 
 from .codage import question_codage as question
-from .bool import boolquiz
 from .codage import ieee754
-from .display import quiz_format_factory
 
 
 # 🔹 Constants
@@ -55,18 +47,6 @@ SECTION_INTERVAL = "encoding/interval"
 SECTION_BASE = "base"
 SECTION_ARITHM = "arithm"
 
-SECTION_MAP = "bool/map"
-SECTION_MAP_SOP = "bool/map-sop"
-SECTION_FUNCTION = "bool/function"
-SECTION_EXP = "bool/exp"
-SECTION_MULTI = "bool/multi_funct"
-
-SECTION_CHRONO = "sequential/timing"
-SECTION_FLIP = "sequential/flip"
-SECTION_REGISTER = "sequential/register"
-SECTION_COUNTER = "sequential/counter"
-SECTION_MISC = "sequential/misc"
-
 SECTION_BCDX3 = "encoding/bcdx3"
 SECTION_GRAY = "encoding/gray"
 SECTION_CHARCODE = "encoding/charcode"
@@ -76,16 +56,14 @@ from .question_builder import Question_Builder
 class EncodingQuestionBuilder(Question_Builder):
     """Generate quiz questions for different domains."""
 
-    def __init__(self, outformat="latex", config_file="", lang="ar-en", templates_dir="",
-                 rng=None, formater=None, answer_formater=None, qs=None, bq=None, vf=None):
+    def __init__(self, outformat="latex", config_file="", lang="ar-en", templates_dir="",):
         # 🔹 Inject dependencies (makes testing easier)
-        super().__init__(outformat=outformat, config_file=config_file, lang=lang, templates_dir=templates_dir,
-                 rng=rng, formater=formater, answer_formater=answer_formater, qs=qs, bq=bq, vf=vf)
+        super().__init__(outformat=outformat, config_file=config_file, lang=lang, templates_dir=templates_dir,)
         # self.rng = rng or random.Random()
-        # self.qs = qs or question.questionGenerator(latex=True)
+        self.qs = question.questionGenerator(latex=True)
         # self.bq = bq or boolquiz.bool_quiz()
         # self.bq.set_format('')
-        # self.vf = vf or ieee754.float_point()
+        self.vf = ieee754.float_point()
         #
         # self.formater = formater or quiz_format_factory.quiz_format_factory.factory(
         #     outformat, lang=lang, templates_dir=templates_dir
@@ -101,11 +79,15 @@ class EncodingQuestionBuilder(Question_Builder):
         ieee_dict = self.vf.ieee754_components(x)
         return self._render(SECTION_FLOAT, ieee_dict)
 
+
     def question_cp(self):
         """Complement coding question."""
-        n, a, cp1, cp2 = self.qs.comp_one(8)
-        context = {"number": n, "binary": a, "cp1": cp1, "cp2": cp2}
-        return self._render(SECTION_CP, context)
+        try:
+            n, a, cp1, cp2 = self.qs.comp_one(8)
+        except Exception as e:
+            logger.exception("Failed to generate CP question")
+            return self._render(SECTION_CP, {"error": str(e)})
+        return self._render(SECTION_CP, {"number": n, "binary": a, "cp1": cp1, "cp2": cp2})
 
     def question_intervalle(self):
         """Interval coding question."""
@@ -219,7 +201,6 @@ class EncodingQuestionBuilder(Question_Builder):
         if method not in ("encode", "decode", "both"):
             method = "both"
         context = {
-            # "text": self.formater.escape_string(text),
             "charlist": self.formater.escape_string(text),
             "method": method, # encode decode
             "scheme":scheme,
@@ -230,27 +211,12 @@ class EncodingQuestionBuilder(Question_Builder):
 
     def question_arithm(self,):
 
-        res =self.qs.rand_arithm()
-
-        question =u"Faire les opérations suivantes: "
-        answer = res.get('reponse','')
-        arabic = u"أنجز العمليات الآتية: "
-
-        context = res
+        context =self.qs.rand_arithm()
 
         return self._render(SECTION_ARITHM, context)
 
-    def question_mesure(self,):
-
-        res =self.qs.rand_arithm()
-
-        question =u"Faire les conversion suivantes: NOT IMPLEMENTED (MESURE questions) "
-        answer = res.get('reponse','')
-        context ={"answer":"Not Implemented",
-                  "question": "Not Implementes"}
-
-
-        return self._render(SECTION_MESURE, context)
+    def question_mesure(self):
+        raise NotImplementedError("Mesure questions are not yet supported")
 
 def main(args):
     pass
@@ -259,4 +225,3 @@ if __name__ == '__main__':
     import sys
     sys.exit(main(sys.argv))
 
-from .question_builder import Question_Builder

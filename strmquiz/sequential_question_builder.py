@@ -31,18 +31,16 @@ logger = logging.getLogger(__name__)
 
 import random
 
-from .bool import bool_const
 from .sequentiel import tex_chronograms
 from .sequentiel import seqconst
 from .sequentiel import registersimulator
 from .sequentiel import countersimulator
-# strmquiz/question_builder.py (refactored skeleton)
 
 
-from .codage import question_codage as question
+
+
 from .bool import boolquiz
-from .codage import ieee754
-from .display import quiz_format_factory
+
 
 
 # 🔹 Constants
@@ -61,20 +59,12 @@ from .question_builder import Question_Builder
 class SequentialQuestionBuilder(Question_Builder):
     """Generate quiz questions for different domains."""
 
-    def __init__(self, outformat="latex", config_file="", lang="ar-en", templates_dir="",
-                 rng=None, formater=None, answer_formater=None, qs=None, bq=None, vf=None):
+    def __init__(self, outformat="latex", config_file="", lang="ar-en", templates_dir=""):
         # 🔹 Inject dependencies (makes testing easier)
-        super().__init__(outformat=outformat, config_file=config_file, lang=lang, templates_dir=templates_dir,
-                 rng=rng, formater=formater, answer_formater=answer_formater, qs=qs, bq=bq, vf=vf)
-        # self.rng = rng or random.Random()
-        # self.qs = qs or question.questionGenerator(latex=True)
-        # self.bq = bq or boolquiz.bool_quiz()
-        # self.bq.set_format('')
-        # self.vf = vf or ieee754.float_point()
-        #
-        # self.formater = formater or quiz_format_factory.quiz_format_factory.factory(
-        #     outformat, lang=lang, templates_dir=templates_dir
-        # )
+        super().__init__(outformat=outformat, config_file=config_file, lang=lang, templates_dir=templates_dir)
+        self.bq = boolquiz.bool_quiz()
+        self.bq.set_format('')
+
     def _preprare_chrnonogram(self,  input_vars=["V",], start_signals={"D": 1,"Q":0}, flip_type="D", length=20, synch_type="rising", output_vars=["Q", ]):
 
         # start_signals = start_signals
@@ -288,8 +278,9 @@ class SequentialQuestionBuilder(Question_Builder):
 
         context= {"data": data,
           }
-        question, answer = self.formater.render_question_answer("sequential/timing", context)
-        return question, "arabic", "data", answer
+        return self._render(SECTION_CHRONO, context)
+        # question, answer = self.formater.render_question_answer("sequential/timing", context)
+        # return question, "arabic", "data", answer
 
 
     def _get_rand_flip(self,):
