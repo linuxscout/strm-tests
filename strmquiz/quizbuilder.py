@@ -34,14 +34,16 @@ import random
 # ~ from . import ieee754
 from . import read_config
 from .display import quiz_format_factory
-from . import question_builder
-# ~ from .sequentiel import tex_chronograms
-
+from .question_builder_factory import question_builder_factory
 class QuizBuilder:
     """ Generate the third test """
     def __init__(self, outformat="", config_file ="", lang="", templates_dir=""):
 
-        self.qsbuilder = question_builder.Question_Builder(outformat, lang=lang, templates_dir=templates_dir)
+        self.qsbuilder = question_builder_factory.factory(builder_name="", outformat=outformat, lang=lang, templates_dir=templates_dir)
+        self.encode_qsbuilder = question_builder_factory.factory(builder_name="encoding",outformat=outformat, lang=lang, templates_dir=templates_dir)
+        self.bool_qsbuilder = question_builder_factory.factory(builder_name="boolean",outformat=outformat, lang=lang, templates_dir=templates_dir)
+        self.seq_qsbuilder = question_builder_factory.factory(builder_name="sequential",outformat=outformat, lang=lang, templates_dir=templates_dir)
+
         self.formater = quiz_format_factory.quiz_format_factory.factory(outformat)
         # if the file is not configured, use default config file
         if not config_file:
@@ -133,98 +135,116 @@ class QuizBuilder:
         """
         if args is None:
             args = {}
-        def command_chronogram(args={}):
-            # print("quiz_builder:debug:arguments",args)
-            return self.qsbuilder.question_chronogram(
-            varlist= args.get("varlist",{}),
-            flip_type=args.get("flip_type","D"),
-            length=args.get("length",10),
-            synch_type=args.get("synch_type","rising"),
-            output_vars=args.get("output","Q")
-            )
-        def command_flip(args={}):
-            # print("quiz_builder:debug:arguments",args)
-            return self.qsbuilder.question_flip(
-            varlist= args.get("varlist",{}),
-            flip_type=args.get("flip_type","D"),
-            length=args.get("length",10),
-            synch_type=args.get("synch_type","rising"),
-            output_vars=args.get("output","Q")
-            )
-        def command_counter(args={}):
-            # print("quiz_builder:debug:arguments",args)
-            return self.qsbuilder.question_counter(
-            varlist= args.get("varlist",{}),
-            length=args.get("length",10),
-            synch_type=args.get("synch_type","rising"),
-            output_vars=args.get("output","Q"),
-            counter_type=args.get("counter_type","up"),
-            flip_types=args.get("counter_flips",[]),
-            nbits=args.get("counter_nbits",2),
-            counter_random=args.get("counter_random",False),
-            )
-        def command_register(args={}):
-            # print("quiz_builder:debug:arguments",args)
-            return self.qsbuilder.question_register(
-            varlist= args.get("varlist",{}),
-            # flip_type=args.get("flip_type","D"),
-            length=args.get("length",10),
-            synch_type=args.get("synch_type","rising"),
-            output_vars=args.get("output","Q"),
-            register_type=args.get("register_type","shift-right"),
-            flip_types=args.get("register_flips",[]),
-            nbits=args.get("register_nbits",2),
-            register_random=args.get("register_random",False),
-            )
-        def command_seq_misc(args={}):
-            # print("quiz_builder:debug:arguments",args)
-            return self.qsbuilder.question_seq_misc(
-            varlist= args.get("varlist",{}),
-            flip_type=args.get("flip_type","D"),
-            length=args.get("length",10),
-            synch_type=args.get("synch_type","rising"),
-            output_vars=args.get("output","Q")
-            )
+        def command_ascii_text(args={}):
+            return self.encode_qsbuilder.question_ascii(text=args["text"], method=args["method"])
+
+
+        # boolean
+
         def command_static_funct(args={}):
-            return self.qsbuilder.question_static_funct(minterms=args["minterms"][0],
+            return self.bool_qsbuilder.question_static_funct(minterms=args["minterms"][0],
              var_names=args["var_names"], output_names=args["output_names"]
              ,dont_care=args["dontcare"][0])
+
         def command_nand_funct(args={}):
-            return self.qsbuilder.question_static_nand_exp(minterms=args["minterms"][0],
+            return self.bool_qsbuilder.question_static_nand_exp(minterms=args["minterms"][0],
              var_names=args["var_names"], output_names=args["output_names"]
              ,dont_care=args["dontcare"][0], method="nand")
         def command_nor_funct(args={}):
-            return self.qsbuilder.question_static_nand_exp(minterms=args["minterms"][0],
+            return self.bool_qsbuilder.question_static_nand_exp(minterms=args["minterms"][0],
              var_names=args["var_names"], output_names=args["output_names"]
              ,dont_care=args["dontcare"][0], method="nor")
         def command_multi_funct(args={}):
-            return self.qsbuilder.question_multi_funct(minterms_list=args["minterms"],
+            return self.bool_qsbuilder.question_multi_funct(minterms_list=args["minterms"],
                    var_names=args["var_names"], output_names=args["output_names"],
                    dont_care_list=args["dontcare"], method=args["method"])
-        def command_ascii_text(args={}):
-            return self.qsbuilder.question_ascii(text=args["text"], method=args["method"])
+
+        def command_chronogram(args={}):
+            # print("quiz_builder:debug:arguments",args)
+            return self.seq_qsbuilder.question_chronogram(
+                varlist=args.get("varlist", {}),
+                flip_type=args.get("flip_type", "D"),
+                length=args.get("length", 10),
+                synch_type=args.get("synch_type", "rising"),
+                output_vars=args.get("output", "Q")
+            )
+
+        def command_flip(args={}):
+            # print("quiz_builder:debug:arguments",args)
+            return self.seq_qsbuilder.question_flip(
+                varlist=args.get("varlist", {}),
+                flip_type=args.get("flip_type", "D"),
+                length=args.get("length", 10),
+                synch_type=args.get("synch_type", "rising"),
+                output_vars=args.get("output", "Q")
+            )
+
+        def command_counter(args={}):
+            # print("quiz_builder:debug:arguments",args)
+            return self.seq_qsbuilder.question_counter(
+                varlist=args.get("varlist", {}),
+                length=args.get("length", 10),
+                synch_type=args.get("synch_type", "rising"),
+                output_vars=args.get("output", "Q"),
+                counter_type=args.get("counter_type", "up"),
+                flip_types=args.get("counter_flips", []),
+                nbits=args.get("counter_nbits", 2),
+                counter_random=args.get("counter_random", False),
+            )
+
+        def command_register(args={}):
+            # print("quiz_builder:debug:arguments",args)
+            return self.seq_qsbuilder.question_register(
+                varlist=args.get("varlist", {}),
+                # flip_type=args.get("flip_type","D"),
+                length=args.get("length", 10),
+                synch_type=args.get("synch_type", "rising"),
+                output_vars=args.get("output", "Q"),
+                register_type=args.get("register_type", "shift-right"),
+                flip_types=args.get("register_flips", []),
+                nbits=args.get("register_nbits", 2),
+                register_random=args.get("register_random", False),
+            )
+
+        def command_seq_misc(args={}):
+            # print("quiz_builder:debug:arguments",args)
+            return self.seq_qsbuilder.question_seq_misc(
+                varlist=args.get("varlist", {}),
+                flip_type=args.get("flip_type", "D"),
+                length=args.get("length", 10),
+                synch_type=args.get("synch_type", "rising"),
+                output_vars=args.get("output", "Q")
+            )
         # خارطة تربط كل أمر بدالة إنشاء السؤال وما إذا كانت تتطلب معطيات
         question_map = {
-            "float": (self.qsbuilder.question_vf, False),
-            "intervalle": (self.qsbuilder.question_intervalle, False),
-            "complement": (self.qsbuilder.question_cp, False),
-            "exp": (self.qsbuilder.question_exp, False),
-            "map": (self.qsbuilder.question_map, False),
-            "map-sop": (self.qsbuilder.question_map_for_sop, False),
-            "function": (self.qsbuilder.question_funct, False),
-            "base": (self.qsbuilder.question_base, False),
-            "arithm": (self.qsbuilder.question_arithm, False),
-            "mesure": (self.qsbuilder.question_mesure, False),
-            "ascii":(self.qsbuilder.question_ascii, False),
-            "unicode":(self.qsbuilder.question_unicode, False),
-            "bcdx3":(self.qsbuilder.question_bcd_x3, False),
-            "gray":(self.qsbuilder.question_gray, False),
+            # encoding
+            "float": (self.encode_qsbuilder.question_vf, False),
+            "intervalle": (self.encode_qsbuilder.question_intervalle, False),
+            "complement": (self.encode_qsbuilder.question_cp, False),
+            "base": (self.encode_qsbuilder.question_base, False),
+            "arithm": (self.encode_qsbuilder.question_arithm, False),
+            "mesure": (self.encode_qsbuilder.question_mesure, False),
+            "ascii": (self.encode_qsbuilder.question_ascii, False),
+            "unicode": (self.encode_qsbuilder.question_unicode, False),
+            "bcdx3": (self.encode_qsbuilder.question_bcd_x3, False),
+            "gray": (self.encode_qsbuilder.question_gray, False),
+
+
+            "exp": (self.bool_qsbuilder.question_exp, False),
+            "map": (self.bool_qsbuilder.question_map, False),
+            "map-sop": (self.bool_qsbuilder.question_map_for_sop, False),
+            "function": (self.bool_qsbuilder.question_funct, False),
+
+
             # command with parameters
+            # encoding
             "ascii_text": (command_ascii_text, True),
+            # boolean
             "static_funct": (command_static_funct, True),
             "nand_funct": (command_nand_funct, True),
             "nor_funct": (command_nor_funct, True),
             "multi_funct": (command_multi_funct, True),
+            # sequential
             "chronogram": (command_chronogram, True),
             "flip": (command_flip, True),
             "counter": (command_counter, True),

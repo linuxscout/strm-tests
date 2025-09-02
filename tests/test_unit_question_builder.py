@@ -3,7 +3,7 @@ import os
 
 import unittest
 from strmquiz.question_builder import Question_Builder  # تأكد من المسار الصحيح
-# from strmquiz.display.quiz_format_factory import quiz_format_factory
+from strmquiz.templates import TEMPLATES_DIR
 
 class TestQuestionBuilder(unittest.TestCase):
 
@@ -12,7 +12,7 @@ class TestQuestionBuilder(unittest.TestCase):
         self.qb = Question_Builder(
             outformat="tex",
             lang="ar-en",
-            templates_dir = os.path.join(os.getcwd(),"strmquiz/templates")  # مجلد يحتوي على قوالب test
+            templates_dir = TEMPLATES_DIR  # مجلد يحتوي على قوالب test
         )
 
 
