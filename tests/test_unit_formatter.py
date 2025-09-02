@@ -3,21 +3,21 @@ import tempfile
 import os
 from strmquiz.display.quiz_format import quiz_format  # تأكد من استيراد فئة Formatter
 
+
 class TestFormatter(unittest.TestCase):
 
     def setUp(self):
         # إنشاء مجلد مؤقت للقوالب
         self.temp_dir = tempfile.TemporaryDirectory()
         template_base = os.path.join(self.temp_dir.name, "float")
-        os.makedirs(template_base)
+        # Create the "float" directory
+        os.makedirs(template_base, exist_ok=True)
 
         # إنشاء قالب للسؤال
-        with open(os.path.join(template_base, "question.ar-en.tex"), "w", encoding="utf-8") as f:
-            f.write("سؤال: {{ arabic_text }}\nQuestion: {{ question_text }}\nNumber: {{ number }}")
-
-        # إنشاء قالب للجواب
-        with open(os.path.join(template_base, "answer.ar-en.tex"), "w", encoding="utf-8") as f:
-            f.write("Representation: {{ ieee_representation }}")
+        with open(os.path.join(template_base, "question.tex"), "w", encoding="utf-8") as f:
+            text = "سؤال: {{ arabic_text }}\"nQuestion: {{ question_text }}\nNumber: {{ number }}"\
+                + "Representation: {{ ieee_representation }}"
+            f.write(text)
 
         # إعداد Formatter
         self.formatter = quiz_format(lang="ar-en", formatting="tex", templates_dir=self.temp_dir.name)
@@ -37,7 +37,7 @@ class TestFormatter(unittest.TestCase):
 
         self.assertIn("مثل العدد", question)
         self.assertIn("12.345", question)
-        self.assertIn("01000001", answer)
+        self.assertIn("01000001", answer, msg=f"{answer}")
 
 if __name__ == '__main__':
     unittest.main()
