@@ -73,6 +73,8 @@ class EncodingQuestionBuilder(Question_Builder):
         """Floating point encoding question."""
         x = self.vf.vf_question()
         ieee_dict = self.vf.ieee754_components(x)
+        context = ieee_dict
+        return  context
         return self._render(SECTION_FLOAT, ieee_dict)
 
 
@@ -82,13 +84,20 @@ class EncodingQuestionBuilder(Question_Builder):
             n, a, cp1, cp2 = self.qs.comp_one(8)
         except Exception as e:
             logger.exception("Failed to generate CP question")
+            context = {"error": str(e)}
+            return context
             return self._render(SECTION_CP, {"error": str(e)})
+        context = {"number": n, "binary": a, "cp1": cp1, "cp2": cp2}
+        return context
         return self._render(SECTION_CP, {"number": n, "binary": a, "cp1": cp1, "cp2": cp2})
+
+
 
     def question_intervalle(self):
         """Interval coding question."""
         n = self.qs.intervalle()
         context = {"number": n}
+        return context
         return self._render(SECTION_INTERVAL, context)
 
     def question_base(self):
@@ -124,6 +133,7 @@ class EncodingQuestionBuilder(Question_Builder):
             "steps_to10": steps_to10,
             "binary_mode": binary_mode,
         }
+        return context
         return self._render(SECTION_BASE, context)
 
 
@@ -153,7 +163,7 @@ class EncodingQuestionBuilder(Question_Builder):
             "data_bcd":data_bcd,
             "data_x3":data_x3,
         }
-
+        return context
         return self._render(SECTION_BCDX3, context)
 
     def question_gray(self,):
@@ -175,7 +185,7 @@ class EncodingQuestionBuilder(Question_Builder):
             "steps_gray2bin": steps.get("steps_gray2bin",[]),
             "steps_bin2gray": steps.get("steps_bin2gray",[]),
         }
-
+        return context
         return self._render(SECTION_GRAY, context)
 
 
@@ -202,13 +212,13 @@ class EncodingQuestionBuilder(Question_Builder):
             "scheme":scheme,
             "charcodes":charcodes,
         }
-
+        return context
         return self._render(SECTION_CHARCODE, context)
 
     def question_arithm(self,):
 
         context = self.qs.rand_arithm()
-
+        return context
         return self._render(SECTION_ARITHM, context)
 
     def question_mesure(self):

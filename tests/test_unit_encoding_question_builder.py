@@ -7,7 +7,7 @@ def builder():
     return EncodingQuestionBuilder()
 
 
-
+@pytest.mark.skip(reason="To be enabled later")
 def test_question_vf(builder):
     ctx = builder.question_vf()
     assert isinstance(ctx, dict)

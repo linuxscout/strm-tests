@@ -33,7 +33,7 @@ import random
 
 from .display import quiz_format_factory
 
-
+from deprecated import deprecated
 # 🔹 Constants
 LANG_AR = "arabic"
 LANG_EN = "english"
@@ -55,6 +55,7 @@ class Question_Builder:
         )
 
     # 🔹 Common rendering helper
+    @deprecated(reason=" All format and rendrening operation are moved to quizbuilder")
     def _render(self, template: str, context: dict):
         """Render a question and answer using the current formatter."""
         try:

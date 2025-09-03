@@ -218,6 +218,7 @@ class BooleanQuestionBuilder(Question_Builder):
                               )
 
         context = {"data_list":data_list}
+        return context
         return self._render(SECTION_MAP, context)
 
 
@@ -234,7 +235,7 @@ class BooleanQuestionBuilder(Question_Builder):
                               )
 
         context = {"data_list":data_list}
-
+        return context
         return self._render(SECTION_MAP_SOP, context)
 
 
@@ -265,6 +266,7 @@ class BooleanQuestionBuilder(Question_Builder):
                                                    variables=["A","B","C","D"], equations_list=equations_list)
         context["logicdiagramdict"] = logigramdict
         # question, answer = self.formater.render_question_answer("bool/function", context)
+        return context
         return self._render(SECTION_FUNCTION, context)
 
 
@@ -309,6 +311,7 @@ class BooleanQuestionBuilder(Question_Builder):
         context["logicdiagramdict"] = logigramdict
         # question, answer = self.formater.render_question_answer("bool/function", context)
         # return question, "arabic", "data", answer
+        return context
         return self._render(SECTION_FUNCTION, context)
 
 
@@ -338,6 +341,7 @@ class BooleanQuestionBuilder(Question_Builder):
         context["logicdiagramdict"] = logigramdict
         # question, answer = self.formater.render_question_answer("bool/function", context)
         # return question, "arabic", "data", answer
+        return context
         return self._render(SECTION_FUNCTION, context)
 
 
@@ -393,6 +397,7 @@ class BooleanQuestionBuilder(Question_Builder):
                   }
         # question, answer = self.formater.render_question_answer("bool/multi_funct", context)
         # return question, "arabic", "data", answer
+        return context
         return self._render(SECTION_MULTI, context)
 
     def question_exp(self,):
@@ -411,6 +416,7 @@ class BooleanQuestionBuilder(Question_Builder):
 
 
         context["sop_quest"] = sop_quest
+        return context
         return self._render(SECTION_EXP, context)
         # question, answer = self.formater.render_question_answer("bool/exp", context)
         # return question, "arabic", "data", answer
