@@ -63,15 +63,19 @@ class EncodingQuestionBuilder(Question_Builder):
         self.qs = question.questionGenerator(latex=True)
 
         self.vf = ieee754.float_point()
+        self.randomize = True
 
 
-
+    def set_random(self, value:bool=True):
+        self.randomize = bool(value)
 
     # --- Example Questions (refactored) ---
 
-    def question_vf(self):
+    def question_vf(self, number:float=0):
         """Floating point encoding question."""
-        x = self.vf.vf_question()
+
+        x  = self.vf.vf_question() if self.randomize else self.vf.vf_question(number)
+
         result = self.vf.ieee754_components(x)
         context = {
             "number": result.get("number"),
@@ -89,10 +93,11 @@ class EncodingQuestionBuilder(Question_Builder):
         # return self._render(SECTION_FLOAT, ieee_dict)
 
 
-    def question_cp(self):
+    def question_cp(self, decimal=0):
         """Complement coding question."""
         try:
-            n, a, cp1, cp2 = self.qs.comp_one(8)
+           n, a, cp1, cp2 = self.qs.comp_one(8) if self.randomize else self.qs.comp_one(nbits=8, n=decimal)
+
         except Exception as e:
             logger.exception("Failed to generate CP question")
             context = {"error": str(e)}
@@ -104,20 +109,24 @@ class EncodingQuestionBuilder(Question_Builder):
 
 
 
-    def question_intervalle(self):
+    def question_intervalle(self, decimal=0):
         """Interval coding question."""
-        n = self.qs.intervalle()
+        n = self.qs.intervalle() if self.randomize else self.qs.intervalle(n=decimal)
         context = {"number": n}
         return context
         # return self._render(SECTION_INTERVAL, context)
 
-    def question_base(self):
+    def question_base(self, decimal=0, in_base=10, out_base=10):
         """Base conversion question."""
-        res = self.qs.rand_numeral_system()
-        number = res.get("number", 0)
-        in_base = res.get("in_base", 10)
-        out_base = res.get("out_base", 10)
-        output = res.get("output", 0)
+        if self.randomize:
+            res = self.qs.rand_numeral_system()
+            number = res.get("number", 0)
+            in_base = res.get("in_base", 10)
+            out_base = res.get("out_base", 10)
+            output = res.get("output", 0)
+        else:
+            number = decimal #self.qs.int2base(decimal, in_base)
+            output = self.qs.int2base(decimal, out_base)
 
         # reproducible randomness via self.rng
         number_tmp = 0
@@ -150,17 +159,20 @@ class EncodingQuestionBuilder(Question_Builder):
 
 
 
-    def question_bcd_x3(self, scheme="", method="",min_val=10, max_val=10**5):
+    def question_bcd_x3(self, decimal_a=0, decimal_b=0, scheme="", method="",min_val=10, max_val=10**5):
 
-
-        number  = self.rng.randint(min_val, max_val)
+        if self.randomize:
+            number_a = number  = self.rng.randint(min_val, max_val)
+            number_b  = self.rng.randint(min_val, max_val)
+        else:
+            number_a = number = decimal_a
+            number_b  = decimal_b
 
         bcd = self.qs.dec_to_bcd(number)
         bcd_digits = bcd.split(" ")
         x3 = self.qs.dec_to_excess3(number)
         x3_digits = x3.split(" ")
-        number_a  = number
-        number_b  = self.rng.randint(min_val, max_val)
+
         data_bcd = self.qs.bcd_addition_explain(number_a, number_b)
         data_x3 = self.qs.x3_addition_explain(number_a, number_b)
         context = {
@@ -177,13 +189,16 @@ class EncodingQuestionBuilder(Question_Builder):
         return context
         # return self._render(SECTION_BCDX3, context)
 
-    def question_gray(self,):
+    def question_gray(self, number=0, sequence_length=2):
 
-        x  = self.rng.randint(15, 256)
-
+        if self.randomize:
+            x  = self.rng.randint(15, 256) if self.randomize else number
+            seq_len  = self.rng.randint(2, 10)
+        else:
+            x = number
+            seq_len = sequence_length
         x_bin = self.qs.int2base(x, 2)
         x_gray = self.qs.binary_to_gray(x_bin)
-        seq_len  = self.rng.randint(2, 10)
         x_gray_sequence = self.qs.gray_sequence_from_binary(x_bin,seq_len)
         steps = self.qs.gray_explain(x_bin, x_gray)
         context = {
@@ -212,7 +227,7 @@ class EncodingQuestionBuilder(Question_Builder):
     def question_charcode(self,text="",scheme="ascii", method="both"):
         """ encode/ decode in ASCII and unicode
         """
-        if not text:
+        if self.randomize and not text:
             text  = self.qs.rand_text(code=scheme)
         charcodes = self.qs.encode(text)
         if method not in ("encode", "decode", "both"):
@@ -226,9 +241,14 @@ class EncodingQuestionBuilder(Question_Builder):
         return context
         # return self._render(SECTION_CHARCODE, context)
 
-    def question_arithm(self,):
-
-        result = self.qs.rand_arithm()
+    def question_arithm(self,number_a=0, number_b=0,operation="+", base=10):
+        """
+        question about arithmetics (addition and substraction)
+        """
+        if self.randomize:
+            result = self.qs.rand_arithm()
+        else:
+            result = self.qs.arithm(number_a=number_a, number_b=number_b, base=base, operation=operation)
         context = {
             "question": result.get("question"),
             "reponse": result.get("reponse"),
