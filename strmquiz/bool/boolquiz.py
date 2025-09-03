@@ -1,10 +1,7 @@
 import random
 import re
 import sympy
-from sympy.logic import SOPform
-from sympy.logic import POSform
 from sympy import symbols
-from sympy.logic.boolalg import to_cnf, to_dnf
 
 from . import logigram
 from . import bool_const
@@ -23,8 +20,9 @@ class bool_quiz:
         self.default_vars = ["A", "B","C", "D"]
         # ~ self.variables = ["A", "B","C", "D"]
         self.vars_outputs = ["S0","S1", "S2","S3", "S4", "S5", "S6", "S7", "S8", "S9","S10"]
-        self.format = "latex"
-        
+        # self.format = "latex"
+        self.format = "text"
+
     def set_vars(self, entries=[], outputs=["F"]):
         """ Set variable names instead of ABCD,
         """
