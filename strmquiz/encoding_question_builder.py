@@ -59,15 +59,11 @@ class EncodingQuestionBuilder(Question_Builder):
     def __init__(self, outformat="latex", config_file="", lang="ar-en", templates_dir="",):
         # 🔹 Inject dependencies (makes testing easier)
         super().__init__(outformat=outformat, config_file=config_file, lang=lang, templates_dir=templates_dir,)
-        # self.rng = rng or random.Random()
+
         self.qs = question.questionGenerator(latex=True)
-        # self.bq = bq or boolquiz.bool_quiz()
-        # self.bq.set_format('')
+
         self.vf = ieee754.float_point()
-        #
-        # self.formater = formater or quiz_format_factory.quiz_format_factory.factory(
-        #     outformat, lang=lang, templates_dir=templates_dir
-        # )
+
 
 
 
@@ -133,17 +129,17 @@ class EncodingQuestionBuilder(Question_Builder):
 
 
 
-    def question_bcd_x3(self, scheme="", method=""):
+    def question_bcd_x3(self, scheme="", method="",min_val=10, max_val=10**5):
 
 
-        number  = self.rng.randint(10, 10**5)
+        number  = self.rng.randint(min_val, max_val)
 
         bcd = self.qs.dec_to_bcd(number)
         bcd_digits = bcd.split(" ")
         x3 = self.qs.dec_to_excess3(number)
         x3_digits = x3.split(" ")
         number_a  = number
-        number_b  = self.rng.randint(10, 10**5)
+        number_b  = self.rng.randint(min_val, max_val)
         data_bcd = self.qs.bcd_addition_explain(number_a, number_b)
         data_x3 = self.qs.x3_addition_explain(number_a, number_b)
         context = {
@@ -189,7 +185,7 @@ class EncodingQuestionBuilder(Question_Builder):
         return self.question_charcode(text=text,scheme="ascii", method=method)
 
     def question_unicode(self,method="both", text=""):
-        """ encode/ decode in ASCII """
+        """ encode/ decode in Unicode """
         return self.question_charcode(text=text,scheme="unicode", method=method)
 
     def question_charcode(self,text="",scheme="ascii", method="both"):
@@ -211,17 +207,31 @@ class EncodingQuestionBuilder(Question_Builder):
 
     def question_arithm(self,):
 
-        context =self.qs.rand_arithm()
+        context = self.qs.rand_arithm()
 
         return self._render(SECTION_ARITHM, context)
 
     def question_mesure(self):
         raise NotImplementedError("Mesure questions are not yet supported")
 
-def main(args):
-    pass
 
 if __name__ == '__main__':
-    import sys
-    sys.exit(main(sys.argv))
+
+    qb = EncodingQuestionBuilder()
+
+    print("\n--- Test: Floating Point Question ---")
+    print(qb.question_vf())
+
+    print("\n--- Test: Complement Coding Question ---")
+    print(qb.question_cp())
+
+    print("\n--- Test: Base Conversion Question ---")
+    print(qb.question_base())
+
+    print("\n--- Test: Gray Code Question ---")
+    print(qb.question_gray())
+
+    print("\n--- Test: ASCII Question ---")
+    print(qb.question_ascii())
+
 
