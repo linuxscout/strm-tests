@@ -44,7 +44,6 @@ class Question_Builder:
 
     def __init__(self, outformat="latex", config_file="", lang="ar-en", templates_dir="",):
         # 🔹 Inject dependencies (makes testing easier)
-        self.rng = random.Random()
         # self.qs = question.questionGenerator(latex=True)
         # self.bq = boolquiz.bool_quiz()
         # self.bq.set_format('')
@@ -66,23 +65,10 @@ class Question_Builder:
             logger.exception("Error rendering template %s", template)
             return f"Error: {e}",  "Error"
 
-    def use_fixed_random(self, rng=None):
-        """
-        Ensure that self.rng has the required methods:
-        - randint
-        - choice
-        - choices
 
-        If rng is missing or incomplete, fallback to random.Random().
-        """
-        required_methods = {"randint", "choice", "choices"}
 
-        if rng is not None and all(hasattr(rng, m) for m in required_methods):
-            self.rng = rng
-        else:
-            self.rng = random.Random()
-
-        return self.rng
+    def set_random(self, value:bool=True):
+        self.randomize = bool(value)
 
     def use_formatter(self, formatter=None):
         obj = formatter

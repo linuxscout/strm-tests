@@ -32,14 +32,8 @@ logger = logging.getLogger(__name__)
 import random
 
 from .bool import bool_const
-from .sequentiel import tex_chronograms
-from .sequentiel import seqconst
-from .sequentiel import registersimulator
-from .sequentiel import countersimulator
-# strmquiz/question_builder.py (refactored skeleton)
 
 
-from .codage import question_codage as question
 from .bool import boolquiz
 
 
@@ -63,17 +57,8 @@ class BooleanQuestionBuilder(Question_Builder):
     def __init__(self, outformat="latex", config_file="", lang="ar-en", templates_dir=""):
         # 🔹 Inject dependencies (makes testing easier)
         super().__init__(outformat=outformat, config_file=config_file, lang=lang, templates_dir=templates_dir)
-        # self.rng = rng or random.Random()
-        # self.qs = qs or question.questionGenerator(latex=True)
         self.bq = boolquiz.bool_quiz()
         self.bq.set_format('')
-        # self.vf = vf or ieee754.float_point()
-        #
-        # self.formater = formater or quiz_format_factory.quiz_format_factory.factory(
-        #     outformat, lang=lang, templates_dir=templates_dir
-        # )
-
-
 
     # --- Example Questions (refactored) ---
 
@@ -395,10 +380,9 @@ class BooleanQuestionBuilder(Question_Builder):
                   "sop_list":sop_list,
                   "method":method,
                   }
-        # question, answer = self.formater.render_question_answer("bool/multi_funct", context)
-        # return question, "arabic", "data", answer
+
         return context
-        # return self._render(SECTION_MULTI, context)
+
 
     def question_exp(self,):
 
@@ -417,9 +401,7 @@ class BooleanQuestionBuilder(Question_Builder):
 
         context["sop_quest"] = sop_quest
         return context
-        # return self._render(SECTION_EXP, context)
-        # question, answer = self.formater.render_question_answer("bool/exp", context)
-        # return question, "arabic", "data", answer
+
 
 
 def main(args):

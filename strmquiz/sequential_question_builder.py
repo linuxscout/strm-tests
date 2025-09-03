@@ -286,7 +286,7 @@ class SequentialQuestionBuilder(Question_Builder):
 
     def _get_rand_flip(self,):
         seqs = seqconst.FLIPS_RANDOM
-        name = self.rng.choice(list(seqs.keys()))
+        name = random.choice(list(seqs.keys()))
         inputs = list(name)
         init_signals = {e: 0 for e in inputs}
         init_signals.update({'Q': -1, "Q'": 1, })
@@ -333,8 +333,8 @@ class SequentialQuestionBuilder(Question_Builder):
         Generate Chronogram question for a given register
         """
         if register_random:
-            nbits = self.rng.randint(3,6)
-            reg_flip_type_list = self.rng.choices(["D","JK"], k=nbits)
+            nbits = random.randint(3,6)
+            reg_flip_type_list = random.choices(["D","JK"], k=nbits)
             # get data from flip standard
             reg_flip_list = [seqconst.FLIPS_DATA.get(ft,{}) for ft in reg_flip_type_list ]
         else:
@@ -391,8 +391,8 @@ class SequentialQuestionBuilder(Question_Builder):
         Generate Chronogram question for a given register
         """
         if counter_random:
-            nbits = self.rng.randint(3,6)
-            reg_flip_type_list = self.rng.choices(["D","JK"], k=nbits)
+            nbits = random.randint(3,6)
+            reg_flip_type_list = random.choices(["D","JK"], k=nbits)
             # get data from flip standard
             reg_flip_list = [seqconst.FLIPS_DATA.get(ft,{}) for ft in reg_flip_type_list ]
         else:

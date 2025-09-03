@@ -66,8 +66,6 @@ class EncodingQuestionBuilder(Question_Builder):
         self.randomize = True
 
 
-    def set_random(self, value:bool=True):
-        self.randomize = bool(value)
 
     # --- Example Questions (refactored) ---
 
@@ -162,8 +160,8 @@ class EncodingQuestionBuilder(Question_Builder):
     def question_bcd_x3(self, decimal_a=0, decimal_b=0, scheme="", method="",min_val=10, max_val=10**5):
 
         if self.randomize:
-            number_a = number  = self.rng.randint(min_val, max_val)
-            number_b  = self.rng.randint(min_val, max_val)
+            number_a = number  = random.randint(min_val, max_val)
+            number_b  = random.randint(min_val, max_val)
         else:
             number_a = number = decimal_a
             number_b  = decimal_b
@@ -192,8 +190,8 @@ class EncodingQuestionBuilder(Question_Builder):
     def question_gray(self, number=0, sequence_length=2):
 
         if self.randomize:
-            x  = self.rng.randint(15, 256) if self.randomize else number
-            seq_len  = self.rng.randint(2, 10)
+            x  = random.randint(15, 256) if self.randomize else number
+            seq_len  = random.randint(2, 10)
         else:
             x = number
             seq_len = sequence_length

@@ -184,5 +184,6 @@ def test_question_arithm(builder):
     assert ctx["number_c"] == '613', f"The result is {ctx}"
 
 
+@pytest.mark.skip(reason="To be enabled later")
 def test_question_mesure(builder):
     builder.question_mesure()

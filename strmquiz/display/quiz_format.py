@@ -49,6 +49,7 @@ class quiz_format:
         # self.env.globals.update(enumerate=enumerate)
         self.env.filters['group4'] = self.group_digits_by_4
         self.env.filters["to_bin"] = to_bin
+        self.env.filters["normalize_formula"] = self.normalize_formula
         self.group_digit_sep = " "
         # self.variables = ["a","b","c","d"]
         #~ print("quiz_format")
