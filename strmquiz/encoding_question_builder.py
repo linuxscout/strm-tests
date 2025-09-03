@@ -72,10 +72,21 @@ class EncodingQuestionBuilder(Question_Builder):
     def question_vf(self):
         """Floating point encoding question."""
         x = self.vf.vf_question()
-        ieee_dict = self.vf.ieee754_components(x)
-        context = ieee_dict
+        result = self.vf.ieee754_components(x)
+        context = {
+            "number": result.get("number"),
+            "abs_value": result.get("abs_value"),
+            "sign": result.get("sign"),
+            "binary_repr": result.get("binary_repr"),
+            "exponent": result.get("exponent"),
+            "exponent_raw": result.get("exponent_raw"),
+            "exponent_bits": result.get("exponent_bits"),
+            "mantissa": result.get("mantissa"),
+            "final_binary": result.get("final_binary"),
+            "hex": result.get("hex"),
+        }
         return  context
-        return self._render(SECTION_FLOAT, ieee_dict)
+        # return self._render(SECTION_FLOAT, ieee_dict)
 
 
     def question_cp(self):
@@ -86,10 +97,10 @@ class EncodingQuestionBuilder(Question_Builder):
             logger.exception("Failed to generate CP question")
             context = {"error": str(e)}
             return context
-            return self._render(SECTION_CP, {"error": str(e)})
+            # return self._render(SECTION_CP, {"error": str(e)})
         context = {"number": n, "binary": a, "cp1": cp1, "cp2": cp2}
         return context
-        return self._render(SECTION_CP, {"number": n, "binary": a, "cp1": cp1, "cp2": cp2})
+        # return self._render(SECTION_CP, {"number": n, "binary": a, "cp1": cp1, "cp2": cp2})
 
 
 
@@ -98,7 +109,7 @@ class EncodingQuestionBuilder(Question_Builder):
         n = self.qs.intervalle()
         context = {"number": n}
         return context
-        return self._render(SECTION_INTERVAL, context)
+        # return self._render(SECTION_INTERVAL, context)
 
     def question_base(self):
         """Base conversion question."""
@@ -134,7 +145,7 @@ class EncodingQuestionBuilder(Question_Builder):
             "binary_mode": binary_mode,
         }
         return context
-        return self._render(SECTION_BASE, context)
+        # return self._render(SECTION_BASE, context)
 
 
 
@@ -164,7 +175,7 @@ class EncodingQuestionBuilder(Question_Builder):
             "data_x3":data_x3,
         }
         return context
-        return self._render(SECTION_BCDX3, context)
+        # return self._render(SECTION_BCDX3, context)
 
     def question_gray(self,):
 
@@ -186,7 +197,7 @@ class EncodingQuestionBuilder(Question_Builder):
             "steps_bin2gray": steps.get("steps_bin2gray",[]),
         }
         return context
-        return self._render(SECTION_GRAY, context)
+        # return self._render(SECTION_GRAY, context)
 
 
 
@@ -213,13 +224,22 @@ class EncodingQuestionBuilder(Question_Builder):
             "charcodes":charcodes,
         }
         return context
-        return self._render(SECTION_CHARCODE, context)
+        # return self._render(SECTION_CHARCODE, context)
 
     def question_arithm(self,):
 
-        context = self.qs.rand_arithm()
+        result = self.qs.rand_arithm()
+        context = {
+            "question": result.get("question"),
+            "reponse": result.get("reponse"),
+            "number_a": result.get("number_a"),
+            "number_b": result.get("number_b"),
+            "number_c": result.get("number_c"),
+            "operation": result.get("operation"),
+            "base": result.get("base"),
+        }
         return context
-        return self._render(SECTION_ARITHM, context)
+        # return self._render(SECTION_ARITHM, context)
 
     def question_mesure(self):
         raise NotImplementedError("Mesure questions are not yet supported")

@@ -219,7 +219,7 @@ class BooleanQuestionBuilder(Question_Builder):
 
         context = {"data_list":data_list}
         return context
-        return self._render(SECTION_MAP, context)
+        # return self._render(SECTION_MAP, context)
 
 
     def question_map_for_sop(self,nb=2):
@@ -236,7 +236,7 @@ class BooleanQuestionBuilder(Question_Builder):
 
         context = {"data_list":data_list}
         return context
-        return self._render(SECTION_MAP_SOP, context)
+        # return self._render(SECTION_MAP_SOP, context)
 
 
     def question_funct(self, ):
@@ -253,10 +253,10 @@ class BooleanQuestionBuilder(Question_Builder):
                                        )
 
         sop, pos = self.bq.simplify(minterms)
-        logigram = self.formater.draw_logigram(sop, function_name='F',
-                                              variables=self.bq.variables)
+        # logigram = self.formater.draw_logigram(sop, function_name='F',
+        #                                       variables=self.bq.variables)
         context["sop_quest"] = sop_quest
-        context["logicdiagram"] = logigram
+        context["logicdiagram"] = ""
         equations_list = [{"sop": sop,
                            "pos": pos,
                            "nor_pos": context.get("nor_pos", ""),
@@ -267,7 +267,7 @@ class BooleanQuestionBuilder(Question_Builder):
         context["logicdiagramdict"] = logigramdict
         # question, answer = self.formater.render_question_answer("bool/function", context)
         return context
-        return self._render(SECTION_FUNCTION, context)
+        # return self._render(SECTION_FUNCTION, context)
 
 
 
@@ -296,10 +296,10 @@ class BooleanQuestionBuilder(Question_Builder):
                                           )
 
         sop, pos = self.bq.simplify(minterms)
-        logigram = self.formater.draw_logigram(sop, function_name=fname,
-                                               variables=var_names)
+        # logigram = self.formater.draw_logigram(sop, function_name=fname,
+        #                                        variables=var_names)
         context["sop_quest"] = sop_quest
-        context["logicdiagram"] = logigram
+        context["logicdiagram"] = ""
         context["terms"] = [[t.strip() for t in term.split(".")] for term in sop.split("+")]
         equations_list  = [{"sop": sop,
                                "pos": pos,
@@ -312,7 +312,7 @@ class BooleanQuestionBuilder(Question_Builder):
         # question, answer = self.formater.render_question_answer("bool/function", context)
         # return question, "arabic", "data", answer
         return context
-        return self._render(SECTION_FUNCTION, context)
+        # return self._render(SECTION_FUNCTION, context)
 
 
 
@@ -331,18 +331,18 @@ class BooleanQuestionBuilder(Question_Builder):
                                           )
 
         sop, pos = self.bq.simplify(minterms)
-        logigram = self.formater.draw_logigram_nand_nor(sop, function_name=fname,
-                                               variables=var_names, method=method)
+        # logigram = self.formater.draw_logigram_nand_nor(sop, function_name=fname,
+        #                                        variables=var_names, method=method)
 
         context["sop_quest"] = sop_quest
-        context["logicdiagram"] = logigram
+        context["logicdiagram"] = ""
         logigramdict = self.formater.prepare_logigram_list([sop, ], function_namelist=[fname,],
                                                    variables=var_names, method=method)
         context["logicdiagramdict"] = logigramdict
         # question, answer = self.formater.render_question_answer("bool/function", context)
         # return question, "arabic", "data", answer
         return context
-        return self._render(SECTION_FUNCTION, context)
+        # return self._render(SECTION_FUNCTION, context)
 
 
     def question_multi_funct(self, minterms_list, var_names=["A","B","C","D"],
@@ -381,8 +381,8 @@ class BooleanQuestionBuilder(Question_Builder):
                                                    variables=var_names, method=method, equations_list=equations_list)
         # old method to draw logigram used only for latex,
         # deprecated
-        logigram = self.formater.draw_logigram_list(sop_list, function_namelist=output_names,
-                                                   variables=var_names, method=method)
+        # logigram = self.formater.draw_logigram_list(sop_list, function_namelist=output_names,
+        #                                            variables=var_names, method=method)
         context ={"data_list":data_list,
                   "minterms_list":minterms_list,
                   "dontcares_list": dont_care_list,
@@ -390,7 +390,7 @@ class BooleanQuestionBuilder(Question_Builder):
                   "variables": var_names,
                   "sop_quest":sop_quest,
                   # "terms_list":terms_list,
-                  "logicdiagram" : logigram,  # deprecated, used only for comparaison
+                  "logicdiagram" : "",#logigram,  # deprecated, used only for comparaison
                   "logicdiagramdict" : logigramdict,
                   "sop_list":sop_list,
                   "method":method,
@@ -398,7 +398,7 @@ class BooleanQuestionBuilder(Question_Builder):
         # question, answer = self.formater.render_question_answer("bool/multi_funct", context)
         # return question, "arabic", "data", answer
         return context
-        return self._render(SECTION_MULTI, context)
+        # return self._render(SECTION_MULTI, context)
 
     def question_exp(self,):
 
@@ -417,7 +417,7 @@ class BooleanQuestionBuilder(Question_Builder):
 
         context["sop_quest"] = sop_quest
         return context
-        return self._render(SECTION_EXP, context)
+        # return self._render(SECTION_EXP, context)
         # question, answer = self.formater.render_question_answer("bool/exp", context)
         # return question, "arabic", "data", answer
 

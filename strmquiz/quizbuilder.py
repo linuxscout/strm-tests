@@ -35,6 +35,9 @@ import random
 from . import read_config
 from .display import quiz_format_factory
 from .question_builder_factory import question_builder_factory
+
+
+
 class QuizBuilder:
     """ Generate the third test """
     def __init__(self, outformat="", config_file ="", lang="", templates_dir=""):
@@ -44,7 +47,7 @@ class QuizBuilder:
         self.bool_qsbuilder = question_builder_factory.factory(builder_name="boolean",outformat=outformat, lang=lang, templates_dir=templates_dir)
         self.seq_qsbuilder = question_builder_factory.factory(builder_name="sequential",outformat=outformat, lang=lang, templates_dir=templates_dir)
 
-        self.formater = quiz_format_factory.quiz_format_factory.factory(outformat)
+        self.formater = quiz_format_factory.quiz_format_factory.factory(outformat, lang=lang, templates_dir=templates_dir)
         # if the file is not configured, use default config file
         if not config_file:
             config_file = "config/quiz.conf"
@@ -105,6 +108,38 @@ class QuizBuilder:
         self.quiz_commands[6] =  [
         ["chronogram",],
         ]
+
+        self.TEMPLATE_MAP = {
+            "float": "encoding/float",
+            "complement": "encoding/cp",
+            "intervalle": "encoding/interval",
+            "base": "base",
+            "bcdx3": "encoding/bcdx3",
+            "gray": "encoding/gray",
+            "ascii": "encoding/charcode",
+            "unicode": "encoding/charcode",
+            "charcode": "encoding/charcode",
+            "arithm": "arithm",
+            "mesure": "mesure",  # NotImplementedError for now
+            "map": "bool/map",
+            "map-sop": "bool/map-sop",
+            "function": "bool/function",
+            "static_funct": "bool/function",
+            "exp": "bool/exp",
+            "multi_funct": "bool/multi_funct",
+
+            # 🔹 Sequential logic questions
+            "chronogram": "sequential/timing",
+            "flip": "sequential/flip",
+            "register": "sequential/register",
+            "counter": "sequential/counter",
+            "misc": "sequential/misc",
+            }
+    def get_template(self, name):
+        temp = self.TEMPLATE_MAP.get(name, "default")
+        if temp == "default":
+            raise NotImplementedError(f"Not Implemented template for command '{name}'")
+        return temp
     def set_format(self, outformat="latex"):
         """ set a new format"""
         self.formater = quiz_format_factory.quiz_format_factory.factory(outformat)
@@ -120,6 +155,16 @@ class QuizBuilder:
         """
         return self.myconfig.get_quiz_config(test_id)
 
+
+    def _render(self, template: str, context: dict):
+        """Render a question and answer using the current formatter."""
+        try:
+            q, a = self.formater.render_question_answer(template, context)
+            # return q, LANG_AR, "data", a
+            return q, a
+        except Exception as e:
+            logger.exception("Error rendering template %s", template)
+            return f"Error: {e}",  "Error"
      
 
     def get_question(self, command, args={}):
@@ -260,7 +305,11 @@ class QuizBuilder:
         question_func, needs_args = entry
 
         try:
-            return question_func(args) if needs_args else question_func()
+            result = question_func(args) if needs_args else question_func()
+            if isinstance(result, dict):
+                return self._render(self.get_template(command), result)
+            else:
+                raise BaseException(f"Warning to be fixed '{command}' not return a context dict")
         except Exception as e:
             import traceback
             traceback_str = traceback.format_exc()

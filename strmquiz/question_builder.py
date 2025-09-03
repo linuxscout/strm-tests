@@ -50,8 +50,8 @@ class Question_Builder:
         # self.bq.set_format('')
         # self.vf = ieee754.float_point()
 
-        self.formater = quiz_format_factory.quiz_format_factory.factory(
-            outformat, lang=lang, templates_dir=templates_dir
+        self.formater = quiz_format_factory.quiz_format_factory.factory(outformat,
+                                                                        # lang=lang, templates_dir=templates_dir
         )
 
     # 🔹 Common rendering helper

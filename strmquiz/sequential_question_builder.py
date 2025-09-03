@@ -279,7 +279,7 @@ class SequentialQuestionBuilder(Question_Builder):
         context= {"data": data,
           }
         return context
-        return self._render(SECTION_CHRONO, context)
+        # return self._render(SECTION_CHRONO, context)
         # question, answer = self.formater.render_question_answer("sequential/timing", context)
         # return question, "arabic", "data", answer
 
@@ -323,7 +323,7 @@ class SequentialQuestionBuilder(Question_Builder):
         # question, answer = self.formater.render_question_answer("sequential/flip", context)
         # return question, "arabic", "data", answer
         return context
-        return self._render(SECTION_FLIP, context)
+        # return self._render(SECTION_FLIP, context)
 
     def question_register(self, varlist={}, flip_types=["D",], length=20, synch_type="rising", output_vars=["Q", ], register_type="shift-right",
                           nbits:int=2,
@@ -378,7 +378,7 @@ class SequentialQuestionBuilder(Question_Builder):
                   "register_data": register_data,
           }
         return context
-        return self._render(SECTION_REGISTER, context)
+        # return self._render(SECTION_REGISTER, context)
         # question, answer = self.formater.render_question_answer("sequential/register", context)
         # return question, "arabic", "data", answer
 
@@ -438,7 +438,7 @@ class SequentialQuestionBuilder(Question_Builder):
                   "counter_data": counter_data,
           }
         return context
-        return self._render(SECTION_COUNTER, context)
+        # return self._render(SECTION_COUNTER, context)
         # question, answer = self.formater.render_question_answer("sequential/counter", context)
         # return question, "arabic", "data", answer
 
@@ -456,7 +456,7 @@ class SequentialQuestionBuilder(Question_Builder):
         context= {"data": data,
           }
         return context
-        return self._render(SECTION_MISC, context)
+        # return self._render(SECTION_MISC, context)
         # question, answer = self.formater.render_question_answer("sequential/misc", context)
         # return question, "arabic", "data", answer
 

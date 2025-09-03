@@ -7,14 +7,14 @@ def builder():
     return EncodingQuestionBuilder()
 
 
-@pytest.mark.skip(reason="To be enabled later")
+
 def test_question_vf(builder):
     ctx = builder.question_vf()
     assert isinstance(ctx, dict)
     assert "mantissa" in ctx or "sign" in ctx or "exponent" in ctx
 
 
-@pytest.mark.skip(reason="To be enabled later")
+
 def test_question_cp(builder):
     ctx = builder.question_cp()
     assert isinstance(ctx, dict)
