@@ -182,6 +182,7 @@ class Chronograms:
         """Return the inverse (negated) version of a signal list."""
         return [-x for x in signal]
 
+
     def resolve(self, flip_type="", signals={}, period=2, inputs=[]):
         """
         Generate an signal answer for given variables signals especialy for a given flipflop type
@@ -249,7 +250,8 @@ class Chronograms:
             previous = new_q_signal[i]
         # ~ print("j signal:", j_signal)
         # ~ print("k signal:", k_signal)
-        # ~ print("q signal:", q_signal)  
+        # ~ print("q signal:", q_signal)
+        return new_q_signal
                   
     def resolve_xy(self, j_signal, k_signal, q_signal, period=2, flip_type="JK"):
         """
@@ -281,10 +283,7 @@ class Chronograms:
             previous = new_q_signal[i]
                 
         return new_q_signal
-    def is_true(self, var):
-        """
-        test if true"""
-        return var>0
+
     @staticmethod
     def truncate_signal(sig, size: int):
         """
@@ -319,6 +318,13 @@ class Chronograms:
                     break
         return result
 
+    @staticmethod
+    def signal_size(signal:list)->int:
+        """
+        The sum of elements in signal, use absulate values
+        """
+        return sum(abs(x) for x in signal)
+
     def get_truth_value(self, var1, var2, flip_type):
         """
         get value for given fliptype"""
@@ -347,26 +353,33 @@ class Chronograms:
         else:
             return seqconst.FLIP_TRUTH_TABLES["default"][i+j]
         return ""
-    def is_false(self, var):
+    @staticmethod
+    def is_true(var):
+        """
+        test if true"""
+        return var>0
+    @staticmethod
+    def is_false(var):
         """
         test if false"""
         return var<0
-        
-    def set(self, period):
+    @staticmethod
+    def set(period):
         """
         set to one"""
         return period
-
-    def reset(self, period):
+    @staticmethod
+    def reset(period):
         """
         set to zero"""
         return -period
-
-    def memory(self, previous):
+    @staticmethod
+    def memory(previous):
         """
         keep memory"""
         return previous
-    def flip(self, previous):
+    @staticmethod
+    def flip(previous):
         """
         flip previous"""
         return -previous
@@ -404,7 +417,8 @@ class Chronograms:
     
     def random_signal(self, init=-1, length=10):
         """
-        generate a random list of signal data
+        generate a random list of signal data,
+        The result is a -1/1 signal list for length of (length)
         
         """
         signal = [random.randint(-1,1) for i in range(length)]

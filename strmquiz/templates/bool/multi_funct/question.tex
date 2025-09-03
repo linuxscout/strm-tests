@@ -149,6 +149,7 @@ $F(A,B,C,D) ={{  sop_quest }}$
 
 
 \textbf{Karnaugh Table \aRL{جدول كارنوف}}
+
 {% for data in data_list %}
 \begin{karnaugh-map}[4][4][1][{{ data.cd }}][{{ data.ab }}]
   \minterms{ {{ data.minterms | join(", ") }} }
@@ -160,9 +161,11 @@ $F(A,B,C,D) ={{  sop_quest }}$
     {{ data.formatted_simplification |join("\n") }}
  {% endif %}
  \end{karnaugh-map}
+
 {% if RENDER_MODE == "answer" %}
     Simplified Sum of products : ${{ data.function_name }} = {{ data.sop_dict.formatted }}$\\
-    Simplified product of sums : ${{ data.function_name }} = {{ data.pos_dict.formatted }}$
+    Simplified product of sums : ${{ data.function_name }} = {{ data.pos_dict.formatted }}$\\
+
 {% endif %}
 {% endfor %}
 
