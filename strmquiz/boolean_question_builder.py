@@ -30,24 +30,12 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 import random
-
-from .bool import bool_const
+from .bool import bool_const, logigram
 
 
 from .bool import boolquiz
 
 
-
-# 🔹 Constants
-LANG_AR = "arabic"
-LANG_EN = "english"
-
-
-SECTION_MAP = "bool/map"
-SECTION_MAP_SOP = "bool/map-sop"
-SECTION_FUNCTION = "bool/function"
-SECTION_EXP = "bool/exp"
-SECTION_MULTI = "bool/multi_funct"
 
 from .question_builder import Question_Builder
 
@@ -56,7 +44,8 @@ class BooleanQuestionBuilder(Question_Builder):
 
     def __init__(self, outformat="latex", config_file="", lang="ar-en", templates_dir=""):
         # 🔹 Inject dependencies (makes testing easier)
-        super().__init__(outformat=outformat, config_file=config_file, lang=lang, templates_dir=templates_dir)
+        super().__init__()
+        # super().__init__(outformat=outformat, config_file=config_file, lang=lang, templates_dir=templates_dir)
         self.bq = boolquiz.bool_quiz()
         self.bq.set_format('')
 
@@ -100,7 +89,7 @@ class BooleanQuestionBuilder(Question_Builder):
 
         simplification = self.bq.simplify_map(minterms, method=method)
 
-        formatted_simplification = self.formater.format_map_terms(simplification, method=method)
+        # formatted_simplification = self.formater.format_map_terms(simplification, method=method)
 
         # explained NAND and NOR process
         # get expalined expression as table,
@@ -233,7 +222,7 @@ class BooleanQuestionBuilder(Question_Builder):
         self.bq.reset_vars()
         sop_quest, minterms = self.bq.rand_exp()
 
-        sop_quest = self.formater.normalize_formula(sop_quest)
+        # sop_quest = self.formater.normalize_formula(sop_quest)
 
         context  = self._prepare_kmap_data(minterms=minterms,
                                       dontcares=[],
@@ -251,7 +240,7 @@ class BooleanQuestionBuilder(Question_Builder):
                            "nor_pos": context.get("nor_pos", ""),
                            "nand_sop": context.get("nand_sop", '')},
                           ]
-        logigramdict = self.formater.prepare_logigram_list([sop, ], function_namelist=["F",],
+        logigramdict = self._prepare_logigram_list([sop, ], function_namelist=["F",],
                                                    variables=["A","B","C","D"], equations_list=equations_list)
         context["logicdiagramdict"] = logigramdict
         # question, answer = self.formater.render_question_answer("bool/function", context)
@@ -295,7 +284,7 @@ class BooleanQuestionBuilder(Question_Builder):
                                "nor_pos": context.get("nor_pos", ""),
                                "nand_sop": context.get("nand_sop", '')},
                             ]
-        logigramdict = self.formater.prepare_logigram_list([sop, ], function_namelist=[fname,],
+        logigramdict = self._prepare_logigram_list([sop, ], function_namelist=[fname,],
                                                    variables=var_names,  equations_list= equations_list)
         context["logicdiagramdict"] = logigramdict
         # question, answer = self.formater.render_question_answer("bool/function", context)
@@ -325,8 +314,13 @@ class BooleanQuestionBuilder(Question_Builder):
 
         context["sop_quest"] = sop_quest
         context["logicdiagram"] = ""
-        logigramdict = self.formater.prepare_logigram_list([sop, ], function_namelist=[fname,],
-                                                   variables=var_names, method=method)
+        equations_list  = [{"sop": sop,
+                               "pos": pos,
+                               "nor_pos": context.get("nor_pos", ""),
+                               "nand_sop": context.get("nand_sop", '')},
+                            ]
+        logigramdict = self._prepare_logigram_list([sop, ], function_namelist=[fname,],
+                                                   variables=var_names, method=method,equations_list=equations_list)
         context["logicdiagramdict"] = logigramdict
         # question, answer = self.formater.render_question_answer("bool/function", context)
         # return question, "arabic", "data", answer
@@ -366,7 +360,7 @@ class BooleanQuestionBuilder(Question_Builder):
                                     "nand_sop":data.get("nand_sop",'')})
 
             # terms_list.append([[t.strip() for t in term.split(".")] for term in sop.split("+")])
-        logigramdict = self.formater.prepare_logigram_list(sop_list, function_namelist=output_names,
+        logigramdict = self._prepare_logigram_list(sop_list, function_namelist=output_names,
                                                    variables=var_names, method=method, equations_list=equations_list)
         # old method to draw logigram used only for latex,
         # deprecated
@@ -388,10 +382,14 @@ class BooleanQuestionBuilder(Question_Builder):
         return context
 
 
-    def question_exp(self,):
+    def question_exp(self,minterms=[], sop_quest=""):
 
         self.bq.reset_vars()
-        sop_quest, minterms = self.bq.rand_exp()
+        if self.randomize:
+            sop_quest, minterms = self.bq.rand_exp()
+        else:
+            if not sop_quest:
+                sop_quest, _ = self.bq.rand_exp(minterms=minterms)
 
         # sop_quest = self.formater.normalize_formula(sop_quest)
 
@@ -406,7 +404,23 @@ class BooleanQuestionBuilder(Question_Builder):
         context["sop_quest"] = sop_quest
         return context
 
-
+    def _prepare_logigram_list(self, sop_list, function_namelist = ["F",], variables = [], method="", equations_list=[]):
+        """ draw a logigram """
+        varnames = {
+            "A":variables[0],
+            "B":variables[1],
+            "C":variables[2],
+            "D":variables[3],
+        }
+        lg = logigram.logigram(varnames, method=method)
+        lgdict = lg.prepare_logigram_list(sop_list, function_namelist, equations_list=equations_list)
+        ## format labels
+        # for func_item in lgdict.get("functions", []):
+        #     for term in func_item.get("terms", []):
+        #         label = term.get("label", {})
+        #         if "default" in label:
+        #             label["formatted"] = self.normalize_formula(label["default"])
+        return lgdict
 
 def main(args):
     pass
