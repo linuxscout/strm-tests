@@ -187,3 +187,46 @@ def test_question_arithm(builder):
 @pytest.mark.skip(reason="To be enabled later")
 def test_question_mesure(builder):
     builder.question_mesure()
+
+
+def test_compute_steps_from10(builder):
+    number_tmp, steps_from10, steps_to10, binary_mode = builder._compute_conversion_steps(
+        number=25, in_base=10, out_base=2
+    )
+    assert isinstance(steps_from10, list)
+    assert steps_to10 == []
+    assert number_tmp == 0
+    assert binary_mode is False
+
+
+
+def test_compute_steps_to10(builder):
+    number_tmp, steps_from10, steps_to10, binary_mode = builder._compute_conversion_steps(
+        number=1011, in_base=2, out_base=10
+    )
+    assert isinstance(steps_to10, list)
+    assert steps_from10 == []
+    assert number_tmp == 0
+    assert binary_mode is False
+
+
+
+def test_compute_binary_mode(builder):
+    number_tmp, steps_from10, steps_to10, binary_mode = builder._compute_conversion_steps(
+        number="FF", in_base=16, out_base=2
+    )
+    assert binary_mode is True
+    assert steps_from10 == []
+    assert steps_to10 == []
+    assert number_tmp == 0
+
+
+
+def test_compute_steps_general_case(builder):
+    number_tmp, steps_from10, steps_to10, binary_mode = builder._compute_conversion_steps(
+        number="77", in_base=8, out_base=3
+    )
+    assert isinstance(steps_to10, list)
+    assert isinstance(steps_from10, list)
+    assert isinstance(number_tmp, int)
+    assert binary_mode is False
