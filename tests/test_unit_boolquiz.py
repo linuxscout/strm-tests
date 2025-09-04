@@ -94,3 +94,15 @@ def test_normalize_latex(bq):
     res = bq.normalize_latex(expr)
     assert "\\bar" in res
 
+def test_rand_exp(bq):
+    # random
+    exp, minterms = bq.rand_exp()
+    assert isinstance(exp, str), f"The result is {exp}"
+    assert isinstance(minterms, list), f"The result is {minterms}"
+
+    # not random
+    input_minterms = [1,12,3,15]
+    exp, minterms = bq.rand_exp(minterms=input_minterms)
+    assert isinstance(exp, str), f"The result is {exp}"
+    assert isinstance(minterms, list), f"The result is {minterms}"
+    assert minterms ==  input_minterms, f"The result is {minterms}, expr= {exp}"
