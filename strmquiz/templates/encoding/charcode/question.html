@@ -1,7 +1,7 @@
 {% macro encode_decode(charlist=None, codes=None, mode="encode", scheme="ascii") %}
   {% if mode == "encode" %}
     <h4>Encode the following text into {{ scheme|capitalize }}</h4>
-    <p><b>Text:</b> "{{ charlist|join }}"</p>
+    <p><b>Text:</b> "{{ charlist|escape_string|join }}"</p>
 
     <table border="1" cellpadding="5" cellspacing="0">
       <tr>
