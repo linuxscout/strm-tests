@@ -47,7 +47,7 @@ class QuizBuilder:
 
         # --- Check if templates_dir exists
         if not templates_dir or not os.path.isdir(templates_dir):
-            raise FileNotFoundError(f"Template directory not found: {templates_dir}")
+            raise FileNotFoundError(f"Template directory not found: '{templates_dir}'")
 
         # --- If no config file provided, use default
         if not config_file:
@@ -55,7 +55,7 @@ class QuizBuilder:
 
         # --- Check if config_file exists
         if not os.path.isfile(config_file):
-            raise FileNotFoundError(f"Config file not found: {config_file}")
+            raise FileNotFoundError(f"Config file not found: '{config_file}'")
 
         # --- Save attributes
         self.config_file = config_file
