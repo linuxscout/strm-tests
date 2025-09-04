@@ -1,0 +1,122 @@
+<p>
+Study the following function:
+<span dir="rtl">
+ادرس الدالة الآتية:
+</span><br/>
+
+{% if "fr" in languages %}
+Etudier la fonction suivante:
+{% endif %}<br/>
+
+ {{  sop_quest|normalize_formula }}
+
+{% if RENDER_MODE == "question" %}
+
+ {% endif %}
+
+{% if RENDER_MODE == "answer" %}
+
+
+<math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}= {{ minterms }}</mrow></math>
+
+<p><strong>Don't Care </strong></p>
+<math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}= {{ dontcares }}</mrow></math>
+
+
+<p><strong>Truth Table <span dir="rtl">جدول الحقيقة</span></strong></p>
+
+<table cellspacing="0" cellpadding="5"
+       style="text-align:center; border-collapse:collapse;" class="truthtable">
+          <thead>
+            <tr>
+              <th> Num </th><th> {{ variables[0] }} </th><th> {{ variables[1] }} </th><th>  {{ variables[2] }} </th><th>  {{ variables[3] }} </th><th>  F  </th>
+            </tr>
+          </thead>
+<tbody>
+{% for i in range(16) %}
+  {% set bits = '{:04b}'.format(i) %}
+  {% set bit_list = bits | list %}
+    <tr>
+      <td> {{ loop.index0 }} </td>
+      <td> {{ bit_list[0] }} </td>
+        <td> {{ bit_list[1] }} </td>
+        <td> {{ bit_list[2] }} </td>
+        <td> {{ bit_list[3] }} </td>
+        <td> {{ '1' if i in minterms else 'x' if i in dontcares else 0 }} </td>
+    </tr>
+{% endfor %}
+  </tbody>
+</table>
+
+<p><strong>Canonical Forms <span dir="rtl">الأشكال القانونية</span></strong></p>
+<ul>
+    <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}({{variables|join(", ")}}) = </mrow></math>{{ dnf_dict.default|normalize_formula }}</li>
+    <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}({{variables|join(", ")}}) = </mrow></math>{{ cnf_dict.default|normalize_formula }}</li>
+    <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}({{variables|join(", ")}})  = Σ({{ minterms | join(", ") }})</mrow></math></li>
+    <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}({{variables|join(", ")}})  = Π({{ maxterms | join(", ") }})</mrow></math></li>
+</ul>
+
+
+{% if True or method.lower() == "nand" %}
+  <p>
+    <strong>NAND forms</strong>
+    <span dir="rtl">بوابات نفي الوصل</span>
+  </p>
+  <ol>
+
+      <li>
+         <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math>     {{ nand_sop_dict.default|normalize_formula }}
+
+        <p>Explanation</p>
+        <ul>
+          <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math>     {{ sop_dict.default|normalize_formula }} </li>
+
+          {% for explain in nand_sop_dict.explained %}
+            <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math>  {{ explain|normalize_formula }} </li>
+          {% endfor %}
+        </ul>
+      </li>
+
+  </ol>
+{% endif %}
+
+{% if True or method.lower() == "nor" %}
+  <p>
+    <strong>NOR forms</strong>
+    <span dir="rtl">بوابات نفي الفصل</span>
+  </p>
+  <ol>
+
+      <li>
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math>    {{ nor_pos_dict.default|normalize_formula }}
+
+        <p>Explanation</p>
+        <ul>
+          <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math>  {{ pos_dict.default|normalize_formula }} </li>
+
+          {% for explain in nor_pos_dict.explained %}
+            <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math>   {{ explain|normalize_formula }} </li>
+          {% endfor %}
+        </ul>
+      </li>
+
+  </ol>
+{% endif %}
+
+
+<p><strong>Karnaugh map <span dir="rtl">جدول كارنوف</span></strong></p>
+
+{% import "bool/map/kmap_macros.html" as kmap %}
+{{ kmap.kmap4svg(minterms,  dontcares, groups=simplification, ab=ab, cd=cd) }}
+
+<br/>
+<ul>
+    <li>Simplified Sum of products : {{ sop_dict.default|normalize_formula }}</li>
+    <li>Simplified product of sums : {{ pos_dict.default|normalize_formula }}</li>
+    </ul>
+
+<p><strong>Logic diagram <span dir="rtl">المخطط المنطقي</span></strong></p>
+
+{% include "bool/logigram/structured_logigram.html.j2" %}
+
+{% endif %}

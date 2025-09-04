@@ -152,7 +152,7 @@ class quiz_format_html(quiz_format.quiz_format):
     # Escape for HTML
     @staticmethod
     def escape_string(s: str) -> str:
-        return [html.escape(x) for x in s]
+        return "".join([html.escape(x) for x in s])
     # ~ def display(self,):
         # ~ """
         # ~ """

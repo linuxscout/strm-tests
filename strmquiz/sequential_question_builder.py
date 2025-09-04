@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 
 import random
 
-from .sequentiel import tex_chronograms
+from .sequentiel import chronograms
 from .sequentiel import seqconst
 from .sequentiel import registersimulator
 from .sequentiel import countersimulator
@@ -43,17 +43,6 @@ from .bool import boolquiz
 
 
 
-# 🔹 Constants
-LANG_AR = "arabic"
-LANG_EN = "english"
-
-
-SECTION_CHRONO = "sequential/timing"
-SECTION_FLIP = "sequential/flip"
-SECTION_REGISTER = "sequential/register"
-SECTION_COUNTER = "sequential/counter"
-SECTION_MISC = "sequential/misc"
-
 from .question_builder import Question_Builder
 
 class SequentialQuestionBuilder(Question_Builder):
@@ -61,14 +50,15 @@ class SequentialQuestionBuilder(Question_Builder):
 
     def __init__(self, outformat="latex", config_file="", lang="ar-en", templates_dir=""):
         # 🔹 Inject dependencies (makes testing easier)
-        super().__init__(outformat=outformat, config_file=config_file, lang=lang, templates_dir=templates_dir)
+        super().__init__()
         self.bq = boolquiz.bool_quiz()
         self.bq.set_format('')
 
     def _preprare_chrnonogram(self,  input_vars=["V",], start_signals={"D": 1,"Q":0}, flip_type="D", length=20, synch_type="rising", output_vars=["Q", ]):
 
         # start_signals = start_signals
-        chrono = tex_chronograms.Tex_Chronograms();
+        # chrono = tex_chronograms.Tex_Chronograms();
+        chrono = chronograms.Chronograms();
         init_signals = {}
         for key in start_signals:
             if key in output_vars:
@@ -158,7 +148,8 @@ class SequentialQuestionBuilder(Question_Builder):
                                                       # flip_types=flip_types, register_type="shift-right")
                                                       flip_types=flip_types, register_type=register_type)
 
-        chrono = tex_chronograms.Tex_Chronograms();
+        chrono = chronograms.Chronograms();
+        # chrono = tex_chronograms.Tex_Chronograms();
         flip_type = flip_list[0].get("type","")
         init_signals = {}
         for key in start_signals:
@@ -186,7 +177,7 @@ class SequentialQuestionBuilder(Question_Builder):
 
         out_signals_final = {k:v for k,v in tmp_signals.items() if k in output_vars}
 
-        tex_data_answer = chrono.draw(tmp_signals, clock)
+        tex_data_answer = "Empty"#chrono.draw(tmp_signals, clock)
 
         data= {
         "varlist":start_signals,
@@ -214,7 +205,8 @@ class SequentialQuestionBuilder(Question_Builder):
         reg_sim = countersimulator.CounterSimulator(inputs=input_vars, outputs=output_vars,
                                                       flip_types=flip_types, counter_type=counter_type)
 
-        chrono = tex_chronograms.Tex_Chronograms()
+        chrono = chronograms.Chronograms()
+        # chrono = tex_chronograms.Tex_Chronograms()
         flip_type = flip_list[0].get("type","")
         init_signals = {}
         for key in start_signals:
@@ -245,7 +237,7 @@ class SequentialQuestionBuilder(Question_Builder):
         out_signals_initial = {k:v for k,v in init_signals.items() if k in output_vars}
 
         out_signals_final = {k:v for k,v in tmp_signals.items() if k in output_vars}
-        tex_data_answer = chrono.draw(tmp_signals, clock)
+        # tex_data_answer = chrono.draw(tmp_signals, clock)
 
         data= {
         "varlist":start_signals,
@@ -261,7 +253,7 @@ class SequentialQuestionBuilder(Question_Builder):
         "clock":clock,
         "question_signals":out_signals_initial,
         "answer_signals":out_signals_final,
-        "tex_data_answer":tex_data_answer,
+        "tex_data_answer":"Empty",
         }
         return data
 
@@ -278,14 +270,13 @@ class SequentialQuestionBuilder(Question_Builder):
 
         context= {"data": data,
           }
-        return self._render(SECTION_CHRONO, context)
-        # question, answer = self.formater.render_question_answer("sequential/timing", context)
-        # return question, "arabic", "data", answer
+        return context
+
 
 
     def _get_rand_flip(self,):
         seqs = seqconst.FLIPS_RANDOM
-        name = self.rng.choice(list(seqs.keys()))
+        name = random.choice(list(seqs.keys()))
         inputs = list(name)
         init_signals = {e: 0 for e in inputs}
         init_signals.update({'Q': -1, "Q'": 1, })
@@ -319,9 +310,9 @@ class SequentialQuestionBuilder(Question_Builder):
         context= {"data": data,
                   "flip_data":flip_data,
           }
-        # question, answer = self.formater.render_question_answer("sequential/flip", context)
-        # return question, "arabic", "data", answer
-        return self._render(SECTION_FLIP, context)
+
+        return context
+
 
     def question_register(self, varlist={}, flip_types=["D",], length=20, synch_type="rising", output_vars=["Q", ], register_type="shift-right",
                           nbits:int=2,
@@ -331,8 +322,8 @@ class SequentialQuestionBuilder(Question_Builder):
         Generate Chronogram question for a given register
         """
         if register_random:
-            nbits = self.rng.randint(3,6)
-            reg_flip_type_list = self.rng.choices(["D","JK"], k=nbits)
+            nbits = random.randint(3,6)
+            reg_flip_type_list = random.choices(["D","JK"], k=nbits)
             # get data from flip standard
             reg_flip_list = [seqconst.FLIPS_DATA.get(ft,{}) for ft in reg_flip_type_list ]
         else:
@@ -375,9 +366,8 @@ class SequentialQuestionBuilder(Question_Builder):
         context= {"data": data,
                   "register_data": register_data,
           }
-        return self._render(SECTION_REGISTER, context)
-        # question, answer = self.formater.render_question_answer("sequential/register", context)
-        # return question, "arabic", "data", answer
+        return context
+
 
 
     def question_counter(self, varlist={}, flip_types=["D",], length=20, synch_type="rising", output_vars=["Q", ], counter_type="up",
@@ -388,8 +378,8 @@ class SequentialQuestionBuilder(Question_Builder):
         Generate Chronogram question for a given register
         """
         if counter_random:
-            nbits = self.rng.randint(3,6)
-            reg_flip_type_list = self.rng.choices(["D","JK"], k=nbits)
+            nbits = random.randint(3,6)
+            reg_flip_type_list = random.choices(["D","JK"], k=nbits)
             # get data from flip standard
             reg_flip_list = [seqconst.FLIPS_DATA.get(ft,{}) for ft in reg_flip_type_list ]
         else:
@@ -434,9 +424,8 @@ class SequentialQuestionBuilder(Question_Builder):
         context= {"data": data,
                   "counter_data": counter_data,
           }
-        return self._render(SECTION_COUNTER, context)
-        # question, answer = self.formater.render_question_answer("sequential/counter", context)
-        # return question, "arabic", "data", answer
+        return context
+
 
 
 
@@ -447,13 +436,12 @@ class SequentialQuestionBuilder(Question_Builder):
         """
         context= {}
 
-        data = self._preprare_chrnonogram(varlist=varlist, flip_type=flip_type, length=length, synch_type=synch_type, output_vars=output_vars)
+        data = self._preprare_chrnonogram(flip_type=flip_type, length=length, synch_type=synch_type, output_vars=output_vars)
 
         context= {"data": data,
           }
-        return self._render(SECTION_MISC, context)
-        # question, answer = self.formater.render_question_answer("sequential/misc", context)
-        # return question, "arabic", "data", answer
+        return context
+
 
 
 def main(args):

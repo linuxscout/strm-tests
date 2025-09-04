@@ -4,7 +4,8 @@ SHELL := /bin/bash
 .SHELLFLAGS := -e -o pipefail -c
 # Current date format for versioned output folders
 DATE := $(shell date +'%y.%m.%d-%H:%M')
-
+TEX_DIR=resources/latex
+GEN_DIR=tmp/edits
 # List of test IDs
 TESTS := test0 test1 test2 test3 test4 test5 test6 test7 test8 test9 bankquestion
 TESTSHTML := test0h test1h test2h test3h test4h test5h test6h test7h test8h test9h bankquestionh
@@ -14,7 +15,7 @@ default: all
 
 # Cleanup LaTeX artifacts
 clean:
-	rm -f latex/*.aux latex/*.log latex/*.pdf latex/*.toc latex/test.tex latex/correct.tex
+	rm -f $(TEX_DIR)/*.aux $(TEX_DIR)/*.log $(TEX_DIR)/*.pdf $(TEX_DIR)/*.toc $(TEX_DIR)/test.tex $(TEX_DIR)/correct.tex
 
 # Empty placeholder
 backup:
@@ -37,12 +38,12 @@ doc:
 define test_template
 $(1):
 	@echo "Generating test: $(1)"
-	python3 -m strmquiz -f config/quiz6.conf --lang="ar-en" --templates strmquiz/templates -d tex -t "$(1)" -o tests/output/test.tex &> tmp/script.log
-	cp tests/output/test.tex latex/test.tex
-	cd latex && xelatex test-n2.tex
-	mkdir -p edits/test2-$(DATE)
-	cp latex/test.tex latex/test-n2.pdf latex/test-n2.tex latex/karnaugh-map.sty edits/test2-$(DATE)/
-	cp latex/test.tex latex/test-n2.pdf latex/test-n2.tex latex/karnaugh-map.sty edits/
+	python3 -m strmquiz -f config/quiz6.conf --lang="ar-en" --templates templates -d tex -t "$(1)" -o tests/output/test.tex &> tmp/script.log
+	cp tests/output/test.tex $(TEX_DIR)/test.tex
+	cd $(TEX_DIR) && xelatex main_test.tex
+	mkdir -p $(GEN_DIR)/test2-$(DATE)
+	cp $(TEX_DIR)/test.tex $(TEX_DIR)/main_test.pdf $(TEX_DIR)/main_test.tex $(TEX_DIR)/karnaugh-map.sty $(GEN_DIR)/test2-$(DATE)/
+	cp $(TEX_DIR)/test.tex $(TEX_DIR)/main_test.pdf $(TEX_DIR)/main_test.tex $(TEX_DIR)/karnaugh-map.sty $(GEN_DIR)/
 
 endef
 
@@ -51,10 +52,10 @@ $(foreach T,$(TESTS),$(eval $(call test_template,$(T))))
 
 # Correction PDF generation
 correct:
-	python3 strm_test/get-correction.py > latex/correct.tex
-	cd latex && xelatex correction-s2.tex
-	mkdir -p edits/test2-$(DATE)
-	cp latex/correct.tex latex/correction-s2.pdf latex/correction-s2.tex latex/karnaugh-map.sty edits/test2-$(DATE)/
+	python3 strm_test/get-correction.py > $(TEX_DIR)/correct.tex
+	cd $(TEX_DIR) && xelatex correction-s2.tex
+	mkdir -p $(GEN_DIR)/test2-$(DATE)
+	cp $(TEX_DIR)/correct.tex $(TEX_DIR)/correction-s2.pdf $(TEX_DIR)/correction-s2.tex $(TEX_DIR)/karnaugh-map.sty $(GEN_DIR)/test2-$(DATE)/
 
 # Run test against a specific CSV
 test_rb:
@@ -84,10 +85,10 @@ test5h:TEST_ID=test5
 test9h:TEST_ID=test9
 test0h test1h test2h test3h test9h test5h test4h:
 	@echo "Generating test: $(TEST_ID)"
-	python3 -m strmquiz -f config/quiz6.conf --lang="ar-en" --templates strmquiz/templates -d html -t "$(TEST_ID)" -o tests/output/test.html
-	mkdir -p edits/test2-$(DATE)
-	cp tests/output/test.html edits/test2-$(DATE)/
-	cp tests/output/test.html edits/
+	python3 -m strmquiz -f config/quiz6.conf --lang="ar-en" --templates templates -d html -t "$(TEST_ID)" -o tests/output/test.html
+	mkdir -p $(GEN_DIR)/test2-$(DATE)
+	cp tests/output/test.html $(GEN_DIR)/test2-$(DATE)/
+	cp tests/output/test.html $(GEN_DIR)/
 
 # Generate one rule per test
 $(foreach T,$(TESTSHTML),$(eval $(call test_template_html,$(T))))

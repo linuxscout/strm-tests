@@ -201,31 +201,48 @@ class questionGenerator:
         """
         base = random.choice([2, 5, 6, 8, 12, 16])
         op = random.choice(["+","-"])
+        number_a = random.randint(12, base ** 8)
+        number_b = random.randint(12, base ** 8)
+
         if op == "+":
             a, b, c = self.addition_base(base)       
         else:
             a, b, c = self.sub_base(base)       
+        return self.arithm(number_a=number_a, number_b=number_b, base=base, operation=op)
 
-        question =u"Faire le opérations suivants  en base %d "%base
-        
-        return {"question": " %9s\n%s%9s\n----------\n\n"%(a,op, b),
-        "reponse": " %9s\n%s%9s\n----------\n %9s\n"%(a,op,b,c),
-        "number_a":a,
-        "number_b":b,
-        "number_c":c,
-        "operation":op,
-        "base":base,
-        }
+    def arithm(self, number_a=0, number_b=0, base=10, operation='+'):
+        """
+        generate question in arithmetic mode
+        """
+        op = operation
+        if op == "+":
+            a, b, c = self.addition_base(base,number_a=number_a, number_b=number_b)
+        else:
+            a, b, c = self.sub_base(base,number_a=number_a, number_b=number_b)
+
+        return {"question": " %9s\n%s%9s\n----------\n\n" % (a, op, b),
+                "reponse": " %9s\n%s%9s\n----------\n %9s\n" % (a, op, b, c),
+                "number_a": a,
+                "number_b": b,
+                "number_c": c,
+                "operation": op,
+                "base": base,
+                }
+
     def sys_num_reponse(self, x, y):
         """ print the solution"""
         
         if x == 10 and y != 10:
             self.int2base_repr(x,y)
             
-    def addition_base(self, x, method=False):
-        """ addition in base x """    
-        a = random.randint(12, x**8)
-        b = random.randint(12, x**8)
+    def addition_base(self, x, method=False, number_a=0, number_b=0):
+        """ addition in base x """
+        if not number_a and not number_b:
+            a = random.randint(12, x**8)
+            b = random.randint(12, x**8)
+        else:
+            a = number_a
+            b = number_b
         c = a+b
         a = self.int2base(a, x)
         b = self.int2base(b, x)
@@ -235,10 +252,14 @@ class questionGenerator:
             return text
         return a,b,c
     
-    def sub_base(self, x, method=False):
-        """ addition in base x """    
-        a = random.randint(12, x**8)
-        b = random.randint(12, x**8)
+    def sub_base(self, x, method=False,number_a=0, number_b=0):
+        """ substraction in base x """
+        if not number_a and not number_b:
+            a = random.randint(12, x**8)
+            b = random.randint(12, x**8)
+        else:
+            a = number_a
+            b = number_b
         if a <b :
             a,b=b,a
         c = a-b
@@ -249,6 +270,7 @@ class questionGenerator:
             text = " %9s\n-%9s\n----------\n %9s\n"%(a,b,c)
             return text
         return a,b,c
+
     def bin2cp1(self, a, nbits):
         """ convert a binary int to complemnt to one"""
         if len(a) < nbits-1:
@@ -712,6 +734,7 @@ class questionGenerator:
         return ''.join(str(b) for b in binary)
 
 
+
     def gray_sequence_from_binary(self, x: str, n: int) -> list[str]:
         """
         Generate a sequence of n Gray codes starting from binary string x.
@@ -729,7 +752,13 @@ class questionGenerator:
             next_bin = f"{start_int + i:0{width}b}"
             next_gray = self.binary_to_gray(next_bin)
             sequence.append(next_gray)
-        return sequence
+        # find the maximum length
+        max_len = max(len(b) for b in sequence)
+        # pad with leading zeros
+        padded_sequence = [b.zfill(max_len) for b in sequence]
+        return padded_sequence
+
+
     def gray_explain(self, binary_str, gray_str):
         """" return steps to convert gray to/from binary """
         bin_number = list(binary_str)

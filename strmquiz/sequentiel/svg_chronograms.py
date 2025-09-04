@@ -19,11 +19,14 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 #  
-#  
+#
+from deprecated import deprecated
 import wavedrom
 import json
 import random
 import chronograms
+
+@deprecated(reason="SVG format is moved to quiz_format class")
 class SVG_Chronograms(chronograms.Chronograms):
     """
     A class to generate questions and answers on chronograms

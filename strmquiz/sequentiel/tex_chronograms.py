@@ -20,10 +20,10 @@
 #  MA 02110-1301, USA.
 #  
 #  
-import wavedrom
-import json
+from  deprecated  import deprecated
 import random
 from . import chronograms
+
 TEMPLATE_DUAL = """
 \\begin{tikztimingtable}
 %[timing/slope=.0, timing/draw grid]
@@ -75,6 +75,9 @@ TEMPLATE_FALLING = """
 \\end{scope}
 \\end{tikztimingtable}
 """
+
+
+@deprecated(reason="Latex format is moved to quiz_format class")
 class Tex_Chronograms(chronograms.Chronograms):
     """
     A class to generate questions and answers on chronograms

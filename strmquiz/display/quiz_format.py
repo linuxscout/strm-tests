@@ -49,6 +49,9 @@ class quiz_format:
         # self.env.globals.update(enumerate=enumerate)
         self.env.filters['group4'] = self.group_digits_by_4
         self.env.filters["to_bin"] = to_bin
+        self.env.filters["normalize_formula"] = self.normalize_formula
+        self.env.filters["format_map_terms"] = self.format_map_terms
+        self.env.filters["escape_string"] = self.escape_string
         self.group_digit_sep = " "
         # self.variables = ["a","b","c","d"]
         #~ print("quiz_format")
@@ -81,7 +84,7 @@ class quiz_format:
 
     # Escape for HTML
     def escape_string(self, s: str) -> str:
-        return list(s)
+        return "".joint(list(s))
 
     def group_digits_by_4(self, value):
         try:

@@ -2,6 +2,7 @@ import os
 import pytest
 
 from strmquiz.quizbuilder import QuizBuilder
+TEMPLATES_DIR =os.path.join(os.path.dirname(__file__), "../","templates")
 
 
 @pytest.fixture
@@ -38,7 +39,7 @@ test1=[["base", "intervalle", "arithm"],
 @pytest.fixture
 def builder(config_path):
     # You may need to pass a templates_dir if question_builder expects it
-    return QuizBuilder(outformat="latex", config_file=config_path, lang="en")
+    return QuizBuilder(outformat="latex", config_file=config_path, lang="en", templates_dir=TEMPLATES_DIR)
 
 
 def test_list_commands_real(builder):
@@ -49,9 +50,9 @@ def test_list_commands_real(builder):
 
 def test_get_question_real(builder):
     """Call some real question types without mocking."""
-    qtext, lang, data, ans = builder.get_question("float")
+    qtext, ans = builder.get_question("float")
     assert isinstance(qtext, str)
-    assert lang in ("Arabic", "English") or isinstance(lang, str)
+
 
 
 def test_build_quiz_real(builder):

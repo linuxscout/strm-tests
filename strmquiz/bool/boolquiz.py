@@ -1,10 +1,7 @@
 import random
 import re
 import sympy
-from sympy.logic import SOPform
-from sympy.logic import POSform
 from sympy import symbols
-from sympy.logic.boolalg import to_cnf, to_dnf
 
 from . import logigram
 from . import bool_const
@@ -23,8 +20,9 @@ class bool_quiz:
         self.default_vars = ["A", "B","C", "D"]
         # ~ self.variables = ["A", "B","C", "D"]
         self.vars_outputs = ["S0","S1", "S2","S3", "S4", "S5", "S6", "S7", "S8", "S9","S10"]
-        self.format = "latex"
-        
+        # self.format = "latex"
+        self.format = "text"
+
     def set_vars(self, entries=[], outputs=["F"]):
         """ Set variable names instead of ABCD,
         """
@@ -49,12 +47,13 @@ class bool_quiz:
         return  minterms
         
         
-    def rand_exp(self, nb=2):
+    def rand_exp(self, minterms=[], nb=2):
         """ generate random expression"""
         minterms_table = []
         sop_quest  = []
         for i in range(nb):
-            minterms = random.sample(range(16),random.randrange(3,12))
+            if not minterms:
+                minterms = random.sample(range(16),random.randrange(3,12))
             minterms.sort()
             minterms_table +=minterms
             sop, _ = self.simplify(minterms)            
@@ -735,7 +734,62 @@ class bool_quiz:
         }
         lg = logigram.logigram(varnames)
         return lg.draw_logigram_list(sop_list, function_namelist)
+    @staticmethod
+    def validate_terms(terms, name="terms", min_val=0, max_val=15, normalize=True):
+        """
+        Validate and optionally normalize a collection of logic terms
+        (minterms, maxterms, dontcares).
 
+        Args:
+            terms (list[int] | tuple[int]): collection of integer terms
+            name (str): name for error messages ("minterms", "maxterms", "dontcares")
+            min_val (int): minimum allowed value (default 0)
+            max_val (int): maximum allowed value (default 15)
+            normalize (bool): if True, returns sorted unique list
+
+        Returns:
+            list[int]: validated (and possibly normalized) terms
+
+        Raises:
+            TypeError: if terms is not a list/tuple or contains non-integers
+            ValueError: if a term is outside the allowed range
+        """
+        if not isinstance(terms, (list, tuple)):
+            raise TypeError(f"{name.capitalize()} must be a list or tuple of integers.")
+
+        cleaned = []
+        for t in terms:
+            if not isinstance(t, int):
+                raise TypeError(f"{name.capitalize()} contains non-integer value: {t!r}")
+            if not min_val <= t <= max_val:
+                raise ValueError(
+                    f"{name.capitalize()} contains out-of-range value {t}, "
+                    f"expected between {min_val} and {max_val}."
+                )
+            cleaned.append(t)
+
+        return sorted(set(cleaned)) if normalize else cleaned
+
+    def validate_terms_list(self, terms_list, name="terms_list"):
+        """
+        Validate a list of lists of terms (e.g., minterms_list).
+
+        Args:
+            terms_list (list[list[int]]): collection of term lists
+            name (str): name for error messages
+
+        Returns:
+            list[list[int]]: validated and normalized term lists
+        """
+        if not isinstance(terms_list, (list, tuple)):
+            raise TypeError(f"{name.capitalize()} must be a list or tuple of lists.")
+
+        validated = []
+        for idx, terms in enumerate(terms_list):
+            validated.append(
+                self.validate_terms(terms, name=f"{name}[{idx}]")
+            )
+        return validated
 def test1():
     bq = bool_quiz()
     minterms = bq.rand_funct()

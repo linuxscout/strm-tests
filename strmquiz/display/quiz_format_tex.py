@@ -146,18 +146,18 @@ class quiz_format_tex(quiz_format.quiz_format):
     @staticmethod
     def escape_string(s: str) -> str:
         replacements = {
-            '\\': r'\\textbackslash{}',
-            '{': r'\{',
-            '}': r'\}',
-            '$': r'\$',
-            '&': r'\&',
-            '#': r'\#',
-            '_': r'\_',
-            '%': r'\%',
-            '^': r'\textasciicircum{}',
-            '~': r'\textasciitilde{}',
+            '\\': '\\textbackslash{}',
+            '{': '\\{',
+            '}': '\\}',
+            '$': '\\$',
+            '&': '\\&',
+            '#': '\\hash{}',
+            '_': '\\_{}',
+            '%': '\\%',
+            '^': '\\textasciicircum{}',
+            '~': '\\textasciitilde{}',
         }
-        return [replacements.get(c,c) for c in s]
+        return "".join([replacements.get(c,c) for c in s])
 
 
     def display2(self,):

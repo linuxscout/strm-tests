@@ -1,0 +1,118 @@
+STRUCTURED LOGIGRAM-FILE-TEMPLATE
+
+
+{% set gates_space = 1.2 %}
+{% set var_space = 1.36 %}
+{% set lg = logicdiagramdict %}
+
+\begin{tikzpicture}
+
+%%Paramaters
+%% var position, can be modified
+\def\varPos{ {{ var_space * (lg.size_terms-1) if lg.size_terms > 1 else var_space*1.5}} }
+
+
+\def\FunctionPos{6}
+{% set start = 0.0 %}
+{% set step = 0.5 %}
+{% for name in lg.variables.values() %}
+    \node (x{{ loop.index }}) at ({{ start + step * (loop.index0) }}, \varPos) {$ {{ name }} $};
+    \node[{{lg.notvar_gate}} gate US, draw, rotate=270, scale=0.7] at ($(x{{ loop.index }}) + (0.25, -0.6)$) (notx{{ loop.index }}) {};
+    {% if lg.notvar_gate.lower() == "not"%}
+        \draw ($(x{{ loop.index }})+(0,-1ex)$) -| (notx{{ loop.index }}.input);
+    {% elif lg.notvar_gate.lower()  in ["nand", "nor"] %}
+        \draw ($(x{{ loop.index }})+(0,-1ex)$) -| (notx{{ loop.index }}.input 1);
+        \draw ($(x{{ loop.index }})+(0,-1ex)$) -| (notx{{ loop.index }}.input 2);
+    {% endif %}
+{% endfor %}
+
+
+{% set start = 0.0 %}
+{% set step =  gates_space %}
+{% set ns = namespace(counter=1, ti=0,ti0=0, offset=0, shift=0, xory_id="", function_index=0, gate_ypos=0, gate_and_counter =0, terms_string_list =[], terms=[], gate_id="", label="") %}
+
+{% for funct_item in lg.functions %}
+    {% for term in funct_item.terms %}
+        {% set ns.gate_ypos = start + step * ns.gate_and_counter %}
+     %% ***Function {{ funct_item.name }} : Gate for term n° {{ loop.index }} [ {{ term.label }} ]***
+        {% if (term.vars|length) > 1 %}
+           \node[{{lg.term_gate}} gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, {{ ns.gate_ypos  }}) ({{term.id}}) {};
+           \draw ({{term.id}}.output) -- node[above]{\scriptsize $ {{ term.label.formatted|normalize_formula }} $} ($({{term.id}}) + (1.8, 0)$);
+        {% set ns.counter=1 %}
+        {%for var in lg.variables.values()  %}
+            {% if var+"'" in term.vars %}
+                \draw [line width=0.25mm,   red] (notx{{ loop.index }}.output)
+                -- ([xshift=0cm]notx{{ loop.index }}.output) |- ({{term.id}}.input {{ ns.counter }});
+                {% set ns.counter = ns.counter + 1 %}
+            {% elif var in term.vars %}
+                \draw ($(x{{ loop.index }}) + (0, -1ex)$)|- ({{term.id}}.input {{ ns.counter }});
+                {% set ns.counter = ns.counter + 1 %}
+            {% endif %}
+        {% endfor %}
+        {% else %}
+           \node at (2.5, {{ ns.gate_ypos  }}) ({{term.id}}) {};
+           \draw ({{term.id}}) -- node[above]{\scriptsize $ {{ term.label.formatted }} $} ($({{term.id}}) + (1.2, 0)$);
+
+        {% set ns.counter=1 %}
+        {%for var in lg.variables.values()  %}
+            {% if var+"'" in term.vars %}
+                \draw [line width=0.25mm,   red] (notx{{ loop.index }}.output)
+                -- ([xshift=0cm]notx{{ loop.index }}.output) |- ({{term.id}}.east);
+                {% set ns.counter = ns.counter + 1 %}
+            {% elif var in term.vars %}
+                \draw ($(x{{ loop.index }}) + (0, -1ex)$)|- ({{term.id}}.east);
+                {% set ns.counter = ns.counter + 1 %}
+            {% endif %}
+        {% endfor %}
+
+        {% endif %}
+     {% set ns.gate_and_counter = ns.gate_and_counter +1 %}
+    {% endfor %}
+
+
+    %% y_pos : the position of OR gate according to their related gates
+    {% set f_ypos = (ns.gate_and_counter-1  - (funct_item.nb_terms-1)/2)* gates_space %}
+
+    %% Function {{ funct_item.name }} Large OR Gate
+    {% set ns.xory_id= "xory"+funct_item.name %}
+
+    {% if funct_item.nb_terms> 1 %}
+        \node[{{lg.function_gate}} gate US, draw, rotate=0, logic gate inputs=n{{ "n" * (funct_item.nb_terms) }}] at (\FunctionPos, {{ f_ypos }}) ({{ns.xory_id}}) {};
+        \draw ({{ns.xory_id}}.output) -- node[above]{\scriptsize ${{ funct_item.name }}$} ($({{ns.xory_id}}.east) + (+3ex, 0)$);
+    {% else %}
+        \node at (\FunctionPos, {{ f_ypos }}) ({{ns.xory_id}}) {};
+        \draw ({{ns.xory_id}})  node[above]{\scriptsize ${{ funct_item.name }}$} ($({{ns.xory_id}}.east) + (+3ex, 0)$);
+    {% endif %}
+
+
+    {% set start = 1.6 %}
+    {% set step = 0.05 %}
+    {% set ns.offset=start %}
+    {% for term in funct_item.terms %}
+
+        {% if funct_item.nb_terms > 1 %}
+            {% if (term.vars|length) > 1 %}
+             \draw ({{term.id}}.output) -- ++({{ ns.offset }},0) |- ({{ns.xory_id}}.input {{ loop.revindex }});
+            {% else %}
+             \draw ({{term.id}}) -- ++({{ ns.offset }},0) |- ({{ns.xory_id}}.input {{ loop.revindex }});
+            {% endif %}
+
+        {% else %}
+            {% if (term.vars|length) > 1 %}
+             \draw ({{term.id}}.output) -- ({{ns.xory_id}});
+            {% else %}
+             \draw ({{term.id}}.east) -- ({{ns.xory_id}});
+            {% endif %}
+        {% endif %}
+        {% set ns.offset = start + (loop.index - (funct_item.nb_terms)//2) * 0.05 %}
+
+    {% endfor %}
+{% endfor %}
+
+ \end{tikzpicture}
+
+{% if debug %}
+\begin{verbatim}
+{{logicdiagramdict|pprint}}
+\end{verbatim}
+{% endif %}

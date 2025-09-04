@@ -23,6 +23,8 @@
 #
 import logging
 # --- Configure logging ---
+import os.path
+
 logging.basicConfig(
     level=logging.DEBUG,  # change to INFO or WARNING in production
     format="%(levelname)s:%(name)s:%(message)s"
@@ -35,21 +37,50 @@ import random
 from . import read_config
 from .display import quiz_format_factory
 from .question_builder_factory import question_builder_factory
+
+
+import os
+
 class QuizBuilder:
     """ Generate the third test """
-    def __init__(self, outformat="", config_file ="", lang="", templates_dir=""):
+    def __init__(self, outformat="", config_file="", lang="", templates_dir=""):
 
-        self.qsbuilder = question_builder_factory.factory(builder_name="", outformat=outformat, lang=lang, templates_dir=templates_dir)
-        self.encode_qsbuilder = question_builder_factory.factory(builder_name="encoding",outformat=outformat, lang=lang, templates_dir=templates_dir)
-        self.bool_qsbuilder = question_builder_factory.factory(builder_name="boolean",outformat=outformat, lang=lang, templates_dir=templates_dir)
-        self.seq_qsbuilder = question_builder_factory.factory(builder_name="sequential",outformat=outformat, lang=lang, templates_dir=templates_dir)
+        # --- Check if templates_dir exists
+        if not templates_dir or not os.path.isdir(templates_dir):
+            raise FileNotFoundError(f"Template directory not found: '{templates_dir}'")
 
-        self.formater = quiz_format_factory.quiz_format_factory.factory(outformat)
-        # if the file is not configured, use default config file
+        # --- If no config file provided, use default
         if not config_file:
-            config_file = "config/quiz.conf"
+            config_file = os.path.join(os.path.dirname(__file__), "config", "quiz.conf")
+
+        # --- Check if config_file exists
+        if not os.path.isfile(config_file):
+            raise FileNotFoundError(f"Config file not found: '{config_file}'")
+
+        # --- Save attributes
         self.config_file = config_file
+
+        # --- Factories
+        self.qsbuilder = question_builder_factory.factory(
+            builder_name="", outformat=outformat, lang=lang, templates_dir=templates_dir
+        )
+        self.encode_qsbuilder = question_builder_factory.factory(
+            builder_name="encoding", outformat=outformat, lang=lang, templates_dir=templates_dir
+        )
+        self.bool_qsbuilder = question_builder_factory.factory(
+            builder_name="boolean", outformat=outformat, lang=lang, templates_dir=templates_dir
+        )
+        self.seq_qsbuilder = question_builder_factory.factory(
+            builder_name="sequential", outformat=outformat, lang=lang, templates_dir=templates_dir
+        )
+
+        self.formater = quiz_format_factory.quiz_format_factory.factory(
+            outformat, lang=lang, templates_dir=templates_dir
+        )
+
+        # --- Load config
         self.myconfig = read_config.ReadConfig(config_file)
+
         #~ print(outformat)
         self.commands = ["float",
          "intervalle",
@@ -105,6 +136,38 @@ class QuizBuilder:
         self.quiz_commands[6] =  [
         ["chronogram",],
         ]
+
+        self.TEMPLATE_MAP = {
+            "float": "encoding/float",
+            "complement": "encoding/cp",
+            "intervalle": "encoding/interval",
+            "base": "base",
+            "bcdx3": "encoding/bcdx3",
+            "gray": "encoding/gray",
+            "ascii": "encoding/charcode",
+            "unicode": "encoding/charcode",
+            "charcode": "encoding/charcode",
+            "arithm": "arithm",
+            "mesure": "mesure",  # NotImplementedError for now
+            "map": "bool/map",
+            "map-sop": "bool/map-sop",
+            "function": "bool/function",
+            "static_funct": "bool/function",
+            "exp": "bool/exp",
+            "multi_funct": "bool/multi_funct",
+
+            # 🔹 Sequential logic questions
+            "chronogram": "sequential/timing",
+            "flip": "sequential/flip",
+            "register": "sequential/register",
+            "counter": "sequential/counter",
+            "misc": "sequential/misc",
+            }
+    def get_template(self, name):
+        temp = self.TEMPLATE_MAP.get(name, "default")
+        if temp == "default":
+            raise NotImplementedError(f"Not Implemented template for command '{name}'")
+        return temp
     def set_format(self, outformat="latex"):
         """ set a new format"""
         self.formater = quiz_format_factory.quiz_format_factory.factory(outformat)
@@ -120,6 +183,16 @@ class QuizBuilder:
         """
         return self.myconfig.get_quiz_config(test_id)
 
+
+    def _render(self, template: str, context: dict):
+        """Render a question and answer using the current formatter."""
+        try:
+            q, a = self.formater.render_question_answer(template, context)
+            # return q, LANG_AR, "data", a
+            return q, a
+        except Exception as e:
+            logger.exception("Error rendering template %s", template)
+            return f"Error: {e}",  "Error"
      
 
     def get_question(self, command, args={}):
@@ -260,7 +333,11 @@ class QuizBuilder:
         question_func, needs_args = entry
 
         try:
-            return question_func(args) if needs_args else question_func()
+            result = question_func(args) if needs_args else question_func()
+            if isinstance(result, dict):
+                return self._render(self.get_template(command), result)
+            else:
+                raise BaseException(f"Warning to be fixed '{command}' not return a context dict")
         except Exception as e:
             import traceback
             traceback_str = traceback.format_exc()

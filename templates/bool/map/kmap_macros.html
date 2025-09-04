@@ -1,0 +1,251 @@
+{% macro kmap4(minterms, maxterms, dontcares, ab, cd) %}
+    <table border="1" cellspacing="0" cellpadding="5"
+           style="text-align:center; border-collapse:collapse;">
+        <thead>
+            <tr>
+                <th>{{ ab }} \ {{ cd }}</th>
+                <th>00</th>
+                <th>01</th>
+                <th>11</th>
+                <th>10</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set row_labels = ["00", "01", "10", "11"] %}
+            {% set col_labels = ["00", "01", "10", "11"] %}
+            {% for r in  [0,1,3,2] %}
+            <tr>
+                <th>{{ row_labels[r] }}</th>
+                {% for c in [0,1,3,2]  %}
+                    {% set index = (r * 4 + c) %}
+                    <td id="m{{index}}">
+                        {% if index in minterms %}
+                            1
+                        {% elif index in maxterms %}
+                            0
+                        {% elif index in dontcares %}
+                            X
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endmacro %}
+
+{%- macro rect_open_side(x, y, w, h, open_side="top", stroke="red", stroke_width=3, fill="none", radius=8) -%}
+  {# Utility to create a corner with a rounded path #}
+  {%- macro move_line(x1, y1, x2, y2, corner="none") -%}
+    {%- if corner == "tl" -%} Q {{ x1 }},{{ y2 }} {{ x2 }},{{ y2 }}
+    {%- elif corner == "tr" -%} Q {{ x2 }},{{ y1 }} {{ x2 }},{{ y2 }}
+    {%- elif corner == "br" -%} Q {{ x2 }},{{ y2 }} {{ x1 }},{{ y2 }}
+    {%- elif corner == "bl" -%} Q {{ x1 }},{{ y2 }} {{ x1 }},{{ y1 }}
+    {%- else -%} L {{ x2 }},{{ y2 }}
+    {%- endif -%}
+  {%- endmacro -%}
+
+  {%- set segs = [] -%}
+
+  {%- if open_side == "top" -%}
+    {# left, bottom, right #}
+    {%- set segs = segs + ["M " ~ x ~ "," ~ (y+radius) ~ " L " ~ x ~ "," ~ (y+h-radius) ~ " Q " ~ x ~ "," ~ (y+h) ~ " " ~ (x+radius) ~ "," ~ (y+h)] -%}
+    {%- set segs = segs + ["L " ~ (x+w-radius) ~ "," ~ (y+h) ~ " Q " ~ (x+w) ~ "," ~ (y+h) ~ " " ~ (x+w) ~ "," ~ (y+h-radius)] -%}
+    {%- set segs = segs + ["L " ~ (x+w) ~ "," ~ (y+radius)] -%}
+
+  {%- elif open_side == "right" -%}
+    {# top, left, bottom #}
+    {%- set segs = segs + ["M " ~ (x+radius) ~ "," ~ y ~ " L " ~ (x+w-radius) ~ "," ~ y ~ " Q " ~ (x+w) ~ "," ~ y ~ " " ~ (x+w) ~ "," ~ (y+radius)] -%}
+    {%- set segs = segs + ["M " ~ x ~ "," ~ (y+radius) ~ " L " ~ x ~ "," ~ (y+h-radius) ~ " Q " ~ x ~ "," ~ (y+h) ~ " " ~ (x+radius) ~ "," ~ (y+h)] -%}
+    {%- set segs = segs + ["L " ~ (x+w-radius) ~ "," ~ (y+h) ] -%}
+
+  {%- elif open_side == "bottom" -%}
+    {# left, top, right #}
+    {%- set segs = segs + ["M " ~ x ~ "," ~ (y+radius) ~ " L " ~ x ~ "," ~ (y+h-radius) ] -%}
+    {%- set segs = segs + ["M " ~ (x+radius) ~ "," ~ y ~ " L " ~ (x+w-radius) ~ "," ~ y ~ " Q " ~ (x+w) ~ "," ~ y ~ " " ~ (x+w) ~ "," ~ (y+radius)] -%}
+    {%- set segs = segs + ["M " ~ (x+w) ~ "," ~ (y+radius) ~ " L " ~ (x+w) ~ "," ~ (y+h-radius)] -%}
+
+  {%- elif open_side == "left" -%}
+    {# top, right, bottom #}
+    {%- set segs = segs + ["M " ~ (x+radius) ~ "," ~ y ~ " L " ~ (x+w-radius) ~ "," ~ y ~ " Q " ~ (x+w) ~ "," ~ y ~ " " ~ (x+w) ~ "," ~ (y+radius)] -%}
+    {%- set segs = segs + ["L " ~ (x+w) ~ "," ~ (y+h-radius) ~ " Q " ~ (x+w) ~ "," ~ (y+h) ~ " " ~ (x+w-radius) ~ "," ~ (y+h)] -%}
+    {%- set segs = segs + ["L " ~ (x+radius) ~ "," ~ (y+h) ] -%}
+
+  {%- else -%}
+    {# full rect with rounded corners #}
+    {%- set segs = segs + [
+      "M " ~ (x+radius) ~ "," ~ y,
+      "L " ~ (x+w-radius) ~ "," ~ y,
+      "Q " ~ (x+w) ~ "," ~ y ~ " " ~ (x+w) ~ "," ~ (y+radius),
+      "L " ~ (x+w) ~ "," ~ (y+h-radius),
+      "Q " ~ (x+w) ~ "," ~ (y+h) ~ " " ~ (x+w-radius) ~ "," ~ (y+h),
+      "L " ~ (x+radius) ~ "," ~ (y+h),
+      "Q " ~ x ~ "," ~ (y+h) ~ " " ~ x ~ "," ~ (y+h-radius),
+      "L " ~ x ~ "," ~ (y+radius),
+      "Q " ~ x ~ "," ~ y ~ " " ~ (x+radius) ~ "," ~ y
+    ] -%}
+  {%- endif -%}
+
+  {% set d = segs | join(" ") %}
+
+  <path d="{{ d }}"
+        stroke="{{ stroke }}" stroke-width="{{ stroke_width }}"
+        fill="{{ fill }}" stroke-linecap="round" stroke-linejoin="round"/>
+{%- endmacro -%}
+
+
+
+{% macro kmap4svg(minterms=[], dontcares=[], groups=[], ab="AB1", cd="CD1") %}
+    {% set groups = groups|format_map_terms %}
+    {% set size = 60 %}
+    {% set rows = ["00","01","11","10"] %}
+    {% set cols = ["00","01","11","10"] %}
+    {% set colors = [ "red", "green", "blue", "cyan", "magenta", "orange", "pink", "brown", gold, "purple"] %}
+
+    <svg width="{{ size * (cols|length) + 100 }}" height="{{ size * (rows|length) + 100 }}">
+      <!-- Variable labels -->
+      <text x="100" y="20" font-size="16" font-family="sans-serif">{{cd}}</text>
+      <text x="20" y="100" font-size="16" font-family="sans-serif" transform="rotate(-90,20,100)">{{ab}}</text>
+
+      <!-- Column labels -->
+      {% for c in cols %}
+      {% set j = loop.index0 %}
+        <text x="{{ j*size + size/2 + 80 }}" y="50" font-size="14" text-anchor="middle">{{ c }}</text>
+      {% endfor %}s
+
+      <!-- Row labels -->
+      {% for r in rows %}
+      {% set i = loop.index0 %}
+        <text x="50" y="{{ i*size + size/2 + 80 }}" font-size="14" dominant-baseline="middle">{{ r }}</text>
+      {% endfor %}
+
+      <!-- Cells -->
+      {% for r in rows %}
+        {% set i = loop.index0 %}
+        {% for c in cols %}
+          {% set j = loop.index0 %}
+          {% set bin = r + c %}
+          {% set idx = bin|int(base=2) %}
+          {% set value = "0" %}
+          {% set fill = "white" %}
+          {% if idx in minterms %}
+            {% set value = "1" %}
+            {#% set fill = "lightgreen" %#}
+          {% elif idx in dontcares %}
+            {% set value = "X" %}
+          {% endif %}
+
+          <!-- rectangle -->
+          <rect x="{{ j*size + 80 }}" y="{{ i*size + 80 }}" width="{{ size }}" height="{{ size }}"
+                stroke="black" fill="{{ fill }}" />
+
+          <!-- text -->
+          <text x="{{ j*size + 80 + size/2 }}" y="{{ i*size + 80 + size/2 + 5 }}"
+                font-size="16" text-anchor="middle">{{ value }}</text>
+        {% endfor %}
+      {% endfor %}
+
+      <!-- Groups (simple bounding boxes) -->
+        {% set coords={
+            0:(0,0),
+            1:(1,0),
+            2:(3,0),
+            3:(2,0),
+            4:(0,1),
+            5:(1,1),
+            6:(3,1),
+            7:(2,1),
+
+            8:(0,3),
+            9:(1,3),
+            10:(3,3),
+            11:(2,3),
+
+            12:(0,2),
+            13:(1,2),
+            14:(3,2),
+            15:(2,2),
+            }
+        %}
+      {% set round_size = 14 %}
+      {% set ns = namespace(row_coords = [], col_coords = [], grp_counter=0) %}
+      {% for term, group, grptype in groups %}
+          {% set ns.row_coords = [] %}
+          {% set ns.col_coords = [] %}
+          {% set color = colors[ns.grp_counter%10] %}
+          {% set ns.grp_counter = ns.grp_counter + 1 %}
+
+            {% for idx in group %}
+              {% set ns.row_coords = ns.row_coords + [coords[idx][1]] %}
+              {% set ns.col_coords = ns.col_coords + [coords[idx][0]] %}
+            {% endfor %}
+
+            {% set rmin = ns.row_coords|min %}
+            {% set rmax = ns.row_coords|max %}
+            {% set cmin = ns.col_coords|min %}
+            {% set cmax = ns.col_coords|max %}
+        {% if grptype == 'implicant' %}
+            <!-- RMIN {{rmin}}, RMAX {{rmax}}, CMIN {{cmin}}, CMAX {{cmax}} -->
+            <rect x="{{ cmin*size + 80 }}" y="{{ rmin*size + 80 }}"
+                  width="{{ (cmax-cmin+1)*size }}" height="{{ (rmax-rmin+1)*size }}"
+                  rx="{{round_size}}" ry="{{round_size}}"
+                  fill="none" fill-opacity="0.25" stroke="{{ color }}" stroke-width="2"/>
+        {% elif grptype == "edge" %}
+            <!-- edge border -->
+
+            {# <rect x="{{ cmin*size + 60 }}" y="{{ rmin*size + 80 }}"  width="{{ (cmax-cmin+1)*size +40 }}" height="{{ (rmax-rmin+1)*size }}"
+                  fill="none" stroke="{{ color }}" stroke-width="2"  rx="{{round_size}}" ry="{{round_size}}"/>
+        #}
+            <!-- <text x="150" y="{{10*ns.grp_counter}}"  font-family="serif" font-size="8">cmin={{cmin}} cmax={{cmax}} rmin={{rmin}} rmax={{rmax}} </text>-->
+            {% set width = (cmax - cmin + 1) * size %} 
+            {% set height = (rmax - rmin + 1) * size %}
+            {% set cols_size = 4 %}
+            {% set rows_size = 4 %}
+
+              {% if (cmin == 0 and cmax == 3) %}
+                {# Wraps left ↔ right #}
+              {#  <rect x="80" y="{{ rmin*size +80}}"
+                      width="{{ size }}" height="{{ height }}"
+                      rx="15" ry="15"
+                      fill="none" stroke="{{ color }}" stroke-width="3"/>
+                <rect x="{{ (cols_size-1)*size +80}}" y="{{ rmin*size +80}}"
+                      width="{{ size }}" height="{{ height }}"
+                      rx="15" ry="15"
+                      fill="none" stroke="{{ color }}" stroke-width="3"/>#}
+
+               {{ rect_open_side(80, rmin*size +80, size, height, open_side="left", stroke=color, stroke_width=3) }}
+               {{ rect_open_side((cols_size-1)*size +80, rmin*size +80, size, height, open_side="right", stroke=color, stroke_width=3) }}
+
+              {% elif (rmin == 0 and rmax == 3) %}
+                {# Wraps top ↔ bottom #}
+                {#
+        <rect x="{{ cmin*size+80 }}" y="80"
+                      width="{{ width }}" height="{{ size }}"
+                      rx="15" ry="15"
+                      fill="none" stroke="{{ color }}" stroke-width="3"/>
+                <rect x="{{ cmin*size +80 }}" y="{{ (rows_size-1)*size +80}}"
+                      width="{{ width }}" height="{{ size }}"
+                      rx="15" ry="15"
+                      fill="none" stroke="{{ color }}" stroke-width="3"/>
+        #}
+               {{ rect_open_side( cmin*size+80,80, width, size, open_side="top", stroke=color, stroke_width=3) }}
+               {{ rect_open_side(cmin*size +80, (rows_size-1)*size +80, width, size, open_side="bottom", stroke=color, stroke_width=3) }}
+                {% endif %}
+        {% elif grptype == "corner" %}
+            <!-- conrder border -->
+            <rect x="80" y="80"  width="{{ size }}" height="{{ size }}" fill="none" stroke="{{ color }}" stroke-width="2" stroke-dasharray="2,4" rx="{{round_size}}" ry="{{round_size}}"/>
+            <rect x="{{ 3*size + 80 }}" y="{{ 0*size + 80 }}"  width="{{ size }}" height="{{ size }}" fill="none" stroke="{{ color }}" stroke-width="2" stroke-dasharray="2,4" rx="{{round_size}}" ry="{{round_size}}"/>
+            <rect x="{{ 0*size + 80 }}" y="{{ 3*size + 80 }}"  width="{{ size }}" height="{{ size }}" fill="none" stroke="{{ color }}" stroke-width="2" stroke-dasharray="2,4" rx="{{round_size}}" ry="{{round_size}}"/>
+            <rect x="{{ 3*size + 80 }}" y="{{ 3*size + 80 }}"  width="{{ size }}" height="{{ size }}" fill="none" stroke="{{ color }}" stroke-width="2" stroke-dasharray="2,4" rx="{{round_size}}" ry="{{round_size}}"/>
+
+
+        {% else %}
+
+        {% endif %}
+
+      {% endfor %}     {#
+        #}
+    </svg>
+{% endmacro %}

@@ -4,9 +4,11 @@ from deprecated import deprecated
 class float_point:
     def __init__(self):
         pass
-    def vf_question(self,):
+    def vf_question(self,number=0):
         """ generate random question"""
-        x = round(random.uniform(12, 256),3)
+        if number:
+            return number
+        x =  round(random.uniform(12, 256),3)
         sign = random.choice([-1,1])
         x = x*sign
         return  x

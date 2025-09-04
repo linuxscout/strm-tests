@@ -1,0 +1,83 @@
+% Tikz File 'mytikz.tex'
+\documentclass{standalone}
+\usepackage{tikz}
+\usepackage{circuitikz}
+%\usetikzlibrary{...}
+\usetikzlibrary{arrows, shapes.gates.logic.US, calc}
+\tikzset{
+  sop port/.style={
+    draw,
+    rectangle,
+    minimum height=1cm,
+    minimum width=1.5cm,
+    fill=blue!10
+  }
+}
+\begin{document}
+
+\begin{circuitikz}
+\draw
+    (0, 0) node[anchor=east] { A } to[short] (0.5,0)
+    (0, -1) node[anchor=east] { B } to[short] (0.5,-1)
+    (0, -2) node[anchor=east] { C } to[short] (0.5,-2)
+    (0, -3) node[anchor=east] { D } to[short] (0.5,-3);
+
+    
+    
+    
+    
+        
+        
+            
+            \draw (1.5, 0) node[sop port] (g10) {};
+            
+                
+                
+                \draw (0.5, 0) -- (1.5, 0);
+                
+            
+                
+                
+                \draw (0.5, -1) -- (1.5, 0);
+                
+                    \draw (1.2, -0.9) node[not port] {};
+                
+            
+        
+            
+            \draw (1.5, -1) node[sop port] (g21) {};
+            
+                
+                
+                \draw (0.5, -2) -- (1.5, -1);
+                
+            
+                
+                
+                \draw (0.5, -3) -- (1.5, -1);
+                
+            
+        
+    
+        
+        
+            
+            \draw (1.5, -2) node[sop port] (g10) {};
+            
+                
+                
+                \draw (0.5, 0) -- (1.5, -2);
+                
+                    \draw (1.2, 0.1) node[not port] {};
+                
+            
+                
+                
+                \draw (0.5, -1) -- (1.5, -2);
+                
+            
+        
+    
+ \end{circuitikz}
+
+\end{document}

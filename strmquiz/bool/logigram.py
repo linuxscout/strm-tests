@@ -20,10 +20,11 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 #  
-#  
+#
+
 import re
 from . import bool_const
-
+from deprecated import deprecated
 class logigram:
     """ Trace a latex logigram for a given function"""
     def __init__(self, var_names=[], method=""):
@@ -139,7 +140,8 @@ class logigram:
             return gate
         else:
             return gate
-    
+
+    @deprecated(reason="Latex format is moved to quiz_format class")
     def draw_logigram(self, sop, function_name="F"):
         """ draw a logigram from an sop """
         latex = " \\label{logigram-%s}\n"%function_name
@@ -156,7 +158,8 @@ class logigram:
         latex += self.draw_large_or(len(terms), function_name)
         latex += " \\end{tikzpicture}\n\n"        
         return latex
-        
+
+    @deprecated(reason="Latex format is moved to quiz_format class")
     def draw_logigram_list(self, sop_list=[], function_namelist=["F",]):
         """ draw a logigram from an sop """
         latex = " \\label{logigrammefonction%s}\n\n"%'-'.join(function_namelist)
@@ -260,6 +263,8 @@ class logigram:
         return graph
 
 
+
+    @deprecated(reason="Latex format is moved to quiz_format class")
     @staticmethod
     def normalize_latex(expr: str) -> str:
         # Match a word (letters/numbers/underscore) followed by a '
@@ -312,7 +317,8 @@ class logigram:
             """
         # ~ latex = latex.replace("ID", str(size))
         return latex
-                
+
+    @deprecated(reason="Latex format is moved to quiz_format class")
     def draw_large_or(self, gates_count, function_name="F", index=0):
         """ draw the final or gate"""
         # size : gates counts
@@ -353,6 +359,7 @@ class logigram:
                 offset +=0.05
         return latex
 
+    @deprecated(reason="Latex format is moved to quiz_format class")
     def draw_line_var_to_gate(self, gate_id, var, bar, input_n, nb_vars = 2):
         """
         gate_id: xand1
@@ -377,6 +384,7 @@ class logigram:
             
         return latex
 
+    @deprecated(reason="Latex format is moved to quiz_format class")
     def draw_gate(self, term, idg, size=0, term_num=0, function_name=""):
         """ id gate """
         

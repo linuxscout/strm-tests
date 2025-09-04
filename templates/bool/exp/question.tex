@@ -1,0 +1,37 @@
+
+{% if "fr" in languages %}
+Simplifier l'expression suivant.
+{% endif %}
+
+
+Simpilfy the following expression
+\begin{arab}[utf]
+بسّط العبارة الآتية
+\end{arab}
+
+${{ function_name }} ={{  sop_quest|normalize_formula }}$
+
+{% if RENDER_MODE == "question" %}
+
+ {% endif %}
+
+{% if RENDER_MODE == "answer" %}
+
+
+\textbf{Karnaugh Table \aRL{جدول كارنوف}}
+
+\begin{karnaugh-map}[4][4][1][{{ cd }}][{{ ab }}]
+  \minterms{ {{ minterms | join(", ") }} }
+  \maxterms{ {{ maxterms | join(", ") }} }
+  {% if dontcares %}
+    \terms{ {{ dontcares | join(", ") }} }{X}
+  {% endif %}
+
+   {{ simplification |format_map_terms(method=method.lower())|join("\n") }}
+
+ \end{karnaugh-map}
+
+    Simplified Sum of products : ${{ sop_dict.formatted }}$\\
+    Simplified product of sums : ${{ pos_dict.formatted }}$
+
+{% endif %}

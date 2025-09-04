@@ -1,0 +1,94 @@
+{% macro encode_decode(charlist=None, codes=None, mode="encode", scheme="ascii") %}
+  {% set chunk_size = 10 %}
+  {% set total = charlist|length %}
+  {% if mode == "encode" %}
+  \textbf{Encode the following text into {{ scheme|capitalize }}}\\
+  \textbf{Text:} \aRL{"{{ charlist|escape_string|join }}"}\\[6pt]
+  {% elif mode == "decode" %}
+      \textbf{Decode the following {{ scheme|capitalize }} codes into text}\\
+      \textbf{Codes:} {{ codes }}\\[6pt]
+  {%endif%}
+  {% for start in range(0, total, chunk_size) %}
+    {% set end = start + chunk_size %}
+    {% set sub_chars = charlist[start:end] %}
+    {% set sub_codes = codes[start:end] %}
+
+    {% if mode == "encode" %}
+      \begin{tabular}{|c|{% for _ in sub_chars %}c|{% endfor %}}
+        \hline
+        Character
+        {% for ch in sub_chars %}
+          & {% if ch == " " %}
+                space
+            {% elif ch == "\n" %}
+                newline
+            {% elif ch == "\t" %}
+                tab
+            {% elif '\u0600' <= ch <= '\u06FF' %}
+                \aRL{ {{ ch }} }
+            {% else %}
+                {{ ch|escape_string }}
+            {% endif %}
+        {% endfor %} \\
+        \hline
+        {{ scheme|capitalize }} Code Point
+        {% for cp in sub_codes %}
+          & {{ cp }}
+        {% endfor %} \\
+        \hline
+      \end{tabular}
+
+    {% elif mode == "decode" %}
+
+
+      \begin{tabular}{|c|{% for _ in sub_codes %}c|{% endfor %}}
+        \hline
+        {{ scheme|capitalize }} Code Point
+        {% for cp in sub_codes %}
+          & {{ cp }}
+        {% endfor %} \\
+        \hline
+        Character
+        {% for ch in sub_chars %}
+          & {% if ch == " " %}
+                space
+            {% elif ch == "\n" %}
+                newline
+            {% elif ch == "\t" %}
+                tab
+            {% elif '\u0600' <= ch <= '\u06FF' %}
+                \aRL{ {{ ch }} }
+            {% else %}
+                {{ ch|escape_string }}
+            {% endif %}
+        {% endfor %} \\
+        \hline
+      \end{tabular}
+    {% endif %}
+
+    \vspace{1em} % spacing between tables
+  {% endfor %}
+{% endmacro %}
+
+
+
+\subsection*{Encode the following text into {{ scheme|capitalize }}}
+{% if RENDER_MODE == "question" %}
+  {% if method in ("encode", "both") %}
+\subsection*{Encode the following text into {{ scheme|capitalize }}}
+    \textbf{Text:} ''\aRL{ {{ charlist|escape_string|join("") }} }''
+
+  {% endif %}
+  {% if method in ("decode", "both") %}
+\subsection*{Decode the following {{ scheme|capitalize }} codes into text}
+\textbf{Codes:} {{ charcodes }}
+  {% endif %}
+{% elif RENDER_MODE == "answer" %}
+  {% if method == "both" %}
+    {{ encode_decode(charlist=charlist, codes=charcodes, mode="encode", scheme=scheme)}}
+
+    {{ encode_decode(charlist=charlist, codes=charcodes, mode="decode", scheme=scheme)}}
+  {% else %}
+    {{ encode_decode(charlist=charlist, codes=charcodes, mode=method, scheme=scheme)}}
+  {% endif %}
+{% endif %}
