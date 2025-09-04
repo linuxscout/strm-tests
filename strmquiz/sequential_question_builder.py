@@ -32,6 +32,7 @@ logger = logging.getLogger(__name__)
 import random
 
 from .sequentiel import tex_chronograms
+from .sequentiel import chronograms
 from .sequentiel import seqconst
 from .sequentiel import registersimulator
 from .sequentiel import countersimulator
@@ -57,7 +58,8 @@ class SequentialQuestionBuilder(Question_Builder):
     def _preprare_chrnonogram(self,  input_vars=["V",], start_signals={"D": 1,"Q":0}, flip_type="D", length=20, synch_type="rising", output_vars=["Q", ]):
 
         # start_signals = start_signals
-        chrono = tex_chronograms.Tex_Chronograms();
+        # chrono = tex_chronograms.Tex_Chronograms();
+        chrono = chronograms.Chronograms();
         init_signals = {}
         for key in start_signals:
             if key in output_vars:
@@ -147,7 +149,8 @@ class SequentialQuestionBuilder(Question_Builder):
                                                       # flip_types=flip_types, register_type="shift-right")
                                                       flip_types=flip_types, register_type=register_type)
 
-        chrono = tex_chronograms.Tex_Chronograms();
+        chrono = chronograms.Chronograms();
+        # chrono = tex_chronograms.Tex_Chronograms();
         flip_type = flip_list[0].get("type","")
         init_signals = {}
         for key in start_signals:
@@ -175,7 +178,7 @@ class SequentialQuestionBuilder(Question_Builder):
 
         out_signals_final = {k:v for k,v in tmp_signals.items() if k in output_vars}
 
-        tex_data_answer = chrono.draw(tmp_signals, clock)
+        tex_data_answer = "Empty"#chrono.draw(tmp_signals, clock)
 
         data= {
         "varlist":start_signals,
@@ -203,7 +206,8 @@ class SequentialQuestionBuilder(Question_Builder):
         reg_sim = countersimulator.CounterSimulator(inputs=input_vars, outputs=output_vars,
                                                       flip_types=flip_types, counter_type=counter_type)
 
-        chrono = tex_chronograms.Tex_Chronograms()
+        chrono = chronograms.Chronograms()
+        # chrono = tex_chronograms.Tex_Chronograms()
         flip_type = flip_list[0].get("type","")
         init_signals = {}
         for key in start_signals:
@@ -234,7 +238,7 @@ class SequentialQuestionBuilder(Question_Builder):
         out_signals_initial = {k:v for k,v in init_signals.items() if k in output_vars}
 
         out_signals_final = {k:v for k,v in tmp_signals.items() if k in output_vars}
-        tex_data_answer = chrono.draw(tmp_signals, clock)
+        # tex_data_answer = chrono.draw(tmp_signals, clock)
 
         data= {
         "varlist":start_signals,
@@ -250,7 +254,7 @@ class SequentialQuestionBuilder(Question_Builder):
         "clock":clock,
         "question_signals":out_signals_initial,
         "answer_signals":out_signals_final,
-        "tex_data_answer":tex_data_answer,
+        "tex_data_answer":"Empty",
         }
         return data
 
@@ -433,7 +437,7 @@ class SequentialQuestionBuilder(Question_Builder):
         """
         context= {}
 
-        data = self._preprare_chrnonogram(varlist=varlist, flip_type=flip_type, length=length, synch_type=synch_type, output_vars=output_vars)
+        data = self._preprare_chrnonogram(flip_type=flip_type, length=length, synch_type=synch_type, output_vars=output_vars)
 
         context= {"data": data,
           }
