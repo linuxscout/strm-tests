@@ -262,6 +262,9 @@ class BooleanQuestionBuilder(Question_Builder):
 
     def question_static_funct(self, minterms, var_names=["A","B","C","D"], output_names=["S0","S1","S2","S3"], dont_care=[] ):
 
+        minterms = self.bq.validate_terms(minterms, name="minterms")
+        dont_care = self.bq.validate_terms(dont_care, name="dontcare")
+
         self.bq.set_vars(var_names, output_names)
 
         sop_quest = ""
@@ -296,10 +299,15 @@ class BooleanQuestionBuilder(Question_Builder):
 
     def question_static_nand_exp(self, minterms, var_names=["A", "B", "C", "D"], output_names=["S0", "S1", "S2", "S3"],
                                  dont_care=[], method="nand"):
+
+        minterms = self.bq.validate_terms(minterms, name="minterms")
+        dont_care = self.bq.validate_terms(dont_care, name="dontcare")
+
         self.bq.set_vars(var_names, output_names)
 
         sop_quest = ""
         fname = output_names[0]
+
         context = self._prepare_kmap_data(minterms=minterms,
                                           dontcares=dont_care,
                                           correct=True,
@@ -343,6 +351,8 @@ class BooleanQuestionBuilder(Question_Builder):
         pos_list = []
         terms_list  = []
         equations_list  = []
+        minterms_list = self.bq.validate_terms_list(minterms_list, name="minterms_list")
+        dont_care_list = self.bq.validate_terms_list(dont_care_list, name="dontcare_list")
         for minterms, dont_care, fname in zip(minterms_list, dont_care_list, output_names):
             data = self._prepare_kmap_data(minterms=minterms,
                                               dontcares=dont_care,
@@ -389,6 +399,7 @@ class BooleanQuestionBuilder(Question_Builder):
             sop_quest, minterms = self.bq.rand_exp()
         else:
             if not sop_quest:
+                minterms = self.bq.validate_terms(minterms,name="minterms")
                 sop_quest, _ = self.bq.rand_exp(minterms=minterms)
 
         # sop_quest = self.formater.normalize_formula(sop_quest)
