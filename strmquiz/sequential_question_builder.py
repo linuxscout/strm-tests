@@ -31,7 +31,6 @@ logger = logging.getLogger(__name__)
 
 import random
 
-from .sequentiel import tex_chronograms
 from .sequentiel import chronograms
 from .sequentiel import seqconst
 from .sequentiel import registersimulator

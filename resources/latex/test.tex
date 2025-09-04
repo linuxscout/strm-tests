@@ -1,0 +1,253 @@
+
+\section{Question}
+
+
+\paragraph{Q1}
+
+
+% =========================================================
+% Macro: illustrate bit change from x to x+1 sequence
+% =========================================================
+
+% =========================================================
+% Macro: illustrate gray sequence
+% =========================================================
+
+
+
+% =========================================================
+% Main Template: Binary <-> Gray Exercises (LaTeX)
+% =========================================================
+
+\section*{Exercise}
+
+\textbf{Convert the following number from Binary to Gray:}\\
+حوّل من الثنائي إلى ترميز غراي
+
+\[
+  10110111
+\]
+
+\bigskip
+
+\textbf{Convert the following number from Gray to Binary:}\\
+حوّل من ترميز غراي إلى الثنائي
+
+\[
+  11101100
+\]
+
+
+
+
+\hrule width 1\linewidth
+\pagebreak
+
+\subsection{Correction}
+
+
+\paragraph{Q1}
+
+
+% =========================================================
+% Macro: illustrate bit change from x to x+1 sequence
+% =========================================================
+
+% =========================================================
+% Macro: illustrate gray sequence
+% =========================================================
+
+
+
+% =========================================================
+% Main Template: Binary <-> Gray Exercises (LaTeX)
+% =========================================================
+
+\section*{Solutions}
+
+\subsection*{Binary $\to$ Gray Conversion}
+
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|c|*8{c|}}
+  \hline
+    Binary &
+    1 &    0 &    1 &    1 &    0 &    1 &    1 &    1  \\
+  \hline
+
+  Arrows &
+      \textcolor{blue}{$\downarrow$} &
+        \textcolor{red}{$\searrow \oplus \downarrow$} &        \textcolor{red}{$\searrow \oplus \downarrow$} &        \textcolor{red}{$\searrow \oplus \downarrow$} &        \textcolor{red}{$\searrow \oplus \downarrow$} &        \textcolor{red}{$\searrow \oplus \downarrow$} &        \textcolor{red}{$\searrow \oplus \downarrow$} &        \textcolor{red}{$\searrow \oplus \downarrow$}  \\
+  \hline
+
+    Gray &
+    \textbf{ 1 } &    \textbf{ 1 } &    \textbf{ 1 } &    \textbf{ 0 } &    \textbf{ 1 } &    \textbf{ 1 } &    \textbf{ 0 } &    \textbf{ 0 }  \\
+  \hline
+
+  Steps &
+    {\scriptsize Copy first bit } &    {\scriptsize XOR 1 $\oplus$ 0 = 1 } &    {\scriptsize XOR 0 $\oplus$ 1 = 1 } &    {\scriptsize XOR 1 $\oplus$ 1 = 0 } &    {\scriptsize XOR 1 $\oplus$ 0 = 1 } &    {\scriptsize XOR 0 $\oplus$ 1 = 1 } &    {\scriptsize XOR 1 $\oplus$ 1 = 0 } &    {\scriptsize XOR 1 $\oplus$ 1 = 0 }  \\
+  \hline
+\end{tabular}
+\end{center}
+
+\bigskip
+
+\subsection*{Gray $\to$ Binary Conversion}
+
+ \begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|c|*8{c|}}
+  \hline
+    Gray &
+    1 &    1 &    1 &    0 &    1 &    1 &    0 &    0  \\
+  \hline
+
+  Arrows &
+      \textcolor{blue}{$\downarrow$} &
+        \textcolor{blue}{$\nearrow \oplus \downarrow$} &        \textcolor{blue}{$\nearrow \oplus \downarrow$} &        \textcolor{blue}{$\nearrow \oplus \downarrow$} &        \textcolor{blue}{$\nearrow \oplus \downarrow$} &        \textcolor{blue}{$\nearrow \oplus \downarrow$} &        \textcolor{blue}{$\nearrow \oplus \downarrow$} &        \textcolor{blue}{$\nearrow \oplus \downarrow$}  \\
+  \hline
+
+    Binary &
+    \textbf{ 1 } &    \textbf{ 0 } &    \textbf{ 1 } &    \textbf{ 1 } &    \textbf{ 0 } &    \textbf{ 1 } &    \textbf{ 1 } &    \textbf{ 1 }  \\
+  \hline
+
+  Steps &
+    {\scriptsize Copy first bit } &    {\scriptsize XOR 1 $\oplus$ 1 = 0 } &    {\scriptsize XOR 0 $\oplus$ 1 = 1 } &    {\scriptsize XOR 1 $\oplus$ 0 = 1 } &    {\scriptsize XOR 1 $\oplus$ 1 = 0 } &    {\scriptsize XOR 0 $\oplus$ 1 = 1 } &    {\scriptsize XOR 1 $\oplus$ 0 = 1 } &    {\scriptsize XOR 1 $\oplus$ 0 = 1 }  \\
+  \hline
+\end{tabular}
+\end{center}
+
+
+\bigskip
+
+\subsection*{Illustration of Bit Change (Next Gray Code)}
+\subsection*{Binary Increment Illustration}
+
+$x$: 11101100 $\;\to\;$ $x+1$: 11100100
+
+\begin{tabular}{|c|*8{c|}}
+\hline
+Position &  0 &  1 &  2 &  3 &  4 &  5 &  6 &  7   \\
+\hline
+$x$ &  1 &  1 &  1 &  0 &  1 &  1 &  0 &  0   \\
+\hline
+$x+1$ &     1
+&    1
+&    1
+&    0
+&    \cellcolor{yellow}\textbf{ 0 }
+&    1
+&    0
+&    0
+ \\
+\hline
+\end{tabular}
+
+\emph{Highlighted cell(s) = changed bit(s)}
+
+
+\bigskip
+
+\subsection*{Gray Code Sequence}
+\subsection*{Gray Code Sequence (Bit Changes)}
+
+\begin{tabular}{|c|*8{c|}}
+\hline
+Step &  Bit 0 &  Bit 1 &  Bit 2 &  Bit 3 &  Bit 4 &  Bit 5 &  Bit 6 &  Bit 7   \\
+\hline
+x + 0 &
+    1
+&    1
+&    1
+&    0
+&    1
+&    1
+&    0
+&    0
+ \\
+\hline
+x + 1 &
+    1
+&    1
+&    1
+&    0
+&    \cellcolor{yellow}\textbf{ 0 }
+&    1
+&    0
+&    0
+ \\
+\hline
+x + 2 &
+    1
+&    1
+&    1
+&    0
+&    0
+&    1
+&    0
+&    \cellcolor{yellow}\textbf{ 1 }
+ \\
+\hline
+x + 3 &
+    1
+&    1
+&    1
+&    0
+&    0
+&    1
+&    \cellcolor{yellow}\textbf{ 1 }
+&    1
+ \\
+\hline
+x + 4 &
+    1
+&    1
+&    1
+&    0
+&    0
+&    1
+&    1
+&    \cellcolor{yellow}\textbf{ 0 }
+ \\
+\hline
+x + 5 &
+    1
+&    1
+&    1
+&    0
+&    0
+&    \cellcolor{yellow}\textbf{ 0 }
+&    1
+&    0
+ \\
+\hline
+x + 6 &
+    1
+&    1
+&    1
+&    0
+&    0
+&    0
+&    1
+&    \cellcolor{yellow}\textbf{ 1 }
+ \\
+\hline
+x + 7 &
+    1
+&    1
+&    1
+&    0
+&    0
+&    0
+&    \cellcolor{yellow}\textbf{ 0 }
+&    1
+ \\
+\hline
+\end{tabular}
+
+\emph{Highlighted cell shows the bit that flipped compared to the previous Gray code.}
+
+
+
+\pagebreak
