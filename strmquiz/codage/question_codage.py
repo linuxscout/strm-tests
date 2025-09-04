@@ -734,6 +734,7 @@ class questionGenerator:
         return ''.join(str(b) for b in binary)
 
 
+
     def gray_sequence_from_binary(self, x: str, n: int) -> list[str]:
         """
         Generate a sequence of n Gray codes starting from binary string x.
@@ -751,7 +752,13 @@ class questionGenerator:
             next_bin = f"{start_int + i:0{width}b}"
             next_gray = self.binary_to_gray(next_bin)
             sequence.append(next_gray)
-        return sequence
+        # find the maximum length
+        max_len = max(len(b) for b in sequence)
+        # pad with leading zeros
+        padded_sequence = [b.zfill(max_len) for b in sequence]
+        return padded_sequence
+
+
     def gray_explain(self, binary_str, gray_str):
         """" return steps to convert gray to/from binary """
         bin_number = list(binary_str)
