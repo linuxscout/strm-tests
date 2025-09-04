@@ -143,3 +143,4 @@ latex/*.pdf
 /docs/circuitikzmanual.pdf
 /latex/test.synctex.gz
 /docs/jk2.svg
+/tmp/edits/*
