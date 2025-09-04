@@ -2,7 +2,7 @@ import os
 import pytest
 
 from strmquiz.quizbuilder import QuizBuilder
-from strmquiz.templates import TEMPLATES_DIR
+TEMPLATES_DIR =os.path.join(os.path.dirname(__file__), "../","templates")
 
 
 @pytest.fixture

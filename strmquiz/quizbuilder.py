@@ -23,6 +23,8 @@
 #
 import logging
 # --- Configure logging ---
+import os.path
+
 logging.basicConfig(
     level=logging.DEBUG,  # change to INFO or WARNING in production
     format="%(levelname)s:%(name)s:%(message)s"
@@ -37,22 +39,48 @@ from .display import quiz_format_factory
 from .question_builder_factory import question_builder_factory
 
 
+import os
 
 class QuizBuilder:
     """ Generate the third test """
-    def __init__(self, outformat="", config_file ="", lang="", templates_dir=""):
+    def __init__(self, outformat="", config_file="", lang="", templates_dir=""):
 
-        self.qsbuilder = question_builder_factory.factory(builder_name="", outformat=outformat, lang=lang, templates_dir=templates_dir)
-        self.encode_qsbuilder = question_builder_factory.factory(builder_name="encoding",outformat=outformat, lang=lang, templates_dir=templates_dir)
-        self.bool_qsbuilder = question_builder_factory.factory(builder_name="boolean",outformat=outformat, lang=lang, templates_dir=templates_dir)
-        self.seq_qsbuilder = question_builder_factory.factory(builder_name="sequential",outformat=outformat, lang=lang, templates_dir=templates_dir)
+        # --- Check if templates_dir exists
+        if not templates_dir or not os.path.isdir(templates_dir):
+            raise FileNotFoundError(f"Template directory not found: {templates_dir}")
 
-        self.formater = quiz_format_factory.quiz_format_factory.factory(outformat, lang=lang, templates_dir=templates_dir)
-        # if the file is not configured, use default config file
+        # --- If no config file provided, use default
         if not config_file:
-            config_file = "config/quiz.conf"
+            config_file = os.path.join(os.path.dirname(__file__), "config", "quiz.conf")
+
+        # --- Check if config_file exists
+        if not os.path.isfile(config_file):
+            raise FileNotFoundError(f"Config file not found: {config_file}")
+
+        # --- Save attributes
         self.config_file = config_file
+
+        # --- Factories
+        self.qsbuilder = question_builder_factory.factory(
+            builder_name="", outformat=outformat, lang=lang, templates_dir=templates_dir
+        )
+        self.encode_qsbuilder = question_builder_factory.factory(
+            builder_name="encoding", outformat=outformat, lang=lang, templates_dir=templates_dir
+        )
+        self.bool_qsbuilder = question_builder_factory.factory(
+            builder_name="boolean", outformat=outformat, lang=lang, templates_dir=templates_dir
+        )
+        self.seq_qsbuilder = question_builder_factory.factory(
+            builder_name="sequential", outformat=outformat, lang=lang, templates_dir=templates_dir
+        )
+
+        self.formater = quiz_format_factory.quiz_format_factory.factory(
+            outformat, lang=lang, templates_dir=templates_dir
+        )
+
+        # --- Load config
         self.myconfig = read_config.ReadConfig(config_file)
+
         #~ print(outformat)
         self.commands = ["float",
          "intervalle",

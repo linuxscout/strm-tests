@@ -20,116 +20,6 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 #  
-# 
-# import sys
-# import os.path
-# import configparser
-# import ast
-# import logging
-# class read_config:
-#     def __init__(self, filename):
-#         # list of args
-#         self.args = {}
-#         # table of available tests configuration
-#         self.test_table =  {}
-#         # number of repetation for every test
-#         self.repeat = 1
-#         self.minterms = [[]]
-#         self.var_names = []
-#         self.output_names = []
-#         self.commands = []
-#         self.quizes = []
-#         self.debug = True
-#         # self.debug = False
-#         # args for logigram
-#         self.method = ""
-#         self.simplification = ""
-#         # args for encoding
-#         self.text = ""
-#         # args for chronogram
-#         self.length = 10
-#         self.flip_type = ""
-#         self.varlist = {}
-#         self.synch_type = "rising"
-#         self.output = "Q"
-#         self.random_question = False
-#         self.questions_size  =1
-#         self.register_type = ""
-#         # ~ self.debug = False
-#
-#         self.read_tests(filename=filename)
-#
-#
-#
-#
-#     def read_tests(self, filename, select = "all"):
-#         config = configparser.ConfigParser()
-#         newpath = os.path.join(sys.path[0], filename)
-#         if (not config.read(newpath)):
-#         # ~ except:
-#             print("can't open the specified file %s"%newpath)
-#             sys.exit()
-#             return False;
-#         if self.debug:
-#             print("path is", newpath, config.read(newpath))
-#         self.test_table = {}
-#         self.quizes = ast.literal_eval(config.get('QUIZES','quizes'))
-#         self.commands = ast.literal_eval(config.get('QUIZES','commands'))
-#         self.repeat = ast.literal_eval(config.get('Args','repeat'))
-#         self.method = ast.literal_eval(config.get('Args','method'))
-#         self.text = ast.literal_eval(config.get('Args','text'))
-#         # ~ self.simplification = ast.literal_eval(config.get('Args','simplification'))
-#         self.random_question  = ast.literal_eval(config.get('Args','random'))
-#         self.questions_size = ast.literal_eval(config.get('Args','size'))
-#         self.minterms = ast.literal_eval(config.get('Args','minterms'))
-#         self.var_names = ast.literal_eval(config.get('Args','vars'))
-#         self.output_names = ast.literal_eval(config.get('Args','outputs'))
-#         self.dontcare = ast.literal_eval(config.get('Args','dontcare'))
-#
-#         # args for chronogram
-#         self.length = ast.literal_eval(config.get('Args','length'))
-#         self.flip_type = ast.literal_eval(config.get('Args','flip_type'))
-#         self.varlist = ast.literal_eval(config.get('Args','varlist'))
-#         self.synch_type = ast.literal_eval(config.get('Args','synch_type'))
-#         self.output = ast.literal_eval(config.get('Args','output'))
-#         self.register_type = ast.literal_eval(config.get('Args','register_type'))
-#         logging.debug(f"register_type {self.register_type}")
-#
-#         for qz in self.quizes:
-#             self.test_table[qz] = ast.literal_eval(config.get('Tests', qz))
-#         if self.debug:
-#             logging.debug(f"Quizes:  '{self.quizes}'")
-#             logging.debug(f"Tests: '{self.test_table}'")
-#             logging.debug(f"Commands: '{self.commands}'")
-#             logging.debug(f"repeat: '{self.repeat}'")
-#             logging.debug(f"minterms: '{self.minterms}'")
-#             logging.debug(f"flip_type :'{self.flip_type}'")
-#             logging.debug(f"length: '{self.length}'")
-#             logging.debug(f"varlist :'{self.varlist}'")
-#             logging.debug(f"synch_type: '{self.synch_type}'")
-#             logging.debug(f"size :'{self.questions_size}'")
-#             logging.debug(f"random: '{self.random_question}'")
-#             logging.debug(f"method: '{self.method}'")
-#             logging.debug(f"text: '{self.text}'")
-#             logging.debug(f"register_type: '{self.register_type}'")
-#
-#
-#     def get_quiz_config(self, select = ""):
-#
-#         if select in self.test_table:
-#             return self.test_table[select]
-#         else:
-#             return list(self.test_table.values())[0]
-#
-#
-# def main(args):
-#     tests = read_config.read_tests("../config/quiz.conf")
-#     print(tests)
-#     return 0
-#
-# if __name__ == '__main__':
-#     import sys
-#     sys.exit(main(sys.argv))
 import sys
 import os
 import configparser
@@ -138,8 +28,10 @@ import logging
 
 
 class ReadConfig:
-    def __init__(self, filename, debug=True):
+    def __init__(self, filename, debug=True, validate=True):
         self.debug = debug
+        self.validate_enabled = validate  # toggle validation
+        self.warnings = []
 
         # --- Single source of truth ---
         # section -> { config_key: (attr_name, default_value) }
@@ -173,7 +65,17 @@ class ReadConfig:
                 "counter_random": ("counter_random", False),
             },
         }
-
+        # --- Validation rules ---
+        self.validators = {
+            "repeat": {"range": (1, 100)},
+            "size": {"range": (1, 50)},
+            "length": {"range": (1, 100)},
+            "synch_type": {"enum": ["rising", "falling"]},
+            "flip_type": {"enum": ["D", "T", "JK", "SR", ""]},
+            "register_type": {"enum": ["shift-right", "shift-left", "parallel", ""]},
+            "output": {"enum": ["Q", "Q_bar", ""]},
+            "counter_type": {"enum": ["ripple", "synchronous", ""]},
+        }
         # preload defaults
         for section in self.fields.values():
             for attr_name, default in section.values():
@@ -181,6 +83,8 @@ class ReadConfig:
 
         self.test_table = {}
         self.read_tests(filename)
+        if self.validate_enabled:
+            self.validate_values()
 
     def _eval(self, raw):
         """Safe eval with fallback to string."""
@@ -225,6 +129,56 @@ class ReadConfig:
         if select in self.test_table:
             return self.test_table[select]
         return list(self.test_table.values())[0]
+
+    def validate_values(self):
+        """Validate loaded config values against schema.
+        If invalid, warn and reset to default.
+        """
+        self.warnings = []  # keep track of all warnings
+
+        for section, keys in self.fields.items():
+            for key, (attr, default) in keys.items():
+                value = getattr(self, attr, None)
+
+                if attr in self.validators:
+                    rules = self.validators[attr]
+
+                    # --- Range validation ---
+                    if "range" in rules:
+                        min_val, max_val = rules["range"]
+                        if not (min_val <= value <= max_val):
+                            msg = (
+                                f"Invalid value for {attr}: {value!r} "
+                                f"(expected in range [{min_val}, {max_val}]). "
+                                f"Falling back to default {default!r}."
+                            )
+                            logging.warning(msg)
+                            self.warnings.append(msg)
+                            setattr(self, attr, default)
+                            continue
+
+                    # --- Enum validation ---
+                    if "enum" in rules:
+                        if value not in rules["enum"]:
+                            msg = (
+                                f"Invalid value for {attr}: {value!r} "
+                                f"(expected one of {rules['enum']}). "
+                                f"Falling back to default {default!r}."
+                            )
+                            logging.warning(msg)
+                            self.warnings.append(msg)
+                            setattr(self, attr, default)
+
+    def print_warnings(self, stream=sys.stdout):
+        """Pretty-print collected warnings."""
+        if not hasattr(self, "warnings") or not self.warnings:
+            print("No configuration warnings.", file=stream, flush=True)
+            return
+
+        print("Configuration Warnings:", file=stream,  flush=True)
+        for i, msg in enumerate(self.warnings, 1):
+            print(f"  {i}. {msg}", file=stream)
+
 
 
 def main(args):

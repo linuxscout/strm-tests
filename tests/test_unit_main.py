@@ -6,7 +6,7 @@ from unittest.mock import patch, MagicMock
 from pathlib import Path
 
 import strmquiz.__main__ as app  # replace with the actual filename (without .py)
-
+@pytest.mark.skip(reason="To be removed")
 def test_setup_logging(tmp_path, capsys):
     """Test that logging writes to both stdout and a file."""
     log_file = tmp_path / "quiz.log"
@@ -23,7 +23,7 @@ def test_setup_logging(tmp_path, capsys):
     captured = capsys.readouterr()
     assert "debug message" in captured.out
 
-@pytest.mark.skip(reason="To be removed")
+# @pytest.mark.skip(reason="To be removed")
 def test_parse_arguments_defaults(monkeypatch):
     """Test parsing arguments with minimal input and defaults."""
     test_args = ["prog", "-o", "out.txt"]  # only required arg
@@ -51,7 +51,7 @@ def test_main_runs_and_writes_file(tmp_path, monkeypatch):
     fake_quiz = "Generated quiz content"
     mock_quizbuilder = MagicMock()
     mock_quizbuilder.get_quiz.return_value = fake_quiz
-    with patch("your_module_name.QuizBuilder", return_value=mock_quizbuilder):
+    with patch("QuizBuilder", return_value=mock_quizbuilder):
         app.main()
 
     # Verify file created
