@@ -734,7 +734,62 @@ class bool_quiz:
         }
         lg = logigram.logigram(varnames)
         return lg.draw_logigram_list(sop_list, function_namelist)
+    @staticmethod
+    def validate_terms(terms, name="terms", min_val=0, max_val=15, normalize=True):
+        """
+        Validate and optionally normalize a collection of logic terms
+        (minterms, maxterms, dontcares).
 
+        Args:
+            terms (list[int] | tuple[int]): collection of integer terms
+            name (str): name for error messages ("minterms", "maxterms", "dontcares")
+            min_val (int): minimum allowed value (default 0)
+            max_val (int): maximum allowed value (default 15)
+            normalize (bool): if True, returns sorted unique list
+
+        Returns:
+            list[int]: validated (and possibly normalized) terms
+
+        Raises:
+            TypeError: if terms is not a list/tuple or contains non-integers
+            ValueError: if a term is outside the allowed range
+        """
+        if not isinstance(terms, (list, tuple)):
+            raise TypeError(f"{name.capitalize()} must be a list or tuple of integers.")
+
+        cleaned = []
+        for t in terms:
+            if not isinstance(t, int):
+                raise TypeError(f"{name.capitalize()} contains non-integer value: {t!r}")
+            if not min_val <= t <= max_val:
+                raise ValueError(
+                    f"{name.capitalize()} contains out-of-range value {t}, "
+                    f"expected between {min_val} and {max_val}."
+                )
+            cleaned.append(t)
+
+        return sorted(set(cleaned)) if normalize else cleaned
+
+    def validate_terms_list(self, terms_list, name="terms_list"):
+        """
+        Validate a list of lists of terms (e.g., minterms_list).
+
+        Args:
+            terms_list (list[list[int]]): collection of term lists
+            name (str): name for error messages
+
+        Returns:
+            list[list[int]]: validated and normalized term lists
+        """
+        if not isinstance(terms_list, (list, tuple)):
+            raise TypeError(f"{name.capitalize()} must be a list or tuple of lists.")
+
+        validated = []
+        for idx, terms in enumerate(terms_list):
+            validated.append(
+                self.validate_terms(terms, name=f"{name}[{idx}]")
+            )
+        return validated
 def test1():
     bq = bool_quiz()
     minterms = bq.rand_funct()
