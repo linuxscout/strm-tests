@@ -118,14 +118,14 @@ class BooleanQuestionBuilder(Question_Builder):
         # nor_cnf_formatted = self.formater.normalize_formula(nor_cnf)
 
         # prepare terms
-        sop_terms = []
-        pos_terms = []
-        dnf_terms = []
-        cnf_terms = []
-        nand_sop_terms = []
-        nor_pos_terms = []
-        nand_dnf_terms = []
-        nor_cnf_terms = []
+        # sop_terms = []
+        # pos_terms = []
+        # dnf_terms = []
+        # cnf_terms = []
+        # nand_sop_terms = []
+        # nor_pos_terms = []
+        # nand_dnf_terms = []
+        # nor_cnf_terms = []
         return {
             "function_name":function_name,
             "minterms": minterms,
@@ -135,35 +135,35 @@ class BooleanQuestionBuilder(Question_Builder):
             "sop": sop,
             "pos": pos,
             "sop_dict":{"default":sop,
-                        "terms": sop_terms,
+                        # "terms": sop_terms,
                         # "formatted":sop_formatted,
                         "explained":["SOP not explained",]},
             "pos_dict":{"default":pos,
-                        "terms": pos_terms,
+                        # "terms": pos_terms,
                         # "formatted":pos_formatted,
                         "explained":"POS not explained"},
             "nand_sop_dict": {"default": nand_sop,
-                             "terms": nand_sop_terms,
+                             # "terms": nand_sop_terms,
                              # "formatted": nand_sop_formatted,
                              "explained": nand_sop_explained_list},
             "nor_pos_dict":{"default":nor_pos,
-                        "terms": nor_pos_terms,
+                        # "terms": nor_pos_terms,
                         # "formatted":nor_pos_formatted,
                         "explained":nor_pos_explained_list},
             "dnf_dict": {"default": dnf,
-                         "terms": dnf_terms,
+                         # "terms": dnf_terms,
                          # "formatted": dnf_formatted,
                          "explained": ["dnf not explained",]},
             "cnf_dict": {"default": cnf,
-                         "terms": cnf_terms,
+                         # "terms": cnf_terms,
                          # "formatted": cnf_formatted,
                          "explained": ["cnf not explained",]},
             "nand_dnf_dict": {"default": nand_dnf,
-                              "terms": nand_dnf_terms,
+                              # "terms": nand_dnf_terms,
                               # "formatted": nand_dnf_formatted,
                               "explained": nand_dnf_explained_list},
             "nor_cnf_dict": {"default": nor_cnf,
-                             "terms": nor_cnf_terms,
+                             # "terms": nor_cnf_terms,
                              # "formatted": nor_cnf_formatted,
                              "explained": nor_cnf_explained_list},
             # "sop_formatted": sop_formatted,
