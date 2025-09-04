@@ -47,12 +47,13 @@ class bool_quiz:
         return  minterms
         
         
-    def rand_exp(self, nb=2):
+    def rand_exp(self, minterms=[], nb=2):
         """ generate random expression"""
         minterms_table = []
         sop_quest  = []
         for i in range(nb):
-            minterms = random.sample(range(16),random.randrange(3,12))
+            if not minterms:
+                minterms = random.sample(range(16),random.randrange(3,12))
             minterms.sort()
             minterms_table +=minterms
             sop, _ = self.simplify(minterms)            
