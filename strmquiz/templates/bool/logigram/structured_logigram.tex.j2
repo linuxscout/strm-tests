@@ -37,7 +37,7 @@ STRUCTURED LOGIGRAM-FILE-TEMPLATE
      %% ***Function {{ funct_item.name }} : Gate for term n° {{ loop.index }} [ {{ term.label }} ]***
         {% if (term.vars|length) > 1 %}
            \node[{{lg.term_gate}} gate US, draw, rotate=0, logic gate inputs=nnnn] at (2.5, {{ ns.gate_ypos  }}) ({{term.id}}) {};
-           \draw ({{term.id}}.output) -- node[above]{\scriptsize $ {{ term.label.formatted }} $} ($({{term.id}}) + (1.8, 0)$);
+           \draw ({{term.id}}.output) -- node[above]{\scriptsize $ {{ term.label.formatted|normalize_formula }} $} ($({{term.id}}) + (1.8, 0)$);
         {% set ns.counter=1 %}
         {%for var in lg.variables.values()  %}
             {% if var+"'" in term.vars %}
