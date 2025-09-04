@@ -6,6 +6,7 @@ SHELL := /bin/bash
 DATE := $(shell date +'%y.%m.%d-%H:%M')
 TEX_DIR=resources/latex
 GEN_DIR=tmp/edits
+CONF_DIR=tests/config/
 # List of test IDs
 TESTS := test0 test1 test2 test3 test4 test5 test6 test7 test8 test9 bankquestion
 TESTSHTML := test0h test1h test2h test3h test4h test5h test6h test7h test8h test9h bankquestionh
@@ -38,7 +39,7 @@ doc:
 define test_template
 $(1):
 	@echo "Generating test: $(1)"
-	python3 -m strmquiz -f config/quiz6.conf --lang="ar-en" --templates templates -d tex -t "$(1)" -o tests/output/test.tex &> tmp/script.log
+	python3 -m strmquiz -f $(CONF_DIR)quiz6.conf --lang="ar-en" --templates templates -d tex -t "$(1)" -o tests/output/test.tex &> tmp/script.log
 	cp tests/output/test.tex $(TEX_DIR)/test.tex
 	cd $(TEX_DIR) && xelatex main_test.tex
 	mkdir -p $(GEN_DIR)/test2-$(DATE)
@@ -85,7 +86,7 @@ test5h:TEST_ID=test5
 test9h:TEST_ID=test9
 test0h test1h test2h test3h test9h test5h test4h:
 	@echo "Generating test: $(TEST_ID)"
-	python3 -m strmquiz -f config/quiz6.conf --lang="ar-en" --templates templates -d html -t "$(TEST_ID)" -o tests/output/test.html
+	python3 -m strmquiz -f $(CONF_DIR)quiz6.conf --lang="ar-en" --templates templates -d html -t "$(TEST_ID)" -o tests/output/test.html
 	mkdir -p $(GEN_DIR)/test2-$(DATE)
 	cp tests/output/test.html $(GEN_DIR)/test2-$(DATE)/
 	cp tests/output/test.html $(GEN_DIR)/
