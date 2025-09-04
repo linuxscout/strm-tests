@@ -130,16 +130,9 @@ dmypy.json
 # output files
 tests/output/*
 archive/*
-edits/*
-latex/*.aux
-latex/*.log
-latex/*.pdf
 /.idea/
 /myenv/
-/doc/*.pdf
 /docs/tikz-timing.pdf
-/latex/tests/
-/tests/jinja/
 /docs/circuitikzmanual.pdf
-/latex/test.synctex.gz
 /docs/jk2.svg
+/tmp/edits/*
