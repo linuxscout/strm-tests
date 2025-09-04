@@ -121,7 +121,7 @@ $F(A,B,C,D) ={{  sop_quest|normalize_formula }}$
         \item ${{ data.function_name }}$ = ${{ data.sop_dict.default|normalize_formula }}$
 
         {% for explain in data.nand_sop_dict.explained %}
-            \item  ${{ data.function_name }}$ = ${{ explain }}$
+            \item  ${{ data.function_name }}$ = ${{ explain|normalize_formula }}$
         {% endfor %}
     \end{itemize}
  {% endfor %}
@@ -140,7 +140,7 @@ $F(A,B,C,D) ={{  sop_quest|normalize_formula }}$
         \item ${{ data.function_name }}$ = ${{ data.pos_dict.default|normalize_formula }}$
 
         {% for explain in data.nor_pos_dict.explained %}
-            \item  ${{ data.function_name }}$ = ${{ explain }}$
+            \item  ${{ data.function_name }}$ = ${{ explain|normalize_formula }}$
         {% endfor %}
     \end{itemize}
  {% endfor %}

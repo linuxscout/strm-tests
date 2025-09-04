@@ -61,7 +61,7 @@ class SequentialQuestionBuilder(Question_Builder):
 
     def __init__(self, outformat="latex", config_file="", lang="ar-en", templates_dir=""):
         # 🔹 Inject dependencies (makes testing easier)
-        super().__init__(outformat=outformat, config_file=config_file, lang=lang, templates_dir=templates_dir)
+        super().__init__()
         self.bq = boolquiz.bool_quiz()
         self.bq.set_format('')
 
@@ -279,9 +279,7 @@ class SequentialQuestionBuilder(Question_Builder):
         context= {"data": data,
           }
         return context
-        # return self._render(SECTION_CHRONO, context)
-        # question, answer = self.formater.render_question_answer("sequential/timing", context)
-        # return question, "arabic", "data", answer
+
 
 
     def _get_rand_flip(self,):
@@ -320,10 +318,9 @@ class SequentialQuestionBuilder(Question_Builder):
         context= {"data": data,
                   "flip_data":flip_data,
           }
-        # question, answer = self.formater.render_question_answer("sequential/flip", context)
-        # return question, "arabic", "data", answer
+
         return context
-        # return self._render(SECTION_FLIP, context)
+
 
     def question_register(self, varlist={}, flip_types=["D",], length=20, synch_type="rising", output_vars=["Q", ], register_type="shift-right",
                           nbits:int=2,
@@ -378,9 +375,7 @@ class SequentialQuestionBuilder(Question_Builder):
                   "register_data": register_data,
           }
         return context
-        # return self._render(SECTION_REGISTER, context)
-        # question, answer = self.formater.render_question_answer("sequential/register", context)
-        # return question, "arabic", "data", answer
+
 
 
     def question_counter(self, varlist={}, flip_types=["D",], length=20, synch_type="rising", output_vars=["Q", ], counter_type="up",
@@ -438,9 +433,7 @@ class SequentialQuestionBuilder(Question_Builder):
                   "counter_data": counter_data,
           }
         return context
-        # return self._render(SECTION_COUNTER, context)
-        # question, answer = self.formater.render_question_answer("sequential/counter", context)
-        # return question, "arabic", "data", answer
+
 
 
 
@@ -456,9 +449,7 @@ class SequentialQuestionBuilder(Question_Builder):
         context= {"data": data,
           }
         return context
-        # return self._render(SECTION_MISC, context)
-        # question, answer = self.formater.render_question_answer("sequential/misc", context)
-        # return question, "arabic", "data", answer
+
 
 
 def main(args):

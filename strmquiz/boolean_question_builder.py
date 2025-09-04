@@ -105,24 +105,28 @@ class BooleanQuestionBuilder(Question_Builder):
         # explained NAND and NOR process
         # get expalined expression as table,
         # then format them
-        nand_sop_explained_list = [self.formater.normalize_formula(expr) for expr in self.bq.explain_nand(sop)]
-        nand_dnf_explained_list = [self.formater.normalize_formula(expr) for expr in self.bq.explain_nand(dnf)]
-        nor_pos_explained_list = [self.formater.normalize_formula(expr) for expr in self.bq.explain_nor(pos)]
-
-
-        nor_cnf_explained_list = [self.formater.normalize_formula(expr) for expr in self.bq.explain_nor(cnf)]
+        nand_sop_explained_list =  self.bq.explain_nand(sop)
+        nand_dnf_explained_list = self.bq.explain_nand(dnf)
+        nor_pos_explained_list = self.bq.explain_nor(pos)
+        nor_cnf_explained_list = self.bq.explain_nor(cnf)
+        # nand_sop_explained_list = [self.formater.normalize_formula(expr) for expr in self.bq.explain_nand(sop)]
+        # nand_dnf_explained_list = [self.formater.normalize_formula(expr) for expr in self.bq.explain_nand(dnf)]
+        # nor_pos_explained_list = [self.formater.normalize_formula(expr) for expr in self.bq.explain_nor(pos)]
+        #
+        #
+        # nor_cnf_explained_list = [self.formater.normalize_formula(expr) for expr in self.bq.explain_nor(cnf)]
 
 
         # formated forms
-        sop_formatted = self.formater.normalize_formula(sop)
-        pos_formatted = self.formater.normalize_formula(pos)
-        cnf_formatted = self.formater.normalize_formula(cnf)
-        dnf_formatted = self.formater.normalize_formula(dnf)
-        # formatted nand forms
-        nand_sop_formatted = self.formater.normalize_formula(nand_sop)
-        nor_pos_formatted = self.formater.normalize_formula(nor_pos)
-        nand_dnf_formatted = self.formater.normalize_formula(nand_dnf)
-        nor_cnf_formatted = self.formater.normalize_formula(nor_cnf)
+        # sop_formatted = self.formater.normalize_formula(sop)
+        # pos_formatted = self.formater.normalize_formula(pos)
+        # cnf_formatted = self.formater.normalize_formula(cnf)
+        # dnf_formatted = self.formater.normalize_formula(dnf)
+        # # formatted nand forms
+        # nand_sop_formatted = self.formater.normalize_formula(nand_sop)
+        # nor_pos_formatted = self.formater.normalize_formula(nor_pos)
+        # nand_dnf_formatted = self.formater.normalize_formula(nand_dnf)
+        # nor_cnf_formatted = self.formater.normalize_formula(nor_cnf)
 
         # prepare terms
         sop_terms = []
@@ -143,39 +147,39 @@ class BooleanQuestionBuilder(Question_Builder):
             "pos": pos,
             "sop_dict":{"default":sop,
                         "terms": sop_terms,
-                        "formatted":sop_formatted,
+                        # "formatted":sop_formatted,
                         "explained":["SOP not explained",]},
             "pos_dict":{"default":pos,
                         "terms": pos_terms,
-                        "formatted":pos_formatted,
+                        # "formatted":pos_formatted,
                         "explained":"POS not explained"},
             "nand_sop_dict": {"default": nand_sop,
                              "terms": nand_sop_terms,
-                             "formatted": nand_sop_formatted,
+                             # "formatted": nand_sop_formatted,
                              "explained": nand_sop_explained_list},
             "nor_pos_dict":{"default":nor_pos,
                         "terms": nor_pos_terms,
-                        "formatted":nor_pos_formatted,
+                        # "formatted":nor_pos_formatted,
                         "explained":nor_pos_explained_list},
             "dnf_dict": {"default": dnf,
                          "terms": dnf_terms,
-                         "formatted": dnf_formatted,
+                         # "formatted": dnf_formatted,
                          "explained": ["dnf not explained",]},
             "cnf_dict": {"default": cnf,
                          "terms": cnf_terms,
-                         "formatted": cnf_formatted,
+                         # "formatted": cnf_formatted,
                          "explained": ["cnf not explained",]},
             "nand_dnf_dict": {"default": nand_dnf,
                               "terms": nand_dnf_terms,
-                              "formatted": nand_dnf_formatted,
+                              # "formatted": nand_dnf_formatted,
                               "explained": nand_dnf_explained_list},
             "nor_cnf_dict": {"default": nor_cnf,
                              "terms": nor_cnf_terms,
-                             "formatted": nor_cnf_formatted,
+                             # "formatted": nor_cnf_formatted,
                              "explained": nor_cnf_explained_list},
             # "sop_formatted": sop_formatted,
             # "pos_formatted": pos_formatted,
-            "formatted_simplification": formatted_simplification,
+            # "formatted_simplification": formatted_simplification,
             "variables": variables,
             "ab": "".join(variables[:2]),
             "cd": "".join(variables[2:]),
@@ -389,7 +393,7 @@ class BooleanQuestionBuilder(Question_Builder):
         self.bq.reset_vars()
         sop_quest, minterms = self.bq.rand_exp()
 
-        sop_quest = self.formater.normalize_formula(sop_quest)
+        # sop_quest = self.formater.normalize_formula(sop_quest)
 
         context  = self._prepare_kmap_data(minterms=minterms,
                                       dontcares=[],

@@ -72,7 +72,7 @@ Etudier la fonction suivante:
           <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math>     {{ sop_dict.default|normalize_formula }} </li>
 
           {% for explain in nand_sop_dict.explained %}
-            <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math>  {{ explain }} </li>
+            <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math>  {{ explain|normalize_formula }} </li>
           {% endfor %}
         </ul>
       </li>
@@ -95,7 +95,7 @@ Etudier la fonction suivante:
           <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math>  {{ pos_dict.default|normalize_formula }} </li>
 
           {% for explain in nor_pos_dict.explained %}
-            <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math>   {{ explain }} </li>
+            <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math>   {{ explain|normalize_formula }} </li>
           {% endfor %}
         </ul>
       </li>

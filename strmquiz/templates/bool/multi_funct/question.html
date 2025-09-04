@@ -160,7 +160,7 @@ F(A,B,C,D) ={{  sop_quest|normalize_formula }}
           <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>     {{ data.sop_dict.default|normalize_formula }} </li>
 
           {% for explain in data.nand_sop_dict.explained %}
-            <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>  {{ explain }} </li>
+            <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>  {{ explain|normalize_formula }} </li>
           {% endfor %}
         </ul>
       </li>
@@ -183,7 +183,7 @@ F(A,B,C,D) ={{  sop_quest|normalize_formula }}
           <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>  {{ data.pos_dict.default|normalize_formula }} </li>
 
           {% for explain in data.nor_pos_dict.explained %}
-            <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>   {{ explain }} </li>
+            <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>   {{ explain|normalize_formula}} </li>
           {% endfor %}
         </ul>
       </li>
