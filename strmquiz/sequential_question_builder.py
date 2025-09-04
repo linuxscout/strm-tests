@@ -43,17 +43,6 @@ from .bool import boolquiz
 
 
 
-# 🔹 Constants
-LANG_AR = "arabic"
-LANG_EN = "english"
-
-
-SECTION_CHRONO = "sequential/timing"
-SECTION_FLIP = "sequential/flip"
-SECTION_REGISTER = "sequential/register"
-SECTION_COUNTER = "sequential/counter"
-SECTION_MISC = "sequential/misc"
-
 from .question_builder import Question_Builder
 
 class SequentialQuestionBuilder(Question_Builder):
