@@ -27,7 +27,7 @@
             {% elif '\u0600' <= ch <= '\u06FF' %}
                 \aRL{ {{ ch }} }
             {% else %}
-                {{ ch }}
+                {{ ch|escape_string }}
             {% endif %}
         {% endfor %} \\
         \hline

@@ -22,7 +22,7 @@ ${{ data.function_name }} = {{ data.dontcares }}$
 {% endfor %}
 
 
-$F(A,B,C,D) ={{  sop_quest }}$
+$F(A,B,C,D) ={{  sop_quest|normalize_formula }}$
 
 {% if RENDER_MODE == "question" %}
 
@@ -79,14 +79,14 @@ $F(A,B,C,D) ={{  sop_quest }}$
 \item \textbf{First Canonical Forms \aRL{ الأشكال القانونية الأولى}}
     \begin{itemize}
     {% for data in data_list %}
-        \item ${{ data.function_name }}({{variables|join(", ")}}) =  {{  data.dnf_dict.formatted }}$
+        \item ${{ data.function_name }}({{variables|join(", ")}}) =  {{  data.dnf_dict.default|normalize_formula }}$
     {% endfor %}
     \end{itemize}
 
 \item \textbf{Second Canonical Forms \aRL{ الأشكال القانونية الثانية}}
     \begin{itemize}
     {% for data in data_list %}
-        \item ${{ data.function_name }}({{variables|join(", ")}}) =  {{  data.cnf_dict.formatted }}$
+        \item ${{ data.function_name }}({{variables|join(", ")}}) =  {{  data.cnf_dict.default|normalize_formula }}$
     {% endfor %}
     \end{itemize}
 
@@ -114,11 +114,11 @@ $F(A,B,C,D) ={{  sop_quest }}$
  \begin{enumerate}
  {% for data in data_list %}
 
-    \item ${{ data.function_name }}$ = ${{ data.nand_sop_dict.formatted }}$
+    \item ${{ data.function_name }}$ = ${{ data.nand_sop_dict.default|normalize_formula }}$
 
     Explanation
     \begin{itemize}
-        \item ${{ data.function_name }}$ = ${{ data.sop_dict.formatted }}$
+        \item ${{ data.function_name }}$ = ${{ data.sop_dict.default|normalize_formula }}$
 
         {% for explain in data.nand_sop_dict.explained %}
             \item  ${{ data.function_name }}$ = ${{ explain }}$
@@ -133,11 +133,11 @@ $F(A,B,C,D) ={{  sop_quest }}$
  \begin{enumerate}
  {% for data in data_list %}
 
-    \item ${{ data.function_name }}$ = ${{ data.nor_pos_dict.formatted }}$
+    \item ${{ data.function_name }}$ = ${{ data.nor_pos_dict.default|normalize_formula }}$
 
     Explanation
     \begin{itemize}
-        \item ${{ data.function_name }}$ = ${{ data.pos_dict.formatted }}$
+        \item ${{ data.function_name }}$ = ${{ data.pos_dict.default|normalize_formula }}$
 
         {% for explain in data.nor_pos_dict.explained %}
             \item  ${{ data.function_name }}$ = ${{ explain }}$
@@ -158,13 +158,13 @@ $F(A,B,C,D) ={{  sop_quest }}$
     \terms{ {{ data.dontcares | join(", ") }} }{X}
   {% endif %}
  {% if RENDER_MODE == "answer" %}
-    {{ data.formatted_simplification |join("\n") }}
+       {{ data.simplification |format_map_terms(method=data.method.lower())|join("\n") }}
  {% endif %}
  \end{karnaugh-map}
 
 {% if RENDER_MODE == "answer" %}
-    Simplified Sum of products : ${{ data.function_name }} = {{ data.sop_dict.formatted }}$\\
-    Simplified product of sums : ${{ data.function_name }} = {{ data.pos_dict.formatted }}$\\
+    Simplified Sum of products : ${{ data.function_name }} = {{ data.sop_dict.default|normalize_formula }}$\\
+    Simplified product of sums : ${{ data.function_name }} = {{ data.pos_dict.default|normalize_formula }}$\\
 
 {% endif %}
 {% endfor %}

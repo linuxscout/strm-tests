@@ -15,7 +15,7 @@
             {% elif ch == "\t" %}
               tab
             {% else %}
-              {{ ch }}
+              {{ ch|escape_string}}
             {% endif %}
           </td>
         {% endfor %}

@@ -16,13 +16,13 @@ Simplifier le tableau de Karnaugh suivant:
 
 {% import "bool/map/kmap_macros.html" as kmap %}
 
-{{ kmap.kmap4svg(data.minterms, data.dontcares, groups=data.formatted_simplification, ab=data.ab, cd=data.cd) }}
+{{ kmap.kmap4svg(data.minterms, data.dontcares, groups=data.simplification, ab=data.ab, cd=data.cd) }}
 <br/>
 
 {% if RENDER_MODE == "answer" %}
 <ul>
-    <li> Simplified Sum of products : {{ data.sop_dict.formatted }}</li>
-    <li> Simplified product of sums : {{ data.pos_dict.formatted }}</li>
+    <li> Simplified Sum of products : {{ data.sop_dict.default|normalize_formula }}</li>
+    <li> Simplified product of sums : {{ data.pos_dict.default|normalize_formula }}</li>
 </ul>
 {% endif %}
 {% endfor %}

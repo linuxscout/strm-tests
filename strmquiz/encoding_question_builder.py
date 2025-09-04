@@ -231,7 +231,7 @@ class EncodingQuestionBuilder(Question_Builder):
         if method not in ("encode", "decode", "both"):
             method = "both"
         context = {
-            "charlist": self.formater.escape_string(text),
+            "charlist": list(text),
             "method": method, # encode decode
             "scheme":scheme,
             "charcodes":charcodes,

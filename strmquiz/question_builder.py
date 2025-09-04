@@ -43,6 +43,7 @@ class Question_Builder:
     """Generate quiz questions for different domains."""
 
     def __init__(self, outformat="latex", config_file="", lang="ar-en", templates_dir="",):
+        pass
         # 🔹 Inject dependencies (makes testing easier)
         # self.qs = question.questionGenerator(latex=True)
         # self.bq = boolquiz.bool_quiz()
@@ -52,33 +53,34 @@ class Question_Builder:
         self.formater = quiz_format_factory.quiz_format_factory.factory(outformat,
                                                                         # lang=lang, templates_dir=templates_dir
         )
+        self.randomize = True
 
     # 🔹 Common rendering helper
-    @deprecated(reason=" All format and rendrening operation are moved to quizbuilder")
-    def _render(self, template: str, context: dict):
-        """Render a question and answer using the current formatter."""
-        try:
-            q, a = self.formater.render_question_answer(template, context)
-            # return q, LANG_AR, "data", a
-            return q, a
-        except Exception as e:
-            logger.exception("Error rendering template %s", template)
-            return f"Error: {e}",  "Error"
+    # @deprecated(reason=" All format and rendrening operation are moved to quizbuilder")
+    # def _render(self, template: str, context: dict):
+    #     """Render a question and answer using the current formatter."""
+    #     try:
+    #         q, a = self.formater.render_question_answer(template, context)
+    #         # return q, LANG_AR, "data", a
+    #         return q, a
+    #     except Exception as e:
+    #         logger.exception("Error rendering template %s", template)
+    #         return f"Error: {e}",  "Error"
 
 
 
     def set_random(self, value:bool=True):
         self.randomize = bool(value)
 
-    def use_formatter(self, formatter=None):
-        obj = formatter
-        method_name = "render_question_answer"
-        method = getattr(obj, method_name, None)
-        if not callable(method):
-            raise AttributeError(f"In method 'use_formatter', {obj.__class__.__name__} has no callable method '{method_name}'")
-        else:
-            self.formater = formatter
-        return method
+    # def use_formatter(self, formatter=None):
+    #     obj = formatter
+    #     method_name = "render_question_answer"
+    #     method = getattr(obj, method_name, None)
+    #     if not callable(method):
+    #         raise AttributeError(f"In method 'use_formatter', {obj.__class__.__name__} has no callable method '{method_name}'")
+    #     else:
+    #         self.formater = formatter
+    #     return method
 
 
 

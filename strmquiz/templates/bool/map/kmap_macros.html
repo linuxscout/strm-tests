@@ -98,6 +98,7 @@
 
 
 {% macro kmap4svg(minterms=[], dontcares=[], groups=[], ab="AB1", cd="CD1") %}
+    {% set groups = groups|format_map_terms %}
     {% set size = 60 %}
     {% set rows = ["00","01","11","10"] %}
     {% set cols = ["00","01","11","10"] %}
@@ -112,7 +113,7 @@
       {% for c in cols %}
       {% set j = loop.index0 %}
         <text x="{{ j*size + size/2 + 80 }}" y="50" font-size="14" text-anchor="middle">{{ c }}</text>
-      {% endfor %}
+      {% endfor %}s
 
       <!-- Row labels -->
       {% for r in rows %}

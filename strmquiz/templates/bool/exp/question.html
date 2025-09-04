@@ -7,7 +7,7 @@
 {% if "fr" in languages %}
 Simplifier l'expression suivant:<br/>
 {% endif %}
-<math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math> {{  sop_quest }}
+<math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math> {{  sop_quest|normalize_formula }}
 </p>
 
 {% if RENDER_MODE == "question" %}
@@ -18,7 +18,7 @@ Simplifier l'expression suivant:<br/>
 {% import "bool/map/kmap_macros.html" as kmap %}
 
 
-{{ kmap.kmap4svg(minterms, dontcares, groups=formatted_simplification, ab=ab, cd=cd) }}
+{{ kmap.kmap4svg(minterms, dontcares, groups=simplification, ab=ab, cd=cd) }}
 <br/>
 <ul>
     <li>Simplified Sum of products : {{ sop_dict.formatted }}</li>

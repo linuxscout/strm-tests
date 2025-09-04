@@ -13,7 +13,7 @@ Soit la fonction donnée par sa forme canonique, Tracer la table de karnaugh et 
 {% if RENDER_MODE == "question" %}
 <ul>
 {% for data in data_list %}
-    <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>F{{ loop.index }}(A,B,C,D)=</mrow></math>  {{ data.dnf_dict.formatted }}</li>
+    <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>F{{ loop.index }}(A,B,C,D)=</mrow></math>  {{ data.dnf_dict.default|normalize_formula }}</li>
 {% endfor %}
 </ul>
 
@@ -21,15 +21,15 @@ Soit la fonction donnée par sa forme canonique, Tracer la table de karnaugh et 
 <br/>
  {% if RENDER_MODE == "answer" %}
 {% for data in data_list %}
-    <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>F{{ loop.index }}(A,B,C,D)=</mrow></math>  {{ data.dnf_dict.formatted }}<br/>
+    <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>F{{ loop.index }}(A,B,C,D)=</mrow></math>  {{ data.dnf_dict.default|normalize_formula }}<br/>
 
 {% import "bool/map/kmap_macros.html" as kmap %}
-{{ kmap.kmap4svg(data.minterms, data.dontcares, groups=data.formatted_simplification, ab=data.ab, cd=data.cd) }}
+{{ kmap.kmap4svg(data.minterms, data.dontcares, groups=data.simplification, ab=data.ab, cd=data.cd) }}
 <br/>
 
 <ul>
-    <li> Simplified Sum of products : {{ data.sop_dict.formatted }}</li>
-    <li> Simplified product of sums : {{ data.pos_dict.formatted }}</li>
+    <li> Simplified Sum of products : {{ data.sop_dict.default|normalize_formula }}</li>
+    <li> Simplified product of sums : {{ data.pos_dict.default|normalize_formula }}</li>
 </ul>
 
 {% endfor %}

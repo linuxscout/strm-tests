@@ -15,11 +15,11 @@ Simplify the following Karnaugh table
     \terms{ {{ data.dontcares | join(", ") }} }{X}
   {% endif %}
  {% if RENDER_MODE == "answer" %}
-    {{ data.formatted_simplification |join("\n") }}
+       {{ data.simplification |format_map_terms(method=data.method.lower())|join("\n") }}
  {% endif %}
  \end{karnaugh-map}
 {% if RENDER_MODE == "answer" %}
-    Simplified Sum of products : ${{ data.sop_dict.formatted }}$\\
-    Simplified product of sums : ${{ data.pos_dict.formatted }}$
+    Simplified Sum of products : ${{ data.sop_dict.default|normalize_formula }}$\\
+    Simplified product of sums : ${{ data.pos_dict.default|normalize_formula }}$
 {% endif %}
 {% endfor %}

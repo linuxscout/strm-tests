@@ -8,7 +8,7 @@ Study the following function:
 Etudier la fonction suivante:
 {% endif %}<br/>
 
- {{  sop_quest }}
+ {{  sop_quest|normalize_formula }}
 
 {% if RENDER_MODE == "question" %}
 
@@ -50,8 +50,8 @@ Etudier la fonction suivante:
 
 <p><strong>Canonical Forms <span dir="rtl">الأشكال القانونية</span></strong></p>
 <ul>
-    <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}({{variables|join(", ")}}) = </mrow></math>{{ dnf_dict.formatted }}</li>
-    <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}({{variables|join(", ")}}) = </mrow></math>{{ cnf_dict.formatted }}</li>
+    <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}({{variables|join(", ")}}) = </mrow></math>{{ dnf_dict.default|normalize_formula }}</li>
+    <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}({{variables|join(", ")}}) = </mrow></math>{{ cnf_dict.default|normalize_formula }}</li>
     <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}({{variables|join(", ")}})  = Σ({{ minterms | join(", ") }})</mrow></math></li>
     <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}({{variables|join(", ")}})  = Π({{ maxterms | join(", ") }})</mrow></math></li>
 </ul>
@@ -65,11 +65,11 @@ Etudier la fonction suivante:
   <ol>
 
       <li>
-         <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math>     {{ nand_sop_dict.formatted }}
+         <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math>     {{ nand_sop_dict.default|normalize_formula }}
 
         <p>Explanation</p>
         <ul>
-          <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math>     {{ sop_dict.formatted }} </li>
+          <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math>     {{ sop_dict.default|normalize_formula }} </li>
 
           {% for explain in nand_sop_dict.explained %}
             <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math>  {{ explain }} </li>
@@ -88,11 +88,11 @@ Etudier la fonction suivante:
   <ol>
 
       <li>
-        <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math>    {{ nor_pos_dict.formatted }}
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math>    {{ nor_pos_dict.default|normalize_formula }}
 
         <p>Explanation</p>
         <ul>
-          <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math>  {{ pos_dict.formatted }} </li>
+          <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math>  {{ pos_dict.default|normalize_formula }} </li>
 
           {% for explain in nor_pos_dict.explained %}
             <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math>   {{ explain }} </li>
@@ -107,12 +107,12 @@ Etudier la fonction suivante:
 <p><strong>Karnaugh map <span dir="rtl">جدول كارنوف</span></strong></p>
 
 {% import "bool/map/kmap_macros.html" as kmap %}
-{{ kmap.kmap4svg(minterms,  dontcares, groups=formatted_simplification, ab=ab, cd=cd) }}
+{{ kmap.kmap4svg(minterms,  dontcares, groups=simplification, ab=ab, cd=cd) }}
 
 <br/>
 <ul>
-    <li>Simplified Sum of products : {{ sop_dict.formatted }}</li>
-    <li>Simplified product of sums : {{ pos_dict.formatted }}</li>
+    <li>Simplified Sum of products : {{ sop_dict.default|normalize_formula }}</li>
+    <li>Simplified product of sums : {{ pos_dict.default|normalize_formula }}</li>
     </ul>
 
 <p><strong>Logic diagram <span dir="rtl">المخطط المنطقي</span></strong></p>

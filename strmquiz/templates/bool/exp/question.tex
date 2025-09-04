@@ -9,7 +9,7 @@ Simpilfy the following expression
 بسّط العبارة الآتية
 \end{arab}
 
-${{ function_name }} ={{  sop_quest }}$
+${{ function_name }} ={{  sop_quest|normalize_formula }}$
 
 {% if RENDER_MODE == "question" %}
 
@@ -27,7 +27,7 @@ ${{ function_name }} ={{  sop_quest }}$
     \terms{ {{ dontcares | join(", ") }} }{X}
   {% endif %}
 
-    {{ formatted_simplification |join("\n") }}
+   {{ simplification |format_map_terms(method=method.lower())|join("\n") }}
 
  \end{karnaugh-map}
 

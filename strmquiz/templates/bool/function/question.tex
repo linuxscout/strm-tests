@@ -9,7 +9,7 @@ Study the following function:
 \begin{arab}[utf]
 ادرس الدالة الآتية:
 \end{arab}
-$F(A,B,C,D) ={{  sop_quest }}$
+$F(A,B,C,D) ={{  sop_quest|normalize_formula }}$
 
 {% if RENDER_MODE == "question" %}
 
@@ -46,8 +46,8 @@ ${{ function_name }} = {{ dontcares }}$
 
 \textbf{Canonical Forms \aRL{الأشكال القانونية}}
 \begin{itemize}
-\item ${{ function_name }}(A,B,C,D) =  {{  dnf_dict.formatted }}$
-\item ${{ function_name }}(A,B,C,D) = {{  cnf_dict.formatted }}$
+\item ${{ function_name }}(A,B,C,D) =  {{  dnf_dict.default|normalize_formula }}$
+\item ${{ function_name }}(A,B,C,D) = {{  cnf_dict.default|normalize_formula }}$
  \item ${{ function_name }}(A,B,C,D) =  \sum({{  minterms| join(", ") }})$
  \item ${{ function_name }}(A,B,C,D) =  \prod({{  maxterms| join(", ") }})$
 \end{itemize}
@@ -83,12 +83,12 @@ ${{ function_name }} = {{ dontcares }}$
     \terms{ {{ dontcares | join(", ") }} }{X}
   {% endif %}
 
-    {{ formatted_simplification |join("\n") }}
+       {{ simplification |format_map_terms(method=method.lower())|join("\n") }}
 
  \end{karnaugh-map}
 
-    Simplified Sum of products : ${{ sop_dict.formatted }}$\\
-    Simplified product of sums : ${{ pos_dict.formatted }}$\\
+    Simplified Sum of products : ${{ sop_dict.default|normalize_formula }}$\\
+    Simplified product of sums : ${{ pos_dict.default|normalize_formula }}$\\
 
 \textbf{Logic diagram \aRL{المخطط المنطقي}}
 

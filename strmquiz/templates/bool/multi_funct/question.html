@@ -42,7 +42,7 @@ Etudier le circuit suivant:<br/>
 </ul>
 
 
-F(A,B,C,D) ={{  sop_quest }}
+F(A,B,C,D) ={{  sop_quest|normalize_formula }}
 
 {% if RENDER_MODE == "answer" %}
 
@@ -110,7 +110,7 @@ F(A,B,C,D) ={{  sop_quest }}
     <b>First Canonical Forms <span dir="rtl">الأشكال القانونية الأولى</span></b>
     <ul>
       {% for data in data_list %}
-        <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>   {{ data.dnf_dict.formatted }}</li>
+        <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>   {{ data.dnf_dict.default|normalize_formula }}</li>
       {% endfor %}
     </ul>
   </li>
@@ -119,7 +119,7 @@ F(A,B,C,D) ={{  sop_quest }}
     <b>Second Canonical Forms <span dir="rtl">الأشكال القانونية الثانية</span></b>
     <ul>
       {% for data in data_list %}
-        <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>  {{ data.cnf_dict.formatted }}</li>
+        <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>  {{ data.cnf_dict.default|normalize_formula }}</li>
       {% endfor %}
     </ul>
   </li>
@@ -153,11 +153,11 @@ F(A,B,C,D) ={{  sop_quest }}
   <ol>
     {% for data in data_list %}
       <li>
-         <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>     {{ data.nand_sop_dict.formatted }}
+         <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>     {{ data.nand_sop_dict.default|normalize_formula }}
 
         <p>Explanation</p>
         <ul>
-          <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>     {{ data.sop_dict.formatted }} </li>
+          <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>     {{ data.sop_dict.default|normalize_formula }} </li>
 
           {% for explain in data.nand_sop_dict.explained %}
             <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>  {{ explain }} </li>
@@ -176,11 +176,11 @@ F(A,B,C,D) ={{  sop_quest }}
   <ol>
     {% for data in data_list %}
       <li>
-        <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>    {{ data.nor_pos_dict.formatted }}
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>    {{ data.nor_pos_dict.default|normalize_formula }}
 
         <p>Explanation</p>
         <ul>
-          <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>  {{ data.pos_dict.formatted }} </li>
+          <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>  {{ data.pos_dict.default|normalize_formula }} </li>
 
           {% for explain in data.nor_pos_dict.explained %}
             <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>   {{ explain }} </li>
@@ -201,10 +201,10 @@ F(A,B,C,D) ={{  sop_quest }}
 <br/>
 #}
 
-{{ kmap.kmap4svg(minterms=data.minterms, dontcares=data.dontcares, groups=data.formatted_simplification, ab=data.ab, cd=data.cd) }}
+{{ kmap.kmap4svg(minterms=data.minterms, dontcares=data.dontcares, groups=data.simplification, ab=data.ab, cd=data.cd) }}
 <ul>
-    <li>Simplified Sum of products : <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>  {{ data.sop_dict.formatted }}</li>
-    <li>Simplified product of sums : <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math> {{ data.pos_dict.formatted }}</li>
+    <li>Simplified Sum of products : <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math>  {{ data.sop_dict.default|normalize_formula }}</li>
+    <li>Simplified product of sums : <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ data.function_name }}=</mrow></math> {{ data.pos_dict.default|normalize_formula }}</li>
     </ul>
 {% endfor %}
 
