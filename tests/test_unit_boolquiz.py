@@ -106,3 +106,66 @@ def test_rand_exp(bq):
     assert isinstance(exp, str), f"The result is {exp}"
     assert isinstance(minterms, list), f"The result is {minterms}"
     assert minterms ==  input_minterms, f"The result is {minterms}, expr= {exp}"
+
+
+def test_validate_terms_valid(bq):
+    terms = [0, 1, 3, 15]
+    result = bq.validate_terms(terms, name="minterms")
+    assert result == [0, 1, 3, 15], "The result is {result}"
+
+
+def test_validate_terms_duplicates_sorted(bq):
+    terms = [3, 1, 1, 0, 15]
+    result = bq.validate_terms(terms, name="maxterms")
+    assert result == [0, 1, 3, 15] , "The result is {result}"  # duplicates removed, sorted
+
+
+
+def test_validate_terms_non_integer(bq):
+    with pytest.raises(TypeError):
+        bq.validate_terms([1, "X", 2], name="dontcares")
+
+
+@pytest.mark.skip(reason="To be implemented manually")
+def test_validate_terms_out_of_range(bq):
+    with pytest.raises(ValueError):
+        bq.validate_terms([0, 5, 16], name="minterms")
+
+
+
+def test_validate_terms_without_normalize(bq):
+    terms = [3, 1, 1, 0, 15]
+    result = bq.validate_terms(terms, name="dontcares", normalize=False)
+    assert result == [3, 1, 1, 0, 15],  "The result is {result}"  # unchanged, no sorting/unique
+
+
+
+def test_validate_terms_list_valid(bq):
+    terms_list = [[0, 1, 2], [3, 5, 7]]
+    result = bq.validate_terms_list(terms_list)
+    assert result == [[0, 1, 2], [3, 5, 7]]
+
+
+def test_validate_terms_list_duplicates(bq):
+    terms_list = [[3, 1, 1, 0], [15, 10, 10]]
+    result = bq.validate_terms_list(terms_list)
+    assert result == [[0, 1, 3], [10, 15]]  # normalized, duplicates removed
+
+
+
+def test_validate_terms_list_invalid_type(bq):
+    terms_list = [[0, "X"], [1, 2]]
+    with pytest.raises(TypeError):
+        bq.validate_terms_list(terms_list)
+
+
+def test_validate_terms_list_out_of_range(bq):
+    terms_list = [[0, 16], [1, 2]]
+    with pytest.raises(ValueError):
+        bq.validate_terms_list(terms_list)
+
+
+
+def test_validate_terms_list_not_list(bq):
+    with pytest.raises(TypeError):
+        bq.validate_terms_list("not a list")

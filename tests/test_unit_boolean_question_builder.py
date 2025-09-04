@@ -110,3 +110,9 @@ def test_prepare_logigram_list(builder):
                                             equations_list = equations_list)
     assert isinstance(result, dict)
     assert "functions" in result, f"the result is {result}"
+
+def test_invalid_minterms(builder):
+    with pytest.raises(TypeError):
+        builder.question_multi_funct(minterms_list=[[1, 2, 3, "X", 20]], dont_care_list=[[]])
+    with pytest.raises(ValueError):
+        builder.question_multi_funct(minterms_list=[[1, 2, 3, 20]], dont_care_list=[[]])
