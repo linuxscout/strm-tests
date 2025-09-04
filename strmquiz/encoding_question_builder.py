@@ -37,20 +37,6 @@ from .codage import question_codage as question
 from .codage import ieee754
 
 
-# 🔹 Constants
-LANG_AR = "arabic"
-LANG_EN = "english"
-
-SECTION_FLOAT = "encoding/float"
-SECTION_CP = "encoding/cp"
-SECTION_INTERVAL = "encoding/interval"
-SECTION_BASE = "base"
-SECTION_ARITHM = "arithm"
-
-SECTION_BCDX3 = "encoding/bcdx3"
-SECTION_GRAY = "encoding/gray"
-SECTION_CHARCODE = "encoding/charcode"
-SECTION_MESURE = "mesure"
 from .question_builder import Question_Builder
 
 class EncodingQuestionBuilder(Question_Builder):
@@ -58,7 +44,8 @@ class EncodingQuestionBuilder(Question_Builder):
 
     def __init__(self, outformat="latex", config_file="", lang="ar-en", templates_dir="",):
         # 🔹 Inject dependencies (makes testing easier)
-        super().__init__(outformat=outformat, config_file=config_file, lang=lang, templates_dir=templates_dir,)
+        super().__init__()
+        # super().__init__(outformat=outformat, config_file=config_file, lang=lang, templates_dir=templates_dir,)
 
         self.qs = question.questionGenerator(latex=True)
 
