@@ -1,7 +1,3 @@
-Great! Here’s your fully updated **README.md** with the bilingual Question Type Reference table integrated, improved structure, and formatting ready for GitHub:
-
----
-
 # STRM Tests
 
 Create random tests for **Structure Machine 1 & 2** – First Year MI, Mathematics & Computer sciences in Algerian universities. 
