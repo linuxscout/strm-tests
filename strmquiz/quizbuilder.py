@@ -31,13 +31,28 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 import random
-# ~ from . import question
-# ~ from . import boolquiz
-# ~ from . import ieee754
+from deprecated import deprecated
+
 from . import read_config
 from .display import quiz_format_factory
 from .question_builder_factory import question_builder_factory
 
+from typing import TypedDict, Optional, Any
+
+class CommandInfo(TypedDict):
+    short: str
+    long: str
+    category: str
+
+class CommandSummary(TypedDict):
+    name: str
+    short: str
+    long: str
+
+class CategoryInfo(TypedDict):
+    short: str
+    long: str
+    commands: list[CommandSummary]
 
 import os
 
@@ -466,84 +481,27 @@ class QuizBuilder:
             }
             quiz_questions.append(item)
         self.formater.add_test(quiz_questions)
-
+    #---------------------------------
+    #  routines to extract categories and commands
+    #------------------------------------
+    @deprecated(reason="Replaced by get_commands_list()")
     def list_commands(self,):
         """ list all existing question types """
         return self.commands
 
-    def get_commands_info(self,):
+    def get_commands_list(self,category=""):
         """ list all existing question types """
-        return self.commands_info
-
-    def get_categories(self):
-        """
-        Return a dictionary of categories with descriptions and their commands.
-        """
-        categories = {}
-        for cat, meta in self.categories_info.items():
-            categories[cat] = {
-                "short": meta["short"],
-                "long": meta["long"],
-                "commands": [
-                    {
-                        "name": name,
-                        "short": info["short"],
-                        "long": info["long"]
-                    }
-                    for name, info in self.commands_info.items()
-                    if info["category"] == cat
-                ]
-            }
-        return categories
-
-    def get_commands_by_category(self, category):
-        """Return a list of command names for a given category."""
-        return [name for name, info in self.commands_info.items() if info["category"] == category]
-
-    def get_all_commands(self):
-        """Return all command names."""
-        return list(self.commands_info.keys())
-
-    def get_short_description(self, cmd):
-        """Return short description for a command."""
-        return self.commands_info.get(cmd, {}).get("short", f"No short description for '{cmd}'")
-
-    def get_long_description(self, cmd):
-        """Return long description for a command."""
-        return self.commands_info.get(cmd, {}).get("long", f"No long description for '{cmd}'")
-
-    def get_random_command(self, category=None):
-        """
-        Return a random command (name, info).
-        If category is given, pick only from that category.
-        """
-        if category:
-            cmds = self.get_commands_by_category(category)
+        if not category:
+            return self.commands
         else:
-            cmds = list(self.commands_info.keys())
+            return [name for name, info in self.commands_info.items() if info["category"] == category]
 
-        if not cmds:
-            raise ValueError(f"No commands found for category '{category}'")
-
-        cmd = random.choice(cmds)
-        return cmd, self.commands_info[cmd]
-
-    def get_random_commands(self, n=3, category=None):
-        """
-        Return a list of n random commands (name, info).
-        If category is given, pick only from that category.
-        """
-        if category:
-            cmds = self.get_commands_by_category(category)
+    def get_commands_info(self, category=""):
+        """ list all existing question types """
+        if not category:
+            return self.commands_info
         else:
-            cmds = list(self.commands_info.keys())
-
-        if not cmds:
-            raise ValueError(f"No commands found for category '{category}'")
-
-        n = min(n, len(cmds))
-        selected = random.sample(cmds, k=n)
-        return [(cmd, self.commands_info[cmd]) for cmd in selected]
+            return {cmd:self.commands_info[cmd] for cmd in self.commands_info if self.commands_info[cmd]["category"]==category}
 
     def get_quiz(self,test_no="test1"):
         """
@@ -565,6 +523,89 @@ class QuizBuilder:
                 self.formater.close_question(test)
         return self.formater.display()
 
+    import random
+    from typing import Optional
+
+    def get_categories(self) -> dict[str, CategoryInfo]:
+        """
+        Return a dictionary of categories with descriptions and their commands.
+        """
+        categories: dict[str, CategoryInfo] = {}
+        for cat, meta in self.categories_info.items():
+            categories[cat] = {
+                "short": meta["short"],
+                "long": meta["long"],
+                "commands": [
+                    {
+                        "name": name,
+                        "short": info["short"],
+                        "long": info["long"]
+                    }
+                    for name, info in self.commands_info.items()
+                    if info["category"] == cat
+                ]
+            }
+        return categories
+    @deprecated(reason="Replaced by get_commands_list(category=category)")
+    def get_commands_by_category(self, category: str) -> list[str]:
+        """Return a list of command names for a given category."""
+        return self.get_commands_list(category=category)
+
+    @deprecated(reason="Replaced by get_commands_list(category="")")
+    def get_all_commands(self) -> list[str]:
+        """Return all command names."""
+        return  self.get_commands_list()
+
+    def get_short_description(self, cmd: str) -> str:
+        """Return short description for a command."""
+        return self.commands_info.get(cmd, {}).get("short", f"No short description for '{cmd}'")
+
+    def get_long_description(self, cmd: str) -> str:
+        """Return long description for a command."""
+        return self.commands_info.get(cmd, {}).get("long", f"No long description for '{cmd}'")
+
+    @deprecated(reason="Replaced by get_random_commands(n=1)")
+    def get_random_command(self, category: Optional[str] = None) -> tuple[str, CommandInfo]:
+        """
+        Return a random command (name, info).
+        If category is given, pick only from that category.
+        """
+        if category:
+            cmds = self.get_commands_by_category(category)
+        else:
+            cmds = list(self.commands_info.keys())
+
+        if not cmds:
+            raise ValueError(f"No commands found for category '{category}'")
+
+        cmd = random.choice(cmds)
+        return cmd, self.commands_info[cmd]
+
+    def get_random_commands(self, n: int = 3, category: Optional[str] = None) -> dict[str, CommandInfo]:
+        """
+        Return a list of n random commands (name, info).
+        If category is given, pick only from that category.
+        """
+        if category:
+            cmds = self.get_commands_by_category(category)
+        else:
+            cmds = list(self.commands_info.keys())
+
+        if not cmds:
+            raise ValueError(f"No commands found for category '{category}'")
+
+        n = min(n, len(cmds))
+        selected = random.sample(cmds, k=n)
+        commands_dict ={cmd:self.commands_info[cmd] for cmd in selected}
+        return commands_dict
+
+    def get_random_commands_list(self, n=3, category=None):
+        """
+        Return a list of n random commands (name).
+        If category is given, pick only from that category.
+        """
+        commands_dict = self.get_random_commands(n=n, category=category)
+        return list(commands_dict.keys())
 
 
 

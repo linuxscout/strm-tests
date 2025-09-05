@@ -1,9 +1,11 @@
 import os.path
 import json
-from fastapi import FastAPI, Request, Form
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, Request, Form, Query
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from typing import Optional
+
 
 from strmquiz.quizbuilder import QuizBuilder
 WEB_TEMPALTES_DIR = os.path.join(os.path.dirname(__file__),"templates")
@@ -70,3 +72,42 @@ async def submit_quiz(request: Request, command: str = Form(...), category: str 
         "result.html",
        response,
     )
+
+
+
+
+
+
+@app.get("/api/categories")
+async def get_categories():
+    """Return all categories with descriptions."""
+    categories_info = quiz_builder.get_categories()
+    return JSONResponse(categories_info)
+
+
+@app.get("/api/commands")
+async def get_commands(category: Optional[str] = Query(None, description="Filter by category name")):
+    """Return all commands, optionally filtered by category."""
+    commands_info = quiz_builder.get_commands_info()
+    if category:
+        cmds =  quiz_builder.get_commands_by_category(category=category)
+        return JSONResponse(cmds)
+    return JSONResponse(commands_info)
+
+
+@app.get("/api/random-command")
+async def get_random_command(category: Optional[str] = None):
+    """Return a random command, optionally within a category."""
+    cmd, cmd_info = quiz_builder.get_random_command(category=category)
+    if not cmd:
+        return {"error": "No commands in this category"}
+    return {cmd: cmd_info}
+
+
+@app.get("/api/random-commands")
+async def get_random_commands(n: int = 3, category: Optional[str] = None):
+    """Return N random commands (default 3)."""
+    list_tuple_cmd_info = quiz_builder.get_random_commands(category=category)
+    if not list_tuple_cmd_info:
+        return {"error": "No commands in this category"}
+    return {"commands_list": list_tuple_cmd_info}

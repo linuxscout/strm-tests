@@ -69,3 +69,73 @@ def test_get_quiz_from_config(builder):
     output = builder.get_quiz("test1")
     assert isinstance(output, str)
     assert "Question" in output or "Q1" in output
+
+# ---------------------- TESTS ----------------------
+
+def test_list_commands_real(builder):
+    cmds = builder.list_commands()
+    assert "float" in cmds
+    assert "function" in cmds
+    assert isinstance(cmds, list)
+# @pytest.mark.skip(reason="To be removed manually")
+def test_get_commands_list_all(builder):
+    cmds = builder.get_commands_list()
+    assert isinstance(cmds, list)
+    assert "float" in cmds
+    assert "chronogram" in cmds
+
+# @pytest.mark.skip(reason="To be removed manually")
+def test_get_commands_list_by_category(builder):
+    cmds = builder.get_commands_list("boolean algebra")
+    assert "function" in cmds
+    assert "map" in cmds
+    assert "float" not in cmds
+
+# @pytest.mark.skip(reason="To be removed manually")
+def test_get_commands_info_all(builder):
+    info = builder.get_commands_info()
+    assert "float" in info
+    assert isinstance(info["float"], dict)
+
+# @pytest.mark.skip(reason="To be removed manually")
+def test_get_commands_info_by_category(builder):
+    info = builder.get_commands_info(category="encoding")
+    assert "float" in info, f"The result is {info}"
+
+
+def test_get_categories(builder):
+    cats = builder.get_categories()
+    assert "boolean algebra" in cats
+    assert "encoding" in cats
+    assert isinstance(cats["boolean algebra"]["commands"], list)
+    assert any(cmd["name"] == "map" for cmd in cats["boolean algebra"]["commands"])
+
+@pytest.mark.skip(reason="To be removed manually")
+def test_get_short_description(builder):
+    desc = builder.get_short_description("float")
+    assert "Float" in desc
+    desc_unknown = builder.get_short_description("unknown")
+    assert "No short description" in desc_unknown
+
+@pytest.mark.skip(reason="To be removed manually")
+def test_get_long_description(builder):
+    desc = builder.get_long_description("function")
+    assert "Boolean function" in desc
+    desc_unknown = builder.get_long_description("unknown")
+    assert "No long description" in desc_unknown
+
+@pytest.mark.skip(reason="To be removed manually")
+def test_get_random_commands(builder):
+    cmds = builder.get_random_commands(n=2)
+    assert isinstance(cmds, dict)
+    assert len(cmds) <= 2
+    for cmd in cmds:
+        assert cmd in builder.commands_info
+
+@pytest.mark.skip(reason="To be removed manually")
+def test_get_random_commands_list(builder):
+    cmds = builder.get_random_commands_list(n=2)
+    assert isinstance(cmds, list)
+    assert len(cmds) <= 2
+    for cmd in cmds:
+        assert cmd in builder.commands_info
