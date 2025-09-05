@@ -25,7 +25,7 @@
 حوّل من الثنائي إلى ترميز غراي
 
 \[
-  1110110
+  11101101
 \]
 
 \bigskip
@@ -34,7 +34,7 @@
 حوّل من ترميز غراي إلى الثنائي
 
 \[
-  1001101
+  10011011
 \]
 
 
@@ -70,23 +70,23 @@
 
 \begin{center}
 \renewcommand{\arraystretch}{1.3}
-\begin{tabular}{|c|*7{c|}}
+\begin{tabular}{|c|*8{c|}}
   \hline
     Binary &
-    1 &    1 &    1 &    0 &    1 &    1 &    0  \\
+    1 &    1 &    1 &    0 &    1 &    1 &    0 &    1  \\
   \hline
 
   Arrows &
       \textcolor{blue}{$\downarrow$} &
-        \textcolor{red}{$\searrow \oplus \downarrow$} &        \textcolor{red}{$\searrow \oplus \downarrow$} &        \textcolor{red}{$\searrow \oplus \downarrow$} &        \textcolor{red}{$\searrow \oplus \downarrow$} &        \textcolor{red}{$\searrow \oplus \downarrow$} &        \textcolor{red}{$\searrow \oplus \downarrow$}  \\
+        \textcolor{red}{$\searrow \oplus \downarrow$} &        \textcolor{red}{$\searrow \oplus \downarrow$} &        \textcolor{red}{$\searrow \oplus \downarrow$} &        \textcolor{red}{$\searrow \oplus \downarrow$} &        \textcolor{red}{$\searrow \oplus \downarrow$} &        \textcolor{red}{$\searrow \oplus \downarrow$} &        \textcolor{red}{$\searrow \oplus \downarrow$}  \\
   \hline
 
     Gray &
-    \textbf{ 1 } &    \textbf{ 0 } &    \textbf{ 0 } &    \textbf{ 1 } &    \textbf{ 1 } &    \textbf{ 0 } &    \textbf{ 1 }  \\
+    \textbf{ 1 } &    \textbf{ 0 } &    \textbf{ 0 } &    \textbf{ 1 } &    \textbf{ 1 } &    \textbf{ 0 } &    \textbf{ 1 } &    \textbf{ 1 }  \\
   \hline
 
   Steps &
-    {\scriptsize Copy first bit } &    {\scriptsize XOR 1 $\oplus$ 1 = 0 } &    {\scriptsize XOR 1 $\oplus$ 1 = 0 } &    {\scriptsize XOR 1 $\oplus$ 0 = 1 } &    {\scriptsize XOR 0 $\oplus$ 1 = 1 } &    {\scriptsize XOR 1 $\oplus$ 1 = 0 } &    {\scriptsize XOR 1 $\oplus$ 0 = 1 }  \\
+    {\scriptsize Copy first bit } &    {\scriptsize XOR 1 $\oplus$ 1 = 0 } &    {\scriptsize XOR 1 $\oplus$ 1 = 0 } &    {\scriptsize XOR 1 $\oplus$ 0 = 1 } &    {\scriptsize XOR 0 $\oplus$ 1 = 1 } &    {\scriptsize XOR 1 $\oplus$ 1 = 0 } &    {\scriptsize XOR 1 $\oplus$ 0 = 1 } &    {\scriptsize XOR 0 $\oplus$ 1 = 1 }  \\
   \hline
 \end{tabular}
 \end{center}
@@ -97,23 +97,23 @@
 
  \begin{center}
 \renewcommand{\arraystretch}{1.3}
-\begin{tabular}{|c|*7{c|}}
+\begin{tabular}{|c|*8{c|}}
   \hline
     Gray &
-    1 &    0 &    0 &    1 &    1 &    0 &    1  \\
+    1 &    0 &    0 &    1 &    1 &    0 &    1 &    1  \\
   \hline
 
   Arrows &
       \textcolor{blue}{$\downarrow$} &
-        \textcolor{blue}{$\nearrow \oplus \downarrow$} &        \textcolor{blue}{$\nearrow \oplus \downarrow$} &        \textcolor{blue}{$\nearrow \oplus \downarrow$} &        \textcolor{blue}{$\nearrow \oplus \downarrow$} &        \textcolor{blue}{$\nearrow \oplus \downarrow$} &        \textcolor{blue}{$\nearrow \oplus \downarrow$}  \\
+        \textcolor{blue}{$\nearrow \oplus \downarrow$} &        \textcolor{blue}{$\nearrow \oplus \downarrow$} &        \textcolor{blue}{$\nearrow \oplus \downarrow$} &        \textcolor{blue}{$\nearrow \oplus \downarrow$} &        \textcolor{blue}{$\nearrow \oplus \downarrow$} &        \textcolor{blue}{$\nearrow \oplus \downarrow$} &        \textcolor{blue}{$\nearrow \oplus \downarrow$}  \\
   \hline
 
     Binary &
-    \textbf{ 1 } &    \textbf{ 1 } &    \textbf{ 1 } &    \textbf{ 0 } &    \textbf{ 1 } &    \textbf{ 1 } &    \textbf{ 0 }  \\
+    \textbf{ 1 } &    \textbf{ 1 } &    \textbf{ 1 } &    \textbf{ 0 } &    \textbf{ 1 } &    \textbf{ 1 } &    \textbf{ 0 } &    \textbf{ 1 }  \\
   \hline
 
   Steps &
-    {\scriptsize Copy first bit } &    {\scriptsize XOR 1 $\oplus$ 0 = 1 } &    {\scriptsize XOR 1 $\oplus$ 0 = 1 } &    {\scriptsize XOR 1 $\oplus$ 1 = 0 } &    {\scriptsize XOR 0 $\oplus$ 1 = 1 } &    {\scriptsize XOR 1 $\oplus$ 0 = 1 } &    {\scriptsize XOR 1 $\oplus$ 1 = 0 }  \\
+    {\scriptsize Copy first bit } &    {\scriptsize XOR 1 $\oplus$ 0 = 1 } &    {\scriptsize XOR 1 $\oplus$ 0 = 1 } &    {\scriptsize XOR 1 $\oplus$ 1 = 0 } &    {\scriptsize XOR 0 $\oplus$ 1 = 1 } &    {\scriptsize XOR 1 $\oplus$ 0 = 1 } &    {\scriptsize XOR 1 $\oplus$ 1 = 0 } &    {\scriptsize XOR 0 $\oplus$ 1 = 1 }  \\
   \hline
 \end{tabular}
 \end{center}
@@ -124,13 +124,13 @@
 \subsection*{Illustration of Bit Change (Next Gray Code)}
 \subsection*{Binary Increment Illustration}
 
-$x$: 1001101 $\;\to\;$ $x+1$: 1001100
+$x$: 10011011 $\;\to\;$ $x+1$: 10011001
 
-\begin{tabular}{|c|*7{c|}}
+\begin{tabular}{|c|*8{c|}}
 \hline
-Position &  0 &  1 &  2 &  3 &  4 &  5 &  6   \\
+Position &  0 &  1 &  2 &  3 &  4 &  5 &  6 &  7   \\
 \hline
-$x$ &  1 &  0 &  0 &  1 &  1 &  0 &  1   \\
+$x$ &  1 &  0 &  0 &  1 &  1 &  0 &  1 &  1   \\
 \hline
 $x+1$ &     1
 &    0
@@ -139,6 +139,7 @@ $x+1$ &     1
 &    1
 &    0
 &    \cellcolor{yellow}\textbf{ 0 }
+&    1
  \\
 \hline
 \end{tabular}
@@ -151,9 +152,9 @@ $x+1$ &     1
 \subsection*{Gray Code Sequence}
 \subsection*{Gray Code Sequence (Bit Changes)}
 
-\begin{tabular}{|c|*7{c|}}
+\begin{tabular}{|c|*8{c|}}
 \hline
-Step &  Bit 0 &  Bit 1 &  Bit 2 &  Bit 3 &  Bit 4 &  Bit 5 &  Bit 6   \\
+Step &  Bit 0 &  Bit 1 &  Bit 2 &  Bit 3 &  Bit 4 &  Bit 5 &  Bit 6 &  Bit 7   \\
 \hline
 x + 0 &
     1
@@ -162,6 +163,7 @@ x + 0 &
 &    1
 &    1
 &    0
+&    1
 &    1
  \\
 \hline
@@ -173,15 +175,72 @@ x + 1 &
 &    1
 &    0
 &    \cellcolor{yellow}\textbf{ 0 }
+&    1
  \\
 \hline
 x + 2 &
     1
 &    0
 &    0
+&    1
+&    1
+&    0
+&    0
+&    \cellcolor{yellow}\textbf{ 0 }
+ \\
+\hline
+x + 3 &
+    1
+&    0
+&    0
 &    \cellcolor{yellow}\textbf{ 0 }
 &    1
 &    0
+&    0
+&    0
+ \\
+\hline
+x + 4 &
+    1
+&    0
+&    0
+&    0
+&    1
+&    0
+&    0
+&    \cellcolor{yellow}\textbf{ 1 }
+ \\
+\hline
+x + 5 &
+    1
+&    0
+&    0
+&    0
+&    1
+&    0
+&    \cellcolor{yellow}\textbf{ 1 }
+&    1
+ \\
+\hline
+x + 6 &
+    1
+&    0
+&    0
+&    0
+&    1
+&    0
+&    1
+&    \cellcolor{yellow}\textbf{ 0 }
+ \\
+\hline
+x + 7 &
+    1
+&    0
+&    0
+&    0
+&    1
+&    \cellcolor{yellow}\textbf{ 1 }
+&    1
 &    0
  \\
 \hline

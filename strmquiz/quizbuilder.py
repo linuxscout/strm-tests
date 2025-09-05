@@ -80,28 +80,116 @@ class QuizBuilder:
 
         # --- Load config
         self.myconfig = read_config.ReadConfig(config_file)
+        self.commands_info = {
+            "float": {
+                "category": "encoding",
+                "short": "Floating-point representation",
+                "long": "Questions on IEEE-754 floating-point format. Students convert between decimal and binary, identify mantissa, exponent, and sign bit."
+            },
+            "intervalle": {
+                "category": "encoding",
+                "short": "Integer intervals with complements",
+                "long": "Covers integer ranges in binary representation, including signed numbers with Complement to 1 and Complement to 2."
+            },
+            "complement": {
+                "category": "encoding",
+                "short": "Number complements",
+                "long": "Exercises about computing complement to one and complement to two for binary numbers."
+            },
+            "exp": {
+                "category": "boolean algebra",
+                "short": "Boolean expression simplification",
+                "long": "Given a Boolean expression, students simplify it using algebraic rules or canonical forms."
+            },
+            "map": {
+                "category": "boolean algebra",
+                "short": "Karnaugh Map simplification",
+                "long": "Simplify Boolean expressions using Karnaugh Maps. Identify prime implicants and reduce logic circuits."
+            },
+            "map-sop": {
+                "category": "boolean algebra",
+                "short": "K-map with canonical forms",
+                "long": "Generate and simplify canonical forms (SOP/POS) using Karnaugh Maps. Students practice systematic minimization."
+            },
+            "function": {
+                "category": "boolean algebra",
+                "short": "Logic function analysis",
+                "long": "Study a Boolean function given in algebraic form. Includes truth table, simplification, and circuit representation."
+            },
+            "base": {
+                "category": "encoding",
+                "short": "Numeral system conversion",
+                "long": "Convert numbers between bases (binary, octal, decimal, hexadecimal). Includes integer and fractional parts."
+            },
+            "arithm": {
+                "category": "encoding",
+                "short": "Arithmetic in different bases",
+                "long": "Perform addition, subtraction, multiplication, and division in binary, octal, or hexadecimal systems."
+            },
+            "mesure": {
+                "category": "encoding",
+                "short": "Unit conversions",
+                "long": "Convert between units of information (bits, bytes, KB, MB) or physical measures (time, frequency) depending on context."
+            },
+            "static_funct": {
+                "category": "boolean algebra",
+                "short": "Canonical logical functions",
+                "long": "Study logical functions expressed in canonical forms (SOP or POS). Students analyze and simplify them."
+            },
+            "nand_funct": {
+                "category": "boolean algebra",
+                "short": "Logic with NAND gates",
+                "long": "Design and simplify logical functions using only NAND gates, showing functional completeness of NAND."
+            },
+            "nor_funct": {
+                "category": "boolean algebra",
+                "short": "Logic with NOR gates",
+                "long": "Design and simplify logical functions using only NOR gates, showing functional completeness of NOR."
+            },
+            "multi_funct": {
+                "category": "boolean algebra",
+                "short": "Multi-output logic circuits",
+                "long": "Draw and analyze circuits that implement multiple functions simultaneously, often from minterm tables."
+            },
+            "chronogram": {
+                "category": "sequential logic",
+                "short": "Sequential logic timing diagrams",
+                "long": "Interpret and draw chronograms (timing diagrams) for flip-flops (RS, D, JK). Students analyze sequential behavior over time."
+            },
+            "ascii": {
+                "category": "encoding",
+                "short": "ASCII character codes",
+                "long": "Convert characters to/from ASCII codes. Includes decimal, hexadecimal, and binary representations."
+            },
+            "ascii_text": {
+                "category": "encoding",
+                "short": "ASCII text encoding",
+                "long": "Encode and decode short words or sentences using ASCII character tables."
+            },
+            "bcdx3": {
+                "category": "encoding",
+                "short": "BCD ×3 encoding",
+                "long": "Convert numbers into Binary Coded Decimal (BCD) with ×3 correction. Used in digital arithmetic operations."
+            }
+        }
 
+        # Predefined categories metadata
+        self.categories_info = {
+            "encoding": {
+                "short": "Encoding & number systems",
+                "long": "Covers numeral bases, complements, character encoding, floating point representation, and data measurement units."
+            },
+            "boolean algebra": {
+                "short": "Boolean algebra & logic",
+                "long": "Focuses on Boolean expressions, Karnaugh maps, logic simplification, and circuit design."
+            },
+            "sequential logic": {
+                "short": "Sequential circuits",
+                "long": "Includes flip-flops, registers, counters, and timing diagrams for analyzing sequential behavior."
+            }
+        }
         #~ print(outformat)
-        self.commands = ["float",
-         "intervalle",
-         "complement",
-         "exp",
-         "map",
-         "map-sop",
-        "function",
-        "base",
-        "arithm",
-        "mesure",
-        "static_funct",
-        "nand_funct",
-        "nor_funct",
-        "multi_funct",
-        "chronogram",
-        "ascii",
-        "ascii_text",
-        "bcdx3",
-
-        ]
+        self.commands = list(self.commands_info.keys())
         self.quiz_commands = {}
         self.quiz_commands[1] = [["base", "base", "arithm"],
         ["mesure", "base", "arithm"],
@@ -382,6 +470,80 @@ class QuizBuilder:
     def list_commands(self,):
         """ list all existing question types """
         return self.commands
+
+    def get_commands_info(self,):
+        """ list all existing question types """
+        return self.commands_info
+
+    def get_categories(self):
+        """
+        Return a dictionary of categories with descriptions and their commands.
+        """
+        categories = {}
+        for cat, meta in self.categories_info.items():
+            categories[cat] = {
+                "short": meta["short"],
+                "long": meta["long"],
+                "commands": [
+                    {
+                        "name": name,
+                        "short": info["short"],
+                        "long": info["long"]
+                    }
+                    for name, info in self.commands_info.items()
+                    if info["category"] == cat
+                ]
+            }
+        return categories
+
+    def get_commands_by_category(self, category):
+        """Return a list of command names for a given category."""
+        return [name for name, info in self.commands_info.items() if info["category"] == category]
+
+    def get_all_commands(self):
+        """Return all command names."""
+        return list(self.commands_info.keys())
+
+    def get_short_description(self, cmd):
+        """Return short description for a command."""
+        return self.commands_info.get(cmd, {}).get("short", f"No short description for '{cmd}'")
+
+    def get_long_description(self, cmd):
+        """Return long description for a command."""
+        return self.commands_info.get(cmd, {}).get("long", f"No long description for '{cmd}'")
+
+    def get_random_command(self, category=None):
+        """
+        Return a random command (name, info).
+        If category is given, pick only from that category.
+        """
+        if category:
+            cmds = self.get_commands_by_category(category)
+        else:
+            cmds = list(self.commands_info.keys())
+
+        if not cmds:
+            raise ValueError(f"No commands found for category '{category}'")
+
+        cmd = random.choice(cmds)
+        return cmd, self.commands_info[cmd]
+
+    def get_random_commands(self, n=3, category=None):
+        """
+        Return a list of n random commands (name, info).
+        If category is given, pick only from that category.
+        """
+        if category:
+            cmds = self.get_commands_by_category(category)
+        else:
+            cmds = list(self.commands_info.keys())
+
+        if not cmds:
+            raise ValueError(f"No commands found for category '{category}'")
+
+        n = min(n, len(cmds))
+        selected = random.sample(cmds, k=n)
+        return [(cmd, self.commands_info[cmd]) for cmd in selected]
 
     def get_quiz(self,test_no="test1"):
         """

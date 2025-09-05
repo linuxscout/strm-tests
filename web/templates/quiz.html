@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz</title>
+</head>
+<body>
+    <h2>Select Command to generate a Quiz</h2>
+    <form method="post" action="/submit">
+        <select id="selectcategory" name="category">
+        <option value="random" selected> Random Category</option>
+        {% for cat_key, cat_value in category_dict.items() %}
+                <option value="{{cat_key}}"> {{cat_value.short}}</option>
+        {% endfor %}
+        </select>
+        <select id="selectcommand" name="command">
+        <option value="random" selected> Random Question</option>
+        {% for cmd_key, cmd_value in commands_dict.items() %}
+                <option value="{{cmd_key}}"> {{cmd_value.short}}</option>
+        {% endfor %}
+        </select>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
