@@ -76,22 +76,12 @@ class QuizBuilder:
         self.config_file = config_file
 
         # --- Factories
-        self.qsbuilder = question_builder_factory.factory(
-            builder_name="", outformat=outformat, lang=lang, templates_dir=templates_dir
-        )
-        self.encode_qsbuilder = question_builder_factory.factory(
-            builder_name="encoding", outformat=outformat, lang=lang, templates_dir=templates_dir
-        )
-        self.bool_qsbuilder = question_builder_factory.factory(
-            builder_name="boolean", outformat=outformat, lang=lang, templates_dir=templates_dir
-        )
-        self.seq_qsbuilder = question_builder_factory.factory(
-            builder_name="sequential", outformat=outformat, lang=lang, templates_dir=templates_dir
-        )
+        self.qsbuilder = question_builder_factory.factory( builder_name="",)
+        self.encode_qsbuilder = question_builder_factory.factory(builder_name="encoding")
+        self.bool_qsbuilder = question_builder_factory.factory(builder_name="boolean")
+        self.seq_qsbuilder = question_builder_factory.factory(builder_name="sequential")
 
-        self.formater = quiz_format_factory.quiz_format_factory.factory(
-            outformat, lang=lang, templates_dir=templates_dir
-        )
+        self.formater = quiz_format_factory.quiz_format_factory.factory(outformat, lang=lang, templates_dir=templates_dir)
 
         # --- Load config
         self.myconfig = read_config.ReadConfig(config_file)
