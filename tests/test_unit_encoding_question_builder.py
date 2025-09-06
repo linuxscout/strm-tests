@@ -235,7 +235,7 @@ def test_compute_steps_general_case(builder):
 import pytest
 
 
-def test_generate_download_question_context(builder):
+def test_question_mesure(builder):
     context = builder.question_mesure()
 
     # 1. Required top-level keys exist
