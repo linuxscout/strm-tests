@@ -68,6 +68,38 @@ class SequentialQuestionBuilder(Question_Builder):
                 "short": "Sequential logic timing diagrams",
                 "long": "Interpret and draw chronograms (timing diagrams) for flip-flops (RS, D, JK). Students analyze sequential behavior over time."
             },
+            "flip": {
+                "category": self.CATEGORY,
+                "short": "Flip-flop operation",
+                "long": (
+                    "Analyze the behavior of basic flip-flops (RS, D, JK, T). "
+                    "Students determine output states given input sequences and clock signals."
+                ),
+            },
+            "register": {
+                "category": self.CATEGORY,
+                "short": "Register analysis",
+                "long": (
+                    "Study register circuits such as shift registers and parallel registers. "
+                    "Students simulate data movement and control operations."
+                ),
+            },
+            "counter": {
+                "category": self.CATEGORY,
+                "short": "Counter design and behavior",
+                "long": (
+                    "Analyze up/down counters, synchronous and asynchronous counters. "
+                    "Students predict states and sequences for given inputs and clock signals."
+                ),
+            },
+            "misc": {
+                "category": self.CATEGORY,
+                "short": "Miscellaneous sequential circuits",
+                "long": (
+                    "Covers other sequential logic exercises, including state machines, "
+                    "pulse generators, or hybrid sequential systems."
+                ),
+            },
         }
         self.command_map = {
             "chronogram": (self.command_chronogram, True),
