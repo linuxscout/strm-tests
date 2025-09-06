@@ -2,7 +2,7 @@ import os
 import sys
 import pytest
 from fastapi.testclient import TestClient
-from web.app import app
+from web.app import app, quiz_builder
 
 @pytest.fixture
 def client():
@@ -46,7 +46,7 @@ def test_get_commands(client):
     assert isinstance(response.json(), dict)  # Check if the response is a dictionary
 
 
-@pytest.mark.skip(reason="Skipping quiz submission test for now")
+# @pytest.mark.skip(reason="Skipping quiz submission test for now")
 def test_get_random_commands(client):
     response = client.get("/api/random-commands")
     assert response.status_code == 200
@@ -55,6 +55,50 @@ def test_get_random_commands(client):
     response = client.get("/api/random-commands?n=5")
     assert response.status_code == 200
     assert "commands_list" in response.json()  # Check if the response contains 'commands_list'
+
+
+
+# @pytest.mark.skip(reason="To be implemented later")
+def test_submit_valid_random_command(client):
+    """Test submitting with random command and random category."""
+    response = client.post("/submit", data={"command": "random", "category": "random"})
+    assert response.status_code == 200
+    assert "question" in response.text
+    assert "answer" in response.text
+
+
+# @pytest.mark.skip(reason="To be implemented later")
+def test_submit_valid_specific_command(client):
+    """Test submitting a valid specific command."""
+    response = client.post("/submit", data={"command": "float", "category": "encoding"})
+    assert response.status_code == 200
+    assert "question" in response.text
+    assert "answer" in response.text
+
+
+# @pytest.mark.skip(reason="To be implemented later")
+def test_submit_invalid_category(client):
+    """Test submitting with an invalid category."""
+    response = client.post("/submit", data={"command": "float", "category": "not_a_category"})
+    assert response.status_code == 400
+    assert "Invalid category" in response.json()["detail"]
+
+
+# @pytest.mark.skip(reason="To be implemented later")
+def test_submit_invalid_command(client):
+    """Test submitting with an invalid command."""
+    response = client.post("/submit", data={"command": "not_a_command", "category": "encoding"})
+    assert response.status_code == 400
+    assert "Invalid command" in response.json()["detail"]
+
+
+@pytest.mark.skip(reason="To be implemented later")
+def test_submit_command_not_in_category(client):
+    """Test submitting a valid command but wrong category."""
+    # Example: "float" belongs to "encoding", not "boolean algebra"
+    response = client.post("/submit", data={"command": "float", "category": "boolean algebra"})
+    assert response.status_code == 400
+    assert "does not belong to category" in response.json()["detail"]
 
 if __name__ == "__main__":
     pytest.main()
