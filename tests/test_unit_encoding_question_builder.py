@@ -230,3 +230,59 @@ def test_compute_steps_general_case(builder):
     assert isinstance(steps_from10, list)
     assert isinstance(number_tmp, int)
     assert binary_mode is False
+
+
+import pytest
+
+
+def test_generate_download_question_context(builder):
+    context = builder.question_mesure()
+
+    # 1. Required top-level keys exist
+    for key in ["ask", "question", "answer", "solution", "given"]:
+        assert key in context, f"Missing key {key} in context"
+
+    # 2. ask must be one of "time", "size", "speed"
+    assert context["ask"] in {"time", "size", "speed"}
+
+    # 3. Question and answer must be non-empty strings
+    assert isinstance(context["question"], str) and context["question"].strip()
+    assert isinstance(context["answer"], str) and context["answer"].strip()
+
+    # 4. given is a dict with size, speed, time
+    given = context["given"]
+    for g in ["size", "speed", "time"]:
+        assert g in given
+        assert "value" in given[g] and "unit" in given[g]
+
+    # 5. solution must be a non-empty list of dicts with step, operation, expression
+    solution = context["solution"]
+    assert isinstance(solution, list) and len(solution) > 0
+    for step in solution:
+        for k in ["step", "operation", "expression"]:
+            assert k in step
+
+    # 6. Sanity check: The asked field should not directly appear in "given" with its final answer
+    # (value is fine, but unit consistency check)
+    asked_field = context["ask"]
+    assert asked_field in given, "Asked field missing in given (should still exist in base units)"
+
+    # Extra: Ensure numbers are consistent (rough check, not exact float match)
+    if context["ask"] == "time":
+        size_MB = given["size"]["base_MB"]
+        speed_MBps = given["speed"]["base_MBps"]
+        expected_time = size_MB / speed_MBps
+        assert abs(expected_time - given["time"]["base_seconds"]) < 1e-6
+
+    elif context["ask"] == "size":
+        time_s = given["time"]["base_seconds"]
+        speed_MBps = given["speed"]["base_MBps"]
+        expected_size = time_s * speed_MBps
+        # allow float rounding errors
+        assert abs(expected_size - given["size"]["base_MB"]) < 1e-6
+
+    elif context["ask"] == "speed":
+        size_MB = given["size"]["base_MB"]
+        time_s = given["time"]["base_seconds"]
+        expected_speed = size_MB / time_s
+        assert abs(expected_speed - given["speed"]["base_MBps"]) < 1e-6

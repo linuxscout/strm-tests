@@ -299,7 +299,97 @@ class EncodingQuestionBuilder(Question_Builder):
         # return self._render(SECTION_ARITHM, context)
 
     def question_mesure(self):
-        raise NotImplementedError("Mesure questions are not yet supported")
+        # Multipliers to convert FROM base to the display unit.
+        # Base units: size=MB, speed=MB/s, time=seconds.
+        size_units = [("KB", 1024.0), ("MB", 1.0), ("GB", 1 / 1024.0)]
+        speed_units = [("KB/s", 1024.0), ("MB/s", 1.0), ("GB/s", 1 / 1024.0), ("Mbps", 8.0)]
+        time_units = [("seconds", 1.0), ("minutes", 60.0), ("hours", 3600.0)]
+
+        # Pick random base values
+        size_MB = random.choice([100, 250, 500, 1024, 2048, 4096])
+        speed_MBps = random.choice([2, 5, 10, 20, 50, 100])
+        time_sec = size_MB / speed_MBps
+
+        # Pick display units
+        size_unit, size_mult = random.choice(size_units)
+        speed_unit, speed_mult = random.choice(speed_units)
+        time_unit, time_div = random.choice(time_units)  # divide by seconds-per-unit
+
+        # Convert for display
+        display_size = size_MB * size_mult
+        display_speed = speed_MBps * speed_mult
+        display_time = time_sec / time_div
+
+        # Decide question type
+        ask = random.choice(["time", "size", "speed"])
+        solution_steps = []
+        a = ""
+
+        if ask == "time":
+            q = (f"A file of size {display_size:.2f} {size_unit} is downloaded with a speed of "
+                 f"{display_speed:.2f} {speed_unit}. How long will the download take (in {time_unit})?")
+            solution_steps = [
+                {"step": 1, "operation": "Convert size to MB",
+                 "expression": f"{display_size:.2f} {size_unit} = {size_MB:.2f} MB"},
+                {"step": 2, "operation": "Convert speed to MB/s",
+                 "expression": f"{display_speed:.2f} {speed_unit} = {speed_MBps:.2f} MB/s"},
+                {"step": 3, "operation": "Time = Size / Speed",
+                 "expression": f"{size_MB:.2f} ÷ {speed_MBps:.2f} = {time_sec:.2f} seconds"},
+                {"step": 4, "operation": f"Convert seconds → {time_unit}",
+                 "expression": f"{time_sec:.2f} ÷ {time_div:g} = {display_time:.2f} {time_unit}"}
+            ]
+            a = f"{display_time:.2f} {time_unit}"
+
+        elif ask == "size":
+            given_time = random.choice([60, 120, 300, 600, 1800])  # seconds
+            display_given_time = given_time / time_div
+            q = (f"A file was downloaded in {display_given_time:.2f} {time_unit} with a speed of "
+                 f"{display_speed:.2f} {speed_unit}. What was the file size in {size_unit}?")
+            size_MB_calc = given_time * speed_MBps
+            solution_steps = [
+                {"step": 1, "operation": "Convert time to seconds",
+                 "expression": f"{display_given_time:.2f} {time_unit} = {given_time} seconds"},
+                {"step": 2, "operation": "Convert speed to MB/s",
+                 "expression": f"{display_speed:.2f} {speed_unit} = {speed_MBps:.2f} MB/s"},
+                {"step": 3, "operation": "Size = Speed × Time",
+                 "expression": f"{speed_MBps:.2f} × {given_time} = {size_MB_calc:.2f} MB"},
+                {"step": 4, "operation": f"Convert MB → {size_unit}",
+                 "expression": f"{size_MB_calc:.2f} × {size_mult:g} = {size_MB_calc * size_mult:.2f} {size_unit}"}
+            ]
+            a = f"{size_MB_calc * size_mult:.2f} {size_unit}"
+
+        else:  # ask == "speed"
+            given_time = random.choice([60, 120, 300, 600, 1800])  # seconds
+            display_given_time = given_time / time_div
+            q = (f"A file of size {display_size:.2f} {size_unit} was downloaded in "
+                 f"{display_given_time:.2f} {time_unit}. What was the average speed in {speed_unit}?")
+            speed_calc_MBps = size_MB / given_time
+            solution_steps = [
+                {"step": 1, "operation": "Convert size to MB",
+                 "expression": f"{display_size:.2f} {size_unit} = {size_MB:.2f} MB"},
+                {"step": 2, "operation": "Convert time to seconds",
+                 "expression": f"{display_given_time:.2f} {time_unit} = {given_time} seconds"},
+                {"step": 3, "operation": "Speed = Size / Time",
+                 "expression": f"{size_MB:.2f} ÷ {given_time} = {speed_calc_MBps:.2f} MB/s"},
+                {"step": 4, "operation": f"Convert MB/s → {speed_unit}",
+                 "expression": f"{speed_calc_MBps:.2f} × {speed_mult:g} = {speed_calc_MBps * speed_mult:.2f} {speed_unit}"}
+            ]
+            a = f"{speed_calc_MBps * speed_mult:.2f} {speed_unit}"
+
+        context = {
+            "ask": ask,
+            "question": q,
+            "answer": a,
+            "solution": solution_steps,
+            "given": {
+                "size": {"value": display_size, "unit": size_unit, "base_MB": size_MB},
+                "speed": {"value": display_speed, "unit": speed_unit, "base_MBps": speed_MBps},
+                "time": {"value": display_time, "unit": time_unit, "base_seconds": time_sec},
+            }
+        }
+        return context
+
+        # raise NotImplementedError("Mesure questions are not yet supported")
 
 
 if __name__ == '__main__':
