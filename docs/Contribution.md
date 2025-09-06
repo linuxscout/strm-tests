@@ -159,3 +159,28 @@ logger = logging.getLogger(__name__)
 logger.debug("Debug info")
 ```
 
+# Web server
+
+### 🚀 Run the server
+
+```bash
+uvicorn main:app --reload
+```
+
+Now you have:
+
+- `GET /api/categories` → all categories with short/long descriptions
+- `GET /api/commands` → all commands
+- `GET /api/commands?category=encoding` → only encoding commands
+- `GET /api/random-command` → one random command
+- `GET /api/random-commands?n=5&category=boolean algebra` → 5 random boolean algebra commands
+
+------
+
+### 📖 Documents
+
+FastAPI automatically generates **docs** at:
+
+- Swagger UI: http://127.0.0.1:8000/docs
+- ReDoc: http://127.0.0.1:8000/redoc
+

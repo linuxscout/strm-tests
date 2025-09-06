@@ -31,13 +31,28 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 import random
-# ~ from . import question
-# ~ from . import boolquiz
-# ~ from . import ieee754
+from deprecated import deprecated
+
 from . import read_config
 from .display import quiz_format_factory
 from .question_builder_factory import question_builder_factory
 
+from typing import TypedDict, Optional, Any
+
+class CommandInfo(TypedDict):
+    short: str
+    long: str
+    category: str
+
+class CommandSummary(TypedDict):
+    name: str
+    short: str
+    long: str
+
+class CategoryInfo(TypedDict):
+    short: str
+    long: str
+    commands: list[CommandSummary]
 
 import os
 
@@ -80,28 +95,116 @@ class QuizBuilder:
 
         # --- Load config
         self.myconfig = read_config.ReadConfig(config_file)
+        self.commands_info = {
+            "float": {
+                "category": "encoding",
+                "short": "Floating-point representation",
+                "long": "Questions on IEEE-754 floating-point format. Students convert between decimal and binary, identify mantissa, exponent, and sign bit."
+            },
+            "intervalle": {
+                "category": "encoding",
+                "short": "Integer intervals with complements",
+                "long": "Covers integer ranges in binary representation, including signed numbers with Complement to 1 and Complement to 2."
+            },
+            "complement": {
+                "category": "encoding",
+                "short": "Number complements",
+                "long": "Exercises about computing complement to one and complement to two for binary numbers."
+            },
+            "exp": {
+                "category": "boolean algebra",
+                "short": "Boolean expression simplification",
+                "long": "Given a Boolean expression, students simplify it using algebraic rules or canonical forms."
+            },
+            "map": {
+                "category": "boolean algebra",
+                "short": "Karnaugh Map simplification",
+                "long": "Simplify Boolean expressions using Karnaugh Maps. Identify prime implicants and reduce logic circuits."
+            },
+            "map-sop": {
+                "category": "boolean algebra",
+                "short": "K-map with canonical forms",
+                "long": "Generate and simplify canonical forms (SOP/POS) using Karnaugh Maps. Students practice systematic minimization."
+            },
+            "function": {
+                "category": "boolean algebra",
+                "short": "Logic function analysis",
+                "long": "Study a Boolean function given in algebraic form. Includes truth table, simplification, and circuit representation."
+            },
+            "base": {
+                "category": "encoding",
+                "short": "Numeral system conversion",
+                "long": "Convert numbers between bases (binary, octal, decimal, hexadecimal). Includes integer and fractional parts."
+            },
+            "arithm": {
+                "category": "encoding",
+                "short": "Arithmetic in different bases",
+                "long": "Perform addition, subtraction, multiplication, and division in binary, octal, or hexadecimal systems."
+            },
+            "mesure": {
+                "category": "encoding",
+                "short": "Unit conversions",
+                "long": "Convert between units of information (bits, bytes, KB, MB) or physical measures (time, frequency) depending on context."
+            },
+            "static_funct": {
+                "category": "boolean algebra",
+                "short": "Canonical logical functions",
+                "long": "Study logical functions expressed in canonical forms (SOP or POS). Students analyze and simplify them."
+            },
+            "nand_funct": {
+                "category": "boolean algebra",
+                "short": "Logic with NAND gates",
+                "long": "Design and simplify logical functions using only NAND gates, showing functional completeness of NAND."
+            },
+            "nor_funct": {
+                "category": "boolean algebra",
+                "short": "Logic with NOR gates",
+                "long": "Design and simplify logical functions using only NOR gates, showing functional completeness of NOR."
+            },
+            "multi_funct": {
+                "category": "boolean algebra",
+                "short": "Multi-output logic circuits",
+                "long": "Draw and analyze circuits that implement multiple functions simultaneously, often from minterm tables."
+            },
+            "chronogram": {
+                "category": "sequential logic",
+                "short": "Sequential logic timing diagrams",
+                "long": "Interpret and draw chronograms (timing diagrams) for flip-flops (RS, D, JK). Students analyze sequential behavior over time."
+            },
+            "ascii": {
+                "category": "encoding",
+                "short": "ASCII character codes",
+                "long": "Convert characters to/from ASCII codes. Includes decimal, hexadecimal, and binary representations."
+            },
+            "ascii_text": {
+                "category": "encoding",
+                "short": "ASCII text encoding",
+                "long": "Encode and decode short words or sentences using ASCII character tables."
+            },
+            "bcdx3": {
+                "category": "encoding",
+                "short": "BCD ×3 encoding",
+                "long": "Convert numbers into Binary Coded Decimal (BCD) with ×3 correction. Used in digital arithmetic operations."
+            }
+        }
 
+        # Predefined categories metadata
+        self.categories_info = {
+            "encoding": {
+                "short": "Encoding & number systems",
+                "long": "Covers numeral bases, complements, character encoding, floating point representation, and data measurement units."
+            },
+            "boolean algebra": {
+                "short": "Boolean algebra & logic",
+                "long": "Focuses on Boolean expressions, Karnaugh maps, logic simplification, and circuit design."
+            },
+            "sequential logic": {
+                "short": "Sequential circuits",
+                "long": "Includes flip-flops, registers, counters, and timing diagrams for analyzing sequential behavior."
+            }
+        }
         #~ print(outformat)
-        self.commands = ["float",
-         "intervalle",
-         "complement",
-         "exp",
-         "map",
-         "map-sop",
-        "function",
-        "base",
-        "arithm",
-        "mesure",
-        "static_funct",
-        "nand_funct",
-        "nor_funct",
-        "multi_funct",
-        "chronogram",
-        "ascii",
-        "ascii_text",
-        "bcdx3",
-
-        ]
+        self.commands = list(self.commands_info.keys())
         self.quiz_commands = {}
         self.quiz_commands[1] = [["base", "base", "arithm"],
         ["mesure", "base", "arithm"],
@@ -145,6 +248,7 @@ class QuizBuilder:
             "bcdx3": "encoding/bcdx3",
             "gray": "encoding/gray",
             "ascii": "encoding/charcode",
+            "ascii_text": "encoding/charcode",
             "unicode": "encoding/charcode",
             "charcode": "encoding/charcode",
             "arithm": "arithm",
@@ -152,6 +256,8 @@ class QuizBuilder:
             "map": "bool/map",
             "map-sop": "bool/map-sop",
             "function": "bool/function",
+            "nand_funct": "bool/function",
+            "nor_funct": "bool/function",
             "static_funct": "bool/function",
             "exp": "bool/exp",
             "multi_funct": "bool/multi_funct",
@@ -195,7 +301,7 @@ class QuizBuilder:
             return f"Error: {e}",  "Error"
      
 
-    def get_question(self, command, args={}):
+    def get_question(self, command, args=None):
         """
         تُولّد سؤالًا بناءً على الأمر المُعطى باستخدام الدوال المناسبة من qsbuilder.
 
@@ -207,30 +313,38 @@ class QuizBuilder:
             tuple: (السؤال، اللغة، البيانات، الجواب) أو رسالة خطأ.
         """
         if args is None:
-            args = {}
+            args = self.myconfig.__dict__
+        logger.debug(msg=f"Args in quizbuilder are {args}")
+        logger.debug(msg=f"QuizBuilder : Text '{args.get('text','')}'")
         def command_ascii_text(args={}):
-            return self.encode_qsbuilder.question_ascii(text=args["text"], method=args["method"])
+            return self.encode_qsbuilder.question_ascii(text=args.get("text",""), method=args.get("method",""))
 
 
         # boolean
 
         def command_static_funct(args={}):
-            return self.bool_qsbuilder.question_static_funct(minterms=args["minterms"][0],
-             var_names=args["var_names"], output_names=args["output_names"]
-             ,dont_care=args["dontcare"][0])
+            minterms = args["minterms"][0] if args["minterms"] else []
+            dont_care = args["dontcare"][0] if args["dontcare"] else []
+            return self.bool_qsbuilder.question_static_funct(minterms=minterms,
+             var_names=args.get("var_names",[]), output_names=args.get("output_names",[])
+             ,dont_care=dont_care)
 
         def command_nand_funct(args={}):
-            return self.bool_qsbuilder.question_static_nand_exp(minterms=args["minterms"][0],
-             var_names=args["var_names"], output_names=args["output_names"]
-             ,dont_care=args["dontcare"][0], method="nand")
+            minterms = args["minterms"][0] if args["minterms"] else []
+            dont_care = args["dontcare"][0] if args["dontcare"] else []
+            return self.bool_qsbuilder.question_static_nand_exp(minterms=minterms,
+             var_names=args.get("var_names",[]), output_names=args.get("output_names",[])
+             ,dont_care=dont_care, method="nand")
         def command_nor_funct(args={}):
-            return self.bool_qsbuilder.question_static_nand_exp(minterms=args["minterms"][0],
-             var_names=args["var_names"], output_names=args["output_names"]
-             ,dont_care=args["dontcare"][0], method="nor")
+            minterms = args["minterms"][0] if args["minterms"] else []
+            dont_care = args["dontcare"][0] if args["dontcare"] else []
+            return self.bool_qsbuilder.question_static_nand_exp(minterms=minterms,
+             var_names=args.get("var_names",[]), output_names=args.get("output_names",[])
+             ,dont_care=dont_care, method="nor")
         def command_multi_funct(args={}):
-            return self.bool_qsbuilder.question_multi_funct(minterms_list=args["minterms"],
-                   var_names=args["var_names"], output_names=args["output_names"],
-                   dont_care_list=args["dontcare"], method=args["method"])
+            return self.bool_qsbuilder.question_multi_funct(minterms_list=args.get("minterms",[[]]),
+                   var_names=args.get("var_names",[]), output_names=args.get("output_names",[]),
+                   dont_care_list=args.get("dontcare",[[]]), method=args.get("method",''))
 
         def command_chronogram(args={}):
             # print("quiz_builder:debug:arguments",args)
@@ -337,7 +451,7 @@ class QuizBuilder:
             if isinstance(result, dict):
                 return self._render(self.get_template(command), result)
             else:
-                raise BaseException(f"Warning to be fixed '{command}' not return a context dict")
+                raise BaseException(f"Warning to be fixed '{command}' not return a context dict {result}")
         except Exception as e:
             import traceback
             traceback_str = traceback.format_exc()
@@ -378,10 +492,27 @@ class QuizBuilder:
             }
             quiz_questions.append(item)
         self.formater.add_test(quiz_questions)
-
+    #---------------------------------
+    #  routines to extract categories and commands
+    #------------------------------------
+    @deprecated(reason="Replaced by get_commands_list()")
     def list_commands(self,):
         """ list all existing question types """
         return self.commands
+
+    def get_commands_list(self,category=""):
+        """ list all existing question types """
+        if not category:
+            return self.commands
+        else:
+            return [name for name, info in self.commands_info.items() if info["category"] == category]
+
+    def get_commands_info(self, category=""):
+        """ list all existing question types """
+        if not category:
+            return self.commands_info
+        else:
+            return {cmd:self.commands_info[cmd] for cmd in self.commands_info if self.commands_info[cmd]["category"]==category}
 
     def get_quiz(self,test_no="test1"):
         """
@@ -403,6 +534,89 @@ class QuizBuilder:
                 self.formater.close_question(test)
         return self.formater.display()
 
+    import random
+    from typing import Optional
+
+    def get_categories(self) -> dict[str, CategoryInfo]:
+        """
+        Return a dictionary of categories with descriptions and their commands.
+        """
+        categories: dict[str, CategoryInfo] = {}
+        for cat, meta in self.categories_info.items():
+            categories[cat] = {
+                "short": meta["short"],
+                "long": meta["long"],
+                "commands": [
+                    {
+                        "name": name,
+                        "short": info["short"],
+                        "long": info["long"]
+                    }
+                    for name, info in self.commands_info.items()
+                    if info["category"] == cat
+                ]
+            }
+        return categories
+    @deprecated(reason="Replaced by get_commands_list(category=category)")
+    def get_commands_by_category(self, category: str) -> list[str]:
+        """Return a list of command names for a given category."""
+        return self.get_commands_list(category=category)
+
+    @deprecated(reason="Replaced by get_commands_list(category="")")
+    def get_all_commands(self) -> list[str]:
+        """Return all command names."""
+        return  self.get_commands_list()
+
+    def get_short_description(self, cmd: str) -> str:
+        """Return short description for a command."""
+        return self.commands_info.get(cmd, {}).get("short", f"No short description for '{cmd}'")
+
+    def get_long_description(self, cmd: str) -> str:
+        """Return long description for a command."""
+        return self.commands_info.get(cmd, {}).get("long", f"No long description for '{cmd}'")
+
+    @deprecated(reason="Replaced by get_random_commands(n=1)")
+    def get_random_command(self, category: Optional[str] = None) -> tuple[str, CommandInfo]:
+        """
+        Return a random command (name, info).
+        If category is given, pick only from that category.
+        """
+        if category:
+            cmds = self.get_commands_by_category(category)
+        else:
+            cmds = list(self.commands_info.keys())
+
+        if not cmds:
+            raise ValueError(f"No commands found for category '{category}'")
+
+        cmd = random.choice(cmds)
+        return cmd, self.commands_info[cmd]
+
+    def get_random_commands(self, n: int = 3, category: Optional[str] = None) -> dict[str, CommandInfo]:
+        """
+        Return a list of n random commands (name, info).
+        If category is given, pick only from that category.
+        """
+        if category:
+            cmds = self.get_commands_by_category(category)
+        else:
+            cmds = list(self.commands_info.keys())
+
+        if not cmds:
+            raise ValueError(f"No commands found for category '{category}'")
+
+        n = min(n, len(cmds))
+        selected = random.sample(cmds, k=n)
+        commands_dict ={cmd:self.commands_info[cmd] for cmd in selected}
+        return commands_dict
+
+    def get_random_commands_list(self, n=3, category=None):
+        """
+        Return a list of n random commands (name).
+        If category is given, pick only from that category.
+        """
+        commands_dict = self.get_random_commands(n=n, category=category)
+        return list(commands_dict.keys())
 
 
 

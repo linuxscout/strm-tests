@@ -1,3 +1,29 @@
-The question about 'Mesure' is {{question}}
+% Question
+\section*{Question}
+{{ question }}
+{% if RENDER_MODE.lower() =="answer" %}
+% Given parameters
+\subsection*{Given}
+\begin{itemize}
+{% for key, val in given.items() if key != ask %}
+  \item {{ key|capitalize }} = {{ "%.2f"|format(val.value) }} \, {{ val.unit }}
+{% endfor %}
+\end{itemize}
 
-The answer is {{answer}}
+% Solution steps
+\subsection*{Solution}
+\begin{tabular}{>{\bfseries}p{1cm} p{4cm} p{8cm}}
+\toprule
+Step & Operation & Expression \\
+\midrule
+{% for step in solution %}
+{{ step.step }} & {{ step.operation }} & {{ step.expression }} \\
+{% endfor %}
+\bottomrule
+\end{tabular}
+
+% Final Answer
+\subsection*{Final Answer}
+\textbf{{ answer }}
+{%endif%}
+

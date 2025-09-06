@@ -98,5 +98,5 @@ minterms:
 	python3 tests/gen_random_minterms.py
 
 # Launch the GUI
-run:
-	python3 strm_tests_webviewer.py
+server:
+	cd web;  uvicorn app:app --reload

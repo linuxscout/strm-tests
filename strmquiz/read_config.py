@@ -71,10 +71,10 @@ class ReadConfig:
             "size": {"range": (1, 50)},
             "length": {"range": (1, 100)},
             "synch_type": {"enum": ["rising", "falling"]},
-            "flip_type": {"enum": ["D", "T", "JK", "SR", ""]},
+            "flip_type": {"enum": ["D", "T", "JK", "RS", "RST",""]},
             "register_type": {"enum": ["shift-right", "shift-left", "parallel", ""]},
-            "output": {"enum": ["Q", "Q_bar", ""]},
-            "counter_type": {"enum": ["ripple", "synchronous", ""]},
+            # "output": {"enum": ["Q", "Q'", ""]},
+            "counter_type": {"enum": ["up", "down", ""]},
         }
         # preload defaults
         for section in self.fields.values():

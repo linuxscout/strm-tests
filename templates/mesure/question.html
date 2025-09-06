@@ -1,3 +1,60 @@
-The question about 'Mesure' is {{question}}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Download Question</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .question { font-size: 1.2em; margin-bottom: 20px; }
+        .answer { font-weight: bold; color: darkgreen; margin-top: 15px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 15px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .given { margin: 15px 0; }
+        .given span { display: inline-block; margin-right: 10px; }
+    </style>
+</head>
+<body>
 
-The answer is {{answer}}
+    <!-- Question -->
+    <div class="question">
+        <strong>Question:</strong> {{ question }}
+    </div>
+{% if RENDER_MODE.lower() =="answer" %}
+    <!-- Given parameters -->
+    <div class="given">
+        <strong>Given:</strong>
+        {% for key, val in given.items() %}
+            {% if key != ask %}
+                <span>{{ key|capitalize }} = {{ "%.2f"|format(val.value) }} {{ val.unit }}</span>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <!-- Step-by-step solution -->
+    <table>
+        <thead>
+            <tr>
+                <th>Step</th>
+                <th>Operation</th>
+                <th>Expression</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for step in solution %}
+            <tr>
+                <td>{{ step.step }}</td>
+                <td>{{ step.operation }}</td>
+                <td>{{ step.expression }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Final Answer -->
+    <div class="answer">
+        Final Answer: {{ answer }}
+    </div>
+{%endif%}
+</body>
+</html>

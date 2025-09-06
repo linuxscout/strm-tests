@@ -1,0 +1,68 @@
+<!--quiz.html-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz</title>
+    <script>
+        // This will be filled by Jinja as JSON
+        const categoryCommands = {{ category_commands_json | safe }};
+
+        function updateCommands() {
+            const category = document.getElementById("selectcategory").value;
+            const commandSelect = document.getElementById("selectcommand");
+
+            // Clear existing options
+            commandSelect.innerHTML = "";
+
+            // Add default "random" option
+            const optRandom = document.createElement("option");
+            optRandom.value = "random";
+            optRandom.text = "Random Question";
+            commandSelect.appendChild(optRandom);
+
+            // Get commands for the chosen category
+            let cmds = [];
+            if (category === "random") {
+                // merge all commands from all categories
+                for (const c in categoryCommands) {
+                    cmds = cmds.concat(categoryCommands[c]);
+                }
+            } else {
+                cmds = categoryCommands[category] || [];
+            }
+
+            // Add options
+            cmds.forEach(cmd => {
+                const opt = document.createElement("option");
+                opt.value = cmd.name;
+                opt.text = cmd.short;
+                commandSelect.appendChild(opt);
+            });
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            updateCommands();
+        };
+    </script>
+</head>
+<body>
+    <h2>Select Command to generate a Quiz</h2>
+    <form method="post" action="/submit">
+        <select id="selectcategory" name="category" onchange="updateCommands()">
+            <option value="random" selected> Random Category</option>
+            {% for cat_key, cat_value in categories_dict.items() %}
+                <option value="{{cat_key}}">{{cat_value.short}}</option>
+            {% endfor %}
+        </select>
+
+        <select id="selectcommand" name="command">
+            <option value="random" selected>Random Question</option>
+            <!-- will be updated dynamically -->
+        </select>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
+
