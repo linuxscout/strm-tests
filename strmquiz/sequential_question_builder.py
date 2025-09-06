@@ -92,7 +92,7 @@ class SequentialQuestionBuilder(Question_Builder):
                     "Students predict states and sequences for given inputs and clock signals."
                 ),
             },
-            "misc": {
+            "seq_misc": {
                 "category": self.CATEGORY,
                 "short": "Miscellaneous sequential circuits",
                 "long": (
@@ -113,7 +113,7 @@ class SequentialQuestionBuilder(Question_Builder):
             "flip": "sequential/flip",
             "register": "sequential/register",
             "counter": "sequential/counter",
-            "misc": "sequential/misc",
+            "seq_misc": "sequential/misc",
         }
     # sequential
     def command_chronogram(self, args={}):
@@ -123,7 +123,7 @@ class SequentialQuestionBuilder(Question_Builder):
             flip_type=args.get("flip_type", "D"),
             length=args.get("length", 10),
             synch_type=args.get("synch_type", "rising"),
-            output_vars=args.get("output", "Q")
+            output_vars=args.get("output",  ["Q"])
         )
 
     def command_flip(self, args={}):
@@ -133,7 +133,7 @@ class SequentialQuestionBuilder(Question_Builder):
             flip_type=args.get("flip_type", "D"),
             length=args.get("length", 10),
             synch_type=args.get("synch_type", "rising"),
-            output_vars=args.get("output", "Q")
+            output_vars=args.get("output", ["Q"])
         )
 
     def command_counter(self, args={}):
@@ -142,7 +142,7 @@ class SequentialQuestionBuilder(Question_Builder):
             varlist=args.get("varlist", {}),
             length=args.get("length", 10),
             synch_type=args.get("synch_type", "rising"),
-            output_vars=args.get("output", "Q"),
+            output_vars=args.get("output", ["Q"]),
             counter_type=args.get("counter_type", "up"),
             flip_types=args.get("counter_flips", []),
             nbits=args.get("counter_nbits", 2),
@@ -156,7 +156,7 @@ class SequentialQuestionBuilder(Question_Builder):
             # flip_type=args.get("flip_type","D"),
             length=args.get("length", 10),
             synch_type=args.get("synch_type", "rising"),
-            output_vars=args.get("output", "Q"),
+            output_vars=args.get("output",  ["Q"]),
             register_type=args.get("register_type", "shift-right"),
             flip_types=args.get("register_flips", []),
             nbits=args.get("register_nbits", 2),
@@ -170,7 +170,7 @@ class SequentialQuestionBuilder(Question_Builder):
             flip_type=args.get("flip_type", "D"),
             length=args.get("length", 10),
             synch_type=args.get("synch_type", "rising"),
-            output_vars=args.get("output", "Q")
+            output_vars=args.get("output",  ["Q",])
         )
     def _preprare_chrnonogram(self,  input_vars=["V",], start_signals={"D": 1,"Q":0}, flip_type="D", length=20, synch_type="rising", output_vars=["Q", ]):
 

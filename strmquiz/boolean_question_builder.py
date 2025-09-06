@@ -101,9 +101,9 @@ class BooleanQuestionBuilder(Question_Builder):
         }
 
         self.command_map = {
-            "exp": (self.question_exp, False),
+            # "exp": (self.question_exp, False),
             "map": (self.question_map, False),
-            "map-sop": (self.question_map_for_sop, False),
+            # "map-sop": (self.question_map_for_sop, False),
             "function": (self.question_funct, False),
             # command with parameters
             # boolean
@@ -111,6 +111,8 @@ class BooleanQuestionBuilder(Question_Builder):
             "nand_funct": (self.command_nand_funct, True),
             "nor_funct": (self.command_nor_funct, True),
             "multi_funct": (self.command_multi_funct, True),
+            "map-sop": (self.command_map_for_sop, True),
+            "exp": (self.command_exp, False),
         }
         self.templates_map = {
             "map": "bool/map",
@@ -123,32 +125,43 @@ class BooleanQuestionBuilder(Question_Builder):
             "multi_funct": "bool/multi_funct",
         }
     def command_static_funct(self, args={}):
-        minterms = args["minterms"][0] if args["minterms"] else []
-        dont_care = args["dontcare"][0] if args["dontcare"] else []
+        minterms = args["minterms"][0] if args.get("minterms",[]) else []
+        dont_care = args["dontcare"][0] if args.get("dontcare",[]) else []
         return self.question_static_funct(minterms=minterms,
                                           var_names=args.get("var_names", []), output_names=args.get("output_names", [])
                                           , dont_care=dont_care)
 
     def command_nand_funct(self, args={}):
-        minterms = args["minterms"][0] if args["minterms"] else []
-        dont_care = args["dontcare"][0] if args["dontcare"] else []
+        minterms = args["minterms"][0] if args.get("minterms",[]) else []
+        dont_care = args["dontcare"][0] if args.get("dontcare",[]) else []
         return self.question_static_nand_exp(minterms=minterms,
                                              var_names=args.get("var_names", []),
                                              output_names=args.get("output_names", [])
                                              , dont_care=dont_care, method="nand")
 
     def command_nor_funct(self, args={}):
-        minterms = args["minterms"][0] if args["minterms"] else []
-        dont_care = args["dontcare"][0] if args["dontcare"] else []
+        minterms = args["minterms"][0] if args.get("minterms",[]) else []
+        dont_care = args["dontcare"][0] if args.get("dontcare",[]) else []
         return self.question_static_nand_exp(minterms=minterms,
                                              var_names=args.get("var_names", []),
                                              output_names=args.get("output_names", [])
                                              , dont_care=dont_care, method="nor")
 
+    def command_map_for_sop(self, args={}):
+        return self.question_map_for_sop(nb= args.get("functions_number",2),
+                                         minterms_list=args.get("minterms", [[]]))
+
+    def command_exp(self, args={}):
+        minterms = args["minterms"][0] if args.get("minterms",[]) else []
+        sop_quest = args.get("sop_question","")
+        return self.question_exp(minterms=minterms,
+                                             sop_quest=sop_quest)
+
     def command_multi_funct(self, args={}):
         return self.question_multi_funct(minterms_list=args.get("minterms", [[]]),
                                          var_names=args.get("var_names", []), output_names=args.get("output_names", []),
                                          dont_care_list=args.get("dontcare", [[]]), method=args.get("method", ''))
+
 
     # --- Example Questions (refactored) ---
 
@@ -301,9 +314,12 @@ class BooleanQuestionBuilder(Question_Builder):
         # return self._render(SECTION_MAP, context)
 
 
-    def question_map_for_sop(self,nb=2):
+    def question_map_for_sop(self,nb=2, minterms_list=[[]]):
         self.bq.reset_vars()
-        minterms_table =[self.bq.rand_funct() for i in range(nb)]
+        if self.randomize:
+            minterms_table =[self.bq.rand_funct() for i in range(nb)]
+        else:
+            minterms_table = minterms_list
         data_list = []
         for minterms in minterms_table:
             data_list.append( self._prepare_kmap_data(minterms=minterms,

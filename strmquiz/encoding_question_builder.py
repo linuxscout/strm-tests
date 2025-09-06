@@ -110,18 +110,18 @@ class EncodingQuestionBuilder(Question_Builder):
         }
 
         self.command_map = {
-            "float": (self.question_vf, False),
-            "intervalle": (self.question_intervalle, False),
-            "complement": (self.question_cp, False),
-            "base": (self.question_base, False),
-            "arithm": (self.question_arithm, False),
-            "mesure": (self.question_mesure, False),
-            "ascii": (self.question_ascii, False),
-            "unicode": (self.question_unicode, False),
-            "bcdx3": (self.question_bcd_x3, False),
-            "gray": (self.question_gray, False),
+            "float": (self.command_vf, True),
+            "intervalle": (self.command_intervalle, True),
+            "complement": (self.command_complement, True),
+            "base": (self.command_base, True),
+            "arithm": (self.command_arithm, True),
+            "mesure": (self.command_mesure, True),
+            "ascii": (self.command_ascii, True),
+            "unicode": (self.command_unicode, True),
+            "bcdx3": (self.command_bcdx3, True),
+            "gray": (self.command_gray, True),
             # encoding
-            "ascii_text": (self.command_ascii_text, True),
+            "ascii_text": (self.command_ascii, True),
         }
         self.templates_map = {
             "float": "encoding/float",
@@ -139,8 +139,61 @@ class EncodingQuestionBuilder(Question_Builder):
         }
 
     def command_ascii_text(self, args={}):
-         return self.question_ascii(text=args.get("text",""), method=args.get("method",""))
+        return self.question_ascii(text=args.get("text",""), method=args.get("method",""))
 
+
+    def command_ascii(self, args={}):
+        return self.question_ascii(text=args.get("text",""), method=args.get("method",""))
+
+    def command_unicode(self, args={}):
+        return self.question_unicode(text=args.get("text",""), method=args.get("method",""))
+
+    def command_vf(self, args={}):
+        return self.question_vf(number=args.get("float",0))
+
+    def command_intervalle(self, args={}):
+        return self.question_intervalle(decimal=args.get("interval_nbits",8))
+
+
+    def command_complement(self, args={}):
+        return self.question_cp(decimal=args.get("complement_number",0))
+
+    def command_gray(self, args={}):
+        return self.question_gray(number=args.get("gray_number",0),
+                                   sequence_length=args.get("gray_sequence",2))
+
+    def command_bcdx3(self, args={}):
+        number_a = args["bcdx3_numbers"][0] if args.get("bcdx3_numbers",[]) else 0
+        number_b = args["bcdx3_numbers"][1] if args.get("bcdx3_numbers",[])  \
+                                               and len(args["bcdx3_numbers"])> 1 else 0
+        return self.question_bcd_x3(decimal_a= number_a,
+                                    decimal_b= number_b,
+                                    scheme = args.get("scheme",""),
+                                    )
+
+
+    def command_arithm(self, args={}):
+        number_a = args["arithm_numbers"][0] if args.get("arithm_numbers",[]) else 0
+        number_b = args["arithm_numbers"][1] if args.get("arithm_numbers",[])  \
+                                               and len(args["arithm_numbers"])> 1 else 0
+        return self.question_arithm(number_a= number_a,
+                                    number_b= number_b,
+                                    operation = args.get("arithm_operation","+"),
+                                    base = args.get("arithm_base",10),
+                                    )
+
+    def command_base(self, args={}):
+        number_a = args["base_numbers"][0] if args.get("base_numbers",[]) else 0
+        in_base = args["bases"][0] if args.get("bases",[]) else 10
+        out_base = args["bases"][1] if args.get("bases",[])  \
+                                               and len(args["bases"])> 1 else 10
+        return self.question_base(decimal= number_a,
+                                   in_base=in_base,
+                                   out_base=out_base,
+                                    )
+
+    def command_mesure(self, args={}):
+        return self.question_mesure()
     # --- Example Questions (refactored) ---
 
     def question_vf(self, number:float=0):
