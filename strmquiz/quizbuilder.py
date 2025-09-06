@@ -248,6 +248,7 @@ class QuizBuilder:
             "bcdx3": "encoding/bcdx3",
             "gray": "encoding/gray",
             "ascii": "encoding/charcode",
+            "ascii_text": "encoding/charcode",
             "unicode": "encoding/charcode",
             "charcode": "encoding/charcode",
             "arithm": "arithm",
@@ -255,6 +256,8 @@ class QuizBuilder:
             "map": "bool/map",
             "map-sop": "bool/map-sop",
             "function": "bool/function",
+            "nand_funct": "bool/function",
+            "nor_funct": "bool/function",
             "static_funct": "bool/function",
             "exp": "bool/exp",
             "multi_funct": "bool/multi_funct",
@@ -298,7 +301,7 @@ class QuizBuilder:
             return f"Error: {e}",  "Error"
      
 
-    def get_question(self, command, args={}):
+    def get_question(self, command, args=None):
         """
         تُولّد سؤالًا بناءً على الأمر المُعطى باستخدام الدوال المناسبة من qsbuilder.
 
@@ -310,30 +313,38 @@ class QuizBuilder:
             tuple: (السؤال، اللغة، البيانات، الجواب) أو رسالة خطأ.
         """
         if args is None:
-            args = {}
+            args = self.myconfig.__dict__
+        logger.debug(msg=f"Args in quizbuilder are {args}")
+        logger.debug(msg=f"QuizBuilder : Text '{args.get('text','')}'")
         def command_ascii_text(args={}):
-            return self.encode_qsbuilder.question_ascii(text=args["text"], method=args["method"])
+            return self.encode_qsbuilder.question_ascii(text=args.get("text",""), method=args.get("method",""))
 
 
         # boolean
 
         def command_static_funct(args={}):
-            return self.bool_qsbuilder.question_static_funct(minterms=args["minterms"][0],
-             var_names=args["var_names"], output_names=args["output_names"]
-             ,dont_care=args["dontcare"][0])
+            minterms = args["minterms"][0] if args["minterms"] else []
+            dont_care = args["dontcare"][0] if args["dontcare"] else []
+            return self.bool_qsbuilder.question_static_funct(minterms=minterms,
+             var_names=args.get("var_names",[]), output_names=args.get("output_names",[])
+             ,dont_care=dont_care)
 
         def command_nand_funct(args={}):
-            return self.bool_qsbuilder.question_static_nand_exp(minterms=args["minterms"][0],
-             var_names=args["var_names"], output_names=args["output_names"]
-             ,dont_care=args["dontcare"][0], method="nand")
+            minterms = args["minterms"][0] if args["minterms"] else []
+            dont_care = args["dontcare"][0] if args["dontcare"] else []
+            return self.bool_qsbuilder.question_static_nand_exp(minterms=minterms,
+             var_names=args.get("var_names",[]), output_names=args.get("output_names",[])
+             ,dont_care=dont_care, method="nand")
         def command_nor_funct(args={}):
-            return self.bool_qsbuilder.question_static_nand_exp(minterms=args["minterms"][0],
-             var_names=args["var_names"], output_names=args["output_names"]
-             ,dont_care=args["dontcare"][0], method="nor")
+            minterms = args["minterms"][0] if args["minterms"] else []
+            dont_care = args["dontcare"][0] if args["dontcare"] else []
+            return self.bool_qsbuilder.question_static_nand_exp(minterms=minterms,
+             var_names=args.get("var_names",[]), output_names=args.get("output_names",[])
+             ,dont_care=dont_care, method="nor")
         def command_multi_funct(args={}):
-            return self.bool_qsbuilder.question_multi_funct(minterms_list=args["minterms"],
-                   var_names=args["var_names"], output_names=args["output_names"],
-                   dont_care_list=args["dontcare"], method=args["method"])
+            return self.bool_qsbuilder.question_multi_funct(minterms_list=args.get("minterms",[[]]),
+                   var_names=args.get("var_names",[]), output_names=args.get("output_names",[]),
+                   dont_care_list=args.get("dontcare",[[]]), method=args.get("method",''))
 
         def command_chronogram(args={}):
             # print("quiz_builder:debug:arguments",args)
@@ -440,7 +451,7 @@ class QuizBuilder:
             if isinstance(result, dict):
                 return self._render(self.get_template(command), result)
             else:
-                raise BaseException(f"Warning to be fixed '{command}' not return a context dict")
+                raise BaseException(f"Warning to be fixed '{command}' not return a context dict {result}")
         except Exception as e:
             import traceback
             traceback_str = traceback.format_exc()

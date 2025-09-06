@@ -24,7 +24,8 @@ commands = [
 [Tests]
 # test0 = [["flip"]]
 # test0 = [["register"]]
-test0 = [["counter"]]
+test0 = [["mesure"]]
+#test0 = [["counter"]]
 # test0 = [["chronogram"]]
 
 test1 = [
