@@ -124,6 +124,75 @@ def test_all_commands_via_api(client: TestClient, builder):
         assert "answer" in response.text.lower(), f"No answer rendered for command '{cmd}', status code {response.status_code} details:{response.text}"
 
 
+
+def test_all_commands_via_api2(client: TestClient, builder):
+    """
+    Iterate over all commands in quiz_builder and ensure
+    that POST /submit runs without errors for each.
+    Collect all failing commands instead of failing fast.
+    """
+    commands = builder.get_commands_list()
+    assert commands, "No commands available in quiz_builder."
+
+    failed = []  # collect failures here
+
+    for cmd in commands:
+        response = client.post(
+            "/submit",
+            data={"command": cmd, "category": ""},  # category left blank
+        )
+
+        # Check status
+        if response.status_code != 200:
+            failed.append((cmd, f"status={response.status_code}, details={response.text}"))
+            continue
+
+        # Check for question/answer presence
+        if "question" not in response.text.lower():
+            failed.append((cmd, "Missing 'question' in response"))
+        if "answer" not in response.text.lower():
+            failed.append((cmd, "Missing 'answer' in response"))
+
+        # Check for generation errors
+        if "error generating question" in response.text.lower():
+            failed.append((cmd, "Contains 'Error generating question'"))
+
+    # If any failures, raise with summary
+    if failed:
+        msg = "\n".join([f"Command '{cmd}' failed: {reason}" for cmd, reason in failed])
+        pytest.fail(f"The following commands failed:\n{msg}")
+
+
+# @pytest.mark.skip(reason="Manual run: test all category-command pairs through FastAPI /submit endpoint")
+def test_all_category_command_pairs_via_api(client: TestClient, builder):
+    """
+    Iterate over all (category, command) pairs in quiz_builder and ensure
+    that POST /submit runs without errors and category consistency is valid.
+    """
+    categories = builder.get_categories()
+    assert categories, "No categories available in quiz_builder."
+
+    for cat, meta in categories.items():
+        commands = [c["name"] for c in meta["commands"]]
+        assert commands, f"No commands found for category '{cat}'"
+
+        for cmd in commands:
+            response = client.post(
+                "/submit",
+                data={"command": cmd, "category": cat},
+            )
+            if response.status_code != 200:
+                try:
+                    details = response.json()
+                except Exception:
+                    details = response.text
+                pytest.fail(f"/submit failed for category '{cat}', command '{cmd}', "
+                            f"status={response.status_code}, details={details}")
+
+            assert "question" in response.text.lower(), f"No question rendered for category '{cat}', command '{cmd}', status code {response.status_code} details:{response.text}"
+            assert "answer" in response.text.lower(), f"No answer rendered for category '{cat}', command '{cmd}', status code {response.status_code} details:{response.text}"
+
+
 if __name__ == "__main__":
     pytest.main()
 
