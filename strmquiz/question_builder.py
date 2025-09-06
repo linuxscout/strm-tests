@@ -54,7 +54,16 @@ class Question_Builder:
         self.formater = None
 
         self.randomize = True
-
+        self.command_map = {}
+        self.CATEGORY = ""
+        self.categories_info = {
+            self.CATEGORY: {
+                "short": "Short description for default catogory for Abstract Question builder",
+                "long": "Long description for default catogory for Asbtract Question builder."
+            },
+        }
+        self.commands_info = {}
+        self.templates_map = {}
     # 🔹 Common rendering helper
     # @deprecated(reason=" All format and rendrening operation are moved to quizbuilder")
     # def _render(self, template: str, context: dict):
@@ -83,7 +92,42 @@ class Question_Builder:
     #     return method
 
 
+    def get_question(self, command, args):
+        # func = self.command_map.get(command)
+        # if not func:
+        #     raise ValueError(f"Unknown Encoding command '{command}'")
+        # return func(args)
+        entry = self.command_map.get(command)
+        if not entry:
+            return f"Unknown command: {command}", "Answer"
+            # return f"Unknown command: {command}", "Arabic", "Data", "Answer"
 
+        question_func, needs_args = entry
+
+        try:
+            result = question_func(args) if needs_args else question_func()
+            if isinstance(result, dict):
+                return result
+            else:
+                raise BaseException(f"Warning to be fixed '{command}' not return a context dict {result}")
+        except Exception as e:
+            import traceback
+            traceback_str = traceback.format_exc()
+            print(f"Exception in get_question:\n{traceback_str}")
+            return f"Error generating question '{command}': {e}", "Answer"
+
+
+    def get_commands_info(self):
+        return self.commands_info
+
+    def get_templates_map(self):
+        return self.templates_map
+
+    def get_category_info(self):
+        return self.categories_info.get(self.CATEGORY,
+                                        {"short":"No short description",
+                                        "long":"No long description"}
+                                        )
 def main(args):
     pass
 

@@ -48,6 +48,107 @@ class BooleanQuestionBuilder(Question_Builder):
         # super().__init__(outformat=outformat, config_file=config_file, lang=lang, templates_dir=templates_dir)
         self.bq = boolquiz.bool_quiz()
         self.bq.set_format('')
+        self.CATEGORY = "boolean algebra"
+
+        # Predefined categories metadata
+        self.categories_info = {
+            self.CATEGORY: {
+                "short": "Boolean algebra & logic",
+                "long": "Focuses on Boolean expressions, Karnaugh maps, logic simplification, and circuit design."
+            },
+        }
+        self.commands_info = {
+            "exp": {
+                "category": self.CATEGORY,
+                "short": "Boolean expression simplification",
+                "long": "Given a Boolean expression, students simplify it using algebraic rules or canonical forms."
+            },
+            "map": {
+                "category": self.CATEGORY,
+                "short": "Karnaugh Map simplification",
+                "long": "Simplify Boolean expressions using Karnaugh Maps. Identify prime implicants and reduce logic circuits."
+            },
+            "map-sop": {
+                "category": self.CATEGORY,
+                "short": "K-map with canonical forms",
+                "long": "Generate and simplify canonical forms (SOP/POS) using Karnaugh Maps. Students practice systematic minimization."
+            },
+            "function": {
+                "category": self.CATEGORY,
+                "short": "Logic function analysis",
+                "long": "Study a Boolean function given in algebraic form. Includes truth table, simplification, and circuit representation."
+            },
+            "static_funct": {
+                "category": self.CATEGORY,
+                "short": "Canonical logical functions",
+                "long": "Study logical functions expressed in canonical forms (SOP or POS). Students analyze and simplify them."
+            },
+            "nand_funct": {
+                "category": self.CATEGORY,
+                "short": "Logic with NAND gates",
+                "long": "Design and simplify logical functions using only NAND gates, showing functional completeness of NAND."
+            },
+            "nor_funct": {
+                "category": self.CATEGORY,
+                "short": "Logic with NOR gates",
+                "long": "Design and simplify logical functions using only NOR gates, showing functional completeness of NOR."
+            },
+            "multi_funct": {
+                "category": self.CATEGORY,
+                "short": "Multi-output logic circuits",
+                "long": "Draw and analyze circuits that implement multiple functions simultaneously, often from minterm tables."
+            },
+        }
+
+        self.command_map = {
+            "exp": (self.question_exp, False),
+            "map": (self.question_map, False),
+            "map-sop": (self.question_map_for_sop, False),
+            "function": (self.question_funct, False),
+            # command with parameters
+            # boolean
+            "static_funct": (self.command_static_funct, True),
+            "nand_funct": (self.command_nand_funct, True),
+            "nor_funct": (self.command_nor_funct, True),
+            "multi_funct": (self.command_multi_funct, True),
+        }
+        self.templates_map = {
+            "map": "bool/map",
+            "map-sop": "bool/map-sop",
+            "function": "bool/function",
+            "nand_funct": "bool/function",
+            "nor_funct": "bool/function",
+            "static_funct": "bool/function",
+            "exp": "bool/exp",
+            "multi_funct": "bool/multi_funct",
+        }
+    def command_static_funct(self, args={}):
+        minterms = args["minterms"][0] if args["minterms"] else []
+        dont_care = args["dontcare"][0] if args["dontcare"] else []
+        return self.question_static_funct(minterms=minterms,
+                                          var_names=args.get("var_names", []), output_names=args.get("output_names", [])
+                                          , dont_care=dont_care)
+
+    def command_nand_funct(self, args={}):
+        minterms = args["minterms"][0] if args["minterms"] else []
+        dont_care = args["dontcare"][0] if args["dontcare"] else []
+        return self.question_static_nand_exp(minterms=minterms,
+                                             var_names=args.get("var_names", []),
+                                             output_names=args.get("output_names", [])
+                                             , dont_care=dont_care, method="nand")
+
+    def command_nor_funct(self, args={}):
+        minterms = args["minterms"][0] if args["minterms"] else []
+        dont_care = args["dontcare"][0] if args["dontcare"] else []
+        return self.question_static_nand_exp(minterms=minterms,
+                                             var_names=args.get("var_names", []),
+                                             output_names=args.get("output_names", [])
+                                             , dont_care=dont_care, method="nor")
+
+    def command_multi_funct(self, args={}):
+        return self.question_multi_funct(minterms_list=args.get("minterms", [[]]),
+                                         var_names=args.get("var_names", []), output_names=args.get("output_names", []),
+                                         dont_care_list=args.get("dontcare", [[]]), method=args.get("method", ''))
 
     # --- Example Questions (refactored) ---
 

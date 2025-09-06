@@ -53,7 +53,93 @@ class SequentialQuestionBuilder(Question_Builder):
         super().__init__()
         self.bq = boolquiz.bool_quiz()
         self.bq.set_format('')
+        self.CATEGORY = "sequential logic"
 
+        # Predefined categories metadata
+        self.categories_info = {
+            self.CATEGORY: {
+                "short": "Sequential circuits",
+                "long": "Includes flip-flops, registers, counters, and timing diagrams for analyzing sequential behavior."
+            }
+        }
+        self.commands_info = {
+            "chronogram": {
+                "category": self.CATEGORY,
+                "short": "Sequential logic timing diagrams",
+                "long": "Interpret and draw chronograms (timing diagrams) for flip-flops (RS, D, JK). Students analyze sequential behavior over time."
+            },
+        }
+        self.command_map = {
+            "chronogram": (self.command_chronogram, True),
+            "flip": (self.command_flip, True),
+            "counter": (self.command_counter, True),
+            "register": (self.command_register, True),
+            "seq_misc": (self.command_seq_misc, True),
+        }
+        self.templates_map = {
+            "chronogram": "sequential/timing",
+            "flip": "sequential/flip",
+            "register": "sequential/register",
+            "counter": "sequential/counter",
+            "misc": "sequential/misc",
+        }
+    # sequential
+    def command_chronogram(self, args={}):
+        # print("quiz_builder:debug:arguments",args)
+        return self.question_chronogram(
+            varlist=args.get("varlist", {}),
+            flip_type=args.get("flip_type", "D"),
+            length=args.get("length", 10),
+            synch_type=args.get("synch_type", "rising"),
+            output_vars=args.get("output", "Q")
+        )
+
+    def command_flip(self, args={}):
+        # print("quiz_builder:debug:arguments",args)
+        return self.question_flip(
+            varlist=args.get("varlist", {}),
+            flip_type=args.get("flip_type", "D"),
+            length=args.get("length", 10),
+            synch_type=args.get("synch_type", "rising"),
+            output_vars=args.get("output", "Q")
+        )
+
+    def command_counter(self, args={}):
+        # print("quiz_builder:debug:arguments",args)
+        return self.question_counter(
+            varlist=args.get("varlist", {}),
+            length=args.get("length", 10),
+            synch_type=args.get("synch_type", "rising"),
+            output_vars=args.get("output", "Q"),
+            counter_type=args.get("counter_type", "up"),
+            flip_types=args.get("counter_flips", []),
+            nbits=args.get("counter_nbits", 2),
+            counter_random=args.get("counter_random", False),
+        )
+
+    def command_register(self, args={}):
+        # print("quiz_builder:debug:arguments",args)
+        return self.question_register(
+            varlist=args.get("varlist", {}),
+            # flip_type=args.get("flip_type","D"),
+            length=args.get("length", 10),
+            synch_type=args.get("synch_type", "rising"),
+            output_vars=args.get("output", "Q"),
+            register_type=args.get("register_type", "shift-right"),
+            flip_types=args.get("register_flips", []),
+            nbits=args.get("register_nbits", 2),
+            register_random=args.get("register_random", False),
+        )
+
+    def command_seq_misc(self, args={}):
+        # print("quiz_builder:debug:arguments",args)
+        return self.question_seq_misc(
+            varlist=args.get("varlist", {}),
+            flip_type=args.get("flip_type", "D"),
+            length=args.get("length", 10),
+            synch_type=args.get("synch_type", "rising"),
+            output_vars=args.get("output", "Q")
+        )
     def _preprare_chrnonogram(self,  input_vars=["V",], start_signals={"D": 1,"Q":0}, flip_type="D", length=20, synch_type="rising", output_vars=["Q", ]):
 
         # start_signals = start_signals

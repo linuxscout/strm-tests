@@ -51,8 +51,95 @@ class EncodingQuestionBuilder(Question_Builder):
 
         self.vf = ieee754.float_point()
         self.randomize = True
+        self.CATEGORY = "encoding"
 
+        # Predefined categories metadata
+        self.categories_info = {
+            self.CATEGORY: {
+                "short": "Encoding & number systems",
+                "long": "Covers numeral bases, complements, character encoding, floating point representation, and data measurement units."
+            },
+        }
+        self.commands_info = {
+            "float": {
+                "category": self.CATEGORY,
+                "short": "Floating-point representation",
+                "long": "Questions on IEEE-754 floating-point format. Students convert between decimal and binary, identify mantissa, exponent, and sign bit."
+            },
+            "intervalle": {
+                "category": self.CATEGORY,
+                "short": "Integer intervals with complements",
+                "long": "Covers integer ranges in binary representation, including signed numbers with Complement to 1 and Complement to 2."
+            },
+            "complement": {
+                "category": self.CATEGORY,
+                "short": "Number complements",
+                "long": "Exercises about computing complement to one and complement to two for binary numbers."
+            },
 
+            "base": {
+                "category": self.CATEGORY,
+                "short": "Numeral system conversion",
+                "long": "Convert numbers between bases (binary, octal, decimal, hexadecimal). Includes integer and fractional parts."
+            },
+            "arithm": {
+                "category": self.CATEGORY,
+                "short": "Arithmetic in different bases",
+                "long": "Perform addition, subtraction, multiplication, and division in binary, octal, or hexadecimal systems."
+            },
+            "mesure": {
+                "category": self.CATEGORY,
+                "short": "Unit conversions",
+                "long": "Convert between units of information (bits, bytes, KB, MB) or physical measures (time, frequency) depending on context."
+            },
+            "ascii": {
+                "category": self.CATEGORY,
+                "short": "ASCII character codes",
+                "long": "Convert characters to/from ASCII codes. Includes decimal, hexadecimal, and binary representations."
+            },
+            "ascii_text": {
+                "category": self.CATEGORY,
+                "short": "ASCII text encoding",
+                "long": "Encode and decode short words or sentences using ASCII character tables."
+            },
+            "bcdx3": {
+                "category": self.CATEGORY,
+                "short": "BCD ×3 encoding",
+                "long": "Convert numbers into Binary Coded Decimal (BCD) with ×3 correction. Used in digital arithmetic operations."
+            }
+        }
+
+        self.command_map = {
+            "float": (self.question_vf, False),
+            "intervalle": (self.question_intervalle, False),
+            "complement": (self.question_cp, False),
+            "base": (self.question_base, False),
+            "arithm": (self.question_arithm, False),
+            "mesure": (self.question_mesure, False),
+            "ascii": (self.question_ascii, False),
+            "unicode": (self.question_unicode, False),
+            "bcdx3": (self.question_bcd_x3, False),
+            "gray": (self.question_gray, False),
+            # encoding
+            "ascii_text": (self.command_ascii_text, True),
+        }
+        self.templates_map = {
+            "float": "encoding/float",
+            "complement": "encoding/cp",
+            "intervalle": "encoding/interval",
+            "base": "base",
+            "bcdx3": "encoding/bcdx3",
+            "gray": "encoding/gray",
+            "ascii": "encoding/charcode",
+            "ascii_text": "encoding/charcode",
+            "unicode": "encoding/charcode",
+            "charcode": "encoding/charcode",
+            "arithm": "arithm",
+            "mesure": "mesure",  # NotImplementedError for now
+        }
+
+    def command_ascii_text(self, args={}):
+         return self.question_ascii(text=args.get("text",""), method=args.get("method",""))
 
     # --- Example Questions (refactored) ---
 
