@@ -68,7 +68,7 @@ async def submit_quiz(
 
     # Validate category if not "random"
     valid_categories = set(quiz_builder.categories_info.keys())
-    if category != "random" and category not in valid_categories:
+    if category and category != "random" and category not in valid_categories:
         raise HTTPException(status_code=400, detail=f"Invalid category '{category}'")
 
     # Decide command
@@ -85,7 +85,7 @@ async def submit_quiz(
             raise HTTPException(status_code=400, detail=f"Invalid command '{command}'")
 
         # If a specific category is chosen, enforce consistency
-        if category != "random":
+        if category and category != "random":
             cmd_info = quiz_builder.commands_info[command]
             if cmd_info["category"] != category:
                 raise HTTPException(

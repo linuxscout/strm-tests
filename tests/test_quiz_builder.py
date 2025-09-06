@@ -73,7 +73,7 @@ def test_get_quiz_from_config(builder):
 # ---------------------- TESTS ----------------------
 
 def test_list_commands_real(builder):
-    cmds = builder.list_commands()
+    cmds = builder.get_commands_list()
     assert "float" in cmds
     assert "function" in cmds
     assert isinstance(cmds, list)
@@ -139,3 +139,20 @@ def test_get_random_commands_list(builder):
     assert len(cmds) <= 2
     for cmd in cmds:
         assert cmd in builder.commands_info
+
+# @pytest.mark.skip(reason="Manual run: test all commands against quiz_builder.get_question()")
+def test_all_commands_generate_questions(builder):
+    """
+    Iterate over all commands in quiz_builder and check
+    that get_question() runs without errors.
+    """
+    commands = builder.get_commands_list()
+    assert commands, "No commands available in quiz_builder."
+
+    for cmd in commands:
+        try:
+            question, answer = builder.get_question(command=cmd)
+            assert question is not None, f"Question is None for command {cmd}"
+            assert answer is not None, f"Answer is None for command {cmd}"
+        except Exception as e:
+            pytest.fail(f"Command '{cmd}' raised an exception: {e}")

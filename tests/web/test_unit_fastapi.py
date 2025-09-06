@@ -7,6 +7,10 @@ from web.app import app, quiz_builder
 @pytest.fixture
 def client():
     return TestClient(app)
+@pytest.fixture
+def builder():
+    # You may need to pass a templates_dir if question_builder expects it
+    return quiz_builder
 
 # @pytest.mark.skip(reason="Skipping home page test for now")
 def test_home(client):
@@ -92,13 +96,33 @@ def test_submit_invalid_command(client):
     assert "Invalid command" in response.json()["detail"]
 
 
-@pytest.mark.skip(reason="To be implemented later")
+# @pytest.mark.skip(reason="To be implemented later")
 def test_submit_command_not_in_category(client):
     """Test submitting a valid command but wrong category."""
     # Example: "float" belongs to "encoding", not "boolean algebra"
     response = client.post("/submit", data={"command": "float", "category": "boolean algebra"})
     assert response.status_code == 400
     assert "does not belong to category" in response.json()["detail"]
+
+
+# @pytest.mark.skip(reason="Manual run: test all commands through FastAPI /submit endpoint")
+def test_all_commands_via_api(client: TestClient, builder):
+    """
+    Iterate over all commands in quiz_builder and ensure
+    that POST /submit runs without errors for each.
+    """
+    commands = builder.get_commands_list()
+    assert commands, "No commands available in quiz_builder."
+
+    for cmd in commands:
+        response = client.post(
+            "/submit",
+            data={"command": cmd, "category": ""},  # category left blank
+        )
+        assert response.status_code == 200, f"/submit failed for command '{cmd}', status code {response.status_code} details:{response.text}"
+        assert "question" in response.text.lower(), f"No question rendered for command '{cmd}', status code {response.status_code} details:{response.text}"
+        assert "answer" in response.text.lower(), f"No answer rendered for command '{cmd}', status code {response.status_code} details:{response.text}"
+
 
 if __name__ == "__main__":
     pytest.main()
