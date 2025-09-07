@@ -36,7 +36,7 @@ from deprecated import deprecated
 from . import read_config
 from .display import quiz_format_factory
 from .question_builder_factory import question_builder_factory
-
+from .argschemaloader import ArgValidator, ArgSchemaLoader
 from typing import TypedDict, Optional, Any
 
 class CommandInfo(TypedDict):
@@ -58,7 +58,7 @@ import os
 
 class QuizBuilder:
     """ Generate the third test """
-    def __init__(self, outformat="", config_file="", lang="", templates_dir=""):
+    def __init__(self, outformat="", config_file="", lang="", templates_dir="", args_file=""):
 
         # --- Check if templates_dir exists
         if not templates_dir or not os.path.isdir(templates_dir):
@@ -68,12 +68,22 @@ class QuizBuilder:
         if not config_file:
             config_file = os.path.join(os.path.dirname(__file__), "config", "quiz.conf")
 
+
         # --- Check if config_file exists
         if not os.path.isfile(config_file):
             raise FileNotFoundError(f"Config file not found: '{config_file}'")
 
+
+        # --- If no config file provided, use default
+        if not args_file:
+            args_file = os.path.join(os.path.dirname(__file__), "config", "args.default.json")
+
+        # --- Check if args_file exists
+        if not os.path.isfile(args_file):
+            raise FileNotFoundError(f"Args file not found: '{args_file}'")
         # --- Save attributes
         self.config_file = config_file
+        self.args_file = args_file
 
         # --- Factories
         self.qsbuilder = question_builder_factory.factory( builder_name="",)
@@ -85,115 +95,8 @@ class QuizBuilder:
 
         # --- Load config
         self.myconfig = read_config.ReadConfig(config_file)
-        # self.commands_info = {
-        #     "float": {
-        #         "category": "encoding",
-        #         "short": "Floating-point representation",
-        #         "long": "Questions on IEEE-754 floating-point format. Students convert between decimal and binary, identify mantissa, exponent, and sign bit."
-        #     },
-        #     "intervalle": {
-        #         "category": "encoding",
-        #         "short": "Integer intervals with complements",
-        #         "long": "Covers integer ranges in binary representation, including signed numbers with Complement to 1 and Complement to 2."
-        #     },
-        #     "complement": {
-        #         "category": "encoding",
-        #         "short": "Number complements",
-        #         "long": "Exercises about computing complement to one and complement to two for binary numbers."
-        #     },
-        #     "exp": {
-        #         "category": "boolean algebra",
-        #         "short": "Boolean expression simplification",
-        #         "long": "Given a Boolean expression, students simplify it using algebraic rules or canonical forms."
-        #     },
-        #     "map": {
-        #         "category": "boolean algebra",
-        #         "short": "Karnaugh Map simplification",
-        #         "long": "Simplify Boolean expressions using Karnaugh Maps. Identify prime implicants and reduce logic circuits."
-        #     },
-        #     "map-sop": {
-        #         "category": "boolean algebra",
-        #         "short": "K-map with canonical forms",
-        #         "long": "Generate and simplify canonical forms (SOP/POS) using Karnaugh Maps. Students practice systematic minimization."
-        #     },
-        #     "function": {
-        #         "category": "boolean algebra",
-        #         "short": "Logic function analysis",
-        #         "long": "Study a Boolean function given in algebraic form. Includes truth table, simplification, and circuit representation."
-        #     },
-        #     "base": {
-        #         "category": "encoding",
-        #         "short": "Numeral system conversion",
-        #         "long": "Convert numbers between bases (binary, octal, decimal, hexadecimal). Includes integer and fractional parts."
-        #     },
-        #     "arithm": {
-        #         "category": "encoding",
-        #         "short": "Arithmetic in different bases",
-        #         "long": "Perform addition, subtraction, multiplication, and division in binary, octal, or hexadecimal systems."
-        #     },
-        #     "mesure": {
-        #         "category": "encoding",
-        #         "short": "Unit conversions",
-        #         "long": "Convert between units of information (bits, bytes, KB, MB) or physical measures (time, frequency) depending on context."
-        #     },
-        #     "static_funct": {
-        #         "category": "boolean algebra",
-        #         "short": "Canonical logical functions",
-        #         "long": "Study logical functions expressed in canonical forms (SOP or POS). Students analyze and simplify them."
-        #     },
-        #     "nand_funct": {
-        #         "category": "boolean algebra",
-        #         "short": "Logic with NAND gates",
-        #         "long": "Design and simplify logical functions using only NAND gates, showing functional completeness of NAND."
-        #     },
-        #     "nor_funct": {
-        #         "category": "boolean algebra",
-        #         "short": "Logic with NOR gates",
-        #         "long": "Design and simplify logical functions using only NOR gates, showing functional completeness of NOR."
-        #     },
-        #     "multi_funct": {
-        #         "category": "boolean algebra",
-        #         "short": "Multi-output logic circuits",
-        #         "long": "Draw and analyze circuits that implement multiple functions simultaneously, often from minterm tables."
-        #     },
-        #     "chronogram": {
-        #         "category": "sequential logic",
-        #         "short": "Sequential logic timing diagrams",
-        #         "long": "Interpret and draw chronograms (timing diagrams) for flip-flops (RS, D, JK). Students analyze sequential behavior over time."
-        #     },
-        #     "ascii": {
-        #         "category": "encoding",
-        #         "short": "ASCII character codes",
-        #         "long": "Convert characters to/from ASCII codes. Includes decimal, hexadecimal, and binary representations."
-        #     },
-        #     "ascii_text": {
-        #         "category": "encoding",
-        #         "short": "ASCII text encoding",
-        #         "long": "Encode and decode short words or sentences using ASCII character tables."
-        #     },
-        #     "bcdx3": {
-        #         "category": "encoding",
-        #         "short": "BCD ×3 encoding",
-        #         "long": "Convert numbers into Binary Coded Decimal (BCD) with ×3 correction. Used in digital arithmetic operations."
-        #     }
-        # }
-        #
-        # # Predefined categories metadata
-        # self.categories_info = {
-        #     "encoding": {
-        #         "short": "Encoding & number systems",
-        #         "long": "Covers numeral bases, complements, character encoding, floating point representation, and data measurement units."
-        #     },
-        #     "boolean algebra": {
-        #         "short": "Boolean algebra & logic",
-        #         "long": "Focuses on Boolean expressions, Karnaugh maps, logic simplification, and circuit design."
-        #     },
-        #     "sequential logic": {
-        #         "short": "Sequential circuits",
-        #         "long": "Includes flip-flops, registers, counters, and timing diagrams for analyzing sequential behavior."
-        #     }
-        # }
-        #~ print(outformat)
+
+
 
         self.quiz_commands = {}
         self.quiz_commands[1] = [["base", "base", "arithm"],
@@ -229,42 +132,13 @@ class QuizBuilder:
         self.quiz_commands[6] =  [
         ["chronogram",],
         ]
-        #
-        # self.TEMPLATE_MAP = {
-        #     "float": "encoding/float",
-        #     "complement": "encoding/cp",
-        #     "intervalle": "encoding/interval",
-        #     "base": "base",
-        #     "bcdx3": "encoding/bcdx3",
-        #     "gray": "encoding/gray",
-        #     "ascii": "encoding/charcode",
-        #     "ascii_text": "encoding/charcode",
-        #     "unicode": "encoding/charcode",
-        #     "charcode": "encoding/charcode",
-        #     "arithm": "arithm",
-        #     "mesure": "mesure",  # NotImplementedError for now
-        #     "map": "bool/map",
-        #     "map-sop": "bool/map-sop",
-        #     "function": "bool/function",
-        #     "nand_funct": "bool/function",
-        #     "nor_funct": "bool/function",
-        #     "static_funct": "bool/function",
-        #     "exp": "bool/exp",
-        #     "multi_funct": "bool/multi_funct",
-        #
-        #     # 🔹 Sequential logic questions
-        #     "chronogram": "sequential/timing",
-        #     "flip": "sequential/flip",
-        #     "register": "sequential/register",
-        #     "counter": "sequential/counter",
-        #     "misc": "sequential/misc",
-        #     }
         # --- Commands metadata (optional) ---
         self.commands_info = self._load_commands_info()
         self.commands = list(self.commands_info.keys())
         self.categories_info = self._load_categories_info()
         self.TEMPLATE_MAP = self._load_templates_map()
-
+        # --- Load args from json file if given, or from api
+        self.my_args_dict = self.load_args()
     def _load_templates_map(self):
         templates = {}
         for builder in [self.encode_qsbuilder, self.bool_qsbuilder, self.seq_qsbuilder]:
@@ -282,6 +156,18 @@ class QuizBuilder:
         for builder in [self.encode_qsbuilder, self.bool_qsbuilder, self.seq_qsbuilder]:
             categories[builder.CATEGORY] = builder.get_category_info()
         return categories
+
+    def load_args(self):
+        """load args from file or api"""
+        if self.args_file:
+            schema_loader = ArgSchemaLoader(self.get_commands_info())
+            # Pick one command (e.g. counter)
+            counter_schema = schema_loader.get_command_schema("counter")
+            validator = ArgValidator(counter_schema)
+            validated_args = validator.validate_args_file(self.args_file)
+            print("Loaded args", validated_args)
+            return validated_args
+        return {}
 
     def get_template(self, name):
         temp = self.TEMPLATE_MAP.get(name, "default")
@@ -314,10 +200,20 @@ class QuizBuilder:
             logger.exception("Error rendering template %s", template)
             return f"Error: {e}",  "Error"
 
+    def get_args(self, command=''):
+        """
+        return args, for a specific command if needed
+        """
+        # params are stored in config file
+        # TODO: get agrs from api or from json file
+        args = self.myconfig.__dict__
+
+        return args
+
     def get_question(self, command, args=None):
         """Generate a question based on command by delegating to the correct builder."""
         if args is None:
-            args = self.myconfig.__dict__
+            args = self.get_args(command =command)
 
         # Determine the correct builder
         category = self.commands_info.get(command, {}).get("category", "")
@@ -342,163 +238,6 @@ class QuizBuilder:
             import traceback
             traceback_str = traceback.format_exc()
             logger.error(f"Error generating question '{command}': {traceback_str}")
-            return f"Error generating question '{command}': {e}", "Answer"
-
-    def get_question22(self, command, args=None):
-        """
-        تُولّد سؤالًا بناءً على الأمر المُعطى باستخدام الدوال المناسبة من qsbuilder.
-
-        Parameters:
-            command (str): نوع السؤال المطلوب توليده.
-            args (dict, optional): المعطيات المُرسلة للدالة. الافتراضي هو None.
-
-        Returns:
-            tuple: (السؤال، اللغة، البيانات، الجواب) أو رسالة خطأ.
-        """
-        if args is None:
-            args = self.myconfig.__dict__
-        logger.debug(msg=f"Args in quizbuilder are {args}")
-        logger.debug(msg=f"QuizBuilder : Text '{args.get('text','')}'")
-        def command_ascii_text(args={}):
-            return self.encode_qsbuilder.question_ascii(text=args.get("text",""), method=args.get("method",""))
-
-
-        # boolean
-
-        def command_static_funct(args={}):
-            minterms = args["minterms"][0] if args["minterms"] else []
-            dont_care = args["dontcare"][0] if args["dontcare"] else []
-            return self.bool_qsbuilder.question_static_funct(minterms=minterms,
-             var_names=args.get("var_names",[]), output_names=args.get("output_names",[])
-             ,dont_care=dont_care)
-
-        def command_nand_funct(args={}):
-            minterms = args["minterms"][0] if args["minterms"] else []
-            dont_care = args["dontcare"][0] if args["dontcare"] else []
-            return self.bool_qsbuilder.question_static_nand_exp(minterms=minterms,
-             var_names=args.get("var_names",[]), output_names=args.get("output_names",[])
-             ,dont_care=dont_care, method="nand")
-        def command_nor_funct(args={}):
-            minterms = args["minterms"][0] if args["minterms"] else []
-            dont_care = args["dontcare"][0] if args["dontcare"] else []
-            return self.bool_qsbuilder.question_static_nand_exp(minterms=minterms,
-             var_names=args.get("var_names",[]), output_names=args.get("output_names",[])
-             ,dont_care=dont_care, method="nor")
-        def command_multi_funct(args={}):
-            return self.bool_qsbuilder.question_multi_funct(minterms_list=args.get("minterms",[[]]),
-                   var_names=args.get("var_names",[]), output_names=args.get("output_names",[]),
-                   dont_care_list=args.get("dontcare",[[]]), method=args.get("method",''))
-
-        def command_chronogram(args={}):
-            # print("quiz_builder:debug:arguments",args)
-            return self.seq_qsbuilder.question_chronogram(
-                varlist=args.get("varlist", {}),
-                flip_type=args.get("flip_type", "D"),
-                length=args.get("length", 10),
-                synch_type=args.get("synch_type", "rising"),
-                output_vars=args.get("output", "Q")
-            )
-
-        def command_flip(args={}):
-            # print("quiz_builder:debug:arguments",args)
-            return self.seq_qsbuilder.question_flip(
-                varlist=args.get("varlist", {}),
-                flip_type=args.get("flip_type", "D"),
-                length=args.get("length", 10),
-                synch_type=args.get("synch_type", "rising"),
-                output_vars=args.get("output", "Q")
-            )
-
-        def command_counter(args={}):
-            # print("quiz_builder:debug:arguments",args)
-            return self.seq_qsbuilder.question_counter(
-                varlist=args.get("varlist", {}),
-                length=args.get("length", 10),
-                synch_type=args.get("synch_type", "rising"),
-                output_vars=args.get("output", "Q"),
-                counter_type=args.get("counter_type", "up"),
-                flip_types=args.get("counter_flips", []),
-                nbits=args.get("counter_nbits", 2),
-                counter_random=args.get("counter_random", False),
-            )
-
-        def command_register(args={}):
-            # print("quiz_builder:debug:arguments",args)
-            return self.seq_qsbuilder.question_register(
-                varlist=args.get("varlist", {}),
-                # flip_type=args.get("flip_type","D"),
-                length=args.get("length", 10),
-                synch_type=args.get("synch_type", "rising"),
-                output_vars=args.get("output", "Q"),
-                register_type=args.get("register_type", "shift-right"),
-                flip_types=args.get("register_flips", []),
-                nbits=args.get("register_nbits", 2),
-                register_random=args.get("register_random", False),
-            )
-
-        def command_seq_misc(args={}):
-            # print("quiz_builder:debug:arguments",args)
-            return self.seq_qsbuilder.question_seq_misc(
-                varlist=args.get("varlist", {}),
-                flip_type=args.get("flip_type", "D"),
-                length=args.get("length", 10),
-                synch_type=args.get("synch_type", "rising"),
-                output_vars=args.get("output", "Q")
-            )
-        # خارطة تربط كل أمر بدالة إنشاء السؤال وما إذا كانت تتطلب معطيات
-        question_map = {
-            # encoding
-            "float": (self.encode_qsbuilder.question_vf, False),
-            "intervalle": (self.encode_qsbuilder.question_intervalle, False),
-            "complement": (self.encode_qsbuilder.question_cp, False),
-            "base": (self.encode_qsbuilder.question_base, False),
-            "arithm": (self.encode_qsbuilder.question_arithm, False),
-            "mesure": (self.encode_qsbuilder.question_mesure, False),
-            "ascii": (self.encode_qsbuilder.question_ascii, False),
-            "unicode": (self.encode_qsbuilder.question_unicode, False),
-            "bcdx3": (self.encode_qsbuilder.question_bcd_x3, False),
-            "gray": (self.encode_qsbuilder.question_gray, False),
-
-
-            "exp": (self.bool_qsbuilder.question_exp, False),
-            "map": (self.bool_qsbuilder.question_map, False),
-            "map-sop": (self.bool_qsbuilder.question_map_for_sop, False),
-            "function": (self.bool_qsbuilder.question_funct, False),
-
-
-            # command with parameters
-            # encoding
-            "ascii_text": (command_ascii_text, True),
-            # boolean
-            "static_funct": (command_static_funct, True),
-            "nand_funct": (command_nand_funct, True),
-            "nor_funct": (command_nor_funct, True),
-            "multi_funct": (command_multi_funct, True),
-            # sequential
-            "chronogram": (command_chronogram, True),
-            "flip": (command_flip, True),
-            "counter": (command_counter, True),
-            "register": (command_register, True),
-            "seq_misc": (command_seq_misc, True),
-        }
-
-        entry = question_map.get(command)
-        if not entry:
-            return f"Unknown command: {command}", "Answer"
-            # return f"Unknown command: {command}", "Arabic", "Data", "Answer"
-
-        question_func, needs_args = entry
-
-        try:
-            result = question_func(args) if needs_args else question_func()
-            if isinstance(result, dict):
-                return self._render(self.get_template(command), result)
-            else:
-                raise BaseException(f"Warning to be fixed '{command}' not return a context dict {result}")
-        except Exception as e:
-            import traceback
-            traceback_str = traceback.format_exc()
-            print(f"Exception in get_question:\n{traceback_str}")
             return f"Error generating question '{command}': {e}", "Answer"
 
     def build_quiz(self, questions_names, rand=True, nb=2, repeat=2, args={}):
@@ -538,11 +277,6 @@ class QuizBuilder:
     #---------------------------------
     #  routines to extract categories and commands
     #------------------------------------
-    @deprecated(reason="Replaced by get_commands_list()")
-    def list_commands(self,):
-        """ list all existing question types """
-        return self.commands
-
     def get_commands_list(self,category=""):
         """ list all existing question types """
         if not category:
@@ -566,7 +300,7 @@ class QuizBuilder:
         randq = self.myconfig.random_question
         nb_questions = self.myconfig.questions_size
         repeat = self.myconfig.repeat
-        args = self.myconfig.__dict__
+        args = self.get_args()
         test_config = self.get_quiz_config(test_no)
         for test in test_config:
             for i in range(nb_questions):
@@ -600,16 +334,6 @@ class QuizBuilder:
                 ]
             }
         return categories
-    @deprecated(reason="Replaced by get_commands_list(category=category)")
-    def get_commands_by_category(self, category: str) -> list[str]:
-        """Return a list of command names for a given category."""
-        return self.get_commands_list(category=category)
-
-    @deprecated(reason="Replaced by get_commands_list(category="")")
-    def get_all_commands(self) -> list[str]:
-        """Return all command names."""
-        return  self.get_commands_list()
-
     def get_short_description(self, cmd: str) -> str:
         """Return short description for a command."""
         return self.commands_info.get(cmd, {}).get("short", f"No short description for '{cmd}'")
@@ -618,22 +342,6 @@ class QuizBuilder:
         """Return long description for a command."""
         return self.commands_info.get(cmd, {}).get("long", f"No long description for '{cmd}'")
 
-    @deprecated(reason="Replaced by get_random_commands(n=1)")
-    def get_random_command(self, category: Optional[str] = None) -> tuple[str, CommandInfo]:
-        """
-        Return a random command (name, info).
-        If category is given, pick only from that category.
-        """
-        if category:
-            cmds = self.get_commands_by_category(category)
-        else:
-            cmds = list(self.commands_info.keys())
-
-        if not cmds:
-            raise ValueError(f"No commands found for category '{category}'")
-
-        cmd = random.choice(cmds)
-        return cmd, self.commands_info[cmd]
 
     def get_random_commands(self, n: int = 3, category: Optional[str] = None) -> dict[str, CommandInfo]:
         """

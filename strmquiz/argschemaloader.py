@@ -28,6 +28,18 @@ class ArgSchemaLoader:
 class ArgValidator:
     def __init__(self, schema: Dict[str, Any]):
         self.schema = schema
+    def validate_args_file(self, filename=""):
+        if  filename:
+            path = Path(filename)
+            text = ""
+            if path.exists():
+                text = path.read_text(encoding="utf-8").strip()
+                if not text:
+                    raise ValueError(f"JSON file {path} is empty")
+            json_text = json.loads(text)
+            validated_args = self.validate_args(json_text)
+            return validated_args
+        return {}
 
     def validate_args(self, provided: Dict[str, Any]) -> Dict[str, Any]:
         validated = {}

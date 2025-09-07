@@ -9,11 +9,12 @@ from typing import Optional
 
 from strmquiz.quizbuilder import QuizBuilder
 
-# WEB_TEMPALTES_DIR = os.path.join(os.path.dirname(__file__),"templates")
-# WEB_STATIC_DIR = os.path.join(os.path.dirname(__file__),"static")
+WEB_TEMPALTES_DIR = os.path.join(os.path.dirname(__file__),"templates")
+# WEB_TEMPALTES_DIR = "templates"
+WEB_STATIC_DIR = os.path.join(os.path.dirname(__file__),"static")
+# WEB_STATIC_DIR = "static"
 
-WEB_TEMPALTES_DIR = "templates"
-WEB_STATIC_DIR = "static"
+
 
 QUIZ_TEMPALTES_DIR = os.path.join(os.path.dirname(__file__),"..", "templates")
 CONF_DIR = os.path.join(os.path.dirname(__file__),"..", "tests", "config")
