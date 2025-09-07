@@ -88,3 +88,18 @@ def test_plain_print(capfd):
     print("hello from plain print")
     out, err = capfd.readouterr()
     assert "hello" in out
+
+def test_all_args_are_read(make_config):
+    # Build a config with all Args keys set explicitly
+    args_section = "\n".join(
+        f"{key} = {repr(default)}"
+        for key, (_, default) in ReadConfig("dummy", debug=False).fields["Args"].items()
+    )
+    filename = make_config(f"[Args]\n{args_section}")
+
+    cfg = ReadConfig(filename, debug=False)
+
+    # Now loop over all args and check they were read back correctly
+    for key, (attr, default) in cfg.fields["Args"].items():
+        loaded_value = getattr(cfg, attr)
+        assert loaded_value == default, f"Mismatch for {key}: expected {default}, got {loaded_value}"

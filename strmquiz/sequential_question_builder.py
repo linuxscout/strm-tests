@@ -66,41 +66,121 @@ class SequentialQuestionBuilder(Question_Builder):
             "chronogram": {
                 "category": self.CATEGORY,
                 "short": "Sequential logic timing diagrams",
-                "long": "Interpret and draw chronograms (timing diagrams) for flip-flops (RS, D, JK). Students analyze sequential behavior over time."
+                "long": "Interpret and draw chronograms (timing diagrams) for flip-flops (RS, D, JK).",
+                "template": "sequential/timing",
+                #"handler": self.command_chronogram,
+                "args": {
+                    "varlist": {"type": "dict", "default": {}},
+                    "flip_type": {
+                        "type": "string",
+                        "default": "D",
+                        "choices": ["D", "T", "JK", "RS", "RST"],
+                    },
+                    "length": {"type": "integer", "default": 10, "range": [1, 100]},
+                    "synch_type": {
+                        "type": "string",
+                        "default": "rising",
+                        "choices": ["rising", "falling"],
+                    },
+                    "output": {"type": "list", "default": ["Q"]},
+                },
             },
             "flip": {
                 "category": self.CATEGORY,
                 "short": "Flip-flop operation",
-                "long": (
-                    "Analyze the behavior of basic flip-flops (RS, D, JK, T). "
-                    "Students determine output states given input sequences and clock signals."
-                ),
-            },
-            "register": {
-                "category": self.CATEGORY,
-                "short": "Register analysis",
-                "long": (
-                    "Study register circuits such as shift registers and parallel registers. "
-                    "Students simulate data movement and control operations."
-                ),
+                "long": "Analyze the behavior of flip-flops (RS, D, JK, T) given inputs and clock signals.",
+                "template": "sequential/flip",
+                #"handler": self.command_flip,
+                "args": {
+                    "varlist": {"type": "dict", "default": {}},
+                    "flip_type": {
+                        "type": "string",
+                        "default": "D",
+                        "choices": ["D", "T", "JK", "RS", "RST"],
+                    },
+                    "length": {"type": "integer", "default": 10, "range": [1, 100]},
+                    "synch_type": {
+                        "type": "string",
+                        "default": "rising",
+                        "choices": ["rising", "falling"],
+                    },
+                    "output": {"type": "list", "default": ["Q"]},
+                },
             },
             "counter": {
                 "category": self.CATEGORY,
                 "short": "Counter design and behavior",
-                "long": (
-                    "Analyze up/down counters, synchronous and asynchronous counters. "
-                    "Students predict states and sequences for given inputs and clock signals."
-                ),
+                "long": "Analyze synchronous and asynchronous up/down counters.",
+                "template": "sequential/counter",
+                #"handler": self.command_counter,
+                "args": {
+                    "varlist": {"type": "dict", "default": {}},
+                    "length": {"type": "integer", "default": 10, "range": [1, 100]},
+                    "synch_type": {
+                        "type": "string",
+                        "default": "rising",
+                        "choices": ["rising", "falling"],
+                    },
+                    "output": {"type": "list", "default": ["Q"]},
+                    "counter_type": {
+                        "type": "string",
+                        "default": "up",
+                        "choices": ["up", "down"],
+                    },
+                    "counter_flips": {"type": "list", "default": ["JK", "JK"]},
+                    "counter_nbits": {"type": "integer", "default": 2, "range": [1, 16]},
+                    "counter_random": {"type": "boolean", "default": False},
+                },
+            },
+            "register": {
+                "category": self.CATEGORY,
+                "short": "Register analysis",
+                "long": "Study shift registers and parallel registers with data movement and control operations.",
+                "template": "sequential/register",
+                #"handler": self.command_register,
+                "args": {
+                    "varlist": {"type": "dict", "default": {}},
+                    "length": {"type": "integer", "default": 10, "range": [1, 100]},
+                    "synch_type": {
+                        "type": "string",
+                        "default": "rising",
+                        "choices": ["rising", "falling"],
+                    },
+                    "output": {"type": "list", "default": ["Q"]},
+                    "register_type": {
+                        "type": "string",
+                        "default": "shift-right",
+                        "choices": ["shift-right", "shift-left", "parallel"],
+                    },
+                    "register_flips": {"type": "list", "default": ["D", "D"]},
+                    "register_nbits": {"type": "integer", "default": 2, "range": [1, 16]},
+                    "register_random": {"type": "boolean", "default": False},
+                },
             },
             "seq_misc": {
                 "category": self.CATEGORY,
                 "short": "Miscellaneous sequential circuits",
-                "long": (
-                    "Covers other sequential logic exercises, including state machines, "
-                    "pulse generators, or hybrid sequential systems."
-                ),
+                "long": "State machines, pulse generators, and hybrid sequential systems.",
+                "template": "sequential/misc",
+                #"handler": self.command_seq_misc,
+                "args": {
+                    "varlist": {"type": "dict", "default": {}},
+                    "flip_type": {
+                        "type": "string",
+                        "default": "D",
+                        "choices": ["D", "T", "JK", "RS", "RST"],
+                    },
+                    "length": {"type": "integer", "default": 10, "range": [1, 100]},
+                    "synch_type": {
+                        "type": "string",
+                        "default": "rising",
+                        "choices": ["rising", "falling"],
+                    },
+                    "output": {"type": "list", "default": ["Q"]},
+                },
             },
         }
+
         self.command_map = {
             "chronogram": (self.command_chronogram, True),
             "flip": (self.command_flip, True),

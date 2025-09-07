@@ -60,53 +60,136 @@ class EncodingQuestionBuilder(Question_Builder):
                 "long": "Covers numeral bases, complements, character encoding, floating point representation, and data measurement units."
             },
         }
+        self.CATEGORY = "encoding"
+
+        self.categories_info = {
+            self.CATEGORY: {
+                "short": "Encoding & number systems",
+                "long": "Covers numeral bases, complements, character encoding, "
+                        "floating point representation, and data measurement units."
+            },
+        }
         self.commands_info = {
             "float": {
                 "category": self.CATEGORY,
                 "short": "Floating-point representation",
-                "long": "Questions on IEEE-754 floating-point format. Students convert between decimal and binary, identify mantissa, exponent, and sign bit."
+                "long": "IEEE-754 floating-point conversion and analysis.",
+                "template": "encoding/float",
+                #"handler": self.command_vf,
+                "args": {
+                    "float": {"type": "integer", "default": 0},
+                },
             },
             "intervalle": {
                 "category": self.CATEGORY,
                 "short": "Integer intervals with complements",
-                "long": "Covers integer ranges in binary representation, including signed numbers with Complement to 1 and Complement to 2."
+                "long": "Binary integer ranges, signed numbers, Complement-1 and Complement-2.",
+                "template": "encoding/interval",
+                #"handler": self.command_intervalle,
+                "args": {
+                    "interval_nbits": {"type": "integer", "default": 8, "range": [1, 64]},
+                },
             },
             "complement": {
                 "category": self.CATEGORY,
                 "short": "Number complements",
-                "long": "Exercises about computing complement to one and complement to two for binary numbers."
+                "long": "Exercises on complement to one and complement to two.",
+                "template": "encoding/cp",
+                #"handler": self.command_complement,
+                "args": {
+                    "complement_number": {"type": "list", "default": [0, 0]},
+                },
             },
-
             "base": {
                 "category": self.CATEGORY,
                 "short": "Numeral system conversion",
-                "long": "Convert numbers between bases (binary, octal, decimal, hexadecimal). Includes integer and fractional parts."
+                "long": "Convert numbers between bases (binary, octal, decimal, hex).",
+                "template": "base",
+                #"handler": self.command_base,
+                "args": {
+                    "base_numbers": {"type": "list", "default": [0, 0]},
+                    "bases": {"type": "list", "default": [10, 10]},
+                },
             },
             "arithm": {
                 "category": self.CATEGORY,
                 "short": "Arithmetic in different bases",
-                "long": "Perform addition, subtraction, multiplication, and division in binary, octal, or hexadecimal systems."
+                "long": "Perform arithmetic in binary, octal, or hex systems.",
+                "template": "arithm",
+                #"handler": self.command_arithm,
+                "args": {
+                    "arithm_numbers": {"type": "list", "default": [0, 0]},
+                    "arithm_operation": {
+                        "type": "string",
+                        "default": "+",
+                        "choices": ["+", "-", "*", "/"],
+                    },
+                    "arithm_base": {"type": "integer", "default": 10},
+                },
             },
             "mesure": {
                 "category": self.CATEGORY,
                 "short": "Unit conversions",
-                "long": "Convert between units of information (bits, bytes, KB, MB) or physical measures (time, frequency) depending on context."
+                "long": "Convert between info units (bits, bytes, KB, MB) or physical units (time, freq).",
+                "template": "mesure",
+                #"handler": self.command_mesure,
+                "args": {},
             },
             "ascii": {
                 "category": self.CATEGORY,
                 "short": "ASCII character codes",
-                "long": "Convert characters to/from ASCII codes. Includes decimal, hexadecimal, and binary representations."
+                "long": "Convert characters to/from ASCII in decimal, hex, binary.",
+                "template": "encoding/charcode",
+                #"handler": self.command_ascii,
+                "args": {
+                    "text": {"type": "string", "default": ""},
+                    "method": {"type": "string", "default": ""},
+                },
             },
             "ascii_text": {
                 "category": self.CATEGORY,
                 "short": "ASCII text encoding",
-                "long": "Encode and decode short words or sentences using ASCII character tables."
+                "long": "Encode/decode short words using ASCII tables.",
+                "template": "encoding/charcode",
+                #"handler": self.command_ascii_text,
+                "args": {
+                    "text": {"type": "string", "default": ""},
+                    "method": {"type": "string", "default": ""},
+                },
+            },
+            "unicode": {
+                "category": self.CATEGORY,
+                "short": "Unicode encoding",
+                "long": "Convert characters to/from Unicode representations.",
+                "template": "encoding/charcode",
+                #"handler": self.command_unicode,
+                "args": {
+                    "text": {"type": "string", "default": ""},
+                    "method": {"type": "string", "default": ""},
+                },
             },
             "bcdx3": {
                 "category": self.CATEGORY,
                 "short": "BCD ×3 encoding",
-                "long": "Convert numbers into Binary Coded Decimal (BCD) with ×3 correction. Used in digital arithmetic operations."
-            }
+                "long": "Convert numbers into Binary Coded Decimal (BCD) with ×3 correction.",
+                "template": "encoding/bcdx3",
+                #"handler": self.command_bcdx3,
+                "args": {
+                    "bcdx3_numbers": {"type": "list", "default": [0, 0]},
+                    "scheme": {"type": "string", "default": ""},
+                },
+            },
+            "gray": {
+                "category": self.CATEGORY,
+                "short": "Gray code",
+                "long": "Exercises on Gray code conversions and sequences.",
+                "template": "encoding/gray",
+                #"handler": self.command_gray,
+                "args": {
+                    "gray_number": {"type": "integer", "default": 0},
+                    "gray_sequence": {"type": "integer", "default": 2},
+                },
+            },
         }
 
         self.command_map = {

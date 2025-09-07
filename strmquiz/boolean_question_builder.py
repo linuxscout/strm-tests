@@ -51,60 +51,123 @@ class BooleanQuestionBuilder(Question_Builder):
         self.CATEGORY = "boolean algebra"
 
         # Predefined categories metadata
+        self.CATEGORY = "boolean algebra"
+
         self.categories_info = {
             self.CATEGORY: {
                 "short": "Boolean algebra & logic",
-                "long": "Focuses on Boolean expressions, Karnaugh maps, logic simplification, and circuit design."
+                "long": "Focuses on Boolean expressions, Karnaugh maps, logic simplification, and circuit design.",
             },
         }
         self.commands_info = {
             "exp": {
                 "category": self.CATEGORY,
                 "short": "Boolean expression simplification",
-                "long": "Given a Boolean expression, students simplify it using algebraic rules or canonical forms."
+                "long": "Simplify Boolean expressions using algebraic rules or canonical forms.",
+                "template": "bool/exp",
+                #"handler": self.command_exp,
+                "args": {
+                    "minterms": {"type": "list", "default": [[]]},
+                    "sop_question": {"type": "string", "default": ""},
+                },
             },
             "map": {
                 "category": self.CATEGORY,
                 "short": "Karnaugh Map simplification",
-                "long": "Simplify Boolean expressions using Karnaugh Maps. Identify prime implicants and reduce logic circuits."
+                "long": "Simplify Boolean expressions with Karnaugh Maps. Identify prime implicants and reduce logic circuits.",
+                "template": "bool/map",
+                #"handler": self.question_map,
+                "args": {
+                    "minterms": {"type": "list", "default": [[]]},
+                    "dontcare": {"type": "list", "default": [[]]},
+                    "var_names": {"type": "list", "default": []},
+                    "output_names": {"type": "list", "default": []},
+                },
             },
             "map-sop": {
                 "category": self.CATEGORY,
                 "short": "K-map with canonical forms",
-                "long": "Generate and simplify canonical forms (SOP/POS) using Karnaugh Maps. Students practice systematic minimization."
+                "long": "Generate and simplify canonical forms (SOP/POS) using Karnaugh Maps.",
+                "template": "bool/map-sop",
+                #"handler": self.command_map_for_sop,
+                "args": {
+                    "functions_number": {"type": "integer", "default": 2, "range": [1, 10]},
+                    "minterms": {"type": "list", "default": [[]]},
+                },
             },
             "function": {
                 "category": self.CATEGORY,
                 "short": "Logic function analysis",
-                "long": "Study a Boolean function given in algebraic form. Includes truth table, simplification, and circuit representation."
+                "long": "Analyze Boolean functions given in algebraic form. Includes truth table, simplification, and circuit representation.",
+                "template": "bool/function",
+                #"handler": self.question_funct,
+                "args": {
+                    "minterms": {"type": "list", "default": [[]]},
+                    "dontcare": {"type": "list", "default": [[]]},
+                    "var_names": {"type": "list", "default": []},
+                    "output_names": {"type": "list", "default": []},
+                },
             },
             "static_funct": {
                 "category": self.CATEGORY,
                 "short": "Canonical logical functions",
-                "long": "Study logical functions expressed in canonical forms (SOP or POS). Students analyze and simplify them."
+                "long": "Study functions expressed in canonical SOP or POS forms and simplify them.",
+                "template": "bool/function",
+                #"handler": self.command_static_funct,
+                "args": {
+                    "minterms": {"type": "list", "default": [[]]},
+                    "dontcare": {"type": "list", "default": [[]]},
+                    "var_names": {"type": "list", "default": []},
+                    "output_names": {"type": "list", "default": []},
+                },
             },
             "nand_funct": {
                 "category": self.CATEGORY,
                 "short": "Logic with NAND gates",
-                "long": "Design and simplify logical functions using only NAND gates, showing functional completeness of NAND."
+                "long": "Design and simplify logical functions using only NAND gates.",
+                "template": "bool/function",
+                #"handler": self.command_nand_funct,
+                "args": {
+                    "minterms": {"type": "list", "default": [[]]},
+                    "dontcare": {"type": "list", "default": [[]]},
+                    "var_names": {"type": "list", "default": []},
+                    "output_names": {"type": "list", "default": []},
+                },
             },
             "nor_funct": {
                 "category": self.CATEGORY,
                 "short": "Logic with NOR gates",
-                "long": "Design and simplify logical functions using only NOR gates, showing functional completeness of NOR."
+                "long": "Design and simplify logical functions using only NOR gates.",
+                "template": "bool/function",
+                #"handler": self.command_nor_funct,
+                "args": {
+                    "minterms": {"type": "list", "default": [[]]},
+                    "dontcare": {"type": "list", "default": [[]]},
+                    "var_names": {"type": "list", "default": []},
+                    "output_names": {"type": "list", "default": []},
+                },
             },
             "multi_funct": {
                 "category": self.CATEGORY,
                 "short": "Multi-output logic circuits",
-                "long": "Draw and analyze circuits that implement multiple functions simultaneously, often from minterm tables."
+                "long": "Draw and analyze circuits that implement multiple functions simultaneously.",
+                "template": "bool/multi_funct",
+                #"handler": self.command_multi_funct,
+                "args": {
+                    "minterms": {"type": "list", "default": [[]]},
+                    "dontcare": {"type": "list", "default": [[]]},
+                    "var_names": {"type": "list", "default": []},
+                    "output_names": {"type": "list", "default": []},
+                    "method": {"type": "string", "default": ""},
+                },
             },
         }
 
         self.command_map = {
             # "exp": (self.question_exp, False),
-            "map": (self.question_map, False),
+            "map": (self.command_kmap, True),
             # "map-sop": (self.question_map_for_sop, False),
-            "function": (self.question_funct, False),
+            "function": (self.command_funct, True),
             # command with parameters
             # boolean
             "static_funct": (self.command_static_funct, True),
@@ -112,7 +175,7 @@ class BooleanQuestionBuilder(Question_Builder):
             "nor_funct": (self.command_nor_funct, True),
             "multi_funct": (self.command_multi_funct, True),
             "map-sop": (self.command_map_for_sop, True),
-            "exp": (self.command_exp, False),
+            "exp": (self.command_exp, True),
         }
         self.templates_map = {
             "map": "bool/map",
@@ -162,6 +225,11 @@ class BooleanQuestionBuilder(Question_Builder):
                                          var_names=args.get("var_names", []), output_names=args.get("output_names", []),
                                          dont_care_list=args.get("dontcare", [[]]), method=args.get("method", ''))
 
+    def command_kmap(self, args={}):
+        return self.question_map()
+
+    def command_funct(self, args={}):
+        return self.question_funct()
 
     # --- Example Questions (refactored) ---
 
