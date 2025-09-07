@@ -480,7 +480,7 @@ class EncodingQuestionBuilder(Question_Builder):
     def question_charcode(self,text="",scheme="ascii", method="both"):
         """ encode/ decode in ASCII and unicode
         """
-        if self.randomize and not text:
+        if self.randomize:
             text  = self.qs.rand_text(code=scheme)
         charcodes = self.qs.encode(text)
         if method not in ("encode", "decode", "both"):
