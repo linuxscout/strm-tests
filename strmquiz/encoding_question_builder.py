@@ -87,7 +87,7 @@ class EncodingQuestionBuilder(Question_Builder):
                 "template": "encoding/interval",
                 #"handler": self.command_intervalle,
                 "args": {
-                    "interval_nbits": {"type": "integer", "default": 8, "range": [1, 64]},
+                    "nbits": {"type": "integer", "default": 8, "range": [1, 64]},
                 },
             },
             "complement": {
@@ -97,7 +97,7 @@ class EncodingQuestionBuilder(Question_Builder):
                 "template": "encoding/cp",
                 #"handler": self.command_complement,
                 "args": {
-                    "complement_number": {"type": "list", "default": [0, 0]},
+                    "number": {"type": "integer", "default": 0},
                 },
             },
             "base": {
@@ -107,8 +107,9 @@ class EncodingQuestionBuilder(Question_Builder):
                 "template": "base",
                 #"handler": self.command_base,
                 "args": {
-                    "base_numbers": {"type": "list", "default": [0, 0]},
-                    "bases": {"type": "list", "default": [10, 10]},
+                    "number": {"type": "integer", "default": 0},
+                    "in_base": {"type": "integer", "default": 10},
+                    "out_base": {"type": "integer", "default": 10},
                 },
             },
             "arithm": {
@@ -118,13 +119,14 @@ class EncodingQuestionBuilder(Question_Builder):
                 "template": "arithm",
                 #"handler": self.command_arithm,
                 "args": {
-                    "arithm_numbers": {"type": "list", "default": [0, 0]},
-                    "arithm_operation": {
+                    "number_a": {"type": "integer", "default": 0},
+                    "number_b": {"type": "integer", "default": 0},
+                    "operation": {
                         "type": "string",
                         "default": "+",
                         "choices": ["+", "-", "*", "/"],
                     },
-                    "arithm_base": {"type": "integer", "default": 10},
+                    "base": {"type": "integer", "default": 10},
                 },
             },
             "mesure": {
@@ -143,7 +145,7 @@ class EncodingQuestionBuilder(Question_Builder):
                 #"handler": self.command_ascii,
                 "args": {
                     "text": {"type": "string", "default": ""},
-                    "method": {"type": "string", "default": ""},
+                    "method": {"type": "string", "default": "both", "choices": ["both", "encode","decode"]},
                 },
             },
             "ascii_text": {
@@ -154,7 +156,7 @@ class EncodingQuestionBuilder(Question_Builder):
                 #"handler": self.command_ascii_text,
                 "args": {
                     "text": {"type": "string", "default": ""},
-                    "method": {"type": "string", "default": ""},
+                    "method": {"type": "string", "default": "both", "choices": ["both", "encode","decode"]},
                 },
             },
             "unicode": {
@@ -165,7 +167,7 @@ class EncodingQuestionBuilder(Question_Builder):
                 #"handler": self.command_unicode,
                 "args": {
                     "text": {"type": "string", "default": ""},
-                    "method": {"type": "string", "default": ""},
+                    "method": {"type": "string", "default": "both", "choices": ["both", "encode","decode"]},
                 },
             },
             "bcdx3": {
@@ -175,8 +177,9 @@ class EncodingQuestionBuilder(Question_Builder):
                 "template": "encoding/bcdx3",
                 #"handler": self.command_bcdx3,
                 "args": {
-                    "bcdx3_numbers": {"type": "list", "default": [0, 0]},
-                    "scheme": {"type": "string", "default": ""},
+                    "number_a": {"type": "integer", "default": 0},
+                    "number_b": {"type": "integer", "default": 0},
+                    "scheme": {"type": "string", "default": "both", "choices": ["both", "bcd","x3"]},
                 },
             },
             "gray": {
@@ -235,44 +238,34 @@ class EncodingQuestionBuilder(Question_Builder):
         return self.question_vf(number=args.get("float",0))
 
     def command_intervalle(self, args={}):
-        return self.question_intervalle(decimal=args.get("interval_nbits",8))
+        return self.question_intervalle(decimal=args.get("nbits",8))
 
 
     def command_complement(self, args={}):
-        return self.question_cp(decimal=args.get("complement_number",0))
+        return self.question_cp(decimal=args.get("number",0))
 
     def command_gray(self, args={}):
         return self.question_gray(number=args.get("gray_number",0),
                                    sequence_length=args.get("gray_sequence",2))
 
     def command_bcdx3(self, args={}):
-        number_a = args["bcdx3_numbers"][0] if args.get("bcdx3_numbers",[]) else 0
-        number_b = args["bcdx3_numbers"][1] if args.get("bcdx3_numbers",[])  \
-                                               and len(args["bcdx3_numbers"])> 1 else 0
-        return self.question_bcd_x3(decimal_a= number_a,
-                                    decimal_b= number_b,
+        return self.question_bcd_x3(decimal_a= args.get("number_a",0),
+                                    decimal_b= args.get("number_b",0),
                                     scheme = args.get("scheme",""),
                                     )
 
 
     def command_arithm(self, args={}):
-        number_a = args["arithm_numbers"][0] if args.get("arithm_numbers",[]) else 0
-        number_b = args["arithm_numbers"][1] if args.get("arithm_numbers",[])  \
-                                               and len(args["arithm_numbers"])> 1 else 0
-        return self.question_arithm(number_a= number_a,
-                                    number_b= number_b,
-                                    operation = args.get("arithm_operation","+"),
-                                    base = args.get("arithm_base",10),
+        return self.question_arithm(number_a= args.get("number_a",0),
+                                    number_b= args.get("number_b",0),
+                                    operation = args.get("operation","+"),
+                                    base = args.get("base",10),
                                     )
 
     def command_base(self, args={}):
-        number_a = args["base_numbers"][0] if args.get("base_numbers",[]) else 0
-        in_base = args["bases"][0] if args.get("bases",[]) else 10
-        out_base = args["bases"][1] if args.get("bases",[])  \
-                                               and len(args["bases"])> 1 else 10
-        return self.question_base(decimal= number_a,
-                                   in_base=in_base,
-                                   out_base=out_base,
+        return self.question_base(decimal= args.get("number_a",0),
+                                   in_base=args.get("in_base",10),
+                                   out_base=args.get("out_base",10),
                                     )
 
     def command_mesure(self, args={}):
