@@ -8,8 +8,13 @@ from typing import Optional
 
 
 from strmquiz.quizbuilder import QuizBuilder
-WEB_TEMPALTES_DIR = os.path.join(os.path.dirname(__file__),"templates")
-WEB_STATIC_DIR = os.path.join(os.path.dirname(__file__),"static")
+
+# WEB_TEMPALTES_DIR = os.path.join(os.path.dirname(__file__),"templates")
+# WEB_STATIC_DIR = os.path.join(os.path.dirname(__file__),"static")
+
+WEB_TEMPALTES_DIR = "templates"
+WEB_STATIC_DIR = "static"
+
 QUIZ_TEMPALTES_DIR = os.path.join(os.path.dirname(__file__),"..", "templates")
 CONF_DIR = os.path.join(os.path.dirname(__file__),"..", "tests", "config")
 CONF_FILE = os.path.join(CONF_DIR, "quiz6.conf")
@@ -18,7 +23,7 @@ app = FastAPI()
 # Setup templates and static
 templates = Jinja2Templates(directory=WEB_TEMPALTES_DIR)
 app.mount("/static", StaticFiles(directory=WEB_STATIC_DIR), name="static")
-
+# app.mount("/static", StaticFiles(directory="static"), name="static")
 # Initialize your quiz generator
 quiz_builder = QuizBuilder(
     outformat="html",

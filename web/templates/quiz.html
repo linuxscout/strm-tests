@@ -1,8 +1,9 @@
 <!--quiz.html-->
 <!DOCTYPE html>
+{% set debug= True %}
 <html>
 <head>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" href="{{ url_for('static', path='favicon.ico') }}">
     <title>Quiz</title>
     <script>
         // This will be filled by Jinja as JSON
@@ -141,6 +142,10 @@ function updateArgsForm() {
  <div id="argsForm"></div>
         <button type="submit">Submit</button>
     </form>
+    {% if debug %}
+    <h1> commands json </h1>
+    <pre>{{ commands_dict_json }};</pre>
+    {%endif%}
 </body>
 </html>
 
