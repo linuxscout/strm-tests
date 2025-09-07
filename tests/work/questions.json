@@ -1,0 +1,673 @@
+{
+  "float": {
+    "category": "encoding",
+    "short": "Floating-point representation",
+    "long": "IEEE-754 floating-point conversion and analysis.",
+    "template": "encoding/float",
+    "args": {
+      "float": {
+        "type": "integer",
+        "default": 0
+      }
+    }
+  },
+  "intervalle": {
+    "category": "encoding",
+    "short": "Integer intervals with complements",
+    "long": "Binary integer ranges, signed numbers, Complement-1 and Complement-2.",
+    "template": "encoding/interval",
+    "args": {
+      "nbits": {
+        "type": "integer",
+        "default": 8,
+        "range": [
+          1,
+          64
+        ]
+      }
+    }
+  },
+  "complement": {
+    "category": "encoding",
+    "short": "Number complements",
+    "long": "Exercises on complement to one and complement to two.",
+    "template": "encoding/cp",
+    "args": {
+      "number": {
+        "type": "integer",
+        "default": 0
+      }
+    }
+  },
+  "base": {
+    "category": "encoding",
+    "short": "Numeral system conversion",
+    "long": "Convert numbers between bases (binary, octal, decimal, hex).",
+    "template": "base",
+    "args": {
+      "number": {
+        "type": "integer",
+        "default": 0
+      },
+      "in_base": {
+        "type": "integer",
+        "default": 10
+      },
+      "out_base": {
+        "type": "integer",
+        "default": 10
+      }
+    }
+  },
+  "arithm": {
+    "category": "encoding",
+    "short": "Arithmetic in different bases",
+    "long": "Perform arithmetic in binary, octal, or hex systems.",
+    "template": "arithm",
+    "args": {
+      "number_a": {
+        "type": "integer",
+        "default": 0
+      },
+      "number_b": {
+        "type": "integer",
+        "default": 0
+      },
+      "operation": {
+        "type": "string",
+        "default": "+",
+        "choices": [
+          "+",
+          "-",
+          "*",
+          "/"
+        ]
+      },
+      "base": {
+        "type": "integer",
+        "default": 10
+      }
+    }
+  },
+  "mesure": {
+    "category": "encoding",
+    "short": "Unit conversions",
+    "long": "Convert between info units (bits, bytes, KB, MB) or physical units (time, freq).",
+    "template": "mesure",
+    "args": {}
+  },
+  "ascii": {
+    "category": "encoding",
+    "short": "ASCII character codes",
+    "long": "Convert characters to/from ASCII in decimal, hex, binary.",
+    "template": "encoding/charcode",
+    "args": {
+      "text": {
+        "type": "string",
+        "default": ""
+      },
+      "method": {
+        "type": "string",
+        "default": "both",
+        "choices": [
+          "both",
+          "encode",
+          "decode"
+        ]
+      }
+    }
+  },
+  "ascii_text": {
+    "category": "encoding",
+    "short": "ASCII text encoding",
+    "long": "Encode/decode short words using ASCII tables.",
+    "template": "encoding/charcode",
+    "args": {
+      "text": {
+        "type": "string",
+        "default": ""
+      },
+      "method": {
+        "type": "string",
+        "default": "both",
+        "choices": [
+          "both",
+          "encode",
+          "decode"
+        ]
+      }
+    }
+  },
+  "unicode": {
+    "category": "encoding",
+    "short": "Unicode encoding",
+    "long": "Convert characters to/from Unicode representations.",
+    "template": "encoding/charcode",
+    "args": {
+      "text": {
+        "type": "string",
+        "default": ""
+      },
+      "method": {
+        "type": "string",
+        "default": "both",
+        "choices": [
+          "both",
+          "encode",
+          "decode"
+        ]
+      }
+    }
+  },
+  "bcdx3": {
+    "category": "encoding",
+    "short": "BCD ×3 encoding",
+    "long": "Convert numbers into Binary Coded Decimal (BCD) with ×3 correction.",
+    "template": "encoding/bcdx3",
+    "args": {
+      "number_a": {
+        "type": "integer",
+        "default": 0
+      },
+      "number_b": {
+        "type": "integer",
+        "default": 0
+      },
+      "scheme": {
+        "type": "string",
+        "default": "both",
+        "choices": [
+          "both",
+          "bcd",
+          "x3"
+        ]
+      }
+    }
+  },
+  "gray": {
+    "category": "encoding",
+    "short": "Gray code",
+    "long": "Exercises on Gray code conversions and sequences.",
+    "template": "encoding/gray",
+    "args": {
+      "gray_number": {
+        "type": "integer",
+        "default": 0
+      },
+      "gray_sequence": {
+        "type": "integer",
+        "default": 2
+      }
+    }
+  },
+  "exp": {
+    "category": "boolean algebra",
+    "short": "Boolean expression simplification",
+    "long": "Simplify Boolean expressions using algebraic rules or canonical forms.",
+    "template": "bool/exp",
+    "args": {
+      "minterms": {
+        "type": "list",
+        "default": [
+          []
+        ]
+      },
+      "sop_question": {
+        "type": "string",
+        "default": ""
+      }
+    }
+  },
+  "map": {
+    "category": "boolean algebra",
+    "short": "Karnaugh Map simplification",
+    "long": "Simplify Boolean expressions with Karnaugh Maps. Identify prime implicants and reduce logic circuits.",
+    "template": "bool/map",
+    "args": {
+      "minterms": {
+        "type": "list",
+        "default": [
+          []
+        ]
+      },
+      "dontcare": {
+        "type": "list",
+        "default": [
+          []
+        ]
+      },
+      "var_names": {
+        "type": "list",
+        "default": []
+      },
+      "output_names": {
+        "type": "list",
+        "default": []
+      }
+    }
+  },
+  "map-sop": {
+    "category": "boolean algebra",
+    "short": "K-map with canonical forms",
+    "long": "Generate and simplify canonical forms (SOP/POS) using Karnaugh Maps.",
+    "template": "bool/map-sop",
+    "args": {
+      "functions_number": {
+        "type": "integer",
+        "default": 2,
+        "range": [
+          1,
+          10
+        ]
+      },
+      "minterms": {
+        "type": "list",
+        "default": [
+          []
+        ]
+      }
+    }
+  },
+  "function": {
+    "category": "boolean algebra",
+    "short": "Logic function analysis",
+    "long": "Analyze Boolean functions given in algebraic form. Includes truth table, simplification, and circuit representation.",
+    "template": "bool/function",
+    "args": {
+      "minterms": {
+        "type": "list",
+        "default": [
+          []
+        ]
+      },
+      "dontcare": {
+        "type": "list",
+        "default": [
+          []
+        ]
+      },
+      "var_names": {
+        "type": "list",
+        "default": []
+      },
+      "output_names": {
+        "type": "list",
+        "default": []
+      }
+    }
+  },
+  "static_funct": {
+    "category": "boolean algebra",
+    "short": "Canonical logical functions",
+    "long": "Study functions expressed in canonical SOP or POS forms and simplify them.",
+    "template": "bool/function",
+    "args": {
+      "minterms": {
+        "type": "list",
+        "default": [
+          []
+        ]
+      },
+      "dontcare": {
+        "type": "list",
+        "default": [
+          []
+        ]
+      },
+      "var_names": {
+        "type": "list",
+        "default": []
+      },
+      "output_names": {
+        "type": "list",
+        "default": []
+      }
+    }
+  },
+  "nand_funct": {
+    "category": "boolean algebra",
+    "short": "Logic with NAND gates",
+    "long": "Design and simplify logical functions using only NAND gates.",
+    "template": "bool/function",
+    "args": {
+      "minterms": {
+        "type": "list",
+        "default": [
+          []
+        ]
+      },
+      "dontcare": {
+        "type": "list",
+        "default": [
+          []
+        ]
+      },
+      "var_names": {
+        "type": "list",
+        "default": []
+      },
+      "output_names": {
+        "type": "list",
+        "default": []
+      }
+    }
+  },
+  "nor_funct": {
+    "category": "boolean algebra",
+    "short": "Logic with NOR gates",
+    "long": "Design and simplify logical functions using only NOR gates.",
+    "template": "bool/function",
+    "args": {
+      "minterms": {
+        "type": "list",
+        "default": [
+          []
+        ]
+      },
+      "dontcare": {
+        "type": "list",
+        "default": [
+          []
+        ]
+      },
+      "var_names": {
+        "type": "list",
+        "default": []
+      },
+      "output_names": {
+        "type": "list",
+        "default": []
+      }
+    }
+  },
+  "multi_funct": {
+    "category": "boolean algebra",
+    "short": "Multi-output logic circuits",
+    "long": "Draw and analyze circuits that implement multiple functions simultaneously.",
+    "template": "bool/multi_funct",
+    "args": {
+      "minterms": {
+        "type": "list",
+        "default": [
+          []
+        ]
+      },
+      "dontcare": {
+        "type": "list",
+        "default": [
+          []
+        ]
+      },
+      "var_names": {
+        "type": "list",
+        "default": []
+      },
+      "output_names": {
+        "type": "list",
+        "default": []
+      },
+      "method": {
+        "type": "string",
+        "default": ""
+      }
+    }
+  },
+  "chronogram": {
+    "category": "sequential logic",
+    "short": "Sequential logic timing diagrams",
+    "long": "Interpret and draw chronograms (timing diagrams) for flip-flops (RS, D, JK).",
+    "template": "sequential/timing",
+    "args": {
+      "varlist": {
+        "type": "dict",
+        "default": {}
+      },
+      "flip_type": {
+        "type": "string",
+        "default": "D",
+        "choices": [
+          "D",
+          "T",
+          "JK",
+          "RS",
+          "RST"
+        ]
+      },
+      "length": {
+        "type": "integer",
+        "default": 10,
+        "range": [
+          1,
+          100
+        ]
+      },
+      "synch_type": {
+        "type": "string",
+        "default": "rising",
+        "choices": [
+          "rising",
+          "falling"
+        ]
+      },
+      "output": {
+        "type": "list",
+        "default": [
+          "Q"
+        ]
+      }
+    }
+  },
+  "flip": {
+    "category": "sequential logic",
+    "short": "Flip-flop operation",
+    "long": "Analyze the behavior of flip-flops (RS, D, JK, T) given inputs and clock signals.",
+    "template": "sequential/flip",
+    "args": {
+      "varlist": {
+        "type": "dict",
+        "default": {}
+      },
+      "flip_type": {
+        "type": "string",
+        "default": "D",
+        "choices": [
+          "D",
+          "T",
+          "JK",
+          "RS",
+          "RST"
+        ]
+      },
+      "length": {
+        "type": "integer",
+        "default": 10,
+        "range": [
+          1,
+          100
+        ]
+      },
+      "synch_type": {
+        "type": "string",
+        "default": "rising",
+        "choices": [
+          "rising",
+          "falling"
+        ]
+      },
+      "output": {
+        "type": "list",
+        "default": [
+          "Q"
+        ]
+      }
+    }
+  },
+  "counter": {
+    "category": "sequential logic",
+    "short": "Counter design and behavior",
+    "long": "Analyze synchronous and asynchronous up/down counters.",
+    "template": "sequential/counter",
+    "args": {
+      "varlist": {
+        "type": "dict",
+        "default": {}
+      },
+      "length": {
+        "type": "integer",
+        "default": 10,
+        "range": [
+          1,
+          100
+        ]
+      },
+      "synch_type": {
+        "type": "string",
+        "default": "rising",
+        "choices": [
+          "rising",
+          "falling"
+        ]
+      },
+      "output": {
+        "type": "list",
+        "default": [
+          "Q"
+        ]
+      },
+      "counter_type": {
+        "type": "string",
+        "default": "up",
+        "choices": [
+          "up",
+          "down"
+        ]
+      },
+      "counter_flips": {
+        "type": "list",
+        "default": [
+          "JK",
+          "JK"
+        ]
+      },
+      "counter_nbits": {
+        "type": "integer",
+        "default": 2,
+        "range": [
+          1,
+          16
+        ]
+      },
+      "counter_random": {
+        "type": "boolean",
+        "default": false
+      }
+    }
+  },
+  "register": {
+    "category": "sequential logic",
+    "short": "Register analysis",
+    "long": "Study shift registers and parallel registers with data movement and control operations.",
+    "template": "sequential/register",
+    "args": {
+      "varlist": {
+        "type": "dict",
+        "default": {}
+      },
+      "length": {
+        "type": "integer",
+        "default": 10,
+        "range": [
+          1,
+          100
+        ]
+      },
+      "synch_type": {
+        "type": "string",
+        "default": "rising",
+        "choices": [
+          "rising",
+          "falling"
+        ]
+      },
+      "output": {
+        "type": "list",
+        "default": [
+          "Q"
+        ]
+      },
+      "register_type": {
+        "type": "string",
+        "default": "shift-right",
+        "choices": [
+          "shift-right",
+          "shift-left",
+          "parallel"
+        ]
+      },
+      "register_flips": {
+        "type": "list",
+        "default": [
+          "D",
+          "D"
+        ]
+      },
+      "register_nbits": {
+        "type": "integer",
+        "default": 2,
+        "range": [
+          1,
+          16
+        ]
+      },
+      "register_random": {
+        "type": "boolean",
+        "default": false
+      }
+    }
+  },
+  "seq_misc": {
+    "category": "sequential logic",
+    "short": "Miscellaneous sequential circuits",
+    "long": "State machines, pulse generators, and hybrid sequential systems.",
+    "template": "sequential/misc",
+    "args": {
+      "varlist": {
+        "type": "dict",
+        "default": {}
+      },
+      "flip_type": {
+        "type": "string",
+        "default": "D",
+        "choices": [
+          "D",
+          "T",
+          "JK",
+          "RS",
+          "RST"
+        ]
+      },
+      "length": {
+        "type": "integer",
+        "default": 10,
+        "range": [
+          1,
+          100
+        ]
+      },
+      "synch_type": {
+        "type": "string",
+        "default": "rising",
+        "choices": [
+          "rising",
+          "falling"
+        ]
+      },
+      "output": {
+        "type": "list",
+        "default": [
+          "Q"
+        ]
+      }
+    }
+  }
+}
