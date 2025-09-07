@@ -44,6 +44,7 @@ async def get_quiz(request: Request):
     }
     response  = {"request": request,
                  "commands_dict": commands_dict,
+                 "commands_dict_json": json.dumps(commands_dict),
                  "categories_dict": categories_dict,
                  "category_commands_json": json.dumps(category_commands),
                  }

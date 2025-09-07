@@ -5,7 +5,83 @@
     <title>Quiz</title>
     <script>
         // This will be filled by Jinja as JSON
+const commandsInfo = {{ commands_dict_json | safe }};
         const categoryCommands = {{ category_commands_json | safe }};
+
+function updateArgsForm() {
+            const command = document.getElementById("selectcommand").value;
+            const argsDiv = document.getElementById("argsForm");
+            argsDiv.innerHTML = ""; // clear old fields
+
+            if (command === "random") return;
+
+            const cmdInfo = commandsInfo[command];
+            if (!cmdInfo || !cmdInfo.args) return;
+
+            for (const [argName, argMeta] of Object.entries(cmdInfo.args)) {
+                const label = document.createElement("label");
+                label.textContent = argName + ": ";
+                label.setAttribute("for", argName);
+
+                let input;
+                switch (argMeta.type) {
+                    case "string":
+                        input = document.createElement("input");
+                        input.type = "text";
+                        input.value = argMeta.default || "";
+                        break;
+                    case "integer":
+                        input = document.createElement("input");
+                        input.type = "number";
+                        input.value = argMeta.default || 0;
+                        if (argMeta.range) {
+                            input.min = argMeta.range[0];
+                            input.max = argMeta.range[1];
+                        }
+                        break;
+                    case "boolean":
+                        input = document.createElement("input");
+                        input.type = "checkbox";
+                        input.checked = argMeta.default || false;
+                        break;
+                    case "list":
+                        input = document.createElement("textarea");
+                        input.rows = 2;
+                        input.placeholder = JSON.stringify(argMeta.default || []);
+                        break;
+                    case "dict":
+                        input = document.createElement("textarea");
+                        input.rows = 3;
+                        input.placeholder = JSON.stringify(argMeta.default || {});
+                        break;
+                    default:
+                        input = document.createElement("input");
+                        input.type = "text";
+                        input.value = argMeta.default || "";
+                }
+
+                input.name = "args[" + argName + "]";
+
+                // Handle choices (drop-down)
+                if (argMeta.choices) {
+                    const select = document.createElement("select");
+                    select.name = "args[" + argName + "]";
+                    argMeta.choices.forEach(choice => {
+                        const opt = document.createElement("option");
+                        opt.value = choice;
+                        opt.text = choice;
+                        if (choice === argMeta.default) opt.selected = true;
+                        select.appendChild(opt);
+                    });
+                    input = select;
+                }
+
+                const div = document.createElement("div");
+                div.appendChild(label);
+                div.appendChild(input);
+                argsDiv.appendChild(div);
+            }
+        }
 
         function updateCommands() {
             const category = document.getElementById("selectcategory").value;
@@ -43,6 +119,7 @@
         // Initialize on load
         window.onload = function() {
             updateCommands();
+            document.getElementById("selectcommand").addEventListener("change", updateArgsForm);
         };
     </script>
 </head>
@@ -60,7 +137,7 @@
             <option value="random" selected>Random Question</option>
             <!-- will be updated dynamically -->
         </select>
-
+ <div id="argsForm"></div>
         <button type="submit">Submit</button>
     </form>
 </body>
