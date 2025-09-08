@@ -55,6 +55,13 @@ class ArgValidator:
                     value = int(value)
                 except TypeError:
                     raise TypeError(f"{arg_name} {value} must be an integer")
+
+            if expected_type == "float":
+                try:
+                    value = float(value)
+                except TypeError:
+                    raise TypeError(f"{arg_name} {value} must be a float")
+
             elif expected_type == "string":
                 value = str(value)
             elif expected_type == "boolean":
@@ -139,6 +146,12 @@ class myArgsValidator:
                     value = int(value)
                 except TypeError:
                     raise TypeError(f"{arg_name} {value} must be an integer")
+            if expected_type == "float":
+                try:
+                    value = float(value)
+                except TypeError:
+                    raise TypeError(f"{arg_name} {value} must be an float")
+
             elif expected_type == "string":
                 value = str(value)
             elif expected_type == "boolean":

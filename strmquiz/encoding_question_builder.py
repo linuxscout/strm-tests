@@ -77,7 +77,7 @@ class EncodingQuestionBuilder(Question_Builder):
                 "template": "encoding/float",
                 #"handler": self.command_vf,
                 "args": {
-                    "float": {"type": "integer", "default": 0},
+                    "float": {"type": "float", "default": 0},
                 },
             },
             "intervalle": {
