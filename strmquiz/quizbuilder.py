@@ -146,9 +146,15 @@ class QuizBuilder:
         self.validation_schema_loader = ArgSchemaLoader(self.get_commands_info())
         self.myvalidation_schema_loader = myArgsValidator(self.get_commands_info())
 
+        self.select_random_values = True
         # --- Load args from json file if given, or from api
         self.my_args_dict = self.load_args()
         # Schema validation
+    def set_select_random_values(self, rand):
+        self.select_random_values = bool(rand)
+        self.bool_qsbuilder.set_random(rand)
+        self.encode_qsbuilder.set_random(rand)
+        self.seq_qsbuilder.set_random(rand)
     def get_loaded_args(self):
         return self.my_args_dict
     def _load_templates_map(self):

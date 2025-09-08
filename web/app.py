@@ -13,7 +13,7 @@ class Submission(BaseModel):
     category: str
     command: str
     args: Dict[str, Any]
-    random: bool = True
+    select_random_values: bool = True
 
 from strmquiz.quizbuilder import QuizBuilder
 
@@ -72,7 +72,8 @@ async def submit(request:Request, data: Submission):
     # Normalize input (in case user manipulates HTML or sends uppercase)
     command = data.command
     category = data.category
-    randomize = data.random
+    # use random values for question or defaults
+    select_random_values = data.select_random_values
     args = data.model_dump().get("args",{})
     command = command.strip().lower()
     category = category.strip().lower()
@@ -108,7 +109,8 @@ async def submit(request:Request, data: Submission):
 
     # Get question and answer
     # args = {command:args}
-
+    # set random mode or disable it for quizbuiler
+    quiz_builder.set_select_random_values(select_random_values)
     new_args = quiz_builder.validate_command_args(command=command_to_run, args_src=args)
     question, answer = quiz_builder.get_question(command=command_to_run, args = new_args)
 

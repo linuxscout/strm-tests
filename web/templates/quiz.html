@@ -161,7 +161,7 @@ function updateArgsForm() {
 
       const category = document.getElementById("selectcategory").value;
       const command = document.getElementById("selectcommand").value;
-      const randomdata = document.getElementById("random").checked;
+      const select_random_values = document.getElementById("random").checked;
 
       // Collect args from the dynamically generated argsForm
         const args = {[command]:{}};
@@ -185,7 +185,7 @@ function updateArgsForm() {
       const payload = {
         category: category,
         command: command,
-        random:randomdata,
+        select_random_values:select_random_values,
         args: args
   };
 //            console.log("payload", payload);
