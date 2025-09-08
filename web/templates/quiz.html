@@ -141,6 +141,7 @@ function updateArgsForm() {
             <!-- will be updated dynamically -->
         </select>
  <div id="argsForm"></div>
+        <input name="random" id="random" type="checkbox"/> random data for question.<br/>
         <button type="submit">Submit</button>
     </form>
     {% if debug %}
@@ -160,6 +161,7 @@ function updateArgsForm() {
 
       const category = document.getElementById("selectcategory").value;
       const command = document.getElementById("selectcommand").value;
+      const randomdata = document.getElementById("random").checked;
 
       // Collect args from the dynamically generated argsForm
         const args = {[command]:{}};
@@ -183,6 +185,7 @@ function updateArgsForm() {
       const payload = {
         category: category,
         command: command,
+        random:randomdata,
         args: args
   };
 //            console.log("payload", payload);

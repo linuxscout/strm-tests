@@ -314,7 +314,7 @@ class QuizBuilder:
         # ~ for i in range(repeat): " ignore repeat"
         quiz_questions = []
         for cpt, name in enumerate(questions_names):
-            generated_question = self.get_question(name, args=args)
+            generated_question = self.get_question(name, args=args.get(name,{}))
         # ~ for cpt, value in enumerate(questions):
             if not isinstance(generated_question, (tuple, list)):
                 raise TypeError(f"Expected tuple/list for question '{name}', got {type(generated_question)}")
