@@ -46,10 +46,31 @@
   },
   "multi_funct": {
     "minterms": [[0, 1, 3], [2, 6, 7]],
-    "dontcare": [[4, 5]],
-    "var_names": ["X", "Y", "Z"],
+    "dontcare": [[],[]],
+    "var_names": ["X", "Y", "Z","D"],
     "output_names": ["F1", "F2"],
     "method": "sop"
+  },
+  "static_funct": {
+    "minterms": [[0, 1, 3], [2, 6, 7]],
+    "dontcare": [[],[]],
+    "var_names": ["X", "Y", "Z","D"],
+    "output_names": ["F1", "F2"],
+    "method": "sop"
+  },
+  "nand_funct": {
+    "minterms": [[0, 1, 3], [2, 6, 7]],
+    "dontcare": [[],[]],
+    "var_names": ["X", "Y", "Z","D"],
+    "output_names": ["F1", "F2"],
+    "method": "nand"
+  },
+  "nor_funct": {
+    "minterms": [[0, 1, 3], [2, 6, 7]],
+    "dontcare": [[],[]],
+    "var_names": ["X", "Y", "Z","D"],
+    "output_names": ["F1", "F2"],
+    "method": "nor"
   },
   "flip": {
     "varlist": {
@@ -63,8 +84,10 @@
   },
   "chronogram": {
     "varlist": {
-      "JK": [1, 0, 1, 1],
-      "CLK": [1, 0, 1, 0]
+      "J": 1,
+      "K": 1,
+      "Q": 0,
+      "Q'": 0
     },
     "flip_type": "JK",
     "length": 12,
@@ -76,8 +99,8 @@
     "method": "encode"
   },
   "ascii_text": {
-    "text": "WORLD",
-    "method": "decode"
+    "text": "WORLD Taha Zerrouki",
+    "method": "encode"
   },
   "unicode": {
     "text": "مرحبا",

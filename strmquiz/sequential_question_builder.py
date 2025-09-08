@@ -317,7 +317,7 @@ class SequentialQuestionBuilder(Question_Builder):
 
         out_signals_final = {k:v for k,v in tmp_signals.items() if k in output_vars}
 
-        tex_data_answer = chrono.draw(tmp_signals, clock)
+        # tex_data_answer = chrono.draw(tmp_signals, clock)
 
         data= {
         "varlist":start_signals,
@@ -333,7 +333,7 @@ class SequentialQuestionBuilder(Question_Builder):
         "clock":clock,
         "question_signals":init_signals,
         "answer_signals":tmp_signals,
-        "tex_data_answer":tex_data_answer,
+        "tex_data_answer":"",#tex_data_answer,
         }
         return data
 
@@ -464,7 +464,7 @@ class SequentialQuestionBuilder(Question_Builder):
         #TODO: fix in config file
         input_vars = [k for k in list(varlist.keys()) if not k.upper().startswith("Q")]
 
-        data = self._preprare_chrnonogram(input_vars=input_vars,start_signals=varlist, flip_type=flip_type, length=length, synch_type=synch_type, output_vars=output_vars)
+        data = self._preprare_chrnonogram(input_vars=input_vars, start_signals=varlist, flip_type=flip_type, length=length, synch_type=synch_type, output_vars=output_vars)
 
         context= {"data": data,
           }

@@ -90,6 +90,7 @@ class QuizBuilder:
         # --- Factories
         self.qsbuilder = question_builder_factory.factory( builder_name="",)
         self.encode_qsbuilder = question_builder_factory.factory(builder_name="encoding")
+        self.encode_qsbuilder.set_random(False)
         self.bool_qsbuilder = question_builder_factory.factory(builder_name="boolean")
         self.seq_qsbuilder = question_builder_factory.factory(builder_name="sequential")
 
@@ -220,13 +221,17 @@ class QuizBuilder:
         # params are stored in config file
         # TODO: get agrs from api or from json file
         args = self.myconfig.__dict__
+        if command:
+            return self.my_args_dict.get(command,{})
+        else:
+            return self.my_args_dict.copy()
 
         return args
 
     def get_question(self, command, args=None):
         """Generate a question based on command by delegating to the correct builder."""
         if args is None:
-            args = self.get_args(command =command)
+            args = self.get_args(command = command)
 
         # Determine the correct builder
         category = self.commands_info.get(command, {}).get("category", "")
@@ -258,7 +263,7 @@ class QuizBuilder:
         if rand:
             questions_names = random.sample(questions_names, nb)
         # generate question from  command
-        questions = [self.get_question(q, args=args) for q in questions_names]
+        # questions = [self.get_question(q, args=args) for q in questions_names]
         # ~ for i in range(repeat): " ignore repeat"
         quiz_questions = []
         for cpt, name in enumerate(questions_names):
