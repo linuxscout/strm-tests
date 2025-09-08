@@ -51,7 +51,10 @@ class ArgValidator:
             # 2. type check
             expected_type = spec.get("type")
             if expected_type == "integer":
-                value = int(value)
+                try:
+                    value = int(value)
+                except TypeError:
+                    raise TypeError(f"{arg_name} {value} must be an integer")
             elif expected_type == "string":
                 value = str(value)
             elif expected_type == "boolean":

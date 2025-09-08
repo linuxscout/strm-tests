@@ -21,9 +21,11 @@
 #  MA 02110-1301, USA.
 #  
 #
+import json
 import logging
 # --- Configure logging ---
 import os.path
+from typing import Any, Dict, Union
 
 logging.basicConfig(
     level=logging.DEBUG,  # change to INFO or WARNING in production
@@ -157,17 +159,28 @@ class QuizBuilder:
             categories[builder.CATEGORY] = builder.get_category_info()
         return categories
 
-    def load_args(self):
+    def load_args(self, args_src:Dict[str, Any]={})-> Dict[str, Any]:
         """load args from file or api"""
-        if self.args_file:
-            schema_loader = ArgSchemaLoader(self.get_commands_info())
-            # Pick one command (e.g. counter)
-            counter_schema = schema_loader.get_command_schema("counter")
-            validator = ArgValidator(counter_schema)
-            validated_args = validator.validate_args_file(self.args_file)
-            print("Loaded args", validated_args)
-            return validated_args
-        return {}
+        validated_args = {}
+        if not args_src and self.args_file:
+            args_src = self.args_file
+        elif isinstance(args_src, Dict):
+            args_src = args_src
+        else: # no args sources and no args_file
+            return {}
+        # load schema of commands and args
+        schema_loader = ArgSchemaLoader(self.get_commands_info())
+        args_loader = ArgSchemaLoader(args_src)
+        # Pick one command (e.g. counter)
+        for command in self.commands_info:
+            command_schema = schema_loader.get_command_schema(command)
+            args_values = args_loader.get_command_schema(command)
+            validator = ArgValidator(command_schema)
+            # store validated args in a dict
+            validated_args[command] = validator.validate_args(args_values)
+        logger.debug(f"Loaded args: {validated_args}")
+        return validated_args
+
 
     def get_template(self, name):
         temp = self.TEMPLATE_MAP.get(name, "default")

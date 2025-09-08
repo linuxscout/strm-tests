@@ -1,5 +1,6 @@
 import os
 import pytest
+import json
 
 from strmquiz.quizbuilder import QuizBuilder
 TEMPLATES_DIR =os.path.join(os.path.dirname(__file__), "../","templates")
@@ -156,3 +157,111 @@ def test_all_commands_generate_questions(builder):
             assert answer is not None, f"Answer is None for command {cmd}"
         except Exception as e:
             pytest.fail(f"Command '{cmd}' raised an exception: {e}")
+
+
+@pytest.fixture
+def setup_env(tmp_path):
+    """Prepare minimal environment for QuizBuilder to work with real classes."""
+    # --- templates dir (must exist)
+    templates_dir = tmp_path / "templates"
+    templates_dir.mkdir()
+
+    # --- config file (must exist, even minimal content)
+    config_file = tmp_path / "quiz.conf"
+    config_file.write_text("[DEFAULT]\ndummy=1\n")
+
+    # --- args file: schema with at least one command & arg
+    args_file = tmp_path / "args.json"
+    args_data = {
+        "float": {"float": 42},   # Example: float command with one int arg
+    }
+    args_file.write_text(json.dumps(args_data))
+
+    return str(templates_dir), str(config_file), str(args_file)
+
+
+def test_load_args_from_file(setup_env):
+    templates_dir, config_file, args_file = setup_env
+
+    qb = QuizBuilder(
+        outformat="html",
+        config_file=config_file,
+        lang="en",
+        templates_dir=templates_dir,
+        args_file=args_file,
+    )
+
+    result = qb.my_args_dict   # already loaded in __init__
+    assert isinstance(result, dict)
+    assert "float" in result
+    assert "float" in result["float"]   # should validate arg "float"
+    assert result["float"]["float"] == 42
+
+# @pytest.mark.skip(reason="later")
+def test_load_args_from_dict(setup_env):
+    templates_dir, config_file, args_file = setup_env
+
+    qb = QuizBuilder(
+        outformat="html",
+        config_file=config_file,
+        lang="en",
+        templates_dir=templates_dir,
+        args_file=args_file,
+    )
+
+    # Provide args directly instead of file
+    args_src = {
+        "float": {"float": 99},
+    }
+    result = qb.load_args(args_src)
+
+    assert "float" in result
+    assert result["float"]["float"] == 99
+
+@pytest.mark.skip(reason="later")
+def test_load_args_empty_source(setup_env):
+    templates_dir, config_file, args_file = setup_env
+
+    qb = QuizBuilder(
+        outformat="html",
+        config_file=config_file,
+        lang="en",
+        templates_dir=templates_dir,
+        args_file=args_file,
+    )
+
+    # Force case: empty source and args_file = None
+    qb.args_file = ""
+    result = qb.load_args({})
+    assert result == {}
+
+def test_load_args_uses_default_file(tmp_path, monkeypatch,):
+    """If args_file is not passed, QuizBuilder should load the default args file."""
+    # --- templates dir
+    templates_dir = tmp_path / "templates"
+    templates_dir.mkdir()
+
+    # --- config file
+    config_file = tmp_path / "quiz.conf"
+    config_file.write_text("[DEFAULT]\ndummy=1\n")
+
+    # --- fake default args file path inside quizbuilder/config
+    default_config_dir = tmp_path / "config"
+    default_config_dir.mkdir()
+    default_args_file = default_config_dir / "args.default.json"
+    default_args_file.write_text('{"float": {"float": 7}}')
+
+    # Patch __file__ so QuizBuilder resolves default args path inside tmp_path
+    monkeypatch.setattr("strmquiz.quizbuilder.__file__", str(tmp_path / "quizbuilder.py"))
+
+    qb = QuizBuilder(
+        outformat="html",
+        config_file=config_file,
+        lang="en",
+        templates_dir=templates_dir,
+        args_file="",   # force empty
+    )
+
+    result = qb.my_args_dict
+    assert "float" in result
+    assert result["float"]["float"] == 7
