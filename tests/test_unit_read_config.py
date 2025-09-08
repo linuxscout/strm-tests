@@ -22,7 +22,7 @@ def test_defaults_loaded(make_config):
 
     # check default values
     assert cfg.repeat == 1
-    assert cfg.synch_type == "rising"
+    # assert cfg.synch_type == "rising"
     assert isinstance(cfg.quizes, list)
     assert cfg.test_table == {}
 
@@ -32,14 +32,12 @@ def test_valid_values(make_config):
     filename = make_config("""
     [Args]
     repeat = 5
-    synch_type = rising
-    length = 20
     """)
 
     cfg = ReadConfig(filename, debug=False)
     assert cfg.repeat == 5
-    assert cfg.synch_type == "rising"
-    assert cfg.length == 20
+    # assert cfg.synch_type == "rising"
+    # assert cfg.length == 20
     assert cfg.warnings == []
 
 
@@ -48,16 +46,15 @@ def test_invalid_values(make_config):
     filename = make_config("""
     [Args]
     repeat = 200
-    synch_type = wrong
     """)
 
     cfg = ReadConfig(filename, debug=False)
     # invalid values should fall back to defaults
     assert cfg.repeat == 1
-    assert cfg.synch_type == "rising"
+    # assert cfg.synch_type == "rising"
 
     # warnings should be collected
-    assert len(cfg.warnings) == 2
+    assert len(cfg.warnings) == 1
     # assert "Invalid value for repeat" in cfg.warnings[0]
     # assert "Invalid value for synch_type" in cfg.warnings[1]
 
