@@ -128,7 +128,7 @@ pytest -v
 * **Via GUI:**
 
 ```bash
-python3 strm_tests_webviewer.py
+uvicorn app:app --reload
 ```
 
 * **Via Makefile:**
@@ -164,7 +164,7 @@ logger.debug("Debug info")
 ### 🚀 Run the server
 
 ```bash
-uvicorn main:app --reload
+uvicorn app:app --reload
 ```
 
 Now you have:
