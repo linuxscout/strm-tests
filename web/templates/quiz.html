@@ -7,8 +7,9 @@
     <title>Quiz</title>
     <script>
         // This will be filled by Jinja as JSON
-const commandsInfo = {{ commands_dict_json | safe }};
+        const commandsInfo = {{ commands_dict_json | safe }};
         const categoryCommands = {{ category_commands_json | safe }};
+
 
 function updateArgsForm() {
             const command = document.getElementById("selectcommand").value;
@@ -143,7 +144,12 @@ function updateArgsForm() {
         <select id="selectformat" name="outformat">
             <option value="html"selected>HTML</option>
             <option value="tex">Tex</option>
-<!--            <option value="markdown"selected>Markdown (not yet)</option>-->
+        </select>
+        <select id="selectquiz" name="quiz_id">
+            <option value="random"selected>Random</option>
+            {% for  qi in quiz_id_list %}
+            <option value="{{qi}}"selected>Test{{qi}}</option>
+            {% endfor %}
             <!-- will be updated dynamically -->
         </select>
  <div id="argsForm"></div>
@@ -168,6 +174,7 @@ function updateArgsForm() {
       const category = document.getElementById("selectcategory").value;
       const command = document.getElementById("selectcommand").value;
       const outformat = document.getElementById("selectformat").value;
+      const quizid = document.getElementById("selectquiz").value;
       const select_random_values = document.getElementById("random").checked;
 
       // Collect args from the dynamically generated argsForm
@@ -194,6 +201,7 @@ function updateArgsForm() {
         command: command,
         select_random_values:select_random_values,
         outformat:outformat,
+        quizid:quizid,
         args: args
   };
 //            console.log("payload", payload);

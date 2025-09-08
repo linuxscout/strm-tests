@@ -15,6 +15,7 @@ class Submission(BaseModel):
     args: Dict[str, Any]
     select_random_values: bool = True
     outformat: str = "html"
+    quizid: int = 1
 
 from strmquiz.quizbuilder import QuizBuilder
 
@@ -52,8 +53,9 @@ async def home(request: Request):
 @app.get("/quiz", response_class=HTMLResponse)
 async def get_quiz(request: Request):
     """Generate and display a new quiz."""
-    commands_dict = quiz_builder.get_commands_info()  # assumes generate() returns dict with questions
-    categories_dict = quiz_builder.get_categories()  # assumes generate() returns dict with questions
+    commands_dict = quiz_builder.get_commands_info()
+    categories_dict = quiz_builder.get_categories()
+    quiz_id_list = quiz_builder.get_quiz_id_list()
     category_commands = {
         cat: cats["commands"] for cat, cats in categories_dict.items()
     }
@@ -62,6 +64,7 @@ async def get_quiz(request: Request):
                  "commands_dict_json": json.dumps(commands_dict),
                  "categories_dict": categories_dict,
                  "category_commands_json": json.dumps(category_commands),
+                 "quiz_id_list": quiz_id_list
                  }
     return templates.TemplateResponse(request,"quiz.html", response)
 

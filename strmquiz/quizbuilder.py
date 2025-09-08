@@ -150,6 +150,15 @@ class QuizBuilder:
         # --- Load args from json file if given, or from api
         self.my_args_dict = self.load_args()
         # Schema validation
+    def get_quiz_commands(self, quiz_id):
+        if quiz_id:
+            return self.quiz_commands.get(quiz_id, {})
+        else:
+            return  self.quiz_commands
+
+    def get_quiz_id_list(self):
+        return list(self.quiz_commands.keys())
+
     def set_select_random_values(self, rand):
         self.select_random_values = bool(rand)
         self.bool_qsbuilder.set_random(rand)
