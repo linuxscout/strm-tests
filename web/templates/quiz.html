@@ -23,7 +23,8 @@ function updateArgsForm() {
 
             for (const [argName, argMeta] of Object.entries(cmdInfo.args)) {
                 const label = document.createElement("label");
-                label.textContent = argName + ": ";
+//                label.textContent = argName + ": ";
+                label.textContent = argMeta.label + ": ";
                 label.setAttribute("for", argName);
 
                 let input;

@@ -77,7 +77,7 @@ class EncodingQuestionBuilder(Question_Builder):
                 "template": "encoding/float",
                 #"handler": self.command_vf,
                 "args": {
-                    "float": {"type": "float", "default": 0},
+                    "float": {"type": "float", "default": 0, "label":"Float number"},
                 },
             },
             "intervalle": {
@@ -87,7 +87,7 @@ class EncodingQuestionBuilder(Question_Builder):
                 "template": "encoding/interval",
                 #"handler": self.command_intervalle,
                 "args": {
-                    "nbits": {"type": "integer", "default": 8, "range": [1, 64]},
+                    "nbits": {"type": "integer", "default": 8, "range": [1, 64], "label":"Bits number"},
                 },
             },
             "complement": {
@@ -97,7 +97,7 @@ class EncodingQuestionBuilder(Question_Builder):
                 "template": "encoding/cp",
                 #"handler": self.command_complement,
                 "args": {
-                    "number": {"type": "integer", "default": 0},
+                    "number": {"type": "integer", "default": 0, "label":"Number (decimal)"},
                 },
             },
             "base": {
@@ -107,9 +107,9 @@ class EncodingQuestionBuilder(Question_Builder):
                 "template": "base",
                 #"handler": self.command_base,
                 "args": {
-                    "number": {"type": "integer", "default": 0},
-                    "in_base": {"type": "integer", "default": 10},
-                    "out_base": {"type": "integer", "default": 10},
+                    "number": {"type": "integer", "default": 0, "label":"Number (decimal)"},
+                    "in_base": {"type": "integer", "default": 10, "label":"From base"},
+                    "out_base": {"type": "integer", "default": 10, "label":"To base"},
                 },
             },
             "arithm": {
@@ -119,14 +119,15 @@ class EncodingQuestionBuilder(Question_Builder):
                 "template": "arithm",
                 #"handler": self.command_arithm,
                 "args": {
-                    "number_a": {"type": "integer", "default": 0},
-                    "number_b": {"type": "integer", "default": 0},
+                    "number_a": {"type": "integer", "default": 0,  "label":"Number A (decimal)"},
+                    "number_b": {"type": "integer", "default": 0 , "label":"Number B (decimal)"},
                     "operation": {
                         "type": "string",
                         "default": "+",
                         "choices": ["+", "-", "*", "/"],
+                        "label": "Operation"
                     },
-                    "base": {"type": "integer", "default": 10},
+                    "base": {"type": "integer", "default": 10 , "label":"Base"},
                 },
             },
             "mesure": {
@@ -144,8 +145,8 @@ class EncodingQuestionBuilder(Question_Builder):
                 "template": "encoding/charcode",
                 #"handler": self.command_ascii,
                 "args": {
-                    "text": {"type": "string", "default": ""},
-                    "method": {"type": "string", "default": "both", "choices": ["both", "encode","decode"]},
+                    "text": {"type": "string", "default": "", "label":"Text"},
+                    "method": {"type": "string", "default": "both", "choices": ["both", "encode","decode"],  "label":"Method"},
                 },
             },
             "ascii_text": {
@@ -155,8 +156,8 @@ class EncodingQuestionBuilder(Question_Builder):
                 "template": "encoding/charcode",
                 #"handler": self.command_ascii_text,
                 "args": {
-                    "text": {"type": "string", "default": ""},
-                    "method": {"type": "string", "default": "both", "choices": ["both", "encode","decode"]},
+                    "text": {"type": "string", "default": "",  "label":"Text"},
+                    "method": {"type": "string", "default": "both", "choices": ["both", "encode","decode"],  "label":"Method"},
                 },
             },
             "unicode": {
@@ -166,8 +167,8 @@ class EncodingQuestionBuilder(Question_Builder):
                 "template": "encoding/charcode",
                 #"handler": self.command_unicode,
                 "args": {
-                    "text": {"type": "string", "default": ""},
-                    "method": {"type": "string", "default": "both", "choices": ["both", "encode","decode"]},
+                    "text": {"type": "string", "default": "",  "label":"Text"},
+                    "method": {"type": "string", "default": "both", "choices": ["both", "encode","decode"],  "label":"Method"},
                 },
             },
             "bcdx3": {
@@ -177,9 +178,9 @@ class EncodingQuestionBuilder(Question_Builder):
                 "template": "encoding/bcdx3",
                 #"handler": self.command_bcdx3,
                 "args": {
-                    "number_a": {"type": "integer", "default": 0},
-                    "number_b": {"type": "integer", "default": 0},
-                    "scheme": {"type": "string", "default": "both", "choices": ["both", "bcd","x3"]},
+                    "number_a": {"type": "integer", "default": 0,   "label":"Number A (decimal)"},
+                    "number_b": {"type": "integer", "default": 0,   "label":"Number B (decimal)"},
+                    "scheme": {"type": "string", "default": "both", "choices": ["both", "bcd","x3"],  "label":"Scheme"},
                 },
             },
             "gray": {
@@ -189,8 +190,8 @@ class EncodingQuestionBuilder(Question_Builder):
                 "template": "encoding/gray",
                 #"handler": self.command_gray,
                 "args": {
-                    "gray_number": {"type": "integer", "default": 0},
-                    "gray_sequence": {"type": "integer", "default": 2},
+                    "gray_number": {"type": "integer", "default": 0,  "label":"Gray number (decimal)"},
+                    "gray_sequence": {"type": "integer", "default": 2, "label":"Gray sequence length"},
                 },
             },
         }
