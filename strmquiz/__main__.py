@@ -34,6 +34,11 @@ def parse_arguments():
         metavar="CONFIGFILE"
     )
     parser.add_argument(
+        "-g", "--argsfile",
+        help="Input arguments file",
+        metavar="ARGS_FILE"
+    )
+    parser.add_argument(
         "-o", "--outfile",
         required=True,
         help="Output file path",
@@ -106,6 +111,7 @@ def main():
         config_file=args.configfile,
         lang = args.language,
         templates_dir=args.templates_dir,
+        args_file=args.argsfile,
 
     )
 

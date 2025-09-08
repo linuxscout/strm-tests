@@ -1,0 +1,119 @@
+{
+  "float": {
+    "float": 10.07
+  },
+  "intervalle": {
+    "nbits": 32
+  },
+  "base": {
+    "number": 1024,
+    "in_base": 10,
+    "out_base": 16
+  },
+  "counter": {
+    "length": 50,
+    "synch_type": "falling",
+    "counter_type": "up",
+    "counter_nbits": 8,
+    "counter_random": true
+  },
+  "register": {
+    "length": 12,
+    "synch_type": "rising",
+    "register_type": "shift-left",
+    "register_flips": ["D", "D", "D", "D"],
+    "register_nbits": 4,
+    "register_random": false,
+    "varlist": {
+      "D0": 1,
+      "D1": 0,
+      "CLK": 1
+    }
+  },
+  "exp": {
+    "minterms": [[1, 2, 3]],
+    "sop_question": "(A + B)(C + D)"
+  },
+  "map": {
+    "minterms": [[0, 1, 2, 3]],
+    "dontcare": [[4, 5]],
+    "var_names": ["A", "B", "C"],
+    "output_names": ["F"]
+  },
+  "map-sop": {
+    "functions_number": 3,
+    "minterms": [[0, 1], [2, 3], [4, 5]]
+  },
+  "multi_funct": {
+    "minterms": [[0, 1, 3], [2, 6, 7]],
+    "dontcare": [[],[]],
+    "var_names": ["X", "Y", "Z","D"],
+    "output_names": ["F1", "F2"],
+    "method": "sop"
+  },
+  "static_funct": {
+    "minterms": [[0, 1, 3], [2, 6, 7]],
+    "dontcare": [[],[]],
+    "var_names": ["X", "Y", "Z","D"],
+    "output_names": ["F1", "F2"],
+    "method": "sop"
+  },
+  "nand_funct": {
+    "minterms": [[0, 1, 3], [2, 6, 7]],
+    "dontcare": [[],[]],
+    "var_names": ["X", "Y", "Z","D"],
+    "output_names": ["F1", "F2"],
+    "method": "nand"
+  },
+  "nor_funct": {
+    "minterms": [[0, 1, 3], [2, 6, 7]],
+    "dontcare": [[],[]],
+    "var_names": ["X", "Y", "Z","D"],
+    "output_names": ["F1", "F2"],
+    "method": "nor"
+  },
+  "flip": {
+    "varlist": {
+      "D": [1, 0, 1, 0],
+      "CLK": [1, 0, 1, 0]
+    },
+    "flip_type": "D",
+    "length": 8,
+    "synch_type": "rising",
+    "output": ["Q", "Q'"]
+  },
+  "chronogram": {
+    "varlist": {
+      "J": 1,
+      "K": 1,
+      "Q": 0,
+      "Q'": 0
+    },
+    "flip_type": "JK",
+    "length": 12,
+    "synch_type": "falling",
+    "output": ["Q"]
+  },
+  "ascii": {
+    "text": "Hello",
+    "method": "encode"
+  },
+  "ascii_text": {
+    "text": "WORLD Taha Zerrouki",
+    "method": "encode"
+  },
+  "unicode": {
+    "text": "مرحبا",
+    "method": "both"
+  },
+  "bcdx3": {
+    "number_a": 123,
+    "number_b": 456,
+    "scheme": "bcd"
+  },
+  "gray": {
+    "gray_number": 7,
+    "gray_sequence": 5
+  },
+  "mesure": {}
+}
