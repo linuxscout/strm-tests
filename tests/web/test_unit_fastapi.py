@@ -2,7 +2,7 @@ import os
 import sys
 import pytest
 from fastapi.testclient import TestClient
-from web.app import app, quiz_builder
+from web.app import app, quiz_builder, Submission
 
 @pytest.fixture
 def client():
@@ -28,7 +28,8 @@ def test_get_quiz(client):
 def test_submit_quiz(client):
     # Mocking the quiz_builder methods for testing
     # You may need to use a mocking library like unittest.mock to mock the behavior of QuizBuilder
-    response = client.post("/submit", data={"command": "random", "category": "random"})
+
+    response = client.post("/submit", json={"command": "random", "category": "random", 'args': {}})
     assert response.status_code == 200
     assert "result.html" in response.text  # Check if the result template is rendered
 
@@ -65,7 +66,8 @@ def test_get_random_commands(client):
 # @pytest.mark.skip(reason="To be implemented later")
 def test_submit_valid_random_command(client):
     """Test submitting with random command and random category."""
-    response = client.post("/submit", data={"command": "random", "category": "random"})
+
+    response = client.post("/submit", json={"command": "random", "category": "random", 'args': {}})
     assert response.status_code == 200
     assert "question" in response.text
     assert "answer" in response.text
@@ -74,7 +76,8 @@ def test_submit_valid_random_command(client):
 # @pytest.mark.skip(reason="To be implemented later")
 def test_submit_valid_specific_command(client):
     """Test submitting a valid specific command."""
-    response = client.post("/submit", data={"command": "float", "category": "encoding"})
+    args = {"float":{"float":'15'}}
+    response = client.post("/submit", json={"command": "float", "category": "encoding", "args":args})
     assert response.status_code == 200
     assert "question" in response.text
     assert "answer" in response.text
@@ -83,7 +86,7 @@ def test_submit_valid_specific_command(client):
 # @pytest.mark.skip(reason="To be implemented later")
 def test_submit_invalid_category(client):
     """Test submitting with an invalid category."""
-    response = client.post("/submit", data={"command": "float", "category": "not_a_category"})
+    response = client.post("/submit", json={"command": "float", "category": "not_a_category", "args":{}})
     assert response.status_code == 400
     assert "Invalid category" in response.json()["detail"]
 
@@ -91,7 +94,7 @@ def test_submit_invalid_category(client):
 # @pytest.mark.skip(reason="To be implemented later")
 def test_submit_invalid_command(client):
     """Test submitting with an invalid command."""
-    response = client.post("/submit", data={"command": "not_a_command", "category": "encoding"})
+    response = client.post("/submit", json={"command": "not_a_command", "category": "encoding", "args":{}})
     assert response.status_code == 400
     assert "Invalid command" in response.json()["detail"]
 
@@ -100,13 +103,13 @@ def test_submit_invalid_command(client):
 def test_submit_command_not_in_category(client):
     """Test submitting a valid command but wrong category."""
     # Example: "float" belongs to "encoding", not "boolean algebra"
-    response = client.post("/submit", data={"command": "float", "category": "boolean algebra"})
+    response = client.post("/submit", json={"command": "float", "category": "boolean algebra", "args":{}})
     assert response.status_code == 400
     assert "does not belong to category" in response.json()["detail"]
 
 
 # @pytest.mark.skip(reason="Manual run: test all commands through FastAPI /submit endpoint")
-def test_all_commands_via_api(client: TestClient, builder):
+def test_all_commands_via_api_simple(client: TestClient, builder):
     """
     Iterate over all commands in quiz_builder and ensure
     that POST /submit runs without errors for each.
@@ -117,15 +120,15 @@ def test_all_commands_via_api(client: TestClient, builder):
     for cmd in commands:
         response = client.post(
             "/submit",
-            data={"command": cmd, "category": ""},  # category left blank
+            json={"command": cmd, "category": "","args":{}},  # category left blank
         )
         assert response.status_code == 200, f"/submit failed for command '{cmd}', status code {response.status_code} details:{response.text}"
         assert "question" in response.text.lower(), f"No question rendered for command '{cmd}', status code {response.status_code} details:{response.text}"
         assert "answer" in response.text.lower(), f"No answer rendered for command '{cmd}', status code {response.status_code} details:{response.text}"
 
 
-
-def test_all_commands_via_api2(client: TestClient, builder):
+# @pytest.mark.skip(reason="Manual run: test all category-command pairs through FastAPI /submit endpoint")
+def test_all_commands_via_api(client: TestClient, builder):
     """
     Iterate over all commands in quiz_builder and ensure
     that POST /submit runs without errors for each.
@@ -133,13 +136,13 @@ def test_all_commands_via_api2(client: TestClient, builder):
     """
     commands = builder.get_commands_list()
     assert commands, "No commands available in quiz_builder."
-
+    default_args = builder.get_loaded_args()
     failed = []  # collect failures here
 
     for cmd in commands:
         response = client.post(
             "/submit",
-            data={"command": cmd, "category": ""},  # category left blank
+            json={"command": cmd, "category": "","args":default_args},  # category left blank
         )
 
         # Check status
@@ -179,7 +182,7 @@ def test_all_category_command_pairs_via_api(client: TestClient, builder):
         for cmd in commands:
             response = client.post(
                 "/submit",
-                data={"command": cmd, "category": cat},
+                json={"command": cmd, "category": cat,"args":{}},
             )
             if response.status_code != 200:
                 try:

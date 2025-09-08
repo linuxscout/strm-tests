@@ -127,7 +127,8 @@ function updateArgsForm() {
 </head>
 <body>
     <h2>Select Command to generate a Quiz</h2>
-    <form method="post" action="/submit">
+<!--    <form method="post" action="/submit">-->
+    <form id="quizForm">
         <select id="selectcategory" name="category" onchange="updateCommands()">
             <option value="random" selected> Random Category</option>
             {% for cat_key, cat_value in categories_dict.items() %}
@@ -146,6 +147,68 @@ function updateArgsForm() {
     <h1> commands json </h1>
     <pre>{{ commands_dict_json }};</pre>
     {%endif%}
+
+<div id="resultDiv" style="margin-top: 20px; border: 1px solid #ccc; padding: 10px;">
+    <pre id="resultPre">Result will appear here...</pre>
+</div>
 </body>
+    <script>
+        /* submit function */
+        document.addEventListener("DOMContentLoaded", function () {
+        const form= document.getElementById("quizForm").addEventListener("submit", async function (e) {
+      e.preventDefault(); // prevent normal form submission
+
+      const category = document.getElementById("selectcategory").value;
+      const command = document.getElementById("selectcommand").value;
+
+      // Collect args from the dynamically generated argsForm
+        const args = {[command]:{}};
+        const inputs = document.querySelectorAll("#argsForm input, #argsForm select, #argsForm textarea");
+        inputs.forEach(el => {
+          if (!el.name || !el.name.startsWith("args[")) return;
+            // clean key
+            let key = el.name;
+            key = key.slice(5, -1); // strip args[...] wrapper
+            let value = ""
+          if (el.type === "checkbox") {
+             value = el.checked;
+          } else if (el.type === "radio") {
+            if (el.checked)
+               value= el.value;
+          } else {
+            value = el.value;
+          }
+            args[command][key] = value;
+        });
+      const payload = {
+        category: category,
+        command: command,
+        args: args
+  };
+//            console.log("payload", payload);
+
+
+
+
+      const response = await fetch("/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+
+        const result = await response.text();
+        document.getElementById("resultDiv").innerHTML = result;
+        console.log("Server response:", result);
+//const result = await response.json();
+//console.log("Server response:", result);
+//      // (optional) display the result in the page
+//
+//      alert(JSON.stringify(result, null, 2));
+    });
+    });
+    </script>
 </html>
 

@@ -1,11 +1,18 @@
+import logging
 import os.path
 import json
-from fastapi import FastAPI, Request, Form, Query
+from fastapi import FastAPI, Request, Query
+from fastapi import HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from typing import Optional
+from typing import Optional, Dict, Any
 
+from pydantic import BaseModel
+class Submission(BaseModel):
+    category: str
+    command: str
+    args: Dict[str, Any]
 
 from strmquiz.quizbuilder import QuizBuilder
 
@@ -57,19 +64,14 @@ async def get_quiz(request: Request):
     return templates.TemplateResponse(request,"quiz.html", response)
 
 
-from fastapi import HTTPException, Form
-from fastapi.responses import HTMLResponse
-from fastapi.requests import Request
-
 @app.post("/submit", response_class=HTMLResponse)
-async def submit_quiz(
-    request: Request,
-    command: str = Form(...),
-    category: str = Form(...)
-):
+async def submit(request:Request, data: Submission):
     """Process submitted answers with validation."""
 
     # Normalize input (in case user manipulates HTML or sends uppercase)
+    command = data.command
+    category = data.category
+    args = data.model_dump().get("args",{})
     command = command.strip().lower()
     category = category.strip().lower()
 
@@ -103,7 +105,10 @@ async def submit_quiz(
         command_to_run = command
 
     # Get question and answer
-    question, answer = quiz_builder.get_question(command=command_to_run)
+    # args = {command:args}
+
+    new_args = quiz_builder.validate_command_args(command=command_to_run, args_src=args)
+    question, answer = quiz_builder.get_question(command=command_to_run, args = new_args)
 
     response = {
         "request": request,
@@ -111,6 +116,7 @@ async def submit_quiz(
         "category": category,
         "question": question,
         "answer": answer,
+        "args":new_args,
     }
     return templates.TemplateResponse(request,"result.html", response)
 

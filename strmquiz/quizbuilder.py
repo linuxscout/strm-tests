@@ -38,7 +38,7 @@ from deprecated import deprecated
 from . import read_config
 from .display import quiz_format_factory
 from .question_builder_factory import question_builder_factory
-from .argschemaloader import ArgValidator, ArgSchemaLoader
+from .argschemaloader import ArgValidator, ArgSchemaLoader, myArgsValidator
 from typing import TypedDict, Optional, Any
 
 class CommandInfo(TypedDict):
@@ -101,6 +101,8 @@ class QuizBuilder:
 
 
 
+
+
         self.quiz_commands = {}
         self.quiz_commands[1] = [["base", "base", "arithm"],
         ["mesure", "base", "arithm"],
@@ -140,8 +142,15 @@ class QuizBuilder:
         self.commands = list(self.commands_info.keys())
         self.categories_info = self._load_categories_info()
         self.TEMPLATE_MAP = self._load_templates_map()
+
+        self.validation_schema_loader = ArgSchemaLoader(self.get_commands_info())
+        self.myvalidation_schema_loader = myArgsValidator(self.get_commands_info())
+
         # --- Load args from json file if given, or from api
         self.my_args_dict = self.load_args()
+        # Schema validation
+    def get_loaded_args(self):
+        return self.my_args_dict
     def _load_templates_map(self):
         templates = {}
         for builder in [self.encode_qsbuilder, self.bool_qsbuilder, self.seq_qsbuilder]:
@@ -163,6 +172,7 @@ class QuizBuilder:
     def load_args(self, args_src:Dict[str, Any]={})-> Dict[str, Any]:
         """load args from file or api"""
         validated_args = {}
+        # if no agrs given load defaul args from file
         if not args_src and self.args_file:
             args_src = self.args_file
         elif isinstance(args_src, Dict):
@@ -170,11 +180,10 @@ class QuizBuilder:
         else: # no args sources and no args_file
             return {}
         # load schema of commands and args
-        schema_loader = ArgSchemaLoader(self.get_commands_info())
         args_loader = ArgSchemaLoader(args_src)
         # Pick one command (e.g. counter)
         for command in self.commands_info:
-            command_schema = schema_loader.get_command_schema(command)
+            command_schema = self.validation_schema_loader.get_command_schema(command)
             args_values = args_loader.get_command_schema(command)
             validator = ArgValidator(command_schema)
             # store validated args in a dict
@@ -182,6 +191,44 @@ class QuizBuilder:
         logger.debug(f"Loaded args: {validated_args}")
         return validated_args
 
+    def validate_command_argsXX(self, command="", args_src:Dict[str, Any]={})-> Dict[str, Any]:
+        """load args from file or api"""
+        if not args_src and self.args_file:
+            args_src = self.args_file
+        elif isinstance(args_src, Dict):
+            args_src = args_src
+        else: # no args sources and no args_file
+            return {}
+        args_dict = {command: args_src}
+        # load schema of commands and args
+        # schema_loader = ArgSchemaLoader(self.get_commands_info())
+
+        schema_loader = self.validation_schema_loader
+
+        args_loader = ArgSchemaLoader(args_dict)
+        # Pick one command (e.g. counter)
+        command_schema = schema_loader.get_command_schema(command)
+        args_values = args_loader.get_command_schema(command)
+        validator = ArgValidator(command_schema)
+        # store validated args in a dict
+        validated_args = validator.validate_args(args_values)
+        return validated_args
+
+    def validate_command_args(self, command="", args_src:Dict[str, Any]={})-> Dict[str, Any]:
+        """
+        if provided data contains mutiple commands and is a dict of dict.
+        """
+        """load args from file or api"""
+        # if not args, load default args from file
+        if isinstance(args_src, Dict):
+            args_dict = args_src.get(command, {})
+        else: # no args sources and no args_file
+            return {}
+
+        schema_loader = self.myvalidation_schema_loader
+        logger.debug(f"dict_args:{args_dict}")
+        validated_args = schema_loader.validate_args(args_dict, command=command)
+        return validated_args
 
     def get_template(self, name):
         temp = self.TEMPLATE_MAP.get(name, "default")
@@ -366,10 +413,7 @@ class QuizBuilder:
         Return a list of n random commands (name, info).
         If category is given, pick only from that category.
         """
-        if category:
-            cmds = self.get_commands_by_category(category)
-        else:
-            cmds = list(self.commands_info.keys())
+        cmds = self.get_commands_list(category=category)
 
         if not cmds:
             raise ValueError(f"No commands found for category '{category}'")
