@@ -14,6 +14,7 @@ class Submission(BaseModel):
     command: str
     args: Dict[str, Any]
     select_random_values: bool = True
+    outformat: str = "html"
 
 from strmquiz.quizbuilder import QuizBuilder
 
