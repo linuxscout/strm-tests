@@ -3,6 +3,23 @@
 {% set debug= True %}
 <html>
 <head>
+    <style>
+.loader {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
 <link rel="icon" href="{{ url_for('static', path='favicon.ico') }}">
     <title>Quiz</title>
     <script>
@@ -125,6 +142,23 @@ function updateArgsForm() {
             updateCommands();
             document.getElementById("selectcommand").addEventListener("change", updateArgsForm);
         };
+function resetForm() {
+    // reset selects
+    document.getElementById("selectcategory").value = "random";
+    document.getElementById("selectformat").value = "html";
+    document.getElementById("selectquiz").value = "random";
+    document.getElementById("random").checked = false;
+
+    // re-update commands dropdown + args
+    updateCommands();
+    document.getElementById("selectcommand").value = "random";
+    updateArgsForm();
+
+    // clear result div
+    document.getElementById("resultDiv").innerHTML =
+        '<pre id="resultPre">Result will appear here...</pre>';
+}
+
     </script>
 </head>
 <body>
@@ -156,12 +190,17 @@ function updateArgsForm() {
  <div id="argsForm"></div>
         <input name="random" id="random" type="checkbox"/> random data for question.<br/>
         <button type="submit">Submit</button>
+        <button type="button" onclick="resetForm()">Reset</button>
     </form>
     {% if debug %}
     <h1> commands json </h1>
     <pre>{{ commands_dict_json }};</pre>
     {%endif%}
 
+    <div id="spinner" style="display:none; text-align:center; margin-top:10px;">
+  <div class="loader"></div>
+  <p>Generating quiz...</p>
+</div>
 <div id="resultDiv" style="margin-top: 20px; border: 1px solid #ccc; padding: 10px;">
     <pre id="resultPre">Result will appear here...</pre>
 </div>
@@ -171,6 +210,11 @@ function updateArgsForm() {
         document.addEventListener("DOMContentLoaded", function () {
         const form= document.getElementById("quizForm").addEventListener("submit", async function (e) {
       e.preventDefault(); // prevent normal form submission
+
+    // show spinner, clear result
+        document.getElementById("spinner").style.display = "block";
+        document.getElementById("resultDiv").innerHTML =
+          '<pre id="resultPre">Generating...</pre>';
 
       const category = document.getElementById("selectcategory").value;
       const command = document.getElementById("selectcommand").value;
@@ -209,7 +253,7 @@ function updateArgsForm() {
 
 
 
-
+    try {
       const response = await fetch("/submit", {
         method: "POST",
         headers: {
@@ -222,6 +266,14 @@ function updateArgsForm() {
         const result = await response.text();
         document.getElementById("resultDiv").innerHTML = result;
         console.log("Server response:", result);
+        }
+                catch (err) {
+      document.getElementById("resultDiv").innerHTML =
+        `<pre>Error: ${err.message}</pre>`;
+    } finally {
+      // hide spinner
+      document.getElementById("spinner").style.display = "none";
+    }
 //const result = await response.json();
 //console.log("Server response:", result);
 //      // (optional) display the result in the page
