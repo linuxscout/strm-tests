@@ -36,7 +36,7 @@ def to_bin(value, width=0):
 class quiz_format:
     """ Generate a format for the test """
     def __init__(self, formatting="", lang="ar-en", templates_dir=""):
-        self.formatting = formatting
+        self.formatting = formatting.lower()
         self.output = []
         self.tests = []
         self.newline = "\n"
@@ -55,6 +55,9 @@ class quiz_format:
         self.group_digit_sep = " "
         # self.variables = ["a","b","c","d"]
         #~ print("quiz_format")
+
+    def get_format(self,):
+        return self.formatting.lower()
     def header(self,):
         """
         """

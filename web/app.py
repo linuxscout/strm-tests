@@ -15,7 +15,7 @@ class Submission(BaseModel):
     args: Dict[str, Any]
     select_random_values: bool = True
     outformat: str = "html"
-    quizid: int = 1
+    quizid: str = "test0"
 
 from strmquiz.quizbuilder import QuizBuilder
 
@@ -69,6 +69,33 @@ async def get_quiz(request: Request):
     return templates.TemplateResponse(request,"quiz.html", response)
 
 
+
+@app.get("/api/categories")
+async def get_categories():
+    """Return all categories with descriptions."""
+    categories_info = quiz_builder.get_categories()
+    return JSONResponse(categories_info)
+
+
+@app.get("/api/commands")
+async def get_commands(category: Optional[str] = Query(None, description="Filter by category name")):
+    """Return all commands, optionally filtered by category."""
+    commands_dict = quiz_builder.get_commands_info()
+    if category:
+        cmds =  quiz_builder.get_commands_info(category=category)
+        return JSONResponse(cmds)
+    return JSONResponse(commands_dict)
+
+
+@app.get("/api/random-commands")
+async def get_random_commands(n: int = 3, category: Optional[str] = None):
+    """Return N random commands (default 3)."""
+    cmd_info = quiz_builder.get_random_commands(n=n,category=category)
+    if not cmd_info:
+        return {"error": "No commands in this category"}
+    return {"commands_list": cmd_info}
+
+
 @app.post("/submit", response_class=HTMLResponse)
 async def submit(request:Request, data: Submission):
     """Process submitted answers with validation."""
@@ -78,6 +105,8 @@ async def submit(request:Request, data: Submission):
     category = data.category
     # use random values for question or defaults
     select_random_values = data.select_random_values
+    quiz_id = data.quizid
+    outformat = data.outformat
     args = data.model_dump().get("args",{})
     command = command.strip().lower()
     category = category.strip().lower()
@@ -116,45 +145,27 @@ async def submit(request:Request, data: Submission):
     # set random mode or disable it for quizbuiler
     quiz_builder.set_select_random_values(select_random_values)
     new_args = quiz_builder.validate_command_args(command=command_to_run, args_src=args)
+
+    # set format:
+    # if outformat and outformat.lower() != quiz_builder.get_format():
+    #     quiz_builder.set_format(outformat=outformat)
+    quiz_builder.set_format(outformat=outformat)
     question, answer = quiz_builder.get_question(command=command_to_run, args = new_args)
+
+    quiztext = quiz_builder.get_quiz(test_no=quiz_id)
 
     response = {
         "request": request,
         "command": command_to_run,
+        "outformat":outformat,
         "category": category,
         "question": question,
         "answer": answer,
         "args":new_args,
+        "quiztext":quiztext,
     }
     return templates.TemplateResponse(request,"result.html", response)
 
 
 
 
-
-
-
-@app.get("/api/categories")
-async def get_categories():
-    """Return all categories with descriptions."""
-    categories_info = quiz_builder.get_categories()
-    return JSONResponse(categories_info)
-
-
-@app.get("/api/commands")
-async def get_commands(category: Optional[str] = Query(None, description="Filter by category name")):
-    """Return all commands, optionally filtered by category."""
-    commands_dict = quiz_builder.get_commands_info()
-    if category:
-        cmds =  quiz_builder.get_commands_info(category=category)
-        return JSONResponse(cmds)
-    return JSONResponse(commands_dict)
-
-
-@app.get("/api/random-commands")
-async def get_random_commands(n: int = 3, category: Optional[str] = None):
-    """Return N random commands (default 3)."""
-    cmd_info = quiz_builder.get_random_commands(n=n,category=category)
-    if not cmd_info:
-        return {"error": "No commands in this category"}
-    return {"commands_list": cmd_info}

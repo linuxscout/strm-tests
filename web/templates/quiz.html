@@ -149,7 +149,7 @@ function updateArgsForm() {
         <select id="selectquiz" name="quiz_id">
             <option value="random"selected>Random</option>
             {% for  qi in quiz_id_list %}
-            <option value="{{qi}}"selected>Test{{qi}}</option>
+            <option value="{{qi}}"selected>{{qi}}</option>
             {% endfor %}
             <!-- will be updated dynamically -->
         </select>

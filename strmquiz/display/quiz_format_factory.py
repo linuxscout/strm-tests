@@ -43,6 +43,10 @@ class quiz_format_factory:
             return quiz_format_json.quiz_format_json(lang=lang, templates_dir=templates_dir)
         else:
             return quiz_format.quiz_format(lang=lang, templates_dir=templates_dir)
+    @staticmethod
+    def is_available_format(format):
+        return bool(format.lower() in ["tex","latex","html","json","text"])
+
 def main(args):
     outformats = ["tex", "csv", "md"]
     data = {"section":"Test n°1",

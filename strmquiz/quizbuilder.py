@@ -65,7 +65,8 @@ class QuizBuilder:
         # --- Check if templates_dir exists
         if not templates_dir or not os.path.isdir(templates_dir):
             raise FileNotFoundError(f"Template directory not found: '{templates_dir}'")
-
+        self.templates_dir = templates_dir
+        self.lang = lang
         # --- If no config file provided, use default
         if not config_file:
             config_file = os.path.join(os.path.dirname(__file__), "config", "quiz.conf")
@@ -151,12 +152,20 @@ class QuizBuilder:
         self.my_args_dict = self.load_args()
         # Schema validation
     def get_quiz_commands(self, quiz_id):
-        if quiz_id:
-            return self.quiz_commands.get(quiz_id, {})
+        if self.myconfig.test_table:
+            if quiz_id:
+                return self.get_quiz_config(quiz_id)
+            else:
+                return  self.myconfig.test_table
         else:
-            return  self.quiz_commands
+            if quiz_id:
+                return self.quiz_commands.get(quiz_id, {})
+            else:
+                return  self.quiz_commands
 
     def get_quiz_id_list(self):
+        if self.myconfig.test_table:
+            return (self.myconfig.test_table.keys())
         return list(self.quiz_commands.keys())
 
     def set_select_random_values(self, rand):
@@ -252,7 +261,16 @@ class QuizBuilder:
         return temp
     def set_format(self, outformat="latex"):
         """ set a new format"""
-        self.formater = quiz_format_factory.quiz_format_factory.factory(outformat)
+        is_available = quiz_format_factory.quiz_format_factory.is_available_format(outformat)
+        if outformat != self.get_format() and is_available:
+            self.formater = quiz_format_factory.quiz_format_factory.factory(outformat, templates_dir=self.templates_dir)
+            logger.debug(f"Changed formatter into {outformat} from {self.get_format()} is available {is_available}")
+        else:
+            logger.debug(f"Not Changed formatter into {outformat} from from {self.get_format()}  is available {is_available}")
+
+    def get_format(self,):
+        """ get current used format a new format"""
+        return self.formater.get_format()
 
     def reset(self,):
         """

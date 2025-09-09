@@ -7,20 +7,37 @@
 </head>
 <body>
     <h2>Your Results</h2>
-    <p>Command: {{command}} | category {{category}}</p>
+    <p>Command: {{command}} | category {{category}} |format {{outformat}}</p>
     <h2>Question: </h2>
     <div id="question">
-    {{question|safe}}
+        {% if outformat in ("tex",) %}
+        <textarea>{{question|safe}}</textarea>
+        {%else%}
+        {{question|safe}}
+        {%endif%}
     </div>
 
     <h2>Answer:</h2>
     <div id="answer">
-    {{answer|safe}}
+        {% if outformat in ("tex",) %}
+        <textarea>{{answer|safe}}</textarea>
+        {%else%}
+        {{answer|safe}}
+        {%endif%}
     </div>
     <br/>
     <a href="/quiz">Try Again</a>
 <pre>
     {{args|pprint|safe}}
 </pre>
+
+<h2>Quiz</h2>
+    {% if outformat in ("tex",) %}
+        <textarea rows="5" cols="50">{{quiztext|safe}}</textarea>
+        {%else%}
+    {{quiztext|safe}}
+     {%endif%}
+
+
 </body>
 </html>
