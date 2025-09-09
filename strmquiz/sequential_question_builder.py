@@ -173,7 +173,7 @@ class SequentialQuestionBuilder(Question_Builder):
                 "category": self.CATEGORY,
                 "short": "Miscellaneous sequential circuits",
                 "long": "State machines, pulse generators, and hybrid sequential systems.",
-                "example": "LEt have the following Setup, give the flip flop truth table, then complete the following timing diagram.",
+                "example": "Let have the following Setup, give the flip flop truth table, then complete the following timing diagram.",
                 "template": "sequential/misc",
                 #"handler": self.command_seq_misc,
                 "args": {
