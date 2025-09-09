@@ -19,6 +19,12 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+.hint {
+  font-size: 0.85em;
+  color: #666;
+  margin-top: 2px;
+  margin-bottom: 8px;
+}
 </style>
 <link rel="icon" href="{{ url_for('static', path='favicon.ico') }}">
     <title>Quiz</title>
@@ -31,6 +37,7 @@
 function updateArgsForm() {
             const command = document.getElementById("selectcommand").value;
             const argsDiv = document.getElementById("argsForm");
+            const exampleDiv = document.getElementById("exampleDiv");
             argsDiv.innerHTML = ""; // clear old fields
 
             if (command === "random") return;
@@ -102,7 +109,17 @@ function updateArgsForm() {
                 div.appendChild(input);
                 argsDiv.appendChild(div);
             }
-        }
+             // show example if available
+          if (cmdInfo.example) {
+            exampleDiv.innerHTML =
+              `<h4>Example Question:</h4><pre>${cmdInfo.example}</pre>`;
+             }
+    else     {
+            exampleDiv.innerHTML =
+              `<h4>Example Question:</h4><pre>Not available</pre>`;
+             }
+
+} // end function
 
         function updateCommands() {
             const category = document.getElementById("selectcategory").value;
@@ -142,6 +159,8 @@ function updateArgsForm() {
             updateCommands();
             document.getElementById("selectcommand").addEventListener("change", updateArgsForm);
         };
+
+
 function resetForm() {
     // reset selects
     document.getElementById("selectcategory").value = "random";
@@ -164,18 +183,29 @@ function resetForm() {
 <body>
     <h2>Select Command to generate a Quiz</h2>
 <!--    <form method="post" action="/submit">-->
+    <div style="display:flex; gap:20px;">
+  <!-- Left: form -->
+  <div style="flex:1;">
+
+
     <form id="quizForm">
+                <div>
         <select id="selectcategory" name="category" onchange="updateCommands()">
             <option value="random" selected> Random Category</option>
             {% for cat_key, cat_value in categories_dict.items() %}
                 <option value="{{cat_key}}">{{cat_value.short}}</option>
             {% endfor %}
         </select>
-
+<div class="hint">Choose a category to filter commands.</div>
+        </div>
+        <div>
+  <label for="selectcommand">Command</label>
         <select id="selectcommand" name="command">
             <option value="random" selected>Random Question</option>
             <!-- will be updated dynamically -->
         </select>
+  <div id="commandHint" class="hint"></div>
+        </div>
         <select id="selectformat" name="outformat">
             <option value="html"selected>HTML</option>
             <option value="tex">Tex</option>
@@ -192,6 +222,20 @@ function resetForm() {
         <button type="submit">Submit</button>
         <button type="button" onclick="resetForm()">Reset</button>
     </form>
+
+  </div>
+
+  <!-- Right: preview panel -->
+  <div style="flex:1; border:1px solid #ccc; padding:10px;">
+    <h3>Preview</h3>
+      <div id="exampleDiv" style="margin-top:15px; padding:10px; border:1px dashed #aaa;">
+  Select a command to see an example question here.
+</div>
+
+    <div id="previewPanel">Select options to preview question...</div>
+  </div>
+</div>
+
     {% if debug %}
     <h1> commands json </h1>
     <pre>{{ commands_dict_json }};</pre>
@@ -206,6 +250,32 @@ function resetForm() {
 </div>
 </body>
     <script>
+        //(update preview live)
+function updatePreview() {
+  const command = document.getElementById("selectcommand").value;
+  const args = {};
+  document.querySelectorAll("#argsForm input, #argsForm select, #argsForm textarea").forEach(el => {
+    if (!el.name) return;
+    let key = el.name.replace(/^args\[|\]$/g, "");
+    args[key] = el.type === "checkbox" ? el.checked : el.value;
+  });
+
+  // simple preview text
+  let html = `<p><b>Command:</b> ${command}</p>`;
+  html += `<pre>${JSON.stringify(args, null, 2)}</pre>`;
+
+  document.getElementById("previewPanel").innerHTML = html;
+}
+
+// hook into form changes
+document.addEventListener("input", updatePreview);
+document.addEventListener("change", updatePreview);
+
+                // display a hint fro current command
+document.getElementById("selectcommand").addEventListener("change", function() {
+  const value = this.value;
+  document.getElementById("commandHint").textContent = commandsInfo[value].long || value;
+});
         /* submit function */
         document.addEventListener("DOMContentLoaded", function () {
         const form= document.getElementById("quizForm").addEventListener("submit", async function (e) {
@@ -221,6 +291,7 @@ function resetForm() {
       const outformat = document.getElementById("selectformat").value;
       const quizid = document.getElementById("selectquiz").value;
       const select_random_values = document.getElementById("random").checked;
+
 
       // Collect args from the dynamically generated argsForm
         const args = {[command]:{}};

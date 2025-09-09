@@ -64,6 +64,7 @@ class BooleanQuestionBuilder(Question_Builder):
                 "category": self.CATEGORY,
                 "short": "Boolean expression simplification",
                 "long": "Simplify Boolean expressions using algebraic rules or canonical forms.",
+                "example":"Simplify the following expression a'.b.c +a'.b'.c'",
                 "template": "bool/exp",
                 #"handler": self.command_exp,
                 "args": {
@@ -75,6 +76,7 @@ class BooleanQuestionBuilder(Question_Builder):
                 "category": self.CATEGORY,
                 "short": "Karnaugh Map simplification",
                 "long": "Simplify Boolean expressions with Karnaugh Maps. Identify prime implicants and reduce logic circuits.",
+                "example": "Simplify the following Karnaugh maps",
                 "template": "bool/map",
                 #"handler": self.question_map,
                 "args": {
@@ -88,6 +90,7 @@ class BooleanQuestionBuilder(Question_Builder):
                 "category": self.CATEGORY,
                 "short": "K-map with canonical forms",
                 "long": "Generate and simplify canonical forms (SOP/POS) using Karnaugh Maps.",
+                "example": "Let the function be given by its canonical form, Draw the Karnaugh table and simplify.",
                 "template": "bool/map-sop",
                 #"handler": self.command_map_for_sop,
                 "args": {
@@ -99,6 +102,7 @@ class BooleanQuestionBuilder(Question_Builder):
                 "category": self.CATEGORY,
                 "short": "Logic function analysis",
                 "long": "Analyze Boolean functions given in algebraic form. Includes truth table, simplification, and circuit representation.",
+                "example":"Study the following function: ادرس الدالة الآتية: ",
                 "template": "bool/function",
                 #"handler": self.question_funct,
                 "args": {
@@ -112,6 +116,7 @@ class BooleanQuestionBuilder(Question_Builder):
                 "category": self.CATEGORY,
                 "short": "Canonical logical functions",
                 "long": "Study functions expressed in canonical SOP or POS forms and simplify them.",
+                "example": "Study the following function: ادرس الدالة الآتية: ",
                 "template": "bool/function",
                 #"handler": self.command_static_funct,
                 "args": {
@@ -125,6 +130,7 @@ class BooleanQuestionBuilder(Question_Builder):
                 "category": self.CATEGORY,
                 "short": "Logic with NAND gates",
                 "long": "Design and simplify logical functions using only NAND gates.",
+                "example": "Study the following function, draw diagram using NAND: ادرس الدالة الآتية: ",
                 "template": "bool/function",
                 #"handler": self.command_nand_funct,
                 "args": {
@@ -138,6 +144,7 @@ class BooleanQuestionBuilder(Question_Builder):
                 "category": self.CATEGORY,
                 "short": "Logic with NOR gates",
                 "long": "Design and simplify logical functions using only NOR gates.",
+                "example": "Study the following function, draw diagram using NOR: ادرس الدالة الآتية: ",
                 "template": "bool/function",
                 #"handler": self.command_nor_funct,
                 "args": {
@@ -151,6 +158,7 @@ class BooleanQuestionBuilder(Question_Builder):
                 "category": self.CATEGORY,
                 "short": "Multi-output logic circuits",
                 "long": "Draw and analyze circuits that implement multiple functions simultaneously.",
+                "example": "Study the following circuit, ادرس الدارة الآتية: ",
                 "template": "bool/multi_funct",
                 #"handler": self.command_multi_funct,
                 "args": {

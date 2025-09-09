@@ -67,6 +67,7 @@ class SequentialQuestionBuilder(Question_Builder):
                 "category": self.CATEGORY,
                 "short": "Sequential logic timing diagrams",
                 "long": "Interpret and draw chronograms (timing diagrams) for flip-flops (RS, D, JK).",
+                "example":"LEt have the following setup, complete the following timing diagram.",
                 "template": "sequential/timing",
                 #"handler": self.command_chronogram,
                 "args": {
@@ -91,6 +92,7 @@ class SequentialQuestionBuilder(Question_Builder):
                 "category": self.CATEGORY,
                 "short": "Flip-flop operation",
                 "long": "Analyze the behavior of flip-flops (RS, D, JK, T) given inputs and clock signals.",
+                "example": "LEt have the following Flip flip, give the truth table, then complete the following timing diagram.",
                 "template": "sequential/flip",
                 #"handler": self.command_flip,
                 "args": {
@@ -115,6 +117,7 @@ class SequentialQuestionBuilder(Question_Builder):
                 "category": self.CATEGORY,
                 "short": "Counter design and behavior",
                 "long": "Analyze synchronous and asynchronous up/down counters.",
+                "example": "LEt have the following Setup, give the flip flop truth table, then complete the following timing diagram.",
                 "template": "sequential/counter",
                 #"handler": self.command_counter,
                 "args": {
@@ -142,6 +145,7 @@ class SequentialQuestionBuilder(Question_Builder):
                 "category": self.CATEGORY,
                 "short": "Register analysis",
                 "long": "Study shift registers and parallel registers with data movement and control operations.",
+                "example": "LEt have the following Setup, give the flip flop truth table, then complete the following timing diagram.",
                 "template": "sequential/register",
                 #"handler": self.command_register,
                 "args": {
@@ -169,6 +173,7 @@ class SequentialQuestionBuilder(Question_Builder):
                 "category": self.CATEGORY,
                 "short": "Miscellaneous sequential circuits",
                 "long": "State machines, pulse generators, and hybrid sequential systems.",
+                "example": "LEt have the following Setup, give the flip flop truth table, then complete the following timing diagram.",
                 "template": "sequential/misc",
                 #"handler": self.command_seq_misc,
                 "args": {

@@ -74,6 +74,7 @@ class EncodingQuestionBuilder(Question_Builder):
                 "category": self.CATEGORY,
                 "short": "Floating-point representation",
                 "long": "IEEE-754 floating-point conversion and analysis.",
+                "example":"Represent 1.5 under the IEEE-754 standard.",
                 "template": "encoding/float",
                 #"handler": self.command_vf,
                 "args": {
@@ -84,6 +85,7 @@ class EncodingQuestionBuilder(Question_Builder):
                 "category": self.CATEGORY,
                 "short": "Integer intervals with complements",
                 "long": "Binary integer ranges, signed numbers, Complement-1 and Complement-2.",
+                "example": "What is the interval to represent with 4bits in signed value.",
                 "template": "encoding/interval",
                 #"handler": self.command_intervalle,
                 "args": {
@@ -94,6 +96,7 @@ class EncodingQuestionBuilder(Question_Builder):
                 "category": self.CATEGORY,
                 "short": "Number complements",
                 "long": "Exercises on complement to one and complement to two.",
+                "example": "Represent the following number in signed value, 1's complement and 2's complement.",
                 "template": "encoding/cp",
                 #"handler": self.command_complement,
                 "args": {
@@ -104,6 +107,7 @@ class EncodingQuestionBuilder(Question_Builder):
                 "category": self.CATEGORY,
                 "short": "Numeral system conversion",
                 "long": "Convert numbers between bases (binary, octal, decimal, hex).",
+                "example": "Convert the following number (125)_8 = (.....)_2.",
                 "template": "base",
                 #"handler": self.command_base,
                 "args": {
@@ -116,6 +120,7 @@ class EncodingQuestionBuilder(Question_Builder):
                 "category": self.CATEGORY,
                 "short": "Arithmetic in different bases",
                 "long": "Perform arithmetic in binary, octal, or hex systems.",
+                "example": "Calculate 125 + 13 in base 8.",
                 "template": "arithm",
                 #"handler": self.command_arithm,
                 "args": {
@@ -134,6 +139,7 @@ class EncodingQuestionBuilder(Question_Builder):
                 "category": self.CATEGORY,
                 "short": "Unit conversions",
                 "long": "Convert between info units (bits, bytes, KB, MB) or physical units (time, freq).",
+                "example": "What's the time to download 4 GB file with a connection of 2Mbps",
                 "template": "mesure",
                 #"handler": self.command_mesure,
                 "args": {},
@@ -143,6 +149,7 @@ class EncodingQuestionBuilder(Question_Builder):
                 "short": "ASCII character codes",
                 "long": "Convert characters to/from ASCII in decimal, hex, binary.",
                 "template": "encoding/charcode",
+                "example": "Encode 'My text' into ASCII" ,
                 #"handler": self.command_ascii,
                 "args": {
                     "text": {"type": "string", "default": "", "label":"Text"},
@@ -153,6 +160,7 @@ class EncodingQuestionBuilder(Question_Builder):
                 "category": self.CATEGORY,
                 "short": "ASCII text encoding",
                 "long": "Encode/decode short words using ASCII tables.",
+                "example": "Encode 'My text' into ASCII",
                 "template": "encoding/charcode",
                 #"handler": self.command_ascii_text,
                 "args": {
@@ -164,6 +172,7 @@ class EncodingQuestionBuilder(Question_Builder):
                 "category": self.CATEGORY,
                 "short": "Unicode encoding",
                 "long": "Convert characters to/from Unicode representations.",
+                "example": "Encode 'My text' into Unicode",
                 "template": "encoding/charcode",
                 #"handler": self.command_unicode,
                 "args": {
@@ -175,6 +184,7 @@ class EncodingQuestionBuilder(Question_Builder):
                 "category": self.CATEGORY,
                 "short": "BCD ×3 encoding",
                 "long": "Convert numbers into Binary Coded Decimal (BCD) with ×3 correction.",
+                "example": "Encode 125  and 18 in BCD, then do addition in BCD.",
                 "template": "encoding/bcdx3",
                 #"handler": self.command_bcdx3,
                 "args": {
@@ -187,6 +197,7 @@ class EncodingQuestionBuilder(Question_Builder):
                 "category": self.CATEGORY,
                 "short": "Gray code",
                 "long": "Exercises on Gray code conversions and sequences.",
+                "example": "Let x = (11011)gray, what's the following number.",
                 "template": "encoding/gray",
                 #"handler": self.command_gray,
                 "args": {
