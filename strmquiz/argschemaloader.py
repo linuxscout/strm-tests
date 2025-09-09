@@ -1,3 +1,4 @@
+import ast
 import json
 from pathlib import Path
 from typing import Any, Dict, Union
@@ -68,7 +69,7 @@ class ArgValidator:
                 value = bool(value)
             elif expected_type == "list":
                 if not isinstance(value, list):
-                    raise ValueError(f"{arg_name} must be a list")
+                    raise ValueError(f"{arg_name} {value} must be a list")
             elif expected_type == "dict":
                 if not isinstance(value, dict):
                     raise ValueError(f"{arg_name} must be a dict")
@@ -157,8 +158,11 @@ class myArgsValidator:
             elif expected_type == "boolean":
                 value = bool(value)
             elif expected_type == "list":
+
                 if not isinstance(value, list):
-                    raise ValueError(f"{arg_name} must be a list")
+                    value_list = ast.literal_eval(str(value))
+                    if not isinstance(value_list, list):
+                        raise ValueError(f"{arg_name} {value} {type(value)} must be a list")
             elif expected_type == "dict":
                 if not isinstance(value, dict):
                     raise ValueError(f"{arg_name} must be a dict")

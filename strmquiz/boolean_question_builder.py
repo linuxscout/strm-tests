@@ -68,8 +68,8 @@ class BooleanQuestionBuilder(Question_Builder):
                 "template": "bool/exp",
                 #"handler": self.command_exp,
                 "args": {
-                    "minterms": {"type": "list", "default": [[]], "label":"Minterms"},
-                    "sop_question": {"type": "string", "default": "", "label":"SOP expression"},
+                    "minterms": {"type": "list", "default": [[1,2,3,5,7,8]], "label":"Minterms"},
+                    "sop_question": {"type": "string", "default": "a.b", "label":"SOP expression"},
                 },
             },
             "map": {

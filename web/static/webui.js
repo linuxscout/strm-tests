@@ -42,6 +42,20 @@ function updateArgsForm() {
                     "w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500";
                 break;
 
+            case "float":
+                input = document.createElement("input");
+                input.type = "number";
+                input.value = argMeta.default || 0.0;
+                input.step="0.01"
+//                if (argMeta.range) {
+//                    input.min = argMeta.range[0];
+//                    input.max = argMeta.range[1];
+//                }
+                input.className =
+                    "w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500";
+                break;
+
+
             case "boolean":
                 input = document.createElement("input");
                 input.type = "checkbox";

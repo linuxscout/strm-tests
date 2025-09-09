@@ -100,7 +100,7 @@ class EncodingQuestionBuilder(Question_Builder):
                 "template": "encoding/cp",
                 #"handler": self.command_complement,
                 "args": {
-                    "number": {"type": "integer", "default": 0, "label":"Number (decimal)"},
+                    "number": {"type": "integer", "default": -12, "label":"Number (decimal)"},
                 },
             },
             "base": {
