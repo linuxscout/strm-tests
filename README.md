@@ -140,5 +140,5 @@ Example / مثال: `strmquiz/config/quiz_template.conf`  or `tests/config/*` sa
 
 Please, refer to :اطلع على دليل التطوير  
 
- [Development Guide](docs/contribution.md)
+ [Development Guide](docs/Contribution.md)
 
