@@ -39,7 +39,7 @@ doc:
 define test_template
 $(1):
 	@echo "Generating test: $(1)"
-	python3 -m strmquiz -f $(CONF_DIR)/quiz6.conf -g $(CONF_DIR)/args.6.json  --lang="ar-en" --templates templates -d tex -t "$(1)" -o tests/output/test.tex &> tmp/script.log
+	python3 -m strmquiz -f $(CONF_DIR)/quiz7.conf -g $(CONF_DIR)/args.6.json  --lang="ar-en" --templates templates -d tex -t "$(1)" -o tests/output/test.tex &> tmp/script.log
 	cp tests/output/test.tex $(TEX_DIR)/test.tex
 	cd $(TEX_DIR) && xelatex main_test.tex
 	mkdir -p $(GEN_DIR)/test2-$(DATE)
@@ -86,7 +86,7 @@ test5h:TEST_ID=test5
 test9h:TEST_ID=test9
 test0h test1h test2h test3h test9h test5h test4h:
 	@echo "Generating test: $(TEST_ID)"
-	python3 -m strmquiz -f $(CONF_DIR)/quiz6.conf -g $(CONF_DIR)/args.6.json --lang="ar-en" --templates templates -d html -t "$(TEST_ID)" -o tests/output/test.html
+	python3 -m strmquiz -f $(CONF_DIR)/quiz7.conf -g $(CONF_DIR)/args.6.json --lang="ar-en" --templates templates -d html -t "$(TEST_ID)" -o tests/output/test.html
 	mkdir -p $(GEN_DIR)/test2-$(DATE)
 	cp tests/output/test.html $(GEN_DIR)/test2-$(DATE)/
 	cp tests/output/test.html $(GEN_DIR)/
