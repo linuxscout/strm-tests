@@ -160,12 +160,14 @@ class myArgsValidator:
             elif expected_type == "list":
 
                 if not isinstance(value, list):
-                    value_list = ast.literal_eval(str(value))
-                    if not isinstance(value_list, list):
+                    value = ast.literal_eval(str(value))
+                    if not isinstance(value, list):
                         raise ValueError(f"{arg_name} {value} {type(value)} must be a list")
             elif expected_type == "dict":
                 if not isinstance(value, dict):
-                    raise ValueError(f"{arg_name} must be a dict")
+                    value = ast.literal_eval(str(value))
+                    if not isinstance(value, list):
+                        raise ValueError(f"{arg_name} must be a dict")
 
             # 3. range check
             if "range" in spec and isinstance(value, int):

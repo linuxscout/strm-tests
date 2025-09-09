@@ -67,7 +67,8 @@ function updateArgsForm() {
             case "list":
                 input = document.createElement("textarea");
                 input.rows = 2;
-                input.placeholder = JSON.stringify(argMeta.default || []);
+                input.value = JSON.stringify(argMeta.default || []);
+//                input.placeholder = JSON.stringify(argMeta.default || []);
                 input.className =
                     "w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500";
                 break;
