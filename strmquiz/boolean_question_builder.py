@@ -68,7 +68,7 @@ class BooleanQuestionBuilder(Question_Builder):
                 "template": "bool/exp",
                 #"handler": self.command_exp,
                 "args": {
-                    "minterms": {"type": "list", "default": [[1,2,3,5,7,8]], "label":"Minterms"},
+                    "minterms": {"type": "list", "default": [[1,2,3,5,12]], "label":"Minterms"},
                     "sop_question": {"type": "string", "default": "a.b", "label":"SOP expression"},
                 },
             },
@@ -80,10 +80,10 @@ class BooleanQuestionBuilder(Question_Builder):
                 "template": "bool/map",
                 #"handler": self.question_map,
                 "args": {
-                    "minterms": {"type": "list", "default": [[]], "label":"Minterms"},
+                    "minterms": {"type": "list", "default": [[1,2,3,5,12],], "label":"Minterms"},
                     "dontcare": {"type": "list", "default": [[]], "label":"Don't care"},
-                    "var_names": {"type": "list", "default": [], "label":"Variables' names"},
-                    "output_names": {"type": "list", "default": [], "label":"Output functions' names"},
+                    "var_names": {"type": "list", "default": ["A","B","C","D"], "label":"Variables' names"},
+                    "output_names": {"type": "list", "default": ["S"], "label":"Output functions' names"},
                 },
             },
             "map-sop": {
@@ -95,7 +95,7 @@ class BooleanQuestionBuilder(Question_Builder):
                 #"handler": self.command_map_for_sop,
                 "args": {
                     "functions_number": {"type": "integer", "default": 2, "range": [1, 10]},
-                    "minterms": {"type": "list", "default": [[]], "label":"Minterms"},
+                    "minterms": {"type": "list", "default": [[1,2,3,5,12]], "label":"Minterms"},
                 },
             },
             "function": {
@@ -106,10 +106,10 @@ class BooleanQuestionBuilder(Question_Builder):
                 "template": "bool/function",
                 #"handler": self.question_funct,
                 "args": {
-                    "minterms": {"type": "list", "default": [[]], "label":"Minterms"},
+                    "minterms": {"type": "list", "default": [[1,2,3,5,12],], "label":"Minterms"},
                     "dontcare": {"type": "list", "default": [[]], "label":"Don't care"},
-                    "var_names": {"type": "list", "default": [], "label":"Variables' names"},
-                    "output_names": {"type": "list", "default": [], "label":"Output functions' names"},
+                    "var_names": {"type": "list", "default": ["A","B","C","D"], "label":"Variables' names"},
+                    "output_names": {"type": "list", "default": ["S"], "label":"Output functions' names"},
                 },
             },
             "static_funct": {
@@ -120,10 +120,10 @@ class BooleanQuestionBuilder(Question_Builder):
                 "template": "bool/function",
                 #"handler": self.command_static_funct,
                 "args": {
-                    "minterms": {"type": "list", "default": [[]], "label":"Minterms"},
+                    "minterms": {"type": "list", "default": [[1,2,3,5,12],], "label":"Minterms"},
                     "dontcare": {"type": "list", "default": [[]], "label":"Don't care"},
-                    "var_names": {"type": "list", "default": [], "label":"Variables' names"},
-                    "output_names": {"type": "list", "default": [], "label":"Output functions' names"},
+                    "var_names": {"type": "list", "default": ["A","B","C","D"], "label":"Variables' names"},
+                    "output_names": {"type": "list", "default": ["S"], "label":"Output functions' names"},
                 },
             },
             "nand_funct": {
@@ -134,10 +134,10 @@ class BooleanQuestionBuilder(Question_Builder):
                 "template": "bool/function",
                 #"handler": self.command_nand_funct,
                 "args": {
-                    "minterms": {"type": "list", "default": [[]], "label":"Minterms"},
+                    "minterms": {"type": "list", "default": [[1,2,3,5,12],], "label":"Minterms"},
                     "dontcare": {"type": "list", "default": [[]], "label":"Don't care"},
-                    "var_names": {"type": "list", "default": [], "label":"Variables' names"},
-                    "output_names": {"type": "list", "default": [], "label":"Output functions' names"},
+                    "var_names": {"type": "list", "default": ["A","B","C","D"], "label":"Variables' names"},
+                    "output_names": {"type": "list", "default": ["S"], "label":"Output functions' names"},
                 },
             },
             "nor_funct": {
@@ -148,10 +148,10 @@ class BooleanQuestionBuilder(Question_Builder):
                 "template": "bool/function",
                 #"handler": self.command_nor_funct,
                 "args": {
-                    "minterms": {"type": "list", "default": [[]], "label":"Minterms"},
+                    "minterms": {"type": "list", "default": [[1,2,3,5,12],], "label":"Minterms"},
                     "dontcare": {"type": "list", "default": [[]], "label":"Don't care"},
-                    "var_names": {"type": "list", "default": [], "label":"Variables' names"},
-                    "output_names": {"type": "list", "default": [], "label":"Output functions' names"},
+                    "var_names": {"type": "list", "default": ["A","B","C","D"], "label":"Variables' names"},
+                    "output_names": {"type": "list", "default": ["S"], "label":"Output functions' names"},
                 },
             },
             "multi_funct": {
@@ -162,10 +162,10 @@ class BooleanQuestionBuilder(Question_Builder):
                 "template": "bool/multi_funct",
                 #"handler": self.command_multi_funct,
                 "args": {
-                    "minterms": {"type": "list", "default": [[]], "label":"Minterms"},
+                    "minterms": {"type": "list", "default": [[1,2,3,5],[1,3,4,5]], "label":"Minterms"},
                     "dontcare": {"type": "list", "default": [[]], "label":"Don't care"},
-                    "var_names": {"type": "list", "default": [], "label":"Variables' names"},
-                    "output_names": {"type": "list", "default": [], "label":"Output functions' names"},
+                    "var_names": {"type": "list", "default": ["A","B","C","D"], "label":"Variables' names"},
+                    "output_names": {"type": "list", "default": ["F0","F1"], "label":"Output functions' names"},
                     "method": {"type": "string",
                                "default": "",
                                "choices": ["", "sop", "pos","and", "or", "nand", "nor"],

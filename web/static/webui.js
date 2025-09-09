@@ -76,7 +76,8 @@ function updateArgsForm() {
             case "dict":
                 input = document.createElement("textarea");
                 input.rows = 3;
-                input.placeholder = JSON.stringify(argMeta.default || {});
+//                input.placeholder = JSON.stringify(argMeta.default || {});
+                input.value = JSON.stringify(argMeta.default || {});
                 input.className =
                     "w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500";
                 break;
@@ -119,7 +120,7 @@ function updateArgsForm() {
     // Show example if available
     if (cmdInfo.example) {
         exampleDiv.innerHTML =
-            `<h4 class="font-semibold mb-2">Example Question:</h4><pre class="bg-gray-100 p-2 rounded">${cmdInfo.example}</pre>`;
+            `<h4 class="font-semibold mb-2">Example Question:</h4><pre class="bg-gray-100 p-2 rounded whitespace-pre-wrap">${cmdInfo.example}</pre>`;
     } else {
         exampleDiv.innerHTML =
             `<h4 class="font-semibold mb-2">Example Question:</h4><pre class="bg-gray-100 p-2 rounded">Not available</pre>`;

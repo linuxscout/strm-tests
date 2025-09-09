@@ -38,7 +38,8 @@ from deprecated import deprecated
 from . import read_config
 from .display import quiz_format_factory
 from .question_builder_factory import question_builder_factory
-from .argschemaloader import ArgValidator, ArgSchemaLoader, myArgsValidator
+from .argschemaloader import  myArgsValidator
+# from .argschemaloader import ArgValidator, ArgSchemaLoader, myArgsValidator
 from typing import TypedDict, Optional, Any
 
 class CommandInfo(TypedDict):
@@ -144,7 +145,7 @@ class QuizBuilder:
         self.categories_info = self._load_categories_info()
         self.TEMPLATE_MAP = self._load_templates_map()
 
-        self.validation_schema_loader = ArgSchemaLoader(self.get_commands_info())
+        # self.validation_schema_loader = myArgsValidator(self.get_commands_info())
         self.myvalidation_schema_loader = myArgsValidator(self.get_commands_info())
 
         self.select_random_values = True
@@ -204,12 +205,12 @@ class QuizBuilder:
         else: # no args sources and no args_file
             return {}
         # load schema of commands and args
-        args_loader = ArgSchemaLoader(args_src)
+        args_loader = myArgsValidator(args_src)
         # Pick one command (e.g. counter)
         for command in self.commands_info:
-            command_schema = self.validation_schema_loader.get_command_schema(command)
+            command_schema = self.myvalidation_schema_loader.get_command_schema(command)
             args_values = args_loader.get_command_schema(command)
-            validator = ArgValidator(command_schema)
+            validator = myArgsValidator(command_schema)
             # store validated args in a dict
             validated_args[command] = validator.validate_args(args_values)
         logger.debug(f"Loaded args: {validated_args}")

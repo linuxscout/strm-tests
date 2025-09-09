@@ -71,10 +71,10 @@ class SequentialQuestionBuilder(Question_Builder):
                 "template": "sequential/timing",
                 #"handler": self.command_chronogram,
                 "args": {
-                    "varlist": {"type": "dict", "default": {}, "label": "Variables",},
+                    "varlist": {"type": "dict", "default": { "J": 1, "K": 1, "Q": 0,  "Q'": 0}, "label": "Variables",},
                     "flip_type": {
                         "type": "string",
-                        "default": "D",
+                        "default": "JK",
                         "choices": ["D", "T", "JK", "RS", "RST"],
                         "label":"Flip flop type",
                     },
@@ -85,14 +85,14 @@ class SequentialQuestionBuilder(Question_Builder):
                         "choices": ["rising", "falling"],
                         "label": "Synchronization type (edge)",
                     },
-                    "output": {"type": "list", "default": ["Q"],"label": "Length of timing diagram",},
+                    "output": {"type": "list", "default": ["Q"],"label": "List of outputs",},
                 },
             },
             "flip": {
                 "category": self.CATEGORY,
                 "short": "Flip-flop operation",
                 "long": "Analyze the behavior of flip-flops (RS, D, JK, T) given inputs and clock signals.",
-                "example": "LEt have the following Flip flip, give the truth table, then complete the following timing diagram.",
+                "example": "LEt have the following Flip flip, give the truth table,\n then complete the following timing diagram.",
                 "template": "sequential/flip",
                 #"handler": self.command_flip,
                 "args": {
@@ -110,14 +110,14 @@ class SequentialQuestionBuilder(Question_Builder):
                         "choices": ["rising", "falling"],
                         "label": "Synchronization type (edge)",
                     },
-                    "output": {"type": "list", "default": ["Q"],"label": "Length of timing diagram",},
+                    "output": {"type": "list", "default": ["Q"],"label": "List of outputs",},
                 },
             },
             "counter": {
                 "category": self.CATEGORY,
                 "short": "Counter design and behavior",
                 "long": "Analyze synchronous and asynchronous up/down counters.",
-                "example": "LEt have the following Setup, give the flip flop truth table, then complete the following timing diagram.",
+                "example": "LEt have the following Setup, give the flip flop truth table,\n then complete the following timing diagram.",
                 "template": "sequential/counter",
                 #"handler": self.command_counter,
                 "args": {
@@ -129,7 +129,7 @@ class SequentialQuestionBuilder(Question_Builder):
                         "choices": ["rising", "falling"],
                         "label": "Synchronization type (edge)",
                     },
-                    "output": {"type": "list", "default": ["Q"],"label": "Length of timing diagram",},
+                    "output": {"type": "list", "default": ["Q"],"label": "List of outputs",},
                     "counter_type": {
                         "type": "string",
                         "default": "up",
@@ -145,7 +145,7 @@ class SequentialQuestionBuilder(Question_Builder):
                 "category": self.CATEGORY,
                 "short": "Register analysis",
                 "long": "Study shift registers and parallel registers with data movement and control operations.",
-                "example": "LEt have the following Setup, give the flip flop truth table, then complete the following timing diagram.",
+                "example": "LEt have the following Setup, give the flip flop truth table,\n then complete the following timing diagram.",
                 "template": "sequential/register",
                 #"handler": self.command_register,
                 "args": {
@@ -157,7 +157,7 @@ class SequentialQuestionBuilder(Question_Builder):
                         "choices": ["rising", "falling"],
                         "label": "Synchronization type (edge)",
                     },
-                    "output": {"type": "list", "default": ["Q"],"label": "Length of timing diagram",},
+                    "output": {"type": "list", "default": ["Q"],"label": "List of outputs",},
                     "register_type": {
                         "type": "string",
                         "default": "shift-right",
@@ -173,7 +173,7 @@ class SequentialQuestionBuilder(Question_Builder):
                 "category": self.CATEGORY,
                 "short": "Miscellaneous sequential circuits",
                 "long": "State machines, pulse generators, and hybrid sequential systems.",
-                "example": "Let have the following Setup, give the flip flop truth table, then complete the following timing diagram.",
+                "example": "Let have the following Setup, give the flip flop truth table,\n then complete the following timing diagram.",
                 "template": "sequential/misc",
                 #"handler": self.command_seq_misc,
                 "args": {
@@ -191,7 +191,7 @@ class SequentialQuestionBuilder(Question_Builder):
                         "choices": ["rising", "falling"],
                         "label": "Synchronization type (edge)",
                     },
-                    "output": {"type": "list", "default": ["Q"],"label": "Length of timing diagram",},
+                    "output": {"type": "list", "default": ["Q"],"label": "List of outputs",},
                 },
             },
         }
