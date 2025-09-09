@@ -1,93 +1,115 @@
 
 
-
 function updateArgsForm() {
-            const command = document.getElementById("selectcommand").value;
-            const argsDiv = document.getElementById("argsForm");
-            const exampleDiv = document.getElementById("exampleDiv");
-            argsDiv.innerHTML = ""; // clear old fields
+    const command = document.getElementById("selectcommand").value;
+    const argsDiv = document.getElementById("argsForm");
+    const exampleDiv = document.getElementById("exampleDiv");
+    argsDiv.innerHTML = ""; // clear old fields
 
-            if (command === "random") return;
+    if (command === "random") return;
 
-            const cmdInfo = commandsInfo[command];
-            if (!cmdInfo || !cmdInfo.args) return;
+    const cmdInfo = commandsInfo[command];
+    if (!cmdInfo || !cmdInfo.args) return;
 
-            for (const [argName, argMeta] of Object.entries(cmdInfo.args)) {
-                const label = document.createElement("label");
-//                label.textContent = argName + ": ";
-                label.textContent = argMeta.label + ": ";
-                label.setAttribute("for", argName);
+    for (const [argName, argMeta] of Object.entries(cmdInfo.args)) {
+        // Label
+        const label = document.createElement("label");
+        label.textContent = argMeta.label + ": ";
+        label.setAttribute("for", argName);
+        label.className = "block text-sm font-medium mb-1";
 
-                let input;
-                switch (argMeta.type) {
-                    case "string":
-                        input = document.createElement("input");
-                        input.type = "text";
-                        input.value = argMeta.default || "";
-                        break;
-                    case "integer":
-                        input = document.createElement("input");
-                        input.type = "number";
-                        input.value = argMeta.default || 0;
-                        if (argMeta.range) {
-                            input.min = argMeta.range[0];
-                            input.max = argMeta.range[1];
-                        }
-                        break;
-                    case "boolean":
-                        input = document.createElement("input");
-                        input.type = "checkbox";
-                        input.checked = argMeta.default || false;
-                        break;
-                    case "list":
-                        input = document.createElement("textarea");
-                        input.rows = 2;
-                        input.placeholder = JSON.stringify(argMeta.default || []);
-                        break;
-                    case "dict":
-                        input = document.createElement("textarea");
-                        input.rows = 3;
-                        input.placeholder = JSON.stringify(argMeta.default || {});
-                        break;
-                    default:
-                        input = document.createElement("input");
-                        input.type = "text";
-                        input.value = argMeta.default || "";
+        let input;
+
+        // Input types
+        switch (argMeta.type) {
+            case "string":
+                input = document.createElement("input");
+                input.type = "text";
+                input.value = argMeta.default || "";
+                input.className =
+                    "w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500";
+                break;
+
+            case "integer":
+                input = document.createElement("input");
+                input.type = "number";
+                input.value = argMeta.default || 0;
+                if (argMeta.range) {
+                    input.min = argMeta.range[0];
+                    input.max = argMeta.range[1];
                 }
+                input.className =
+                    "w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500";
+                break;
 
-                input.name = "args[" + argName + "]";
+            case "boolean":
+                input = document.createElement("input");
+                input.type = "checkbox";
+                input.checked = argMeta.default || false;
+                input.className =
+                    "rounded border-gray-300 text-blue-600 focus:ring-blue-500";
+                break;
 
-                // Handle choices (drop-down)
-                if (argMeta.choices) {
-                    const select = document.createElement("select");
-                    select.name = "args[" + argName + "]";
-                    argMeta.choices.forEach(choice => {
-                        const opt = document.createElement("option");
-                        opt.value = choice;
-                        opt.text = choice;
-                        if (choice === argMeta.default) opt.selected = true;
-                        select.appendChild(opt);
-                    });
-                    input = select;
-                }
+            case "list":
+                input = document.createElement("textarea");
+                input.rows = 2;
+                input.placeholder = JSON.stringify(argMeta.default || []);
+                input.className =
+                    "w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500";
+                break;
 
-                const div = document.createElement("div");
-                div.appendChild(label);
-                div.appendChild(input);
-                argsDiv.appendChild(div);
-            }
-             // show example if available
-          if (cmdInfo.example) {
-            exampleDiv.innerHTML =
-              `<h4>Example Question:</h4><pre>${cmdInfo.example}</pre>`;
-             }
-    else     {
-            exampleDiv.innerHTML =
-              `<h4>Example Question:</h4><pre>Not available</pre>`;
-             }
+            case "dict":
+                input = document.createElement("textarea");
+                input.rows = 3;
+                input.placeholder = JSON.stringify(argMeta.default || {});
+                input.className =
+                    "w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500";
+                break;
 
-} // end function
+            default:
+                input = document.createElement("input");
+                input.type = "text";
+                input.value = argMeta.default || "";
+                input.className =
+                    "w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500";
+        }
 
+        input.name = "args[" + argName + "]";
+
+        // Handle choices (dropdown)
+        if (argMeta.choices) {
+            const select = document.createElement("select");
+            select.name = "args[" + argName + "]";
+            select.className =
+                "w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500";
+
+            argMeta.choices.forEach(choice => {
+                const opt = document.createElement("option");
+                opt.value = choice;
+                opt.text = choice;
+                if (choice === argMeta.default) opt.selected = true;
+                select.appendChild(opt);
+            });
+            input = select;
+        }
+
+        // Wrap field
+        const div = document.createElement("div");
+        div.className = "mb-4";
+        div.appendChild(label);
+        div.appendChild(input);
+        argsDiv.appendChild(div);
+    }
+
+    // Show example if available
+    if (cmdInfo.example) {
+        exampleDiv.innerHTML =
+            `<h4 class="font-semibold mb-2">Example Question:</h4><pre class="bg-gray-100 p-2 rounded">${cmdInfo.example}</pre>`;
+    } else {
+        exampleDiv.innerHTML =
+            `<h4 class="font-semibold mb-2">Example Question:</h4><pre class="bg-gray-100 p-2 rounded">Not available</pre>`;
+    }
+}
         function updateCommands() {
             const category = document.getElementById("selectcategory").value;
             const commandSelect = document.getElementById("selectcommand");

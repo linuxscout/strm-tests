@@ -1,109 +1,119 @@
 <!--quiz.html-->
 <!DOCTYPE html>
 {% set debug= True %}
-<html>
+<html lang="en">
 <head>
-    <style>
-.loader {
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #3498db;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  animation: spin 1s linear infinite;
-  display: inline-block;
-  margin-right: 8px;
-  vertical-align: middle;
-}
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-.hint {
-  font-size: 0.85em;
-  color: #666;
-  margin-top: 2px;
-  margin-bottom: 8px;
-}
-</style>
-<link rel="icon" href="{{ url_for('static', path='favicon.ico') }}">
-
-    <title>Quiz</title>
-<script>   // This will be filled by Jinja as JSON
+  <meta charset="UTF-8">
+  <title>Quiz</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="{{ url_for('static', path='favicon.ico') }}">
+    <script>   // This will be filled by Jinja as JSON
         const commandsInfo = {{ commands_dict_json | safe }};
         const categoryCommands = {{ category_commands_json | safe }};
 </script>
-<!--<script src="{{ url_for('static', path='webui.js') }}"></script>-->
 </head>
-<body>
-    <h2>Select Command to generate a Quiz</h2>
-<!--    <form method="post" action="/submit">-->
-    <div style="display:flex; gap:20px;">
-  <!-- Left: form -->
-  <div style="flex:1;">
+<body class="bg-gray-50 text-gray-800 p-6">
 
+  <h2 class="text-2xl font-bold mb-6">Select Command to Generate a Quiz</h2>
 
-    <form id="quizForm">
-                <div>
-        <select id="selectcategory" name="category" onchange="updateCommands()">
-            <option value="random" selected> Random Category</option>
-            {% for cat_key, cat_value in categories_dict.items() %}
-                <option value="{{cat_key}}">{{cat_value.short}}</option>
-            {% endfor %}
-        </select>
-<div class="hint">Choose a category to filter commands.</div>
-        </div>
+  <div class="flex flex-col md:flex-row gap-6">
+    <!-- Left: form -->
+    <div class="flex-1 bg-white rounded-2xl shadow p-6">
+      <form id="quizForm" class="space-y-4">
+        <!-- Category -->
         <div>
-  <label for="selectcommand">Command</label>
-        <select id="selectcommand" name="command">
-            <option value="random" selected>Random Question</option>
-            <!-- will be updated dynamically -->
-        </select>
-  <div id="commandHint" class="hint"></div>
-        </div>
-        <select id="selectformat" name="outformat">
-            <option value="html"selected>HTML</option>
-            <option value="tex">Tex</option>
-        </select>
-        <select id="selectquiz" name="quiz_id">
-            <option value="random"selected>Random</option>
-            {% for  qi in quiz_id_list %}
-            <option value="{{qi}}"selected>{{qi}}</option>
+          <label for="selectcategory" class="block text-sm font-medium mb-1">Category</label>
+          <select id="selectcategory" name="category" onchange="updateCommands()"
+            class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            <option value="random" selected>Random Category</option>
+            {% for cat_key, cat_value in categories_dict.items() %}
+              <option value="{{cat_key}}">{{cat_value.short}}</option>
             {% endfor %}
-            <!-- will be updated dynamically -->
-        </select>
- <div id="argsForm"></div>
-        <input name="random" id="random" type="checkbox"/> random data for question.<br/>
-        <button type="submit">Submit</button>
-        <button type="button" onclick="resetForm()">Reset</button>
-    </form>
+          </select>
+          <p class="text-xs text-gray-500 mt-1">Choose a category to filter commands.</p>
+        </div>
 
+        <!-- Command -->
+        <div>
+          <label for="selectcommand" class="block text-sm font-medium mb-1">Command</label>
+          <select id="selectcommand" name="command"
+            class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            <option value="random" selected>Random Question</option>
+          </select>
+          <p id="commandHint" class="text-xs text-gray-500 mt-1"></p>
+        </div>
+
+        <!-- Output format -->
+        <div>
+          <label for="selectformat" class="block text-sm font-medium mb-1">Format</label>
+          <select id="selectformat" name="outformat"
+            class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            <option value="html" selected>HTML</option>
+            <option value="tex">TeX</option>
+          </select>
+        </div>
+
+        <!-- Quiz -->
+        <div>
+          <label for="selectquiz" class="block text-sm font-medium mb-1">Quiz</label>
+          <select id="selectquiz" name="quiz_id"
+            class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            <option value="random" selected>Random</option>
+            {% for qi in quiz_id_list %}
+              <option value="{{qi}}">{{qi}}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Args (dynamic) -->
+        <div id="argsForm" class="space-y-2"></div>
+
+        <!-- Random checkbox -->
+        <div class="flex items-center gap-2">
+          <input name="random" id="random" type="checkbox"
+            class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"/>
+          <label for="random" class="text-sm">Random data for question</label>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex gap-4">
+          <button type="submit"
+            class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700">Submit</button>
+          <button type="button" onclick="resetForm()"
+            class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg shadow hover:bg-gray-300">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Right: preview panel -->
+    <div class="flex-1 bg-white rounded-2xl shadow p-6">
+      <h3 class="text-lg font-semibold mb-4">Preview</h3>
+      <div id="exampleDiv" class="p-4 border border-dashed border-gray-300 rounded-lg mb-4">
+        Select a command to see an example question here.
+      </div>
+      <div id="previewPanel" class="text-sm text-gray-600">
+        Select options to preview question...
+      </div>
+    </div>
   </div>
 
-  <!-- Right: preview panel -->
-  <div style="flex:1; border:1px solid #ccc; padding:10px;">
-    <h3>Preview</h3>
-      <div id="exampleDiv" style="margin-top:15px; padding:10px; border:1px dashed #aaa;">
-  Select a command to see an example question here.
-</div>
-
-    <div id="previewPanel">Select options to preview question...</div>
+  <!-- Spinner -->
+  <div id="spinner" class="hidden text-center mt-6">
+    <div class="animate-spin h-8 w-8 border-4 border-gray-200 border-t-blue-600 rounded-full mx-auto"></div>
+    <p class="text-sm text-gray-500 mt-2">Generating quiz...</p>
   </div>
-</div>
 
-    {% if debug %}
-    <h1> commands json </h1>
-    <pre>{{ commands_dict_json }};</pre>
-    {%endif%}
+  <!-- Result -->
+  <div id="resultDiv" class="mt-6 bg-white rounded-2xl shadow p-6 border">
+    <pre id="resultPre" class="text-sm text-gray-700">Result will appear here...</pre>
+  </div>
 
-    <div id="spinner" style="display:none; text-align:center; margin-top:10px;">
-  <div class="loader"></div>
-  <p>Generating quiz...</p>
-</div>
-<div id="resultDiv" style="margin-top: 20px; border: 1px solid #ccc; padding: 10px;">
-    <pre id="resultPre">Result will appear here...</pre>
-</div>
-</body>
+  {% if debug %}
+  <h1 class="mt-10 text-xl font-bold">Commands JSON</h1>
+  <pre class="bg-gray-100 p-4 rounded">{{ commands_dict_json }};</pre>
+  {% endif %}
+
+  <!-- Keep your existing <script> logic unchanged -->
 <script src="{{ url_for('static', path='webui.js') }}"></script>
+</body>
 </html>
-
