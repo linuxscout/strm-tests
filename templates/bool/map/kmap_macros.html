@@ -104,7 +104,7 @@
     {% set cols = ["00","01","11","10"] %}
     {% set colors = [ "red", "green", "blue", "cyan", "magenta", "orange", "pink", "brown", gold, "purple"] %}
 
-    <svg width="{{ size * (cols|length) + 100 }}" height="{{ size * (rows|length) + 100 }}">
+<svg width="{{ size * (cols|length) + 100 }}" height="{{ size * (rows|length) + 100 }}">
       <!-- Variable labels -->
       <text x="100" y="20" font-size="16" font-family="sans-serif">{{cd}}</text>
       <text x="20" y="100" font-size="16" font-family="sans-serif" transform="rotate(-90,20,100)">{{ab}}</text>
@@ -113,7 +113,7 @@
       {% for c in cols %}
       {% set j = loop.index0 %}
         <text x="{{ j*size + size/2 + 80 }}" y="50" font-size="14" text-anchor="middle">{{ c }}</text>
-      {% endfor %}s
+      {% endfor %}
 
       <!-- Row labels -->
       {% for r in rows %}
@@ -247,5 +247,5 @@
 
       {% endfor %}     {#
         #}
-    </svg>
+</svg>
 {% endmacro %}

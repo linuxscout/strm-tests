@@ -7,7 +7,7 @@
   },
   "base": {
     "number": 1024,
-    "in_base": 10,
+    "in_base": 7,
     "out_base": 16
   },
   "counter": {
@@ -96,7 +96,7 @@
   },
   "ascii": {
     "text": "Hello",
-    "method": "encode"
+    "method": "both"
   },
   "ascii_text": {
     "text": "WORLD Taha Zerrouki",

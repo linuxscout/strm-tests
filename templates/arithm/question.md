@@ -1,0 +1,17 @@
+Calculate the following operations in base {{ base }} :  
+<span dir="rtl">أنجز العمليات الآتية في الأساس {{ base }}</span>  
+{% if "fr" in languages %}
+Effectuer les opérations suivantes en base {{ base }} :
+{% endif %}
+
+```text
+  {{ number_a|group4 }}
+{{ operation }} {{ number_b|group4 }}
+-------------------
+{% if RENDER_MODE == "question" %}
+= ........
+
+{% elif RENDER_MODE == "answer" %}
+= {{ number_c|group4 }}
+{% endif %}
+```

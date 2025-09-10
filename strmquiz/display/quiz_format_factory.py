@@ -25,6 +25,7 @@ from . import quiz_format
 from . import quiz_format_html
 from . import quiz_format_tex
 from . import quiz_format_json
+from . import quiz_format_md
 class quiz_format_factory:
     
     def __init__(self,):
@@ -41,11 +42,13 @@ class quiz_format_factory:
             return quiz_format_html.quiz_format_html(lang=lang, templates_dir=templates_dir)
         elif typef.lower()== "json":
             return quiz_format_json.quiz_format_json(lang=lang, templates_dir=templates_dir)
+        elif typef.lower() in ("markdown", "md") :
+            return quiz_format_md.quiz_format_md(lang=lang, templates_dir=templates_dir)
         else:
             return quiz_format.quiz_format(lang=lang, templates_dir=templates_dir)
     @staticmethod
     def is_available_format(format):
-        return bool(format.lower() in ["tex","latex","html","json","text"])
+        return bool(format.lower() in ["tex","md", "markdown","latex","html","json","text"])
 
 def main(args):
     outformats = ["tex", "csv", "md"]

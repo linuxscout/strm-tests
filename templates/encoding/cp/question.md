@@ -1,0 +1,18 @@
+Represent in **1's** and **2's** complement the following number:  
+
+<span dir="rtl">مثل العدد الآتي في المتمم إلى الواحد وإلى الاثنين :</span>  
+
+{% if "fr" in languages %}
+Représenter en **complément à 1** et **complément à 2** le nombre suivant :  
+{% endif %}
+
+**{{ number }}**
+
+---
+
+{% if RENDER_MODE == "answer" %}
+- -{{ number }} = ( {{ binary|group4 }} )<sub>2</sub>  
+- ( {{ cp1|group4 }} )<sub>c1</sub>  
+- +1  
+- ( {{ cp2|group4 }} )<sub>c2</sub>  
+{% endif %}

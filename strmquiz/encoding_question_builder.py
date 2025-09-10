@@ -111,9 +111,9 @@ class EncodingQuestionBuilder(Question_Builder):
                 "template": "base",
                 #"handler": self.command_base,
                 "args": {
-                    "number": {"type": "integer", "default": 0, "label":"Number (decimal)"},
+                    "number": {"type": "integer", "default": 1007, "label":"Number (decimal)"},
                     "in_base": {"type": "integer", "default": 10, "label":"From base"},
-                    "out_base": {"type": "integer", "default": 10, "label":"To base"},
+                    "out_base": {"type": "integer", "default": 8, "label":"To base"},
                 },
             },
             "arithm": {
@@ -275,7 +275,7 @@ class EncodingQuestionBuilder(Question_Builder):
                                     )
 
     def command_base(self, args={}):
-        return self.question_base(decimal= args.get("number_a",0),
+        return self.question_base(decimal= args.get("number",0),
                                    in_base=args.get("in_base",10),
                                    out_base=args.get("out_base",10),
                                     )

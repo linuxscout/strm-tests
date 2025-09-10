@@ -10,7 +10,7 @@
     <p>Command: {{command}} | category {{category}} |format {{outformat}}</p>
     <h2>Question: </h2>
     <div id="question">
-        {% if outformat in ("tex",) %}
+        {% if outformat in ("tex","md") %}
         <textarea>{{question|safe}}</textarea>
         {%else%}
         {{question|safe}}
@@ -19,7 +19,7 @@
 
     <h2>Answer:</h2>
     <div id="answer">
-        {% if outformat in ("tex",) %}
+        {% if outformat in ("tex", "md") %}
         <textarea>{{answer|safe}}</textarea>
         {%else%}
         {{answer|safe}}
@@ -32,7 +32,7 @@
 </pre>
 
 <h2>Quiz</h2>
-    {% if outformat in ("tex",) %}
+    {% if outformat in ("tex","md") %}
         <textarea rows="5" cols="50">{{quiztext|safe}}</textarea>
         {%else%}
     {{quiztext|safe}}

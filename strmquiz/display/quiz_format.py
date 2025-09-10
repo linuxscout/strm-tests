@@ -23,8 +23,8 @@
 #  
 # used for generating truth table
 from jinja2 import Environment, FileSystemLoader, TemplateNotFound
-
-
+import re
+import html
 import itertools
 from . import format_const
 from ..bool import logigram
@@ -52,6 +52,7 @@ class quiz_format:
         self.env.filters["normalize_formula"] = self.normalize_formula
         self.env.filters["format_map_terms"] = self.format_map_terms
         self.env.filters["escape_string"] = self.escape_string
+        self.env.filters["normalize_newlines"] = self.normalize_newlines
         self.group_digit_sep = " "
         # self.variables = ["a","b","c","d"]
         #~ print("quiz_format")
@@ -83,7 +84,11 @@ class quiz_format:
         """
         self.tests.append(quiz_question_list)
 
-    import html
+    def normalize_newlines(self,text: str) -> str:
+        """
+        Collapse sequences of newline + spaces + newline into a single newline.
+        """
+        return re.sub(r"\n[ \n\t]*\n+", "\n", text)
 
     # Escape for HTML
     def escape_string(self, s: str) -> str:

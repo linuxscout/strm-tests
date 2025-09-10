@@ -21,8 +21,8 @@ Simplifier l'expression suivant:<br/>
 {{ kmap.kmap4svg(minterms, dontcares, groups=simplification, ab=ab, cd=cd) }}
 <br/>
 <ul>
-    <li>Simplified Sum of products : {{ sop_dict.formatted }}</li>
-    <li>Simplified product of sums : {{ pos_dict.formatted }}</li>
+    <li>Simplified Sum of products : {{ sop_dict.default|normalize_formula }}</li>
+    <li>Simplified product of sums : {{ pos_dict.default|normalize_formula }}</li>
     </ul>
 
 
