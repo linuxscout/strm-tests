@@ -15,8 +15,12 @@ Simplifier le tableau de Karnaugh suivant:
 {% for data in data_list %}
 
 {% import "bool/map/kmap_macros.html" as kmap %}
-
+{% if RENDER_MODE == "question" %}
+{{ kmap.kmap4svg(data.minterms, data.dontcares, groups=[], ab=data.ab, cd=data.cd) }}
+ {% endif %}
+{% if RENDER_MODE == "answer" %}
 {{ kmap.kmap4svg(data.minterms, data.dontcares, groups=data.simplification, ab=data.ab, cd=data.cd) }}
+ {% endif %}
 <br/>
 
 {% if RENDER_MODE == "answer" %}

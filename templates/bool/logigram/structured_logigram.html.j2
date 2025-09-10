@@ -1,11 +1,11 @@
 {% set functions = logicdiagramdict.functions %}
 {% set lg = logicdiagramdict %}
-  {% set gate_space = 50 %}  <!-- Define space between gates -->
-  {% set var_space = 50 %}   <!-- Define space between vars -->
-  {% set var_gate_size = 25 %}   <!-- Define space between gates vars -->
-  {% set step = 10 %}   <!-- Define step offset lines entred into a function gate -->
-  {% set table_var_xpos = {lg.variables["A"]:-270, lg.variables["B"]:-210, lg.variables["C"]:-150, lg.variables["D"]:-90} %}   <!-- Define space between vars -->
-  {% set table_var_xpos = {lg.variables["A"]:-220, lg.variables["B"]:-170, lg.variables["C"]:-120, lg.variables["D"]:-70} %}   <!-- Define space between vars -->
+  {% set gate_space = 50 %}  {# Define space between gates #}
+  {% set var_space = 50 %}   {# Define space between vars #}
+  {% set var_gate_size = 25 %}   {# Define space between gates vars #}
+  {% set step = 10 %}   {# Define step offset lines entred into a function gate #}
+  {% set table_var_xpos = {lg.variables["A"]:-270, lg.variables["B"]:-210, lg.variables["C"]:-150, lg.variables["D"]:-90} %}   {# Define space between vars #}
+  {% set table_var_xpos = {lg.variables["A"]:-220, lg.variables["B"]:-170, lg.variables["C"]:-120, lg.variables["D"]:-70} %}   {# Define space between vars #}
 
 {% if lg.method.upper() == "NAND" %}
     {% set function_gate = "nand" %}
