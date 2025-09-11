@@ -56,6 +56,7 @@ async def get_quiz(request: Request):
     commands_dict = quiz_builder.get_commands_info()
     categories_dict = quiz_builder.get_categories()
     quiz_id_list = quiz_builder.get_quiz_id_list()
+    formats_dict = quiz_builder.get_available_formats()
     category_commands = {
         cat: cats["commands"] for cat, cats in categories_dict.items()
     }
@@ -64,6 +65,7 @@ async def get_quiz(request: Request):
                  "commands_dict_json": json.dumps(commands_dict),
                  "categories_dict": categories_dict,
                  "category_commands_json": json.dumps(category_commands),
+                 "format_dict": formats_dict,
                  "quiz_id_list": quiz_id_list
                  }
     return templates.TemplateResponse(request,"quiz.html", response)

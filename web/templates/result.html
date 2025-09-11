@@ -10,8 +10,10 @@
     <p>Command: {{command}} | category {{category}} |format {{outformat}}</p>
     <h2>Question: </h2>
     <div id="question">
-        {% if outformat in ("tex","md") %}
-        <textarea>{{question|safe}}</textarea>
+        {% if outformat.lower() not in ("html",) %}
+        <pre class="bg-gray-100 p-2 rounded whitespace-pre-wrap break-words">
+            {{question|safe}}
+        </pre>
         {%else%}
         {{question|safe}}
         {%endif%}
@@ -19,8 +21,12 @@
 
     <h2>Answer:</h2>
     <div id="answer">
-        {% if outformat in ("tex", "md") %}
-        <textarea>{{answer|safe}}</textarea>
+        {% if outformat.lower() not in ("html",) %}
+
+
+        <pre class="bg-gray-100 p-2 rounded whitespace-pre-wrap break-words">
+            {{answer|safe}}
+        </pre>
         {%else%}
         {{answer|safe}}
         {%endif%}
@@ -32,8 +38,10 @@
 </pre>
 
 <h2>Quiz</h2>
-    {% if outformat in ("tex","md") %}
-        <textarea rows="5" cols="50">{{quiztext|safe}}</textarea>
+    {% if outformat.lower() not in ("html",) %}
+    <pre class="bg-gray-100 p-2 rounded whitespace-pre-wrap break-words">
+    {{quiztext|safe}}
+    </pre>
         {%else%}
     {{quiztext|safe}}
      {%endif%}

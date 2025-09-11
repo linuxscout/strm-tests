@@ -29,11 +29,11 @@ from . import format_const
 from ..bool import bool_const
 
 
-class quiz_format_md(quiz_format.quiz_format):
+class quiz_format_txt(quiz_format.quiz_format):
     """ Generate a format for the test """
     def __init__(self, formatting="", lang ="ar-en", templates_dir=""):
-        quiz_format.quiz_format.__init__(self, formatting="md", lang=lang, templates_dir=templates_dir)
-        self.formatting = "md"
+        quiz_format.quiz_format.__init__(self, formatting="txt", lang=lang, templates_dir=templates_dir)
+        self.formatting = "txt"
         self.output =  []
         self.header =""
         self.footer =""
@@ -238,31 +238,34 @@ class quiz_format_md(quiz_format.quiz_format):
 
     @staticmethod
     def normalize_formula(expr: str) -> str:
-        # Match a word (letters/numbers/underscore) followed by a '
-        expr = re.sub(r"([A-Za-z0-9_]+)'", r"\\overline{\1}", expr)
-        # 3. Handle LaTeX \overline{...} -> MathML mover
-        s = expr
-        while True:
-            s_out = re.sub(
-                r"¬\{([^}]+)\}",
-                r"\\overline{\1}",
-                s
-            )
-            if s_out == s:
-                break
-            s = s_out
-        # 5. Replace sum/product/uparrow/downarrow with MathML entities
-        symbols = {
-            bool_const.BIG_NAND_SYMB: '\\big\\uparrow ',
-            bool_const.NAND_SYMB: "\\uparrow ",
-            bool_const.BIG_NOR_SYMB: '\\big\\downarrow ',
-            bool_const.NOR_SYMB: '\\downarrow ',
-
-        }
-        for k, v in symbols.items():
-            s = s.replace(k, v)
-
+        """ display formula s it
+        """
         return s
+        # # Match a word (letters/numbers/underscore) followed by a '
+        # expr = re.sub(r"([A-Za-z0-9_]+)'", r"\\overline{\1}", expr)
+        # # 3. Handle LaTeX \overline{...} -> MathML mover
+        # s = expr
+        # while True:
+        #     s_out = re.sub(
+        #         r"¬\{([^}]+)\}",
+        #         r"\\overline{\1}",
+        #         s
+        #     )
+        #     if s_out == s:
+        #         break
+        #     s = s_out
+        # # 5. Replace sum/product/uparrow/downarrow with MathML entities
+        # symbols = {
+        #     bool_const.BIG_NAND_SYMB: '\\big\\uparrow ',
+        #     bool_const.NAND_SYMB: "\\uparrow ",
+        #     bool_const.BIG_NOR_SYMB: '\\big\\downarrow ',
+        #     bool_const.NOR_SYMB: '\\downarrow ',
+        #
+        # }
+        # for k, v in symbols.items():
+        #     s = s.replace(k, v)
+        #
+        # return s
 
     @staticmethod
     def normalize_formulaX( s: str):

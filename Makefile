@@ -110,6 +110,22 @@ test0m test1m test2m test3m test9m test5m test4m:
 	cp tests/output/test.md $(GEN_DIR)/
 
 
+
+# Rule template to generate tests
+test0t:TEST_ID=test0
+test1t:TEST_ID=test1
+test2t:TEST_ID=test2
+test3t:TEST_ID=test3
+test4t:TEST_ID=test4
+test5t:TEST_ID=test5
+test9t:TEST_ID=test9
+test0t test1t test2t test3t test9t test5t test4t:
+	@echo "Generating test: $(TEST_ID)"
+	python3 -m strmquiz -f $(CONF_DIR)/quiz7.conf -g $(CONF_DIR)/args.6.json --lang="ar-en" --templates templates -d txt -t "$(TEST_ID)" -o tests/output/test.txt
+	mkdir -p $(GEN_DIR)/test2-$(DATE)
+	cp tests/output/test.txt $(GEN_DIR)/test2-$(DATE)/
+	cp tests/output/test.txt $(GEN_DIR)/
+
 # Generate random minterms
 minterms:
 	python3 tests/gen_random_minterms.py

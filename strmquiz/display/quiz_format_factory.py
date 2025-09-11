@@ -26,6 +26,15 @@ from . import quiz_format_html
 from . import quiz_format_tex
 from . import quiz_format_json
 from . import quiz_format_md
+from . import quiz_format_txt
+
+OUTPUT_FORMAT_TABLE = {"txt":"Text",
+                            "md":"MarkDown",
+                            "tex":"LaTex",
+                            "html":"HTML",
+                            "json":"JSON"}
+OUTPUT_FORMAT_VALUES_TABLE = list(set(list(OUTPUT_FORMAT_TABLE.keys()) + list(OUTPUT_FORMAT_TABLE.values())))
+OUTPUT_FORMAT_VALUES_TABLE = [x.lower() for x in OUTPUT_FORMAT_VALUES_TABLE]
 class quiz_format_factory:
     
     def __init__(self,):
@@ -44,11 +53,17 @@ class quiz_format_factory:
             return quiz_format_json.quiz_format_json(lang=lang, templates_dir=templates_dir)
         elif typef.lower() in ("markdown", "md") :
             return quiz_format_md.quiz_format_md(lang=lang, templates_dir=templates_dir)
+        elif typef.lower() in ("text", "txt") :
+            return quiz_format_txt.quiz_format_txt(lang=lang, templates_dir=templates_dir)
         else:
             return quiz_format.quiz_format(lang=lang, templates_dir=templates_dir)
     @staticmethod
     def is_available_format(format):
-        return bool(format.lower() in ["tex","md", "markdown","latex","html","json","text"])
+        return bool(format.lower() in OUTPUT_FORMAT_VALUES_TABLE)
+
+    @staticmethod
+    def get_available_format()->dict:
+        return OUTPUT_FORMAT_TABLE
 
 def main(args):
     outformats = ["tex", "csv", "md"]

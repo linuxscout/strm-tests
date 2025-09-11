@@ -64,8 +64,11 @@
           <select id="selectformat" name="outformat"
             class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
             <option value="html" selected>HTML</option>
-            <option value="tex">TeX</option>
-            <option value="md">Markdown</option>
+            {% for fmt_key, fmt_value in format_dict.items() %}
+            {%if fmt_key.lower() !="html"%}
+              <option value="{{fmt_key}}" >{{fmt_value}}</option>
+            {%endif%}
+            {% endfor %}
           </select>
         </div>
 

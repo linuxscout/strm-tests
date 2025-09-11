@@ -260,6 +260,11 @@ class QuizBuilder:
         if temp == "default":
             raise NotImplementedError(f"Not Implemented template for command '{name}'")
         return temp
+
+    def get_available_formats(self)->dict:
+        """return all available format"""
+        return quiz_format_factory.quiz_format_factory.get_available_format()
+
     def set_format(self, outformat="latex"):
         """ set a new format"""
         is_available = quiz_format_factory.quiz_format_factory.is_available_format(outformat)
