@@ -1,5 +1,5 @@
 {%macro draw_logigram() %}
-{% include "bool/logigram/structured_logigram.html.j2"%}
+{% include "bool/logigram/structured_logigram.txt"%}
 {%endmacro%}
 
 {% set debug = False %}

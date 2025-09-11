@@ -1,32 +1,42 @@
 {% set functions = logicdiagramdict.functions %}
 {% set lg = logicdiagramdict %}
 
-  {% set ns = namespace(i = 0, counter=0, shift=0) %}
+{% if lg.method.upper() == "NAND" %}
+    {% set function_gate = "nand" %}
+    {% set term_gate = "nand" %}
+    {% set not_gate = "nand-not" %}
+{% elif lg.method.upper() == "NOR" %}
+    {% set function_gate = "nor" %}
+    {% set term_gate = "nor" %}
+    {% set not_gate = "nor-not" %}
+{% elif lg.method.upper() == "POS" %}
+    {% set function_gate = "and" %}
+    {% set term_gate = "or" %}
+    {% set not_gate = "not" %}
+{% else %}
+    {% set function_gate = "or" %}
+    {% set term_gate = "and" %}
+    {% set not_gate = "not" %}
+{% endif %}
+
+  {% set ns = namespace(term_cntr = 0, counter=0, shift=0) %}
 
   {% for function in lg.functions %}
-
       {% set nb_terms = function.nb_terms %}
-
-      <!-- Draw terms of fucntion -->
-
+      <!-- Draw terms of function -->
       {% for term in function.terms %}
-      {% set ns.i = ns.i + 1 %}
-
-      <!-- Draw vars of term  -->
-
-        {% set ns.counter=0 %}
-
-        {%for var in lg.variables.values()  %}
-
-            {% if var+"'" in term.vars %}
-{{ "%-2s" % var }} ──○────{% if ns.counter == 0 %}┐{% elif ns.counter < term.vars|length - 1 %}┼{% else %}┘{% endif %}
-                {% set ns.counter = ns.counter + 1 %}
-            {% elif var in term.vars %}
-{{ "%-2s" % var }} ───────{% if ns.counter == 0 %}┐{% elif ns.counter < term.vars|length - 1 %}┼{% else %}┘{% endif %}
-                {% set ns.counter = ns.counter + 1 %}
-            {% endif %}
-        {% endfor %}── & ──
-      {% endfor %}
+       {% set ns.term_cntr = loop.index0 %}
+        {%for var in term.vars  %}
+        {% set ns.counter=loop.index0 %}
+        {%set padding = "        |" if ns.term_cntr > 0 and ns.counter < term.vars|length - 1 else "" %}
+        {% set var_end ="┐" if ns.counter == 0 else  "┼" if ns.counter < term.vars|length - 1  else "┘" %}
+        {% set term_end ="┐" if ns.term_cntr == 0 else  "┼" if ns.term_cntr < function.nb_terms - 1  else "┘" %}
+        {% set term_gate_place ="──"~term_gate.upper()|center(4) ~"──"~term_end if ns.counter == term.vars|length - 1 else ""%}
+        {% set function_gate_place ="──"~function_gate.upper()|center(4)~"──"~function.name if ns.counter == term.vars|length - 1 and ns.term_cntr == function.nb_terms - 1 else ""%}
+        {% set var_start =  "%-2s" % var[:-1] ~ "──○────" if var.endswith("'") else   "%-2s" % var ~ "───────" %}
+{{var_start}}{{var_end}}{{padding}}{{term_gate_place}}{{function_gate_place}}
+{% endfor %}
+      {% endfor %} {# end for terms #}
   {% endfor %}
 
 
