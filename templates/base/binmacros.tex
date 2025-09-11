@@ -144,18 +144,18 @@ Hex
 
 {% macro base_convert_table(num_str, from_base, to_base) %}
 \subsection*{Convert from base {{ from_base }} to base {{ to_base }}}
-{% if from_base == 16 and to_base == 8 %}
-  {{ hex2oct_table(num_str) }}
-{% elif from_base == 8 and to_base == 16 %}
-  {{ oct2hex_table(num_str) }}
-{% elif from_base == 2 and to_base == 16 %}
-  {{ bin2hex_table(num_str) }}
-{% elif from_base == 16 and to_base == 2 %}
-  {{ hex2bin_table(num_str) }}
-{% elif from_base == 2 and to_base == 8 %}
-  {{ bin2oct_table(num_str) }}
-{% elif from_base == 8 and to_base == 2 %}
-  {{ oct2bin_table(num_str) }}
+  {% if from_base == 16 and to_base == 8 %}
+    {{ hex2oct_table(num_str|string) }}
+  {% elif from_base == 8 and to_base == 16 %}
+    {{ oct2hex_table(num_str|string) }}
+  {% elif from_base == 2 and to_base == 16 %}
+    {{ bin2hex_table(num_str|string) }}
+  {% elif from_base == 16 and to_base == 2 %}
+    {{ hex2bin_table(num_str|string) }}
+  {% elif from_base == 2 and to_base == 8 %}
+    {{ bin2oct_table(num_str|string) }}
+  {% elif from_base == 8 and to_base == 2 %}
+    {{ oct2bin_table(num_str|string) }}
 {% else %}
   Not implemented.
 {% endif %}

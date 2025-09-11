@@ -1,0 +1,173 @@
+
+{% macro bin2hex_table(binary_str) %}
+  <table border="1" cellpadding="5" cellspacing="0">
+    <tr> <td> Base 2 </td>
+      {% for group in binary_str|batch(4, "0")|map("join") %}
+        <td>{{ group }}</td>
+      {% endfor %}
+    </tr>
+    <tr> <td> Base 16 </td>
+      {% for group in binary_str|batch(4, "0")|map("join") %}
+        <td>{{ "%X"|format(group|int(base=2)) }}</td>
+      {% endfor %}
+    </tr>
+  </table>
+{% endmacro %}
+
+{% macro bin2oct_table(binary_str) %}
+  <table border="1" cellpadding="5" cellspacing="0">
+    <tr> <td> Base 2 </td>
+      {% for group in binary_str|batch(3, "0")|map("join") %}
+        <td>{{ group }}</td>
+      {% endfor %}
+    </tr>
+    <tr> <td> Base 8 </td>
+      {% for group in binary_str|batch(3, "0")|map("join") %}
+        <td>{{ group|int(base=2) }}</td>
+      {% endfor %}
+    </tr>
+  </table>
+{% endmacro %}
+
+{% macro hex2bin_table(hex_str) %}
+  <table border="1" cellpadding="5" cellspacing="0">
+    <tr> <td> Base 16 </td>
+      {% for c in hex_str %}
+        <td>{{ c }}</td>
+      {% endfor %}
+    </tr>
+    <tr> <td> Base 2 </td>
+      {% for c in hex_str %}
+        <td>{{ c|int(base=16)|to_bin(4) }}</td>
+      {% endfor %}
+    </tr>
+  </table>
+{% endmacro %}
+
+{% macro oct2bin_table(oct_str) %}
+  <table border="1" cellpadding="5" cellspacing="0">
+    <tr> <td> Base 8 </td>
+      {% for c in oct_str %}
+        <td>{{ c }}</td>
+      {% endfor %}
+    </tr>
+    <tr> <td> Base 2 </td>
+      {% for c in oct_str %}
+        <td>{{ c|int(base=8)|to_bin(3) }}</td>
+      {% endfor %}
+    </tr>
+  </table>
+{% endmacro %}
+
+{% macro hex2oct_table(hex_str) %}
+  {# Step 1: convert each hex digit to binary (4 bits) and concatenate #}
+  {% set ns=namespace(bin_str = "", oct_digits = []) %}
+  {% for c in hex_str %}
+    {% set ns.bin_str = ns.bin_str + (c|int(base=16)|to_bin(4)) %}
+  {% endfor %}
+
+  {# add 0 for ajusting bin_str #}
+  TO ADD {{ (-(ns.bin_str|length)%3) }}
+  {% set pad = (-(ns.bin_str|length)%3) %}
+   PAD {{pad}}
+  {% set ns.bin_str = "0"*pad + ns.bin_str %}
+
+  {# Step 3: group binary into octal (3 bits) #}
+  {% for g in ns.bin_str|batch(3, "0") %}
+    {% set ns.oct_digits = ns.oct_digits + [g|join] %}
+  {% endfor %}
+
+
+
+  BIN_str '{{ ns.bin_str }}'
+
+  OCT {{ ns.oct_digits }}
+
+
+  Hex {{ hex_str }}
+  <table border="1" cellpadding="5" cellspacing="0" style="text-align:center;">
+    <!-- Row 1: HEX digits -->
+    <tr>
+      {% if pad > 0 %}<td colspan="{{ pad }}" class="pad"></td>{% endif %}
+      {% for c in hex_str %}
+        <td colspan="4">{{ c }}</td>
+      {% endfor %}
+    </tr>
+
+    <!-- Row 2: Binary digits -->
+    <tr>
+      {% for b in ns.bin_str %}
+        <td>{{ b }}</td>
+      {% endfor %}
+    </tr>
+
+    <!-- Row 3: Octal digits -->
+    <tr>
+      {% for g in ns.oct_digits %}
+        <td colspan="3">{{ g|int(base=2) }}</td>
+      {% endfor %}
+    </tr>
+  </table>
+{% endmacro %}
+
+{# needs a to_bin(value, width) filter registered in Jinja #}
+{% macro oct2hex_table(oct_str) %}
+  {% set ns=namespace(bin_str = "") %}
+  {% set oct_str = (oct_str|string) %}
+
+  {# 1) OCT → BIN (concatenate 3-bit chunks) #}
+  {% set ns.bin_str = "" %}
+  {% for c in oct_str %}
+    {% set ns.bin_str = ns.bin_str + (c|int(base=8)|to_bin(3)) %}
+  {% endfor %}
+
+  {# 2) LEFT pad to multiple of 4 #}
+  {% set pad = -(ns.bin_str|length) % 4 %}
+  {% set bin4 = "0"*pad + ns.bin_str %}
+
+  <table border="1" cellpadding="5" cellspacing="0" style="text-align:center;">
+    <!-- Row 1: OCT (each spans 3 BIN columns) -->
+    <tr>
+      {% if pad > 0 %}<td colspan="{{ pad }}" class="pad"></td>{% endif %}
+      {% for c in oct_str %}
+        <td colspan="3">{{ c }}</td>
+      {% endfor %}
+    </tr>
+
+    <!-- Row 2: BIN bits (with left pad zeros if needed) -->
+    <tr>
+      {% for i in range(bin4|length) %}
+        <td class="{% if i < pad %}pad{% endif %}">{{ bin4[i] }}</td>
+      {% endfor %}
+    </tr>
+
+    <!-- Row 3: HEX (each spans 4 BIN columns). Add a leading span if padded -->
+    <tr>
+      {% for i in range(0, bin4|length, 4) %}
+        {% set g = bin4[i:i+4] %}
+        <td colspan="4">{{ "%X"|format(g|int(base=2)) }}</td>
+      {% endfor %}
+    </tr>
+  </table>
+{% endmacro %}
+
+
+{#--- main_macro ---#}
+{% macro base_convert_table(num_str, from_base, to_base) %}
+  <h3>Convert from base {{ from_base }} to base {{ to_base }}</h3>
+  {% if from_base == 16 and to_base == 8 %}
+    {{ hex2oct_table(num_str|string) }}
+  {% elif from_base == 8 and to_base == 16 %}
+    {{ oct2hex_table(num_str|string) }}
+  {% elif from_base == 2 and to_base == 16 %}
+    {{ bin2hex_table(num_str|string) }}
+  {% elif from_base == 16 and to_base == 2 %}
+    {{ hex2bin_table(num_str|string) }}
+  {% elif from_base == 2 and to_base == 8 %}
+    {{ bin2oct_table(num_str|string) }}
+  {% elif from_base == 8 and to_base == 2 %}
+    {{ oct2bin_table(num_str|string) }}
+ {% elif from_base == 10 and to_base != 10 %}
+
+  {% endif %}
+{% endmacro %}
