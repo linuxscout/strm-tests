@@ -1,0 +1,36 @@
+{% set functions = logicdiagramdict.functions %}
+{% set lg = logicdiagramdict %}
+
+  {% set ns = namespace(i = 0, counter=0, shift=0) %}
+
+  {% for function in lg.functions %}
+
+      {% set nb_terms = function.nb_terms %}
+
+      <!-- Draw terms of fucntion -->
+
+      {% for term in function.terms %}
+      {% set ns.i = ns.i + 1 %}
+
+      <!-- Draw vars of term  -->
+
+        {% set ns.counter=0 %}
+
+        {%for var in lg.variables.values()  %}
+
+            {% if var+"'" in term.vars %}
+{{ "%-2s" % var }} ──○────{% if ns.counter == 0 %}┐{% elif ns.counter < term.vars|length - 1 %}┼{% else %}┘{% endif %}
+                {% set ns.counter = ns.counter + 1 %}
+            {% elif var in term.vars %}
+{{ "%-2s" % var }} ───────{% if ns.counter == 0 %}┐{% elif ns.counter < term.vars|length - 1 %}┼{% else %}┘{% endif %}
+                {% set ns.counter = ns.counter + 1 %}
+            {% endif %}
+        {% endfor %}── & ──
+      {% endfor %}
+  {% endfor %}
+
+
+
+
+
+

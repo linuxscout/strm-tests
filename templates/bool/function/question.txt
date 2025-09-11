@@ -1,6 +1,6 @@
 {% import "bool/map/kmap_macros.txt" as kmap %}
 {%macro draw_logigram() %}
-{% include "bool/logigram/structured_logigram.html.j2"%}
+{% include "bool/logigram/structured_logigram.txt"%}
 {%endmacro%}
 
 Study the following function:  
