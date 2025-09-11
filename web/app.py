@@ -15,7 +15,7 @@ class Submission(BaseModel):
     args: Dict[str, Any]
     select_random_values: bool = True
     outformat: str = "html"
-    quizid: str = "test0"
+    quizid: str = ""
 
 from strmquiz.quizbuilder import QuizBuilder
 
@@ -154,7 +154,10 @@ async def submit(request:Request, data: Submission):
     quiz_builder.set_format(outformat=outformat)
     question, answer = quiz_builder.get_question(command=command_to_run, args = new_args)
 
-    quiztext = quiz_builder.get_quiz(test_no=quiz_id)
+    if quiz_id:
+        quiztext = quiz_builder.get_quiz(test_no=quiz_id)
+    else:
+        quiztext =""
 
     response = {
         "request": request,
