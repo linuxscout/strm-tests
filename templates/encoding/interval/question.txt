@@ -11,10 +11,30 @@ Donner les intervalles qu'on peut représenter en **nombres positifs**, **valeur
 ---
 
 {% if RENDER_MODE == "answer" %}
-| Representation       | Formula Range                                                                 | Evaluated Range                                      |
-|----------------------|-------------------------------------------------------------------------------|------------------------------------------------------|
-| Positives            | [0; 2<sup>{{ number }} - 1</sup>]                                            | [0; {{ 2**number - 1 }}]                             |
-| Unsigned value       | [-(2<sup>{{ number - 1 }}</sup> - 1); 2<sup>{{ number - 1 }}</sup> - 1]      | [{{ - (2**(number-1) - 1) }}, {{ 2**(number-1) - 1 }}] |
-| One's complement     | [-(2<sup>{{ number - 1 }}</sup> - 1); 2<sup>{{ number - 1 }}</sup> - 1]      | [{{ - (2**(number-1) - 1) }}, {{ 2**(number-1) - 1 }}] |
-| Two's complement     | [-2<sup>{{ number - 1 }}</sup>; 2<sup>{{ number - 1 }}</sup> - 1]            | [{{ - (2**(number-1)) }}, {{ 2**(number-1) - 1 }}]   |
+{% set rows = [
+  {
+    "label": "Positives",
+    "formula": "[0; 2^(" ~ number ~ " - 1)]",
+    "evaluated": "[0; " ~ (2**number - 1) ~ "]"
+  },
+  {
+    "label": "Unsigned value",
+    "formula": "[-(2^(" ~ number ~ "-1) - 1); 2^(" ~ number ~ "-1) - 1]",
+    "evaluated": "[" ~ (-(2**(number-1) - 1)) ~ "; " ~ (2**(number-1) - 1) ~ "]"
+  },
+  {
+    "label": "One's complement",
+    "formula": "[-(2^(" ~ number ~ "-1) - 1); 2^(" ~ number ~ "-1) - 1]",
+    "evaluated": "[" ~ (-(2**(number-1) - 1)) ~ "; " ~ (2**(number-1) - 1) ~ "]"
+  },
+  {
+    "label": "Two's complement",
+    "formula": "[-2^(" ~ number ~ "-1); 2^(" ~ number ~ "-1) - 1]",
+    "evaluated": "[" ~ (-(2**(number-1))) ~ "; " ~ (2**(number-1) - 1) ~ "]"
+  }
+] %}
+
+
+{# using tabulate #}
+{{rows|tabulate(headers="keys", tablefmt="simple_grid")}}
 {% endif %}

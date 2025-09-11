@@ -1,63 +1,50 @@
-
 {% macro bin2hex_table(binary_str) %}
-  <table border="1" cellpadding="5" cellspacing="0">
-    <tr> <td> Base 2 </td>
-      {% for group in binary_str|batch(4, "0")|map("join") %}
-        <td>{{ group }}</td>
-      {% endfor %}
-    </tr>
-    <tr> <td> Base 16 </td>
-      {% for group in binary_str|batch(4, "0")|map("join") %}
-        <td>{{ "%X"|format(group|int(base=2)) }}</td>
-      {% endfor %}
-    </tr>
-  </table>
+  {% set headers = [] %}
+  {% set row2 = [] %}
+  {% for group in binary_str|batch(4, "0")|map("join") %}
+    {% set _ = headers.append(group) %}
+    {% set _ = row2.append("%X"|format(group|int(base=2))) %}
+  {% endfor %}
+
+  {{ ([["Base 2"] + headers, ["Base 16"] + row2]) | tabulate(headers="firstrow", tablefmt="github") }}
 {% endmacro %}
+
 
 {% macro bin2oct_table(binary_str) %}
-  <table border="1" cellpadding="5" cellspacing="0">
-    <tr> <td> Base 2 </td>
-      {% for group in binary_str|batch(3, "0")|map("join") %}
-        <td>{{ group }}</td>
-      {% endfor %}
-    </tr>
-    <tr> <td> Base 8 </td>
-      {% for group in binary_str|batch(3, "0")|map("join") %}
-        <td>{{ group|int(base=2) }}</td>
-      {% endfor %}
-    </tr>
-  </table>
+  {% set headers = [] %}
+  {% set row2 = [] %}
+  {% for group in binary_str|batch(3, "0")|map("join") %}
+    {% set _ = headers.append(group) %}
+    {% set _ = row2.append(group|int(base=2)) %}
+  {% endfor %}
+
+  {{ ([["Base 2"] + headers, ["Base 8"] + row2]) | tabulate(headers="firstrow", tablefmt="github") }}
 {% endmacro %}
+
 
 {% macro hex2bin_table(hex_str) %}
-  <table border="1" cellpadding="5" cellspacing="0">
-    <tr> <td> Base 16 </td>
-      {% for c in hex_str %}
-        <td>{{ c }}</td>
-      {% endfor %}
-    </tr>
-    <tr> <td> Base 2 </td>
-      {% for c in hex_str %}
-        <td>{{ c|int(base=16)|to_bin(4) }}</td>
-      {% endfor %}
-    </tr>
-  </table>
+  {% set headers = [] %}
+  {% set row2 = [] %}
+  {% for c in hex_str %}
+    {% set _ = headers.append(c) %}
+    {% set _ = row2.append(c|int(base=16)|to_bin(4)) %}
+  {% endfor %}
+
+{{ ([["Base 16"] + headers, ["Base 2"] + row2]) | tabulate(headers="firstrow", tablefmt="github") }}
 {% endmacro %}
 
+
 {% macro oct2bin_table(oct_str) %}
-  <table border="1" cellpadding="5" cellspacing="0">
-    <tr> <td> Base 8 </td>
-      {% for c in oct_str %}
-        <td>{{ c }}</td>
-      {% endfor %}
-    </tr>
-    <tr> <td> Base 2 </td>
-      {% for c in oct_str %}
-        <td>{{ c|int(base=8)|to_bin(3) }}</td>
-      {% endfor %}
-    </tr>
-  </table>
+  {% set headers = [] %}
+  {% set row2 = [] %}
+  {% for c in oct_str %}
+    {% set _ = headers.append(c) %}
+    {% set _ = row2.append(c|int(base=8)|to_bin(3)) %}
+  {% endfor %}
+
+  {{ ([["Base 8"] + headers, ["Base 2"] + row2]) | tabulate(headers="firstrow", tablefmt="github") }}
 {% endmacro %}
+
 
 {% macro hex2oct_table(hex_str) %}
   {# Step 1: convert each hex digit to binary (4 bits) and concatenate #}
@@ -85,29 +72,10 @@
 
 
   Hex {{ hex_str }}
-  <table border="1" cellpadding="5" cellspacing="0" style="text-align:center;">
-    <!-- Row 1: HEX digits -->
-    <tr>
-      {% if pad > 0 %}<td colspan="{{ pad }}" class="pad"></td>{% endif %}
-      {% for c in hex_str %}
-        <td colspan="4">{{ c }}</td>
-      {% endfor %}
-    </tr>
 
-    <!-- Row 2: Binary digits -->
-    <tr>
-      {% for b in ns.bin_str %}
-        <td>{{ b }}</td>
-      {% endfor %}
-    </tr>
+  {{ hex2bin_table(hex_str) }}
+  {{ bin2oct_table(ns.bin_str) }}
 
-    <!-- Row 3: Octal digits -->
-    <tr>
-      {% for g in ns.oct_digits %}
-        <td colspan="3">{{ g|int(base=2) }}</td>
-      {% endfor %}
-    </tr>
-  </table>
 {% endmacro %}
 
 {# needs a to_bin(value, width) filter registered in Jinja #}
@@ -121,34 +89,9 @@
     {% set ns.bin_str = ns.bin_str + (c|int(base=8)|to_bin(3)) %}
   {% endfor %}
 
-  {# 2) LEFT pad to multiple of 4 #}
-  {% set pad = -(ns.bin_str|length) % 4 %}
-  {% set bin4 = "0"*pad + ns.bin_str %}
+  {{ oct2bin_table(oct_str) }}
+  {{ bin2hex_table(ns.bin_str) }}
 
-  <table border="1" cellpadding="5" cellspacing="0" style="text-align:center;">
-    <!-- Row 1: OCT (each spans 3 BIN columns) -->
-    <tr>
-      {% if pad > 0 %}<td colspan="{{ pad }}" class="pad"></td>{% endif %}
-      {% for c in oct_str %}
-        <td colspan="3">{{ c }}</td>
-      {% endfor %}
-    </tr>
-
-    <!-- Row 2: BIN bits (with left pad zeros if needed) -->
-    <tr>
-      {% for i in range(bin4|length) %}
-        <td class="{% if i < pad %}pad{% endif %}">{{ bin4[i] }}</td>
-      {% endfor %}
-    </tr>
-
-    <!-- Row 3: HEX (each spans 4 BIN columns). Add a leading span if padded -->
-    <tr>
-      {% for i in range(0, bin4|length, 4) %}
-        {% set g = bin4[i:i+4] %}
-        <td colspan="4">{{ "%X"|format(g|int(base=2)) }}</td>
-      {% endfor %}
-    </tr>
-  </table>
 {% endmacro %}
 
 

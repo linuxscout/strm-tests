@@ -4,7 +4,7 @@ Calculate the following operations in base {{ base }} :
 Effectuer les opérations suivantes en base {{ base }} :
 {% endif %}
 
-```text
+
   {{ number_a|group4 }}
 {{ operation }} {{ number_b|group4 }}
 -------------------
@@ -14,4 +14,3 @@ Effectuer les opérations suivantes en base {{ base }} :
 {% elif RENDER_MODE == "answer" %}
 = {{ number_c|group4 }}
 {% endif %}
-```

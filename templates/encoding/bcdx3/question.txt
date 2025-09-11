@@ -13,11 +13,8 @@
   {% set code2_digits = bin_digits %}
 {% endif %}
 
-| {% for c1 in code1_digits %} {{ c1 }} |{% endfor %}
 
-|{% for c1 in code1_digits %}---|{% endfor %}
-
-| {% for c2 in code2_digits %} {{ c2 }} |{% endfor %}
+{{ [code1_digits, code2_digits] | tabulate(headers="firstrow", tablefmt="github") }}
 
 {% endmacro %}
 
@@ -26,44 +23,55 @@
    Render result
    ========================================================= #}
 {% macro render_bcd(result, scheme="bcd") %}
-### {{scheme|upper}} Addition Explanation
+### {{ scheme|upper }} Addition Explanation
 
-Decimal calculation:  
-`{{ result.a_dec }} + {{ result.b_dec }} = {{ result.total_dec }}`  
+Decimal calculation:
+`{{ result.a_dec }} + {{ result.b_dec }} = {{ result.total_dec }}`
 
-| Carry In |{% for c in result.carry_in %} {{ '1' if c or result.carry_out[loop.index0] }} |{% endfor %}
+{# ---- Decimal Table ---- #}
+{% set dec_rows = [] %}
+{% set _ = dec_rows.append(["Carry In"] + result.carry_in ) %}
+{% set _ = dec_rows.append(["A (dec)"] + result.digits_a_dec) %}
+{% set _ = dec_rows.append(["B (dec)"] + result.digits_b_dec) %}
+{% set _ = dec_rows.append(["Final (dec)"] + result.final_digits_dec) %}
 
-|----------|{% for c in result.carry_in %}---|{% endfor %}
-
-| A (dec)  |{% for d in result.digits_a_dec %} {{ d }} |{% endfor %}
-
-| B (dec)  |{% for d in result.digits_b_dec %} {{ d }} |{% endfor %}
-
-| Final (dec) |{% for f in result.final_digits_dec %} {{ f }} |{% endfor %}
+{{ dec_rows | tabulate(headers="firstrow", tablefmt="simple") }}
 
 
-### Addition in {{scheme|upper}}
+### Addition in {{ scheme|upper }}
 
-| Carry In |{% for c in result.carry_in %} {{ '1' if c }} |{% endfor %}
-
-|----------|{% for c in result.carry_in %}---|{% endfor %}
-
-| A (bin)  |{% for d in result.digits_a_bin %} {{ d }} |{% endfor %}
-
-| B (bin)  |{% for d in result.digits_b_bin %} {{ d }} |{% endfor %}
+{# ---- Binary Table ---- #}
+{% set bin_rows = [] %}
+{% set _ = bin_rows.append(["Carry In"] + result.carry_in ) %}
+{% set _ = bin_rows.append(["A (bin)"] + result.digits_a_bin) %}
+{% set _ = bin_rows.append(["B (bin)"] + result.digits_b_bin) %}
 
 {% if scheme.lower() == "bcd" %}
-| Carry Out|{% for c in result.carry_out %} {{ '1' if c }} |{% endfor %}
+  {% set _ = bin_rows.append(["Carry Out"] + result.carry_out) %}
 {% endif %}
-| Raw Sum  |{% for s in result.sums_bin %} {{ s }} |{% endfor %}
 
-| Correction |{% for corr in result.corrections %}{% if scheme.lower() == "bcd" %} {% if corr %}+{{ corr|to_bin }}{% endif %} |{% else %} {{ '+11' if corr > 0 else '-11' }} |{% endif %}{% endfor %}
+{% set _ = bin_rows.append(["Raw Sum"] + result.sums_bin) %}
 
-| Final (bin) |{% for f in result.final_digits_bin %} {{ f }} |{% endfor %}
+{% if scheme.lower() == "bcd" %}
+  {% set rowbcd = [] %}
+  {% for corr in result.corrections %}
+  {%set _ = rowbcd.append("+%s"|format(corr|to_bin) if corr else "")%}
+  {%endfor%}
+  {% set _ = bin_rows.append(["Correction"] + rowbcd) %}
+{% else %}
+  {% set rowx3 = [] %}
+  {% for corr in result.corrections %}
+  {%set _ = rowx3.append("+11" if corr > 0 else "-11" if corr else "")%}
+  {%endfor%}
+  {% set _ = bin_rows.append(["Correction"] + rowx3) %}
+  {% endif %}
 
-| Final (dec) |{% for f in result.final_digits_dec %} {{ f }} |{% endfor %}
+{% set _ = bin_rows.append(["Final (bin)"] + result.final_digits_bin) %}
+{% set _ = bin_rows.append(["Final (dec)"] + result.final_digits_dec) %}
 
+{{ bin_rows | tabulate(headers="firstrow", tablefmt="simple") }}
 {% endmacro %}
+
 
 
 {# =========================================================

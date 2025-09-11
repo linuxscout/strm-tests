@@ -8,17 +8,35 @@
 {% else %}
 **Gray → Binary Conversion**
 {% endif %}
+{% set table = [] %}
 
-| {% if mode == "bin2gray" %}Binary{% else %}Gray{% endif %} |{% for b in input_bits %} {{ b }} |{% endfor %}
+{# Header row: Binary or Gray + input bits #}
+{% set _ = table.append([( "Binary" if mode == "bin2gray" else "Gray" )] + input_bits|list) %}
 
-|---|{% for b in input_bits %}---|{% endfor %}
-
-| Arrows |{% for i in range(input_bits|length) %}
-{% if i == 0 %} ↓ |{% else %}{% if mode == "bin2gray" %} ↘ ⊕ ↓ |{% else %} ↗ ⊕ ↓ |{% endif %}{% endif %}
+{# Arrows row #}
+{% set arrows = ["Arrows"] %}
+{% for i in range(input_bits|length) %}
+    {% if i == 0 %}
+        {% set _ = arrows.append("↓") %}
+    {% else %}
+        {% if mode == "bin2gray" %}
+            {% set _ = arrows.append("↘ ⊕ ↓") %}
+        {% else %}
+            {% set _ = arrows.append("↗ ⊕ ↓") %}
+        {% endif %}
+    {% endif %}
 {% endfor %}
-| {% if mode == "bin2gray" %}Gray{% else %}Binary{% endif %} |{% for o in output_bits %} **{{ o }}** |{% endfor %}
+{% set _ = table.append(arrows) %}
 
-| Steps |{% for step in steps %} {{ step }} |{% endfor %}
+{# Output row: Gray or Binary + output bits #}
+{% set output_label = "Gray" if mode == "bin2gray" else "Binary" %}
+{% set _ = table.append([output_label] +  output_bits|list) %}
+
+{# Steps row #}
+{% set _ = table.append(["Steps"] + steps) %}
+
+{{ table|tabulate(tablefmt="github") }}
+
 {% endmacro %}
 
 
@@ -30,32 +48,60 @@
 
 **x:** `{{ x|join }}` → **x+1:** `{{ x_next|join }}`  
 
-| Position |{% for i in range(x|length) %} {{ i }} |{% endfor %}
+{% set table = [] %}
 
-|---|{% for i in range(x|length) %}---|{% endfor %}
+{# Header row: Position indices #}
+{% set _ = table.append(["Position"] + range(x|length)|list) %}
 
-| x |{% for bit in x %} {{ bit }} |{% endfor %}
+{# Row for x #}
+{% set _ = table.append(["x"] + x|list) %}
 
-| x+1 |{% for i in range(x|length) %}
-{% if x[i] != x_next[i] %} **{{ x_next[i] }}** |{% else %} {{ x_next[i] }} |{% endif %}
+{# Row for x+1, highlighting changed bits #}
+{% set row_next = ["x+1"] %}
+{% for i in range(x|length) %}
+    {% if x[i] != x_next[i] %}
+        {% set _ = row_next.append("**" ~ x_next[i] ~ "**") %}
+    {% else %}
+        {% set _ = row_next.append(x_next[i]) %}
+    {% endif %}
 {% endfor %}
+{% set _ = table.append(row_next) %}
+
+{{ table|tabulate(tablefmt="github") }}
+
 *Highlighted cell(s) = changed bit(s)*  
 {% endmacro %}
 
 
 {% macro illustrate_gray_sequence(gray_codes, x_name="x") %}
 ### Gray Code Sequence (Bit Changes)
+{% set table = [] %}
 
-| Step |{% for b in range(gray_codes[0]|length) %} Bit {{ loop.index0 }} |{% endfor %}
+{# Header row: Step and bit labels #}
+{# Build header row separately #}
+{% set header = ["Step"] %}
+{% for j in range(gray_codes[0]|length) %}
+    {% set _ = header.append("Bit " ~ j) %}
+{% endfor %}
 
-|---|{% for b in range(gray_codes[0]|length) %}---|{% endfor %}
+{# Add header row to the table #}
+{% set _ = table.append(header) %}
 
+{# Rows for each Gray code value #}
 {% for i in range(gray_codes|length) %}
-| {{ x_name }} + {{ i }} |{% for j in range(gray_codes[i]|length) %}
-{% if i > 0 and gray_codes[i][j] != gray_codes[i-1][j] %} **{{ gray_codes[i][j] }}** |{% else %} {{ gray_codes[i][j] }} |{% endif %}
+    {% set row = [x_name ~ " + " ~ i] %}
+    {% for j in range(gray_codes[i]|length) %}
+        {% if i > 0 and gray_codes[i][j] != gray_codes[i-1][j] %}
+            {% set _ = row.append("**" ~ gray_codes[i][j] ~ "**") %}
+        {% else %}
+            {% set _ = row.append(gray_codes[i][j]) %}
+        {% endif %}
+    {% endfor %}
+    {% set _ = table.append(row) %}
 {% endfor %}
 
-{% endfor %}
+{{ table|tabulate(tablefmt="github") }}
+
 
 
 *Highlighted cell shows the bit that flipped compared to the previous Gray code.*  

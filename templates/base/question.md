@@ -77,7 +77,7 @@ Convert the following numbers
 `({{ number|group4 }})_{{ in_base }}` = `........`_{{ out_base }}
 {% elif RENDER_MODE == "answer" %}
 `({{ number|group4 }})_{{ in_base }}` = `({{ output|group4 }})_{{ out_base }}`
-{% endif %}
+
 
 
 {% if binary_mode %}
@@ -106,13 +106,15 @@ Convert the following numbers
 ### Convert from base 10 to base {{ out_base }}
 
 <div>
-{{ division_process(number_tmp if number_tmp else number, out_base, steps_from10, cell_h=30)| | normalize_newlines  }}
+
+{{ division_process(number_tmp if number_tmp else number, out_base, steps_from10, cell_h=30)| normalize_newlines  }}
 </div>
 
 Result (bottom→top remainders):  
 `({{ output }})_{{ out_base }}`
 {% endif %}
 
+{% endif %} {# end ansewer#}
 
 {% if debug %}
 {{ binmacro.bin2hex_table("101110101101") }}

@@ -13,11 +13,7 @@
 
 ## Step-by-step solution
 
-| Step | Operation | Expression |
-|------|-----------|------------|
-{% for step in solution %}
-| {{ step.step }} | {{ step.operation }} | {{ step.expression }} |
-{% endfor %}
+{{solution|tabulate(headers="keys", tablefmt="github")}}
 
 ---
 

@@ -77,7 +77,7 @@
           <label for="selectquiz" class="block text-sm font-medium mb-1">Quiz</label>
           <select id="selectquiz" name="quiz_id"
             class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
-            <option value="random" selected>Random</option>
+            <option value="" selected>No predefined quiz selected</option>
             {% for qi in quiz_id_list %}
               <option value="{{qi}}">{{qi}}</option>
             {% endfor %}

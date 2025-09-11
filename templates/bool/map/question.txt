@@ -1,4 +1,5 @@
-Simplify the following Karnaugh table  
+{% import "bool/map/kmap_macros.txt" as kmap %}
+Simplify the following Karnaugh table
 <span dir="rtl">بسّط الدوال الآتية باستعمال جدول كارنوف.</span>  
 
 {% if "fr" in languages %}
@@ -10,13 +11,13 @@ Simplifier le tableau de Karnaugh suivant:
 
 {% for data in data_list %}
 
-{% import "bool/map/kmap_macros.html" as kmap %}
+
 
 {% if RENDER_MODE == "question" %}
-{{ kmap.kmap4svg(data.minterms, data.dontcares, groups=[], ab=data.ab, cd=data.cd)|normalize_newlines }}
+{{ kmap.kmap4text(data.minterms, data.dontcares, groups=[], ab=data.ab, cd=data.cd)|normalize_newlines }}
  {% endif %}
 {% if RENDER_MODE == "answer" %}
-{{ kmap.kmap4svg(data.minterms, data.dontcares, groups=data.simplification, ab=data.ab, cd=data.cd)|normalize_newlines }}
+{{ kmap.kmap4text(data.minterms, data.dontcares, groups=data.simplification, ab=data.ab, cd=data.cd)|normalize_newlines }}
  {% endif %}
 
 {% if RENDER_MODE == "answer" %}

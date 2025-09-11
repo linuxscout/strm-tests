@@ -10,16 +10,41 @@ Représenter sous la norme **IEEE-754 32 bits** le nombre suivant:
 ---
 
 {% if RENDER_MODE == "answer" %}
-**Final binary representation:** `{{ binary_repr|group4 }}`<sub>IEEE-754-32bits</sub>  
+**Final binary representation:** `{{ binary_repr|group4 }}`_IEEE-754-32bits  
 
-| Step                  | Value |
-|------------------------|-------|
-| Input                 | ({{ "%.4f"|format(abs_value) }})<sub>10</sub> = ({{ binary_repr|group4 }})<sub>2</sub> |
-| Normalized form       | 1.{{ mantissa|group4 }} × 2<sup>{{ exponent }}</sup> |
-| Sign bit              | {% if sign == 1 %}-{% else %}+{% endif %} ⇒ {{ sign }} |
-| Exponent              | {{ exponent }} + 127 = {{ exponent_raw }} ⇒ ({{ exponent_bits|group4 }})<sub>2</sub> |
-| Pseudo-mantissa       | {{ mantissa|group4 }} |
-| Final representation  | {{ final_binary|group4 }} |
-| Hexadecimal form      | ({{ hex|group4 }})<sub>16</sub> |
+
+{% set rows = [
+  {
+    "step": "Input",
+    "value": "(" ~ ("%.4f"|format(abs_value)) ~ ")₁₀ = (" ~ (binary_repr|group4) ~ ")₂"
+  },
+  {
+    "step": "Normalized form",
+    "value": "1." ~ (mantissa|group4) ~ " × 2^" ~ exponent
+  },
+  {
+    "step": "Sign bit",
+    "value": (("-" if sign == 1 else "+")) ~ " ⇒ " ~ sign
+  },
+  {
+    "step": "Exponent",
+    "value": exponent ~ " + 127 = " ~ exponent_raw ~ " ⇒ (" ~ (exponent_bits|group4) ~ ")₂"
+  },
+  {
+    "step": "Pseudo-mantissa",
+    "value": mantissa|group4
+  },
+  {
+    "step": "Final representation",
+    "value": final_binary|group4
+  },
+  {
+    "step": "Hexadecimal form",
+    "value": "(" ~ (hex|group4) ~ ")₁₆"
+  }
+] %}
+
+{# using tabulate #}
+{{rows|tabulate(headers="keys", tablefmt="simple_grid")}}
 
 {% endif %}

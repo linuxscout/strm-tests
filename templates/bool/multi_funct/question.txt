@@ -3,7 +3,7 @@
 {%endmacro%}
 
 {% set debug = False %}
-{% import "bool/map/kmap_macros.html" as kmap %}
+{% import "bool/map/kmap_macros.txt" as kmap %}
 
 Study the following circuit:  
 <span dir="rtl">ادرس الدارة الآتية:</span>  
@@ -14,25 +14,25 @@ Etudier le circuit suivant:
 
 - {% for data in data_list %}
   - 
-$$
+
  {{ data.function_name }} = {{ data.minterms }} 
-$$
+
 
   {% endfor %}
 
 **Don't Care**  
 - {% for data in data_list %}
   - 
-$$
+
  {{ data.function_name }} = {{ data.dontcares }} 
-$$
+
 
   {% endfor %}
 
 
-$$
+
  F(A,B,C,D) = {{ sop_quest|normalize_formula }} 
-$$
+
 
 
 {% if RENDER_MODE == "answer" %}
@@ -50,50 +50,77 @@ $$
   {% endfor %}
 
 **Truth Table <span dir="rtl">جدول الحقيقة</span>**
+{% set table = [] %}
+{# Build header row #}
+{% set header = ["Num"] + variables + function_name_list %}
+{% set _ = table.append(header) %}
 
-| Num | {{ variables[0] }} | {{ variables[1] }} | {{ variables[2] }} | {{ variables[3] }} {% for funct_name in function_name_list %} | {{ funct_name }} {% endfor %} |
-|-----|--------------------|--------------------|--------------------|--------------------{% for funct_name in function_name_list %}|--------------------{% endfor %}|
+{# Build each row #}
 {% for i in range(16) %}
-{% set bits = '{:04b}'.format(i) %}
-{% set bit_list = bits | list %}
-| {{ loop.index0 }} | {{ bit_list[0] }} | {{ bit_list[1] }} | {{ bit_list[2] }} | {{ bit_list[3] }} {% for idx in range(data_list | length) %}{% set minterms = minterms_list[idx] %}{% set dontcares = dontcares_list[idx] %}| {{ '1' if i in minterms else 'x' if i in dontcares else 0 }} {% endfor %} |
+  {% set bits = '{:04b}'.format(i) %}
+  {% set bit_list = bits | list %}
+
+  {% set row = [] %}
+  {% set _ = row.append(i) %}
+
+  {# Add input bits #}
+  {% for b in bit_list %}
+    {% set _ = row.append(b) %}
+  {% endfor %}
+
+  {# Add function outputs for each function #}
+  {% for idx in range(function_name_list|length) %}
+    {% set minterms = minterms_list[idx] %}
+    {% set dontcares = dontcares_list[idx] %}
+    {% if i in minterms %}
+      {% set _ = row.append("1") %}
+    {% elif i in dontcares %}
+      {% set _ = row.append("x") %}
+    {% else %}
+      {% set _ = row.append("0") %}
+    {% endif %}
+  {% endfor %}
+
+  {% set _ = table.append(row) %}
 {% endfor %}
+
+{{ table|tabulate(headers="firstrow", tablefmt="github") }}
 
 **Canonical Forms <span dir="rtl">الأشكال القانونية</span>**
 
 - **First Canonical Forms <span dir="rtl">الأشكال القانونية الأولى</span>**  
   {% for data in data_list %}
   - 
-$$
+
  {{ data.function_name }} = {{ data.dnf_dict.default|normalize_formula }} 
-$$
+
 
   {% endfor %}
 
 - **Second Canonical Forms <span dir="rtl">الأشكال القانونية الثانية</span>**  
   {% for data in data_list %}
   - 
-$$
+
  {{ data.function_name }} = {{ data.cnf_dict.default|normalize_formula }} 
-$$
+
 
   {% endfor %}
 
 - **First Canonical Forms <span dir="rtl">الأشكال القانونية الأولى</span>**  
   {% for data in data_list %}
   - 
-$$
+
  {{ data.function_name }} = ∑({{ data.minterms | join(", ") }}) 
-$$
+
 
   {% endfor %}
 
 - **Second Canonical Forms <span dir="rtl">الأشكال القانونية الثانية</span>**  
   {% for data in data_list %}
   - 
-$$
+
  {{ data.function_name }} = ∏({{ data.maxterms | join(", ") }}) 
-$$
+
 
   {% endfor %}
 
@@ -102,22 +129,22 @@ $$
 
 {% for data in data_list %}
 1. 
-$$
+
  {{ data.function_name }} = {{ data.nand_sop_dict.default|normalize_formula }} 
-$$
+
 
 
    Explanation:  
    - 
-$$
+
  {{ data.function_name }} = {{ data.sop_dict.default|normalize_formula }} 
-$$
+
   
    {% for explain in data.nand_sop_dict.explained %}
    - 
-$$
+
  {{ data.function_name }} = {{ explain|normalize_formula }} 
-$$
+
 
    {% endfor %}
 {% endfor %}
@@ -128,22 +155,22 @@ $$
 
 {% for data in data_list %}
 1. 
-$$
+
  {{ data.function_name }} = {{ data.nor_pos_dict.default|normalize_formula }} 
-$$
+
 
 
    Explanation:  
    - 
-$$
+
  {{ data.function_name }} = {{ data.pos_dict.default|normalize_formula }} 
-$$
+
   
    {% for explain in data.nor_pos_dict.explained %}
    - 
-$$
+
  {{ data.function_name }} = {{ explain|normalize_formula }} 
-$$
+
 
    {% endfor %}
 {% endfor %}
@@ -152,17 +179,17 @@ $$
 **Karnaugh map <span dir="rtl">جدول كارنوف</span>**
 
 {% for data in data_list %}
-{{ kmap.kmap4svg(minterms=data.minterms, dontcares=data.dontcares, groups=data.simplification, ab=data.ab, cd=data.cd)|normalize_newlines }}
+{{ kmap.kmap4text(minterms=data.minterms, dontcares=data.dontcares, groups=data.simplification, ab=data.ab, cd=data.cd)|normalize_newlines }}
 
 - Simplified Sum of products: 
-$$
+
  {{ data.function_name }} = {{ data.sop_dict.default|normalize_formula }} 
-$$
+
 
 - Simplified product of sums: 
-$$
+
  {{ data.function_name }} = {{ data.pos_dict.default|normalize_formula }} 
-$$
+
 
 {% endfor %}
 

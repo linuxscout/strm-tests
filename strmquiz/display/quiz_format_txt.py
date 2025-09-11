@@ -240,7 +240,7 @@ class quiz_format_txt(quiz_format.quiz_format):
     def normalize_formula(expr: str) -> str:
         """ display formula s it
         """
-        return s
+        return expr
         # # Match a word (letters/numbers/underscore) followed by a '
         # expr = re.sub(r"([A-Za-z0-9_]+)'", r"\\overline{\1}", expr)
         # # 3. Handle LaTeX \overline{...} -> MathML mover

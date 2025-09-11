@@ -36,7 +36,7 @@
 <pre>
     {{args|pprint|safe}}
 </pre>
-
+{% if quiztext %}
 <h2>Quiz</h2>
     {% if outformat.lower() not in ("html",) %}
     <pre class="bg-gray-100 p-2 rounded whitespace-pre-wrap break-words">
@@ -45,6 +45,7 @@
         {%else%}
     {{quiztext|safe}}
      {%endif%}
+{%endif%}
 
 
 </body>

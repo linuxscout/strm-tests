@@ -1,53 +1,125 @@
-{% macro fill(n, offset, filler="&nbsp;") -%}
-  {%- set s = n|string -%}
-  {%- set ln = offset - s|length -%}
-  {{ filler * ln }}{{ s }}
-{%- endmacro %}
+{% import "base/binmacros.txt" as binmacro %}
 
-{% macro base_from10(n, b, steps) -%}
-{% set num_width = ((n|string)|length) %}
-{{ fill(number, num_width) }}|{{ b }}
-{% for step in steps %}
-{% set i=loop.index0 %}
-{# indentation per step #}
-{% set indent = "&nbsp;" * (i * num_width + i) %}
-{{ indent }}{{ "&nbsp;" * num_width }}└─────
-{% if step.quotient != 0 %}
-{{ indent }}{{ fill(step.symbol, num_width, "&nbsp;") }}|{{ fill(step.quotient, num_width, "&nbsp;") }}|{{ b }}
-{% else %}
-{{ indent }}{{ fill(step.symbol, num_width, "&nbsp;") }}| 0
-{% endif %}
+{# =========================================================
+   Macro: one manual vertical division step (indented, text)
+   ========================================================= #}
+{% macro division_step(dividend, divisor, quotient, remainder, width=5, indent=0) %}
+{# Convert values to strings #}
+{% set dividend_str = dividend|string if dividend else "" %}
+{% set divisor_str = divisor|string if divisor else "" %}
+{% set quotient_str = quotient|string if quotient else "" %}
+{% set remainder_str = remainder|string if remainder else "" %}
+
+{# Indentation prefix #}
+{% set pad = " " * indent %}
+
+{{ pad }}{{ dividend_str.rjust(width) }} │ {{ divisor_str }}
+{{ pad }}{{ " " * width }} └─────
+{{ pad }}{{ remainder_str.rjust(width) }} │ {{ quotient_str }}
+{% endmacro %}
+
+
+
+{# =========================================================
+   Macro: whole division process (progressive indentation)
+   ========================================================= #}
+{% macro division_process(dividend, divisor, steps, width=5) %}
+Dividend: {{ dividend }}
+Divisor:  {{ divisor }}
+
+{% set ns = namespace(indent = 0) %}
+{% for s in steps %}
+  {% set dividend_str = s.dividend if loop.first else "" %}
+  {{ division_step(dividend_str, divisor, s.quotient, s.remainder, width, ns.indent) }}
+  {% set ns.indent = ns.indent + width + 2 %}
 {% endfor %}
-{%- endmacro %}
+{% endmacro %}
 
-<p>
+
+
+{% macro base_conversion_table(digits, base, number_label="") %}
+**Table: base {{ base }} representation**
+
+{% if number_label %}
+_Number in base {{ base }}: `{{ number_label }}`_
+{% endif %}
+
+{% set headers = [] %}
+{% set values = [] %}
+{% for d in digits %}
+  {% set _ = headers.append(base ~ "^" ~ loop.revindex0) %}
+  {% set _ = values.append(d.symbol) %}
+{% endfor %}
+
+{{ [headers, values] | tabulate(headers="firstrow", tablefmt="simple_grid") }}
+{% endmacro %}
+
+
+{% macro base_sum_expression(digits, base) %}
+**Base {{ base }} → 10 Expansion**
+
+- `N = {% for d in digits %}{{ d.symbol }}·{{ base }}^{{ loop.revindex0 }}{% if not loop.last %} + {% endif %}{% endfor %}`
+- `N = {% for d in digits %}{{ d.value }}·{{ base }}^{{ loop.revindex0 }}{% if not loop.last %} + {% endif %}{% endfor %}`
+- `N = {% set ns=namespace(total=0) %}{% for d in digits %}{% set product=d.value*(base**loop.revindex0) %}{% set ns.total=ns.total+product %}{{ product }}{% if not loop.last %} + {% endif %}{% endfor %}`
+- `N = {{ ns.total }}`
+{% endmacro %}
+
+
 Convert the following numbers
-<span dir="rtl">أنجز التحويلات الآتية</span><br/>
-</p>
+<span dir="rtl">أنجز التحويلات الآتية</span>
+
 {% if RENDER_MODE == "question" %}
-({{ number|group4 }})<sub>{{ in_base }} </sub> = (........)<sub>{{ out_base }} </sub> <br/>
-{% elif RENDER_MODE == "answer" %}
-({{ number|group4 }})<sub>{{ in_base }} </sub>  = (  {{ output|group4 }})<sub>{{ out_base }} </sub><br/>
+`({{ number|group4 }})_{{ in_base }}` = `........`_{{ out_base }}
+{%endif%}
+{% if RENDER_MODE == "answer" %}
+`({{ number|group4 }})_{{ in_base }}` = `({{ output|group4 }})_{{ out_base }}`
 
 
 
-<style>
-  .vr { border-left: 1px solid black; padding-left: 4px; }
-  .hr { border-top: 1px solid black; margin-top: -1px; }
-</style>
+{% if binary_mode %}
+{{ binmacro.base_convert_table(number, in_base, out_base) }}
+{% endif %}
+
+{% if steps_to10 and steps_from10 %}
+### Convert from base {{ in_base }} to {{ out_base }}
+1. Convert from base {{ in_base }} to base 10
+2. Convert from base 10 to base {{ out_base }}
+{% endif %}
 
 
-<!-- Explanation of Base 10 to X -->
+{% if steps_to10 %}
+### Convert from base {{ in_base }} to base 10
+
+{{ base_conversion_table(steps_to10, in_base, number_label) }}
+
+{{ base_sum_expression(steps_to10, in_base) }}
+
+**Result:** {{ output }}
+{% endif %}
+
 
 {% if steps_from10 %}
-    Explanation شرح
-<pre>
-{{ base_from10(number,out_base, steps_from10) }}
-</pre>
+### Convert from base 10 to base {{ out_base }}
 
-<!--{% endif %}-->
+<div>
 
-<br><br>
-Result (bottom→top remainders): {{ output }}
+{{ division_process(number_tmp if number_tmp else number, out_base, steps_from10)| normalize_newlines  }}
+</div>
 
+Result (bottom→top remainders):
+`({{ output }})_{{ out_base }}`
+{% endif %}
+
+{% endif %} {# end ansewer#}
+
+{% if debug %}
+{{ binmacro.bin2hex_table("101110101101") }}
+{{ binmacro.bin2oct_table("101110101101") }}
+{{ binmacro.hex2bin_table("BAD") }}
+{{ binmacro.oct2bin_table("5725") }}
+{{ binmacro.hex2oct_table("62F") }}
+{{ binmacro.oct2hex_table("745") }}
+{{ binmacro.base_convert_table("1A3", 16, 8) }}
+{{ binmacro.base_convert_table("745", 8, 2) }}
+{{ binmacro.base_convert_table("1011101", 2, 16) }}
 {% endif %}

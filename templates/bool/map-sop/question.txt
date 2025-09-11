@@ -1,4 +1,5 @@
-Let the function be given by its canonical form, Draw the Karnaugh table and simplify.  
+{% import "bool/map/kmap_macros.txt" as kmap %}
+Let the function be given by its canonical form, Draw the Karnaugh table and simplify.
 <span dir="rtl">لتكن الدالة المعطاة بشكلها القانوني، ارسم جدول كارنو وبسطها</span>  
 
 {% if "fr" in languages %}
@@ -23,9 +24,9 @@ $$
 $$
   
 
-{% import "bool/map/kmap_macros.html" as kmap %}
 
-{{ kmap.kmap4svg(data.minterms, data.dontcares, groups=data.simplification, ab=data.ab, cd=data.cd)|normalize_newlines }}
+
+{{ kmap.kmap4text(data.minterms, data.dontcares, groups=data.simplification, ab=data.ab, cd=data.cd)|normalize_newlines }}
 
 
 - Simplified Sum of products : 

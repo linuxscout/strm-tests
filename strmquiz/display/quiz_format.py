@@ -86,11 +86,11 @@ class quiz_format:
         """
         self.tests.append(quiz_question_list)
 
-    def normalize_newlines(self,text: str) -> str:
+    def normalize_newlines(self,text: str, nb:int=1) -> str:
         """
         Collapse sequences of newline + spaces + newline into a single newline.
         """
-        return re.sub(r"\n[ \n\t]*\n+", "\n", text)
+        return re.sub(r"\n[ \n\t]*\n+", "\n"*nb, text)
 
     # Escape for HTML
     def escape_string(self, s: str) -> str:
@@ -142,6 +142,9 @@ class quiz_format:
         question = question_template.render(context)
         context["RENDER_MODE"] = "answer"
         answer = question_template.render(context)
+        # remove unnecessary new lines
+        question = self.normalize_newlines(question, nb=2)
+        answer = self.normalize_newlines(answer, nb=2)
 
         return question, answer
 

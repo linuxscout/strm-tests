@@ -1,15 +1,29 @@
 {% macro encode_decode(charlist=None, codes=None, mode="encode", scheme="ascii") %}
+
+{% set chars = [] %}
+{% for ch in charlist %}
+  {% if ch == " " %}
+    {% set _ = chars.append("space") %}
+  {% elif ch == "\n" %}
+    {% set _ = chars.append("newline") %}
+  {% elif ch == "\t" %}
+    {% set _ = chars.append("tab") %}
+  {% else %}
+    {% set _ = chars.append(ch) %}
+  {% endif %}
+{% endfor %}
+
+{% set row1 = ["Character"] + chars %}
+{% set row2 = [scheme|capitalize ~ " Code Point"] + codes %}
+
   {% if mode == "encode" %}
 #### Encode the following text into {{ scheme|capitalize }}
 
   **Text:** "{{ charlist|escape_string|join }}"
 
-| Character |{% for ch in charlist %} {{ ch if ch not in [" ", "\n", "\t"] else
-    ("space" if ch==" " else "newline" if ch=="\n" else "tab") }} |{% endfor %}
 
-|-----------|{% for ch in charlist %}-------------|{% endfor %}
+{{ [row1, row2] | tabulate(headers="firstrow", tablefmt="github") }}
 
-| {{ scheme|capitalize }} Code Point |{% for cp in codes %} {{ cp }} |{% endfor %}
 
 
   {% elif mode == "decode" %}
@@ -17,12 +31,7 @@
 
 **Codes:** {{ codes }}
 
-| {{ scheme|capitalize }} Code Point |{% for code in codes %} {{ code }} |{% endfor %}
-
-|-----------------------------------|{% for code in codes %}-------------|{% endfor %}
-
-| Character |{% for ch in charlist %} {{ ch if ch not in [" ", "\n", "\t"] else
-    ("space" if ch==" " else "newline" if ch=="\n" else "tab") }} |{% endfor %}
+{{ [row2, row1] | tabulate(headers="firstrow", tablefmt="github") }}
 
   {% endif %}
 {% endmacro %}

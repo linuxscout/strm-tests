@@ -11,8 +11,9 @@ Représenter en **complément à 1** et **complément à 2** le nombre suivant :
 ---
 
 {% if RENDER_MODE == "answer" %}
-- -{{ number }} = ( {{ binary|group4 }} )<sub>2</sub>  
-- ( {{ cp1|group4 }} )<sub>c1</sub>  
-- +1  
-- ( {{ cp2|group4 }} )<sub>c2</sub>  
+ -{{ number }} = ( {{ binary|group4 }} )<sub>2</sub>
+ ( {{ cp1|group4 }} )<sub>c1</sub>
+ +1
+
+ ( {{ cp2|group4 }} )<sub>c2</sub>
 {% endif %}
