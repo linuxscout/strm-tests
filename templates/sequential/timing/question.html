@@ -3,10 +3,12 @@
    Main call (example usage in template)
 ---------------------------------------------------------- #}
 <p>Complete the following timing diagram : <span class="aRL">أكمل المخطط الزمني الآتي</span></p>
-
-{{ tmmacro.draw_timing_diagram(data) }}
-
-
+{% if RENDER_MODE.lower() == "question" %}
+{{ tmmacro.draw_timing_diagram(data, mode="question") }}
+{%endif%}
+{% if RENDER_MODE.lower() == "answer" %}
+{{ tmmacro.draw_timing_diagram(data, mode="answer") }}
+{%endif%}
 {# ----------------------------------------------------------
    DEBUG
 ---------------------------------------------------------- #}
