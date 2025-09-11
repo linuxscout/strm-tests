@@ -1,6 +1,6 @@
+{%macro draw_logigram(logicdiagramdict) %}
 {% set functions = logicdiagramdict.functions %}
 {% set lg = logicdiagramdict %}
-
 {% if lg.method.upper() == "NAND" %}
     {% set function_gate = "nand" %}
     {% set term_gate = "nand" %}
@@ -39,7 +39,7 @@
       {% endfor %} {# end for terms #}
   {% endfor %}
 
-
+{%endmacro%}
 
 
 

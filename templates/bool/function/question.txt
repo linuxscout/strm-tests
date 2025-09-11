@@ -1,7 +1,6 @@
 {% import "bool/map/kmap_macros.txt" as kmap %}
-{%macro draw_logigram() %}
-{% include "bool/logigram/structured_logigram.txt"%}
-{%endmacro%}
+{% import "bool/logigram/structured_logigram.txt" as lgrm%}
+
 
 Study the following function:  
 <span dir="rtl">ادرس الدالة الآتية:</span>  
@@ -130,6 +129,6 @@ Etudier la fonction suivante:
 
 **Logic diagram <span dir="rtl">المخطط المنطقي</span>**
 
-{{draw_logigram()|normalize_newlines }}
+{{lgrm.draw_logigram(logicdiagramdict)|normalize_newlines }}
 
 {% endif %}
