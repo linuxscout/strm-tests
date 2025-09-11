@@ -1,0 +1,174 @@
+{%macro draw_logigram() %}
+{% include "bool/logigram/structured_logigram.html.j2"%}
+{%endmacro%}
+
+{% set debug = False %}
+{% import "bool/map/kmap_macros.html" as kmap %}
+
+Study the following circuit:  
+<span dir="rtl">ادرس الدارة الآتية:</span>  
+
+{% if "fr" in languages %}
+Etudier le circuit suivant:  
+{% endif %}
+
+- {% for data in data_list %}
+  - 
+$$
+ {{ data.function_name }} = {{ data.minterms }} 
+$$
+
+  {% endfor %}
+
+**Don't Care**  
+- {% for data in data_list %}
+  - 
+$$
+ {{ data.function_name }} = {{ data.dontcares }} 
+$$
+
+  {% endfor %}
+
+
+$$
+ F(A,B,C,D) = {{ sop_quest|normalize_formula }} 
+$$
+
+
+{% if RENDER_MODE == "answer" %}
+
+**Inputs and Outputs <span dir="rtl">المداخل والمخارج</span>**
+
+- Inputs  
+  {% for var in variables %}
+  - {{ var }} = 0 / 1
+  {% endfor %}
+
+- Outputs  
+  {% for funct_name in function_name_list %}
+  - {{ funct_name }} = 0 / 1
+  {% endfor %}
+
+**Truth Table <span dir="rtl">جدول الحقيقة</span>**
+
+| Num | {{ variables[0] }} | {{ variables[1] }} | {{ variables[2] }} | {{ variables[3] }} {% for funct_name in function_name_list %} | {{ funct_name }} {% endfor %} |
+|-----|--------------------|--------------------|--------------------|--------------------{% for funct_name in function_name_list %}|--------------------{% endfor %}|
+{% for i in range(16) %}
+{% set bits = '{:04b}'.format(i) %}
+{% set bit_list = bits | list %}
+| {{ loop.index0 }} | {{ bit_list[0] }} | {{ bit_list[1] }} | {{ bit_list[2] }} | {{ bit_list[3] }} {% for idx in range(data_list | length) %}{% set minterms = minterms_list[idx] %}{% set dontcares = dontcares_list[idx] %}| {{ '1' if i in minterms else 'x' if i in dontcares else 0 }} {% endfor %} |
+{% endfor %}
+
+**Canonical Forms <span dir="rtl">الأشكال القانونية</span>**
+
+- **First Canonical Forms <span dir="rtl">الأشكال القانونية الأولى</span>**  
+  {% for data in data_list %}
+  - 
+$$
+ {{ data.function_name }} = {{ data.dnf_dict.default|normalize_formula }} 
+$$
+
+  {% endfor %}
+
+- **Second Canonical Forms <span dir="rtl">الأشكال القانونية الثانية</span>**  
+  {% for data in data_list %}
+  - 
+$$
+ {{ data.function_name }} = {{ data.cnf_dict.default|normalize_formula }} 
+$$
+
+  {% endfor %}
+
+- **First Canonical Forms <span dir="rtl">الأشكال القانونية الأولى</span>**  
+  {% for data in data_list %}
+  - 
+$$
+ {{ data.function_name }} = ∑({{ data.minterms | join(", ") }}) 
+$$
+
+  {% endfor %}
+
+- **Second Canonical Forms <span dir="rtl">الأشكال القانونية الثانية</span>**  
+  {% for data in data_list %}
+  - 
+$$
+ {{ data.function_name }} = ∏({{ data.maxterms | join(", ") }}) 
+$$
+
+  {% endfor %}
+
+{% if debug or method.lower() == "nand" %}
+**NAND forms <span dir="rtl">بوابات نفي الوصل</span>**
+
+{% for data in data_list %}
+1. 
+$$
+ {{ data.function_name }} = {{ data.nand_sop_dict.default|normalize_formula }} 
+$$
+
+
+   Explanation:  
+   - 
+$$
+ {{ data.function_name }} = {{ data.sop_dict.default|normalize_formula }} 
+$$
+  
+   {% for explain in data.nand_sop_dict.explained %}
+   - 
+$$
+ {{ data.function_name }} = {{ explain|normalize_formula }} 
+$$
+
+   {% endfor %}
+{% endfor %}
+{% endif %}
+
+{% if debug or method.lower() == "nor" %}
+**NOR forms <span dir="rtl">بوابات نفي الفصل</span>**
+
+{% for data in data_list %}
+1. 
+$$
+ {{ data.function_name }} = {{ data.nor_pos_dict.default|normalize_formula }} 
+$$
+
+
+   Explanation:  
+   - 
+$$
+ {{ data.function_name }} = {{ data.pos_dict.default|normalize_formula }} 
+$$
+  
+   {% for explain in data.nor_pos_dict.explained %}
+   - 
+$$
+ {{ data.function_name }} = {{ explain|normalize_formula }} 
+$$
+
+   {% endfor %}
+{% endfor %}
+{% endif %}
+
+**Karnaugh map <span dir="rtl">جدول كارنوف</span>**
+
+{% for data in data_list %}
+{{ kmap.kmap4svg(minterms=data.minterms, dontcares=data.dontcares, groups=data.simplification, ab=data.ab, cd=data.cd)|normalize_newlines }}
+
+- Simplified Sum of products: 
+$$
+ {{ data.function_name }} = {{ data.sop_dict.default|normalize_formula }} 
+$$
+
+- Simplified product of sums: 
+$$
+ {{ data.function_name }} = {{ data.pos_dict.default|normalize_formula }} 
+$$
+
+{% endfor %}
+
+**Logic diagram <span dir="rtl">المخطط المنطقي</span>**
+
+{{draw_logigram()|normalize_newlines}}
+
+{% endif %}
+
