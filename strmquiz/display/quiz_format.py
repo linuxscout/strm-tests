@@ -25,6 +25,7 @@
 from jinja2 import Environment, FileSystemLoader, TemplateNotFound
 import re
 import html
+import tabulate
 import itertools
 from . import format_const
 from ..bool import logigram
@@ -53,6 +54,7 @@ class quiz_format:
         self.env.filters["format_map_terms"] = self.format_map_terms
         self.env.filters["escape_string"] = self.escape_string
         self.env.filters["normalize_newlines"] = self.normalize_newlines
+        self.env.filters["tabulate"] = tabulate.tabulate
         self.group_digit_sep = " "
         # self.variables = ["a","b","c","d"]
         #~ print("quiz_format")
