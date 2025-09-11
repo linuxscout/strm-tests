@@ -81,7 +81,7 @@ class BooleanQuestionBuilder(Question_Builder):
                 #"handler": self.question_map,
                 "args": {
                     "minterms": {"type": "list", "default": [[1,2,3,5,12],], "label":"Minterms"},
-                    "dontcare": {"type": "list", "default": [[]], "label":"Don't care"},
+                    "dontcare": {"type": "list", "default": [[],[],[],[]], "label":"Don't care"},
                     "var_names": {"type": "list", "default": ["A","B","C","D"], "label":"Variables' names"},
                     "output_names": {"type": "list", "default": ["S"], "label":"Output functions' names"},
                 },
@@ -107,7 +107,7 @@ class BooleanQuestionBuilder(Question_Builder):
                 #"handler": self.question_funct,
                 "args": {
                     "minterms": {"type": "list", "default": [[1,2,3,5,12],], "label":"Minterms"},
-                    "dontcare": {"type": "list", "default": [[]], "label":"Don't care"},
+                    "dontcare": {"type": "list", "default": [[],[],[],[]], "label":"Don't care"},
                     "var_names": {"type": "list", "default": ["A","B","C","D"], "label":"Variables' names"},
                     "output_names": {"type": "list", "default": ["S"], "label":"Output functions' names"},
                 },
@@ -121,7 +121,7 @@ class BooleanQuestionBuilder(Question_Builder):
                 #"handler": self.command_static_funct,
                 "args": {
                     "minterms": {"type": "list", "default": [[1,2,3,5,12],], "label":"Minterms"},
-                    "dontcare": {"type": "list", "default": [[]], "label":"Don't care"},
+                    "dontcare": {"type": "list", "default": [[],[],[],[]], "label":"Don't care"},
                     "var_names": {"type": "list", "default": ["A","B","C","D"], "label":"Variables' names"},
                     "output_names": {"type": "list", "default": ["S"], "label":"Output functions' names"},
                 },
@@ -135,7 +135,7 @@ class BooleanQuestionBuilder(Question_Builder):
                 #"handler": self.command_nand_funct,
                 "args": {
                     "minterms": {"type": "list", "default": [[1,2,3,5,12],], "label":"Minterms"},
-                    "dontcare": {"type": "list", "default": [[]], "label":"Don't care"},
+                    "dontcare": {"type": "list", "default": [[],[],[],[]], "label":"Don't care"},
                     "var_names": {"type": "list", "default": ["A","B","C","D"], "label":"Variables' names"},
                     "output_names": {"type": "list", "default": ["S"], "label":"Output functions' names"},
                 },
@@ -149,7 +149,7 @@ class BooleanQuestionBuilder(Question_Builder):
                 #"handler": self.command_nor_funct,
                 "args": {
                     "minterms": {"type": "list", "default": [[1,2,3,5,12],], "label":"Minterms"},
-                    "dontcare": {"type": "list", "default": [[]], "label":"Don't care"},
+                    "dontcare": {"type": "list", "default": [[],[],[],[]], "label":"Don't care"},
                     "var_names": {"type": "list", "default": ["A","B","C","D"], "label":"Variables' names"},
                     "output_names": {"type": "list", "default": ["S"], "label":"Output functions' names"},
                 },
@@ -163,7 +163,7 @@ class BooleanQuestionBuilder(Question_Builder):
                 #"handler": self.command_multi_funct,
                 "args": {
                     "minterms": {"type": "list", "default": [[1,2,3,5],[1,3,4,5]], "label":"Minterms"},
-                    "dontcare": {"type": "list", "default": [[]], "label":"Don't care"},
+                    "dontcare": {"type": "list", "default": [[],[],[],[]], "label":"Don't care"},
                     "var_names": {"type": "list", "default": ["A","B","C","D"], "label":"Variables' names"},
                     "output_names": {"type": "list", "default": ["F0","F1"], "label":"Output functions' names"},
                     "method": {"type": "string",
