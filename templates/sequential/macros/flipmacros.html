@@ -398,3 +398,174 @@
 {% endfor %}
 </g>{%endmacro%}
 
+{# -----------------------
+ draw a generic counter
+-------------------#}
+
+{%macro _draw_counter_generic(flips_list= ["D","JK","RS"], outputs=["Q0","Q1", "Q2"],size=3, counter_type="up")%}
+{{ define_standard_flips() }}
+{% if size != flips_list|length or size != outputs|length %}
+ Warning: check parameters, The size '{{size}}' is different from flips list length '{{flips_list|length}}' or
+ '{{outputs|length}}'
+{%else%}
+
+    {# draw a modules #}
+    {% set ns = namespace(name="", id="", xpos=0, prev_name="", prev_type="", type="", output_var_xshift=0) %}
+    {% set ypos = 20 %}
+    {% set flip_shift = 100 %}
+    {% set input_var_xshift = -5 %}
+    {% set input_var_yshift = 0 %}
+    {% set ns.output_var_xshift = 80  %}
+    {% set output_var_yshift = 0 %}
+
+    {% set clk_xpos = -20 %}
+    {% set clk_ypos = 140 %}
+<g transform="translate(25,20)">
+    {# draw a clock #}
+    {{ draw_clock(name="Ck", label="Ck", xpos=clk_xpos, ypos=clk_ypos, length=0)}}
+    {% for i in range(size) %}
+        {% set ns.xpos = flip_shift*i %}
+        {% set ns.name = "flipc"+(i|string) %}
+        {% set ns.type = flips_list[i].upper() %}
+        {% set ns.id = "JKA" if flips_list[i].upper() =="JK" else flips_list[i].upper()   %}
+
+        <g id="countmodule{{i}}" transform="translate({{ns.xpos}},{{ypos}})">
+
+        {{ place_flip(id=ns.id, name=ns.name, xpos=0, ypos=ypos)}}
+
+        {# link current with clock #}
+        {% if loop.first %}
+        {{ link_clock (name_clock="Ck", name_target=ns.name, type_target=ns.type)}}
+        {% endif%}
+
+        {# draw a Vcc var #}
+        {{ draw_input_var(name="Vcc"~(i|string), label="Vcc",  xpos=input_var_xshift, ypos=input_var_yshift)}}
+        {{ link_var(name_var="Vcc"~(i|string), name_target=ns.name, type_target=ns.type, target_pins=["up","down","pin 1", "pin 3"],
+            xshift=input_var_xshift, yshift=input_var_yshift)}}
+
+        {# link previous with current #}
+        {% if ns.prev_name and counter_type.lower() in("up","") %}
+             {{ link(name_source=ns.prev_name, name_target=ns.name, type_target=ns.type, method="clock")}}
+
+        {% elif ns.prev_name and counter_type.lower() == "down" %}
+             {{ link(name_source=ns.prev_name, name_target=ns.name, type_target=ns.type, method="inverse_clock")}}
+        {% endif %}
+        {% set ns.prev_name = ns.name %}
+        {% set ns.prev_type = ns.type %}
+</g>  <!-- end counter module -->
+    {%endfor%}
+</g>  <!-- end counter group-->
+{%endif%}
+{%endmacro%}
+
+{# -----------------------
+ draw a counter one type flip
+-------------------#}
+{%macro draw_counter(flip="JKA", counter_type="",size=3)%}
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="200">
+{% set flips_list = [flip]*size %}
+{% set ns = namespace(outputs = []) %}
+{% for i in range(size) %}
+    {% set _ = ns.outputs.append("Q" ~ i|string) %}
+{% endfor %}
+{{ _draw_counter_generic(flips_list= flips_list, outputs=ns.outputs,size=size, counter_type=counter_type)}}
+</svg>
+{%endmacro%}
+
+{# -----------------------
+ draw a resiter generic
+-------------------#}
+{%macro _draw_register_generic(flips_list= ["D","JK","RS"], outputs=["Q0","Q1", "Q2"],size=3, shift="right", link_type="direct")%}
+{{define_standard_flips()}}
+{% if size != flips_list|length or size != outputs|length %}
+ Warning: check parameters, The size '{{size}}' is different from flips list length '{{flips_list|length}}' or
+ '{{outputs|length}}'
+{%else%}
+<g transform="translate(25,20)">
+
+    {# draw a modules #}
+    {% set ns = namespace(name="", id="", xpos=0, prev_name="", prev_type="", type="", output_var_xshift=0) %}
+    {% set ypos = 20 %}
+    {% set flip_shift = 100 %}
+    {% set input_var_xshift = -5 %}
+    {% set input_var_yshift = 0 %}
+    {% set ns.output_var_xshift = 80  %}
+    {% set output_var_yshift = 0 %}
+
+    {% set clk_xpos = -20 %}
+    {% set clk_ypos = 140 %}
+    {# draw a clock #}
+    {{ draw_clock(name="Ck", label="Ck", xpos=clk_xpos, ypos=clk_ypos, length=flip_shift*(size-1))}}
+
+    {% for i in range(size) %}
+
+        {% set ns.xpos = flip_shift*i %}
+
+        {% set ns.name = "flip"+(i|string) %}
+        {% set ns.type = flips_list[i].upper() %}
+        {% set ns.id = flips_list[i].upper() %}
+        <g id="regmodule{{i}}" transform="translate({{ns.xpos}},{{ypos}})">
+        {{ place_flip(id=ns.id, name=ns.name, xpos=0, ypos=ypos)}}
+
+        {# link current with clock #}
+        {{ link_clock (name_clock="Ck", name_target=ns.name, type_target=ns.type)}}
+
+        {# draw a intput vars lines #}
+        {% if shift =="right" and loop.first or shift=="left" and loop.last %}
+        {{ draw_input_var(name="E", label="E", xpos=input_var_xshift, ypos=input_var_yshift)}}
+        {{ link_var(name_var="E", name_target=ns.name, type_target=ns.type, target_pins=["pin 1"],
+            xshift=input_var_xshift, yshift=input_var_yshift)}}
+        {%endif%}
+
+        {# link previous with current #}
+        {% if ns.prev_name and shift not in ("left",) %}
+            {{ link(name_source=ns.prev_name, name_target=ns.name, type_target=ns.type, method=link_type)}}
+        {% endif %}
+
+       {# draw a output vars lines #}
+        {{ draw_input_var(name=outputs[i], label=outputs[i], xpos=ns.output_var_xshift, ypos=output_var_yshift)}}
+        {{ link_var(name_var=outputs[i], name_target=ns.name, type_target=ns.type, target_pins=["pin 6"],
+            xshift=ns.output_var_xshift, yshift=output_var_yshift)}}
+
+
+        {# if register is left shift, draw links from Qi to input of flip i-1 #}
+       {% if shift in ("left",)%}
+            {% if not loop.first %}
+            {{ link_var(name_var=outputs[i], name_target=ns.prev_name, type_target=ns.prev_type, target_pins=["pin 1"],
+                reverse=True,
+                xshift=0,
+                yshift=5+2.5*i,
+            )}}
+        {% endif %} {# if shift #}
+        {% endif %}
+
+
+
+        {% set ns.prev_name = ns.name %}
+        {% set ns.prev_type = ns.type %}
+         </g> <!-- end register module-->
+    {%endfor%}
+ </g> <!-- end register group-->
+{%endif%}
+{%endmacro%}
+{# -----------------------
+ draw a resiter one type flip
+-------------------#}
+{%macro  draw_register_generic(flips_list= ["D","JK","RS"], outputs=["Q0","Q1", "Q2"],size=3, shift="right", link_type="direct")%}
+<svg width="600" height="400" xmlns="http://www.w3.org/2000/svg">
+{{ _draw_register_generic(flips_list= flips_list, outputs=outputs,size=size, shift=shift, link_type=link_type)}}
+</svg>
+{%endmacro%}
+{# -----------------------
+ draw a resiter one type flip
+-------------------#}
+{%macro draw_register(flip="D", register_type="",size=3)%}
+{% set flips_list = [flip]*size %}
+{% set ns = namespace(outputs = []) %}
+{% for i in range(size) %}
+    {% set _ = ns.outputs.append("Q" ~ i|string) %}
+{% endfor %}
+<svg width="600" height="400" xmlns="http://www.w3.org/2000/svg">
+{{ _draw_register_generic(flips_list= flips_list, outputs=ns.outputs,size=size)}}
+</svg>
+{%endmacro%}

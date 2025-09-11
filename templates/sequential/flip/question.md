@@ -3,11 +3,29 @@
 {% import "sequential/macros/flipmacros.md" as flpmacromd%}
 {% import "sequential/macros/timingmacros.html" as tmmacro%}
 
+
+{# -------------------------
+draw_flip
+----------------------------#}
+{%macro draw_flip(flip_type) %}
+<svg width="120" height="120" xmlns="http://www.w3.org/2000/svg">
+  {{ flpmacro.define_standard_flips() }}
+  {{ flpmacro.place_flip(id=flip_type, name="f1", xpos=20, ypos=20)}}
+</svg>
+{%endmacro%}
+
+{# -------------------------
+draw_flip customized
+----------------------------#}
+
+{%macro draw_custom_flip(flip_data) %}
+<svg width="1200" height="1200" xmlns="http://www.w3.org/2000/svg">
+  {{ flpmacro.define_costum_flip(id=flip_data.type, inputs=flip_data.inputs)|normalize_newlines }}
+  {{ flpmacro.place_flip(id=flip_data.type, name="f1", xpos=2, ypos=2)|normalize_newlines }}
+</svg>
+{%endmacro%}
 # Flip
 
-<svg width="0" height="0" xmlns="http://www.w3.org/2000/svg">
-{{ flpmacro.define_standard_flips()|normalize_newlines }}
-</svg>
 
 {% if RENDER_MODE == "question" %}
 
@@ -19,9 +37,8 @@ Cite the truth table of flipflop **{{ flip_data.type }}**.
 اذكر جدول الحقيقة للقلاب <span dir="ltr">{{ flip_data.type }}</span>.
 </span>
 
-<svg width="120" height="120" xmlns="http://www.w3.org/2000/svg">
-  {{ flpmacro.place_flip(id=flip_data.type, name="f1", xpos=20, ypos=20)|normalize_newlines }}
-</svg>
+
+{{draw_flip(flip_data.type)|normalize_newlines}}
 
 {% else %}
 
@@ -31,11 +48,7 @@ Let’s consider the following flip flop **{{ flip_data.type }}**, with its give
 نفرض القلاب {{ flip_data.type }} المعرّف بجدول الحقيقة الآتي:
 </span>
 
-<svg width="1200" height="1200" xmlns="http://www.w3.org/2000/svg">
-  {{ flpmacro.define_costum_flip(id=flip_data.type, inputs=flip_data.inputs)|normalize_newlines }}
-  {{ flpmacro.place_flip(id=flip_data.type, name="f1", xpos=2, ypos=2)|normalize_newlines }}
-</svg>
-
+{{draw_custom_flip(flip_data)|normalize_newlines}}
 {{ flipmacrosmd.truth_table(
     type=flip_data.type,
     edge="rising",
@@ -78,7 +91,9 @@ Cite the truth table of flipflop **{{ flip_data.type }}**.
 {% endif %}
 
 <div class="timing-diagram">
-{{ tmmacro.draw_timing_diagram(data, mode="answer") }}
+
+{{ tmmacro.draw_timing_diagram(data, mode="answer")|normalize_newlines }}
+
 </div>
 
 {% endif %}
@@ -86,14 +101,18 @@ Cite the truth table of flipflop **{{ flip_data.type }}**.
 {% if debug and RENDER_MODE == "answer" %}
 
 # Test Truth tables
-{{ flpmacro.truth_table(type="D") }}
-{{ flpmacro.truth_table(type="jk") }}
-{{ flpmacro.truth_table(type="rs") }}
+{{ flpmacromd.truth_table(type="D") }}
+{{ flpmacromd.truth_table(type="jk") }}
+{{ flpmacromd.truth_table(type="rs") }}
 
 ## Customized table
-{{ flpmacro.truth_table(type="XY", customized=True) }}
+{{ flpmacromd.truth_table(type="XY", customized=True) }}
 
 # Test Flips
+{#--------------------
+used only to avoid extra newlines which breaks figure
+---------------------#}
+{% macro draw_example()%}
 
 <svg width="500" height="200" xmlns="http://www.w3.org/2000/svg">
 {{ flpmacro.define_standard_flips()|normalize_newlines }}
@@ -107,6 +126,15 @@ Cite the truth table of flipflop **{{ flip_data.type }}**.
 {{ flpmacro.place_flip(id="XY", name="JK2", xpos=20+4*xstep, ypos=20)|normalize_newlines }}
 </svg>
 
+{%endmacro%}
+
+{{draw_example()|normalize_newlines}}
+
+{#--------------------
+used only to avoid extra newlines which breaks figure
+---------------------#}
+{% macro draw_example2()%}
+
 <svg width="500" height="200" xmlns="http://www.w3.org/2000/svg">
 {% set step = 100 %}
 {% set xstep = 100 %}
@@ -115,13 +143,18 @@ Cite the truth table of flipflop **{{ flip_data.type }}**.
 {{ flpmacro.place_flip(id="RST", name="RS0", xpos=20+2*xstep, ypos=20)|normalize_newlines }}
 </svg>
 
+{%endmacro%}
+
+{{draw_example2()|normalize_newlines}}
 # Test timing diagram
 
 ## Question Mode
-{{ tmmacro.draw_timing_diagram(data, mode="question") }}
+
+{{ tmmacro.draw_timing_diagram(data, mode="question")|normalize_newlines  }}
 
 ## Answer Mode
-{{ tmmacro.draw_timing_diagram(data, mode="answer") }}
+
+{{ tmmacro.draw_timing_diagram(data, mode="answer")|normalize_newlines  }}
 
 # Test context data
 ```
