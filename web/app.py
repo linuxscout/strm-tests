@@ -98,20 +98,20 @@ async def get_random_commands(n: int = 3, category: Optional[str] = None):
     return {"commands_list": cmd_info}
 
 
-@app.post("/submit", response_class=HTMLResponse)
+@app.post("/submit",)
 async def submit(request:Request, data: Submission):
     """Process submitted answers with validation."""
 
     # Normalize input (in case user manipulates HTML or sends uppercase)
-    command = data.command
-    category = data.category
-    # use random values for question or defaults
-    select_random_values = data.select_random_values
-    quiz_id = data.quizid
-    outformat = data.outformat
+    command = data.command.strip().lower()
+    category = data.category.strip().lower()
     args = data.model_dump().get("args",{})
-    command = command.strip().lower()
-    category = category.strip().lower()
+    # use random values for question or defaults
+    # select_random_values = data.select_random_values
+    # quiz_id = data.quizid
+    # outformat = data.outformat
+
+
 
     # Validate category if not "random"
     valid_categories = set(quiz_builder.categories_info.keys())
@@ -145,29 +145,35 @@ async def submit(request:Request, data: Submission):
     # Get question and answer
     # args = {command:args}
     # set random mode or disable it for quizbuiler
-    quiz_builder.set_select_random_values(select_random_values)
+    quiz_builder.set_select_random_values(data.select_random_values)
     new_args = quiz_builder.validate_command_args(command=command_to_run, args_src=args)
 
     # set format:
-    quiz_builder.set_format(outformat=outformat)
+    quiz_builder.set_format(outformat=data.outformat)
     question, answer = quiz_builder.get_question(command=command_to_run, args = new_args)
 
-    if quiz_id:
-        quiztext = quiz_builder.get_quiz(test_no=quiz_id)
+    if data.quizid:
+        quiztext = quiz_builder.get_quiz(test_no=data.quizid)
     else:
         quiztext =""
 
     response = {
-        "request": request,
+        # "request": request,
         "command": command_to_run,
-        "outformat":outformat,
+        "outformat":data.outformat,
         "category": category,
         "question": question,
         "answer": answer,
         "args":new_args,
         "quiztext":quiztext,
     }
-    return templates.TemplateResponse(request,"result.html", response)
+    # return templates.TemplateResponse(request, "result.html", response)
+    if data.outformat.lower() == "json":
+        return JSONResponse(content=response)
+    else:
+        # return HTML
+        return  templates.TemplateResponse(request, "result.html", response)
+        # return HTMLResponse(content=html_content)
 
 
 
