@@ -149,8 +149,6 @@ async def submit(request:Request, data: Submission):
     new_args = quiz_builder.validate_command_args(command=command_to_run, args_src=args)
 
     # set format:
-    # if outformat and outformat.lower() != quiz_builder.get_format():
-    #     quiz_builder.set_format(outformat=outformat)
     quiz_builder.set_format(outformat=outformat)
     question, answer = quiz_builder.get_question(command=command_to_run, args = new_args)
 
