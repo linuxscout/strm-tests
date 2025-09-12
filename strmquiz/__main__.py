@@ -9,10 +9,11 @@ Usage:
 
 import logging
 import sys
+import argparse
 
 def setup_logging():
     logging.basicConfig(
-        level=logging.DEBUG,  # Default log level
+        level=logging.INFO,  # Default log level
         format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
         handlers=[
             logging.StreamHandler(sys.stdout),         # Console output
@@ -22,11 +23,30 @@ def setup_logging():
 
 logger = logging.getLogger(__name__)
 
-import argparse
+
 from strmquiz.quizbuilder import QuizBuilder
 
+class CustomArgumentParser(argparse.ArgumentParser):
+    def print_help(self, file=None):
+        super().print_help(file)
+        qz = QuizBuilder(config_file="", templates_dir=".")
+        # Custom message before the help
+        print("Custom Help Message:")
+        print("Available formats are:")
+        for k, v in QuizBuilder.get_available_formats().items():
+            print(f"\t{k}:\t{v}")
+        print("Available Categories are:")
+        for c, item in qz.get_categories().items():
+            print(f"\t{c}:\t{item['short']}")
+
+        for c in qz.get_categories():
+            print(f"{c.capitalize()} category: available Commands:")
+            for cmd, item in qz.get_commands_info(category=c).items():
+                print(f"\t{cmd}:\t{item['short']}")
+
+
 def parse_arguments():
-    parser = argparse.ArgumentParser(description='Create tests for STRM 1 - MI.')
+    parser = CustomArgumentParser(description='Create Quizzes for STRM 1 - MI.')
 
     parser.add_argument(
         "-f", "--configfile",
@@ -91,12 +111,14 @@ def parse_arguments():
         help="Language of the test content"
 
     )
+
     parser.add_argument(
         "--templates", "--templates-dir",
         dest="templates_dir",
         default="",
-        help="templates for get question formats"
+        help="Set up the templates directory for get question formats"
     )
+
     return parser.parse_args()
 
 def main():
@@ -112,7 +134,6 @@ def main():
         lang = args.language,
         templates_dir=args.templates_dir,
         args_file=args.argsfile,
-
     )
 
     generated_test = tester.get_quiz(args.test_id)

@@ -28,18 +28,16 @@ import os.path
 from typing import Any, Dict, Union
 
 logging.basicConfig(
-    level=logging.DEBUG,  # change to INFO or WARNING in production
+    level=logging.INFO,  # change to INFO or WARNING in production
     format="%(levelname)s:%(name)s:%(message)s"
 )
 logger = logging.getLogger(__name__)
 import random
-from deprecated import deprecated
 
 from . import read_config
 from .display import quiz_format_factory
 from .question_builder_factory import question_builder_factory
 from .argschemaloader import  myArgsValidator
-# from .argschemaloader import ArgValidator, ArgSchemaLoader, myArgsValidator
 from typing import TypedDict, Optional, Any
 
 class CommandInfo(TypedDict):
@@ -70,7 +68,7 @@ class QuizBuilder:
         self.lang = lang
         # --- If no config file provided, use default
         if not config_file:
-            config_file = os.path.join(os.path.dirname(__file__), "config", "quiz.conf")
+            config_file = os.path.join(os.path.dirname(__file__), "config", "quiz.default.conf")
 
 
         # --- Check if config_file exists
@@ -101,14 +99,10 @@ class QuizBuilder:
         # --- Load config
         self.myconfig = read_config.ReadConfig(config_file)
 
-
-
-
-
         self.quiz_commands = {}
         self.quiz_commands[1] = [["base", "base", "arithm"],
         ["mesure", "base", "arithm"],
-        ["base", "mesures", "arithm"],
+        ["base", "mesure", "arithm"],
         
         ]
         self.quiz_commands[2] = [["float", "map"],
@@ -116,20 +110,11 @@ class QuizBuilder:
         ["float", "function"],
         ["complement","complement", "map"],
         ["function", "exp"],
-        ["function", "exp"],        
         ]
         self.quiz_commands[3] =  [
-#       ["float", "map"],
-#        ["float", "map-sop"],
-#        ["float", "function"],
-#        ["complement","complement", "map"],
-        ["function", "exp"],
         ["function", "exp"],
         ["function", "map"],
-        ["function", "map"],
-        ["function", "map"],
-        ["function", "exp"],
-        ]        
+        ]
         self.quiz_commands[4] =  [
         ["static_funct","nand_funct"],
         ]        
@@ -151,7 +136,8 @@ class QuizBuilder:
         self.select_random_values = True
         # --- Load args from json file if given, or from api
         self.my_args_dict = self.load_args()
-        # Schema validation
+
+
     def get_quiz_commands(self, quiz_id):
         if self.myconfig.test_table:
             if quiz_id:
@@ -261,7 +247,8 @@ class QuizBuilder:
             raise NotImplementedError(f"Not Implemented template for command '{name}'")
         return temp
 
-    def get_available_formats(self)->dict:
+    @staticmethod
+    def get_available_formats()->dict:
         """return all available format"""
         return quiz_format_factory.quiz_format_factory.get_available_format()
 
@@ -387,7 +374,7 @@ class QuizBuilder:
             return self.commands
         else:
             return [name for name, info in self.commands_info.items() if info["category"] == category]
-
+    # @classmethod
     def get_commands_info(self, category=""):
         """ list all existing question types """
         if not category:
