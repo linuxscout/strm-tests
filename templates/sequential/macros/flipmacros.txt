@@ -1,0 +1,207 @@
+{# -----------------------
+ draw a truth table for a flipflop (Markdown version)
+-------------------#}
+{% macro truth_tableX(type="D", edge="rising", customized=False, custom_vars=["X","Y"], custom_values=["1","Q","X","Q'"]) %}
+### Truth table of {{ type }} flip-flop
+
+{% set edge_symbol = "↑" if edge == "rising" else "↓" %}
+
+{% if type.lower() in ("custom","customized") or customized %}
+| Ck | {{custom_vars[0]}} | {{custom_vars[1]}} | Qₜ   |
+|----|-------------------|-------------------|------|
+| 0  | X                 | X                 | Qₜ₋₁ |
+| {{edge_symbol}} | 0 | 0 | {{custom_values[0]}} |
+| {{edge_symbol}} | 0 | 1 | {{custom_values[1]}} |
+| {{edge_symbol}} | 1 | 0 | {{custom_values[2]}} |
+| {{edge_symbol}} | 1 | 1 | {{custom_values[3]}} |
+
+
+{% elif type.lower() == "d" %}
+| Ck     | D | Qₜ   |
+|--------|---|------|
+| 0/1    | X | Qₜ₋₁ |
+| {{edge_symbol}} | 0 | 0    |
+| {{edge_symbol}} | 1 | 1    |
+
+
+{% elif type.lower() == "dlatch" %}
+| V | D | Qₜ   |
+|---|---|------|
+| 0 | X | Qₜ₋₁ |
+| 1 | 0 | 0    |
+| 1 | 1 | 1    |
+
+
+{% elif type.lower() == "jk" %}
+| Ck | J | K | Qₜ   | Remark   |
+|----|---|---|------|----------|
+| 0  | X | X | Qₜ₋₁ |          |
+| {{edge_symbol}} | 0 | 0 | Qₜ₋₁ |          |
+| {{edge_symbol}} | 0 | 1 | 0    |          |
+| {{edge_symbol}} | 1 | 0 | 1    |          |
+| {{edge_symbol}} | 1 | 1 | ¬Qₜ₋₁ | **Toggle** |
+
+{% elif type.lower() == "jkasyn" %}
+| Mode         | Pr | Cl | Ck | J | K | Q+   | Remark       |
+|--------------|----|----|----|---|---|------|--------------|
+| Asynchronous | 0  | 0  | X  | X | X | X    | **Forbidden**|
+|              | 0  | 1  | X  | X | X | 1    | Set to 1     |
+|              | 1  | 0  | X  | X | X | 0    | Set to 0     |
+| Synchronous  | 1  | 1  | 0/1| X | X | Q    | Memory       |
+|              | 1  | 1  | {{edge_symbol}} | 0 | 0 | Q | Memory |
+|              | 1  | 1  | {{edge_symbol}} | 0 | 1 | 0 | Reset |
+|              | 1  | 1  | {{edge_symbol}} | 1 | 0 | 1 | Set   |
+|              | 1  | 1  | {{edge_symbol}} | 1 | 1 | ¬Q | **Toggle** |
+
+
+{% elif type.lower() == "rs" %}
+| R | S | Qₜ   | Remark       |
+|---|---|------|--------------|
+| 0 | 0 | Qₜ   | Memory       |
+| 0 | 1 | 1    | Set          |
+| 1 | 0 | 0    | Reset        |
+| 1 | 1 | X    | **Forbidden**|
+
+
+{% elif type.lower() == "rst" %}
+| Ck | R | S | Qₜ   | ¬Qₜ  | Remark       |
+|----|---|---|------|------|--------------|
+| 0  | X | X | Qₜ₋₁ | ¬Qₜ₋₁ |              |
+| {{edge_symbol}} | 0 | 0 | Qₜ₋₁ | ¬Qₜ₋₁ |              |
+| {{edge_symbol}} | 0 | 1 | 1    | 0    |              |
+| {{edge_symbol}} | 1 | 0 | 0    | 1    |              |
+| {{edge_symbol}} | 1 | 1 | X    | X    | **Forbidden**|
+
+
+{% else %}
+**No table to display.** Please check the flip-flop type "{{ type }}". Use customized type if needed.
+{% endif %}
+{% endmacro %}
+
+{# -----------------------
+ draw a truth table for a flipflop (Plain text version)
+-------------------#}
+{% macro truth_table(type="D", edge="rising", customized=False, custom_vars=["X","Y"], custom_values=["1","Q","X","Q'"]) %}
+### Truth table of {{ type }} flip-flop
+
+{% set edge_symbol = "↑" if edge == "rising" else "↓" %}
+{% set ns = namespace(headers = [], rows=[]) %}
+
+
+
+
+{% if type.lower() == "d" %}
+  {% set ns.headers = ["Ck", "D", "Qₜ"] %}
+  {% set ns.rows = [
+    ["0/1", "X", "Qₜ₋₁"],
+    [edge_symbol, "0", "0"],
+    [edge_symbol, "1", "1"]
+  ] %}
+
+{% elif type.lower() == "dlatch" %}
+  {% set ns.headers = ["V", "D", "Qₜ"] %}
+  {% set _ = ns.rows.append(["0", "X", "Qₜ₋₁"]) %}
+  {% set _ = ns.rows.append(["1", "0", "0"]) %}
+  {% set _ = ns.rows.append(["1", "1", "1"]) %}
+
+{% elif type.lower() == "jk" %}
+  {% set ns.headers = ["Ck", "J", "K", "Qₜ", "Remark"] %}
+  {% set _ = ns.rows.append(["0", "X", "X", "Qₜ₋₁", ""]) %}
+  {% set _ = ns.rows.append([edge_symbol, "0", "0", "Qₜ₋₁", ""]) %}
+  {% set _ = ns.rows.append([edge_symbol, "0", "1", "0", ""]) %}
+  {% set _ = ns.rows.append([edge_symbol, "1", "0", "1", ""]) %}
+  {% set _ = ns.rows.append([edge_symbol, "1", "1", "¬Qₜ₋₁", "**Toggle**"]) %}
+
+{% elif type.lower() == "jkasyn" %}
+  {% set ns.headers = ["Mode", "Pr", "Cl", "Ck", "J", "K", "Q+", "Remark"] %}
+  {% set _ = ns.rows.append(["Asynchronous", "0", "0", "X", "X", "X", "X", "**Forbidden**"]) %}
+  {% set _ = ns.rows.append(["", "0", "1", "X", "X", "X", "1", "Set to 1"]) %}
+  {% set _ = ns.rows.append(["", "1", "0", "X", "X", "X", "0", "Set to 0"]) %}
+  {% set _ = ns.rows.append(["Synchronous", "1", "1", "0/1", "X", "X", "Q", "Memory"]) %}
+  {% set _ = ns.rows.append(["", "1", "1", edge_symbol, "0", "0", "Q", "Memory"]) %}
+  {% set _ = ns.rows.append(["", "1", "1", edge_symbol, "0", "1", "0", "Reset"]) %}
+  {% set _ = ns.rows.append(["", "1", "1", edge_symbol, "1", "0", "1", "Set"]) %}
+  {% set _ = ns.rows.append(["", "1", "1", edge_symbol, "1", "1", "¬Q", "**Toggle**"]) %}
+
+{% elif type.lower() == "rs" %}
+  {% set ns.headers = ["R", "S", "Qₜ", "Remark"] %}
+  {% set _ = ns.rows.append(["0", "0", "Qₜ", "Memory"]) %}
+  {% set _ = ns.rows.append(["0", "1", "1", "Set"]) %}
+  {% set _ = ns.rows.append(["1", "0", "0", "Reset"]) %}
+  {% set _ = ns.rows.append(["1", "1", "X", "**Forbidden**"]) %}
+
+{% elif type.lower() == "rst" %}
+  {% set ns.headers = ["Ck", "R", "S", "Qₜ", "¬Qₜ", "Remark"] %}
+  {% set _ = ns.rows.append(["0", "X", "X", "Qₜ₋₁", "¬Qₜ₋₁", ""]) %}
+  {% set _ = ns.rows.append([edge_symbol, "0", "0", "Qₜ₋₁", "¬Qₜ₋₁", ""]) %}
+  {% set _ = ns.rows.append([edge_symbol, "0", "1", "1", "0", ""]) %}
+  {% set _ = ns.rows.append([edge_symbol, "1", "0", "0", "1", ""]) %}
+  {% set _ = ns.rows.append([edge_symbol, "1", "1", "X", "X", "**Forbidden**"]) %}
+{% elif type.lower() in ("custom","customized") or customized %}
+  {% set ns.headers = ["Ck", custom_vars[0], custom_vars[1], "Qₜ"] %}
+  {% set _ = ns.rows.append(["0", "X", "X", "Qₜ₋₁"]) %}
+  {% set _ = ns.rows.append([edge_symbol, "0", "0", custom_values[0]]) %}
+  {% set _ = ns.rows.append([edge_symbol, "0", "1", custom_values[1]]) %}
+  {% set _ = ns.rows.append([edge_symbol, "1", "0", custom_values[2]]) %}
+  {% set _ = ns.rows.append([edge_symbol, "1", "1", custom_values[3]]) %}
+{% else %}
+  **No table to display.** Please check the flip-flop type "{{ type }}".
+{% endif %}
+
+{% if ns.headers and ns.rows %}
+{{ ns.rows | tabulate(headers=ns.headers, tablefmt="github") }}
+{% endif %}
+{% endmacro %}
+
+
+{% macro draw_flipflop(ftype="D", name="") -%}
+{% set label = ftype.upper() ~ "FF" %}
+{% if name %}{% set label = label ~ " (" ~ name ~ ")" %}{% endif %}
+{% if ftype.upper() == "D" %}
+      ┌─────────────┐
+ D ──▶│             │── Q
+CLK──▶│   {{label}} │── Q̅
+      └─────────────┘
+{% elif ftype.upper() == "SR" %}
+      ┌─────────────┐
+ S ──▶│             │── Q
+ R ──▶│   {{label}} │── Q̅
+CLK──▶│             │
+      └─────────────┘
+{% elif ftype.upper() == "JK" %}
+      ┌─────────────┐
+ J ──▶│             │── Q
+ K ──▶│   {{label}} │── Q̅
+CLK──▶│             │
+      └─────────────┘
+{% elif ftype.upper() == "T" %}
+      ┌─────────────┐
+ T ──▶│             │── Q
+CLK──▶│   {{label}} │── Q̅
+      └─────────────┘
+{% else %}
+ [ Unknown flip-flop type: {{ftype}} ]
+{% endif %}
+{%- endmacro %}
+
+
+{# -----------------------
+ draw a resiter one type flip
+-------------------#}
+{%macro  draw_register_generic(flips_list= ["D","JK","RS"], outputs=["Q0","Q1", "Q2"],size=3, shift="right", link_type="direct")%}
+Not Implemented, Please use HTMl or Tex format
+{%endmacro%}
+{# -----------------------
+ draw a resiter one type flip
+-------------------#}
+{%macro draw_register(flip="D", register_type="",size=3)%}
+Not Implemented, Please use HTMl or Tex format
+{%endmacro%}
+
+
+{# -----------------------
+ draw a counter one type flip
+-------------------#}
+{%macro draw_counter(flip="JKA", counter_type="",size=3)%}
+Not Implemented, Please use HTMl or Tex format
+{%endmacro%}

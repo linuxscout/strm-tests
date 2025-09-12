@@ -1,4 +1,4 @@
-{%macro draw_logigram(logicdiagramdict) %}
+{%macro draw_logigram2(logicdiagramdict) %}
 {% set functions = logicdiagramdict.functions %}
 {% set lg = logicdiagramdict %}
 {% if lg.method.upper() == "NAND" %}
@@ -41,6 +41,90 @@
 
 {%endmacro%}
 
+
+
+{% macro draw_logigram(lg) %}
+{# -------- Gate type setup -------- #}
+{% if lg.method.upper() == "NAND" %}
+    {% set function_gate = "NAND" %}
+    {% set term_gate     = "NAND" %}
+    {% set not_gate      = "NAND-NOT" %}
+{% elif lg.method.upper() == "NOR" %}
+    {% set function_gate = "NOR" %}
+    {% set term_gate     = "NOR" %}
+    {% set not_gate      = "NOR-NOT" %}
+{% elif lg.method.upper() == "POS" %}
+    {% set function_gate = "AND" %}
+    {% set term_gate     = "OR" %}
+    {% set not_gate      = "NOT" %}
+{% else %}
+    {% set function_gate = "OR" %}
+    {% set term_gate     = "AND" %}
+    {% set not_gate      = "NOT" %}
+{% endif %}
+
+
+{# -------- Helper macro for one variable wire -------- #}
+{% macro draw_var_line(var, is_first_var, is_last_var,
+                      is_first_term, is_last_term,
+                      term_gate, function_gate, function_name) %}
+    {# Build variable wire: with or without NOT bubble #}
+    {% if var.endswith("'") %}
+        {% set wire = "%-2s" % var[:-1] ~ "──○────" %}
+    {% else %}
+        {% set wire = "%-2s" % var ~ "───────" %}
+    {% endif %}
+
+    {# Branch symbols ┐ ┼ ┘ depending on position in term #}
+    {% if is_first_var %}
+        {% set var_end = "┐" %}
+    {% elif not is_last_var %}
+        {% set var_end = "┼" %}
+    {% else %}
+        {% set var_end = "┘" %}
+    {% endif %}
+
+    {# Branch symbols for terms (feeding into OR/AND) #}
+    {% if is_first_term %}
+        {% set term_end = "┐" %}
+    {% elif not is_last_term %}
+        {% set term_end = "┼" %}
+    {% else %}
+        {% set term_end = "┘" %}
+    {% endif %}
+
+    {# Place term gate at the end of the last variable of term #}
+    {% set term_gate_str = "──" ~ term_gate.center(4) ~ "──" ~ term_end if is_last_var else "" %}
+
+    {# Place function gate only at the very end #}
+    {% set func_gate_str = "──" ~ function_gate.center(4) ~ "──" ~ function_name if is_last_var and is_last_term else "" %}
+
+    {{ wire ~ var_end ~ term_gate_str ~ func_gate_str }}
+{% endmacro %}
+
+
+{# -------- Main drawing loop -------- #}
+{% set ns = namespace(term_index = 0)%}
+{% for function in lg.functions %}
+    {% set nb_terms = function.nb_terms %}
+
+    {# Loop over terms #}
+    {% for term in function.terms %}
+    {% set ns.term_index = loop.index0 %}
+        {% for var in term.vars %}
+            {% set is_first_var  = loop.index0 == 0 %}
+            {% set is_last_var   = loop.index0 == term.vars|length - 1 %}
+            {% set is_first_term = ns.term_index == 0 %}
+            {% set is_last_term  = ns.term_index == nb_terms - 1 %}
+
+            {{ draw_var_line(var, is_first_var, is_last_var,
+                             is_first_term, is_last_term,
+                             term_gate, function_gate, function.name) }}
+        {% endfor %}
+    {% endfor %}
+{% endfor %}
+
+{% endmacro %}
 
 
 

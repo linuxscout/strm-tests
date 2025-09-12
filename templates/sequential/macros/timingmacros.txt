@@ -1,0 +1,110 @@
+{# =========================================================
+   Macro: draw_signal
+   Draws a signal from a slist of values
+   Parameters:
+     seq : list of values
+     var_name    : name of variable
+   ========================================================= #}
+{% macro draw_signal(seq, var_name="") %}
+{% set ns = namespace(out_top ="", out_mid="", out_bot="")%}
+{% set period = 3 %}
+{% set ns= namespace(prev_level = None) %}
+
+{% for seg in seq %}
+    {% set level = "high" if seg > 0 else "low" %}
+    {% set length = seg|abs %}
+
+    {% if ns.prev_level is none %}
+        {# starting segment #}
+        {% if level == "high" %}
+            {% set ns.out_top = ns.out_top ~ "┌" ~ "─" * (length* period-1) %}
+            {% set ns.out_mid = ns.out_mid ~ "│" ~ " " * (length* period-1) %}
+            {% set ns.out_bot = ns.out_bot ~ " " * length* period %}
+        {% else %}
+            {% set ns.out_top = ns.out_top ~ " " * length* period %}
+            {% set ns.out_mid = ns.out_mid ~ "│" ~ " " * (length* period-1) %}
+            {% set ns.out_bot = ns.out_bot ~ "└" ~ "─" * (length* period-1) %}
+        {% endif %}
+    {% else %}
+        {# continuation with possible transition #}
+        {% if ns.prev_level == level %}
+            {# no transition, just extend #}
+            {% if level == "high" %}
+                {% set ns.out_top = ns.out_top ~ "─" * length* period %}
+                {% set ns.out_mid = ns.out_mid ~ " " * length* period %}
+                {% set ns.out_bot = ns.out_bot ~ " " * length* period %}
+            {% else %}
+                {% set ns.out_top = ns.out_top ~ " " * length* period %}
+                {% set ns.out_mid = ns.out_mid ~ " " * length* period %}
+                {% set ns.out_bot = ns.out_bot ~ "─" * length* period %}
+            {% endif %}
+        {% else %}
+            {# transition low<->high #}
+            {% if ns.prev_level == "low" and level == "high" %}
+                {% set ns.out_top = ns.out_top ~ "┌" ~ "─" * (length* period-1) %}
+                {% set ns.out_mid = ns.out_mid ~ "│" ~ " " * (length* period-1) %}
+                {% set ns.out_bot = ns.out_bot ~ "┘" ~ " " * (length* period-1) %}
+            {% else %}
+                {% set ns.out_top = ns.out_top ~ "┐" ~ " " * (length* period-1) %}
+                {% set ns.out_mid = ns.out_mid ~ "│" ~ " " * (length* period-1) %}
+                {% set ns.out_bot = ns.out_bot ~ "└" ~ "─" * (length* period-1) %}
+            {% endif %}
+        {% endif %}
+    {% endif %}
+    {% set ns.prev_level = level %}
+{% endfor %}
+{{" "|center(4)}}{{ ns.out_top }}
+{#{ ns.out_mid }#}
+{{var_name|center(4)}}{{ ns.out_bot }}
+{% endmacro %}
+
+
+{# =========================================================
+   Macro: clock_signal
+   Draws a periodic clock waveform
+   Parameters:
+     period_len : length (in units) of one full period (high + low)
+     periods    : number of periods to draw
+   ========================================================= #}
+{% macro clock_signal(period_len=1, periods=4,var_name="", edge = "dual") %}
+      {{ var_name }}
+{% set cklist = [-1,1]*periods %}
+{{ draw_signal(cklist, var_name=var_name)|normalize_newlines }}
+{% endmacro %}
+
+
+{# =========================================================
+   Macro: multi_signals
+   Draws several signals stacked vertically
+   Parameters:
+     signals : list of lists (each signal = list of segment values)
+   ========================================================= #}
+{% macro multi_signals(signals,  diagram_width=24,
+                        clock_period=1, clock_var ="Ck",
+                    synch_type="dual") %}
+
+{% set max_len = diagram_width %}
+{{ clock_signal(period_len=clock_period, periods=diagram_width,
+                            var_name=clock_var,   edge=synch_type) }}
+{% for k in signals %}
+{{ draw_signal(signals[k],var_name=k) }}
+{% endfor %}
+{% endmacro %}
+
+
+{# ----------------------------------------------------------
+   Draw Timing diagram
+----------------------------------------------------------- #}
+{%- macro draw_timing_diagram(data, mode="question") -%}
+{# ---------- Configuration ------------#}
+{% if mode== "question" %}
+{% set signals = data.question_signals %}
+{% elif mode == "answer" %}
+{% set signals = data.answer_signals %}
+{% endif %}
+{{ multi_signals(signals,
+                    diagram_width=data.length,
+                    clock_period=data.clock.period,
+                    clock_var =data.clock.name,
+                    synch_type=data.synch_type) }}
+{%- endmacro -%}
