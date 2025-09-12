@@ -22,19 +22,16 @@
 #  
 #  
 
-import itertools
-import json
-import pprint
-from . import quiz_format
-from . import quiz_format_html
-from . import format_const
-from ..bool import logigram
 
-class quiz_format_json(quiz_format_html.quiz_format_html):
+import json
+
+from . import quiz_format
+
+class quiz_format_json(quiz_format.quiz_format):
     """ Generate a format for the test """
     def __init__(self, formatting="", lang="ar-en", templates_dir=""):
 
-       quiz_format_html.quiz_format_html.__init__(self, formatting="json", lang=lang, templates_dir=templates_dir)
+       super().__init__(formatting="json", lang=lang, templates_dir=templates_dir)
        pass
 
     def display(self,):
@@ -42,7 +39,22 @@ class quiz_format_json(quiz_format_html.quiz_format_html):
         """
         # ~ return repr(self.tests )
         return json.dumps(self.tests )
-        
+    def render_question_answer(self, template_base: str, context: dict) -> tuple[str, str]:
+        """
+        عرض نص السؤال والجواب باستخدام القوالب المناسبة للغة والتنسيق.
+
+        Args:
+            template_base (str): اسم الأساس للقالب (مثل 'float' أو 'intervalle')
+            context (dict): البيانات المستعملة في القالب
+
+        Returns:
+            tuple[str, str]: (نص السؤال، نص الجواب)
+        """
+        # In json we have not templates for question,
+        # we return only parameters
+        context["languages"] = ["ar","en", "fr"]
+        question =answer = json.dumps(context)
+        return question, answer
 def main(args):
     return 0
 
