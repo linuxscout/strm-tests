@@ -30,149 +30,161 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 import random
-from .bool import bool_const, logigram
+from strmquiz.bool import bool_const, logigram
 
 
-from .bool import boolquiz
+from strmquiz.bool import boolquiz
 
 
 
-from .question_builder import Question_Builder
+from strmquiz.question_builder import Question_Builder
 
 class BooleanQuestionBuilder(Question_Builder):
     """Generate quiz questions for different domains."""
+    _CATEGORY = "boolean algebra"
 
-    def __init__(self, outformat="latex", config_file="", lang="ar-en", templates_dir=""):
+    _CATEGORIES_INFO = {
+        _CATEGORY: {
+            "short": "Boolean algebra & logic",
+            "long": "Focuses on Boolean expressions, Karnaugh maps, logic simplification, and circuit design.",
+        },
+    }
+    _COMMANDS_INFO = {
+        "exp": {
+            "category": _CATEGORY,
+            "short": "Boolean expression simplification",
+            "long": "Simplify Boolean expressions using algebraic rules or canonical forms.",
+            "example": "Simplify the following expression a'.b.c +a'.b'.c'",
+            "template": "bool/exp",
+            # "handler": _command_exp,
+            "args": {
+                "minterms": {"type": "list", "default": [[1, 2, 3, 5, 12]], "label": "Minterms"},
+                "sop_question": {"type": "string", "default": "a.b", "label": "SOP expression"},
+            },
+        },
+        "map": {
+            "category": _CATEGORY,
+            "short": "Karnaugh Map simplification",
+            "long": "Simplify Boolean expressions with Karnaugh Maps. Identify prime implicants and reduce logic circuits.",
+            "example": "Simplify the following Karnaugh maps",
+            "template": "bool/map",
+            # "handler": _question_map,
+            "args": {
+                "minterms": {"type": "list", "default": [[1, 2, 3, 5, 12], ], "label": "Minterms"},
+                "dontcare": {"type": "list", "default": [[], [], [], []], "label": "Don't care"},
+                "var_names": {"type": "list", "default": ["A", "B", "C", "D"], "label": "Variables' names"},
+                "output_names": {"type": "list", "default": ["S"], "label": "Output functions' names"},
+            },
+        },
+        "map-sop": {
+            "category": _CATEGORY,
+            "short": "K-map with canonical forms",
+            "long": "Generate and simplify canonical forms (SOP/POS) using Karnaugh Maps.",
+            "example": "Let the function be given by its canonical form, Draw the Karnaugh table and simplify.",
+            "template": "bool/map-sop",
+            # "handler": _command_map_for_sop,
+            "args": {
+                "functions_number": {"type": "integer", "default": 2, "range": [1, 10]},
+                "minterms": {"type": "list", "default": [[1, 2, 3, 5, 12]], "label": "Minterms"},
+            },
+        },
+        "function": {
+            "category": _CATEGORY,
+            "short": "Logic function analysis",
+            "long": "Analyze Boolean functions given in algebraic form. Includes truth table, simplification, and circuit representation.",
+            "example": "Study the following function: ادرس الدالة الآتية: ",
+            "template": "bool/function",
+            # "handler": _question_funct,
+            "args": {
+                "minterms": {"type": "list", "default": [[1, 2, 3, 5, 12], ], "label": "Minterms"},
+                "dontcare": {"type": "list", "default": [[], [], [], []], "label": "Don't care"},
+                "var_names": {"type": "list", "default": ["A", "B", "C", "D"], "label": "Variables' names"},
+                "output_names": {"type": "list", "default": ["S"], "label": "Output functions' names"},
+            },
+        },
+        "static_funct": {
+            "category": _CATEGORY,
+            "short": "Canonical logical functions",
+            "long": "Study functions expressed in canonical SOP or POS forms and simplify them.",
+            "example": "Study the following function: ادرس الدالة الآتية: ",
+            "template": "bool/function",
+            # "handler": _command_static_funct,
+            "args": {
+                "minterms": {"type": "list", "default": [[1, 2, 3, 5, 12], ], "label": "Minterms"},
+                "dontcare": {"type": "list", "default": [[], [], [], []], "label": "Don't care"},
+                "var_names": {"type": "list", "default": ["A", "B", "C", "D"], "label": "Variables' names"},
+                "output_names": {"type": "list", "default": ["S"], "label": "Output functions' names"},
+            },
+        },
+        "nand_funct": {
+            "category": _CATEGORY,
+            "short": "Logic with NAND gates",
+            "long": "Design and simplify logical functions using only NAND gates.",
+            "example": "Study the following function, draw diagram using NAND: ادرس الدالة الآتية: ",
+            "template": "bool/function",
+            # "handler": _command_nand_funct,
+            "args": {
+                "minterms": {"type": "list", "default": [[1, 2, 3, 5, 12], ], "label": "Minterms"},
+                "dontcare": {"type": "list", "default": [[], [], [], []], "label": "Don't care"},
+                "var_names": {"type": "list", "default": ["A", "B", "C", "D"], "label": "Variables' names"},
+                "output_names": {"type": "list", "default": ["S"], "label": "Output functions' names"},
+            },
+        },
+        "nor_funct": {
+            "category": _CATEGORY,
+            "short": "Logic with NOR gates",
+            "long": "Design and simplify logical functions using only NOR gates.",
+            "example": "Study the following function, draw diagram using NOR: ادرس الدالة الآتية: ",
+            "template": "bool/function",
+            # "handler": _command_nor_funct,
+            "args": {
+                "minterms": {"type": "list", "default": [[1, 2, 3, 5, 12], ], "label": "Minterms"},
+                "dontcare": {"type": "list", "default": [[], [], [], []], "label": "Don't care"},
+                "var_names": {"type": "list", "default": ["A", "B", "C", "D"], "label": "Variables' names"},
+                "output_names": {"type": "list", "default": ["S"], "label": "Output functions' names"},
+            },
+        },
+        "multi_funct": {
+            "category": _CATEGORY,
+            "short": "Multi-output logic circuits",
+            "long": "Draw and analyze circuits that implement multiple functions simultaneously.",
+            "example": "Study the following circuit, ادرس الدارة الآتية: ",
+            "template": "bool/multi_funct",
+            # "handler": _command_multi_funct,
+            "args": {
+                "minterms": {"type": "list", "default": [[1, 2, 3, 5], [1, 3, 4, 5]], "label": "Minterms"},
+                "dontcare": {"type": "list", "default": [[], [], [], []], "label": "Don't care"},
+                "var_names": {"type": "list", "default": ["A", "B", "C", "D"], "label": "Variables' names"},
+                "output_names": {"type": "list", "default": ["F0", "F1"], "label": "Output functions' names"},
+                "method": {"type": "string",
+                           "default": "",
+                           "choices": ["", "sop", "pos", "and", "or", "nand", "nor"],
+                           "label": "Method"},
+            },
+        },
+    }
+
+    _TEMPLATES_MAP = {
+        "map": "bool/map",
+        "map-sop": "bool/map-sop",
+        "function": "bool/function",
+        "nand_funct": "bool/function",
+        "nor_funct": "bool/function",
+        "static_funct": "bool/function",
+        "exp": "bool/exp",
+        "multi_funct": "bool/multi_funct",
+    }
+    def __init__(self,):
         # 🔹 Inject dependencies (makes testing easier)
         super().__init__()
         # super().__init__(outformat=outformat, config_file=config_file, lang=lang, templates_dir=templates_dir)
         self.bq = boolquiz.bool_quiz()
         self.bq.set_format('')
-        self.CATEGORY = "boolean algebra"
 
-        # Predefined categories metadata
-        self.CATEGORY = "boolean algebra"
-
-        self.categories_info = {
-            self.CATEGORY: {
-                "short": "Boolean algebra & logic",
-                "long": "Focuses on Boolean expressions, Karnaugh maps, logic simplification, and circuit design.",
-            },
-        }
-        self.commands_info = {
-            "exp": {
-                "category": self.CATEGORY,
-                "short": "Boolean expression simplification",
-                "long": "Simplify Boolean expressions using algebraic rules or canonical forms.",
-                "example":"Simplify the following expression a'.b.c +a'.b'.c'",
-                "template": "bool/exp",
-                #"handler": self.command_exp,
-                "args": {
-                    "minterms": {"type": "list", "default": [[1,2,3,5,12]], "label":"Minterms"},
-                    "sop_question": {"type": "string", "default": "a.b", "label":"SOP expression"},
-                },
-            },
-            "map": {
-                "category": self.CATEGORY,
-                "short": "Karnaugh Map simplification",
-                "long": "Simplify Boolean expressions with Karnaugh Maps. Identify prime implicants and reduce logic circuits.",
-                "example": "Simplify the following Karnaugh maps",
-                "template": "bool/map",
-                #"handler": self.question_map,
-                "args": {
-                    "minterms": {"type": "list", "default": [[1,2,3,5,12],], "label":"Minterms"},
-                    "dontcare": {"type": "list", "default": [[],[],[],[]], "label":"Don't care"},
-                    "var_names": {"type": "list", "default": ["A","B","C","D"], "label":"Variables' names"},
-                    "output_names": {"type": "list", "default": ["S"], "label":"Output functions' names"},
-                },
-            },
-            "map-sop": {
-                "category": self.CATEGORY,
-                "short": "K-map with canonical forms",
-                "long": "Generate and simplify canonical forms (SOP/POS) using Karnaugh Maps.",
-                "example": "Let the function be given by its canonical form, Draw the Karnaugh table and simplify.",
-                "template": "bool/map-sop",
-                #"handler": self.command_map_for_sop,
-                "args": {
-                    "functions_number": {"type": "integer", "default": 2, "range": [1, 10]},
-                    "minterms": {"type": "list", "default": [[1,2,3,5,12]], "label":"Minterms"},
-                },
-            },
-            "function": {
-                "category": self.CATEGORY,
-                "short": "Logic function analysis",
-                "long": "Analyze Boolean functions given in algebraic form. Includes truth table, simplification, and circuit representation.",
-                "example":"Study the following function: ادرس الدالة الآتية: ",
-                "template": "bool/function",
-                #"handler": self.question_funct,
-                "args": {
-                    "minterms": {"type": "list", "default": [[1,2,3,5,12],], "label":"Minterms"},
-                    "dontcare": {"type": "list", "default": [[],[],[],[]], "label":"Don't care"},
-                    "var_names": {"type": "list", "default": ["A","B","C","D"], "label":"Variables' names"},
-                    "output_names": {"type": "list", "default": ["S"], "label":"Output functions' names"},
-                },
-            },
-            "static_funct": {
-                "category": self.CATEGORY,
-                "short": "Canonical logical functions",
-                "long": "Study functions expressed in canonical SOP or POS forms and simplify them.",
-                "example": "Study the following function: ادرس الدالة الآتية: ",
-                "template": "bool/function",
-                #"handler": self.command_static_funct,
-                "args": {
-                    "minterms": {"type": "list", "default": [[1,2,3,5,12],], "label":"Minterms"},
-                    "dontcare": {"type": "list", "default": [[],[],[],[]], "label":"Don't care"},
-                    "var_names": {"type": "list", "default": ["A","B","C","D"], "label":"Variables' names"},
-                    "output_names": {"type": "list", "default": ["S"], "label":"Output functions' names"},
-                },
-            },
-            "nand_funct": {
-                "category": self.CATEGORY,
-                "short": "Logic with NAND gates",
-                "long": "Design and simplify logical functions using only NAND gates.",
-                "example": "Study the following function, draw diagram using NAND: ادرس الدالة الآتية: ",
-                "template": "bool/function",
-                #"handler": self.command_nand_funct,
-                "args": {
-                    "minterms": {"type": "list", "default": [[1,2,3,5,12],], "label":"Minterms"},
-                    "dontcare": {"type": "list", "default": [[],[],[],[]], "label":"Don't care"},
-                    "var_names": {"type": "list", "default": ["A","B","C","D"], "label":"Variables' names"},
-                    "output_names": {"type": "list", "default": ["S"], "label":"Output functions' names"},
-                },
-            },
-            "nor_funct": {
-                "category": self.CATEGORY,
-                "short": "Logic with NOR gates",
-                "long": "Design and simplify logical functions using only NOR gates.",
-                "example": "Study the following function, draw diagram using NOR: ادرس الدالة الآتية: ",
-                "template": "bool/function",
-                #"handler": self.command_nor_funct,
-                "args": {
-                    "minterms": {"type": "list", "default": [[1,2,3,5,12],], "label":"Minterms"},
-                    "dontcare": {"type": "list", "default": [[],[],[],[]], "label":"Don't care"},
-                    "var_names": {"type": "list", "default": ["A","B","C","D"], "label":"Variables' names"},
-                    "output_names": {"type": "list", "default": ["S"], "label":"Output functions' names"},
-                },
-            },
-            "multi_funct": {
-                "category": self.CATEGORY,
-                "short": "Multi-output logic circuits",
-                "long": "Draw and analyze circuits that implement multiple functions simultaneously.",
-                "example": "Study the following circuit, ادرس الدارة الآتية: ",
-                "template": "bool/multi_funct",
-                #"handler": self.command_multi_funct,
-                "args": {
-                    "minterms": {"type": "list", "default": [[1,2,3,5],[1,3,4,5]], "label":"Minterms"},
-                    "dontcare": {"type": "list", "default": [[],[],[],[]], "label":"Don't care"},
-                    "var_names": {"type": "list", "default": ["A","B","C","D"], "label":"Variables' names"},
-                    "output_names": {"type": "list", "default": ["F0","F1"], "label":"Output functions' names"},
-                    "method": {"type": "string",
-                               "default": "",
-                               "choices": ["", "sop", "pos","and", "or", "nand", "nor"],
-                               "label":"Method"},
-                },
-            },
-        }
+        self.CATEGORY = type(self)._CATEGORY
+        self.categories_info =type(self)._CATEGORIES_INFO
+        self.commands_info = type(self)._COMMANDS_INFO
+        self.templates_map = type(self)._TEMPLATES_MAP
 
         self.command_map = {
             # "exp": (self.question_exp, False),
@@ -187,16 +199,6 @@ class BooleanQuestionBuilder(Question_Builder):
             "multi_funct": (self.command_multi_funct, True),
             "map-sop": (self.command_map_for_sop, True),
             "exp": (self.command_exp, True),
-        }
-        self.templates_map = {
-            "map": "bool/map",
-            "map-sop": "bool/map-sop",
-            "function": "bool/function",
-            "nand_funct": "bool/function",
-            "nor_funct": "bool/function",
-            "static_funct": "bool/function",
-            "exp": "bool/exp",
-            "multi_funct": "bool/multi_funct",
         }
     def command_static_funct(self, args={}):
         minterms = args["minterms"][0] if args.get("minterms",[]) else []

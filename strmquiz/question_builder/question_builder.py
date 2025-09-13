@@ -29,14 +29,21 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-from .display import quiz_format_factory
+from strmquiz.display import quiz_format_factory
 
 class Question_Builder:
     """Generate quiz questions for different domains."""
+    _CATEGORY = ""
+    _CATEGORIES_INFO = {
+        _CATEGORY: {
+            "short": "Short description for default catogory for Abstract Question builder",
+            "long": "Long description for default catogory for Asbtract Question builder."
+        },
+    }
+    _COMMANDS_INFO = {}
+    _TEMPLATES_MAP = {}
 
-    def __init__(self, outformat="latex", config_file="", lang="ar-en", templates_dir="",):
-        self.formater = quiz_format_factory.quiz_format_factory.factory(outformat)
-        self.formater = None
+    def __init__(self,):
 
         self.randomize = True
         self.command_map = {}
@@ -72,18 +79,18 @@ class Question_Builder:
             print(f"Exception in get_question:\n{traceback_str}")
             return f"Error generating question '{command}': {e}", "Answer"
 
-
-    def get_commands_info(self):
-        return self.commands_info
-
-    def get_templates_map(self):
-        return self.templates_map
-
-    def get_category_info(self):
-        return self.categories_info.get(self.CATEGORY,
-                                        {"short":"No short description",
-                                        "long":"No long description"}
-                                        )
+    @classmethod
+    def get_commands_info(cls):
+        return cls._COMMANDS_INFO
+    @classmethod
+    def get_templates_map(cls):
+        return cls._TEMPLATES_MAP
+    @classmethod
+    def get_category_info(cls):
+        return cls._CATEGORIES_INFO #.get(cls._CATEGORY)
+    @classmethod
+    def get_category_name(cls):
+        return cls._CATEGORY
 def main(args):
     pass
 

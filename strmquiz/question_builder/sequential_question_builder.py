@@ -31,24 +31,175 @@ logger = logging.getLogger(__name__)
 
 import random
 
-from .sequentiel import chronograms
-from .sequentiel import seqconst
-from .sequentiel import registersimulator
-from .sequentiel import countersimulator
+from strmquiz.sequentiel import chronograms
+from strmquiz.sequentiel import seqconst
+from strmquiz.sequentiel import registersimulator
+from strmquiz.sequentiel import countersimulator
 
 
 
 
-from .bool import boolquiz
+from strmquiz.bool import boolquiz
 
 
 
-from .question_builder import Question_Builder
+from strmquiz.question_builder import Question_Builder
 
 class SequentialQuestionBuilder(Question_Builder):
     """Generate quiz questions for different domains."""
+    _CATEGORY = "sequential logic"
 
-    def __init__(self, outformat="latex", config_file="", lang="ar-en", templates_dir=""):
+    # Predefined categories metadata
+    _CATEGORIES_INFO = {
+        _CATEGORY: {
+            "short": "Sequential circuits",
+            "long": "Includes flip-flops, registers, counters, and timing diagrams for analyzing sequential behavior."
+        }
+    }
+    _COMMANDS_INFO = {
+        "chronogram": {
+            "category": _CATEGORY,
+            "short": "Sequential logic timing diagrams",
+            "long": "Interpret and draw chronograms (timing diagrams) for flip-flops (RS, D, JK).",
+            "example": "LEt have the following setup, complete the following timing diagram.",
+            "template": "sequential/timing",
+            # "handler": _command_chronogram,
+            "args": {
+                "varlist": {"type": "dict", "default": {"J": 1, "K": 1, "Q": 0, "Q'": 0}, "label": "Variables", },
+                "flip_type": {
+                    "type": "string",
+                    "default": "JK",
+                    "choices": ["D", "T", "JK", "RS", "RST"],
+                    "label": "Flip flop type",
+                },
+                "length": {"type": "integer", "default": 10, "range": [1, 100]},
+                "synch_type": {
+                    "type": "string",
+                    "default": "rising",
+                    "choices": ["rising", "falling"],
+                    "label": "Synchronization type (edge)",
+                },
+                "output": {"type": "list", "default": ["Q"], "label": "List of outputs", },
+            },
+        },
+        "flip": {
+            "category": _CATEGORY,
+            "short": "Flip-flop operation",
+            "long": "Analyze the behavior of flip-flops (RS, D, JK, T) given inputs and clock signals.",
+            "example": "LEt have the following Flip flip, give the truth table,\n then complete the following timing diagram.",
+            "template": "sequential/flip",
+            # "handler": _command_flip,
+            "args": {
+                "varlist": {"type": "dict", "default": {}, "label": "Variables", },
+                "flip_type": {
+                    "type": "string",
+                    "default": "D",
+                    "choices": ["D", "T", "JK", "RS", "RST"],
+                    "label": "Flip flop type",
+                },
+                "length": {"type": "integer", "default": 10, "range": [1, 100], "label": "Length of timing diagram", },
+                "synch_type": {
+                    "type": "string",
+                    "default": "rising",
+                    "choices": ["rising", "falling"],
+                    "label": "Synchronization type (edge)",
+                },
+                "output": {"type": "list", "default": ["Q"], "label": "List of outputs", },
+            },
+        },
+        "counter": {
+            "category": _CATEGORY,
+            "short": "Counter design and behavior",
+            "long": "Analyze synchronous and asynchronous up/down counters.",
+            "example": "LEt have the following Setup, give the flip flop truth table,\n then complete the following timing diagram.",
+            "template": "sequential/counter",
+            # "handler": _command_counter,
+            "args": {
+                "varlist": {"type": "dict", "default": {}, "label": "Variables", },
+                "length": {"type": "integer", "default": 10, "range": [1, 100], "label": "Length of timing diagram", },
+                "synch_type": {
+                    "type": "string",
+                    "default": "rising",
+                    "choices": ["rising", "falling"],
+                    "label": "Synchronization type (edge)",
+                },
+                "output": {"type": "list", "default": ["Q"], "label": "List of outputs", },
+                "counter_type": {
+                    "type": "string",
+                    "default": "up",
+                    "choices": ["up", "down"],
+                    "label": "Counter type",
+                },
+                "counter_flips": {"type": "list", "default": ["JK", "JK"], "label": "Counter flip flop type list", },
+                "counter_nbits": {"type": "integer", "default": 2, "range": [1, 16],
+                                  "label": "Counter bits numbze (size)"},
+                "counter_random": {"type": "boolean", "default": False, "label": "Random counter"},
+            },
+        },
+        "register": {
+            "category": _CATEGORY,
+            "short": "Register analysis",
+            "long": "Study shift registers and parallel registers with data movement and control operations.",
+            "example": "LEt have the following Setup, give the flip flop truth table,\n then complete the following timing diagram.",
+            "template": "sequential/register",
+            # "handler": _command_register,
+            "args": {
+                "varlist": {"type": "dict", "default": {}, "label": "Variables", },
+                "length": {"type": "integer", "default": 10, "range": [1, 100], "label": "Length of timing diagram", },
+                "synch_type": {
+                    "type": "string",
+                    "default": "rising",
+                    "choices": ["rising", "falling"],
+                    "label": "Synchronization type (edge)",
+                },
+                "output": {"type": "list", "default": ["Q"], "label": "List of outputs", },
+                "register_type": {
+                    "type": "string",
+                    "default": "shift-right",
+                    "choices": ["shift-right", "shift-left", "parallel"],
+                    "label": "Register type",
+                },
+                "register_flips": {"type": "list", "default": ["D", "D"], "label": "Register flip flop type list", },
+                "register_nbits": {"type": "integer", "default": 2, "range": [1, 16], "label": "Register bits number"},
+                "register_random": {"type": "boolean", "default": False, "label": "Random register"},
+            },
+        },
+        "seq_misc": {
+            "category": _CATEGORY,
+            "short": "Miscellaneous sequential circuits",
+            "long": "State machines, pulse generators, and hybrid sequential systems.",
+            "example": "Let have the following Setup, give the flip flop truth table,\n then complete the following timing diagram.",
+            "template": "sequential/misc",
+            # "handler": _command_seq_misc,
+            "args": {
+                "varlist": {"type": "dict", "default": {}, "label": "Variables", },
+                "flip_type": {
+                    "type": "string",
+                    "default": "D",
+                    "choices": ["D", "T", "JK", "RS", "RST"],
+                    "label": "Flip flop type",
+                },
+                "length": {"type": "integer", "default": 10, "range": [1, 100], "label": "Length of timing diagram", },
+                "synch_type": {
+                    "type": "string",
+                    "default": "rising",
+                    "choices": ["rising", "falling"],
+                    "label": "Synchronization type (edge)",
+                },
+                "output": {"type": "list", "default": ["Q"], "label": "List of outputs", },
+            },
+        },
+    }
+
+    _TEMPLATES_MAP = {
+        "chronogram": "sequential/timing",
+        "flip": "sequential/flip",
+        "register": "sequential/register",
+        "counter": "sequential/counter",
+        "seq_misc": "sequential/misc",
+    }
+
+    def __init__(self,):
         # 🔹 Inject dependencies (makes testing easier)
         super().__init__()
         self.bq = boolquiz.bool_quiz()
@@ -56,146 +207,11 @@ class SequentialQuestionBuilder(Question_Builder):
         self.CATEGORY = "sequential logic"
 
         # Predefined categories metadata
-        self.categories_info = {
-            self.CATEGORY: {
-                "short": "Sequential circuits",
-                "long": "Includes flip-flops, registers, counters, and timing diagrams for analyzing sequential behavior."
-            }
-        }
-        self.commands_info = {
-            "chronogram": {
-                "category": self.CATEGORY,
-                "short": "Sequential logic timing diagrams",
-                "long": "Interpret and draw chronograms (timing diagrams) for flip-flops (RS, D, JK).",
-                "example":"LEt have the following setup, complete the following timing diagram.",
-                "template": "sequential/timing",
-                #"handler": self.command_chronogram,
-                "args": {
-                    "varlist": {"type": "dict", "default": { "J": 1, "K": 1, "Q": 0,  "Q'": 0}, "label": "Variables",},
-                    "flip_type": {
-                        "type": "string",
-                        "default": "JK",
-                        "choices": ["D", "T", "JK", "RS", "RST"],
-                        "label":"Flip flop type",
-                    },
-                    "length": {"type": "integer", "default": 10, "range": [1, 100]},
-                    "synch_type": {
-                        "type": "string",
-                        "default": "rising",
-                        "choices": ["rising", "falling"],
-                        "label": "Synchronization type (edge)",
-                    },
-                    "output": {"type": "list", "default": ["Q"],"label": "List of outputs",},
-                },
-            },
-            "flip": {
-                "category": self.CATEGORY,
-                "short": "Flip-flop operation",
-                "long": "Analyze the behavior of flip-flops (RS, D, JK, T) given inputs and clock signals.",
-                "example": "LEt have the following Flip flip, give the truth table,\n then complete the following timing diagram.",
-                "template": "sequential/flip",
-                #"handler": self.command_flip,
-                "args": {
-                    "varlist": {"type": "dict", "default": {}, "label": "Variables",},
-                    "flip_type": {
-                        "type": "string",
-                        "default": "D",
-                        "choices": ["D", "T", "JK", "RS", "RST"],
-                        "label": "Flip flop type",
-                    },
-                    "length": {"type": "integer", "default": 10, "range": [1, 100], "label": "Length of timing diagram",},
-                    "synch_type": {
-                        "type": "string",
-                        "default": "rising",
-                        "choices": ["rising", "falling"],
-                        "label": "Synchronization type (edge)",
-                    },
-                    "output": {"type": "list", "default": ["Q"],"label": "List of outputs",},
-                },
-            },
-            "counter": {
-                "category": self.CATEGORY,
-                "short": "Counter design and behavior",
-                "long": "Analyze synchronous and asynchronous up/down counters.",
-                "example": "LEt have the following Setup, give the flip flop truth table,\n then complete the following timing diagram.",
-                "template": "sequential/counter",
-                #"handler": self.command_counter,
-                "args": {
-                    "varlist": {"type": "dict", "default": {}, "label": "Variables",},
-                    "length": {"type": "integer", "default": 10, "range": [1, 100], "label": "Length of timing diagram",},
-                    "synch_type": {
-                        "type": "string",
-                        "default": "rising",
-                        "choices": ["rising", "falling"],
-                        "label": "Synchronization type (edge)",
-                    },
-                    "output": {"type": "list", "default": ["Q"],"label": "List of outputs",},
-                    "counter_type": {
-                        "type": "string",
-                        "default": "up",
-                        "choices": ["up", "down"],
-                        "label":"Counter type",
-                    },
-                    "counter_flips": {"type": "list", "default": ["JK", "JK"], "label": "Counter flip flop type list",},
-                    "counter_nbits": {"type": "integer", "default": 2, "range": [1, 16], "label":"Counter bits numbze (size)"},
-                    "counter_random": {"type": "boolean", "default": False, "label":"Random counter"},
-                },
-            },
-            "register": {
-                "category": self.CATEGORY,
-                "short": "Register analysis",
-                "long": "Study shift registers and parallel registers with data movement and control operations.",
-                "example": "LEt have the following Setup, give the flip flop truth table,\n then complete the following timing diagram.",
-                "template": "sequential/register",
-                #"handler": self.command_register,
-                "args": {
-                    "varlist": {"type": "dict", "default": {}, "label": "Variables",},
-                    "length": {"type": "integer", "default": 10, "range": [1, 100], "label": "Length of timing diagram",},
-                    "synch_type": {
-                        "type": "string",
-                        "default": "rising",
-                        "choices": ["rising", "falling"],
-                        "label": "Synchronization type (edge)",
-                    },
-                    "output": {"type": "list", "default": ["Q"],"label": "List of outputs",},
-                    "register_type": {
-                        "type": "string",
-                        "default": "shift-right",
-                        "choices": ["shift-right", "shift-left", "parallel"],
-                        "label": "Register type",
-                    },
-                    "register_flips": {"type": "list", "default": ["D", "D"],  "label": "Register flip flop type list",},
-                    "register_nbits": {"type": "integer", "default": 2, "range": [1, 16], "label":"Register bits number"},
-                    "register_random": {"type": "boolean", "default": False, "label":"Random register"},
-                },
-            },
-            "seq_misc": {
-                "category": self.CATEGORY,
-                "short": "Miscellaneous sequential circuits",
-                "long": "State machines, pulse generators, and hybrid sequential systems.",
-                "example": "Let have the following Setup, give the flip flop truth table,\n then complete the following timing diagram.",
-                "template": "sequential/misc",
-                #"handler": self.command_seq_misc,
-                "args": {
-                    "varlist": {"type": "dict", "default": {}, "label": "Variables",},
-                    "flip_type": {
-                        "type": "string",
-                        "default": "D",
-                        "choices": ["D", "T", "JK", "RS", "RST"],
-                        "label": "Flip flop type",
-                    },
-                    "length": {"type": "integer", "default": 10, "range": [1, 100], "label": "Length of timing diagram",},
-                    "synch_type": {
-                        "type": "string",
-                        "default": "rising",
-                        "choices": ["rising", "falling"],
-                        "label": "Synchronization type (edge)",
-                    },
-                    "output": {"type": "list", "default": ["Q"],"label": "List of outputs",},
-                },
-            },
-        }
 
+        self.CATEGORY = type(self)._CATEGORY
+        self.categories_info =type(self)._CATEGORIES_INFO
+        self.commands_info = type(self)._COMMANDS_INFO
+        self.templates_map = type(self)._TEMPLATES_MAP
         self.command_map = {
             "chronogram": (self.command_chronogram, True),
             "flip": (self.command_flip, True),
@@ -203,13 +219,7 @@ class SequentialQuestionBuilder(Question_Builder):
             "register": (self.command_register, True),
             "seq_misc": (self.command_seq_misc, True),
         }
-        self.templates_map = {
-            "chronogram": "sequential/timing",
-            "flip": "sequential/flip",
-            "register": "sequential/register",
-            "counter": "sequential/counter",
-            "seq_misc": "sequential/misc",
-        }
+
     # sequential
     def command_chronogram(self, args={}):
         # print("quiz_builder:debug:arguments",args)

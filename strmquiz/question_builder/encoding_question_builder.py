@@ -33,16 +33,183 @@ import random
 
 
 
-from .codage import question_codage as question
-from .codage import ieee754
+from strmquiz.codage import question_codage as question
+from strmquiz.codage import ieee754
 
 
-from .question_builder import Question_Builder
+from strmquiz.question_builder import Question_Builder
+
+#--------------------------
+# CONST of Categoris and commands
+#--------------------------
 
 class EncodingQuestionBuilder(Question_Builder):
     """Generate quiz questions for different domains."""
+    _CATEGORY = "encoding"
 
-    def __init__(self, outformat="latex", config_file="", lang="ar-en", templates_dir="",):
+    _CATEGORIES_INFO = {
+        _CATEGORY: {
+            "short": "Encoding & number systems",
+            "long": "Covers numeral bases, complements, character encoding, "
+                    "floating point representation, and data measurement units."
+        },
+    }
+    _COMMANDS_INFO = {
+        "float": {
+            "category": _CATEGORY,
+            "short": "Floating-point representation",
+            "long": "IEEE-754 floating-point conversion and analysis.",
+            "example": "Represent 1.5 under the IEEE-754 standard.",
+            "template": "encoding/float",
+            # "handler": self.command_vf,
+            "args": {
+                "float": {"type": "float", "default": 0, "label": "Float number"},
+            },
+        },
+        "intervalle": {
+            "category": _CATEGORY,
+            "short": "Integer intervals with complements",
+            "long": "Binary integer ranges, signed numbers, Complement-1 and Complement-2.",
+            "example": "What is the interval to represent with 4bits in signed value.",
+            "template": "encoding/interval",
+            # "handler": self.command_intervalle,
+            "args": {
+                "nbits": {"type": "integer", "default": 8, "range": [1, 64], "label": "Bits number"},
+            },
+        },
+        "complement": {
+            "category": _CATEGORY,
+            "short": "Number complements",
+            "long": "Exercises on complement to one and complement to two.",
+            "example": "Represent the following number in signed value, 1's complement and 2's complement.",
+            "template": "encoding/cp",
+            # "handler": self.command_complement,
+            "args": {
+                "number": {"type": "integer", "default": -12, "label": "Number (decimal)"},
+            },
+        },
+        "base": {
+            "category": _CATEGORY,
+            "short": "Numeral system conversion",
+            "long": "Convert numbers between bases (binary, octal, decimal, hex).",
+            "example": "Convert the following number (125)_8 = (.....)_2.",
+            "template": "base",
+            # "handler": self.command_base,
+            "args": {
+                "number": {"type": "integer", "default": 1007, "label": "Number (decimal)"},
+                "in_base": {"type": "integer", "default": 10, "label": "From base"},
+                "out_base": {"type": "integer", "default": 8, "label": "To base"},
+            },
+        },
+        "arithm": {
+            "category": _CATEGORY,
+            "short": "Arithmetic in different bases",
+            "long": "Perform arithmetic in binary, octal, or hex systems.",
+            "example": "Calculate 125 + 13 in base 8.",
+            "template": "arithm",
+            # "handler": self.command_arithm,
+            "args": {
+                "number_a": {"type": "integer", "default": 0, "label": "Number A (decimal)"},
+                "number_b": {"type": "integer", "default": 0, "label": "Number B (decimal)"},
+                "operation": {
+                    "type": "string",
+                    "default": "+",
+                    "choices": ["+", "-", "*", "/"],
+                    "label": "Operation"
+                },
+                "base": {"type": "integer", "default": 10, "label": "Base"},
+            },
+        },
+        "mesure": {
+            "category": _CATEGORY,
+            "short": "Unit conversions",
+            "long": "Convert between info units (bits, bytes, KB, MB) or physical units (time, freq).",
+            "example": "What's the time to download 4 GB file with a connection of 2Mbps",
+            "template": "mesure",
+            # "handler": self.command_mesure,
+            "args": {},
+        },
+        "ascii": {
+            "category": _CATEGORY,
+            "short": "ASCII character codes",
+            "long": "Convert characters to/from ASCII in decimal, hex, binary.",
+            "template": "encoding/charcode",
+            "example": "Encode 'My text' into ASCII",
+            # "handler": self.command_ascii,
+            "args": {
+                "text": {"type": "string", "default": "", "label": "Text"},
+                "method": {"type": "string", "default": "both", "choices": ["both", "encode", "decode"],
+                           "label": "Method"},
+            },
+        },
+        "ascii_text": {
+            "category": _CATEGORY,
+            "short": "ASCII text encoding",
+            "long": "Encode/decode short words using ASCII tables.",
+            "example": "Encode 'My text' into ASCII",
+            "template": "encoding/charcode",
+            # "handler": self.command_ascii_text,
+            "args": {
+                "text": {"type": "string", "default": "", "label": "Text"},
+                "method": {"type": "string", "default": "both", "choices": ["both", "encode", "decode"],
+                           "label": "Method"},
+            },
+        },
+        "unicode": {
+            "category": _CATEGORY,
+            "short": "Unicode encoding",
+            "long": "Convert characters to/from Unicode representations.",
+            "example": "Encode 'My text' into Unicode",
+            "template": "encoding/charcode",
+            # "handler": self.command_unicode,
+            "args": {
+                "text": {"type": "string", "default": "", "label": "Text"},
+                "method": {"type": "string", "default": "both", "choices": ["both", "encode", "decode"],
+                           "label": "Method"},
+            },
+        },
+        "bcdx3": {
+            "category": _CATEGORY,
+            "short": "BCD ×3 encoding",
+            "long": "Convert numbers into Binary Coded Decimal (BCD) with ×3 correction.",
+            "example": "Encode 125  and 18 in BCD, then do addition in BCD.",
+            "template": "encoding/bcdx3",
+            # "handler": self.command_bcdx3,
+            "args": {
+                "number_a": {"type": "integer", "default": 0, "label": "Number A (decimal)"},
+                "number_b": {"type": "integer", "default": 0, "label": "Number B (decimal)"},
+                "scheme": {"type": "string", "default": "both", "choices": ["both", "bcd", "x3"], "label": "Scheme"},
+            },
+        },
+        "gray": {
+            "category": _CATEGORY,
+            "short": "Gray code",
+            "long": "Exercises on Gray code conversions and sequences.",
+            "example": "Let x = (11011)gray, what's the following number.",
+            "template": "encoding/gray",
+            # "handler": self.command_gray,
+            "args": {
+                "gray_number": {"type": "integer", "default": 0, "label": "Gray number (decimal)"},
+                "gray_sequence": {"type": "integer", "default": 2, "label": "Gray sequence length"},
+            },
+        },
+    }
+
+    _TEMPLATES_MAP = {
+        "float": "encoding/float",
+        "complement": "encoding/cp",
+        "intervalle": "encoding/interval",
+        "base": "base",
+        "bcdx3": "encoding/bcdx3",
+        "gray": "encoding/gray",
+        "ascii": "encoding/charcode",
+        "ascii_text": "encoding/charcode",
+        "unicode": "encoding/charcode",
+        "charcode": "encoding/charcode",
+        "arithm": "arithm",
+        "mesure": "mesure",  # NotImplementedError for now
+    }
+    def __init__(self, ):
         # 🔹 Inject dependencies (makes testing easier)
         super().__init__()
         # super().__init__(outformat=outformat, config_file=config_file, lang=lang, templates_dir=templates_dir,)
@@ -51,162 +218,11 @@ class EncodingQuestionBuilder(Question_Builder):
 
         self.vf = ieee754.float_point()
         self.randomize = True
-        self.CATEGORY = "encoding"
 
-        # Predefined categories metadata
-        self.categories_info = {
-            self.CATEGORY: {
-                "short": "Encoding & number systems",
-                "long": "Covers numeral bases, complements, character encoding, floating point representation, and data measurement units."
-            },
-        }
-        self.CATEGORY = "encoding"
-
-        self.categories_info = {
-            self.CATEGORY: {
-                "short": "Encoding & number systems",
-                "long": "Covers numeral bases, complements, character encoding, "
-                        "floating point representation, and data measurement units."
-            },
-        }
-        self.commands_info = {
-            "float": {
-                "category": self.CATEGORY,
-                "short": "Floating-point representation",
-                "long": "IEEE-754 floating-point conversion and analysis.",
-                "example":"Represent 1.5 under the IEEE-754 standard.",
-                "template": "encoding/float",
-                #"handler": self.command_vf,
-                "args": {
-                    "float": {"type": "float", "default": 0, "label":"Float number"},
-                },
-            },
-            "intervalle": {
-                "category": self.CATEGORY,
-                "short": "Integer intervals with complements",
-                "long": "Binary integer ranges, signed numbers, Complement-1 and Complement-2.",
-                "example": "What is the interval to represent with 4bits in signed value.",
-                "template": "encoding/interval",
-                #"handler": self.command_intervalle,
-                "args": {
-                    "nbits": {"type": "integer", "default": 8, "range": [1, 64], "label":"Bits number"},
-                },
-            },
-            "complement": {
-                "category": self.CATEGORY,
-                "short": "Number complements",
-                "long": "Exercises on complement to one and complement to two.",
-                "example": "Represent the following number in signed value, 1's complement and 2's complement.",
-                "template": "encoding/cp",
-                #"handler": self.command_complement,
-                "args": {
-                    "number": {"type": "integer", "default": -12, "label":"Number (decimal)"},
-                },
-            },
-            "base": {
-                "category": self.CATEGORY,
-                "short": "Numeral system conversion",
-                "long": "Convert numbers between bases (binary, octal, decimal, hex).",
-                "example": "Convert the following number (125)_8 = (.....)_2.",
-                "template": "base",
-                #"handler": self.command_base,
-                "args": {
-                    "number": {"type": "integer", "default": 1007, "label":"Number (decimal)"},
-                    "in_base": {"type": "integer", "default": 10, "label":"From base"},
-                    "out_base": {"type": "integer", "default": 8, "label":"To base"},
-                },
-            },
-            "arithm": {
-                "category": self.CATEGORY,
-                "short": "Arithmetic in different bases",
-                "long": "Perform arithmetic in binary, octal, or hex systems.",
-                "example": "Calculate 125 + 13 in base 8.",
-                "template": "arithm",
-                #"handler": self.command_arithm,
-                "args": {
-                    "number_a": {"type": "integer", "default": 0,  "label":"Number A (decimal)"},
-                    "number_b": {"type": "integer", "default": 0 , "label":"Number B (decimal)"},
-                    "operation": {
-                        "type": "string",
-                        "default": "+",
-                        "choices": ["+", "-", "*", "/"],
-                        "label": "Operation"
-                    },
-                    "base": {"type": "integer", "default": 10 , "label":"Base"},
-                },
-            },
-            "mesure": {
-                "category": self.CATEGORY,
-                "short": "Unit conversions",
-                "long": "Convert between info units (bits, bytes, KB, MB) or physical units (time, freq).",
-                "example": "What's the time to download 4 GB file with a connection of 2Mbps",
-                "template": "mesure",
-                #"handler": self.command_mesure,
-                "args": {},
-            },
-            "ascii": {
-                "category": self.CATEGORY,
-                "short": "ASCII character codes",
-                "long": "Convert characters to/from ASCII in decimal, hex, binary.",
-                "template": "encoding/charcode",
-                "example": "Encode 'My text' into ASCII" ,
-                #"handler": self.command_ascii,
-                "args": {
-                    "text": {"type": "string", "default": "", "label":"Text"},
-                    "method": {"type": "string", "default": "both", "choices": ["both", "encode","decode"],  "label":"Method"},
-                },
-            },
-            "ascii_text": {
-                "category": self.CATEGORY,
-                "short": "ASCII text encoding",
-                "long": "Encode/decode short words using ASCII tables.",
-                "example": "Encode 'My text' into ASCII",
-                "template": "encoding/charcode",
-                #"handler": self.command_ascii_text,
-                "args": {
-                    "text": {"type": "string", "default": "",  "label":"Text"},
-                    "method": {"type": "string", "default": "both", "choices": ["both", "encode","decode"],  "label":"Method"},
-                },
-            },
-            "unicode": {
-                "category": self.CATEGORY,
-                "short": "Unicode encoding",
-                "long": "Convert characters to/from Unicode representations.",
-                "example": "Encode 'My text' into Unicode",
-                "template": "encoding/charcode",
-                #"handler": self.command_unicode,
-                "args": {
-                    "text": {"type": "string", "default": "",  "label":"Text"},
-                    "method": {"type": "string", "default": "both", "choices": ["both", "encode","decode"],  "label":"Method"},
-                },
-            },
-            "bcdx3": {
-                "category": self.CATEGORY,
-                "short": "BCD ×3 encoding",
-                "long": "Convert numbers into Binary Coded Decimal (BCD) with ×3 correction.",
-                "example": "Encode 125  and 18 in BCD, then do addition in BCD.",
-                "template": "encoding/bcdx3",
-                #"handler": self.command_bcdx3,
-                "args": {
-                    "number_a": {"type": "integer", "default": 0,   "label":"Number A (decimal)"},
-                    "number_b": {"type": "integer", "default": 0,   "label":"Number B (decimal)"},
-                    "scheme": {"type": "string", "default": "both", "choices": ["both", "bcd","x3"],  "label":"Scheme"},
-                },
-            },
-            "gray": {
-                "category": self.CATEGORY,
-                "short": "Gray code",
-                "long": "Exercises on Gray code conversions and sequences.",
-                "example": "Let x = (11011)gray, what's the following number.",
-                "template": "encoding/gray",
-                #"handler": self.command_gray,
-                "args": {
-                    "gray_number": {"type": "integer", "default": 0,  "label":"Gray number (decimal)"},
-                    "gray_sequence": {"type": "integer", "default": 2, "label":"Gray sequence length"},
-                },
-            },
-        }
-
+        self.CATEGORY = type(self)._CATEGORY
+        self.categories_info =type(self)._CATEGORIES_INFO
+        self.commands_info = type(self)._COMMANDS_INFO
+        self.templates_map = type(self)._TEMPLATES_MAP
         self.command_map = {
             "float": (self.command_vf, True),
             "intervalle": (self.command_intervalle, True),
@@ -221,20 +237,7 @@ class EncodingQuestionBuilder(Question_Builder):
             # encoding
             "ascii_text": (self.command_ascii, True),
         }
-        self.templates_map = {
-            "float": "encoding/float",
-            "complement": "encoding/cp",
-            "intervalle": "encoding/interval",
-            "base": "base",
-            "bcdx3": "encoding/bcdx3",
-            "gray": "encoding/gray",
-            "ascii": "encoding/charcode",
-            "ascii_text": "encoding/charcode",
-            "unicode": "encoding/charcode",
-            "charcode": "encoding/charcode",
-            "arithm": "arithm",
-            "mesure": "mesure",  # NotImplementedError for now
-        }
+
 
     def command_ascii_text(self, args={}):
         return self.question_ascii(text=args.get("text",""), method=args.get("method",""))
