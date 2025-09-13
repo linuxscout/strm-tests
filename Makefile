@@ -86,7 +86,7 @@ test5h:TEST_ID=test5
 test9h:TEST_ID=test9
 test0h test1h test2h test3h test9h test5h test4h:
 	@echo "Generating test: $(TEST_ID)"
-	python3 -m strmquiz -f $(CONF_DIR)/quiz7.conf -g $(CONF_DIR)/args.6.json --lang="ar-en" --templates templates -d html -t "$(TEST_ID)" -o tests/output/test.html
+	python3 -m strmquiz -f $(CONF_DIR)/quiz7.conf  -d html -t "$(TEST_ID)" -o tests/output/test.html
 	mkdir -p $(GEN_DIR)/test2-$(DATE)
 	cp tests/output/test.html $(GEN_DIR)/test2-$(DATE)/
 	cp tests/output/test.html $(GEN_DIR)/
@@ -104,7 +104,7 @@ test5m:TEST_ID=test5
 test9m:TEST_ID=test9
 test0m test1m test2m test3m test9m test5m test4m:
 	@echo "Generating test: $(TEST_ID)"
-	python3 -m strmquiz -f $(CONF_DIR)/quiz7.conf -g $(CONF_DIR)/args.6.json --lang="ar-en" --templates templates -d md -t "$(TEST_ID)" -o tests/output/test.md
+	python3 -m strmquiz -f $(CONF_DIR)/quiz7.conf -d md -t "$(TEST_ID)" -o tests/output/test.md
 	mkdir -p $(GEN_DIR)/test2-$(DATE)
 	cp tests/output/test.md $(GEN_DIR)/test2-$(DATE)/
 	cp tests/output/test.md $(GEN_DIR)/

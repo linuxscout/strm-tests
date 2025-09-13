@@ -465,7 +465,7 @@ class QuizBuilder:
         commands_dict = self.get_random_commands(n=n, category=category)
         return list(commands_dict.keys())
 
-    def preview(self):
+    def show_config(self):
         """
         Preview main configuration
         """
