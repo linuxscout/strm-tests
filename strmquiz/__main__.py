@@ -29,19 +29,24 @@ from strmquiz.quizbuilder import QuizBuilder
 class CustomArgumentParser(argparse.ArgumentParser):
     def print_help(self, file=None):
         super().print_help(file)
-        qz = QuizBuilder(config_file="", templates_dir=".")
+        # qz = QuizBuilder(config_file="", templates_dir=".")
         # Custom message before the help
-        print("Custom Help Message:")
+        print("Examples of command line:")
+        print("""\t python3 -m strmquiz --templates templates -d txt -t test0 """)
+        print("""\t python3 -m strmquiz --templates templates -d html -t test0 -o tests/output/test.html""")
+        print("""\t python3 -m strmquiz --templates templates -d html -t test0 -o tests/output/test.html""")
+        print("""\t python3 -m strmquiz -f quiz.conf -g args.json --lang="ar-en" --templates templates -d html -t test0 -o tests/output/test.html""")
+        print("""\t python3 -m strmquiz -f quiz.conf  --templates templates -d html -t test0 -o tests/output/test.html""")
         print("Available formats are:")
         for k, v in QuizBuilder.get_available_formats().items():
             print(f"\t{k}:\t{v}")
         print("Available Categories are:")
-        for c, item in qz.get_categories().items():
+        for c, item in QuizBuilder.get_categories().items():
             print(f"\t{c}:\t{item['short']}")
 
-        for c in qz.get_categories():
+        for c in QuizBuilder.get_categories():
             print(f"{c.capitalize()} category: available Commands:")
-            for cmd, item in qz.get_commands_info(category=c).items():
+            for cmd, item in QuizBuilder.get_commands_info(category=c).items():
                 print(f"\t{cmd}:\t{item['short']}")
 
 
@@ -60,10 +65,10 @@ def parse_arguments():
     )
     parser.add_argument(
         "-o", "--outfile",
-        required=True,
+        required=False,
         help="Output file path",
         metavar="OUTFILE",
-        default="output.txt"
+        default=""
     )
     parser.add_argument(
         "-d", "--outformat",
@@ -137,9 +142,11 @@ def main():
     )
 
     generated_test = tester.get_quiz(args.test_id)
-
-    with open(args.outfile, "w", encoding="utf-8") as output_file:
-        output_file.write(generated_test)
+    if args.outfile:
+        with open(args.outfile, "w", encoding="utf-8") as output_file:
+            output_file.write(generated_test)
+    else:
+        print(generated_test)
 
 if __name__ == '__main__':
     main()
