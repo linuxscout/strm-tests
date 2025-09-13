@@ -250,11 +250,7 @@ class quiz_format:
         for test in self.tests: 
             # print only test questions
             # question is a dict
-            # ~ id":q_no,
-            # ~ "question":q,
-            # ~ "arabic":ar,
-            # ~ "data":data,
-            # ~ "answer":ans,  
+
             for question in test:
                 # print question
                 self.add_section(question.get("id","ID"),level=4)
@@ -272,7 +268,9 @@ class quiz_format:
                 self.add_text(question.get("answer","ANSWER"))
             self.add_newpage() 
 
-        return self.newline.join(self.output)
+        text =  self.newline.join(self.output)
+        text = self.normalize_newlines(text,2)
+        return text
         
     def add_formula(self, text, trans=""): 
         
