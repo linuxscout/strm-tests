@@ -21,12 +21,10 @@
 #  MA 02110-1301, USA.
 #  
 #
-import json
 import logging
 # --- Configure logging ---
 import os.path
-from typing import Any, Dict, Union
-
+from typing import Dict,  Optional
 logging.basicConfig(
     level=logging.INFO,  # change to INFO or WARNING in production
     format="%(levelname)s:%(name)s:%(message)s"
@@ -36,9 +34,9 @@ import random
 
 from . import read_config
 from .display import quiz_format_factory
-from .question_builder_factory import question_builder_factory
+from strmquiz.question_builder.question_builder_factory import question_builder_factory
 from .argschemaloader import  myArgsValidator
-from typing import TypedDict, Optional, Any
+from typing import TypedDict, Any
 
 class CommandInfo(TypedDict):
     short: str
@@ -59,6 +57,9 @@ import os
 
 class QuizBuilder:
     """ Generate the third test """
+    _CATEGORIES_INFO = question_builder_factory.get_categories_info()
+    _COMMANDS_INFO = question_builder_factory.get_commands_info()
+    _TEMPLATES_MAP = question_builder_factory.get_templates_map()
     def __init__(self, outformat="", config_file="", lang="", templates_dir="", args_file=""):
 
         # --- Check if templates_dir exists
@@ -88,11 +89,17 @@ class QuizBuilder:
         self.args_file = args_file
 
         # --- Factories
-        self.qsbuilder = question_builder_factory.factory( builder_name="",)
-        self.encode_qsbuilder = question_builder_factory.factory(builder_name="encoding")
-        self.encode_qsbuilder.set_random(False)
-        self.bool_qsbuilder = question_builder_factory.factory(builder_name="boolean")
-        self.seq_qsbuilder = question_builder_factory.factory(builder_name="sequential")
+
+        # self.encode_qsbuilder = question_builder_factory.factory(builder_name="encoding")
+        # # self.encode_qsbuilder.set_random(False)
+        # self.bool_qsbuilder = question_builder_factory.factory(builder_name="boolean")
+        # self.seq_qsbuilder = question_builder_factory.factory(builder_name="sequential")
+        # self.builders_map = {
+        #     "encoding": self.encode_qsbuilder,
+        #     "boolean algebra": self.bool_qsbuilder,
+        #     "sequential logic": self.seq_qsbuilder,
+        # }
+        self.builders_map = question_builder_factory.map_factory()
 
         self.formater = quiz_format_factory.quiz_format_factory.factory(outformat, lang=lang, templates_dir=templates_dir)
 
@@ -125,10 +132,13 @@ class QuizBuilder:
         ["chronogram",],
         ]
         # --- Commands metadata (optional) ---
-        self.commands_info = self._load_commands_info()
+        self.commands_info = type(self)._COMMANDS_INFO
+        # self.commands_info = self._load_commands_info()
         self.commands = list(self.commands_info.keys())
-        self.categories_info = self._load_categories_info()
-        self.TEMPLATE_MAP = self._load_templates_map()
+        self.categories_info = type(self)._CATEGORIES_INFO
+        # self.categories_info = self._load_categories_info()
+        # self.TEMPLATE_MAP = self._load_templates_map()
+        self.TEMPLATE_MAP = type(self)._TEMPLATES_MAP
 
         # self.validation_schema_loader = myArgsValidator(self.get_commands_info())
         self.myvalidation_schema_loader = myArgsValidator(self.get_commands_info())
@@ -157,28 +167,33 @@ class QuizBuilder:
 
     def set_select_random_values(self, rand):
         self.select_random_values = bool(rand)
-        self.bool_qsbuilder.set_random(rand)
-        self.encode_qsbuilder.set_random(rand)
-        self.seq_qsbuilder.set_random(rand)
+        for key in self.builders_map:
+            self.builders_map[key].set_random(rand)
+
+
     def get_loaded_args(self):
         return self.my_args_dict
-    def _load_templates_map(self):
-        templates = {}
-        for builder in [self.encode_qsbuilder, self.bool_qsbuilder, self.seq_qsbuilder]:
-            templates.update(builder.get_templates_map())
-        return templates
 
-    def _load_commands_info(self):
-        all_info = {}
-        for builder in [self.encode_qsbuilder, self.bool_qsbuilder, self.seq_qsbuilder]:
-            all_info.update(builder.get_commands_info())
-        return all_info
+    # def _load_templates_map(self):
+    #     return question_builder_factory.get_templates_map()
+    #     templates = {}
+    #     for key in self.builders_map:
+    #         templates.update(self.builders_map[key].get_templates_map())
+    #     return templates
 
-    def _load_categories_info(self):
-        categories = {}
-        for builder in [self.encode_qsbuilder, self.bool_qsbuilder, self.seq_qsbuilder]:
-            categories[builder.CATEGORY] = builder.get_category_info()
-        return categories
+    # def _load_commands_info(self):
+    #     return question_builder_factory.get_commands_info()
+    #     all_info = {}
+    #     for key in self.builders_map:
+    #         all_info.update(self.builders_map[key].get_commands_info())
+    #     return all_info
+
+    # def _load_categories_info(self):
+    #     return question_builder_factory.get_categories_info()
+    #     categories = {}
+    #     for key in self.builders_map:
+    #         categories[key] = self.builders_map[key].get_category_info().get(key,{})
+    #     return categories
 
     def load_args(self, args_src:Dict[str, Any]={})-> Dict[str, Any]:
         """load args from file or api"""
@@ -200,29 +215,6 @@ class QuizBuilder:
             # store validated args in a dict
             validated_args[command] = validator.validate_args(args_values)
         logger.debug(f"Loaded args: {validated_args}")
-        return validated_args
-
-    def validate_command_argsXX(self, command="", args_src:Dict[str, Any]={})-> Dict[str, Any]:
-        """load args from file or api"""
-        if not args_src and self.args_file:
-            args_src = self.args_file
-        elif isinstance(args_src, Dict):
-            args_src = args_src
-        else: # no args sources and no args_file
-            return {}
-        args_dict = {command: args_src}
-        # load schema of commands and args
-        # schema_loader = ArgSchemaLoader(self.get_commands_info())
-
-        schema_loader = self.validation_schema_loader
-
-        args_loader = ArgSchemaLoader(args_dict)
-        # Pick one command (e.g. counter)
-        command_schema = schema_loader.get_command_schema(command)
-        args_values = args_loader.get_command_schema(command)
-        validator = ArgValidator(command_schema)
-        # store validated args in a dict
-        validated_args = validator.validate_args(args_values)
         return validated_args
 
     def validate_command_args(self, command="", args_src:Dict[str, Any]={})-> Dict[str, Any]:
@@ -308,13 +300,9 @@ class QuizBuilder:
 
         # Determine the correct builder
         category = self.commands_info.get(command, {}).get("category", "")
-        builder_map = {
-            "encoding": self.encode_qsbuilder,
-            "boolean algebra": self.bool_qsbuilder,
-            "sequential logic": self.seq_qsbuilder,
-        }
 
-        builder = builder_map.get(category)
+
+        builder = self.builders_map.get(category)
         if not builder:
             return f"Unknown command category for '{command}'", "Answer"
 
@@ -375,12 +363,13 @@ class QuizBuilder:
         else:
             return [name for name, info in self.commands_info.items() if info["category"] == category]
     # @classmethod
-    def get_commands_info(self, category=""):
+    @classmethod
+    def get_commands_info(cls, category=""):
         """ list all existing question types """
         if not category:
-            return self.commands_info
+            return cls._COMMANDS_INFO
         else:
-            return {cmd:self.commands_info[cmd] for cmd in self.commands_info if self.commands_info[cmd]["category"]==category}
+            return {cmd:cls._COMMANDS_INFO[cmd] for cmd in cls._COMMANDS_INFO if cls._COMMANDS_INFO[cmd]["category"]==category}
 
     def get_quiz(self,test_no="test1"):
         """
@@ -402,29 +391,30 @@ class QuizBuilder:
                 self.formater.close_question(test)
         return self.formater.display()
 
-    import random
-    from typing import Optional
 
-    def get_categories(self) -> dict[str, CategoryInfo]:
+    @classmethod
+    def get_categories(cls) -> dict[str, CategoryInfo]:
         """
         Return a dictionary of categories with descriptions and their commands.
         """
         categories: dict[str, CategoryInfo] = {}
-        for cat, meta in self.categories_info.items():
+        for cat, meta in cls._CATEGORIES_INFO.items():
+            logger.debug(f"{cat}:{meta}")
             categories[cat] = {
-                "short": meta["short"],
-                "long": meta["long"],
+                "short": meta.get("short",''),
+                "long": meta.get("long",""),
                 "commands": [
                     {
                         "name": name,
                         "short": info["short"],
                         "long": info["long"]
                     }
-                    for name, info in self.commands_info.items()
+                    for name, info in cls._COMMANDS_INFO.items()
                     if info["category"] == cat
                 ]
             }
         return categories
+
     def get_short_description(self, cmd: str) -> str:
         """Return short description for a command."""
         return self.commands_info.get(cmd, {}).get("short", f"No short description for '{cmd}'")

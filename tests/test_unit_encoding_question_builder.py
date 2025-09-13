@@ -1,5 +1,5 @@
 import pytest
-from strmquiz.encoding_question_builder import EncodingQuestionBuilder
+from strmquiz.question_builder.encoding_question_builder import EncodingQuestionBuilder
 
 
 @pytest.fixture
@@ -232,9 +232,6 @@ def test_compute_steps_general_case(builder):
     assert binary_mode is False
 
 
-import pytest
-
-
 def test_question_mesure(builder):
     context = builder.question_mesure()
 
@@ -286,3 +283,13 @@ def test_question_mesure(builder):
         time_s = given["time"]["base_seconds"]
         expected_speed = size_MB / time_s
         assert abs(expected_speed - given["speed"]["base_MBps"]) < 1e-6
+
+def test_get_commands_info(builder):
+    # not random numbers
+    cmds = builder.get_commands_info()
+    assert isinstance(cmds, dict)
+
+def test_get_categories_info(builder):
+    # not random numbers
+    cats = builder.get_category_info()
+    assert isinstance(cats, dict)

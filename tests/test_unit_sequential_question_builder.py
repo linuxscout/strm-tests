@@ -1,13 +1,11 @@
 import pytest
-from strmquiz.sequential_question_builder import SequentialQuestionBuilder
+from strmquiz.question_builder.sequential_question_builder import SequentialQuestionBuilder
 
 
 @pytest.fixture
 def builder():
     """Fixture that returns a SequentialQuestionBuilder instance."""
     return SequentialQuestionBuilder()
-
-import pytest
 
 
 def test_init(builder):
@@ -89,3 +87,13 @@ def test_question_seq_misc(builder):
     result = builder.question_seq_misc(varlist={"D": 1, "Q": 0})
     assert isinstance(result, dict)
     assert "data" in result
+
+def test_get_commands_info(builder):
+    # not random numbers
+    cmds = builder.get_commands_info()
+    assert isinstance(cmds, dict)
+
+def test_get_categories_info(builder):
+    # not random numbers
+    cats = builder.get_category_info()
+    assert isinstance(cats, dict)

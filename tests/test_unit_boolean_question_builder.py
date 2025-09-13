@@ -1,6 +1,6 @@
 
 import pytest
-from strmquiz.boolean_question_builder import BooleanQuestionBuilder
+from strmquiz.question_builder.boolean_question_builder import BooleanQuestionBuilder
 
 
 @pytest.fixture
@@ -116,3 +116,12 @@ def test_invalid_minterms(builder):
         builder.question_multi_funct(minterms_list=[[1, 2, 3, "X", 20]], dont_care_list=[[]])
     with pytest.raises(ValueError):
         builder.question_multi_funct(minterms_list=[[1, 2, 3, 20]], dont_care_list=[[]])
+def test_get_commands_info(builder):
+    # not random numbers
+    cmds = builder.get_commands_info()
+    assert isinstance(cmds, dict)
+
+def test_get_categories_info(builder):
+    # not random numbers
+    cats = builder.get_category_info()
+    assert isinstance(cats, dict)

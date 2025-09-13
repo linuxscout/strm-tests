@@ -103,10 +103,10 @@ def test_get_commands_info_by_category(builder):
     info = builder.get_commands_info(category="encoding")
     assert "float" in info, f"The result is {info}"
 
-
+# @pytest.mark.skip(reason="To be removed manually")
 def test_get_categories(builder):
     cats = builder.get_categories()
-    assert "boolean algebra" in cats
+    assert "boolean algebra" in cats, f"Categories {cats}"
     assert "encoding" in cats
     assert isinstance(cats["boolean algebra"]["commands"], list)
     assert any(cmd["name"] == "map" for cmd in cats["boolean algebra"]["commands"])
@@ -265,3 +265,11 @@ def test_load_args_uses_default_file(tmp_path, monkeypatch,):
     result = qb.my_args_dict
     assert "float" in result
     assert result["float"]["float"] == 7
+
+def test_load_categories(builder):
+    cats = builder.categories_info
+    assert isinstance(cats, dict), f"Categories : {cats}"
+
+def test_load_commands(builder):
+    cmds = builder.commands_info
+    assert isinstance(cmds, dict), f"Commands : {cmds}"
