@@ -11,6 +11,7 @@ CONF_DIR=tests/config
 TESTS := test0 test1 test2 test3 test4 test5 test6 test7 test8 test9 bankquestion
 TESTSHTML := test0h test1h test2h test3h test4h test5h test6h test7h test8h test9h bankquestionh
 
+
 # Default target
 default: all
 
@@ -90,6 +91,11 @@ test0h test1h test2h test3h test9h test5h test4h:
 	mkdir -p $(GEN_DIR)/test2-$(DATE)
 	cp tests/output/test.html $(GEN_DIR)/test2-$(DATE)/
 	cp tests/output/test.html $(GEN_DIR)/
+
+FORMAT?=tex
+test0x:
+	@echo "Generating test: $(TEST_ID)"
+	python3 -m strmquiz -f $(CONF_DIR)/quiz7.conf  -d $(FORMAT) -t "$(TEST_ID)" -o tests/output/test.$(FORMAT)
 
 # Generate one rule per test
 $(foreach T,$(TESTSHTML),$(eval $(call test_template_html,$(T))))
