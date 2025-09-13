@@ -21,12 +21,7 @@
 #  
 #
 import logging
-# --- Configure logging ---
-logging.basicConfig(
-    level=logging.DEBUG,  # change to INFO or WARNING in production
-    format="%(levelname)s:%(name)s:%(message)s"
-)
-logger = logging.getLogger(__name__)
+
 
 
 import json
@@ -42,7 +37,7 @@ class Chronograms:
         # H scale for scale draw
         self.hscale = 2
         high_char = "\u00AF" # unicode macron
-
+        self.logger = logging.getLogger(self.__class__.__name__)
         # define symbols used for high and low
         self.start_high = "|"+high_char
         self.extend_high = high_char
@@ -217,7 +212,7 @@ class Chronograms:
             k_signal = self.synchronize_signal(signals.get(y,[]), period=period)
             q_signal = signals.get("Q",[-1,])
             out_signal = self.resolve_xy(j_signal, k_signal, q_signal, period=period, flip_type="XY")
-        logger.debug(f" in chrono.resolve in period '{period}', signals = {signals}, j='{j_signal}', k= '{k_signal}' OUT {out_signal}")
+        self.logger.debug(f" in chrono.resolve in period '{period}', signals = {signals}, j='{j_signal}', k= '{k_signal}' OUT {out_signal}")
         return out_signal
 
 

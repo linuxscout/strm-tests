@@ -22,13 +22,6 @@
 #  
 #  
 import logging
-# --- Configure logging ---
-logging.basicConfig(
-    level=logging.DEBUG,  # change to INFO or WARNING in production
-    format="%(levelname)s:%(name)s:%(message)s"
-)
-logger = logging.getLogger(__name__)
-
 import random
 from strmquiz.bool import bool_const, logigram
 
@@ -177,6 +170,7 @@ class BooleanQuestionBuilder(Question_Builder):
     def __init__(self,):
         # 🔹 Inject dependencies (makes testing easier)
         super().__init__()
+        self.logger = logging.getLogger(self.__class__.__name__)
         # super().__init__(outformat=outformat, config_file=config_file, lang=lang, templates_dir=templates_dir)
         self.bq = boolquiz.bool_quiz()
         self.bq.set_format('')

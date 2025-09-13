@@ -30,6 +30,7 @@ import logging
 class ReadConfig:
     def __init__(self, filename, debug=True, validate=True):
         self.debug = debug
+        self.logger = logging.getLogger(self.__class__.__name__)
         self.validate_enabled = validate  # toggle validation
         self.warnings = []
 
@@ -86,7 +87,7 @@ class ReadConfig:
             sys.exit(1)
 
         if self.debug:
-            logging.debug("path is %s", newpath)
+            self.logger.debug("path is %s", newpath)
 
         # --- Load values from config ---
         for section, keys in self.fields.items():
@@ -106,8 +107,8 @@ class ReadConfig:
         if self.debug:
             for section in self.fields.values():
                 for attr, _ in section.values():
-                    logging.debug("%s: %r", attr, getattr(self, attr))
-            logging.debug("Tests: %r", self.test_table)
+                    self.logger.debug("%s: %r", attr, getattr(self, attr))
+            self.logger.debug("Tests: %r", self.test_table)
 
     def get_quiz_config(self, select=""):
         if select in self.test_table:
@@ -136,7 +137,7 @@ class ReadConfig:
                                 f"(expected in range [{min_val}, {max_val}]). "
                                 f"Falling back to default {default!r}."
                             )
-                            logging.warning(msg)
+                            self.logger.warning(msg)
                             self.warnings.append(msg)
                             setattr(self, attr, default)
                             continue
@@ -149,7 +150,7 @@ class ReadConfig:
                                 f"(expected one of {rules['enum']}). "
                                 f"Falling back to default {default!r}."
                             )
-                            logging.warning(msg)
+                            self.logger.warning(msg)
                             self.warnings.append(msg)
                             setattr(self, attr, default)
 

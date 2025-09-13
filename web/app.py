@@ -1,4 +1,13 @@
 import logging
+logging.basicConfig(
+    level=logging.DEBUG,  # Default log level
+    # level=logging.DEBUG,  # Default log level
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+    handlers=[
+        # logging.StreamHandler(sys.stdout),         # Console output
+        logging.FileHandler("../tmp/logs/quiz-web.log", encoding="utf-8")  # File output
+    ]
+)
 import os.path
 import json
 from fastapi import FastAPI, Request, Query

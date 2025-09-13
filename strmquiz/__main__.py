@@ -16,17 +16,16 @@ import subprocess
 from pathlib import Path
 
 
-def setup_logging():
-    logging.basicConfig(
-        level=logging.INFO,  # Default log level
-        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-        handlers=[
-            logging.StreamHandler(sys.stdout),         # Console output
-            logging.FileHandler("tmp/logs/quiz.log", encoding="utf-8")  # File output
-        ]
-    )
 
-logger = logging.getLogger(__name__)
+logging.basicConfig(
+    level=logging.DEBUG,  # Default log level
+    # level=logging.DEBUG,  # Default log level
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+    handlers=[
+        # logging.StreamHandler(sys.stdout),         # Console output
+        logging.FileHandler("tmp/logs/quiz.log", encoding="utf-8")  # File output
+    ]
+)
 
 
 from strmquiz.quizbuilder import QuizBuilder
@@ -178,7 +177,7 @@ def preview_file(file_path: str):
         else:  # Linux and others
             subprocess.run(["xdg-open", file_path])
 def main():
-    setup_logging()
+    # setup_logging()
     logger = logging.getLogger(__name__)  # module-level logger
     logger.info("Application started")
     logger.debug("Debug message for developers")

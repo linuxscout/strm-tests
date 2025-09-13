@@ -22,12 +22,6 @@
 #  
 #  
 import logging
-# --- Configure logging ---
-logging.basicConfig(
-    level=logging.DEBUG,  # change to INFO or WARNING in production
-    format="%(levelname)s:%(name)s:%(message)s"
-)
-logger = logging.getLogger(__name__)
 
 import random
 
@@ -212,7 +206,8 @@ class EncodingQuestionBuilder(Question_Builder):
     def __init__(self, ):
         # 🔹 Inject dependencies (makes testing easier)
         super().__init__()
-        # super().__init__(outformat=outformat, config_file=config_file, lang=lang, templates_dir=templates_dir,)
+        self.logger = logging.getLogger(self.__class__.__name__)
+
 
         self.qs = question.questionGenerator(latex=True)
 
@@ -315,7 +310,7 @@ class EncodingQuestionBuilder(Question_Builder):
            n, a, cp1, cp2 = self.qs.comp_one(8) if self.randomize else self.qs.comp_one(nbits=8, n=decimal)
 
         except Exception as e:
-            logger.exception("Failed to generate CP question")
+            self.logger.exception("Failed to generate CP question")
             context = {"error": str(e)}
             return context
             # return self._render(SECTION_CP, {"error": str(e)})

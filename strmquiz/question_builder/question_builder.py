@@ -22,14 +22,7 @@
 #  
 #  
 import logging
-# --- Configure logging ---
-logging.basicConfig(
-    level=logging.DEBUG,  # change to INFO or WARNING in production
-    format="%(levelname)s:%(name)s:%(message)s"
-)
-logger = logging.getLogger(__name__)
 
-from strmquiz.display import quiz_format_factory
 
 class Question_Builder:
     """Generate quiz questions for different domains."""
@@ -42,6 +35,7 @@ class Question_Builder:
     }
     _COMMANDS_INFO = {}
     _TEMPLATES_MAP = {}
+
 
     def __init__(self,):
 
@@ -56,6 +50,7 @@ class Question_Builder:
         }
         self.commands_info = {}
         self.templates_map = {}
+        self.logger = logging.getLogger(self.__class__.__name__)
 
     def set_random(self, value:bool=True):
         self.randomize = bool(value)

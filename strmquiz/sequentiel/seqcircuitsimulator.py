@@ -2,12 +2,7 @@ import logging
 from typing import Dict, List, Any, Callable
 
 from . import chronograms
-# --- Configure logging ---
-logging.basicConfig(
-    level=logging.DEBUG,  # change to INFO or WARNING in production
-    format="%(levelname)s:%(name)s:%(message)s"
-)
-logger = logging.getLogger(__name__)
+
 
 class SeqCircuitSimulator:
     """
@@ -24,7 +19,8 @@ class SeqCircuitSimulator:
         self.flip_types = flip_types
         self.circuit_type = circuit_type
         self.signal_map = self._map_signals()
-        logger.debug("Signal map %s"%str(self.signal_map))
+        self.logger = logging.getLogger(self.__class__.__name__)
+        self.logger.debug("Signal map %s"%str(self.signal_map))
         self.chrono = chronograms.Chronograms();
         self.chrono.set_synch_type("rising")
 
@@ -45,7 +41,7 @@ class SeqCircuitSimulator:
         - rule: function(prev_out, first_input) -> dict of input mapping
         """
         cls.flip_flop_registry[name] = rule
-        logger.info("Registered flip-flop type: %s", name)
+        # self.logger.info("Registered flip-flop type: %s", name)
 
     # ---------- Internal mapping ----------
     def _map_signals(self, shift:str="right") -> Dict[str, Dict[str, Any]]:
@@ -70,12 +66,12 @@ class SeqCircuitSimulator:
     # ---------- Simulation ----------
     def resolve_register(self, tmp_signals: Dict[str, List[int]]) -> Dict[str, List[int]]:
         """Resolve signals for a register given initial signals and flip-flop mapping."""
-        logger.info("Resolving register with outputs: %s", self.outputs)
+        self.logger.info("Resolving register with outputs: %s", self.outputs)
         for i, qi in enumerate(self.outputs):
         # for i, qi in enumerate(self.outputs):
             sig_list = tmp_signals.get(qi, [])
-            logger.debug("Processing %s: %s", qi, sig_list)
-            logger.debug("Signal map: %s", self.signal_map[qi])
+            self.logger.debug("Processing %s: %s", qi, sig_list)
+            self.logger.debug("Signal map: %s", self.signal_map[qi])
 
             init_signal = {}
             f_inputs = self.signal_map[qi].get("inputs", {})
@@ -88,13 +84,13 @@ class SeqCircuitSimulator:
                     init_signal[flip_input_key] = tmp_signals[sig_key]
 
             # init_signal["Q"] = tmp_signals[qi]
-            logger.debug("INIT_signal %d: %s", i, init_signal)
+            self.logger.debug("INIT_signal %d: %s", i, init_signal)
 
             new_signal = self.resolve(flip_type=self.flip_types[i], signal_dict=init_signal, inputs=list(f_inputs.keys()), index=i)
             tmp_signals[qi] = new_signal
             tmp_signals[qi + "'"] = self.chrono.inverse(new_signal)
 
-            logger.debug("New signal for %s: %s", qi, new_signal)
+            self.logger.debug("New signal for %s: %s", qi, new_signal)
 
         return tmp_signals
 
@@ -125,4 +121,4 @@ if __name__ == "__main__":
 
     final_signals = sim.resolve_register(init_signals)
 
-    logger.info("Final TMP signals:\n%s", pprint.pformat(final_signals))
+    sim.logger.info("Final TMP signals:\n%s", pprint.pformat(final_signals))

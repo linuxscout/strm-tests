@@ -22,14 +22,11 @@
 #  
 #
 import logging
-# --- Configure logging ---
+
 import os.path
 from typing import Dict,  Optional
-logging.basicConfig(
-    level=logging.INFO,  # change to INFO or WARNING in production
-    format="%(levelname)s:%(name)s:%(message)s"
-)
-logger = logging.getLogger(__name__)
+
+
 import random
 import warnings
 
@@ -63,7 +60,7 @@ class QuizBuilder:
     _TEMPLATES_MAP = question_builder_factory.get_templates_map()
     def __init__(self, outformat="", config_file="", lang="", templates_dir="", args_file=""):
 
-
+        self.logger = logging.getLogger(self.__class__.__name__)
         self.lang = lang
         #--------------------------------------
         # Read config file,
@@ -238,7 +235,7 @@ class QuizBuilder:
             validator = myArgsValidator(command_schema)
             # store validated args in a dict
             validated_args[command] = validator.validate_args(args_values)
-        logger.debug(f"Loaded args: {validated_args}")
+        self.logger.debug(f"Loaded args: {validated_args}")
         return validated_args
 
     def validate_command_args(self, command="", args_src:Dict[str, Any]={})-> Dict[str, Any]:
@@ -253,7 +250,7 @@ class QuizBuilder:
             return {}
 
         schema_loader = self.myvalidation_schema_loader
-        logger.debug(f"dict_args:{args_dict}")
+        self.logger.debug(f"dict_args:{args_dict}")
         validated_args = schema_loader.validate_args(args_dict, command=command)
         return validated_args
 
@@ -273,9 +270,9 @@ class QuizBuilder:
         is_available = quiz_format_factory.quiz_format_factory.is_available_format(outformat)
         if outformat != self.get_format() and is_available:
             self.formater = quiz_format_factory.quiz_format_factory.factory(outformat, templates_dir=self.templates_dir)
-            logger.debug(f"Changed formatter into {outformat} from {self.get_format()} is available {is_available}")
-        else:
-            logger.debug(f"Not Changed formatter into {outformat} from from {self.get_format()}  is available {is_available}")
+            # self.logger.debug(f"Changed formatter into {outformat} from {self.get_format()} is available {is_available}")
+        # else:
+        #     self.logger.debug(f"Not Changed formatter into {outformat} from from {self.get_format()}  is available {is_available}")
 
     def get_format(self,):
         """ get current used format a new format"""
@@ -300,7 +297,7 @@ class QuizBuilder:
             # return q, LANG_AR, "data", a
             return q, a
         except Exception as e:
-            logger.exception("Error rendering template %s", template)
+            self.logger.exception("Error rendering template %s", template)
             return f"Error: {e}",  "Error"
 
     def get_args(self, command=''):
@@ -340,7 +337,7 @@ class QuizBuilder:
         except Exception as e:
             import traceback
             traceback_str = traceback.format_exc()
-            logger.error(f"Error generating question '{command}': {traceback_str}")
+            self.logger.error(f"Error generating question '{command}': {traceback_str}")
             return f"Error generating question '{command}': {e}", "Answer"
 
     def build_quiz(self, questions_names, rand=True, nb=2, repeat=2, args={}):
@@ -423,7 +420,6 @@ class QuizBuilder:
         """
         categories: dict[str, CategoryInfo] = {}
         for cat, meta in cls._CATEGORIES_INFO.items():
-            logger.debug(f"{cat}:{meta}")
             categories[cat] = {
                 "short": meta.get("short",''),
                 "long": meta.get("long",""),

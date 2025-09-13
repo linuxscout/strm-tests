@@ -3,13 +3,6 @@ from typing import Dict, List, Any, Callable
 
 from . import chronograms
 from .seqcircuitsimulator import SeqCircuitSimulator
-# --- Configure logging ---
-logging.basicConfig(
-    level=logging.DEBUG,  # change to INFO or WARNING in production
-    format="%(levelname)s:%(name)s:%(message)s"
-)
-logger = logging.getLogger(__name__)
-
 class RegisterSimulator(SeqCircuitSimulator):
     """
     A simulator for registers composed of multiple flip-flops.
@@ -21,7 +14,9 @@ class RegisterSimulator(SeqCircuitSimulator):
 
     def __init__(self, inputs: List[str], outputs: List[str], flip_types: List[str], circuit_type:str="register", register_type:str=''):
         self.register_type = register_type
+        self.logger = logging.getLogger(self.__class__.__name__)
         super().__init__(inputs= inputs, outputs=outputs, flip_types=flip_types, circuit_type=circuit_type)
+
         # self.inputs = inputs
         # self.outputs = outputs
         # self.flip_types = flip_types
@@ -35,7 +30,7 @@ class RegisterSimulator(SeqCircuitSimulator):
     def _map_signals(self, shift:str="right") -> Dict[str, Dict[str, Any]]:
         """Map signals for each flip-flop output based on its type."""
         tmp_outputs = self.outputs
-        logger.debug("Register type %s"%self.register_type)
+        self.logger.debug("Register type %s"%self.register_type)
         if self.register_type == "shift-left":
             tmp_outputs = list(reversed(tmp_outputs))
         signal_map = {}
@@ -59,14 +54,14 @@ class RegisterSimulator(SeqCircuitSimulator):
     # ---------- Simulation ----------
     def resolve_register(self, tmp_signals: Dict[str, List[int]], signal_length:int=10) -> Dict[str, List[int]]:
         """Resolve signals for a register given initial signals and flip-flop mapping."""
-        logger.info("Resolving register with outputs: %s", self.outputs)
+        self.logger.info("Resolving register with outputs: %s", self.outputs)
 
         inverse = self.register_type == "shift-left"
         for i, qi in enumerate(self.outputs if not inverse else reversed(self.outputs)):
         # for i, qi in enumerate(self.outputs):
             sig_list = tmp_signals.get(qi, [])
-            logger.debug("Processing %s: %s", qi, sig_list)
-            logger.debug("Signal map: %s", self.signal_map[qi])
+            self.logger.debug("Processing %s: %s", qi, sig_list)
+            self.logger.debug("Signal map: %s", self.signal_map[qi])
 
             init_signal = {}
             f_inputs = self.signal_map[qi].get("inputs", {})
@@ -79,14 +74,14 @@ class RegisterSimulator(SeqCircuitSimulator):
                     init_signal[flip_input_key] = tmp_signals[sig_key]
 
             # init_signal["Q"] = tmp_signals[qi]
-            logger.debug("INIT_signal %d: %s", i, init_signal)
+            self.logger.debug("INIT_signal %d: %s", i, init_signal)
 
             new_signal = self.resolve(flip_type=self.flip_types[i], signal_dict=init_signal, inputs=list(f_inputs.keys()), index=i)
             new_signal = self.chrono.truncate_signal(new_signal, size=signal_length)
             tmp_signals[qi] = new_signal
             tmp_signals[qi + "'"] = self.chrono.inverse(new_signal)
 
-            logger.debug("New signal for %s: %s", qi, new_signal)
+            self.logger.debug("New signal for %s: %s", qi, new_signal)
 
         return tmp_signals
 
@@ -117,4 +112,4 @@ if __name__ == "__main__":
 
     final_signals = sim.resolve_register(init_signals)
 
-    logger.info("Final TMP signals:\n%s", pprint.pformat(final_signals))
+    sim.logger.info("Final TMP signals:\n%s", pprint.pformat(final_signals))
