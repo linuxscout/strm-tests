@@ -13,6 +13,7 @@ import os
 import argparse
 import webbrowser
 import subprocess
+from pathlib import Path
 
 def setup_logging():
     logging.basicConfig(
@@ -131,15 +132,21 @@ def parse_arguments():
         action="store_true",
         help="Open the generated file automatically after creation"
     )
+    parser.add_argument(
+        "--show-config",
+        action="store_true",
+        help="Show configuration details for this run"
+    )
     return parser.parse_args()
 
 def preview_file(file_path: str):
     """
     auto-open generated HTML/PDF
     """
-    if file_path.endswith(".html"):
+    ext = Path(file_path).suffix.lower()
+    if ext == ".html":
         webbrowser.open_new_tab(f"file://{os.path.abspath(file_path)}")
-    elif file_path.endswith(".pdf"):
+    elif ext in (".pdf", ".txt", ".md", ".tex") :
         if sys.platform.startswith("darwin"):  # macOS
             subprocess.run(["open", file_path])
         elif os.name == "nt":  # Windows
@@ -170,8 +177,8 @@ def main():
 
     else:
         print(generated_test)
-    if args.preview:
-        print(tester.preview())
+    if args.show_config:
+        print(tester.show_config())
 
 if __name__ == '__main__':
     main()
