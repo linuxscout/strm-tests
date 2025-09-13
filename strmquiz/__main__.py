@@ -14,6 +14,9 @@ import argparse
 import webbrowser
 import subprocess
 from pathlib import Path
+from rich.console import Console
+
+console = Console()
 
 def setup_logging():
     logging.basicConfig(
@@ -33,25 +36,42 @@ from strmquiz.quizbuilder import QuizBuilder
 class CustomArgumentParser(argparse.ArgumentParser):
     def print_help(self, file=None):
         super().print_help(file)
-        # qz = QuizBuilder(config_file="", templates_dir=".")
-        # Custom message before the help
-        print("Examples of command line:")
-        print("""\t python3 -m strmquiz --templates templates -d txt -t test0 """)
-        print("""\t python3 -m strmquiz --templates templates -d html -t test0 -o tests/output/test.html""")
-        print("""\t python3 -m strmquiz --templates templates -d html -t test0 -o tests/output/test.html""")
-        print("""\t python3 -m strmquiz -f quiz.conf -g args.json --lang="ar-en" --templates templates -d html -t test0 -o tests/output/test.html""")
-        print("""\t python3 -m strmquiz -f quiz.conf  --templates templates -d html -t test0 -o tests/output/test.html""")
-        print("Available formats are:")
-        for k, v in QuizBuilder.get_available_formats().items():
-            print(f"\t{k}:\t{v}")
-        print("Available Categories are:")
-        for c, item in QuizBuilder.get_categories().items():
-            print(f"\t{c}:\t{item['short']}")
+    def print_help(self, file=None):
+        super().print_help(file)
+        print("\nExamples of command line usage:\n")
+        print("  * Show catalog:")
+        print("      python3 -m strmquiz --list\n")
+        print("  * Generate test #0 in text format (output to stderr):")
+        print("      python3 -m strmquiz -d txt -t test0\n")
 
-        for c in QuizBuilder.get_categories():
-            print(f"{c.capitalize()} category: available Commands:")
-            for cmd, item in QuizBuilder.get_commands_info(category=c).items():
-                print(f"\t{cmd}:\t{item['short']}")
+        print("  * Generate test #0 in Markdown format (output to stderr):")
+        print("      python3 -m strmquiz -d md -t test0\n")
+
+        print("  * Generate test #0 in HTML format (output to a file):")
+        print("      python3 -m strmquiz -d html -t test0 -o test.html\n")
+
+        print("  * Read configuration from a file:")
+        print("      python3 -m strmquiz -f quiz.conf -d html -t test0 -o test.html\n")
+
+        print("  * Auto-open the output file after generation:")
+        print("      python3 -m strmquiz -d html -t test0 -o test.html --preview\n")
+
+
+def show_catalog():
+    """Print formats, categories, and commands."""
+    print("\nAvailable formats:")
+    for key, desc in QuizBuilder.get_available_formats().items():
+        print(f"  - {key:<10} {desc}")
+
+    print("\nAvailable categories:")
+    for cat, item in QuizBuilder.get_categories().items():
+        print(f"  - {cat:<15} {item['short']}")
+
+    print("\nCommands by category:")
+    for cat, item in QuizBuilder.get_categories().items():
+        print(f"\n[{cat.capitalize()}]")
+        for cmd, info in QuizBuilder.get_commands_info(category=cat).items():
+            print(f"   - {cmd:<15} {info['short']}")
 
 
 def parse_arguments():
@@ -137,6 +157,12 @@ def parse_arguments():
         action="store_true",
         help="Show configuration details for this run"
     )
+
+    parser.add_argument(
+        "-l","--list",
+        action="store_true",
+        help="Show available formats, categories, and commands, then exit."
+    )
     return parser.parse_args()
 
 def preview_file(file_path: str):
@@ -159,7 +185,9 @@ def main():
     logger.info("Application started")
     logger.debug("Debug message for developers")
     args = parse_arguments()
-
+    if args.list:
+        show_catalog()
+        exit(0)
     tester = QuizBuilder(
         outformat=args.outformat,
         config_file=args.configfile,
