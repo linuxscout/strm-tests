@@ -28,7 +28,7 @@ WEB_STATIC_DIR = os.path.join(os.path.dirname(__file__),"static")
 
 QUIZ_TEMPALTES_DIR = os.path.join(os.path.dirname(__file__),"..", "templates")
 CONF_DIR = os.path.join(os.path.dirname(__file__),"..", "tests", "config")
-CONF_FILE = os.path.join(CONF_DIR, "quiz6.conf")
+CONF_FILE = os.path.join(CONF_DIR, "quiz7.conf")
 app = FastAPI()
 
 # Setup templates and static

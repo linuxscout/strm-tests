@@ -9,7 +9,7 @@ TEMPLATES_DIR =os.path.join(os.path.dirname(__file__), "../","templates")
 @pytest.fixture
 def config_path(tmp_path):
     """Create a minimal config file for integration testing."""
-    cfg_file = tmp_path / "quiz6.conf"
+    cfg_file = tmp_path / "quiz7.conf"
     cfg_file.write_text(
         """
 [QUIZES]

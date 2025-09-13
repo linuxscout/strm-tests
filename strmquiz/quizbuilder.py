@@ -31,6 +31,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 import random
+import warnings
 
 from . import read_config
 from .display import quiz_format_factory
@@ -105,7 +106,12 @@ class QuizBuilder:
             if self.myconfig.args_file:
                 args_file = self.myconfig.args_file
                 args_path_type = f"form config file '{self.config_file}'"
-            else:
+            if not args_file or not os.path.isfile(args_file):
+                if  args_file and not os.path.isfile(args_file):
+                    warnings.warn(
+                        f"Args file not found: '{args_file}' [{args_path_type}]",
+                        category=UserWarning
+                    )
                 args_file = os.path.join(os.path.dirname(__file__), "config", "args.default.json")
                 args_path_type = f"Default value '{args_file}'"
         # --- Check if args_file exists
