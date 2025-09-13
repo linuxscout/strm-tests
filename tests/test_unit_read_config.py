@@ -30,12 +30,15 @@ def test_defaults_loaded(make_config):
 
 def test_valid_values(make_config):
     filename = make_config("""
+    [DEFAULT]
+    templates_dir="../mytemplates"
     [Args]
     repeat = 5
     """)
 
     cfg = ReadConfig(filename, debug=False)
     assert cfg.repeat == 5
+    assert cfg.templates_dir == "../mytemplates"
     # assert cfg.synch_type == "rising"
     # assert cfg.length == 20
     assert cfg.warnings == []

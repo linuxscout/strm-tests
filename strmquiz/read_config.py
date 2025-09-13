@@ -36,6 +36,11 @@ class ReadConfig:
         # --- Single source of truth ---
         # section -> { config_key: (attr_name, default_value) }
         self.fields = {
+            "DEFAULT": {
+                # general
+                "templates_dir": ("templates_dir", "."),
+                "args_file": ("args_file", "args.json"),
+            },
             "QUIZES": {
                 "quizes": ("quizes", []),
                 "commands": ("commands", []),
@@ -48,53 +53,12 @@ class ReadConfig:
                 # "text": ("text", ""),
                 "random": ("random_question", False),
                 "size": ("questions_size", 1),
-                # boolean
-                # "minterms": ("minterms", [[]]),
-                # "vars": ("var_names", []),
-                # "outputs": ("output_names", []),
-                # "dontcare": ("dontcare", []),
-                # "sop_question":("sop_question",""),
-                # "functions_number":("functions_number",2),
-                # chronogram & flips
-                # "length": ("length", 10),
-
-                # "flip_type": ("flip_type", ""),
-                # "varlist": ("varlist", {}),
-                # "synch_type": ("synch_type", "rising"),
-                # "output": ("output", "Q"),
-                # register
-                # "register_type": ("register_type", ""),
-                # "register_nbits": ("register_nbits", 2),
-                # "register_flips": ("register_flips", ["D","D"]),
-                # "register_random": ("register_random", False),
-                # counter
-                # "counter_type": ("counter_type", ""),
-                # "counter_nbits": ("counter_nbits", 2),
-                # "counter_flips": ("counter_flips", ["JK", "JK"]),
-                # "counter_random": ("counter_random", False),
-                # encoding
-                # "float":("float", 0),
-                # "interval_nbits":("interval_nbits",8),
-                # "complement_number":("complement_number",[0,0]),
-                # "bases":("bases",[10, 10]),
-                # "arithm_numbers":("arithm_numbers",[0, 0]),
-                # "base_numbers":("base_numbers",[0, 0]),
-                # "bcdx3_numbers":("bcdx3_numbers",[0, 0]),
-                # "gray_number":("gray_number",0),
-                # "gray_sequence":("gray_sequence",2),
-                # "arihtm_operation":("arithm_operation",'+'),
             },
         }
         # --- Validation rules ---
         self.validators = {
             "repeat": {"range": (1, 100)},
             "size": {"range": (1, 50)},
-            # "length": {"range": (1, 100)},
-            # "synch_type": {"enum": ["rising", "falling"]},
-            # "flip_type": {"enum": ["D", "T", "JK", "RS", "RST",""]},
-            # "register_type": {"enum": ["shift-right", "shift-left", "parallel", ""]},
-            # "output": {"enum": ["Q", "Q'", ""]},
-            # "counter_type": {"enum": ["up", "down", ""]},
         }
         # preload defaults
         for section in self.fields.values():

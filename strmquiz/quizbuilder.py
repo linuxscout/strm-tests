@@ -62,75 +62,66 @@ class QuizBuilder:
     _TEMPLATES_MAP = question_builder_factory.get_templates_map()
     def __init__(self, outformat="", config_file="", lang="", templates_dir="", args_file=""):
 
-        # --- Check if templates_dir exists
-        if not templates_dir or not os.path.isdir(templates_dir):
-            raise FileNotFoundError(f"Template directory not found: '{templates_dir}'")
-        self.templates_dir = templates_dir
+
         self.lang = lang
+        #--------------------------------------
+        # Read config file,
+        # if not given use default config file
+        # -------------------------------------
         # --- If no config file provided, use default
         if not config_file:
             config_file = os.path.join(os.path.dirname(__file__), "config", "quiz.default.conf")
-
-
         # --- Check if config_file exists
         if not os.path.isfile(config_file):
             raise FileNotFoundError(f"Config file not found: '{config_file}'")
+        # --- Load config
+        self.myconfig = read_config.ReadConfig(config_file)
+        self.config_file = config_file
 
+        #--------------------------------------
+        # Check templates dir,
+        # if not given use configured templates_dir from config file
+        # if file not exist return exception
+        # -------------------------------------
+        # --- Check if templates_dir exists
+        template_path_type = "given"
+        if not templates_dir:
+            templates_dir = self.myconfig.templates_dir
+            template_path_type = f"form config file '{self.config_file}'"
+        if not templates_dir or not os.path.isdir(templates_dir):
+            raise FileNotFoundError(f"Template directory not found: '{templates_dir}' [{template_path_type}]")
 
+        self.templates_dir = templates_dir
+
+        #--------------------------------------
+        # Check args files,
+        # if not given use configured args from config file
+        # if file not exist return exception
+        # -------------------------------------
         # --- If no config file provided, use default
-        if not args_file:
-            args_file = os.path.join(os.path.dirname(__file__), "config", "args.default.json")
 
+        args_path_type = "given"
+        if not args_file:
+            if self.myconfig.args_file:
+                args_file = self.myconfig.args_file
+                args_path_type = f"form config file '{self.config_file}'"
+            else:
+                args_file = os.path.join(os.path.dirname(__file__), "config", "args.default.json")
+                args_path_type = f"Default value '{args_file}'"
         # --- Check if args_file exists
         if not os.path.isfile(args_file):
-            raise FileNotFoundError(f"Args file not found: '{args_file}'")
+            raise FileNotFoundError(f"Args file not found: '{args_file}' [{args_path_type}]")
         # --- Save attributes
-        self.config_file = config_file
         self.args_file = args_file
 
         # --- Factories
 
-        # self.encode_qsbuilder = question_builder_factory.factory(builder_name="encoding")
-        # # self.encode_qsbuilder.set_random(False)
-        # self.bool_qsbuilder = question_builder_factory.factory(builder_name="boolean")
-        # self.seq_qsbuilder = question_builder_factory.factory(builder_name="sequential")
-        # self.builders_map = {
-        #     "encoding": self.encode_qsbuilder,
-        #     "boolean algebra": self.bool_qsbuilder,
-        #     "sequential logic": self.seq_qsbuilder,
-        # }
         self.builders_map = question_builder_factory.map_factory()
 
         self.formater = quiz_format_factory.quiz_format_factory.factory(outformat, lang=lang, templates_dir=templates_dir)
 
-        # --- Load config
-        self.myconfig = read_config.ReadConfig(config_file)
 
-        self.quiz_commands = {}
-        self.quiz_commands[1] = [["base", "base", "arithm"],
-        ["mesure", "base", "arithm"],
-        ["base", "mesure", "arithm"],
-        
-        ]
-        self.quiz_commands[2] = [["float", "map"],
-        ["float", "map-sop"],
-        ["float", "function"],
-        ["complement","complement", "map"],
-        ["function", "exp"],
-        ]
-        self.quiz_commands[3] =  [
-        ["function", "exp"],
-        ["function", "map"],
-        ]
-        self.quiz_commands[4] =  [
-        ["static_funct","nand_funct"],
-        ]        
-        self.quiz_commands[5] =  [
-        ["multi_funct",],
-        ]
-        self.quiz_commands[6] =  [
-        ["chronogram",],
-        ]
+
         # --- Commands metadata (optional) ---
         self.commands_info = type(self)._COMMANDS_INFO
         # self.commands_info = self._load_commands_info()
@@ -147,6 +138,33 @@ class QuizBuilder:
         # --- Load args from json file if given, or from api
         self.my_args_dict = self.load_args()
 
+        self.quiz_commands = {
+            1: [
+                ["base", "base", "arithm"],
+                ["mesure", "base", "arithm"],
+                ["base", "mesure", "arithm"],
+            ],
+            2: [
+                ["float", "map"],
+                ["float", "map-sop"],
+                ["float", "function"],
+                ["complement", "complement", "map"],
+                ["function", "exp"],
+            ],
+            3: [
+                ["function", "exp"],
+                ["function", "map"],
+            ],
+            4: [
+                ["static_funct", "nand_funct"],
+            ],
+            5: [
+                ["multi_funct"],
+            ],
+            6: [
+                ["chronogram"],
+            ],
+        }
 
     def get_quiz_commands(self, quiz_id):
         if self.myconfig.test_table:
@@ -447,7 +465,16 @@ class QuizBuilder:
         commands_dict = self.get_random_commands(n=n, category=category)
         return list(commands_dict.keys())
 
-
+    def preview(self):
+        """
+        Preview main configuration
+        """
+        lines = []
+        lines.append("----- STRM Quiz is run with -----------")
+        lines.append(f"Config file:\t\t {self.config_file}")
+        lines.append(f"Templates Dir:\t\t {self.templates_dir}")
+        lines.append(f"Categories:\t\t {', '.join(self.categories_info.keys())}")
+        return "\n".join(lines)
 
 
 def main(args):
