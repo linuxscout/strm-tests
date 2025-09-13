@@ -59,13 +59,6 @@ correct:
 	mkdir -p $(GEN_DIR)/test2-$(DATE)
 	cp $(TEX_DIR)/correct.tex $(TEX_DIR)/correction-s2.pdf $(TEX_DIR)/correction-s2.tex $(TEX_DIR)/karnaugh-map.sty $(GEN_DIR)/test2-$(DATE)/
 
-# Run test against a specific CSV
-test_rb:
-	python3 test/quiz.py -f test/data/test1.csv
-
-# Simple test
-#test0:
-#	python3 test/generate_tests.py
 
 # Moodle export
 moodle:
@@ -139,3 +132,6 @@ minterms:
 # Launch the GUI
 server:
 	cd web;  uvicorn app:app --reload
+
+test:
+	pytest tests/
