@@ -224,6 +224,7 @@ document.getElementById("selectcommand").addEventListener("change", function() {
       const outformat = document.getElementById("selectformat").value;
       const quizid = document.getElementById("selectquiz").value;
       const select_random_values = document.getElementById("random").checked;
+      const download = document.getElementById("download").checked;
 
 
       // Collect args from the dynamically generated argsForm
@@ -251,7 +252,8 @@ document.getElementById("selectcommand").addEventListener("change", function() {
         select_random_values:select_random_values,
         outformat:outformat,
         quizid:quizid,
-        args: args
+        args: args,
+        download:download
   };
 //            console.log("payload", payload);
 
@@ -266,10 +268,10 @@ document.getElementById("selectcommand").addEventListener("change", function() {
         body: JSON.stringify(payload)
       });
 
-
         const result = await response.text();
         document.getElementById("resultDiv").innerHTML = result;
         console.log("Server response:", result);
+
         }
                 catch (err) {
       document.getElementById("resultDiv").innerHTML =
@@ -278,10 +280,6 @@ document.getElementById("selectcommand").addEventListener("change", function() {
       // hide spinner
       document.getElementById("spinner").style.display = "none";
     }
-//const result = await response.json();
-//console.log("Server response:", result);
-//      // (optional) display the result in the page
-//
-//      alert(JSON.stringify(result, null, 2));
+
     });
     });

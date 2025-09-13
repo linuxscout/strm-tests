@@ -6,8 +6,13 @@
     <title>Results</title>
 </head>
 <body>
+
     <h2>Your Results</h2>
     <p>Command: {{command}} | category {{category}} |format {{outformat}}</p>
+  <a id="downloadLink" href="{{download_url}}"
+     class="mt-4 inline-block bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded shadow">
+     Download Result
+  </a>
     <h2>Question: </h2>
     <div id="question">
         {% if outformat.lower() not in ("html",) %}

@@ -1,3 +1,4 @@
+import os.path
 import logging
 logging.basicConfig(
     level=logging.DEBUG,  # Default log level
@@ -5,18 +6,25 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
     handlers=[
         # logging.StreamHandler(sys.stdout),         # Console output
-        logging.FileHandler("../tmp/logs/quiz-web.log", encoding="utf-8")  # File output
+        logging.FileHandler(os.path.join(
+    os.path.dirname(__file__),  # directory of current file
+    "..",
+    "tmp",
+    "logs",
+    "quiz-web.log"
+), encoding="utf-8")  # File output
     ]
 )
-import os.path
+logger = logging.getLogger(__name__)
 import json
 from fastapi import FastAPI, Request, Query
 from fastapi import HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from typing import Optional, Dict, Any
-
+import tempfile
 from pydantic import BaseModel
 class Submission(BaseModel):
     category: str
@@ -25,6 +33,7 @@ class Submission(BaseModel):
     select_random_values: bool = True
     outformat: str = "html"
     quizid: str = ""
+    download: bool=False
 
 from strmquiz.quizbuilder import QuizBuilder
 
@@ -165,7 +174,17 @@ async def submit(request:Request, data: Submission):
         quiztext = quiz_builder.get_quiz(test_no=data.quizid)
     else:
         quiztext =""
-
+    # if dwonload
+    logger.info(f"download {data.download}")
+    down_url = ""
+    if data.download:
+        # Save to temp file
+        tmp = tempfile.NamedTemporaryFile(delete=False, suffix=f".{data.outformat}", dir=tempfile.gettempdir())
+        tmp.write(question.encode("utf-8"))
+        tmp.write(answer.encode("utf-8"))
+        tmp.write(quiztext.encode("utf-8"))
+        tmp.close()
+        down_url = f"/download/{os.path.basename(tmp.name)}?outformat={data.outformat}"
     response = {
         # "request": request,
         "command": command_to_run,
@@ -175,7 +194,10 @@ async def submit(request:Request, data: Submission):
         "answer": answer,
         "args":new_args,
         "quiztext":quiztext,
+        "download_url": down_url,
     }
+
+
     # return templates.TemplateResponse(request, "result.html", response)
     if data.outformat.lower() == "json":
         return JSONResponse(content=response)
@@ -184,6 +206,7 @@ async def submit(request:Request, data: Submission):
         return  templates.TemplateResponse(request, "result.html", response)
         # return HTMLResponse(content=html_content)
 
-
-
-
+@app.get("/download/{filename}")
+async def download_file(filename: str, outformat: str = Query("txt")):
+    filepath = os.path.join(tempfile.gettempdir(), filename)
+    return FileResponse(filepath, filename=f"quiz.{outformat}")
