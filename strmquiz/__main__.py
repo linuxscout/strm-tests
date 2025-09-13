@@ -14,9 +14,7 @@ import argparse
 import webbrowser
 import subprocess
 from pathlib import Path
-from rich.console import Console
 
-console = Console()
 
 def setup_logging():
     logging.basicConfig(
