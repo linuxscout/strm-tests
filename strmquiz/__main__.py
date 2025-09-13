@@ -9,7 +9,10 @@ Usage:
 
 import logging
 import sys
+import os
 import argparse
+import webbrowser
+import subprocess
 
 def setup_logging():
     logging.basicConfig(
@@ -123,9 +126,26 @@ def parse_arguments():
         default="",
         help="Set up the templates directory for get question formats"
     )
-
+    parser.add_argument(
+        "--preview",
+        action="store_true",
+        help="Open the generated file automatically after creation"
+    )
     return parser.parse_args()
 
+def preview_file(file_path: str):
+    """
+    auto-open generated HTML/PDF
+    """
+    if file_path.endswith(".html"):
+        webbrowser.open_new_tab(f"file://{os.path.abspath(file_path)}")
+    elif file_path.endswith(".pdf"):
+        if sys.platform.startswith("darwin"):  # macOS
+            subprocess.run(["open", file_path])
+        elif os.name == "nt":  # Windows
+            os.startfile(file_path)
+        else:  # Linux and others
+            subprocess.run(["xdg-open", file_path])
 def main():
     setup_logging()
     logger = logging.getLogger(__name__)  # module-level logger
@@ -145,8 +165,13 @@ def main():
     if args.outfile:
         with open(args.outfile, "w", encoding="utf-8") as output_file:
             output_file.write(generated_test)
+        if args.preview:
+            preview_file(args.outfile)
+
     else:
         print(generated_test)
+    if args.preview:
+        print(tester.preview())
 
 if __name__ == '__main__':
     main()
