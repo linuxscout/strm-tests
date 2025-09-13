@@ -53,10 +53,10 @@ async def home(request: Request):
 @app.get("/quiz", response_class=HTMLResponse)
 async def get_quiz(request: Request):
     """Generate and display a new quiz."""
-    commands_dict = quiz_builder.get_commands_info()
-    categories_dict = quiz_builder.get_categories()
+    commands_dict = QuizBuilder.get_commands_info()
+    categories_dict = QuizBuilder.get_categories()
     quiz_id_list = quiz_builder.get_quiz_id_list()
-    formats_dict = quiz_builder.get_available_formats()
+    formats_dict = QuizBuilder.get_available_formats()
     category_commands = {
         cat: cats["commands"] for cat, cats in categories_dict.items()
     }
@@ -75,16 +75,16 @@ async def get_quiz(request: Request):
 @app.get("/api/categories")
 async def get_categories():
     """Return all categories with descriptions."""
-    categories_info = quiz_builder.get_categories()
+    categories_info = QuizBuilder.get_categories()
     return JSONResponse(categories_info)
 
 
 @app.get("/api/commands")
 async def get_commands(category: Optional[str] = Query(None, description="Filter by category name")):
     """Return all commands, optionally filtered by category."""
-    commands_dict = quiz_builder.get_commands_info()
+    commands_dict = QuizBuilder.get_commands_info()
     if category:
-        cmds =  quiz_builder.get_commands_info(category=category)
+        cmds =  QuizBuilder.get_commands_info(category=category)
         return JSONResponse(cmds)
     return JSONResponse(commands_dict)
 
