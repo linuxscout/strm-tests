@@ -23,12 +23,18 @@
 #  
 # used for generating truth table
 from jinja2 import Environment, FileSystemLoader, TemplateNotFound
+import os
 import re
-import html
+import json
 import tabulate
 import itertools
 from . import format_const
 from ..bool import logigram
+
+translations = {
+    "Hello": {"fr": "Bonjour", "ar": "مرحبا"},
+}
+
 
 def to_bin(value, width=0):
     s = bin(value)[2:]  # remove '0b'
@@ -43,6 +49,7 @@ class quiz_format:
         self.newline = "\n"
         self.lang = lang
         self.templates_dir = templates_dir
+        self.translations = self.load_translations(json_path=os.path.join(self.templates_dir,"translations","translation.json"))
         self.env = Environment(loader=FileSystemLoader(self.templates_dir),
                                trim_blocks=True,
                                lstrip_blocks=True,
@@ -55,12 +62,30 @@ class quiz_format:
         self.env.filters["escape_string"] = self.escape_string
         self.env.filters["normalize_newlines"] = self.normalize_newlines
         self.env.filters["tabulate"] = tabulate.tabulate
+        self.env.globals.update(tr=self.tr)
         self.group_digit_sep = " "
         # self.variables = ["a","b","c","d"]
         #~ print("quiz_format")
 
     def get_format(self,):
         return self.formatting.lower()
+
+    def tr(self, key, lang):
+        return self.translations.get(key, {}).get(lang, key)
+
+    def load_translations(self, json_path: str) -> dict:
+        """Load translation JSON file into a Python dictionary."""
+        try:
+            with open(json_path, "r", encoding="utf-8") as f:
+                translations = json.load(f)
+            return translations
+        except FileNotFoundError:
+            print(f"⚠️ Translation file not found: {json_path}")
+            return {}
+        except json.JSONDecodeError as e:
+            print(f"⚠️ Error decoding JSON file {json_path}: {e}")
+            return {}
+
     def header(self,):
         """
         """
