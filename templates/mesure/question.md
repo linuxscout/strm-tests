@@ -1,19 +1,19 @@
-# Question
+# {{tr("Question")}}
 **{{ question }}**
 
 ---
 
 {% if RENDER_MODE.lower() == "answer" %}
-## Given
+## {{tr("Given:")}}
 {% for key, val in given.items() %}
 - {{ key|capitalize }} = {{ "%.2f"|format(val.value) }} {{ val.unit }}
 {% endfor %}
 
 ---
 
-## Step-by-step solution
+## {{tr("Solution steps")}}
 
-| Step | Operation | Expression |
+| {{tr("Step")}} | {{tr("Operation")}} | {{tr("Expression")}} |
 |------|-----------|------------|
 {% for step in solution %}
 | {{ step.step }} | {{ step.operation }} | {{ step.expression }} |
@@ -21,6 +21,6 @@
 
 ---
 
-## Final Answer
+## {{tr("Final Answer")}}
 **{{ answer }}**
 {% endif %}

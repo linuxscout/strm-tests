@@ -34,5 +34,65 @@
   "Table: base {base} representation": {
     "en": "Table: base {base} representation",
     "ar": "جدول: تمثيل الأساس {base}"
+  },
+  "Expression": {
+    "en": "Expression",
+    "ar": "عبارة"
+  },
+  "Final Answer": {
+    "en": "Final Answer",
+    "ar": "الجواب"
+  },
+  "Given:": {
+    "en": "Given:",
+    "ar": "معطيات"
+  },
+  "Number in base {base}": {
+    "en": "Number in base {base}",
+    "ar": "العدد في الأساس {base}"
+  },
+  "Operation": {
+    "en": "Operation",
+    "ar": "عملية"
+  },
+  "Question": {
+    "en": "Question",
+    "ar": "سؤال"
+  },
+  "Solution steps": {
+    "en": "Solution steps",
+    "ar": "خطوات الحل"
+  },
+  "Step": {
+    "en": "Step",
+    "ar": "خطوة"
+  },
+  "Result:": {
+    "en": "Result:",
+    "ar": "نتيجة:"
+  },
+  "Character": {
+    "en": "Character",
+    "ar": "محرف"
+  },
+  "Codes:": {
+    "en": "Codes:",
+    "ar": "رموز"
+  },
+  "Decode the following {scheme} codes into text": {
+    "en": "Decode the following {scheme} codes into text",
+    "ar": "فكك الرموز الآتية من {scheme} إلى ترميز"
+  },
+  "Encode the following text into": {
+    "en": "Encode the following text into",
+    "ar": "رمّز النص الآتي بترميز"
+  },
+  "Text:": {
+    "en": "Text:",
+    "ar": "نص:"
+  },
+  "{scheme} Code Point": {
+    "en": "{scheme} Code Point",
+    "ar": "رمز {scheme}"
   }
 }

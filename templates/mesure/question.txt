@@ -4,19 +4,19 @@
 ---
 
 {% if RENDER_MODE.lower() == "answer" %}
-## Given
+## {{tr("Given:")}}
 {% for key, val in given.items() %}
 - {{ key|capitalize }} = {{ "%.2f"|format(val.value) }} {{ val.unit }}
 {% endfor %}
 
 ---
 
-## Step-by-step solution
+## {{tr("Solution steps")}}
 
 {{solution|tabulate(headers="keys", tablefmt="github")}}
 
 ---
 
-## Final Answer
+## {{tr("Final Answer")}}
 **{{ answer }}**
 {% endif %}

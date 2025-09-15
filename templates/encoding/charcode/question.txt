@@ -13,13 +13,13 @@
   {% endif %}
 {% endfor %}
 
-{% set row1 = ["Character"] + chars %}
-{% set row2 = [scheme|capitalize ~ " Code Point"] + codes %}
+{% set row1 = [tr("Character")] + chars %}
+{% set row2 = [tr("{scheme} Code Point", scheme=scheme|upper)] + codes %}
 
   {% if mode == "encode" %}
-#### Encode the following text into {{ scheme|capitalize }}
+#### {{tr("Encode the following text into")}} {{ scheme|upper }}
 
-  **Text:** "{{ charlist|escape_string|join }}"
+  **{{tr("Text:")}}** "{{ charlist|escape_string|join }}"
 
 
 {{ [row1, row2] | tabulate(headers="firstrow", tablefmt="github") }}
@@ -27,9 +27,9 @@
 
 
   {% elif mode == "decode" %}
-#### Decode the following {{ scheme|capitalize }} codes into text
+#### {{tr("Decode the following {scheme} codes into text", scheme=scheme|upper)}}
 
-**Codes:** {{ codes }}
+**{{tr("Codes:")}}** {{ codes }}
 
 {{ [row2, row1] | tabulate(headers="firstrow", tablefmt="github") }}
 
@@ -39,15 +39,15 @@
 
 {% if RENDER_MODE == "question" %}
   {% if method in ("encode", "both") %}
-#### Encode the following text into {{ scheme|capitalize }}
+#### {{tr("Encode the following text into")}} {{ scheme|upper }}
 
-**Text:** "{{ charlist|join }}"
+**{{tr("Text:")}}** "{{ charlist|join }}"
   {% endif %}
 
   {% if method in ("decode", "both") %}
-#### Decode the following {{ scheme|capitalize }} codes into text
+#### {{tr("Decode the following {scheme} codes into text", scheme=scheme|upper)}}
 
-**Codes:** {{ charcodes }}
+**{{tr("Codes:")}}** {{ charcodes }}
   {% endif %}
 
 {% elif RENDER_MODE == "answer" %}

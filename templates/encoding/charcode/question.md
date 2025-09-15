@@ -1,27 +1,27 @@
 {% macro encode_decode(charlist=None, codes=None, mode="encode", scheme="ascii") %}
   {% if mode == "encode" %}
-#### Encode the following text into {{ scheme|capitalize }}
+#### {{tr("Encode the following text into")}} {{ scheme|upper }}
 
-  **Text:** "{{ charlist|escape_string|join }}"
+  **{{tr("Text:")}}** "{{ charlist|escape_string|join }}"
 
-| Character |{% for ch in charlist %} {{ ch if ch not in [" ", "\n", "\t"] else
+| {{tr("Character")}} |{% for ch in charlist %} {{ ch if ch not in [" ", "\n", "\t"] else
     ("space" if ch==" " else "newline" if ch=="\n" else "tab") }} |{% endfor %}
 
 |-----------|{% for ch in charlist %}-------------|{% endfor %}
 
-| {{ scheme|capitalize }} Code Point |{% for cp in codes %} {{ cp }} |{% endfor %}
+| {{tr("{scheme} Code Point",scheme=scheme)}}  |{% for cp in codes %} {{ cp }} |{% endfor %}
 
 
   {% elif mode == "decode" %}
-#### Decode the following {{ scheme|capitalize }} codes into text
+#### {{tr("Decode the following {scheme} codes into text", scheme=scheme|upper)}}
 
-**Codes:** {{ codes }}
+**{{tr("Codes:")}}** {{ codes }}
 
-| {{ scheme|capitalize }} Code Point |{% for code in codes %} {{ code }} |{% endfor %}
+| {{tr("{scheme} Code Point",scheme=scheme|upper)}} |{% for code in codes %} {{ code }} |{% endfor %}
 
 |-----------------------------------|{% for code in codes %}-------------|{% endfor %}
 
-| Character |{% for ch in charlist %} {{ ch if ch not in [" ", "\n", "\t"] else
+| {{tr("Character")}} |{% for ch in charlist %} {{ ch if ch not in [" ", "\n", "\t"] else
     ("space" if ch==" " else "newline" if ch=="\n" else "tab") }} |{% endfor %}
 
   {% endif %}
@@ -30,15 +30,15 @@
 
 {% if RENDER_MODE == "question" %}
   {% if method in ("encode", "both") %}
-#### Encode the following text into {{ scheme|capitalize }}
+#### {{tr("Encode the following text into")}} {{ scheme|upper }}
 
-**Text:** "{{ charlist|join }}"
+**{{tr("Text:")}}** "{{ charlist|join }}"
   {% endif %}
 
   {% if method in ("decode", "both") %}
-#### Decode the following {{ scheme|capitalize }} codes into text
+#### {{tr("Decode the following {scheme} codes into text", scheme=scheme|upper)}}
 
-**Codes:** {{ charcodes }}
+**{{tr("Codes:")}}** {{ charcodes }}
   {% endif %}
 
 {% elif RENDER_MODE == "answer" %}

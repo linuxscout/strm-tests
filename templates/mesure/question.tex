@@ -1,9 +1,7 @@
-% Question
-\section*{Question}
 {{ question }}
 {% if RENDER_MODE.lower() =="answer" %}
 % Given parameters
-\subsection*{Given}
+\paragraph{ {{tr("Given:")}} }
 \begin{itemize}
 {% for key, val in given.items() if key != ask %}
   \item {{ key|capitalize }} = {{ "%.2f"|format(val.value) }} \, {{ val.unit }}
@@ -11,10 +9,10 @@
 \end{itemize}
 
 % Solution steps
-\subsection*{Solution}
+\textbf{ {{tr("Solution steps")}} }
 \begin{tabular}{>{\bfseries}p{1cm} p{4cm} p{8cm}}
 \toprule
-Step & Operation & Expression \\
+{{ tr("Step")}} & {{ tr("Operation")}} & {{ tr("Expression")}} \\
 \midrule
 {% for step in solution %}
 {{ step.step }} & {{ step.operation }} & {{ step.expression }} \\
@@ -23,7 +21,7 @@ Step & Operation & Expression \\
 \end{tabular}
 
 % Final Answer
-\subsection*{Final Answer}
+\textbf{ {{ tr("Final Answer")}} }
 \textbf{{ answer }}
 {%endif%}
 

@@ -2,11 +2,11 @@
   {% set chunk_size = 10 %}
   {% set total = charlist|length %}
   {% if mode == "encode" %}
-  \textbf{Encode the following text into {{ scheme|capitalize }}}\\
+  \textbf{ {{tr("Encode the following text into")}} {{ scheme|upper }} }\\
   \textbf{Text:} \aRL{"{{ charlist|escape_string|join }}"}\\[6pt]
   {% elif mode == "decode" %}
-      \textbf{Decode the following {{ scheme|capitalize }} codes into text}\\
-      \textbf{Codes:} {{ codes }}\\[6pt]
+      \textbf{  {{tr("Decode the following {scheme} codes into text", scheme=scheme|upper)}} }\\
+      \textbf{ {{tr("Codes:")}} } {{ codes }}\\[6pt]
   {%endif%}
   {% for start in range(0, total, chunk_size) %}
     {% set end = start + chunk_size %}
@@ -16,7 +16,7 @@
     {% if mode == "encode" %}
       \begin{tabular}{|c|{% for _ in sub_chars %}c|{% endfor %}}
         \hline
-        Character
+       {{tr("Character")}}
         {% for ch in sub_chars %}
           & {% if ch == " " %}
                 space
@@ -31,7 +31,7 @@
             {% endif %}
         {% endfor %} \\
         \hline
-        {{ scheme|capitalize }} Code Point
+        {{tr("{scheme} Code Point",scheme=scheme|upper)}}
         {% for cp in sub_codes %}
           & {{ cp }}
         {% endfor %} \\
@@ -43,12 +43,12 @@
 
       \begin{tabular}{|c|{% for _ in sub_codes %}c|{% endfor %}}
         \hline
-        {{ scheme|capitalize }} Code Point
+        {{ tr("{scheme} Code Point", scheme=scheme|upper)}}
         {% for cp in sub_codes %}
           & {{ cp }}
         {% endfor %} \\
         \hline
-        Character
+        {{tr("Character")}}
         {% for ch in sub_chars %}
           & {% if ch == " " %}
                 space
@@ -72,16 +72,16 @@
 
 
 
-\subsection*{Encode the following text into {{ scheme|capitalize }}}
+\subsection*{ {{tr("Encode the following text into")}} {{ scheme|upper }} }
 {% if RENDER_MODE == "question" %}
   {% if method in ("encode", "both") %}
-\subsection*{Encode the following text into {{ scheme|capitalize }}}
-    \textbf{Text:} ''\aRL{ {{ charlist|escape_string|join("") }} }''
+\subsection*{ {{tr("Encode the following text into")}} {{ scheme|upper }} }
+    \textbf{ {{tr("Text:")}} } ''\aRL{ {{ charlist|escape_string|join("") }} }''
 
   {% endif %}
   {% if method in ("decode", "both") %}
-\subsection*{Decode the following {{ scheme|capitalize }} codes into text}
-\textbf{Codes:} {{ charcodes }}
+\subsection*{ {{tr("Decode the following {scheme} codes into text", scheme=scheme|upper)}} }
+\textbf{ {{tr("Codes:")}} } {{ charcodes }}
   {% endif %}
 {% elif RENDER_MODE == "answer" %}
   {% if method == "both" %}

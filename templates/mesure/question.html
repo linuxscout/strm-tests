@@ -1,21 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Download Question</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .question { font-size: 1.2em; margin-bottom: 20px; }
-        .answer { font-weight: bold; color: darkgreen; margin-top: 15px; }
-        table { border-collapse: collapse; width: 100%; margin-top: 15px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        .given { margin: 15px 0; }
-        .given span { display: inline-block; margin-right: 10px; }
-    </style>
-</head>
-<body>
-
     <!-- Question -->
     <div class="question">
         <strong>Question:</strong> {{ question }}
@@ -23,7 +5,7 @@
 {% if RENDER_MODE.lower() =="answer" %}
     <!-- Given parameters -->
     <div class="given">
-        <strong>Given:</strong>
+        <strong>{{tr("Given:")}}</strong>
         {% for key, val in given.items() %}
             {% if key != ask %}
                 <span>{{ key|capitalize }} = {{ "%.2f"|format(val.value) }} {{ val.unit }}</span>
@@ -35,9 +17,9 @@
     <table>
         <thead>
             <tr>
-                <th>Step</th>
-                <th>Operation</th>
-                <th>Expression</th>
+                <th>{{ tr("Step")}}</th>
+                <th>{{ tr("Operation")}}</th>
+                <th>{{ tr("Expression")}}</th>
             </tr>
         </thead>
         <tbody>
@@ -53,8 +35,7 @@
 
     <!-- Final Answer -->
     <div class="answer">
-        Final Answer: {{ answer }}
+        {{ tr("Final Answer")}}: {{ answer }}
     </div>
 {%endif%}
-</body>
-</html>
+
