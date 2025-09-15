@@ -5,7 +5,12 @@ import os
 import argparse
 
 # Regex to catch tr("...") calls in Jinja templates
-pattern = re.compile(r'tr\(\s*[\'"](.+?)[\'"]\s*\)')
+# pattern = re.compile(r'tr\(\s*[\'"](.+?)[\'"]\s*\)')
+# pattern = re.compile(r'tr\(\s*[\'"](.+?)[\'"]')
+pattern = re.compile(
+    r'tr\(\s*[\'"](.+?)[\'"]\s*(?:,.*)?\)',
+    re.DOTALL
+)
 
 def extract_strings(template_dir, output):
     strings = set()
@@ -28,7 +33,7 @@ def extract_strings(template_dir, output):
     updated = False
     for key in sorted(strings):
         if key not in translations:
-            translations[key] = {"en": "", "ar": ""}
+            translations[key] = {"en": f"{key}", "ar": ""}
             updated = True
 
     # --- Step 4: warn about missing translations ---

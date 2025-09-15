@@ -135,3 +135,11 @@ server:
 
 test:
 	pytest tests/
+
+# Extract web strings to be translated
+trans_web:
+	python scripts/translation/extract_strings.py -t web/templates/ -o web/translations/translations.json
+
+# Extract Tempalte strings to be translated
+trans_templ:
+	python scripts/translation/extract_strings.py -t templates/ -o templates/translations/translations.json

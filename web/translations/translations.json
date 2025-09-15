@@ -1,0 +1,90 @@
+{
+  "Select Command to Generate a Quiz": {
+    "en": "Select Command to Generate a Quiz",
+    "ar": "اختر أمرا لتوليد الاختبار"
+  },
+  "Choose a category to filter commands.": {
+    "en": "Choose a category to filter commands.",
+    "ar": "اختر صنف الأوامر"
+  },
+  "Command": {
+    "en": "Command",
+    "ar": "الأمر"
+  },
+  "Download results": {
+    "en": "Download results",
+    "ar": "تنزيل النتائج"
+  },
+  "Format": {
+    "en": "Format",
+    "ar": "تنسيق"
+  },
+  "Generating quiz...": {
+    "en": "Generating quiz...",
+    "ar": "توليد اختبار..."
+  },
+  "No predefined quiz selected": {
+    "en": "No predefined quiz selected",
+    "ar": "غير محدد"
+  },
+  "Preview": {
+    "en": "Preview",
+    "ar": "معاينة"
+  },
+  "Quiz": {
+    "en": "Quiz",
+    "ar": "اختبار"
+  },
+  "Random Category": {
+    "en": "Random Category",
+    "ar": "صنف عشوائي"
+  },
+  "Random Question": {
+    "en": "Random Question",
+    "ar": "سؤال عشوائي"
+  },
+  "Random data for question": {
+    "en": "Random data for question",
+    "ar": "قيم عشوائية للسؤال"
+  },
+  "Reset": {
+    "en": "Reset",
+    "ar": "مسح"
+  },
+  "Result will appear here...": {
+    "en": "Result will appear here...",
+    "ar": "تظهر النتائج هنا..."
+  },
+  "Select a command to see an example question here.": {
+    "en": "Select a command to see an example question here.",
+    "ar": "اختر سؤالا ليظهر مثال عنه هنا"
+  },
+  "Select options to preview question...": {
+    "en": "Select options to preview question...",
+    "ar": "اختر سؤالا لمعاينته"
+  },
+  "Submit": {
+    "en": "Submit",
+    "ar": "إرسال"
+  },
+  "Category": {
+    "en": "Category",
+    "ar": "صنف"
+  },
+  "Your Results": {
+    "en": "Your Results",
+    "ar": "النتائج"
+  },
+  "Answer": {
+    "en": "Answer",
+    "ar": "الجواب"
+  },
+  "Question": {
+    "en": "Question",
+    "ar": "السؤال"
+  },
+  "Try Again": {
+    "en": "Try Again",
+    "ar": "حاول ثانية"
+  }
+}
