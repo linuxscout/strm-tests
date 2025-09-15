@@ -23,6 +23,8 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from starlette.middleware.base import BaseHTTPMiddleware
+from jinja2 import pass_context
 from typing import Optional, Dict, Any
 import tempfile
 from pydantic import BaseModel
@@ -40,6 +42,7 @@ from strmquiz.quizbuilder import QuizBuilder
 WEB_TEMPALTES_DIR = os.path.join(os.path.dirname(__file__),"templates")
 # WEB_TEMPALTES_DIR = "templates"
 WEB_STATIC_DIR = os.path.join(os.path.dirname(__file__),"static")
+WEB_TRANS_DIR = os.path.join(os.path.dirname(__file__),"translations")
 # WEB_STATIC_DIR = "static"
 
 
@@ -61,6 +64,78 @@ quiz_builder = QuizBuilder(
     templates_dir=QUIZ_TEMPALTES_DIR
 )
 
+
+SUPPORTED_LANGS = ["en", "ar", "fr",'ar-en',"ar-fr","en-ar","fr-ar"]  # add what you support
+DEFAULT_LANG = "ar-en"
+
+def detect_language(request: Request) -> str:
+    # 1. query param
+    lang = request.query_params.get("lang")
+    if lang and lang in SUPPORTED_LANGS:
+        return lang
+
+    # 2. cookie
+    lang_cookie = request.cookies.get("lang")
+    if lang_cookie and lang_cookie in SUPPORTED_LANGS:
+        return lang_cookie
+
+    # 3. Accept-Language header
+    accept = request.headers.get("accept-language", "")
+    for part in accept.split(","):
+        code = part.split(";")[0].strip().lower()
+        if code in SUPPORTED_LANGS:
+            return code
+
+    return DEFAULT_LANG
+
+# middleware that sets detected lang into request.state
+class LanguageMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        lang = detect_language(request)
+        request.state.lang = lang  # store for use later
+        response = await call_next(request)
+        # optionally set cookie so it persists
+        response.set_cookie("lang", lang)
+        return response
+
+app.add_middleware(LanguageMiddleware)
+
+# Load translations from JSON
+def load_translations(json_path: str) -> dict:
+    with open(json_path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+# Example: translations.json
+# {
+#   "en": {"hello": "Hello", "bye": "Goodbye"},
+#   "ar": {"hello": "مرحبا", "bye": "مع السلامة"}
+# }
+
+translations = load_translations(os.path.join(WEB_TRANS_DIR,"translations.json"))
+
+@pass_context
+def translate(ctx, key: str, mode: str = "inline") -> str:
+    """Return translated string or fallback to key if missing."""
+    # lang = ctx.get("lang", "en")  # get `lang` variable from template context
+    # return translations.get(key, {}).get(lang, key)
+    request = ctx.get("request")
+    lang = getattr(request.state, "lang", DEFAULT_LANG)
+
+    langs = lang.split("-")
+    texts = [translations.get(key, {}).get(l, f"[{key}:{l}]") for l in langs]
+    logger.debug(f"lang= {lang}, langs={langs}, texts = {texts}"
+
+    )
+    if len(texts) == 1:
+        return texts[0]
+    if mode == "inline":
+        return " / ".join(texts)
+    elif mode == "para":
+        return "<br>".join(texts)
+    elif mode == "table":
+        return texts
+    return " ".join(texts)
+templates.env.globals["tr"] = translate
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
@@ -84,7 +159,7 @@ async def get_quiz(request: Request):
                  "categories_dict": categories_dict,
                  "category_commands_json": json.dumps(category_commands),
                  "format_dict": formats_dict,
-                 "quiz_id_list": quiz_id_list
+                 "quiz_id_list": quiz_id_list,
                  }
     return templates.TemplateResponse(request,"quiz.html", response)
 
@@ -210,3 +285,5 @@ async def submit(request:Request, data: Submission):
 async def download_file(filename: str, outformat: str = Query("txt")):
     filepath = os.path.join(tempfile.gettempdir(), filename)
     return FileResponse(filepath, filename=f"quiz.{outformat}")
+
+

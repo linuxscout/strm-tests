@@ -253,7 +253,7 @@ document.getElementById("selectcommand").addEventListener("change", function() {
         outformat:outformat,
         quizid:quizid,
         args: args,
-        download:download
+        download:download,
   };
 //            console.log("payload", payload);
 
@@ -265,7 +265,8 @@ document.getElementById("selectcommand").addEventListener("change", function() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+
       });
 
         const result = await response.text();

@@ -1,19 +1,19 @@
 <!--result.html-->
 <!DOCTYPE html>
-<html>
+<html lang="{{ request.state.lang }}" dir="{{ 'rtl' if request.state.lang.startswith('ar') else 'ltr' }}">
 <head>
 <link rel="icon" href="{{ url_for('static', path='favicon.ico') }}">
     <title>Results</title>
 </head>
 <body>
 
-    <h2>Your Results</h2>
-    <p>Command: {{command}} | category {{category}} |format {{outformat}}</p>
+    <h2>{{tr("Your Results",)}}</h2>
+    <p>{{tr("Command",)}}: {{command}} | {{tr("Category",)}} {{category}} |{{tr("Format",)}} {{outformat}}</p>
   <a id="downloadLink" href="{{download_url}}"
      class="mt-4 inline-block bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded shadow">
-     Download Result
+     {{tr("Download results")}}
   </a>
-    <h2>Question: </h2>
+    <h2>{{tr("Question",)}}: </h2>
     <div id="question">
         {% if outformat.lower() not in ("html",) %}
         <pre class="bg-gray-100 p-2 rounded whitespace-pre-wrap break-words">
@@ -24,12 +24,12 @@
         {%endif%}
     </div>
 
-    <h2>Answer:</h2>
+    <h2>{{tr("Answer",)}}:</h2>
     <div id="answer">
         {% if outformat.lower() not in ("html",) %}
 
 
-        <pre class="bg-gray-100 p-2 rounded whitespace-pre-wrap break-words">
+        <pre class="bg-gray-100 p-2 rounded whitespace-pre-wrap break-words max-h-72 overflow-y-auto">
             {{answer|safe}}
         </pre>
         {%else%}
@@ -37,7 +37,7 @@
         {%endif%}
     </div>
     <br/>
-    <a href="/quiz">Try Again</a>
+    <a href="/quiz">{{tr("Try Again",)}}</a>
 <pre>
     {{args|pprint|safe}}
 </pre>

@@ -1,7 +1,7 @@
 <!--quiz.html-->
 <!DOCTYPE html>
 {% set debug= True %}
-<html lang="en">
+<html lang="{{ request.state.lang }}" dir="{{ 'rtl' if request.state.lang.startswith('ar') else 'ltr' }}">
 <head>
   <meta charset="UTF-8">
   <title>Quiz</title>
@@ -29,7 +29,7 @@
  <!-- main content -->
   <main class="flex-1 max-w-5xl mx-auto p-6">
 
-  <h2 class="text-2xl font-bold mb-6">Select Command to Generate a Quiz</h2>
+  <h2 class="text-2xl font-bold mb-6">{{tr("Select Command to Generate a Quiz", )}}</h2>
 
   <div class="flex flex-col md:flex-row gap-6">
     <!-- Left: form -->
@@ -37,30 +37,29 @@
       <form id="quizForm" class="space-y-4">
         <!-- Category -->
         <div>
-          <label for="selectcategory" class="block text-sm font-medium mb-1">Category</label>
+          <label for="selectcategory" class="block text-sm font-medium mb-1">{{tr("Category",)}}</label>
           <select id="selectcategory" name="category" onchange="updateCommands()"
             class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
-            <option value="random" selected>Random Category</option>
+            <option value="random" selected>{{tr("Random Category", )}}</option>
             {% for cat_key, cat_value in categories_dict.items() %}
               <option value="{{cat_key}}">{{cat_value.short}}</option>
             {% endfor %}
           </select>
-          <p class="text-xs text-gray-500 mt-1">Choose a category to filter commands.</p>
+          <p class="text-xs text-gray-500 mt-1">{{tr("Choose a category to filter commands.", )}}</p>
         </div>
-
         <!-- Command -->
         <div>
-          <label for="selectcommand" class="block text-sm font-medium mb-1">Command</label>
+          <label for="selectcommand" class="block text-sm font-medium mb-1">{{tr("Command", )}}</label>
           <select id="selectcommand" name="command"
             class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
-            <option value="random" selected>Random Question</option>
+            <option value="random" selected>{{tr("Random Question")}}</option>
           </select>
           <p id="commandHint" class="text-xs text-gray-500 mt-1"></p>
         </div>
 
         <!-- Output format -->
         <div>
-          <label for="selectformat" class="block text-sm font-medium mb-1">Format</label>
+          <label for="selectformat" class="block text-sm font-medium mb-1">{{tr("Format", )}}</label>
           <select id="selectformat" name="outformat"
             class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
             <option value="html" selected>HTML</option>
@@ -74,10 +73,10 @@
 
         <!-- Quiz -->
         <div>
-          <label for="selectquiz" class="block text-sm font-medium mb-1">Quiz</label>
+          <label for="selectquiz" class="block text-sm font-medium mb-1">{{tr("Quiz", )}}</label>
           <select id="selectquiz" name="quiz_id"
             class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
-            <option value="" selected>No predefined quiz selected</option>
+            <option value="" selected>{{tr("No predefined quiz selected", )}}</option>
             {% for qi in quiz_id_list %}
               <option value="{{qi}}">{{qi}}</option>
             {% endfor %}
@@ -91,32 +90,32 @@
         <div class="flex items-center gap-2">
           <input name="random" id="random" type="checkbox"
             class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"/>
-          <label for="random" class="text-sm">Random data for question</label>
+          <label for="random" class="text-sm">{{tr("Random data for question", )}}</label>
         </div>
         <!-- Download checkbox -->
         <div class="flex items-center gap-2">
           <input name="download" id="download" type="checkbox"
             class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"/>
-          <label for="download" class="text-sm">Download results</label>
+          <label for="download" class="text-sm">{{tr("Download results")}}</label>
         </div>
         <!-- Buttons -->
         <div class="flex gap-4">
           <button type="submit"
-            class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700">Submit</button>
+            class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700">{{tr("Submit", )}}</button>
           <button type="button" onclick="resetForm()"
-            class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg shadow hover:bg-gray-300">Reset</button>
+            class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg shadow hover:bg-gray-300">{{tr("Reset", )}}</button>
         </div>
       </form>
     </div>
 
     <!-- Right: preview panel -->
     <div class="flex-1 bg-white rounded-2xl shadow p-6">
-      <h3 class="text-lg font-semibold mb-4">Preview</h3>
+      <h3 class="text-lg font-semibold mb-4">{{tr("Preview", )}}</h3>
       <div id="exampleDiv" class="p-4 border border-dashed border-gray-300 rounded-lg mb-4">
-        Select a command to see an example question here.
+        {{tr("Select a command to see an example question here.", )}}
       </div>
       <div id="previewPanel" class="text-sm text-gray-600">
-        Select options to preview question...
+        {{tr("Select options to preview question...", )}}
       </div>
     </div>
   </div>
@@ -124,12 +123,12 @@
   <!-- Spinner -->
   <div id="spinner" class="hidden text-center mt-6">
     <div class="animate-spin h-8 w-8 border-4 border-gray-200 border-t-blue-600 rounded-full mx-auto"></div>
-    <p class="text-sm text-gray-500 mt-2">Generating quiz...</p>
+    <p class="text-sm text-gray-500 mt-2">{{tr("Generating quiz...", )}}</p>
   </div>
 
   <!-- Result -->
   <div id="resultDiv" class="mt-6 bg-white rounded-2xl shadow p-6 border">
-    <pre id="resultPre" class="text-sm text-gray-700">Result will appear here...</pre>
+    <pre id="resultPre" class="text-sm text-gray-700 ">{{tr("Result will appear here...", )}}</pre>
   </div>
 
 
@@ -138,7 +137,7 @@
 
 <footer class="bg-gray-100 border-t mt-8 p-4">
   <div class="max-w-5xl mx-auto text-center text-sm text-gray-600">
-    © 2025 STRM Quiz Generator —
+    © 2025 STRM Quiz Generator — مولد اختبارات مادة بنية الآلة
     <a href="https://github.com/linuxscout/strm-tests" target="_blank" class="text-blue-600 hover:underline">View on GitHub</a>
   </div>
 </footer>
