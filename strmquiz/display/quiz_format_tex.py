@@ -32,7 +32,7 @@ from ..bool import bool_const
 class quiz_format_tex(quiz_format.quiz_format):
     """ Generate a format for the test """
     def __init__(self, formatting="", lang="", templates_dir=""):
-        quiz_format.quiz_format.__init__(self, formatting="tex", lang=lang, templates_dir=templates_dir)
+        super().__init__( formatting="tex", lang=lang, templates_dir=templates_dir)
         self.formatting = "tex"
         self.output = [] 
         self.header =""
