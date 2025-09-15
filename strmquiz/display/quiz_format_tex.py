@@ -430,6 +430,14 @@ class quiz_format_tex(quiz_format.quiz_format):
         lg = logigram.logigram(varnames, method=method)
         return lg.draw_logigram_list(sop_list, function_namelist)
 
+    @staticmethod
+    def _wrap_arabic(txt, mode="inline"):
+        if mode == "par":
+            return f"\\begin{{arab}}[utf]\n {txt}\n \\end{{arab}}"
+        if mode == "inline":
+            return f"\\aRL{{{txt}}}"
+        else:
+            return f"\\aRL{{{txt}}}"
 def main(args):
     return 0
 

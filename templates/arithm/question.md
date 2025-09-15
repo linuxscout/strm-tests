@@ -1,8 +1,4 @@
-Calculate the following operations in base {{ base }} :  
-<span dir="rtl">أنجز العمليات الآتية في الأساس {{ base }}</span>  
-{% if "fr" in languages %}
-Effectuer les opérations suivantes en base {{ base }} :
-{% endif %}
+{{ tr("Calculate  the following operations in base {base}", mode="par", base=base)}}:
 
 ```text
   {{ number_a|group4 }}

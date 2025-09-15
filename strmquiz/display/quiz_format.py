@@ -32,10 +32,6 @@ import itertools
 from . import format_const
 from ..bool import logigram
 
-translations = {
-    "Hello": {"fr": "Bonjour", "ar": "مرحبا"},
-}
-
 
 def to_bin(value, width=0):
     s = bin(value)[2:]  # remove '0b'
@@ -75,32 +71,43 @@ class quiz_format:
     # def tr(self, key, lang):
     #     return self.translations.get(key, {}).get(lang, key)
 
-    def translate(self, key: str, mode: str = "inline", lang: str = "") -> str:
+    def translate(self, key: str, mode: str = "inline", lang: str = "", **kwargs) -> str:
         """Return translated string or fallback to key if missing."""
 
         lang = lang if lang else self.lang
         # lang="ar-en"
 
         langs = lang.split("-")
-        texts = [self.translations.get(key, {}).get(l, f"[{key}:{l}]") for l in langs]
+        # texts = [self.translations.get(key, {}).get(l, f"[{key}:{l}]") for l in langs]
+        texts = []
+        for l in langs:
+            raw = self.translations.get(key, {}).get(l, f"[{key}:{l}]")
+            try:
+                formatted = raw.format(**kwargs)  # fill placeholders
+            except Exception:
+                formatted = raw  # fallback if keys missing
+            texts.append(formatted)
+
         self.logger.info(f"Translations= {self.translations}")
         self.logger.info(f"lang= {lang}, langs={langs}, texts = {texts}")
         return self._format_translations(langs=langs, texts=texts, mode=mode)
 
+    @staticmethod
+    def _wrap_arabic(txt, mode="inline"):
+        return f"""<span dir="rtl">{txt}</span>"""
     def _format_translations(self, langs:list=[], texts:list=[], mode="inline"):
         """ how to display languages in specific format"""
-        def wrap_arabic(txt):
-            return f"""<span dir="rtl">{txt}</span>"""
+
         if len(langs)!=len(texts):
             return ""
         for i in range(len(langs)):
             if langs[i] == "ar":
-                texts[i] = wrap_arabic(texts[i])
+                texts[i] = self._wrap_arabic(texts[i], mode=mode)
         if len(texts) == 1:
             return texts[0]
         if mode == "inline":
             return " / ".join(texts)
-        elif mode == "para":
+        elif mode == "par":
             return "\n".join(texts)
         elif mode == "table":
             return texts
