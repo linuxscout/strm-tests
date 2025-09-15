@@ -11,12 +11,18 @@ pattern = re.compile(r'tr\(\s*[\'"](.+?)[\'"]')
 #     r'tr\(\s*[\'"](.+?)[\'"]\s*(?:,.*)?\)',
 #     re.DOTALL
 # )
-
+import itertools
 def extract_strings(template_dir, output):
     strings = set()
 
     # --- Step 1: collect all keys from templates ---
-    for fname in glob.glob(os.path.join(template_dir, "**/*.html"), recursive=True):
+    extensions = ["html", "tex", "txt", "md"]
+
+    files = list(itertools.chain.from_iterable(
+        glob.glob(os.path.join(template_dir, f"**/*.{ext}"), recursive=True)
+        for ext in extensions
+    ))
+    for fname in files:
         with open(fname, encoding="utf-8") as f:
             text = f.read()
         matches = pattern.findall(text)
