@@ -6,11 +6,11 @@ import argparse
 
 # Regex to catch tr("...") calls in Jinja templates
 # pattern = re.compile(r'tr\(\s*[\'"](.+?)[\'"]\s*\)')
-# pattern = re.compile(r'tr\(\s*[\'"](.+?)[\'"]')
-pattern = re.compile(
-    r'tr\(\s*[\'"](.+?)[\'"]\s*(?:,.*)?\)',
-    re.DOTALL
-)
+pattern = re.compile(r'tr\(\s*[\'"](.+?)[\'"]')
+# pattern = re.compile(
+#     r'tr\(\s*[\'"](.+?)[\'"]\s*(?:,.*)?\)',
+#     re.DOTALL
+# )
 
 def extract_strings(template_dir, output):
     strings = set()

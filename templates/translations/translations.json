@@ -1,0 +1,38 @@
+{
+  "Calculate  the following operations in base {base}": {
+    "en": "Calculate  the following operations in base {base}",
+    "ar": "احسب ما يلي في الأساس {base}"
+  },
+  "Convert from base {in_base} to base 10": {
+    "en": "Convert from base {in_base} to base 10",
+    "ar": "حوّل من الأساس  {in_base} إلى الأساس 10"
+  },
+  "Convert from base 10 to base {out_base}": {
+    "en": "Convert from base 10 to base {out_base}",
+    "ar": "حوّل من الأساس 10 إلى الأساس {out_base}"
+  },
+  "Base {base} → 10 Expansion": {
+    "en": "Base {base} → 10 Expansion",
+    "ar": "التحويل من الأساس  {base} إلى 10"
+  },
+  "Convert from base {in_base} to base {out_base}": {
+    "en": "Convert from base {in_base} to base {out_base}",
+    "ar": "التحويل من الأساس {in_base} إلى الأساس {out_base}"
+  },
+  "Convert the following numbers": {
+    "en": "Convert the following numbers",
+    "ar": "حوّل الأعداد الآتية"
+  },
+  "Number in base {base}:": {
+    "en": "Number in base {base}",
+    "ar": "العدد في الأساس {base}"
+  },
+  "Result": {
+    "en": "Result",
+    "ar": "نتيجة"
+  },
+  "Table: base {base} representation": {
+    "en": "Table: base {base} representation",
+    "ar": "جدول: تمثيل الأساس {base}"
+  }
+}

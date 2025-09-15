@@ -111,7 +111,8 @@
 
 
 
-Convert the following numbers, \hfill\aRL{أنجز التحويلات الآتية}
+{{tr("Convert the following numbers")}}
+%%  \hfill\aRL{أنجز التحويلات الآتية}
 
 {% if RENDER_MODE == "question" %}
 $({{ number|group4 }})_{ {{ in_base }} } = (........)_{ {{ out_base }}}$
@@ -126,15 +127,15 @@ $({{ number|group4 }})_{ {{ in_base }} } = (  {{ output|group4 }})_{ {{ out_base
 {% if steps_to10 and steps_from10 %}
 \textbf{Convert from base {{ in_base }} to {{ out_base }}}
 \begin{enumerate}
-  \item Convert from base {{ in_base }} to base 10
-  \item Convert from base 10 to base {{ out_base }}
+  \item {{tr("Convert from base {in_base} to base 10", in_base=in_base)}}
+  \item {{tr("Convert from base 10 to base {out_base}", out_base=out_base)}}
 \end{enumerate}
 {% endif %}
 
 %<!-- Explanation of Base X to 10 -->
 {% if steps_to10 %}
 {% set digits = steps_to10 %}
-  \textbf{Convert from base {{ in_base }} to base 10}
+  \textbf{ {{tr("Convert from base {in_base} to base 10", in_base=in_base)}} }
 
   {{ base_conversion_table(digits, in_base, number_label) }}
   {{ base_sum_expression(digits, in_base) }}
@@ -144,33 +145,11 @@ Result : {{ output }}
 {% endif %}
 
 {% if steps_from10 %}
-\textbf{Explanation of Base 10 to {{ out_base }}}\\
+\textbf{ {{tr("Convert from base 10 to base {out_base}", out_base=out_base)}} }\\
  {% set number_b10 = number_tmp if number_tmp else number %}
 {{ division_process(number_b10, out_base, steps_from10) }}
 {% endif %}
 
-Result (bottom→top remainders): {{ output }}
+{{tr("Result")}} (bottom→top remainders): {{ output }}
 
 {% endif %}
-
-{% if debug %}
-{% set steps = [
-  {"quotient": 9500, "remainder": 1},
-  {"quotient": 4, "remainder": 1},
-  {"quotient": 2, "remainder": 0},
-  {"quotient": 1, "remainder": 0},
-  {"quotient": 0, "remainder": 1},
-] %}
-
-{{ division_process(19000, 2, steps) }}
-
-  {{ binmacro.bin2hex_table("101110101101") }}
-  {{ binmacro.bin2oct_table("101110101101") }}
-  {{ binmacro.hex2bin_table("BAD") }}
-  {{ binmacro.oct2bin_table("5725") }}
-  {{ binmacro.hex2oct_table("62F") }}
-  {{ binmacro.oct2hex_table("745") }}
-  {{ binmacro.base_convert_table("1A3", 16, 8) }}
-  {{ binmacro.base_convert_table("745", 8, 2) }}
-  {{ binmacro.base_convert_table("1011101", 2, 16) }}
-  {% endif %}

@@ -46,7 +46,7 @@ class quiz_format:
         self.newline = "\n"
         self.lang = 'ar-en'
         self.templates_dir = templates_dir
-        self.translations = self.load_translations(json_path=os.path.join(self.templates_dir,"translations","translation.json"))
+        self.translations = self.load_translations(json_path=os.path.join(self.templates_dir,"translations","translations.json"))
         self.env = Environment(loader=FileSystemLoader(self.templates_dir),
                                trim_blocks=True,
                                lstrip_blocks=True,

@@ -57,9 +57,9 @@
 {% endmacro %}
 
 {% macro base_conversion_table(digits, base, number_label="") %}
-  <h4>Table: base {{ base }} representation</h4>
+  <h4>{{tr("Table: base {base} representation", base=base)}}</h4>
   {% if number_label %}
-    <div class="small">Number in base {{ base }}: <span class="mono">{{ number_label }}</span></div>
+    <div class="small">{{ tr("Number in base {base}", base=base)}}: <span class="mono">{{ number_label }}</span></div>
   {% endif %}
   <table class="baseto10">
     <tr>
@@ -79,7 +79,7 @@
 
 
  {% macro base_sum_expression(digits, base) %}
-  <h4>Base {{ base }} → 10 Expansion</h4>
+  <h4>{{tr("Base {base} → 10 Expansion", base=base)}}</h4>
   <ul>
     {# 1) symbolic line with digit symbols #}
     <li>
@@ -129,8 +129,8 @@
 
 
 <p>
-Convert the following numbers
-<span dir="rtl">أنجز التحويلات الآتية</span><br/>
+{{tr("Convert the following numbers")}}
+<!--<span dir="rtl">أنجز التحويلات الآتية</span><br/>-->
 </p>
 {% if RENDER_MODE == "question" %}
 ({{ number|group4 }})<sub>{{ in_base }} </sub> = (........)<sub>{{ out_base }} </sub> <br/>
@@ -147,60 +147,36 @@ Convert the following numbers
   {{ binmacro.base_convert_table(number, in_base, out_base) }}
 {% endif %}
 {% if steps_to10 and steps_from10 %}
-  <h3>Convert from base {{ in_base }} to {{ out_base }}</h3>
+  <h3>{{tr("Convert from base {in_base} to base {out_base}", in_base=in_base, out_base=out_base)}}</h3>
 <ol>
-  <li>Convert from base {{ in_base }} to base 10</li>
-  <li>Convert from base 10 to base {{ out_base }}</li>
+  <li>{{tr("Convert from base {in_base} to base 10", in_base=in_base)}}</li>
+  <li>{{tr("Convert from base 10 to base {out_base}", out_base=out_base)}}</li>
   </ol>
 {% endif %}
 
 <!-- Explanation of Base X to 10 -->
 {% if steps_to10 %}
 {% set digits = steps_to10 %}
-  <h3>Convert from base {{ in_base }} to base 10</h3>
+  <h3>{{tr("Convert from base {in_base} to base 10", in_base=in_base)}}</h3>
 
   {{ base_conversion_table(digits, in_base, number_label) }}
   {{ base_sum_expression(digits, in_base) }}
 
-Result : {{ output }}
+{{tr("Result")}} : {{ output }}
 
 {% endif %}
 
 <!-- Explanation of Base 10 to X -->
 
 {% if steps_from10 %}
-  <h3>Convert from base 10 to base {{ out_base }}</h3>
+  <h3>{{tr("Convert from base 10 to base {out_base}", out_base=out_base)}}</h3>
  {% set number_b10 = number_tmp if number_tmp else number %}
 {{ division_process( number_b10, out_base, steps_from10, cell_h=30)}}
 
 
-Result (bottom→top remainders): ({{ output }})<sub>{{out_base}}</sub>
+{{tr("Result")}} (bottom→top remainders): ({{ output }})<sub>{{out_base}}</sub>
 
 {% endif %}
 
 {% endif %}
 
-
-
-{% if debug %}
-
-  {{ binmacro.bin2hex_table("101110101101") }}
-  <br/>
-  {{ binmacro.bin2oct_table("101110101101") }}
-  <br/>
-  {{ binmacro.hex2bin_table("BAD") }}
-  <br/>
-  {{ binmacro.oct2bin_table("5725") }}
-
-  <br/>
-  {{ binmacro.hex2oct_table("62F") }}
-  <br/>
-  {{ binmacro.oct2hex_table("745") }}
-
-  <br/>
-  {{ binmacro.base_convert_table("1A3", 16, 8) }}
-  <br/>
-  {{ binmacro.base_convert_table("745", 8, 2) }}
-  <br/>
-  {{ binmacro.base_convert_table("1011101", 2, 16) }}
-{%endif%}

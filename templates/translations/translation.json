@@ -2,5 +2,13 @@
   "Calculate  the following operations in base {base}": {
     "en": "Calculate  the following operations in base {base}",
     "ar": "احسب ما يلي في الأساس {base}"
+  },
+  "Convert from base {in_base} to base 10": {
+    "en":  "Convert from base {in_base} to base 10",
+    "ar": "حوّل من الأساس  {in_base} إلى الأساس 10"
+  },
+  "Convert from base 10 to base {out_base}": {
+        "en":   "Convert from base 10 to base {out_base}",
+    "ar": "حوّل من الأساس 10 إلى الأساس {out_base}"
   }
 }
