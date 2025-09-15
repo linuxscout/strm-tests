@@ -23,6 +23,7 @@
 #  
 # used for generating truth table
 from jinja2 import Environment, FileSystemLoader, TemplateNotFound
+import logging
 import os
 import re
 import json
@@ -47,7 +48,7 @@ class quiz_format:
         self.output = []
         self.tests = []
         self.newline = "\n"
-        self.lang = lang
+        self.lang = 'ar-en'
         self.templates_dir = templates_dir
         self.translations = self.load_translations(json_path=os.path.join(self.templates_dir,"translations","translation.json"))
         self.env = Environment(loader=FileSystemLoader(self.templates_dir),
@@ -62,30 +63,60 @@ class quiz_format:
         self.env.filters["escape_string"] = self.escape_string
         self.env.filters["normalize_newlines"] = self.normalize_newlines
         self.env.filters["tabulate"] = tabulate.tabulate
-        self.env.globals.update(tr=self.tr)
+        self.env.globals.update(tr=self.translate)
         self.group_digit_sep = " "
         # self.variables = ["a","b","c","d"]
         #~ print("quiz_format")
+        self.logger = logging.getLogger(self.__class__.__name__)
 
     def get_format(self,):
         return self.formatting.lower()
 
-    def tr(self, key, lang):
-        return self.translations.get(key, {}).get(lang, key)
+    # def tr(self, key, lang):
+    #     return self.translations.get(key, {}).get(lang, key)
+
+    def translate(self, key: str, mode: str = "inline", lang: str = "") -> str:
+        """Return translated string or fallback to key if missing."""
+
+        lang = lang if lang else self.lang
+        # lang="ar-en"
+
+        langs = lang.split("-")
+        texts = [self.translations.get(key, {}).get(l, f"[{key}:{l}]") for l in langs]
+        self.logger.info(f"Translations= {self.translations}")
+        self.logger.info(f"lang= {lang}, langs={langs}, texts = {texts}")
+        return self._format_translations(langs=langs, texts=texts, mode=mode)
+
+    def _format_translations(self, langs:list=[], texts:list=[], mode="inline"):
+        """ how to display languages in specific format"""
+        def wrap_arabic(txt):
+            return f"""<span dir="rtl">{txt}</span>"""
+        if len(langs)!=len(texts):
+            return ""
+        for i in range(len(langs)):
+            if langs[i] == "ar":
+                texts[i] = wrap_arabic(texts[i])
+        if len(texts) == 1:
+            return texts[0]
+        if mode == "inline":
+            return " / ".join(texts)
+        elif mode == "para":
+            return "\n".join(texts)
+        elif mode == "table":
+            return texts
+        return " ".join(texts)
 
     def load_translations(self, json_path: str) -> dict:
         """Load translation JSON file into a Python dictionary."""
+        translations = {}
         try:
             with open(json_path, "r", encoding="utf-8") as f:
                 translations = json.load(f)
-            return translations
         except FileNotFoundError:
-            print(f"⚠️ Translation file not found: {json_path}")
-            return {}
+            raise   FileNotFoundError(f"⚠️ Translation file not found: {json_path}")
         except json.JSONDecodeError as e:
-            print(f"⚠️ Error decoding JSON file {json_path}: {e}")
-            return {}
-
+            raise json.JSONDecodeError(f"⚠️ Error decoding JSON file {json_path}: {e}")
+        return translations
     def header(self,):
         """
         """
