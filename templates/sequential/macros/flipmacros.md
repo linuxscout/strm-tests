@@ -2,7 +2,7 @@
  draw a truth table for a flipflop (Markdown version)
 -------------------#}
 {% macro truth_table(type="D", edge="rising", customized=False, custom_vars=["X","Y"], custom_values=["1","Q","X","Q'"]) %}
-### Truth table of {{ type }} flip-flop
+### {{tr("Truth table of {ftype} flipflop",ftype=type)}}
 
 {% set edge_symbol = "↑" if edge == "rising" else "↓" %}
 

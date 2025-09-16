@@ -8,7 +8,7 @@
  draw a truth table for a flipflop
 -------------------#}
 {%macro truth_table(type="D",edge="rising", customized=False, custom_vars =["X","Y"], custom_values=["1","Q","X","Q'"])%}
-\textbf{ Truth table of {{type}} flipflop }\\
+\textbf{  {{tr("Truth table of {ftype} flipflop",ftype=type)}}  }\\
 {% set edge_symbol = '\\frontmontant' if edge == "rising" else '\\frontdescendant'%}
 {% if type.lower() in ("custom","customized") or customized %}
 \begin{tabular}{|c|c|c||c|}
@@ -65,12 +65,12 @@
   \end{tabular}
 {% elif type.lower() == "rs" %}
 \begin{tabular}{|c|c||c|l|}
-	\hline R & S & $Q_t$ &\\
-	\hline 0 & 0 & $Q_{t}$ &Memory State \aRL{ذاكرة}\\
-	\hline 0 & 1 & 1 &Set to 1 \aRL{توحيد}\\
-	\hline 1 & 0 & 0 & Reset to 0 \aRL{تصفير}\\
-	\hline 1 & 1 & X &  {\color{red}Forbidden \aRL{ممنوعة}}\\
-	\hline
+    \hline R & S & $Q_t$ &\\
+    \hline 0 & 0 & $Q_{t}$ &Memory State \aRL{ذاكرة}\\
+    \hline 0 & 1 & 1 &Set to 1 \aRL{توحيد}\\
+    \hline 1 & 0 & 0 & Reset to 0 \aRL{تصفير}\\
+    \hline 1 & 1 & X &  {\color{red}Forbidden \aRL{ممنوعة}}\\
+    \hline
  \end{tabular}
 {% elif type.lower() == "rst" %}
  \begin{tabular}{|c|c|c||c|c|l|}

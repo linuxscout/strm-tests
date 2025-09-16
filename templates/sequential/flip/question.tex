@@ -12,19 +12,15 @@
 
     {%if flip_data.type.upper() in flpmacro.globals.AVAILABLE_FLIPS %}
 
-        Cite the truth table of flipflop {{flip_data.type}}.
+         {{tr("Cite the truth table of flipflop")}}  {{flip_data.type}}.
 
-        \begin{arab}[utf]
-        اذكر جدول الحقيقة للقلاب \LR{ {{flip_data.type}}}.
-        \end{arab}
+
         \begin{circuitikz}
             {{flpmacro.place_flip(id=flip_data.type, name="f1", xpos=2, ypos=2)}}
         \end{circuitikz}
     {%else%}
-        Let have the following flip flop {{flip_data.type}}, with its given truth table.
-        \begin{arab}[utf]
-    نفرض القلاب {{flip_data.type}} المعرّف بجدول الحقيقة الآتي:
-        \end{arab}
+        {{tr("Let’s consider the following flip flop {ftype}, with its given truth table.")}}
+        
 
             {{flpmacro.define_costum_flip(id=flip_data.type, inputs=flip_data.inputs)}}
         \begin{circuitikz}
@@ -40,11 +36,8 @@
 
    {%endif%}
 
-   Complete the following timing diaragm, according to given flipflop.
+  {{tr("Complete the following timing diagram, according to the given flip-flop.")}}
 
-       \begin{arab}[utf]
-أكمل المخطط المنطقي الآتي، حسب القلاب المعطى.
-    \end{arab}
 
   {{tmmacro.draw_timing_diagram(data, mode="question")}}
 
@@ -55,11 +48,7 @@
 {% if RENDER_MODE == "answer" %}
     {%if flip_data.type.upper() in flpmacro.globals.AVAILABLE_FLIPS %}
 
-        Cite the truth table of flipflop {{flip_data.type}}.
-
-        \begin{arab}[utf]
-        اذكر جدول الحقيقة للقلاب \LR{ {{flip_data.type}}}.
-        \end{arab}
+         {{tr("Cite the truth table of flipflop")}}  {{flip_data.type}}.
 
         {% set costum_tt = flip_data.truth_table%}
         {{flpmacro.truth_table(type=flip_data.type,

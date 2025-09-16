@@ -406,5 +406,29 @@
   "Second Canonical Forms": {
     "en": "Second Canonical Forms",
     "ar": "الأشكال القانونية الثانية"
+  },
+  "Complete the following timing diagram:": {
+    "en": "Complete the following timing diagram:",
+    "ar": "أكمل المخطط الزمني الآتي:"
+  },
+  "Timing diagram": {
+    "en": "Timing diagram",
+    "ar": "المخطط الزمني"
+  },
+  "Cite the truth table of flipflop": {
+    "en": "Cite the truth table of flipflop",
+    "ar": "اذكر جدول حقيقة القلاب"
+  },
+  "Complete the following timing diagram, according to the given flip-flop.": {
+    "en": "Complete the following timing diagram, according to the given flip-flop.",
+    "ar": "أكمل المخطط الزمني حسب القلاب المعطى"
+  },
+  "Let’s consider the following flip flop {ftype}, with its given truth table.": {
+    "en": "Let’s consider the following flip flop {ftype}, with its given truth table.",
+    "ar": "لنفرض القلاب الآتي، المعرّف بجدول حقيقته المعطى."
+  },
+  "Truth table of {ftype} flipflop": {
+    "en": "Truth table of {ftype} flipflop",
+    "ar": "جدول حقيقة القلاب {ftype}"
   }
 }

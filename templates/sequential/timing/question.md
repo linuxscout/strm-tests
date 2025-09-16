@@ -1,7 +1,7 @@
 {% import "sequential/macros/timingmacros.html" as tmmacro %}
 
-Complete the following timing diagram:  
-<span class="aRL">أكمل المخطط الزمني الآتي</span>
+ {{tr("Complete the following timing diagram:")}}   
+
 
 {% if RENDER_MODE.lower() == "question" %}
 {{ tmmacro.draw_timing_diagram(data, mode="question")|normalize_newlines }}

@@ -2,7 +2,7 @@
 {# ----------------------------------------------------------
    Main call (example usage in template)
 ---------------------------------------------------------- #}
-<p>Complete the following timing diagram : <span class="aRL">أكمل المخطط الزمني الآتي</span></p>
+<p>{{tr("Complete the following timing diagram:")}}</p>
 {% if RENDER_MODE.lower() == "question" %}
 {{ tmmacro.draw_timing_diagram(data, mode="question") }}
 {%endif%}

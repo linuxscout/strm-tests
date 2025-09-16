@@ -199,12 +199,12 @@ edge = "dual") %}
 
 
 <div class="timing-diagram">
-  <p class="title">Timing diagram <span class="aRL">المخطط الزمني</span></p>
+  <p class="title">{{tr("Timing diagram")}}</p>
     {% if mode== "question" %}
-    <h2>Given timing diagram</h2>
+
     {% set signals = data.question_signals %}
     {% elif mode == "answer" %}
-    <h2>Resulting timing diagram</h2>
+
     {% set signals = data.answer_signals %}
     {% endif %}
     {% set canva_height = ((signals|length)+2) * (unit_h+v_gap) %}

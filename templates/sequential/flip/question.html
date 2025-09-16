@@ -1,4 +1,4 @@
-{% set debug = True %}
+{% set debug = False %}
 {% import "sequential/macros/flipmacros.html" as flpmacro%}
 {% import "sequential/macros/timingmacros.html" as tmmacro%}
 <h1>Flip</h1>
@@ -13,12 +13,9 @@
   {% if flip_data.type.upper() in flpmacro.globals.AVAILABLE_FLIPS %}
 
     <p>
-      Cite the truth table of flipflop <strong>{{ flip_data.type }}</strong>.
+       {{tr("Cite the truth table of flipflop")}}  <strong>{{ flip_data.type }}</strong>.
     </p>
 
-    <p dir="rtl" lang="ar">
-      اذكر جدول الحقيقة للقلاب <span dir="ltr">{{ flip_data.type }}</span>.
-    </p>
 
     <svg width="120" height="120" xmlns="http://www.w3.org/2000/svg">
       {{ flpmacro.place_flip(id=flip_data.type, name="f1", xpos=20, ypos=20) }}
@@ -27,12 +24,9 @@
   {% else %}
 
     <p>
-      Let’s consider the following flip flop <strong>{{ flip_data.type }}</strong>, with its given truth table.
+      {{tr("Let’s consider the following flip flop {ftype}, with its given truth table.", ftype=flip_data.type)}}
     </p>
 
-    <p dir="rtl" lang="ar">
-      نفرض القلاب {{ flip_data.type }} المعرّف بجدول الحقيقة الآتي:
-    </p>
     <svg width="1200" height="1200" xmlns="http://www.w3.org/2000/svg">
     {{ flpmacro.define_costum_flip(id=flip_data.type, inputs=flip_data.inputs) }}
     {{ flpmacro.place_flip(id=flip_data.type, name="f1", xpos=2, ypos=2) }}
@@ -50,12 +44,10 @@
   {% endif %}
 
   <p>
-    Complete the following timing diagram, according to the given flip-flop.
+     {{tr("Complete the following timing diagram, according to the given flip-flop.")}} 
   </p>
 
-  <p dir="rtl" lang="ar">
-    أكمل المخطط المنطقي الآتي، حسب القلاب المعطى.
-  </p>
+
 
   <div class="timing-diagram">
     {{ tmmacro.draw_timing_diagram(data, mode="question") }}
@@ -70,12 +62,9 @@
   {% if flip_data.type.upper() in flpmacro.globals.AVAILABLE_FLIPS %}
 
     <p>
-      Cite the truth table of flipflop <strong>{{ flip_data.type }}</strong>.
+       {{tr("Cite the truth table of flipflop")}}  <strong>{{ flip_data.type }}</strong>.
     </p>
 
-    <p dir="rtl" lang="ar">
-      اذكر جدول الحقيقة للقلاب <span dir="ltr">{{ flip_data.type }}</span>.
-    </p>
 
     {% set costum_tt = flip_data.truth_table %}
     {{ flpmacro.truth_table(

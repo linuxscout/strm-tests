@@ -31,7 +31,7 @@ draw_flip customized
 
 {% if flip_data.type.upper() in flpmacro.globals.AVAILABLE_FLIPS %}
 
-Cite the truth table of flipflop **{{ flip_data.type }}**.
+ {{tr("Cite the truth table of flipflop")}}  **{{ flip_data.type }}**.
 
 <span dir="rtl" lang="ar">
 اذكر جدول الحقيقة للقلاب <span dir="ltr">{{ flip_data.type }}</span>.
@@ -42,7 +42,7 @@ Cite the truth table of flipflop **{{ flip_data.type }}**.
 
 {% else %}
 
-Let’s consider the following flip flop **{{ flip_data.type }}**, with its given truth table.
+{{tr("Let’s consider the following flip flop {ftype}, with its given truth table.", ftype=flip_data.type)}}
 
 <span dir="rtl" lang="ar">
 نفرض القلاب {{ flip_data.type }} المعرّف بجدول الحقيقة الآتي:
@@ -59,11 +59,8 @@ Let’s consider the following flip flop **{{ flip_data.type }}**, with its give
 
 {% endif %}
 
-Complete the following timing diagram, according to the given flip-flop.
+ {{tr("Complete the following timing diagram, according to the given flip-flop.")}} 
 
-<span dir="rtl" lang="ar">
-أكمل المخطط المنطقي الآتي، حسب القلاب المعطى.
-</span>
 
 <div class="timing-diagram">
 {{ tmmacro.draw_timing_diagram(data, mode="question")|normalize_newlines }}
@@ -74,7 +71,7 @@ Complete the following timing diagram, according to the given flip-flop.
 {% if RENDER_MODE == "answer" %}
 {% if flip_data.type.upper() in flpmacro.globals.AVAILABLE_FLIPS %}
 
-Cite the truth table of flipflop **{{ flip_data.type }}**.
+ {{tr("Cite the truth table of flipflop")}}  **{{ flip_data.type }}**.
 
 <span dir="rtl" lang="ar">
 اذكر جدول الحقيقة للقلاب <span dir="ltr">{{ flip_data.type }}</span>.
