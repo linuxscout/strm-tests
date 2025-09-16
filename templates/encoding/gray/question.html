@@ -22,7 +22,7 @@
   </tr>
 
   <tr>
-    <th>Arrows</th>
+    <th>{{tr("Arrows")}}</th>
     {% for i in range(input_bits|length) %}
       <td style="color:blue;">
         {% if i == 0 %}
@@ -41,9 +41,9 @@
   <tr style="background:#efe;">
     <th>
       {% if mode == "bin2gray" %}
-        Gray
+        {{tr("Gray")}}
       {% else %}
-        Binary
+       {{tr("Binary")}}
       {% endif %}
     </th>
     {% for o in output_bits %}
@@ -52,7 +52,7 @@
   </tr>
 
   <tr>
-    <th>Steps</th>
+    <th>{{tr("Steps")}}</th>
     {% for step in steps %}
       <td style="font-size:0.9em; color:#444;">{{ step }}</td>
     {% endfor %}
@@ -65,12 +65,12 @@
    Illustrate bit changes
    ========================================================= #}
 {% macro illustrate_bit_change(x, x_next) %}
-  <h3>Binary Increment Illustration</h3>
+  <h3>{{tr("Binary Increment Illustration")}}</h3>
   <p><b>x:</b> {{ x|join }} → <b>x+1:</b> {{ x_next|join }}</p>
 
   <table border="1" cellpadding="6" cellspacing="0">
     <tr>
-      <th>Position</th>
+      <th>{{tr("Position")}}</th>
       {% for i in range(x|length) %}
         <th>{{ i }}</th>
       {% endfor %}
@@ -93,15 +93,15 @@
     </tr>
   </table>
 
-  <p><i>Highlighted cell(s) = changed bit(s)</i></p>
+  <p><i>{{tr("Highlighted cell(s) = changed bit(s)")}}</i></p>
 {% endmacro %}
 
 {% macro illustrate_gray_sequence(gray_codes, x_name="x") %}
-  <h3>Gray Code Sequence (Bit Changes)</h3>
+  <h3>{{tr("Gray Code Sequence")}} (Bit Changes)")}}</h3>
 
   <table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; text-align: center;">
     <tr>
-      <th>Step</th>
+      <th>{{tr("Step")}}</th>
       {% for b in range(gray_codes[0]|length) %}
         <th>Bit {{ loop.index0 }}</th>
       {% endfor %}
@@ -123,7 +123,7 @@
     {% endfor %}
   </table>
 
-  <p><i>Highlighted cell shows the bit that flipped compared to the previous Gray code.</i></p>
+  <p><i>{{tr("Highlighted cell shows the bit that flipped compared to the previous Gray code.")}}</i></p>
 {% endmacro %}
 
 
@@ -132,38 +132,36 @@
    ========================================================= #}
 {% if RENDER_MODE == "question" %}
 
-  <h3>Convert the following number from Binary to Gray:</h3>
-  <p><b>حوّل من الثنائي إلى ترميز غراي</b></p>
+  <h3>{{tr("Convert the following number from Binary to Gray:")}}</h3>
   <div style="font-size: 18px; letter-spacing: 6px;">
     {{ number_bin|join }}
   </div>
 
   <hr/>
 
-  <h3>Convert the following number from Gray to Binary:</h3>
-  <p><b>حوّل من ترميز غراي إلى الثنائي</b></p>
+  <h3>{{tr("Convert the following number from Gray to Binary:")}}</h3>
   <div style="font-size: 18px; letter-spacing: 6px;">
     {{ number_gray|join }}
   </div>
 
 {% elif RENDER_MODE == "answer" %}
 
-  <h3>Binary → Gray Conversion</h3>
+  <h3>{{tr("Binary → Gray Conversion")}}</h3>
 
   {{conversion_table(number_bin, number_gray, steps_bin2gray, mode="bin2gray")}}
   <br/>
 
-  <h3>Gray → Binary Conversion</h3>
+  <h3>{{tr("Gray → Binary Conversion")}}</h3>
 
   {{conversion_table(number_gray, number_bin, steps_gray2bin, mode="gray2bin")}}
   <br/>
 
-  <h3>Illustration of Bit Change (Next Gray Code)</h3>
+  <h3>{{tr("Illustration of Bit Change (Next Gray Code)")}}</h3>
   {{ illustrate_bit_change(gray_sequence[0], gray_sequence[1]) }}
 
   <br/>
 
-  <h3>Gray Code Sequence</h3>
+  <h3>{{tr("Gray Code Sequence")}}</h3>
   {{ illustrate_gray_sequence(gray_sequence, "x") }}
 
 {% endif %}

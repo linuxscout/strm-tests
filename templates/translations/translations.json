@@ -174,5 +174,105 @@
   "Signed value": {
     "en": "Signed value",
     "ar": "القيمة بالإشارة"
+  },
+  "Arrows": {
+    "en": "Arrows",
+    "ar": "أسهم"
+  },
+  "Binary": {
+    "en": "Binary",
+    "ar": "الثنائي"
+  },
+  "Binary $\\to$ Gray Conversion": {
+    "en": "Binary $\\to$ Gray Conversion",
+    "ar": "التحويل من الثنائي إلى غراي"
+  },
+  "Binary Increment Illustration": {
+    "en": "Binary Increment Illustration",
+    "ar": "توضيح الزيادة في الثنائي"
+  },
+  "Binary → Gray Conversion": {
+    "en": "Binary → Gray Conversion",
+    "ar": "التحويل من الثنائي إلى غراي"
+  },
+  "Convert the following number from Binary to Gray:": {
+    "en": "Convert the following number from Binary to Gray:",
+    "ar": "حوّل العدد الآتي من الثنائي إلى غراي"
+  },
+  "Convert the following number from Gray to Binary:": {
+    "en": "Convert the following number from Gray to Binary:",
+    "ar": "حوّل العدد الموالي من غراي إلى الثنائي"
+  },
+  "Give the intervals which can be represented in positive numbers, absolute value, 1": {
+    "en": "Give the intervals which can be represented in positive numbers, absolute value, 1",
+    "ar": "حدد المجالات التي يمكن تمثيلها بالأعداد الموجبة، والقيمة المطلقة"
+  },
+  "Gray": {
+    "en": "Gray",
+    "ar": "غراي"
+  },
+  "Gray $\\to$ Binary Conversion": {
+    "en": "Gray $\\to$ Binary Conversion",
+    "ar": "ترميز غراي $\\to$ الثنائي"
+  },
+  "Gray Code Sequence": {
+    "en": "Gray Code Sequence",
+    "ar": "سلسلة ترميز غراي"
+  },
+  "Gray → Binary Conversion": {
+    "en": "Gray → Binary Conversion",
+    "ar": " ترميز غراي إلى الثنائي"
+  },
+  "Highlighted cell shows the bit that flipped compared to the previous Gray code.": {
+    "en": "Highlighted cell shows the bit that flipped compared to the previous Gray code.",
+    "ar": "الخلايا المميزة تبيّن البتات المقلوبة من رمز غراي السابق"
+  },
+  "Highlighted cell(s) = changed bit(s)": {
+    "en": "Highlighted cell(s) = changed bit(s)",
+    "ar": "الخلايا المميزة = البتات المعدّلة"
+  },
+  "Illustration of Bit Change (Next Gray Code)": {
+    "en": "Illustration of Bit Change (Next Gray Code)",
+    "ar": "توضيح تغيرات البتات (رمز غراي التالي)"
+  },
+  "One": {
+    "en": "One",
+    "ar": "واحد"
+  },
+  "Steps": {
+    "en": "Steps",
+    "ar": "الخطوات"
+  },
+  "Two": {
+    "en": "Two",
+    "ar": "اثنان"
+  },
+  "Position": {
+    "en": "Position",
+    "ar": "موضع"
+  },
+  "Gray Code Sequence (Bit Changes)": {
+    "en": "Gray Code Sequence (Bit Changes)",
+    "ar": "سلسلة ترميز غراي (تغيرات البتات)"
+  },
+  "{{tr(": {
+    "en": "{{tr(",
+    "ar": ""
+  },
+  "Binary $\\\\to$ Gray Conversion": {
+    "en": "Binary $\\\\to$ Gray Conversion",
+    "ar": ""
+  },
+  "Gray $\\\\to$ Binary Conversion": {
+    "en": "Gray $\\to$ Binary Conversion",
+    "ar": ""
+  },
+  "Represent in 1": {
+    "en": "Represent in 1",
+    "ar": ""
+  },
+  "Represent in 1's and 2's complement, the following number": {
+    "en": "Represent in 1's and 2's complement, the following number",
+    "ar": "مثل  العدد الآتي في المتمم إلى الواحد وإلى الاثنين  :"
   }
 }

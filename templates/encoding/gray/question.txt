@@ -4,17 +4,17 @@
 {% macro conversion_table(input_bits, output_bits, steps, mode="bin2gray") %}
 
 {% if mode == "bin2gray" %}
-**Binary → Gray Conversion**
+**{{tr("Binary → Gray Conversion")}}**
 {% else %}
-**Gray → Binary Conversion**
+**{{tr("Gray → Binary Conversion")}}**
 {% endif %}
 {% set table = [] %}
 
 {# Header row: Binary or Gray + input bits #}
-{% set _ = table.append([( "Binary" if mode == "bin2gray" else "Gray" )] + input_bits|list) %}
+{% set _ = table.append([( tr("Binary") if mode == "bin2gray" else tr("Gray") )] + input_bits|list) %}
 
 {# Arrows row #}
-{% set arrows = ["Arrows"] %}
+{% set arrows = [tr("Arrows")] %}
 {% for i in range(input_bits|length) %}
     {% if i == 0 %}
         {% set _ = arrows.append("↓") %}
@@ -29,11 +29,11 @@
 {% set _ = table.append(arrows) %}
 
 {# Output row: Gray or Binary + output bits #}
-{% set output_label = "Gray" if mode == "bin2gray" else "Binary" %}
+{% set output_label = tr("Gray") if mode == "bin2gray" else tr("Binary") %}
 {% set _ = table.append([output_label] +  output_bits|list) %}
 
 {# Steps row #}
-{% set _ = table.append(["Steps"] + steps) %}
+{% set _ = table.append([tr("Steps")] + steps) %}
 
 {{ table|tabulate(tablefmt="github") }}
 
@@ -44,14 +44,14 @@
    Illustrate bit changes
    ========================================================= #}
 {% macro illustrate_bit_change(x, x_next) %}
-### Binary Increment Illustration
+### {{tr("Binary Increment Illustration")}}
 
 **x:** `{{ x|join }}` → **x+1:** `{{ x_next|join }}`  
 
 {% set table = [] %}
 
 {# Header row: Position indices #}
-{% set _ = table.append(["Position"] + range(x|length)|list) %}
+{% set _ = table.append([tr("Position")] + range(x|length)|list) %}
 
 {# Row for x #}
 {% set _ = table.append(["x"] + x|list) %}
@@ -69,17 +69,17 @@
 
 {{ table|tabulate(tablefmt="github") }}
 
-*Highlighted cell(s) = changed bit(s)*  
+*{{tr("Highlighted cell(s) = changed bit(s)")}}*  
 {% endmacro %}
 
 
 {% macro illustrate_gray_sequence(gray_codes, x_name="x") %}
-### Gray Code Sequence (Bit Changes)
+### {{tr("Gray Code Sequence")}} (Bit Changes)")}}
 {% set table = [] %}
 
 {# Header row: Step and bit labels #}
 {# Build header row separately #}
-{% set header = ["Step"] %}
+{% set header = [tr("Step")] %}
 {% for j in range(gray_codes[0]|length) %}
     {% set _ = header.append("Bit " ~ j) %}
 {% endfor %}
@@ -104,7 +104,7 @@
 
 
 
-*Highlighted cell shows the bit that flipped compared to the previous Gray code.*  
+*{{tr("Highlighted cell shows the bit that flipped compared to the previous Gray code.")}}*  
 {% endmacro %}
 
 
@@ -113,28 +113,28 @@
    ========================================================= #}
 {% if RENDER_MODE == "question" %}
 
-### Convert the following number from Binary to Gray:
+### {{tr("Convert the following number from Binary to Gray:")}}
 **حوّل من الثنائي إلى ترميز غراي**  
 `{{ number_bin|join }}`  
 
 ---
 
-### Convert the following number from Gray to Binary:
+### {{tr("Convert the following number from Gray to Binary:")}}
 **حوّل من ترميز غراي إلى الثنائي**  
 `{{ number_gray|join }}`  
 
 {% elif RENDER_MODE == "answer" %}
 
-### Binary → Gray Conversion
+### {{tr("Binary → Gray Conversion")}}
 {{ conversion_table(number_bin, number_gray, steps_bin2gray, mode="bin2gray") }}
 
-### Gray → Binary Conversion
+### {{tr("Gray → Binary Conversion")}}
 {{ conversion_table(number_gray, number_bin, steps_gray2bin, mode="gray2bin") }}
 
-### Illustration of Bit Change (Next Gray Code)
+### {{tr("Illustration of Bit Change (Next Gray Code)")}}
 {{ illustrate_bit_change(gray_sequence[0], gray_sequence[1]) }}
 
-### Gray Code Sequence
+### {{tr("Gray Code Sequence")}}
 {{ illustrate_gray_sequence(gray_sequence, "x") }}
 
 {% endif %}

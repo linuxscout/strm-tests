@@ -1,10 +1,4 @@
-Represent in **1's** and **2's** complement the following number:  
-
-<span dir="rtl">مثل العدد الآتي في المتمم إلى الواحد وإلى الاثنين :</span>  
-
-{% if "fr" in languages %}
-Représenter en **complément à 1** et **complément à 2** le nombre suivant :  
-{% endif %}
+{{tr("Represent in 1's and 2's complement, the following number", mode="par")}}
 
 **{{ number }}**
 

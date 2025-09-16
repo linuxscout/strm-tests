@@ -12,16 +12,16 @@
 \begin{tabular}{|c|*{{ input_bits|length }}{c|}}
   \hline
   {% if mode == "bin2gray" %}
-    Binary &
+    {{tr("Binary")}} &
   {% else %}
-    Gray &
+    {{tr("Gray")}} &
   {% endif %}
   {% for b in input_bits %}
     {{ b }} {% if not loop.last %}&{% endif %}
   {% endfor %} \\
   \hline
 
-  Arrows &
+  {{tr("Arrows")}} &
   {% for i in range(input_bits|length) %}
     {% if i == 0 %}
       \textcolor{blue}{$\downarrow$} &
@@ -36,16 +36,16 @@
   \hline
 
   {% if mode == "bin2gray" %}
-    Gray &
+    {{tr("Gray")}} &
   {% else %}
-    Binary &
+    {{tr("Binary")}} &
   {% endif %}
   {% for o in output_bits %}
     \textbf{ {{ o }} } {% if not loop.last %}&{% endif %}
   {% endfor %} \\
   \hline
 
-  Steps &
+  {{tr("Steps")}} &
   {% for step in steps %}
     {\scriptsize {{ step|replace("⊕","$\oplus$") }} } {% if not loop.last %}&{% endif %}
   {% endfor %} \\
@@ -54,11 +54,11 @@
 \end{center}
 {% endmacro %}
 
-% =========================================================
+{#  =========================================================
 % Macro: illustrate bit change from x to x+1 sequence
-% =========================================================
+% ========================================================= #}
 {% macro illustrate_bit_change(x, x_next) %}
-\subsection*{Binary Increment Illustration}
+\subsection*{ {{tr("Binary Increment Illustration")}} }
 
 $x$: {{ x|join }} $\;\to\;$ $x+1$: {{ x_next|join }}
 
@@ -79,19 +79,19 @@ $x+1$ & {% for i in range(x|length) %}
 \hline
 \end{tabular}
 
-\emph{Highlighted cell(s) = changed bit(s)}
+\emph{ {{tr("Highlighted cell(s) = changed bit(s)")}} }
 {% endmacro %}
 
-% =========================================================
+{# =========================================================
 % Macro: illustrate gray sequence
-% =========================================================
+% ========================================================= #}
 
 {% macro illustrate_gray_sequence(gray_codes, x_name="x") %}
-\subsection*{Gray Code Sequence (Bit Changes)}
+\subsection*{ {{tr("Gray Code Sequence (Bit Changes)")}} }
 
 \begin{tabular}{|c|*{{ gray_codes[0]|length }}{c|}}
 \hline
-Step & {% for b in range(gray_codes[0]|length) %} Bit {{ loop.index0 }} {% if not loop.last %}&{% endif %} {% endfor %} \\
+{{tr("Step")}} & {% for b in range(gray_codes[0]|length) %} Bit {{ loop.index0 }} {% if not loop.last %}&{% endif %} {% endfor %} \\
 \hline
 {% for i in range(gray_codes|length) %}
 {{ x_name }} + {{ i }} &
@@ -107,19 +107,17 @@ Step & {% for b in range(gray_codes[0]|length) %} Bit {{ loop.index0 }} {% if no
 {% endfor %}
 \end{tabular}
 
-\emph{Highlighted cell shows the bit that flipped compared to the previous Gray code.}
+\emph{ {{tr("Highlighted cell shows the bit that flipped compared to the previous Gray code.")}} }
 {% endmacro %}
 
 
-% =========================================================
+{# =========================================================
 % Main Template: Binary <-> Gray Exercises (LaTeX)
-% =========================================================
+% =========================================================#}
 {% if RENDER_MODE == "question" %}
 
-\section*{Exercise}
 
-\textbf{Convert the following number from Binary to Gray:}\\
-حوّل من الثنائي إلى ترميز غراي
+\textbf{ {{tr("Convert the following number from Binary to Gray:")}} }\\
 
 \[
   {{ number_bin|join }}
@@ -127,8 +125,7 @@ Step & {% for b in range(gray_codes[0]|length) %} Bit {{ loop.index0 }} {% if no
 
 \bigskip
 
-\textbf{Convert the following number from Gray to Binary:}\\
-حوّل من ترميز غراي إلى الثنائي
+\textbf{ {{tr("Convert the following number from Gray to Binary:")}} }\\
 
 \[
   {{ number_gray|join }}
@@ -136,26 +133,25 @@ Step & {% for b in range(gray_codes[0]|length) %} Bit {{ loop.index0 }} {% if no
 
 {% elif RENDER_MODE == "answer" %}
 
-\section*{Solutions}
 
-\subsection*{Binary $\to$ Gray Conversion}
+\subsection*{ {{tr("Binary $\\to$ Gray Conversion")}} }
 
 
 {{conversion_table(number_bin, number_gray, steps_bin2gray, mode="bin2gray")}}
 \bigskip
 
-\subsection*{Gray $\to$ Binary Conversion}
+\subsection*{  {{tr("Gray $\\to$ Binary Conversion")}} }
 
  {{conversion_table(number_gray, number_bin, steps_gray2bin, mode="gray2bin")}}
 
 \bigskip
 
-\subsection*{Illustration of Bit Change (Next Gray Code)}
+\subsection*{ {{tr("Illustration of Bit Change (Next Gray Code)")}} }
 {{ illustrate_bit_change(gray_sequence[0], gray_sequence[1]) }}
 
 \bigskip
 
-\subsection*{Gray Code Sequence}
+\subsection*{ {{tr("Gray Code Sequence")}} s}
 {{ illustrate_gray_sequence(gray_sequence, "x") }}
 
 {% endif %}
