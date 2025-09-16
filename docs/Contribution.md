@@ -362,3 +362,9 @@ def test_truth_table_command(builder):
 
 ✅ With these steps, you can extend the system with **entirely new categories** and **commands inside them**.
 
+## Web API documentation توثيق الواجهة البرمجية
+
+Please, refer to :اطلع على دليل الواجهة البرمجية  
+
+ [َAPI documentation](docs/api.md)
+

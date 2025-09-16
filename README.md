@@ -54,30 +54,39 @@ This subject is available for other branches such as:
 
 **To run tests:**
 
-* `sympy>=1.7.1`
+* pip install -r tests/requirements.txt
 
 **To produce LaTeX/PDF:**
 
 * Linux command line `make`
 * LaTeX (`texlive`)
 
-**To launch GUI:**
+**To launch Web UI:**
 
-* `pywebview>=3.5`
-* `moodlexport>=0.0.29`
-* `webview>=0.1.5`
+* fastapi
+* pip install -r web/requirements.txt
 
 ---
 
 ## Quick Start
 
-### Graphical interface
+### Web interface
 
 ```bash
-python3 strm_tests_webviewer.py
+uvicorn app:app --reload
 ```
 
-### Generate test n°1–3
+or 
+
+```shell
+make server
+```
+
+
+
+### Console generation:
+
+please see Makefile for more commands
 
 ```bash
 make test1
@@ -85,7 +94,18 @@ make test2
 make test3
 ```
 
-This generates LaTeX files in the `tmp/edits/` folder.
+Generates LaTeX files in the `tmp/edits/` folder.
+
+### Examples of  generated quizzes:
+
+- [HTML](docs/examples/example-quizzes.html)
+- [Markdown](docs/examples/example-quizzes.md)
+- [Latex/PDF](docs/examples/example-quizzes.pdf)
+- [Text](docs/examples/example-quizzes.txt)
+
+### Web screen shots:
+
+<img src="docs/screenshots/webscreenshot1.png" alt="ScreenShot" style="zoom:50%;" />
 
 ---
 
@@ -94,9 +114,9 @@ This generates LaTeX files in the `tmp/edits/` folder.
 ```
 strm-tests/
 │
-├─ strm_tests_webviewer.py   # GUI launcher
 ├─ strmquiz/                 # Core Python modules
 ├─ templates/                # Jinja templates for LaTeX/HTML and future formats
+├─ web/                      # web server based on fastapi
 ├─ tmp/edits/                # Generated LaTeX/PDF  or HTML outputs
 └─ tests/                    # Unit tests
    └─config/                   # Sample config files
@@ -141,4 +161,14 @@ Example / مثال: `strmquiz/config/quiz_template.conf`  or `tests/config/*` sa
 Please, refer to :اطلع على دليل التطوير  
 
  [Development Guide](docs/Contribution.md)
+
+
+
+## Web API documentation توثيق الواجهة البرمجية
+
+Please, refer to :اطلع على دليل الواجهة البرمجية  
+
+ [َAPI documentation](docs/api.md)
+
+
 
