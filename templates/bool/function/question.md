@@ -2,12 +2,7 @@
 {% include "bool/logigram/structured_logigram.html.j2"%}
 {%endmacro%}
 
-Study the following function:  
-<span dir="rtl">ادرس الدالة الآتية:</span>  
-
-{% if "fr" in languages %}
-Etudier la fonction suivante:
-{% endif %}
+{{tr("Study the following function:")}}
 
 `{{ sop_quest|normalize_formula }}`
 
@@ -25,7 +20,7 @@ $$
 {{ function_name }} = {{ dontcares }} 
 $$
 
-**Truth Table <span dir="rtl">جدول الحقيقة</span>**
+** {{tr("Truth Table")}}**
 
 | Num | {{ variables[0] }} | {{ variables[1] }} | {{ variables[2] }} | {{ variables[3] }} | F |
 |-----|--------------------|--------------------|--------------------|--------------------|---|
@@ -35,7 +30,7 @@ $$
 | {{ loop.index0 }} | {{ bit_list[0] }} | {{ bit_list[1] }} | {{ bit_list[2] }} | {{ bit_list[3] }} | {{ '1' if i in minterms else 'x' if i in dontcares else 0 }} |
 {% endfor %}
 
-**Canonical Forms <span dir="rtl">الأشكال القانونية</span>**
+** {{tr("Canonical Forms")}}  **
 
 $$
 {{ function_name }}({{ variables|join(", ") }}) = {{ dnf_dict.default|normalize_formula }} 
@@ -61,7 +56,7 @@ $$
 {{ function_name }} = {{ nand_sop_dict.default|normalize_formula }} 
 $$
 
-   Explanation:
+    {{tr("Explanation")}} :
    $$
    {{ function_name }} = {{ sop_dict.default|normalize_formula }}
    $$
@@ -78,7 +73,7 @@ $$
 {{ function_name }} = {{ nor_pos_dict.default|normalize_formula }} 
 $$
 
-   Explanation:
+    {{tr("Explanation")}} :
 $$
 {{ function_name }} = {{ pos_dict.default|normalize_formula }} 
 $$
@@ -90,23 +85,23 @@ $$
 
 ---
 
-**Karnaugh map <span dir="rtl">جدول كارنوف</span>**
+** {{tr("Karnaugh map")}}**
 
 {% import "bool/map/kmap_macros.html" as kmap %}
 {{ kmap.kmap4svg(minterms, dontcares, groups=simplification, ab=ab, cd=cd)|normalize_newlines }}
 
-- Simplified Sum of products: 
+-  {{tr("Simplified Sum of products")}} : 
 $$ 
 {{ sop_dict.default|normalize_formula }} 
 $$
-- Simplified Product of sums: 
+-  {{tr("Simplified product of sums")}} : 
 $$ 
  {{ pos_dict.default|normalize_formula }} 
 $$
 
 ---
 
-**Logic diagram <span dir="rtl">المخطط المنطقي</span>**
+** {{tr("Logic diagram")}}  **
 
 {{draw_logigram()|normalize_newlines }}
 

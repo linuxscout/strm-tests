@@ -334,6 +334,77 @@
   "{scheme} to Decimal": {
     "en": "{scheme} to Decimal",
     "ar": "العشري إلى {scheme}"
+  },
+  "Canonical Forms": {
+    "en": "Canonical Forms",
+    "ar": "الأشكال القانونية"
+  },
+  "Don't Care": {
+    "en": "Don't Care",
+    "ar": "الحالات الممنوعة"
+  },
+  "Karnaugh map": {
+    "en": "Karnaugh map",
+    "ar": "جدول كارنوف"
+  },
+  "Logic diagram": {
+    "en": "Logic diagram",
+    "ar": "المخطط المنطقي"
+  },
+  "Simplified Sum of products": {
+    "en": "Simplified Sum of products",
+    "ar": "مجموع الجداءات المبسط"
+  },
+  "Simplified product of sums": {
+    "en": "Simplified product of sums",
+    "ar": "جداء المجاميع المبسط"
+  },
+  "Truth Table": {
+    "en": "Truth Table",
+    "ar": "جدول الحقيقة"
+  },
+  "Don": {
+    "en": "Don",
+    "ar": ""
+  },
+  "Study the following function:": {
+    "en": "Study the following function:",
+    "ar": "ادرس الدالة الآتية:"
+  },
+  "Simplify the following Karnaugh table": {
+    "en": "Simplify the following Karnaugh table",
+    "ar": "بسّط  جداول كارنوف الآتية."
+  },
+  "Let the function be given by its canonical form, Draw the Karnaugh table and simplify.": {
+    "en": "Let the function be given by its canonical form, Draw the Karnaugh table and simplify.",
+    "ar": "لتكن الدالة المعطاة بشكلها القانوني، ارسم جدول كارنو وبسطها."
+  },
+  "Simpilfy the following expression": {
+    "en": "Simpilfy the following expression",
+    "ar": "بسّط العبارة الآتية"
+  },
+  "Study the following circuit:": {
+    "en": "Study the following circuit:",
+    "ar": "ادرس الدارة الآتية:"
+  },
+  "First Canonical Forms": {
+    "en": "First Canonical Forms",
+    "ar": "الأشكال القانونية الأولى"
+  },
+  "Inputs and Outputs": {
+    "en": "Inputs and Outputs",
+    "ar": "المداخل والمخارج"
+  },
+  "NAND forms": {
+    "en": "NAND forms",
+    "ar": "شكل نفي الوصل"
+  },
+  "NOR forms": {
+    "en": "NOR forms",
+    "ar": "أشكال نفي الفصل"
+  },
+  "Second Canonical Forms": {
+    "en": "Second Canonical Forms",
+    "ar": "الأشكال القانونية الثانية"
   }
-
 }

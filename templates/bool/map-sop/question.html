@@ -1,15 +1,8 @@
 
 <p>
-Let the function be given by its canonical form, Draw the Karnaugh table and simplify.
-<span dir="rtl">
-لتكن الدالة المعطاة بشكلها القانوني، ارسم جدول كارنو وبسطها
-</span><br/>
-
-{% if "fr" in languages %}
-Soit la fonction donnée par sa forme canonique, Tracer la table de karnaugh et simplifier.
-<br/>
-    {% endif %}
+ {{tr("Let the function be given by its canonical form, Draw the Karnaugh table and simplify.")}}
 </p>
+
 {% if RENDER_MODE == "question" %}
 <ul>
 {% for data in data_list %}
@@ -29,8 +22,8 @@ Soit la fonction donnée par sa forme canonique, Tracer la table de karnaugh et 
 <br/>
 
 <ul>
-    <li> Simplified Sum of products : {{ data.sop_dict.default|normalize_formula }}</li>
-    <li> Simplified product of sums : {{ data.pos_dict.default|normalize_formula }}</li>
+    <li>  {{tr("Simplified Sum of products")}}  : {{ data.sop_dict.default|normalize_formula }}</li>
+    <li>  {{tr("Simplified product of sums")}}  : {{ data.pos_dict.default|normalize_formula }}</li>
 </ul>
 
 {% endfor %}

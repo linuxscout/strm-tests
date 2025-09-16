@@ -1,12 +1,5 @@
 <p>
-Study the following function:
-<span dir="rtl">
-ادرس الدالة الآتية:
-</span><br/>
-
-{% if "fr" in languages %}
-Etudier la fonction suivante:
-{% endif %}<br/>
+{{tr("Study the following function:")}}
 
  {{  sop_quest|normalize_formula }}
 
@@ -19,11 +12,11 @@ Etudier la fonction suivante:
 
 <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}= {{ minterms }}</mrow></math>
 
-<p><strong>Don't Care </strong></p>
+<p><strong>{{tr("Don't Care")}}</strong></p>
 <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}= {{ dontcares }}</mrow></math>
 
 
-<p><strong>Truth Table <span dir="rtl">جدول الحقيقة</span></strong></p>
+<p><strong>{{tr("Truth Table")}}</strong></p>
 
 <table cellspacing="0" cellpadding="5"
        style="text-align:center; border-collapse:collapse;" class="truthtable">
@@ -48,7 +41,7 @@ Etudier la fonction suivante:
   </tbody>
 </table>
 
-<p><strong>Canonical Forms <span dir="rtl">الأشكال القانونية</span></strong></p>
+<p><strong>{{tr("Canonical Forms")}}</strong></p>
 <ul>
     <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}({{variables|join(", ")}}) = </mrow></math>{{ dnf_dict.default|normalize_formula }}</li>
     <li><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}({{variables|join(", ")}}) = </mrow></math>{{ cnf_dict.default|normalize_formula }}</li>
@@ -67,7 +60,7 @@ Etudier la fonction suivante:
       <li>
          <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math>     {{ nand_sop_dict.default|normalize_formula }}
 
-        <p>Explanation</p>
+        <p>{{tr("Explanation")}}</p>
         <ul>
           <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math>     {{ sop_dict.default|normalize_formula }} </li>
 
@@ -90,7 +83,7 @@ Etudier la fonction suivante:
       <li>
         <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math>    {{ nor_pos_dict.default|normalize_formula }}
 
-        <p>Explanation</p>
+        <p>{{tr("Explanation")}}</p>
         <ul>
           <li> <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math>  {{ pos_dict.default|normalize_formula }} </li>
 
@@ -104,18 +97,18 @@ Etudier la fonction suivante:
 {% endif %}
 
 
-<p><strong>Karnaugh map <span dir="rtl">جدول كارنوف</span></strong></p>
+<p><strong>{{tr("Karnaugh map")}}</strong></p>
 
 {% import "bool/map/kmap_macros.html" as kmap %}
 {{ kmap.kmap4svg(minterms,  dontcares, groups=simplification, ab=ab, cd=cd) }}
 
 <br/>
 <ul>
-    <li>Simplified Sum of products : {{ sop_dict.default|normalize_formula }}</li>
-    <li>Simplified product of sums : {{ pos_dict.default|normalize_formula }}</li>
+    <li>{{tr("Simplified Sum of products")}}: {{ sop_dict.default|normalize_formula }}</li>
+    <li>{{tr("Simplified product of sums")}} : {{ pos_dict.default|normalize_formula }}</li>
     </ul>
 
-<p><strong>Logic diagram <span dir="rtl">المخطط المنطقي</span></strong></p>
+<p><strong>{{tr("Logic diagram")}}</strong></p>
 
 {% include "bool/logigram/structured_logigram.html.j2" %}
 

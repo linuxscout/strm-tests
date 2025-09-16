@@ -5,12 +5,7 @@
 {% set debug = False %}
 {% import "bool/map/kmap_macros.html" as kmap %}
 
-Study the following circuit:  
-<span dir="rtl">ادرس الدارة الآتية:</span>  
-
-{% if "fr" in languages %}
-Etudier le circuit suivant:  
-{% endif %}
+{{tr("Study the following circuit:")}}
 
 - {% for data in data_list %}
   - 
@@ -20,7 +15,7 @@ $$
 
   {% endfor %}
 
-**Don't Care**  
+** {{tr("Don't Care")}} **  
 - {% for data in data_list %}
   - 
 $$
@@ -37,7 +32,7 @@ $$
 
 {% if RENDER_MODE == "answer" %}
 
-**Inputs and Outputs <span dir="rtl">المداخل والمخارج</span>**
+** {{tr("Inputs and Outputs")}}  <span dir="rtl">المداخل والمخارج</span>**
 
 - Inputs  
   {% for var in variables %}
@@ -49,7 +44,7 @@ $$
   - {{ funct_name }} = 0 / 1
   {% endfor %}
 
-**Truth Table <span dir="rtl">جدول الحقيقة</span>**
+** {{tr("Truth Table")}}**
 
 | Num | {{ variables[0] }} | {{ variables[1] }} | {{ variables[2] }} | {{ variables[3] }} {% for funct_name in function_name_list %} | {{ funct_name }} {% endfor %} |
 |-----|--------------------|--------------------|--------------------|--------------------{% for funct_name in function_name_list %}|--------------------{% endfor %}|
@@ -59,9 +54,9 @@ $$
 | {{ loop.index0 }} | {{ bit_list[0] }} | {{ bit_list[1] }} | {{ bit_list[2] }} | {{ bit_list[3] }} {% for idx in range(data_list | length) %}{% set minterms = minterms_list[idx] %}{% set dontcares = dontcares_list[idx] %}| {{ '1' if i in minterms else 'x' if i in dontcares else 0 }} {% endfor %} |
 {% endfor %}
 
-**Canonical Forms <span dir="rtl">الأشكال القانونية</span>**
+** {{tr("Canonical Forms")}}  **
 
-- **First Canonical Forms <span dir="rtl">الأشكال القانونية الأولى</span>**  
+- ** {{tr("First Canonical Forms")}}  **  
   {% for data in data_list %}
   - 
 $$
@@ -70,7 +65,7 @@ $$
 
   {% endfor %}
 
-- **Second Canonical Forms <span dir="rtl">الأشكال القانونية الثانية</span>**  
+- ** {{tr("Second Canonical Forms")}}  **  
   {% for data in data_list %}
   - 
 $$
@@ -79,7 +74,7 @@ $$
 
   {% endfor %}
 
-- **First Canonical Forms <span dir="rtl">الأشكال القانونية الأولى</span>**  
+- ** {{tr("First Canonical Forms")}}  **  
   {% for data in data_list %}
   - 
 $$
@@ -88,7 +83,7 @@ $$
 
   {% endfor %}
 
-- **Second Canonical Forms <span dir="rtl">الأشكال القانونية الثانية</span>**  
+- ** {{tr("Second Canonical Forms")}}  **  
   {% for data in data_list %}
   - 
 $$
@@ -98,7 +93,7 @@ $$
   {% endfor %}
 
 {% if debug or method.lower() == "nand" %}
-**NAND forms <span dir="rtl">بوابات نفي الوصل</span>**
+** {{tr("NAND forms")}} **
 
 {% for data in data_list %}
 1. 
@@ -107,7 +102,7 @@ $$
 $$
 
 
-   Explanation:  
+    {{tr("Explanation")}} :  
    - 
 $$
  {{ data.function_name }} = {{ data.sop_dict.default|normalize_formula }} 
@@ -124,7 +119,7 @@ $$
 {% endif %}
 
 {% if debug or method.lower() == "nor" %}
-**NOR forms <span dir="rtl">بوابات نفي الفصل</span>**
+** {{tr("NOR forms")}} **
 
 {% for data in data_list %}
 1. 
@@ -133,7 +128,7 @@ $$
 $$
 
 
-   Explanation:  
+    {{tr("Explanation")}} :  
    - 
 $$
  {{ data.function_name }} = {{ data.pos_dict.default|normalize_formula }} 
@@ -149,24 +144,24 @@ $$
 {% endfor %}
 {% endif %}
 
-**Karnaugh map <span dir="rtl">جدول كارنوف</span>**
+** {{tr("Karnaugh map")}}  **
 
 {% for data in data_list %}
 {{ kmap.kmap4svg(minterms=data.minterms, dontcares=data.dontcares, groups=data.simplification, ab=data.ab, cd=data.cd)|normalize_newlines }}
 
-- Simplified Sum of products: 
+-  {{tr("Simplified Sum of products")}} : 
 $$
  {{ data.function_name }} = {{ data.sop_dict.default|normalize_formula }} 
 $$
 
-- Simplified product of sums: 
+-  {{tr("Simplified product of sums")}} : 
 $$
  {{ data.function_name }} = {{ data.pos_dict.default|normalize_formula }} 
 $$
 
 {% endfor %}
 
-**Logic diagram <span dir="rtl">المخطط المنطقي</span>**
+** {{tr("Logic diagram")}}  **
 
 {{draw_logigram()|normalize_newlines}}
 

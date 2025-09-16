@@ -1,9 +1,4 @@
-Simplify the following Karnaugh table  
-<span dir="rtl">بسّط الدوال الآتية باستعمال جدول كارنوف.</span>  
-
-{% if "fr" in languages %}
-Simplifier le tableau de Karnaugh suivant:  
-{% endif %}
+{{tr("Simplify the following Karnaugh table")}}
 
 {% if RENDER_MODE == "question" %}
 {% endif %}
@@ -20,11 +15,11 @@ Simplifier le tableau de Karnaugh suivant:
  {% endif %}
 
 {% if RENDER_MODE == "answer" %}
-- Simplified Sum of products : 
+-  {{tr("Simplified Sum of products")}}  : 
 $$ 
 {{ data.sop_dict.default|normalize_formula }} 
 $$
-- Simplified product of sums :
+-  {{tr("Simplified product of sums")}}  :
 $$ 
 {{ data.pos_dict.default|normalize_formula }} 
 $$

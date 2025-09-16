@@ -2,12 +2,7 @@
 {% import "bool/logigram/structured_logigram.txt" as lgrm%}
 
 
-Study the following function:  
-<span dir="rtl">ادرس الدالة الآتية:</span>  
-
-{% if "fr" in languages %}
-Etudier la fonction suivante:
-{% endif %}
+{{tr("Study the following function:")}}
 
 `{{ sop_quest|normalize_formula }}`
 
@@ -25,7 +20,7 @@ Etudier la fonction suivante:
 {{ function_name }} = {{ dontcares }} 
 
 
-**Truth Table <span dir="rtl">جدول الحقيقة</span>**
+** {{tr("Truth Table")}} **
 
 
 {% set table = [] %}
@@ -56,7 +51,7 @@ Etudier la fonction suivante:
 {{ table|tabulate(headers="firstrow", tablefmt="github") }}
 
 
-**Canonical Forms <span dir="rtl">الأشكال القانونية</span>**
+** {{tr("Canonical Forms")}}**
 
 
 {{ function_name }}({{ variables|join(", ") }}) = {{ dnf_dict.default|normalize_formula }} 
@@ -82,7 +77,7 @@ Etudier la fonction suivante:
 {{ function_name }} = {{ nand_sop_dict.default|normalize_formula }} 
 
 
-   Explanation:
+    {{tr("Explanation")}} :
 
    {{ function_name }} = {{ sop_dict.default|normalize_formula }}
 
@@ -99,7 +94,7 @@ Etudier la fonction suivante:
 {{ function_name }} = {{ nor_pos_dict.default|normalize_formula }} 
 
 
-   Explanation:
+    {{tr("Explanation")}} :
 
 {{ function_name }} = {{ pos_dict.default|normalize_formula }} 
 
@@ -111,23 +106,23 @@ Etudier la fonction suivante:
 
 ---
 
-**Karnaugh map <span dir="rtl">جدول كارنوف</span>**
+** {{tr("Karnaugh map")}} **
 
 
 {{ kmap.kmap4text(minterms, dontcares, groups=simplification, ab=ab, cd=cd)|normalize_newlines }}
 
-- Simplified Sum of products: 
+-  {{tr("Simplified Sum of products")}} : 
  
 {{ sop_dict.default|normalize_formula }} 
 
-- Simplified Product of sums: 
+-  {{tr("Simplified product of sums")}} : 
  
  {{ pos_dict.default|normalize_formula }} 
 
 
 ---
 
-**Logic diagram <span dir="rtl">المخطط المنطقي</span>**
+** {{tr("Logic diagram")}} **
 
 {{lgrm.draw_logigram(logicdiagramdict)|normalize_newlines }}
 

@@ -1,11 +1,11 @@
 {% if RENDER_MODE == "question" %}
-{% if "en" in languages %}
-Simplify the following Karnaugh table
-{% endif %}
 
-\begin{arab}[utf]
+{{tr("Simplify the following Karnaugh table")}}
+
+
+
 بسّط الدوال الآتية باستعمال جدول كارنوف.
-\end{arab}
+
  {% endif %}
 {% for data in data_list %}
 \begin{karnaugh-map}[4][4][1][{{ data.cd }}][{{ data.ab }}]
@@ -19,7 +19,7 @@ Simplify the following Karnaugh table
  {% endif %}
  \end{karnaugh-map}
 {% if RENDER_MODE == "answer" %}
-    Simplified Sum of products : ${{ data.sop_dict.default|normalize_formula }}$\\
-    Simplified product of sums : ${{ data.pos_dict.default|normalize_formula }}$
+     {{tr("Simplified Sum of products")}}  : ${{ data.sop_dict.default|normalize_formula }}$\\
+     {{tr("Simplified product of sums")}}  : ${{ data.pos_dict.default|normalize_formula }}$
 {% endif %}
 {% endfor %}

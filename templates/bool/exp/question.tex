@@ -1,13 +1,5 @@
 
-{% if "fr" in languages %}
-Simplifier l'expression suivant.
-{% endif %}
-
-
-Simpilfy the following expression
-\begin{arab}[utf]
-بسّط العبارة الآتية
-\end{arab}
+{{tr("Simpilfy the following expression")}}
 
 ${{ function_name }} ={{  sop_quest|normalize_formula }}$
 
@@ -31,7 +23,7 @@ ${{ function_name }} ={{  sop_quest|normalize_formula }}$
 
  \end{karnaugh-map}
 
-    Simplified Sum of products : ${{ sop_dict.formatted }}$\\
-    Simplified product of sums : ${{ pos_dict.formatted }}$
+     {{tr("Simplified Sum of products")}}  : ${{ sop_dict.formatted }}$\\
+     {{tr("Simplified product of sums")}}  : ${{ pos_dict.formatted }}$
 
 {% endif %}

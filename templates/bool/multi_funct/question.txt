@@ -2,13 +2,7 @@
 {% set debug = False %}
 {% import "bool/map/kmap_macros.txt" as kmap %}
 
-Study the following circuit:  
-<span dir="rtl">ادرس الدارة الآتية:</span>  
-
-{% if "fr" in languages %}
-Etudier le circuit suivant:  
-{% endif %}
-
+{{tr("Study the following circuit:")}}
 - {% for data in data_list %}
   - 
 
@@ -17,7 +11,7 @@ Etudier le circuit suivant:
 
   {% endfor %}
 
-**Don't Care**  
+** {{tr("Don't Care")}} **  
 - {% for data in data_list %}
   - 
 
@@ -34,7 +28,7 @@ Etudier le circuit suivant:
 
 {% if RENDER_MODE == "answer" %}
 
-**Inputs and Outputs <span dir="rtl">المداخل والمخارج</span>**
+** {{tr("Inputs and Outputs")}} **
 
 - Inputs  
   {% for var in variables %}
@@ -46,7 +40,7 @@ Etudier le circuit suivant:
   - {{ funct_name }} = 0 / 1
   {% endfor %}
 
-**Truth Table <span dir="rtl">جدول الحقيقة</span>**
+** {{tr("Truth Table")}} **
 {% set table = [] %}
 {# Build header row #}
 {% set header = ["Num"] + variables + function_name_list %}
@@ -83,9 +77,9 @@ Etudier le circuit suivant:
 
 {{ table|tabulate(headers="firstrow", tablefmt="github") }}
 
-**Canonical Forms <span dir="rtl">الأشكال القانونية</span>**
+** {{tr("Canonical Forms")}}  **
 
-- **First Canonical Forms <span dir="rtl">الأشكال القانونية الأولى</span>**  
+- ** {{tr("First Canonical Forms")}}  **  
   {% for data in data_list %}
   - 
 
@@ -94,7 +88,7 @@ Etudier le circuit suivant:
 
   {% endfor %}
 
-- **Second Canonical Forms <span dir="rtl">الأشكال القانونية الثانية</span>**  
+- ** {{tr("Second Canonical Forms")}}  **  
   {% for data in data_list %}
   - 
 
@@ -103,7 +97,7 @@ Etudier le circuit suivant:
 
   {% endfor %}
 
-- **First Canonical Forms <span dir="rtl">الأشكال القانونية الأولى</span>**  
+- ** {{tr("First Canonical Forms")}}  **  
   {% for data in data_list %}
   - 
 
@@ -112,7 +106,7 @@ Etudier le circuit suivant:
 
   {% endfor %}
 
-- **Second Canonical Forms <span dir="rtl">الأشكال القانونية الثانية</span>**  
+- ** {{tr("Second Canonical Forms")}}  **  
   {% for data in data_list %}
   - 
 
@@ -122,7 +116,7 @@ Etudier le circuit suivant:
   {% endfor %}
 
 {% if debug or method.lower() == "nand" %}
-**NAND forms <span dir="rtl">بوابات نفي الوصل</span>**
+** {{tr("NAND forms")}} **
 
 {% for data in data_list %}
 1. 
@@ -131,7 +125,7 @@ Etudier le circuit suivant:
 
 
 
-   Explanation:  
+    {{tr("Explanation")}} :  
    - 
 
  {{ data.function_name }} = {{ data.sop_dict.default|normalize_formula }} 
@@ -148,7 +142,7 @@ Etudier le circuit suivant:
 {% endif %}
 
 {% if debug or method.lower() == "nor" %}
-**NOR forms <span dir="rtl">بوابات نفي الفصل</span>**
+** {{tr("NOR forms")}} **
 
 {% for data in data_list %}
 1. 
@@ -157,7 +151,7 @@ Etudier le circuit suivant:
 
 
 
-   Explanation:  
+    {{tr("Explanation")}} :  
    - 
 
  {{ data.function_name }} = {{ data.pos_dict.default|normalize_formula }} 
@@ -173,24 +167,24 @@ Etudier le circuit suivant:
 {% endfor %}
 {% endif %}
 
-**Karnaugh map <span dir="rtl">جدول كارنوف</span>**
+** {{tr("Karnaugh map")}}  **
 
 {% for data in data_list %}
 {{ kmap.kmap4text(minterms=data.minterms, dontcares=data.dontcares, groups=data.simplification, ab=data.ab, cd=data.cd)|normalize_newlines }}
 
-- Simplified Sum of products: 
+-  {{tr("Simplified Sum of products")}} : 
 
  {{ data.function_name }} = {{ data.sop_dict.default|normalize_formula }} 
 
 
-- Simplified product of sums: 
+-  {{tr("Simplified product of sums")}} : 
 
  {{ data.function_name }} = {{ data.pos_dict.default|normalize_formula }} 
 
 
 {% endfor %}
 
-**Logic diagram <span dir="rtl">المخطط المنطقي</span>**
+** {{tr("Logic diagram")}}  **
 
 {{lgrm.draw_logigram(logicdiagramdict)|normalize_newlines }}
 

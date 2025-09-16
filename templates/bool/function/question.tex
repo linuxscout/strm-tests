@@ -1,14 +1,6 @@
 
-{% if "fr" in languages %}
-Etudier la fonction suivante:
-{% endif %}
+{{tr("Study the following function:")}}
 
-
-Study the following function:
-
-\begin{arab}[utf]
-ادرس الدالة الآتية:
-\end{arab}
 $F(A,B,C,D) ={{  sop_quest|normalize_formula }}$
 
 {% if RENDER_MODE == "question" %}
@@ -19,13 +11,14 @@ $F(A,B,C,D) ={{  sop_quest|normalize_formula }}$
 
 ${{ function_name }} = {{ minterms }}$
 
-\textbf{Don't Care }
+\textbf{ {{tr("Don't Care")}} }
 
 ${{ function_name }} = {{ dontcares }}$
 
 
 
-\textbf{Truth Table \aRL{جدول الحقيقة}}
+\textbf{ {{tr("Truth Table")}} }
+
 {{ truthtable }}
 
 
@@ -44,7 +37,7 @@ ${{ function_name }} = {{ dontcares }}$
 \end{tabular}
 
 
-\textbf{Canonical Forms \aRL{الأشكال القانونية}}
+\textbf{ {{tr("Canonical Forms")}} }
 \begin{itemize}
 \item ${{ function_name }}(A,B,C,D) =  {{  dnf_dict.default|normalize_formula }}$
 \item ${{ function_name }}(A,B,C,D) = {{  cnf_dict.default|normalize_formula }}$
@@ -87,10 +80,10 @@ ${{ function_name }} = {{ dontcares }}$
 
  \end{karnaugh-map}
 
-    Simplified Sum of products : ${{ sop_dict.default|normalize_formula }}$\\
-    Simplified product of sums : ${{ pos_dict.default|normalize_formula }}$\\
+     {{tr("Simplified Sum of products")}}  : ${{ sop_dict.default|normalize_formula }}$\\
+     {{tr("Simplified product of sums")}}  : ${{ pos_dict.default|normalize_formula }}$\\
 
-\textbf{Logic diagram \aRL{المخطط المنطقي}}
+\textbf{ {{tr("Logic diagram")}} }
 
 {{ logicdiagram }}
 

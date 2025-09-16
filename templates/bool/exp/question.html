@@ -1,12 +1,5 @@
-<p>
-    Simpilfy the following expression
-<span dir="rtl">
- بسّط العبارة الآتية:
-</span><br/>
+{{tr("Simpilfy the following expression")}}
 
-{% if "fr" in languages %}
-Simplifier l'expression suivant:<br/>
-{% endif %}
 <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>{{ function_name }}=</mrow></math> {{  sop_quest|normalize_formula }}
 </p>
 
@@ -21,8 +14,8 @@ Simplifier l'expression suivant:<br/>
 {{ kmap.kmap4svg(minterms, dontcares, groups=simplification, ab=ab, cd=cd) }}
 <br/>
 <ul>
-    <li>Simplified Sum of products : {{ sop_dict.default|normalize_formula }}</li>
-    <li>Simplified product of sums : {{ pos_dict.default|normalize_formula }}</li>
+    <li> {{tr("Simplified Sum of products")}}  : {{ sop_dict.default|normalize_formula }}</li>
+    <li> {{tr("Simplified product of sums")}}  : {{ pos_dict.default|normalize_formula }}</li>
     </ul>
 
 

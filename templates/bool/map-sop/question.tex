@@ -1,14 +1,6 @@
-
-{% if "fr" in languages %}
-Soit la fonction donnée par sa forme canonique, Tracer la table de karnaugh et simplifier.
-{% endif %}
+{{tr("Let the function be given by its canonical form, Draw the Karnaugh table and simplify.", mode="par")}}
 
 
-Let the function be given by its canonical form, Draw the Karnaugh table and simplify.
-
-\begin{arab}[utf]
-لتكن الدالة المعطاة بشكلها القانوني، ارسم جدول كارنو وبسطها
-\end{arab}
 {% if RENDER_MODE == "question" %}
 {% for data in data_list %}
     $F{{ loop.index }}(A,B,C,D) = {{ data.dnf_dict.default|normalize_formula }}$
@@ -30,8 +22,8 @@ Let the function be given by its canonical form, Draw the Karnaugh table and sim
 
  \end{karnaugh-map}
 
-    Simplified Sum of products : ${{ data.sop_dict.default|normalize_formula }}$\\
-    Simplified product of sums : ${{ data.pos_dict.default|normalize_formula }}$
+     {{tr("Simplified Sum of products")}}  : ${{ data.sop_dict.default|normalize_formula }}$\\
+     {{tr("Simplified product of sums")}}  : ${{ data.pos_dict.default|normalize_formula }}$
 
 {% endfor %}
  {% endif %}

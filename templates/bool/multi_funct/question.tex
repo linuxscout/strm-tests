@@ -1,14 +1,5 @@
 {%set debug = False %}
-{% if "fr" in languages %}
-Etudier le circuit suivant:
-{% endif %}
-
-
-Study the following circuit:
-
-\begin{arab}[utf]
-ادرس الدارة الآتية:
-\end{arab}
+{{tr("Study the following circuit:")}}
 
  {% for data in data_list %}
 
@@ -16,7 +7,7 @@ ${{ data.function_name }} = {{ data.minterms }}$
 
 {% endfor %}
 
-\textbf{Don't Care }
+\textbf{ {{tr("Don't Care")}}  }
  {% for data in data_list %}
 ${{ data.function_name }} = {{ data.dontcares }}$
 {% endfor %}
@@ -32,7 +23,7 @@ $F(A,B,C,D) ={{  sop_quest|normalize_formula }}$
 
 
 
-\textbf{Inputs and Outputs \aRL{المداخل والمخارج}}
+\textbf{ {{tr("Inputs and Outputs")}}  }
 
 \begin{itemize}
 \item Inputs
@@ -50,7 +41,7 @@ $F(A,B,C,D) ={{  sop_quest|normalize_formula }}$
     \end{itemize}
 \end{itemize}
 
-\textbf{Truth Table \aRL{جدول الحقيقة}}
+\textbf{ {{tr("Truth Table")}}  }
 
 \begin{tabular}{|c|c|c|c||{% for _ in function_name_list %}c{% if not loop.last %}|{% endif %}{% endfor %}|}
 \hline
@@ -74,30 +65,30 @@ $F(A,B,C,D) ={{  sop_quest|normalize_formula }}$
 
 
 
-\textbf{Canonical Forms \aRL{الأشكال القانونية}}
+\textbf{ {{tr("Canonical Forms")}}  }
 \begin{itemize}
-\item \textbf{First Canonical Forms \aRL{ الأشكال القانونية الأولى}}
+\item \textbf{ {{tr("First Canonical Forms")}} }
     \begin{itemize}
     {% for data in data_list %}
         \item ${{ data.function_name }}({{variables|join(", ")}}) =  {{  data.dnf_dict.default|normalize_formula }}$
     {% endfor %}
     \end{itemize}
 
-\item \textbf{Second Canonical Forms \aRL{ الأشكال القانونية الثانية}}
+\item \textbf{ {{tr("Second Canonical Forms")}}  \aRL{ الأشكال القانونية الثانية}}
     \begin{itemize}
     {% for data in data_list %}
         \item ${{ data.function_name }}({{variables|join(", ")}}) =  {{  data.cnf_dict.default|normalize_formula }}$
     {% endfor %}
     \end{itemize}
 
-\item \textbf{First Canonical Forms \aRL{ الأشكال القانونية الأولى}}
+\item \textbf{ {{tr("First Canonical Forms")}}  }
     \begin{itemize}
     {% for data in data_list %}
         \item ${{ data.function_name }}({{variables|join(", ")}}) = \sum({{  data.minterms| join(", ") }})$
     {% endfor %}
     \end{itemize}
 
-\item \textbf{Second Canonical Forms \aRL{ الأشكال القانونية الثانية}}
+\item \textbf{ {{tr("Second Canonical Forms")}} }
     \begin{itemize}
     {% for data in data_list %}
         \item ${{ data.function_name }}({{variables|join(", ")}}) =  \prod({{  data.maxterms| join(", ") }})$
@@ -110,13 +101,13 @@ $F(A,B,C,D) ={{  sop_quest|normalize_formula }}$
 
 
  {% if debug or method.lower() == "nand" %}
- \textbf{ NAND forms  \aRL{بوابات نفي الوصل}}
+ \textbf{  {{tr("NAND forms")}}  }
  \begin{enumerate}
  {% for data in data_list %}
 
     \item ${{ data.function_name }}$ = ${{ data.nand_sop_dict.default|normalize_formula }}$
 
-    Explanation
+     {{tr("Explanation")}} 
     \begin{itemize}
         \item ${{ data.function_name }}$ = ${{ data.sop_dict.default|normalize_formula }}$
 
@@ -129,13 +120,13 @@ $F(A,B,C,D) ={{  sop_quest|normalize_formula }}$
 {% endif %}
 
 {% if method.lower() == "nor" %}
- \textbf{ NOR forms  \aRL{بوابات نفي الفصل}}
+ \textbf{  {{tr("NOR forms")}}  }
  \begin{enumerate}
  {% for data in data_list %}
 
     \item ${{ data.function_name }}$ = ${{ data.nor_pos_dict.default|normalize_formula }}$
 
-    Explanation
+     {{tr("Explanation")}} 
     \begin{itemize}
         \item ${{ data.function_name }}$ = ${{ data.pos_dict.default|normalize_formula }}$
 
@@ -148,7 +139,7 @@ $F(A,B,C,D) ={{  sop_quest|normalize_formula }}$
 {% endif %}
 
 
-\textbf{Karnaugh Table \aRL{جدول كارنوف}}
+\textbf{ {{tr("Karnaugh map")}} }
 
 {% for data in data_list %}
 \begin{karnaugh-map}[4][4][1][{{ data.cd }}][{{ data.ab }}]
@@ -163,14 +154,14 @@ $F(A,B,C,D) ={{  sop_quest|normalize_formula }}$
  \end{karnaugh-map}
 
 {% if RENDER_MODE == "answer" %}
-    Simplified Sum of products : ${{ data.function_name }} = {{ data.sop_dict.default|normalize_formula }}$\\
-    Simplified product of sums : ${{ data.function_name }} = {{ data.pos_dict.default|normalize_formula }}$\\
+     {{tr("Simplified Sum of products")}}  : ${{ data.function_name }} = {{ data.sop_dict.default|normalize_formula }}$\\
+     {{tr("Simplified product of sums")}}  : ${{ data.function_name }} = {{ data.pos_dict.default|normalize_formula }}$\\
 
 {% endif %}
 {% endfor %}
 
 
-\textbf{Ligc diagram \aRL{المخطط المنطقي}}
+\textbf{ {{tr("Logic diagram")}} }
 
 {{ logicdiagram }}
 
