@@ -40,7 +40,7 @@ doc:
 define test_template
 $(1):
 	@echo "Generating test: $(1)"
-	python3 -m strmquiz -f $(CONF_DIR)/quiz7.conf -g $(CONF_DIR)/args.6.json  --lang="ar-en" --templates templates -d tex -t "$(1)" -o tests/output/test.tex &> tmp/script.log
+	python3 -m strmquiz -f $(CONF_DIR)/quiz7.conf -g $(CONF_DIR)/args.7.json  --lang="en-ar" --templates templates -d tex -t "$(1)" -o tests/output/test.tex &> tmp/script.log
 	cp tests/output/test.tex $(TEX_DIR)/test.tex
 	cd $(TEX_DIR) && xelatex main_test.tex
 	mkdir -p $(GEN_DIR)/test2-$(DATE)
@@ -120,7 +120,7 @@ test5t:TEST_ID=test5
 test9t:TEST_ID=test9
 test0t test1t test2t test3t test9t test5t test4t:
 	@echo "Generating test: $(TEST_ID)"
-	python3 -m strmquiz -f $(CONF_DIR)/quiz7.conf -g $(CONF_DIR)/args.6.json --lang="ar-en" --templates templates -d txt -t "$(TEST_ID)" -o tests/output/test.txt
+	python3 -m strmquiz -f $(CONF_DIR)/quiz7.conf -g $(CONF_DIR)/args.7.json --lang="ar-en" --templates templates -d txt -t "$(TEST_ID)" -o tests/output/test.txt
 	mkdir -p $(GEN_DIR)/test2-$(DATE)
 	cp tests/output/test.txt $(GEN_DIR)/test2-$(DATE)/
 	cp tests/output/test.txt $(GEN_DIR)/
