@@ -65,7 +65,7 @@
   },
   "Step": {
     "en": "Step",
-    "ar": "خطوة"
+    "ar": "الخطوة"
   },
   "Result:": {
     "en": "Result:",
@@ -94,5 +94,85 @@
   "{scheme} Code Point": {
     "en": "{scheme} Code Point",
     "ar": "رمز {scheme}"
+  },
+  "Exponent": {
+    "en": "Exponent",
+    "ar": "الأس"
+  },
+  "Exponent:": {
+    "en": "Exponent:",
+    "ar": "الأس:"
+  },
+  "Final representation": {
+    "en": "Final representation",
+    "ar": "التمثيل النهائي"
+  },
+  "Hexadecimal form": {
+    "en": "Hexadecimal form",
+    "ar": "الشكل الستعشري"
+  },
+  "Hexadecimal form:": {
+    "en": "Hexadecimal form:",
+    "ar": "الشكل الستعشري:"
+  },
+  "Input": {
+    "en": "Input",
+    "ar": "المدخل"
+  },
+  "Normalized form": {
+    "en": "Normalized form",
+    "ar": "الشكل المعياري"
+  },
+  "Pseudo-mantissa": {
+    "en": "Pseudo-mantissa",
+    "ar": "القسم العشري المعدّل"
+  },
+  "Represent under IEEE-754 32 bits standard the following number:": {
+    "en": "Represent under IEEE-754 32 bits standard the following number:",
+    "ar": "مثّل بمعيار IEEE-754 علي 32 بت العدد الآتي:"
+  },
+  "Sign bit": {
+    "en": "Sign bit",
+    "ar": "بت الإشارة"
+  },
+  "Final binary representation": {
+    "en": "Final binary representation",
+    "ar": "التمثيل الثنائي النهائي"
+  },
+  "Value": {
+    "en": "Value",
+    "ar": "القيمة"
+  },
+  "Evaluated": {
+    "en": "Evaluated",
+    "ar": "محسوبة"
+  },
+  "Formula": {
+    "en": "Formula",
+    "ar": "العبارة"
+  },
+  "Give the intervals which can be represented in positive numbers, absolute value, 1's complement, and 2's complement on {number} bits": {
+    "en": "Give the intervals which can be represented in positive numbers, absolute value, 1's complement, and 2's complement on {number} bits",
+    "ar": "حدد المجالات التي يمكن تمثيلها لأعداد الموجبة والتمثيل بالقيمة المطلقة والمتمم إلى 1 و 2 على {{ number }} بت"
+  },
+  "Label": {
+    "en": "Label",
+    "ar": "عنوان"
+  },
+  "One's complement": {
+    "en": "One's complement",
+    "ar": "المتمم إلى 1"
+  },
+  "Positives": {
+    "en": "Positives",
+    "ar": "الأعداد الموجبة"
+  },
+  "Two's complement": {
+    "en": "Two's complement",
+    "ar": "المتمم إلى 2"
+  },
+  "Signed value": {
+    "en": "Signed value",
+    "ar": "القيمة بالإشارة"
   }
 }

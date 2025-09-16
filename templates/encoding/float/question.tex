@@ -1,20 +1,19 @@
-Representer sous la norme IEEE-754 32 bits le nombre suivant
 
-\begin{arab}[utf]
-مثل العدد الآتي حسب المعيار IEEE-754 32 bits
-\end{arab}
+{{tr("Represent under IEEE-754 32 bits standard the following number:", mode="par")}}
+
+
 
 {{  number }}
 {% if RENDER_MODE == "answer" %}
-${{ binary_repr|group4 }}$
+{{tr("Final binary representation")}}: ${{ binary_repr|group4 }}$
 
 \begin{itemize}
-  \item \textbf{Input:} ${{ "%.4f"|format(abs_value) }} =  {{ binary_repr|group4 }} $
-  \item \textbf{Normalized form:} $1.{{ mantissa|group4 }} \times 2^{{ exponent }}$
-  \item \textbf{Sign bit:} {% if sign == 1 %}-{% else %}+{% endif %} $\Rightarrow$ {{ sign }}
-  \item \textbf{Exponent:} ${{ exponent }} + 127 = {{ exponent_raw }} \Rightarrow {{ exponent_bits|group4 }}$
-  \item \textbf{Pseudo-mantissa:} ${{ mantissa|group4 }}$
-  \item \textbf{Final binary representation:}  ${{ final_binary|group4 }} $
-  \item \textbf{Hexadecimal form:} $ {{ hex|group4 }} $
+  \item \textbf{ {{tr("Input")}} }: ${{ "%.4f"|format(abs_value) }} =  {{ binary_repr|group4 }} $
+  \item \textbf{ {{tr("Normalized form")}} }: $1.{{ mantissa|group4 }} \times 2^{{ exponent }}$
+  \item \textbf{ {{tr("Sign bit")}} }: {% if sign == 1 %}-{% else %}+{% endif %} $\Rightarrow$ {{ sign }}
+  \item \textbf{ {{tr("Exponent")}} }: ${{ exponent }} + 127 = {{ exponent_raw }} \Rightarrow {{ exponent_bits|group4 }}$
+  \item \textbf{ {{tr("Pseudo-mantissa")}} }: ${{ mantissa|group4 }}$
+  \item \textbf{ {{tr("Final binary representation")}} }:  ${{ final_binary|group4 }} $
+  \item \textbf{ {{tr("Hexadecimal form")}} }: $ {{ hex|group4 }} $
   \end{itemize}
 {% endif %}

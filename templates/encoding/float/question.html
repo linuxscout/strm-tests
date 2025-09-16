@@ -1,27 +1,21 @@
 <p>
-Represent under IEEE-754 32 bits standard the following number:
-<span dir="rtl">
-مثل العدد الآتي حسب المعيار IEEE-754 32 bits
-</span><br/>
-{% if "fr" in languages %}
-Representer sous la norme IEEE-754 32 bits le nombre suivant:
-  <br/>
-{% endif %}
+{{tr("Represent under IEEE-754 32 bits standard the following number:")}}
+
 
 <b>{{  number }}</b>
  </p>
 {% if RENDER_MODE == "answer" %}
- Final binary representation:<b> {{ binary_repr|group4 }}</b><sub>IEEE-754-32bits</sub>
+ {{tr("Final binary representation")}}:<b> {{ binary_repr|group4 }}</b><sub>IEEE-754-32bits</sub>
  <br/>
 
 <table>
-<tr> <td>Input:</td><td> ({{ "%.4f"|format(abs_value) }})<sub>10 </sub> = ({{ binary_repr|group4 }})<sub>2</sub>  </td></tr>
-  <tr> <td>Normalized form:</td><td> 1.{{ mantissa|group4 }} * 2<sup>{{ exponent }}</sup>  </tr>
-  <tr> <td>Sign bit:</td><td> {% if sign == 1 %}-{% else %}+{% endif %}  ==&gt; {{ sign }}  </td></tr>
-  <tr> <td>Exponent:</td><td> {{ exponent }} + 127 = {{ exponent_raw }} ==&gt; ({{ exponent_bits|group4 }})<sub>2 </sub>  </td></tr>
-  <tr> <td>Pseudo-mantissa:</td><td> {{ mantissa|group4 }}  </td></tr>
-  <tr> <td>Final binary representation:</td><td>  {{ final_binary|group4 }}   </td></tr>
-  <tr> <td>Hexadecimal form:</td><td>  ({{ hex|group4 }})<sub>16 </sub>  </td></tr>
+<tr> <td>{{tr("Input")}}</td><td> ({{ "%.4f"|format(abs_value) }})<sub>10 </sub> = ({{ binary_repr|group4 }})<sub>2</sub>  </td></tr>
+  <tr> <td>{{tr("Normalized form")}}</td><td> 1.{{ mantissa|group4 }} * 2<sup>{{ exponent }}</sup>  </tr>
+  <tr> <td>{{tr("Sign bit")}}</td><td> {% if sign == 1 %}-{% else %}+{% endif %}  ==&gt; {{ sign }}  </td></tr>
+  <tr> <td>{{tr("Exponent")}}</td><td> {{ exponent }} + 127 = {{ exponent_raw }} ==&gt; ({{ exponent_bits|group4 }})<sub>2 </sub>  </td></tr>
+  <tr> <td>{{tr("Pseudo-mantissa")}}</td><td> {{ mantissa|group4 }}  </td></tr>
+  <tr> <td>{{tr("Final binary representation")}}</td><td>  {{ final_binary|group4 }}   </td></tr>
+  <tr> <td>{{tr("Hexadecimal form")}}</td><td>  ({{ hex|group4 }})<sub>16 </sub>  </td></tr>
 </table>
 
 {% endif %}
