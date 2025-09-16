@@ -36,6 +36,9 @@ publish:
 doc:
 	epydoc -v --config epydoc.conf
 
+install:
+	$(PIP) install -r requirements.txt
+
 # Rule template to generate tests
 define test_template
 $(1):
@@ -134,7 +137,15 @@ server:
 	cd web;  uvicorn app:app --reload
 
 test:
-	pytest tests/
+	pytest --maxfail=1 --disable-warnings -q --cov=.
+
+lint:
+	flake8 strmquiz tests
+
+format:
+	black strmquiz tests
+	isort strmquiz tests
+
 
 # Extract web strings to be translated
 trans_web:
@@ -143,3 +154,10 @@ trans_web:
 # Extract Tempalte strings to be translated
 trans_templ:
 	python scripts/translation/extract_strings.py -t templates/ -o templates/translations/translations.json
+
+help:
+	@echo "Available targets:"
+	@echo "  install   - Install dependencies"
+	@echo "  test      - Run tests"
+	@echo "  clean     - Remove build and cache files"
+	@echo "  run       - Run the application"
