@@ -57,24 +57,14 @@
 {#----------------------------------------------------------
  Main_call
 ----------------------------------------------------------#}
-\section{Counter}
+\section{ {{tr("Counter")}} }
 
 {{flpmacro.define_standard_flips()}}
 
 {% if RENDER_MODE == "question" %}
 
-    Let have the following setup
-    \begin{arab}[utf]
-إليك هذا التركيب
-    \end{arab}
+     {{tr("Let have the following setup")}} 
 
-    drawn by draw counter
-
-   \begin{circuitikz}
-    {{draw_counter(flip="JKA", counter_type="",size=4)}}
-    \end{circuitikz}
-
-    drawn by draw counter generic as given counter type {{counter_data.type}}
 
     \begin{circuitikz}
     {{_draw_counter_generic(flips_list= counter_data.flip_type_list, outputs=counter_data.outputs,
@@ -84,17 +74,12 @@
 
     \end{circuitikz}
 
-    Cite the truth table of flipflop {{counter_data.flip_type_list[0]}}.
+     {{tr("Cite the truth table of flipflop")}}  {{counter_data.flip_type_list[0]}}.
 
-    \begin{arab}[utf]
-    اذكر جدول الحقيقة للقلاب \LR{ {{counter_data.flip_type_list[0]}}}.
-    \end{arab}
 
-   Complete the following timing diaragm, according to given flipflop.
 
-       \begin{arab}[utf]
-أكمل المخطط المنطقي الآتي، حسب القلاب المعطى.
-    \end{arab}
+    {{tr("Complete the following timing diagram, according to the given setup.")}} 
+
 
   {{tmmacro.draw_timing_diagram(data, mode="question")}}
 
@@ -104,11 +89,8 @@
 ----------------------------------------------------------#}
 {% if RENDER_MODE == "answer" %}
 
-        Cite the truth table of flipflop {{counter_data.flip_type_list[0]}}.
+         {{tr("Cite the truth table of flipflop")}}  {{counter_data.flip_type_list[0]}}.
 
-        \begin{arab}[utf]
-        اذكر جدول الحقيقة للقلاب \LR{ {{counter_data.flip_type_list[0]}}}.
-        \end{arab}
 
         {{flpmacro.truth_table(type=counter_data.flip_type_list[0],
                     edge="rising")}}

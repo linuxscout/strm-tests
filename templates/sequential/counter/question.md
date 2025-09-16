@@ -1,32 +1,27 @@
-{% set debug = True %}
+{% set debug = False %}
 {% import "sequential/macros/flipmacros.html" as flpmacro%}
 {% import "sequential/macros/flipmacros.md" as flpmacromd%}
 {% import "sequential/macros/timingmacros.html" as tmmacro%}
 
 
-## Counter
+##  {{tr("Counter")}}
 
 
 {% if RENDER_MODE == "question" %}
 
-Let have the following setup  
-<span dir="rtl" lang="ar">إليك هذا التركيب</span>
+ {{tr("Let have the following setup")}}   
 
-drawn by draw counter  
+
 
 {{ flpmacro.draw_counter(flip="JKA", counter_type="", size=counter_data.nbits)|normalize_newlines }}
 
 
 
-Cite the truth table of flipflop {{ counter_data.flip_type_list[0] }}.  
-<span dir="rtl" lang="ar">
-  اذكر جدول الحقيقة للقلاب <span dir="ltr">{{ counter_data.flip_type_list[0] }}</span>.
-</span>
+ {{tr("Cite the truth table of flipflop")}}  {{ counter_data.flip_type_list[0] }}.  
 
-Complete the following timing diagram, according to given flipflop.  
-<span dir="rtl" lang="ar">
-  أكمل المخطط المنطقي الآتي، حسب القلاب المعطى.
-</span>
+
+Compl{{tr("Complete the following timing diagram, according to the given setup.")}} 
+
 
 {{ tmmacro.draw_timing_diagram(data, mode="question")|normalize_newlines }}
 
@@ -34,10 +29,8 @@ Complete the following timing diagram, according to given flipflop.
 
 {% if RENDER_MODE == "answer" %}
 
-Cite the truth table of flipflop {{ counter_data.flip_type_list[0] }}.  
-<span dir="rtl" lang="ar">
-  اذكر جدول الحقيقة للقلاب <span dir="ltr">{{ counter_data.flip_type_list[0] }}</span>.
-</span>
+ {{tr("Cite the truth table of flipflop")}}  {{ counter_data.flip_type_list[0] }}.  
+
 
 {{ flpmacromd.truth_table(type=counter_data.flip_type_list[0], edge="rising") }}
 

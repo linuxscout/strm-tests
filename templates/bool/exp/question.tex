@@ -23,7 +23,7 @@ ${{ function_name }} ={{  sop_quest|normalize_formula }}$
 
  \end{karnaugh-map}
 
-     {{tr("Simplified Sum of products")}}  : ${{ sop_dict.formatted }}$\\
-     {{tr("Simplified product of sums")}}  : ${{ pos_dict.formatted }}$
+     {{tr("Simplified Sum of products")}}  : ${{ sop_dict.default|normalize_formula }}$\\
+     {{tr("Simplified product of sums")}}  : ${{ pos_dict.default|normalize_formula }}$
 
 {% endif %}

@@ -81,7 +81,7 @@
   },
   "Decode the following {scheme} codes into text": {
     "en": "Decode the following {scheme} codes into text",
-    "ar": "فكك الرموز الآتية من {scheme} إلى ترميز"
+    "ar": "فكك الرموز الآتية من ترميز {scheme} إلى نص"
   },
   "Encode the following text into": {
     "en": "Encode the following text into",
@@ -153,7 +153,7 @@
   },
   "Give the intervals which can be represented in positive numbers, absolute value, 1's complement, and 2's complement on {number} bits": {
     "en": "Give the intervals which can be represented in positive numbers, absolute value, 1's complement, and 2's complement on {number} bits",
-    "ar": "حدد المجالات التي يمكن تمثيلها لأعداد الموجبة والتمثيل بالقيمة المطلقة والمتمم إلى 1 و 2 على {{ number }} بت"
+    "ar": "حدد المجالات التي يمكن تمثيلها لأعداد الموجبة والتمثيل بالقيمة المطلقة والمتمم إلى 1 و 2 على {number} بت"
   },
   "Label": {
     "en": "Label",
@@ -430,5 +430,22 @@
   "Truth table of {ftype} flipflop": {
     "en": "Truth table of {ftype} flipflop",
     "ar": "جدول حقيقة القلاب {ftype}"
+  },
+
+  "Let have the following setup": {
+    "en": "Let have the following setup",
+    "ar": "إليك التركيب الآتي"
+  },
+  "Register": {
+    "en": "Register",
+    "ar": "سجل"
+  },
+  "Counter": {
+    "en": "Counter",
+    "ar": "عداد"
+  },
+  "Complete the following timing diagram, according to the given setup.": {
+    "en": "Complete the following timing diagram, according to the given setup.",
+    "ar": "أكمل المخطط الزمني حسب التركيب المعطى."
   }
 }

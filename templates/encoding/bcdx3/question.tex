@@ -73,13 +73,17 @@
 
 {% if RENDER_MODE == "question" %}
   {% if scheme in ("bcd", "both", "") %}
-    \subsection*{ {{tr("Encode the following numbers into BCD, then illustrate the addition in BCD")}} }
+     {{tr("Encode the following numbers into BCD, then illustrate the addition in BCD", mode="par")}}
+      
     \textbf{A = } {{ number }}
+    
     \textbf{B = } {{ data_bcd.b_dec }}
   {% endif %}
   {% if scheme in ("x3", "both","") %}
-    \subsection*{ {{tr("Encode the following numbers into Excess3, then illustrate the addition in Excess3")}} }
+     {{tr("Encode the following numbers into Excess3, then illustrate the addition in Excess3",  mode="par")}}
+   
     \textbf{A = } {{ number }}
+    
     \textbf{B = } {{ data_bcd.b_dec }}
   {% endif %}
 

@@ -1,4 +1,4 @@
-{% set debug = True %}
+{% set debug = False %}
 {% import "sequential/macros/flipmacros.html" as flpmacro%}
 {% import "sequential/macros/timingmacros.html" as tmmacro%}
 
@@ -7,15 +7,15 @@
 {#----------------------------------------------------------
  Main_call
 ----------------------------------------------------------#}
-<h2>Counter</h2>
+<h2> {{tr("Counter")}}</h2>
 <svg width="0" height="0" xmlns="http://www.w3.org/2000/svg">
 {{ flpmacro.define_standard_flips() }}
 </svg>
 {% if RENDER_MODE == "question" %}
 
   <p>
-    Let have the following setup
-    <span dir="rtl" lang="ar">إليك هذا التركيب</span>
+     {{tr("Let have the following setup")}} 
+
   </p>
 
   <p>drawn by draw counter</p>
@@ -26,17 +26,13 @@
 
 
   <p>
-    Cite the truth table of flipflop {{ counter_data.flip_type_list[0] }}.<br/>
-    <span dir="rtl" lang="ar">
-      اذكر جدول الحقيقة للقلاب <span dir="ltr">{{ counter_data.flip_type_list[0] }}</span>.
-    </span>
+     {{tr("Cite the truth table of flipflop")}}  {{ counter_data.flip_type_list[0] }}.<br/>
+
   </p>
 
   <p>
-    Complete the following timing diagram, according to given flipflop.<br/>
-    <span dir="rtl" lang="ar">
-      أكمل المخطط المنطقي الآتي، حسب القلاب المعطى.
-    </span>
+    {{tr("Complete the following timing diagram, according to the given setup.")}}<br/>
+
   </p>
 
   {{ tmmacro.draw_timing_diagram(data, mode="question") }}
@@ -49,10 +45,8 @@
 {% if RENDER_MODE == "answer" %}
 
   <p>
-    Cite the truth table of flipflop {{ counter_data.flip_type_list[0] }}.<br/>
-    <span dir="rtl" lang="ar">
-      اذكر جدول الحقيقة للقلاب <span dir="ltr">{{ counter_data.flip_type_list[0] }}</span>.
-    </span>
+     {{tr("Cite the truth table of flipflop")}}  {{ counter_data.flip_type_list[0] }}.<br/>
+
   </p>
 
   {{ flpmacro.truth_table(type=counter_data.flip_type_list[0], edge="rising") }}

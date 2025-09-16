@@ -78,21 +78,15 @@
 {#----------------------------------------------------------
  Main_call
 ----------------------------------------------------------#}
-\section{Register}
+\section{ {{tr("Register")}}}
 
 {#  --------------- Define basic flips -------#}
 {{flpmacro.define_standard_flips()}}
 
 {% if RENDER_MODE == "question" %}
 
-    Let have the following setup
-    \begin{arab}[utf]
-إليك هذا التركيب
-    \end{arab}
+    {{tr("Let have the following setup")}} 
 
-    %\begin{circuitikz}
-    {#{draw_register(flip= register_data.flip_type_list[0], register_type=register_data.type,size=register_data.nbits)}#}
-    %\end{circuitikz}
 
     \begin{circuitikz}
     {{_draw_register_generic(flips_list= register_data.flip_type_list, outputs=register_data.outputs,
@@ -100,17 +94,11 @@
                             shift=register_data.shift)}}
     \end{circuitikz}
 
-    Cite the truth table of flipflop {{register_data.flip_type_list[0]}}.
+    {{tr("Cite the truth table of flipflop")}}  {{register_data.flip_type_list[0]}}.
 
-    \begin{arab}[utf]
-    اذكر جدول الحقيقة للقلاب \LR{ {{register_data.flip_type_list[0]}}}.
-    \end{arab}
 
-   Complete the following timing diaragm, according to given flipflop.
+    {{tr("Complete the following timing diagram, according to the given setup.")}} 
 
-       \begin{arab}[utf]
-أكمل المخطط المنطقي الآتي، حسب القلاب المعطى.
-    \end{arab}
 
   {{tmmacro.draw_timing_diagram(data, mode="question")}}
 
@@ -120,11 +108,9 @@
 ----------------------------------------------------------#}
 {% if RENDER_MODE == "answer" %}
 
-        Cite the truth table of flipflop {{register_data.flip_type_list[0]}}.
+        {{tr("Cite the truth table of flipflop")}}  {{register_data.flip_type_list[0]}}.
 
-        \begin{arab}[utf]
-        اذكر جدول الحقيقة للقلاب \LR{ {{register_data.flip_type_list[0]}}}.
-        \end{arab}
+
 
         {{flpmacro.truth_table(type=register_data.flip_type_list[0],
                     edge="rising")}}

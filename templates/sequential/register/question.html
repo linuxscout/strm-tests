@@ -1,4 +1,4 @@
-{% set debug = True %}
+{% set debug = False %}
 {% import "sequential/macros/flipmacros.html" as flpmacro%}
 {% import "sequential/macros/timingmacros.html" as tmmacro%}
 
@@ -6,17 +6,15 @@
 <!-- ----------------------------------------------------------
  Main_call
 ----------------------------------------------------------- -->
-<h2>Register</h2>
+<h2>{{tr("Register")}}</h2>
 
 
 {% if RENDER_MODE == "question" %}
 
     <p>
-        Let have the following setup
+         {{tr("Let have the following setup")}} 
     </p>
-    <div class="arabic">
-        إليك هذا التركيب
-    </div>
+
 
     <!-- Original LaTeX circuitikz replaced by container -->
 
@@ -31,18 +29,13 @@
 
 
     <p>
-        Cite the truth table of flipflop {{register_data.flip_type_list[0]}}.
+         {{tr("Cite the truth table of flipflop")}}  {{register_data.flip_type_list[0]}}.
     </p>
-    <div class="arabic">
-        اذكر جدول الحقيقة للقلاب <span class="lr">{{register_data.flip_type_list[0]}}</span>.
-    </div>
 
     <p>
-        Complete the following timing diagram, according to given flipflop.
+         {{tr("Complete the following timing diagram, according to the given setup.")}} 
     </p>
-    <div class="arabic">
-        أكمل المخطط المنطقي الآتي، حسب القلاب المعطى.
-    </div>
+
 
     {{tmmacro.draw_timing_diagram(data, mode="question")}}
 
@@ -55,11 +48,9 @@
 {% if RENDER_MODE == "answer" %}
 
     <p>
-        Cite the truth table of flipflop {{register_data.flip_type_list[0]}}.
+         {{tr("Cite the truth table of flipflop")}}  {{register_data.flip_type_list[0]}}.
     </p>
-    <div class="arabic">
-        اذكر جدول الحقيقة للقلاب <span class="lr">{{register_data.flip_type_list[0]}}</span>.
-    </div>
+
 
     {{flpmacro.truth_table(
         type=register_data.flip_type_list[0],

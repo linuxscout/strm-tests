@@ -433,7 +433,7 @@ class quiz_format_tex(quiz_format.quiz_format):
     @staticmethod
     def _wrap_arabic(txt, mode="inline"):
         if mode == "par":
-            return f"\\begin{{arab}}[utf]\n {txt}\n \\end{{arab}}"
+            return f"\n\\begin{{arab}}[utf]\n {txt}\n \\end{{arab}}\n"
         if mode == "inline":
             return f"\\aRL{{{txt}}}"
         else:
