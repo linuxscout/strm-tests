@@ -5,11 +5,11 @@
 {% macro bcdx3_dec(number, bin_digits, scheme="bcd", mode="encode") %}
 
     {% if mode.lower() == "decode" %}
-    \textbf{ {{scheme|upper}} to Decimal} \\
+    \textbf{  {{tr("{scheme} to Decimal", scheme=scheme|upper)}} } \\
         {% set code2_digits = number|list %}
         {% set code1_digits = bin_digits %}
     {% else %}
-    \textbf{Decimal to {{scheme|upper}}} \\
+    \textbf{ {{tr("Decimal to {scheme}", scheme=scheme|upper)}} } \\
         {% set code1_digits = number|list %}
         {% set code2_digits = bin_digits %}
     {% endif %}
@@ -30,23 +30,23 @@
    ========================================================= #}
 {% macro render_bcd(result, scheme="bcd") %}
 
-\section*{ {{scheme|upper}} Addition Explanation }
+\section*{  {{tr("{scheme} Addition Explanation", scheme=scheme|upper)}}  }
 
-Decimal calculation: ${{result.a_dec}} + {{result.b_dec}} = {{result.total_dec}}$
+ {{tr("Decimal calculation:")}}  ${{result.a_dec}} + {{result.b_dec}} = {{result.total_dec}}$
 
 \vspace{0.3cm}
 
 \begin{tabular}{l|{% for _ in result.digits_a_dec %}r{% endfor %}}
-\textbf{Carry In} & {% for c in result.carry_in %} {\scriptsize {{ '1' if c or result.carry_out[loop.index0] }}} {% if not loop.last %} & {% endif %}{% endfor %} \\
+\textbf{ {{tr("Carry in")}} } & {% for c in result.carry_in %} {\scriptsize {{ '1' if c or result.carry_out[loop.index0] }}} {% if not loop.last %} & {% endif %}{% endfor %} \\
 \textbf{A (dec)} & {% for d in result.digits_a_dec %} {{ d }} {% if not loop.last %} & {% endif %}{% endfor %} \\
 \textbf{B (dec)} & {% for d in result.digits_b_dec %} {{ d }} {% if not loop.last %} & {% endif %}{% endfor %} \\
 \hline
-\textbf{Final Digit (dec)} & {% for f in result.final_digits_dec %} {{ f }} {% if not loop.last %} & {% endif %}{% endfor %} \\
+\textbf{ Final Digit (dec)} & {% for f in result.final_digits_dec %} {{ f }} {% if not loop.last %} & {% endif %}{% endfor %} \\
 \end{tabular}
 
 \vspace{0.3cm}
 
-\textbf{Addition in {{scheme|upper}}}
+\textbf{ {{tr("Addition in {scheme}", scheme=scheme|upper)}} }
 \vspace{0.3cm}
 
 \begin{tabular}{l|{% for _ in result.digits_a_dec %}r{% endfor %}}
@@ -73,12 +73,12 @@ Decimal calculation: ${{result.a_dec}} + {{result.b_dec}} = {{result.total_dec}}
 
 {% if RENDER_MODE == "question" %}
   {% if scheme in ("bcd", "both", "") %}
-    \subsection*{Encode the following numbers into BCD, then illustrate the addition in BCD:}
+    \subsection*{ {{tr("Encode the following numbers into BCD, then illustrate the addition in BCD")}} }
     \textbf{A = } {{ number }}
     \textbf{B = } {{ data_bcd.b_dec }}
   {% endif %}
   {% if scheme in ("x3", "both","") %}
-    \subsection*{Encode the following numbers into Excess3, then illustrate the addition in Excess3:}
+    \subsection*{ {{tr("Encode the following numbers into Excess3, then illustrate the addition in Excess3")}} }
     \textbf{A = } {{ number }}
     \textbf{B = } {{ data_bcd.b_dec }}
   {% endif %}
@@ -89,7 +89,7 @@ $({{ number }})_{10} = ({{ bcd }})_{BCD}$ \\[6pt]
 
 $({{ number }})_{10} = ({{ x3 }})_{Excess\text{-}3}$ \\[6pt]
 
-\textbf{Explanation:} \\[6pt]
+\textbf{ {{tr("Explanation")}}: } \\[6pt]
 
   {% if method in ("encode", "both", "") %}
     {% if scheme in ("bcd", "both", "") %}
@@ -98,7 +98,7 @@ $({{ number }})_{10} = ({{ x3 }})_{Excess\text{-}3}$ \\[6pt]
     {% endif %}
 
     {% if scheme in ("x3", "both", "") %}
-      \textit{Base 10 to Excess-3:} \\[6pt]
+      \textit{Base 10 to Excess3:} \\[6pt]
     {{ bcdx3_dec(number, x3_digits, scheme="x3", mode="encode")}}
     {% endif %}
 
@@ -106,12 +106,12 @@ $({{ number }})_{10} = ({{ x3 }})_{Excess\text{-}3}$ \\[6pt]
 
   {% if method in ("decode", "both", "") %}
     {% if scheme in ("bcd", "both", "") %}
-      \textit{BCD to Base 10:} \\[6pt]
+      \textit{ {{tr("BCD to base 10")}} :} \\[6pt]
     {{ bcdx3_dec(number, bcd_digits, scheme="bcd", mode="decode")}}
     {% endif %}
 
     {% if scheme in ("x3", "both", "") %}
-      \textit{Excess-3 to Base 10:} \\[6pt]
+      \textit{Excess3 to base 10:} \\[6pt]
         {{ bcdx3_dec(number, x3_digits, scheme="x3", mode="decode")}}
     {% endif %}
   {% endif %}
@@ -120,7 +120,7 @@ $({{ number }})_{10} = ({{ x3 }})_{Excess\text{-}3}$ \\[6pt]
   {{render_bcd(data_bcd)}}
 
   {% if not data_bcd.test_ok %}
-\section{Warning: Please check addition, there are errors.}
+\section{ {{tr("Warning: Please check addition, there are errors.")}} }
 \begin{verbatim}
   {{ data_bcd|pprint}}
 \end{verbatim}
@@ -129,7 +129,7 @@ $({{ number }})_{10} = ({{ x3 }})_{Excess\text{-}3}$ \\[6pt]
   {{render_bcd(data_x3, scheme="excess3")}}
 
   {% if not data_x3.test_ok %}
-\section{Warning: Please check addition, there are errors.}
+\section{ {{tr("Warning: Please check addition, there are errors.")}} }
 \begin{verbatim}
   {{ data_x3|pprint}}
 \end{verbatim}

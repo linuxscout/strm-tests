@@ -274,5 +274,66 @@
   "Represent in 1's and 2's complement, the following number": {
     "en": "Represent in 1's and 2's complement, the following number",
     "ar": "مثل  العدد الآتي في المتمم إلى الواحد وإلى الاثنين  :"
+  },
+  " {{tr(": {
+    "en": " {{tr(",
+    "ar": ""
+  },
+  "Addition in {scheme}": {
+    "en": "Addition in {scheme}",
+    "ar": "الجمع في {scheme}"
+  },
+  "BCD to base 10": {
+    "en": "BCD to base 10",
+    "ar": "BCD إلى العشري"
+  },
+  "Base 10 to BCD": {
+    "en": "Base 10 to BCD",
+    "ar": "العشري إلى BCD"
+  },
+  "Base 10 to Excess3": {
+    "en": "Base 10 to Excess3",
+    "ar": "العشري إلى المزيد بـ3"
+  },
+  "Carry in": {
+    "en": "Carry in",
+    "ar": "الاحتفاظ"
+  },
+  "Decimal calculation:": {
+    "en": "Decimal calculation:",
+    "ar": "الحساب في العشري"
+  },
+  "Decimal to {scheme}": {
+    "en": "Decimal to {scheme}",
+    "ar": "العشري إلى {scheme}"
+  },
+  "Encode the following numbers into BCD, then illustrate the addition in BCD": {
+    "en": "Encode the following numbers into BCD, then illustrate the addition in BCD",
+    "ar": "رمّز الأعداد الآتية بالBCD، ثم اشرح كيفية الجمع في الBCD."
+  },
+  "Encode the following numbers into Excess3, then illustrate the addition in Excess3": {
+    "en": "Encode the following numbers into Excess-3, then illustrate the addition in Excess3",
+    "ar": "رمّز الأعداد الآتية بالمزيد بـ3، ثم اشرح كيفية الجمع في المزيد بـ3"
+  },
+  "Excess3 to base 10": {
+    "en": "Excess3 to base 10",
+    "ar": "المزيد بـ3 إلى العشري"
+  },
+  "Explanation": {
+    "en": "Explanation",
+    "ar": "شرح"
+  },
+  "Warning: Please check addition, there are errors.": {
+    "en": "Warning: Please check addition, there are errors.",
+    "ar": "تنبيه: يرجى مراجعة الجمع، فيه أخطاء"
+  },
+  "{scheme} Addition Explanation": {
+    "en": "{scheme} Addition Explanation",
+    "ar": "شرح الجمع في {scheme}"
+  },
+  "{scheme} to Decimal": {
+    "en": "{scheme} to Decimal",
+    "ar": "العشري إلى {scheme}"
   }
+
 }

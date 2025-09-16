@@ -5,11 +5,11 @@
 {% macro bcdx3_dec(number, bin_digits, scheme="bcd", mode="encode") %}
 
 {% if mode.lower() == "decode" %}
-   <h4>{{scheme|upper}} to Decimal</h4>
+   <h4> {{tr("{scheme} to Decimal", scheme=scheme|upper)}} </h4>
   {% set code2_digits = number|list %}
   {% set code1_digits = bin_digits %}
 {% else %}
-  <h4>XDecimal to {{scheme|upper}}</h4>
+  <h4> {{tr("Decimal to {scheme}", scheme=scheme|upper)}} </h4>
   {% set code1_digits = number|list %}
   {% set code2_digits = bin_digits %}
 {% endif %}
@@ -29,7 +29,7 @@
 {% endmacro %}
 
 {# =========================================================
-   BCD explanation macro
+   BCD  Explanation macro
    ========================================================= #}
 <!--/* General table style */-->
 <style>
@@ -77,10 +77,10 @@ td.legend {
    Render result
    ========================================================= #}
 {% macro render_bcd(result, scheme="bcd") %}
-<h3>{{scheme|upper}} Addition Explanation</h3>
+<h3> {{tr("{scheme} Addition Explanation", scheme=scheme|upper)}} </h3>
 
 <p>
-  Decimal calculation:
+   {{tr("Decimal calculation:")}} 
   {{ result.a_dec }} + {{ result.b_dec }} = {{ result.total_dec }}
 </p>
 
@@ -93,7 +93,7 @@ td.legend {
 <!--  </tr>-->
 
   <tr class="carry">
-    <td class="legend">Carry In</td>
+    <td class="legend">{{tr("Carry in")}}</td>
     {% for c in result.carry_in %}
       <td>{{ '1' if c or  result.carry_out[loop.index0] }}</td>
     {% endfor %}
@@ -119,7 +119,7 @@ td.legend {
     {% endfor %}
   </tr>
 </table>
-<h2>Addition in {{scheme|upper}}</h2>
+<h2> {{tr("Addition in {scheme}", scheme=scheme|upper)}} </h2>
 <table class="explain">
   <tr class="carry">
     <td class="legend">Carry In</td>
@@ -202,13 +202,13 @@ td.legend {
    ========================================================= #}
 {% if RENDER_MODE == "question" %}
   {% if scheme in ("bcd", "both", "") %}
-    <h4>Encode the following numbers into BCD, then illustrate the addition in BCD:</h4>
+    <h4> {{tr("Encode the following numbers into BCD, then illustrate the addition in BCD")}} </h4>
     <p><b> A = </b> "{{ number }}"</p>
     <p><b> B = </b> "{{ data_bcd.b_dec }}"</p>
 
   {% endif %}
   {% if scheme in ("x3", "both","") %}
-    <h4>Encode the following numbers into Excess3, then illustrate the addition in Excess:</h4>
+    <h4> {{tr("Encode the following numbers into Excess3, then illustrate the addition in Excess3")}} </h4>
     <p><b>N = </b> "{{ number }}"</p>
     <p><b> B = </b> "{{ data_bcd.b_dec }}"</p>
   {% endif %}
@@ -220,18 +220,18 @@ td.legend {
 
 ({{number}})<sub>10 </sub> = ({{x3}})<sub>x3 </sub>
 <br/>
-Explanation
+ {{tr("Explanation")}} 
 <br/>
   {% if method in ("encode", "both", "")%}
   {% if scheme in ("bcd", "both","") %}
-     Base 10 to BCD<br/>
+     {{tr("Base 10 to BCD")}} <br/>
 
 
    {{ bcdx3_dec(number, bcd_digits, "bcd","encode") }}
 
   {% endif %}
   {% if scheme in ("x3", "both","") %}
-     Base 10 to X3<br/>
+      {{tr("Base 10 to Excess3")}} <br/>
 
 
   {{ bcdx3_dec(number, x3_digits, "x3","encode") }}
@@ -240,14 +240,14 @@ Explanation
   {% endif %}
   {% if method in ("decode", "both", "")%}
   {% if scheme in ("bcd", "both","") %}
-     BCD to Base 10<br/>
+      {{tr("BCD to base 10")}} <br/>
 
 
 {{ bcdx3_dec(number, bcd_digits, "bcd","decode") }}
 
   {% endif %}
   {% if scheme in ("x3", "both","") %}
-     Excess3 to Base 10<br/>
+      {{tr("Excess3 to base 10")}} <br/>
 
 
   {{ bcdx3_dec(number, x3_digits, "x3","decode") }}
@@ -264,14 +264,14 @@ Explanation
 {{render_bcd(data_x3, scheme="excess3")}}
 
 {% if not data_bcd.test_ok %}
-<h2>Warning: Please check addition, there are errors.</h2>
+<h2> {{tr("Warning: Please check addition, there are errors.")}} </h2>
 <pre>
   {{ data_bcd|pprint}}
 </pre>
 {% endif %}
 
 {% if not data_x3.test_ok %}
-<h2>Warning: Please check addition, there are errors.</h2>
+<h2> {{tr("Warning: Please check addition, there are errors.")}} </h2>
 <pre>
   {{ data_x3|pprint}}
 </pre>
