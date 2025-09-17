@@ -2,3 +2,4 @@ uvicorn
 fastapi
 python-multipart
 httpx
+requests
