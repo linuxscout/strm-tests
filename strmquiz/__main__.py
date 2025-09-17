@@ -132,7 +132,7 @@ def parse_arguments():
         "--lang",
         "--language",
         dest="language",
-        choices=["ar", "fr", "en", "ar-en", "ar-fr"],
+        choices=["ar", "fr", "en", "en-ar","ar-en", "ar-fr"],
         default="arabic",
         help="Language of the test content",
     )
