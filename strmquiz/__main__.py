@@ -14,20 +14,21 @@ import subprocess
 import sys
 import webbrowser
 
-
-import tempfile
 from pathlib import Path
 
-log_dir = Path(tempfile.gettempdir()) / "strmquiz"
+log_dir = Path("tmp/logs")
 log_dir.mkdir(parents=True, exist_ok=True)
 
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.DEBUG,  # Default log level
+    # level=logging.DEBUG,  # Default log level
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
     handlers=[
-        logging.FileHandler(log_dir / "quiz.log", encoding="utf-8")
+        # logging.StreamHandler(sys.stdout),         # Console output
+        logging.FileHandler(log_dir / "quiz.log", encoding="utf-8")  # File output
     ],
 )
+
 
 from strmquiz.quizbuilder import QuizBuilder
 

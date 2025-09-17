@@ -1,18 +1,18 @@
 import os.path
 import logging
+
+from pathlib import Path
+
+log_dir = Path("tmp/logs")
+log_dir.mkdir(parents=True, exist_ok=True)
+
 logging.basicConfig(
     level=logging.DEBUG,  # Default log level
     # level=logging.DEBUG,  # Default log level
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
     handlers=[
         # logging.StreamHandler(sys.stdout),         # Console output
-        logging.FileHandler(os.path.join(
-    os.path.dirname(__file__),  # directory of current file
-    "..",
-    "tmp",
-    "logs",
-    "quiz-web.log"
-), encoding="utf-8")  # File output
+        logging.FileHandler(log_dir/"quiz-web.log", encoding="utf-8")  # File output
     ]
 )
 logger = logging.getLogger(__name__)
