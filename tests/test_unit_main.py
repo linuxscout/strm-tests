@@ -12,11 +12,10 @@ TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), "../", "templates")
 import builtins
 import sys
 import types
-from pathlib import Path
 
 import pytest
 
-import strmquiz.__main__ as app  # replace with the actual filename (without .py)
+
 import strmquiz.__main__ as cli  # assuming the file is __main__.py under strm_tests/
 
 

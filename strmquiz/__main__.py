@@ -15,13 +15,18 @@ import sys
 import webbrowser
 from pathlib import Path
 
+from pathlib import Path
+
+log_dir = Path("tmp/logs")
+log_dir.mkdir(parents=True, exist_ok=True)
+
 logging.basicConfig(
     level=logging.DEBUG,  # Default log level
     # level=logging.DEBUG,  # Default log level
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
     handlers=[
         # logging.StreamHandler(sys.stdout),         # Console output
-        logging.FileHandler("tmp/logs/quiz.log", encoding="utf-8")  # File output
+        logging.FileHandler(log_dir / "quiz.log", encoding="utf-8")  # File output
     ],
 )
 
