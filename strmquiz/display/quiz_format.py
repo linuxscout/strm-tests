@@ -370,8 +370,8 @@ class quiz_format:
 
     def add_newline(self):
 
-        newtext = "\n"
-        self.output.append(newtext)
+        newtext = self.newline
+        self.output.append(self.newline)
         return newtext
 
     def add_hrule(self):

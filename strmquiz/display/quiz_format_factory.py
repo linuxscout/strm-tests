@@ -28,21 +28,21 @@ from . import quiz_format_json
 from . import quiz_format_md
 from . import quiz_format_txt
 
-OUTPUT_FORMAT_TABLE = {
-    "txt": "Text",
-    "md": "MarkDown",
-    "tex": "LaTex",
-    "html": "HTML",
-    "json": "JSON",
-}
-OUTPUT_FORMAT_VALUES_TABLE = list(
-    set(list(OUTPUT_FORMAT_TABLE.keys()) + list(OUTPUT_FORMAT_TABLE.values()))
-)
-OUTPUT_FORMAT_VALUES_TABLE = [x.lower() for x in OUTPUT_FORMAT_VALUES_TABLE]
+
 
 
 class quiz_format_factory:
-
+    OUTPUT_FORMAT_TABLE = {
+        "txt": "Text",
+        "md": "MarkDown",
+        "tex": "LaTex",
+        "html": "HTML",
+        "json": "JSON",
+    }
+    OUTPUT_FORMAT_VALUES_TABLE = list(
+        set(list(OUTPUT_FORMAT_TABLE.keys()) + list(OUTPUT_FORMAT_TABLE.values()))
+    )
+    OUTPUT_FORMAT_VALUES_TABLE = [x.lower() for x in OUTPUT_FORMAT_VALUES_TABLE]
     def __init__(
         self,
     ):
@@ -75,13 +75,13 @@ class quiz_format_factory:
         else:
             return quiz_format.quiz_format(lang=lang, templates_dir=templates_dir)
 
-    @staticmethod
-    def is_available_format(format):
-        return bool(format.lower() in OUTPUT_FORMAT_VALUES_TABLE)
+    @classmethod
+    def is_available_format(cls, format):
+        return bool(format.lower() in cls.OUTPUT_FORMAT_VALUES_TABLE)
 
-    @staticmethod
-    def get_available_format() -> dict:
-        return OUTPUT_FORMAT_TABLE
+    @classmethod
+    def get_available_format(cls) -> dict:
+        return cls.OUTPUT_FORMAT_TABLE
 
 
 def main(args):

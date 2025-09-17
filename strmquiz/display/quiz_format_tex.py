@@ -87,63 +87,63 @@ class quiz_format_tex(quiz_format.quiz_format):
         self.output.append(text)
         return text
 
-    def add_verbatim(self, text, trans=""):
+    # def add_verbatim(self, text, trans=""):
+    #
+    #     newtext = "\n\\begin{verbatim}"
+    #     newtext += text
+    #     newtext += "\n\\end{verbatim}"
+    #     self.output.append(newtext)
+    #     return newtext
 
-        newtext = "\n\\begin{verbatim}"
-        newtext += text
-        newtext += "\n\\end{verbatim}"
-        self.output.append(newtext)
-        return newtext
+    # def add_formula(self, text, trans=""):
+    #
+    #     # split formula into  lines
+    #     # if line hasn't formula tags add it
+    #     lines = text.split("\n")
+    #     newtext = ""
+    #     for line in lines:
+    #         if line.startswith("$") or "$" in line:
+    #             newtext += line + self.newline
+    #         else:
+    #             newtext += "$$%s$$%s" % (line, self.newline)
+    #     # ~ newtext =    '$$%s$$\n'%text
+    #     self.output.append(newtext)
+    #     return newtext
 
-    def add_formula(self, text, trans=""):
+    # def open_enumerate(self):
+    #     newtext = "\\begin{enumerate}"
+    #     self.output.append(newtext)
+    #     return newtext
+    #
+    # def open_itemize(self):
+    #     newtext = "\\begin{itemize}"
+    #     self.output.append(newtext)
+    #     return newtext
 
-        # split formula into  lines
-        # if line hasn't formula tags add it
-        lines = text.split("\n")
-        newtext = ""
-        for line in lines:
-            if line.startswith("$") or "$" in line:
-                newtext += line + self.newline
-            else:
-                newtext += "$$%s$$%s" % (line, self.newline)
-        # ~ newtext =    '$$%s$$\n'%text
-        self.output.append(newtext)
-        return newtext
-
-    def open_enumerate(self):
-        newtext = "\\begin{enumerate}"
-        self.output.append(newtext)
-        return newtext
-
-    def open_itemize(self):
-        newtext = "\\begin{itemize}"
-        self.output.append(newtext)
-        return newtext
-
-    def close_enumerate(self):
-        newtext = "\\end{enumerate}"
-        self.output.append(newtext)
-        return newtext
-
-    def add_item(self, text):
-        newtext = "\\item " + text
-        self.output.append(newtext)
-        return newtext
-
-    def close_itemize(self):
-        newtext = "\\end{itemize}"
-        self.output.append(newtext)
-        return newtext
-
-    def open_minipage(self):
-        newtext = "\\begin{minipage}{.5\\textwidth}\n"
-        self.output.append(newtext)
-        return newtext
-
-    def close_minipage(self):
-        newtext = "\\end{minipage}\n"
-        self.output.append(newtext)
-        return newtext
+    # def close_enumerate(self):
+    #     newtext = "\\end{enumerate}"
+    #     self.output.append(newtext)
+    #     return newtext
+    #
+    # def add_item(self, text):
+    #     newtext = "\\item " + text
+    #     self.output.append(newtext)
+    #     return newtext
+    #
+    # def close_itemize(self):
+    #     newtext = "\\end{itemize}"
+    #     self.output.append(newtext)
+    #     return newtext
+    #
+    # def open_minipage(self):
+    #     newtext = "\\begin{minipage}{.5\\textwidth}\n"
+    #     self.output.append(newtext)
+    #     return newtext
+    #
+    # def close_minipage(self):
+    #     newtext = "\\end{minipage}\n"
+    #     self.output.append(newtext)
+    #     return newtext
 
     def add_newline(self):
         self.output.append(self.newline)
@@ -172,14 +172,14 @@ class quiz_format_tex(quiz_format.quiz_format):
         }
         return "".join([replacements.get(c, c) for c in s])
 
-    def display2(
-        self,
-    ):
-        """ """
-        # ~ text = self.header
-        # ~ text += "\n"+ self.output
-        # ~ text += "\n"+ self.footer
-        return "\n".join(self.output)
+    # def display2(
+    #     self,
+    # ):
+    #     """ """
+    #     # ~ text = self.header
+    #     # ~ text += "\n"+ self.output
+    #     # ~ text += "\n"+ self.footer
+    #     return "\n".join(self.output)
 
     def display(
         self,
@@ -214,89 +214,89 @@ class quiz_format_tex(quiz_format.quiz_format):
                 self.add_text(question.get("answer", "ANSWER"))
             self.add_newpage()
         return "\n".join(self.output)
-
-    def truth_table(self, minterms, dontcares=[], variables=[], vars_outputs=[]):
-        """print truth table"""
-        # ~ variables = self.variables
-        cases = itertools.product([0, 1], [0, 1], [0, 1], [0, 1])
-        text = "N°\t"  # line number
-        text = "\t".join(variables)
-        text = "\t" + vars_outputs[0]
-
-        tex = """%%\\begin{table}
-        \\begin{tabular}{|c|c|c|c|c||c|}
-    \\toprule
-        """
-        tex += "N° & "  # line number
-        tex += " & ".join(variables)
-        tex += " & " + vars_outputs[0]
-        tex += "\\\\ \\midrule"
-
-        for counter, item in enumerate(cases):
-            f = 1 if counter in minterms else 0
-            case = [counter] + list(item) + [f]
-            if counter and counter % 4 == 0:
-                tex += "\\midrule"
-            text += "\t".join([str(x) for x in case]) + "\n"
-            tex += " & ".join([str(x) for x in case]) + "\\\\"
-
-        tex += """\\bottomrule
-        \\end{tabular}
-        %%\\end{table}
-        """
-        self.output += tex
-        return tex
-
-    def multiple_truth_table(
-        self, minterms_list, dontcares_list=[], variables=[], vars_outputs=[]
-    ):
-        """print truth table"""
-
-        outputs_len = len(minterms_list)
-        cases = itertools.product([0, 1], [0, 1], [0, 1], [0, 1])
-        text = "N°\t"  # line number
-        text = "\t".join(variables + vars_outputs[:outputs_len])
-        tex = """%%\\begin{table}\n
-        \\begin{tabular}{|c|c|c|c|c||%s}\n
-    \\toprule\n
-        """ % (
-            "c|" * outputs_len
-        )
-        tex += "N° &"  # line number
-        tex += " & ".join(variables + vars_outputs[:outputs_len])
-        tex += "\\\\ \\midrule\n"
-
-        for counter, item in enumerate(cases):
-            case = [counter] + list(item)
-
-            for minterms, dontcares in zip(minterms_list, dontcares_list):
-                if counter in minterms:
-                    f = 1
-                elif counter in dontcares:
-                    f = "X"
-                else:
-                    f = 0
-                case.append(f)
-            if counter and counter % 4 == 0:
-                tex += "\\midrule\n"
-            text += "\t".join([str(x) for x in case]) + "\n"
-            tex += " & ".join([str(x) for x in case]) + "\\\\\n"
-
-        tex += """\\bottomrule\n
-        \\end{tabular}\n
-        %%\\end{table}\n
-        """
-        self.output.append(tex)
-
-        return tex
-
-    def normalize_formula2(self, s):
-        """normalize boolean string"""
-        s = str(s)
-        for v in self.variables:
-            s = s.replace(f"{v.lower()}'", f"\\bar {v.lower()}")
-            s = s.replace(f"{v.upper()}'", f"\\bar {v.upper()}")
-        return s
+    #
+    # def truth_table(self, minterms, dontcares=[], variables=[], vars_outputs=[]):
+    #     """print truth table"""
+    #     # ~ variables = self.variables
+    #     cases = itertools.product([0, 1], [0, 1], [0, 1], [0, 1])
+    #     text = "N°\t"  # line number
+    #     text = "\t".join(variables)
+    #     text = "\t" + vars_outputs[0]
+    #
+    #     tex = """%%\\begin{table}
+    #     \\begin{tabular}{|c|c|c|c|c||c|}
+    # \\toprule
+    #     """
+    #     tex += "N° & "  # line number
+    #     tex += " & ".join(variables)
+    #     tex += " & " + vars_outputs[0]
+    #     tex += "\\\\ \\midrule"
+    #
+    #     for counter, item in enumerate(cases):
+    #         f = 1 if counter in minterms else 0
+    #         case = [counter] + list(item) + [f]
+    #         if counter and counter % 4 == 0:
+    #             tex += "\\midrule"
+    #         text += "\t".join([str(x) for x in case]) + "\n"
+    #         tex += " & ".join([str(x) for x in case]) + "\\\\"
+    #
+    #     tex += """\\bottomrule
+    #     \\end{tabular}
+    #     %%\\end{table}
+    #     """
+    #     self.output += tex
+    #     return tex
+    # #
+    # def multiple_truth_table(
+    #     self, minterms_list, dontcares_list=[], variables=[], vars_outputs=[]
+    # ):
+    #     """print truth table"""
+    #
+    #     outputs_len = len(minterms_list)
+    #     cases = itertools.product([0, 1], [0, 1], [0, 1], [0, 1])
+    #     text = "N°\t"  # line number
+    #     text = "\t".join(variables + vars_outputs[:outputs_len])
+    #     tex = """%%\\begin{table}\n
+    #     \\begin{tabular}{|c|c|c|c|c||%s}\n
+    # \\toprule\n
+    #     """ % (
+    #         "c|" * outputs_len
+    #     )
+    #     tex += "N° &"  # line number
+    #     tex += " & ".join(variables + vars_outputs[:outputs_len])
+    #     tex += "\\\\ \\midrule\n"
+    #
+    #     for counter, item in enumerate(cases):
+    #         case = [counter] + list(item)
+    #
+    #         for minterms, dontcares in zip(minterms_list, dontcares_list):
+    #             if counter in minterms:
+    #                 f = 1
+    #             elif counter in dontcares:
+    #                 f = "X"
+    #             else:
+    #                 f = 0
+    #             case.append(f)
+    #         if counter and counter % 4 == 0:
+    #             tex += "\\midrule\n"
+    #         text += "\t".join([str(x) for x in case]) + "\n"
+    #         tex += " & ".join([str(x) for x in case]) + "\\\\\n"
+    #
+    #     tex += """\\bottomrule\n
+    #     \\end{tabular}\n
+    #     %%\\end{table}\n
+    #     """
+    #     self.output.append(tex)
+    #
+    #     return tex
+    #
+    # def normalize_formula2(self, s):
+    #     """normalize boolean string"""
+    #     s = str(s)
+    #     for v in self.variables:
+    #         s = s.replace(f"{v.lower()}'", f"\\bar {v.lower()}")
+    #         s = s.replace(f"{v.upper()}'", f"\\bar {v.upper()}")
+    #     return s
 
     @staticmethod
     def normalize_formula(expr: str) -> str:
@@ -320,63 +320,63 @@ class quiz_format_tex(quiz_format.quiz_format):
             s = s.replace(k, v)
 
         return s
-
-    def draw_map(
-        self,
-        minterms,
-        dontcares=[],
-        correct=False,
-        variables=[],
-        simply_terms=[],
-        method="sop",
-    ):
-        kmap = []
-        maxterms = [x for x in range(16) if x not in minterms and x not in dontcares]
-        for x in range(16):
-            if x in minterms:
-                kmap.append("1")
-            elif x in dontcares:
-                kmap.append("x")
-            else:
-                kmap.append("0")
-        # ~ var_names  = "ab\\cd"
-        var_names = "".join(variables[:2]) + "\\" + "".join(variables[2:])
-        table = [
-            [var_names, "00", "01", "11", "10"],
-            ["00", kmap[0], kmap[1], kmap[3], kmap[2]],
-            ["00", kmap[4], kmap[5], kmap[7], kmap[6]],
-            ["00", kmap[12], kmap[13], kmap[15], kmap[14]],
-            ["00", kmap[8], kmap[9], kmap[11], kmap[10]],
-        ]
-
-        # draw simplification
-        simplification = ""
-        if correct:
-            simplification = self.simplify_map(simply_terms, method=method)
-
-        text = "\n".join(["\t".join(r) for r in table])
-        cd = "".join(variables[2:])
-        ab = "".join(variables[:2])
-        tex = """\\begin{karnaugh-map}[4][4][1][%s][%s]""" % (cd, ab)
-        tex += """
-          \\minterms{%s}
-          \\maxterms{%s}
-        %%\\autoterms[0]
-         \\terms{%s}{X}
-        %% simplification
-        %s
-          %%\\implicant{5}{15}
-          %%\\implicantedge{8}{8}{10}{10}
-          %%\\implicantedge{8}{8}{10}{10}[8,10]
-        \\end{karnaugh-map}""" % (
-            ", ".join([str(x) for x in minterms]),
-            ", ".join([str(x) for x in maxterms]),
-            ", ".join([str(x) for x in dontcares]),
-            simplification,
-        )
-
-        self.output.append(tex)
-        return tex
+    #
+    # def draw_map(
+    #     self,
+    #     minterms,
+    #     dontcares=[],
+    #     correct=False,
+    #     variables=[],
+    #     simply_terms=[],
+    #     method="sop",
+    # ):
+    #     kmap = []
+    #     maxterms = [x for x in range(16) if x not in minterms and x not in dontcares]
+    #     for x in range(16):
+    #         if x in minterms:
+    #             kmap.append("1")
+    #         elif x in dontcares:
+    #             kmap.append("x")
+    #         else:
+    #             kmap.append("0")
+    #     # ~ var_names  = "ab\\cd"
+    #     var_names = "".join(variables[:2]) + "\\" + "".join(variables[2:])
+    #     table = [
+    #         [var_names, "00", "01", "11", "10"],
+    #         ["00", kmap[0], kmap[1], kmap[3], kmap[2]],
+    #         ["00", kmap[4], kmap[5], kmap[7], kmap[6]],
+    #         ["00", kmap[12], kmap[13], kmap[15], kmap[14]],
+    #         ["00", kmap[8], kmap[9], kmap[11], kmap[10]],
+    #     ]
+    #
+    #     # draw simplification
+    #     simplification = ""
+    #     if correct:
+    #         simplification = self.simplify_map(simply_terms, method=method)
+    #
+    #     text = "\n".join(["\t".join(r) for r in table])
+    #     cd = "".join(variables[2:])
+    #     ab = "".join(variables[:2])
+    #     tex = """\\begin{karnaugh-map}[4][4][1][%s][%s]""" % (cd, ab)
+    #     tex += """
+    #       \\minterms{%s}
+    #       \\maxterms{%s}
+    #     %%\\autoterms[0]
+    #      \\terms{%s}{X}
+    #     %% simplification
+    #     %s
+    #       %%\\implicant{5}{15}
+    #       %%\\implicantedge{8}{8}{10}{10}
+    #       %%\\implicantedge{8}{8}{10}{10}[8,10]
+    #     \\end{karnaugh-map}""" % (
+    #         ", ".join([str(x) for x in minterms]),
+    #         ", ".join([str(x) for x in maxterms]),
+    #         ", ".join([str(x) for x in dontcares]),
+    #         simplification,
+    #     )
+    #
+    #     self.output.append(tex)
+    #     return tex
 
     def simplify_map(self, terms=[], method="sop"):
         """
@@ -403,50 +403,50 @@ class quiz_format_tex(quiz_format.quiz_format):
 
         return simpls
 
-    def draw_logigram(self, sop, function_name="F", variables=[]):
-        """draw a logigram"""
-        varnames = {
-            "A": variables[0],
-            "B": variables[1],
-            "C": variables[2],
-            "D": variables[3],
-        }
-        lg = logigram.logigram(varnames)
-        return lg.draw_logigram(sop, function_name)
+    # def draw_logigram(self, sop, function_name="F", variables=[]):
+    #     """draw a logigram"""
+    #     varnames = {
+    #         "A": variables[0],
+    #         "B": variables[1],
+    #         "C": variables[2],
+    #         "D": variables[3],
+    #     }
+    #     lg = logigram.logigram(varnames)
+    #     return lg.draw_logigram(sop, function_name)
 
-    def draw_logigram_nand_nor(
-        self, sop, function_name="F", variables=[], method="NAND"
-    ):
-        """draw a logigram"""
-        varnames = {
-            "A": variables[0],
-            "B": variables[1],
-            "C": variables[2],
-            "D": variables[3],
-        }
-        lg_maker = logigram.logigram(varnames)
-        lggrm = lg_maker.draw_logigram(sop, function_name)
-        # substitute gates into nand
-        if method.upper() == "NAND":
-            lggrm = lggrm.replace("[and gate US,", "[nand gate US,")
-            lggrm = lggrm.replace("[or gate US,", "[nand gate US,")
-            lggrm = lggrm.replace(
-                "[not gate US, draw, rotate=270]",
-                "[nand gate US, draw, rotate=270, scale=0.5, logic gate inputs=nn]",
-            )
-        elif method.upper() == "NOR":
-            lggrm = lggrm.replace("[and gate US,", "[nor gate US,")
-            lggrm = lggrm.replace("[or gate US,", "[nor gate US,")
-            lggrm = lggrm.replace(
-                "[not gate US, draw, rotate=270]",
-                "[nor gate US, draw, rotate=270, scale=0.5, logic gate inputs=nn]",
-            )
-        if method.upper() == "NAND" or method.upper() == "NOR":
-            lggrm = lggrm.replace("(notx.input)", "(notx.input 1)")
-            lggrm = lggrm.replace("(noty.input)", "(noty.input 1)")
-            lggrm = lggrm.replace("(notz.input)", "(notz.input 1)")
-            lggrm = lggrm.replace("(notw.input)", "(notw.input 1)")
-        return lggrm
+    # def draw_logigram_nand_nor(
+    #     self, sop, function_name="F", variables=[], method="NAND"
+    # ):
+    #     """draw a logigram"""
+    #     varnames = {
+    #         "A": variables[0],
+    #         "B": variables[1],
+    #         "C": variables[2],
+    #         "D": variables[3],
+    #     }
+    #     lg_maker = logigram.logigram(varnames)
+    #     lggrm = lg_maker.draw_logigram(sop, function_name)
+    #     # substitute gates into nand
+    #     if method.upper() == "NAND":
+    #         lggrm = lggrm.replace("[and gate US,", "[nand gate US,")
+    #         lggrm = lggrm.replace("[or gate US,", "[nand gate US,")
+    #         lggrm = lggrm.replace(
+    #             "[not gate US, draw, rotate=270]",
+    #             "[nand gate US, draw, rotate=270, scale=0.5, logic gate inputs=nn]",
+    #         )
+    #     elif method.upper() == "NOR":
+    #         lggrm = lggrm.replace("[and gate US,", "[nor gate US,")
+    #         lggrm = lggrm.replace("[or gate US,", "[nor gate US,")
+    #         lggrm = lggrm.replace(
+    #             "[not gate US, draw, rotate=270]",
+    #             "[nor gate US, draw, rotate=270, scale=0.5, logic gate inputs=nn]",
+    #         )
+    #     if method.upper() == "NAND" or method.upper() == "NOR":
+    #         lggrm = lggrm.replace("(notx.input)", "(notx.input 1)")
+    #         lggrm = lggrm.replace("(noty.input)", "(noty.input 1)")
+    #         lggrm = lggrm.replace("(notz.input)", "(notz.input 1)")
+    #         lggrm = lggrm.replace("(notw.input)", "(notw.input 1)")
+    #     return lggrm
 
     def draw_logigram_list(
         self,
