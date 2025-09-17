@@ -5,6 +5,7 @@ SHELL := /bin/bash
 # Current date format for versioned output folders
 DATE := $(shell date +'%y.%m.%d-%H:%M')
 TEX_DIR=resources/latex
+OUT_DIR=tests/output
 GEN_DIR=tmp/edits
 CONF_DIR=tests/config
 # List of test IDs
@@ -43,12 +44,13 @@ install:
 define test_template
 $(1):
 	@echo "Generating test: $(1)"
-	python3 -m strmquiz -f $(CONF_DIR)/quiz7.conf -g $(CONF_DIR)/args.7.json  --lang="en-ar" --templates templates -d tex -t "$(1)" -o tests/output/test.tex &> tmp/script.log
-	cp tests/output/test.tex $(TEX_DIR)/test.tex
-	cd $(TEX_DIR) && xelatex main_test.tex
+	python3 -m strmquiz -f $(CONF_DIR)/quiz7.conf -g $(CONF_DIR)/args.7.json  --lang="en-ar" --templates templates -d tex -t "$(1)" -o tests/output/test.tex &> tmp/logs/script.log
+	cp $(TEX_DIR)/main_test.tex $(TEX_DIR)/karnaugh-map.sty $(OUT_DIR)/
+	cd $(OUT_DIR) && xelatex main_test.tex
+
 	mkdir -p $(GEN_DIR)/test2-$(DATE)
-	cp $(TEX_DIR)/test.tex $(TEX_DIR)/main_test.pdf $(TEX_DIR)/main_test.tex $(TEX_DIR)/karnaugh-map.sty $(GEN_DIR)/test2-$(DATE)/
-	cp $(TEX_DIR)/test.tex $(TEX_DIR)/main_test.pdf $(TEX_DIR)/main_test.tex $(TEX_DIR)/karnaugh-map.sty $(GEN_DIR)/
+	cp $(OUT_DIR)/test.tex $(OUT_DIR)/main_test.pdf $(OUT_DIR)/main_test.tex $(OUT_DIR)/karnaugh-map.sty $(GEN_DIR)/test2-$(DATE)/
+	cp $(OUT_DIR)/test.tex $(OUT_DIR)/main_test.pdf $(OUT_DIR)/main_test.tex $(OUT_DIR)/karnaugh-map.sty $(GEN_DIR)/
 
 endef
 
