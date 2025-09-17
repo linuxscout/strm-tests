@@ -1,5 +1,7 @@
 import pytest
-from strmquiz.question_builder.encoding_question_builder import EncodingQuestionBuilder
+
+from strmquiz.question_builder.encoding_question_builder import \
+    EncodingQuestionBuilder
 
 
 @pytest.fixture

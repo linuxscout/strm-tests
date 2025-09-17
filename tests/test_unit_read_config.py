@@ -1,7 +1,9 @@
+import sys
 import tempfile
 import textwrap
+
 import pytest
-import sys
+
 from strmquiz.read_config import ReadConfig  # replace with actual import path
 
 

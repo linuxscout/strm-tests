@@ -1,4 +1,5 @@
 import unittest
+
 from strmquiz.sequentiel.registersimulator import RegisterSimulator
 
 

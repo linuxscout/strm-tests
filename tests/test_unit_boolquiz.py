@@ -1,6 +1,7 @@
 import pytest
+
+from strmquiz.bool.bool_const import NAND_SYMB, NOR_SYMB
 from strmquiz.bool.boolquiz import bool_quiz
-from strmquiz.bool.bool_const import NOR_SYMB, NAND_SYMB
 
 
 @pytest.fixture

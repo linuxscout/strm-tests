@@ -1,8 +1,10 @@
-import pytest
 import types
-from strmquiz.bool.logigram import logigram
-from strmquiz.bool.bool_const import NAND_SYMB, NOR_SYMB, BIG_NAND_SYMB, BIG_NOR_SYMB
 
+import pytest
+
+from strmquiz.bool.bool_const import (BIG_NAND_SYMB, BIG_NOR_SYMB, NAND_SYMB,
+                                      NOR_SYMB)
+from strmquiz.bool.logigram import logigram
 
 # @pytest.fixture(autouse=True)
 # def patch_bool_const(monkeypatch):

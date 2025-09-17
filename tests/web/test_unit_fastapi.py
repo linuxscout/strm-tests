@@ -1,8 +1,10 @@
 import os
 import sys
+
 import pytest
 from fastapi.testclient import TestClient
-from web.app import app, quiz_builder, Submission
+
+from web.app import Submission, app, quiz_builder
 
 
 @pytest.fixture

@@ -1,7 +1,8 @@
-import pytest
 from unittest.mock import Mock
-from strmquiz.question_builder import Question_Builder
 
+import pytest
+
+from strmquiz.question_builder import Question_Builder
 
 # def test_use_formatter_accepts_valid_formatter():
 #     qb = Question_Builder()

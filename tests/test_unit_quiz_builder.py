@@ -1,11 +1,11 @@
-import os
-import pytest
 import json
+import os
 import shutil
+from pathlib import Path
+
+import pytest
 
 from strmquiz.quizbuilder import QuizBuilder
-
-from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 # args_file = PROJECT_ROOT / "args.json"

@@ -1,5 +1,7 @@
 import pytest
-from strmquiz.question_builder.boolean_question_builder import BooleanQuestionBuilder
+
+from strmquiz.question_builder.boolean_question_builder import \
+    BooleanQuestionBuilder
 
 
 @pytest.fixture

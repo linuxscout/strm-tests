@@ -1,4 +1,5 @@
 import unittest
+
 from strmquiz.sequentiel.seqcircuitsimulator import SeqCircuitSimulator
 
 

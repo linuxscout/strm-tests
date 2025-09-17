@@ -1,7 +1,7 @@
 import pytest
-from strmquiz.question_builder.sequential_question_builder import (
-    SequentialQuestionBuilder,
-)
+
+from strmquiz.question_builder.sequential_question_builder import \
+    SequentialQuestionBuilder
 
 
 @pytest.fixture

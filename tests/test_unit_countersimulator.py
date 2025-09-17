@@ -1,4 +1,5 @@
 import unittest
+
 from strmquiz.sequentiel.countersimulator import CounterSimulator
 
 

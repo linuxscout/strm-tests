@@ -1,14 +1,11 @@
-import pytest
-import types
 import sys
+import types
+
+import pytest
 
 from strmquiz.sequentiel.chronograms import Chronograms
-from strmquiz.sequentiel.seqconst import (
-    FLIP_TRUTH_TABLES,
-    FLIPS_DATA,
-    FLIPS_RANDOM,
-    TRUTH_TABLE_MAP,
-)
+from strmquiz.sequentiel.seqconst import (FLIP_TRUTH_TABLES, FLIPS_DATA,
+                                          FLIPS_RANDOM, TRUTH_TABLE_MAP)
 
 
 def test_set_synch_type():
@@ -161,7 +158,8 @@ def test_resolve_jk_direct_call():
 
 
 def test_get_truth_value():
-    import types, sys
+    import sys
+    import types
 
     # Create a fake seqconst module
     chrono = Chronograms()

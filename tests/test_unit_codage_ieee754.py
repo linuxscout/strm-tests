@@ -1,4 +1,5 @@
 import pytest
+
 from strmquiz.codage.ieee754 import float_point
 
 

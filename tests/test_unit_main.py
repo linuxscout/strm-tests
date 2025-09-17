@@ -1,20 +1,22 @@
-import sys
-import logging
 import builtins
-import pytest
+import logging
 import os
-from unittest.mock import patch, MagicMock
+import sys
+from unittest.mock import MagicMock, patch
+
+import pytest
+
 from strmquiz.quizbuilder import QuizBuilder
 
 TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), "../", "templates")
-import strmquiz.__main__ as app  # replace with the actual filename (without .py)
-
+import builtins
 import sys
 import types
-import pytest
-import builtins
 from pathlib import Path
 
+import pytest
+
+import strmquiz.__main__ as app  # replace with the actual filename (without .py)
 import strmquiz.__main__ as cli  # assuming the file is __main__.py under strm_tests/
 
 

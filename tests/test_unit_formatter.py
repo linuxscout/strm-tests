@@ -1,9 +1,10 @@
-import unittest
-import tempfile
 import os
-from strmquiz.display.quiz_format import quiz_format  # تأكد من استيراد فئة Formatter
-
+import tempfile
+import unittest
 from pathlib import Path
+
+from strmquiz.display.quiz_format import \
+    quiz_format  # تأكد من استيراد فئة Formatter
 
 
 class TestFormatter(unittest.TestCase):
