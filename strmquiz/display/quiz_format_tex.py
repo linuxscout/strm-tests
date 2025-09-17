@@ -24,10 +24,9 @@
 
 import itertools
 import re
-from . import quiz_format
-from . import format_const
-from ..bool import logigram
-from ..bool import bool_const
+
+from ..bool import bool_const, logigram
+from . import format_const, quiz_format
 
 
 class quiz_format_tex(quiz_format.quiz_format):

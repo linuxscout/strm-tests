@@ -20,11 +20,11 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 #
-import sys
-import os
-import configparser
 import ast
+import configparser
 import logging
+import os
+import sys
 
 
 class ReadConfig:

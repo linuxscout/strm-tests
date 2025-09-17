@@ -20,13 +20,12 @@
 #  MA 02110-1301, USA.
 #
 #
-import logging
-
-
 import json
+import logging
 import random
+from typing import Any, Callable, Dict, List
+
 from . import seqconst
-from typing import Dict, List, Any, Callable
 
 
 class Chronograms:

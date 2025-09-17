@@ -22,19 +22,18 @@
 #
 #
 import logging
-
 import os.path
-from typing import Dict, Optional
-from pathlib import Path
-
 import random
 import warnings
+from pathlib import Path
+from typing import Any, Dict, Optional, TypedDict
+
+from strmquiz.question_builder.question_builder_factory import \
+    question_builder_factory
 
 from . import read_config
-from .display import quiz_format_factory
-from strmquiz.question_builder.question_builder_factory import question_builder_factory
 from .argschemaloader import myArgsValidator
-from typing import TypedDict, Any
+from .display import quiz_format_factory
 
 
 class CommandInfo(TypedDict):

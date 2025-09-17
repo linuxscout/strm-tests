@@ -21,13 +21,13 @@
 #  MA 02110-1301, USA.
 #
 #
-import itertools
-import re
 import html
+import itertools
 import logging
-from . import quiz_format
-from . import format_const
+import re
+
 from ..bool import bool_const
+from . import format_const, quiz_format
 
 
 class quiz_format_html(quiz_format.quiz_format):

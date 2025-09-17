@@ -23,7 +23,7 @@
 #
 
 from moodle_question_generator import moodleQuestionGenerator
-from moodlexport import Question, Category
+from moodlexport import Category, Question
 
 
 class MQG_xml(moodleQuestionGenerator):

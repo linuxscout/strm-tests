@@ -21,8 +21,9 @@
 #  MA 02110-1301, USA.
 #
 #
-import string
 import random
+import string
+
 from . import codequestion_const as cqconst
 
 

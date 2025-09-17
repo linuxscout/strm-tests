@@ -22,16 +22,18 @@
 #
 #
 # used for generating truth table
-from jinja2 import Environment, FileSystemLoader, TemplateNotFound
+import itertools
+import json
 import logging
 import os
-from pathlib import Path
 import re
-import json
+from pathlib import Path
+
 import tabulate
-import itertools
-from . import format_const
+from jinja2 import Environment, FileSystemLoader, TemplateNotFound
+
 from ..bool import logigram
+from . import format_const
 
 
 def to_bin(value, width=0):

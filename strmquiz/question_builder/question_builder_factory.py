@@ -22,12 +22,13 @@
 #
 #
 
-from strmquiz.question_builder import Question_Builder
-from strmquiz.question_builder.encoding_question_builder import EncodingQuestionBuilder
-from strmquiz.question_builder.boolean_question_builder import BooleanQuestionBuilder
-from strmquiz.question_builder.sequential_question_builder import (
-    SequentialQuestionBuilder,
-)
+from strmquiz.question_builder.boolean_question_builder import \
+    BooleanQuestionBuilder
+from strmquiz.question_builder.encoding_question_builder import \
+    EncodingQuestionBuilder
+from strmquiz.question_builder.question_builder import Question_Builder
+from strmquiz.question_builder.sequential_question_builder import \
+    SequentialQuestionBuilder
 
 
 class question_builder_factory:

@@ -24,16 +24,10 @@
 import logging
 import random
 
-from strmquiz.sequentiel import chronograms
-from strmquiz.sequentiel import seqconst
-from strmquiz.sequentiel import registersimulator
-from strmquiz.sequentiel import countersimulator
-
-
 from strmquiz.bool import boolquiz
-
-
-from strmquiz.question_builder import Question_Builder
+from strmquiz.question_builder.question_builder import Question_Builder
+from strmquiz.sequentiel import (chronograms, countersimulator,
+                                 registersimulator, seqconst)
 
 
 class SequentialQuestionBuilder(Question_Builder):

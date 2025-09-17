@@ -22,15 +22,11 @@
 #
 #
 import logging
-
 import random
 
-
-from strmquiz.codage import question_codage as question
 from strmquiz.codage import ieee754
-
-
-from strmquiz.question_builder import Question_Builder
+from strmquiz.codage import question_codage as question
+from strmquiz.question_builder.question_builder import Question_Builder
 
 # --------------------------
 # CONST of Categoris and commands

@@ -22,10 +22,11 @@
 #
 #
 
-import question
+import random
+
 import boolquiz
 import ieee754
-import random
+import question
 
 
 class correction:

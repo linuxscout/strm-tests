@@ -23,8 +23,10 @@
 #
 
 import re
-from . import bool_const
+
 from deprecated import deprecated
+
+from . import bool_const
 
 
 class logigram:

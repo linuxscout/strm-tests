@@ -21,12 +21,13 @@
 #  MA 02110-1301, USA.
 #
 #
-import sys
 import random
-from question import questionGenerator
+import sys
+
 from ieee754 import float_point
-from mqg_xml import MQG_xml
 from mqg_gift import MQG_gift
+from mqg_xml import MQG_xml
+from question import questionGenerator
 
 
 class MQG_builder:

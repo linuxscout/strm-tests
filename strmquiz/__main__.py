@@ -7,14 +7,13 @@ Usage:
     python -m strm_tests [options]
 """
 
-import logging
-import sys
-import os
 import argparse
-import webbrowser
+import logging
+import os
 import subprocess
+import sys
+import webbrowser
 from pathlib import Path
-
 
 logging.basicConfig(
     level=logging.DEBUG,  # Default log level

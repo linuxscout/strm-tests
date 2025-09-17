@@ -23,13 +23,9 @@
 #
 import logging
 import random
-from strmquiz.bool import bool_const, logigram
 
-
-from strmquiz.bool import boolquiz
-
-
-from strmquiz.question_builder import Question_Builder
+from strmquiz.bool import bool_const, boolquiz, logigram
+from strmquiz.question_builder.question_builder import Question_Builder
 
 
 class BooleanQuestionBuilder(Question_Builder):

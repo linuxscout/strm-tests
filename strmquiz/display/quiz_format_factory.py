@@ -21,12 +21,8 @@
 #  MA 02110-1301, USA.
 #
 #
-from . import quiz_format
-from . import quiz_format_html
-from . import quiz_format_tex
-from . import quiz_format_json
-from . import quiz_format_md
-from . import quiz_format_txt
+from . import (quiz_format, quiz_format_html, quiz_format_json, quiz_format_md,
+               quiz_format_tex, quiz_format_txt)
 
 
 class quiz_format_factory:

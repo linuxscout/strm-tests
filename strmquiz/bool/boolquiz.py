@@ -1,10 +1,10 @@
 import random
 import re
+
 import sympy
 from sympy import symbols
 
-from . import logigram
-from . import bool_const
+from . import bool_const, logigram
 
 FUNCTIONS = [
     {
