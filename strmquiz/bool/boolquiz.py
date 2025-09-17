@@ -81,82 +81,82 @@ class bool_quiz:
         return sop_quest, minterms_table
 
     # @deprecated_func
-    def truth_table2(self, minterms, latex=False, dontcares=[]):
-        """print truth table"""
-        variables = self.variables
-        cases = itertools.product([0, 1], [0, 1], [0, 1], [0, 1])
-        text = "N°\t"  # line number
-        text = "\t".join(variables)
-        text = "\t" + self.vars_outputs[0]
-
-        tex = """%%\\begin{table}
-        \\begin{tabular}{|c|c|c|c|c||c|}
-    \\toprule
-        """
-        tex += "N° & "  # line number
-        tex += " & ".join(variables)
-        tex += " & " + self.vars_outputs[0]
-        tex += "\\\\ \\midrule"
-
-        for counter, item in enumerate(cases):
-            f = 1 if counter in minterms else 0
-            case = [counter] + list(item) + [f]
-            if counter and counter % 4 == 0:
-                tex += "\\midrule"
-            text += "\t".join([str(x) for x in case]) + "\n"
-            tex += " & ".join([str(x) for x in case]) + "\\\\"
-
-        tex += """\\bottomrule
-        \\end{tabular}
-        %%\\end{table}
-        """
-        if latex:
-            return tex
-        else:
-            return text
+    # def truth_table2(self, minterms, latex=False, dontcares=[]):
+    #     """print truth table"""
+    #     variables = self.variables
+    #     cases = itertools.product([0, 1], [0, 1], [0, 1], [0, 1])
+    #     text = "N°\t"  # line number
+    #     text = "\t".join(variables)
+    #     text = "\t" + self.vars_outputs[0]
+    #
+    #     tex = """%%\\begin{table}
+    #     \\begin{tabular}{|c|c|c|c|c||c|}
+    # \\toprule
+    #     """
+    #     tex += "N° & "  # line number
+    #     tex += " & ".join(variables)
+    #     tex += " & " + self.vars_outputs[0]
+    #     tex += "\\\\ \\midrule"
+    #
+    #     for counter, item in enumerate(cases):
+    #         f = 1 if counter in minterms else 0
+    #         case = [counter] + list(item) + [f]
+    #         if counter and counter % 4 == 0:
+    #             tex += "\\midrule"
+    #         text += "\t".join([str(x) for x in case]) + "\n"
+    #         tex += " & ".join([str(x) for x in case]) + "\\\\"
+    #
+    #     tex += """\\bottomrule
+    #     \\end{tabular}
+    #     %%\\end{table}
+    #     """
+    #     if latex:
+    #         return tex
+    #     else:
+    #         return text
 
     # deprecated
-    def multiple_truth_table2(self, minterms_list, latex=False, dontcares_list=[]):
-        """print truth table"""
-
-        outputs_len = len(minterms_list)
-        cases = itertools.product([0, 1], [0, 1], [0, 1], [0, 1])
-        text = "N°\t"  # line number
-        text = "\t".join(self.variables + self.vars_outputs[:outputs_len])
-        tex = """%%\\begin{table}\n
-        \\begin{tabular}{|c|c|c|c|c||%s}\n
-    \\toprule\n
-        """ % (
-            "c|" * outputs_len
-        )
-        tex += "N° &"  # line number
-        tex += " & ".join(self.variables + self.vars_outputs[:outputs_len])
-        tex += "\\\\ \\midrule\n"
-
-        for counter, item in enumerate(cases):
-            case = [counter] + list(item)
-
-            for minterms, dontcares in zip(minterms_list, dontcares_list):
-                if counter in minterms:
-                    f = 1
-                elif counter in dontcares:
-                    f = "X"
-                else:
-                    f = 0
-                case.append(f)
-            if counter and counter % 4 == 0:
-                tex += "\\midrule\n"
-            text += "\t".join([str(x) for x in case]) + "\n"
-            tex += " & ".join([str(x) for x in case]) + "\\\\\n"
-
-        tex += """\\bottomrule\n
-        \\end{tabular}\n
-        %%\\end{table}\n
-        """
-        if latex:
-            return tex
-        else:
-            return text
+    # def multiple_truth_table2(self, minterms_list, latex=False, dontcares_list=[]):
+    #     """print truth table"""
+    #
+    #     outputs_len = len(minterms_list)
+    #     cases = itertools.product([0, 1], [0, 1], [0, 1], [0, 1])
+    #     text = "N°\t"  # line number
+    #     text = "\t".join(self.variables + self.vars_outputs[:outputs_len])
+    #     tex = """%%\\begin{table}\n
+    #     \\begin{tabular}{|c|c|c|c|c||%s}\n
+    # \\toprule\n
+    #     """ % (
+    #         "c|" * outputs_len
+    #     )
+    #     tex += "N° &"  # line number
+    #     tex += " & ".join(self.variables + self.vars_outputs[:outputs_len])
+    #     tex += "\\\\ \\midrule\n"
+    #
+    #     for counter, item in enumerate(cases):
+    #         case = [counter] + list(item)
+    #
+    #         for minterms, dontcares in zip(minterms_list, dontcares_list):
+    #             if counter in minterms:
+    #                 f = 1
+    #             elif counter in dontcares:
+    #                 f = "X"
+    #             else:
+    #                 f = 0
+    #             case.append(f)
+    #         if counter and counter % 4 == 0:
+    #             tex += "\\midrule\n"
+    #         text += "\t".join([str(x) for x in case]) + "\n"
+    #         tex += " & ".join([str(x) for x in case]) + "\\\\\n"
+    #
+    #     tex += """\\bottomrule\n
+    #     \\end{tabular}\n
+    #     %%\\end{table}\n
+    #     """
+    #     if latex:
+    #         return tex
+    #     else:
+    #         return text
 
     def normalize(self, s, mode=True):
         """normalize boolean string
@@ -208,24 +208,24 @@ class bool_quiz:
         return sop, pos
 
     # deprectaed
-    def simplify_map2(self, minterms, dontcares=[]):
-
-        var_names = "a b c d"
-        # ~ var_names  = " ".join(self.variables).lower()
-
-        a, b, c, d = symbols(var_names)
-        sop = sympy.SOPform([a, b, c, d], minterms, dontcares)
-        pos = sympy.POSform([a, b, c, d], minterms, dontcares)
-
-        sop = self.normalize(sop)
-        pos = self.normalize(pos, False)
-        terms = [t.strip() for t in sop.split(" + ")]
-
-        simpls = []
-        for term in terms:
-            simpls.append(bool_const.REDUCTION_TABLE.get(term, ""))
-
-        return "\n".join(simpls)
+    # def simplify_map2(self, minterms, dontcares=[]):
+    #
+    #     var_names = "a b c d"
+    #     # ~ var_names  = " ".join(self.variables).lower()
+    #
+    #     a, b, c, d = symbols(var_names)
+    #     sop = sympy.SOPform([a, b, c, d], minterms, dontcares)
+    #     pos = sympy.POSform([a, b, c, d], minterms, dontcares)
+    #
+    #     sop = self.normalize(sop)
+    #     pos = self.normalize(pos, False)
+    #     terms = [t.strip() for t in sop.split(" + ")]
+    #
+    #     simpls = []
+    #     for term in terms:
+    #         simpls.append(bool_const.REDUCTION_TABLE.get(term, ""))
+    #
+    #     return "\n".join(simpls)
 
     def simplify_map(self, minterms, dontcares=[], method="sop"):
 
@@ -256,24 +256,24 @@ class bool_quiz:
     def minterm(self, n):
         """return a minterm for integer"""
         return bool_const.MINTERMS_TABLE.get(n, "")
-        term = []
-        for var in "dcba":
-            v = var if n % 2 == 1 else var + "'"
-            n = n // 2
-            term.append(v)
-        term.sort()
-        return ".".join(term)
+        # term = []
+        # for var in "dcba":
+        #     v = var if n % 2 == 1 else var + "'"
+        #     n = n // 2
+        #     term.append(v)
+        # term.sort()
+        # return ".".join(term)
 
     def maxterm(self, n):
         return bool_const.MAXTERMS_TABLE.get(n, "")
-        term = []
-        """ return a minterm for integer"""
-        for var in "dcba":
-            v = var if n % 2 == 0 else var + "'"
-            n = n // 2
-            term.append(v)
-        term.sort()
-        return "(%s)" % ("+".join(term))
+        # term = []
+        # """ return a minterm for integer"""
+        # for var in "dcba":
+        #     v = var if n % 2 == 0 else var + "'"
+        #     n = n // 2
+        #     term.append(v)
+        # term.sort()
+        # return "(%s)" % ("+".join(term))
 
     def maxterm_str(self, n):
         term = []
@@ -373,134 +373,134 @@ class bool_quiz:
         s = s.replace("d'", "\\bar d")
         return s
 
-    def make_nand_norXX(self, exp, type_exp="sop", method="NAND"):
-        """normalize boolean string into NOR or NAND"""
-        varlist = ["A", "B", "C", "D"]
-        s = str(exp).upper()
-        opr_sym = ""
-        # used to illiustrate the expression
-        explain_str = ""
-        UPARROW = "\u2191"
-        BIG_UPARROW = "[\u2191]"
-        DOWNARROW = "\u2193"
-        BIG_DOWNARROW = "[\u2193]"
-        NOTSYMBOLE = "\u00ac"
-        if method.upper() == "NAND":
-            opr_sym = UPARROW
-            s = "(%s)" % s
-            if type_exp == "sop":
-                #
-                explain_str = exp + "\n"
-                explain_str += "¬{¬{" + exp + "}}\n"
-                explain_str += "¬{¬{" + exp.replace("+", "}).(¬{") + "})}\n"
-                # replace all 'not A' by 'A NAND A'
-                for var in varlist:
-                    s = s.replace(
-                        "%s'" % var, "(%s %s %s)" % (var.upper(), opr_sym, var.upper())
-                    )
-                # replace all '+' by "NAND"
-                s = s.replace("+", ")[%s](" % opr_sym)
-                # replace all '.' by "NAND"
-                s = s.replace(".", opr_sym)
-
-            elif type_exp == "pos":
-                # if no parenthesis in expression
-                exp2 = exp
-                if "(" not in exp2:
-                    exp2 = "(" + exp2.replace(".", ").(") + ")"
-                    s = exp2.upper()
-
-                exp2 = exp2.replace("(", "(¬{¬{")
-                exp2 = exp2.replace(")", "}})")
-                explain_str = exp + "\n"
-                explain_str += exp2 + "\n"
-                explain_str += "¬{¬{" + exp2 + "}}\n"
-
-                # replace all 'not A' by 'W'
-                for var in varlist:
-                    # to avoid non suitable replacement
-                    tmp_var = chr(ord(var.upper()) + 22)
-                    s = s.replace("%s'" % var, tmp_var)
-
-                # replace all 'A' by 'A NAND A'
-                for var in varlist:
-                    s = s.replace(
-                        "%s" % var, "(%s %s %s)" % (var.upper(), opr_sym, var.upper())
-                    )
-
-                # replace temp vars
-                for var in varlist:
-                    # to avoid non suitable replacement
-                    tmp_var = chr(ord(var.upper()) + 22)
-                    s = s.replace(tmp_var, var)
-
-                # replace all '+' by "NAND"
-                s = s.replace("+", "%s" % opr_sym)
-                # replace all '.' by "NAND"
-                s = s.replace(".", opr_sym)
-                # duplicate s
-                s = s + opr_sym + s
-        elif method.upper() == "NOR":
-            opr_sym = DOWNARROW
-            s = "(%s)" % s
-            if type_exp == "pos":
-                #
-                explain_str = exp + "\n"
-                explain_str += "¬{¬{" + exp + "}}\n"
-                explain_str += "¬{(¬{" + exp.replace(".", "}+¬{") + "})}\n"
-                # replace all 'not A' by 'A NOR A'
-                for var in varlist:
-                    s = s.replace(
-                        "%s'" % var, "(%s %s %s)" % (var.upper(), opr_sym, var.upper())
-                    )
-                # replace all '+' by "NOR"
-                s = s.replace("+", opr_sym)
-                # replace all '.' by "NOR"
-                s = s.replace(".", "%s" % opr_sym)
-
-            elif type_exp == "sop":
-                # if no parenthesis in expression
-                exp2 = exp
-                if "(" not in exp2:
-                    exp2 = "(" + exp2.replace("+", ")+(") + ")"
-                    s = exp2.upper()
-                    # ~ exp2 = "("+exp.replace("+",")+(")+")"
-                exp2 = exp2.replace("(", "(¬{¬{")
-                # ~ exp2 = exp2.replace("(", "(\\overline{\\overline{")
-                exp2 = exp2.replace(")", "}})")
-                explain_str = exp + "\n"
-                explain_str += exp2 + "\n"
-                explain_str += "¬{¬{" + exp2 + "}}\n"
-
-                # replace all 'not A' by 'W'
-                for var in varlist:
-                    # to avoid non suitable replacement
-                    tmp_var = chr(ord(var.upper()) + 22)
-                    s = s.replace("%s'" % var, tmp_var)
-
-                # replace all 'A' by 'A NOR A'
-                for var in varlist:
-                    s = s.replace(
-                        "%s" % var, "(%s %s %s)" % (var.upper(), opr_sym, var.upper())
-                    )
-
-                # replace temp vars
-                for var in varlist:
-                    # to avoid non suitable replacement
-                    tmp_var = chr(ord(var.upper()) + 22)
-                    s = s.replace(tmp_var, var)
-
-                # replace all '+' by "NOR"
-                s = s.replace(".", "%s" % opr_sym)
-                # replace all '.' by "NOR"
-                s = s.replace("+", opr_sym)
-                # duplicate s
-                s = s + opr_sym + s
-                # add explaination to result string
-        result = explain_str + s
-        result = self.normalize_latex(result)
-
-        return result
+    # def make_nand_norXX(self, exp, type_exp="sop", method="NAND"):
+    #     """normalize boolean string into NOR or NAND"""
+    #     varlist = ["A", "B", "C", "D"]
+    #     s = str(exp).upper()
+    #     opr_sym = ""
+    #     # used to illiustrate the expression
+    #     explain_str = ""
+    #     UPARROW = "\u2191"
+    #     BIG_UPARROW = "[\u2191]"
+    #     DOWNARROW = "\u2193"
+    #     BIG_DOWNARROW = "[\u2193]"
+    #     NOTSYMBOLE = "\u00ac"
+    #     if method.upper() == "NAND":
+    #         opr_sym = UPARROW
+    #         s = "(%s)" % s
+    #         if type_exp == "sop":
+    #             #
+    #             explain_str = exp + "\n"
+    #             explain_str += "¬{¬{" + exp + "}}\n"
+    #             explain_str += "¬{¬{" + exp.replace("+", "}).(¬{") + "})}\n"
+    #             # replace all 'not A' by 'A NAND A'
+    #             for var in varlist:
+    #                 s = s.replace(
+    #                     "%s'" % var, "(%s %s %s)" % (var.upper(), opr_sym, var.upper())
+    #                 )
+    #             # replace all '+' by "NAND"
+    #             s = s.replace("+", ")[%s](" % opr_sym)
+    #             # replace all '.' by "NAND"
+    #             s = s.replace(".", opr_sym)
+    #
+    #         elif type_exp == "pos":
+    #             # if no parenthesis in expression
+    #             exp2 = exp
+    #             if "(" not in exp2:
+    #                 exp2 = "(" + exp2.replace(".", ").(") + ")"
+    #                 s = exp2.upper()
+    #
+    #             exp2 = exp2.replace("(", "(¬{¬{")
+    #             exp2 = exp2.replace(")", "}})")
+    #             explain_str = exp + "\n"
+    #             explain_str += exp2 + "\n"
+    #             explain_str += "¬{¬{" + exp2 + "}}\n"
+    #
+    #             # replace all 'not A' by 'W'
+    #             for var in varlist:
+    #                 # to avoid non suitable replacement
+    #                 tmp_var = chr(ord(var.upper()) + 22)
+    #                 s = s.replace("%s'" % var, tmp_var)
+    #
+    #             # replace all 'A' by 'A NAND A'
+    #             for var in varlist:
+    #                 s = s.replace(
+    #                     "%s" % var, "(%s %s %s)" % (var.upper(), opr_sym, var.upper())
+    #                 )
+    #
+    #             # replace temp vars
+    #             for var in varlist:
+    #                 # to avoid non suitable replacement
+    #                 tmp_var = chr(ord(var.upper()) + 22)
+    #                 s = s.replace(tmp_var, var)
+    #
+    #             # replace all '+' by "NAND"
+    #             s = s.replace("+", "%s" % opr_sym)
+    #             # replace all '.' by "NAND"
+    #             s = s.replace(".", opr_sym)
+    #             # duplicate s
+    #             s = s + opr_sym + s
+    #     elif method.upper() == "NOR":
+    #         opr_sym = DOWNARROW
+    #         s = "(%s)" % s
+    #         if type_exp == "pos":
+    #             #
+    #             explain_str = exp + "\n"
+    #             explain_str += "¬{¬{" + exp + "}}\n"
+    #             explain_str += "¬{(¬{" + exp.replace(".", "}+¬{") + "})}\n"
+    #             # replace all 'not A' by 'A NOR A'
+    #             for var in varlist:
+    #                 s = s.replace(
+    #                     "%s'" % var, "(%s %s %s)" % (var.upper(), opr_sym, var.upper())
+    #                 )
+    #             # replace all '+' by "NOR"
+    #             s = s.replace("+", opr_sym)
+    #             # replace all '.' by "NOR"
+    #             s = s.replace(".", "%s" % opr_sym)
+    #
+    #         elif type_exp == "sop":
+    #             # if no parenthesis in expression
+    #             exp2 = exp
+    #             if "(" not in exp2:
+    #                 exp2 = "(" + exp2.replace("+", ")+(") + ")"
+    #                 s = exp2.upper()
+    #                 # ~ exp2 = "("+exp.replace("+",")+(")+")"
+    #             exp2 = exp2.replace("(", "(¬{¬{")
+    #             # ~ exp2 = exp2.replace("(", "(\\overline{\\overline{")
+    #             exp2 = exp2.replace(")", "}})")
+    #             explain_str = exp + "\n"
+    #             explain_str += exp2 + "\n"
+    #             explain_str += "¬{¬{" + exp2 + "}}\n"
+    #
+    #             # replace all 'not A' by 'W'
+    #             for var in varlist:
+    #                 # to avoid non suitable replacement
+    #                 tmp_var = chr(ord(var.upper()) + 22)
+    #                 s = s.replace("%s'" % var, tmp_var)
+    #
+    #             # replace all 'A' by 'A NOR A'
+    #             for var in varlist:
+    #                 s = s.replace(
+    #                     "%s" % var, "(%s %s %s)" % (var.upper(), opr_sym, var.upper())
+    #                 )
+    #
+    #             # replace temp vars
+    #             for var in varlist:
+    #                 # to avoid non suitable replacement
+    #                 tmp_var = chr(ord(var.upper()) + 22)
+    #                 s = s.replace(tmp_var, var)
+    #
+    #             # replace all '+' by "NOR"
+    #             s = s.replace(".", "%s" % opr_sym)
+    #             # replace all '.' by "NOR"
+    #             s = s.replace("+", opr_sym)
+    #             # duplicate s
+    #             s = s + opr_sym + s
+    #             # add explaination to result string
+    #     result = explain_str + s
+    #     result = self.normalize_latex(result)
+    #
+    #     return result
 
     def explain_nand_nor(self, expr, method=""):
         if method.lower() == "nand":
@@ -588,211 +588,211 @@ class bool_quiz:
         """make NOR expression from pos"""
         return self.make_nand_nor_expression(pos, "nor")
 
-    def normalize_nand_nor(self, exp, type_exp="sop", method="NAND"):
-        """normalize boolean string into NOR or NAND"""
-        varlist_bar = ["A'", "B'", "C'", "D'"]  # ,  "a'","b'", "c'", "d'"]
-        varlist = ["A", "B", "C", "D"]  # ,  "a","b", "c", "d"]
-        s = str(exp).upper()
-        opr_sym = ""
-        # used to illiustrate the expression
-        explain_str = ""
-        if method.upper() == "NAND":
-            opr_sym = "\\uparrow "
-            s = "(%s)" % s
-            if type_exp == "sop":
-                #
-                explain_str = "$$" + exp + "$$\n"
-                explain_str += "$$\\overline{\\overline{" + exp + "}}$$\n"
-                explain_str += (
-                    "$$\\overline{(\\overline{"
-                    + exp.replace("+", "}).(\\overline{")
-                    + "})}$$\n"
-                )
-                # replace all 'not A' by 'A NAND A'
-                for var in varlist:
-                    s = s.replace(
-                        "\\BAR %s" % var,
-                        "(%s %s %s)" % (var.upper(), opr_sym, var.upper()),
-                    )
-                    s = s.replace(
-                        "%s'" % var, "(%s %s %s)" % (var.upper(), opr_sym, var.upper())
-                    )
-                # replace all '+' by "NAND"
-                s = s.replace("+", ")\\big{%s}(" % opr_sym)
-                # replace all '.' by "NAND"
-                s = s.replace(".", opr_sym)
-
-            elif type_exp == "pos":
-                # if no parenthesis in expression
-                exp2 = exp
-                if "(" not in exp2:
-                    exp2 = "(" + exp2.replace(".", ").(") + ")"
-                    s = exp2.upper()
-
-                exp2 = exp2.replace("(", "(\\overline{\\overline{")
-                exp2 = exp2.replace(")", "}})")
-                explain_str = "$$" + exp + "$$\n"
-                explain_str += "$$" + exp2 + "$$\n"
-                explain_str += "$$\\overline{\\overline{" + exp2 + "}}$$\n"
-
-                # replace all 'not A' by 'W'
-                for var in varlist:
-                    # to avoid non suitable replacement
-                    tmp_var = chr(ord(var.upper()) + 22)
-                    s = s.replace("%s'" % var, tmp_var)
-                    s = s.replace("\\BAR %s" % var, tmp_var)
-
-                # replace all 'A' by 'A NAND A'
-                for var in varlist:
-                    s = s.replace(
-                        "%s" % var, "(%s %s %s)" % (var.upper(), opr_sym, var.upper())
-                    )
-
-                # replace temp vars
-                for var in varlist:
-                    # to avoid non suitable replacement
-                    tmp_var = chr(ord(var.upper()) + 22)
-                    s = s.replace(tmp_var, var)
-
-                # replace all '+' by "NAND"
-                s = s.replace("+", "%s" % opr_sym)
-                # replace all '.' by "NAND"
-                s = s.replace(".", opr_sym)
-                # duplicate s
-                s = s + opr_sym + s
-        elif method.upper() == "NOR":
-            opr_sym = "\\downarrow "
-            s = "(%s)" % s
-            if type_exp == "pos":
-                #
-                explain_str = "$$" + exp + "$$\n"
-                explain_str += "$$\\overline{\\overline{" + exp + "}}$$\n"
-                explain_str += (
-                    "$$\\overline{(\\overline{"
-                    + exp.replace(".", "}+\\overline{")
-                    + "})}$$\n"
-                )
-                # replace all 'not A' by 'A NOR A'
-                for var in varlist:
-                    s = s.replace(
-                        "\\BAR %s" % var,
-                        "(%s %s %s)" % (var.upper(), opr_sym, var.upper()),
-                    )
-                    s = s.replace(
-                        "%s'" % var, "(%s %s %s)" % (var.upper(), opr_sym, var.upper())
-                    )
-                # replace all '+' by "NOR"
-                s = s.replace("+", opr_sym)
-                # replace all '.' by "NOR"
-                s = s.replace(".", "%s" % opr_sym)
-
-            elif type_exp == "sop":
-                # if no parenthesis in expression
-                exp2 = exp
-                if "(" not in exp2:
-                    exp2 = "(" + exp2.replace("+", ")+(") + ")"
-                    s = exp2.upper()
-                # ~ exp2 = "("+exp.replace("+",")+(")+")"
-                exp2 = exp2.replace("(", "(\\overline{\\overline{")
-                # ~ exp2 = exp2.replace("(", "(\\overline{\\overline{")
-                exp2 = exp2.replace(")", "}})")
-                explain_str = "$$" + exp + "$$\n"
-                explain_str += "$$" + exp2 + "$$\n"
-                explain_str += "$$\\overline{\\overline{" + exp2 + "}}$$\n"
-
-                # replace all 'not A' by 'W'
-                for var in varlist:
-                    # to avoid non suitable replacement
-                    tmp_var = chr(ord(var.upper()) + 22)
-                    s = s.replace("%s'" % var, tmp_var)
-                    s = s.replace("\\BAR %s" % var, tmp_var)
-
-                # replace all 'A' by 'A NOR A'
-                for var in varlist:
-                    s = s.replace(
-                        "%s" % var, "(%s %s %s)" % (var.upper(), opr_sym, var.upper())
-                    )
-
-                # replace temp vars
-                for var in varlist:
-                    # to avoid non suitable replacement
-                    tmp_var = chr(ord(var.upper()) + 22)
-                    s = s.replace(tmp_var, var)
-
-                # replace all '+' by "NOR"
-                s = s.replace(".", "%s" % opr_sym)
-                # replace all '.' by "NOR"
-                s = s.replace("+", opr_sym)
-                # duplicate s
-                s = s + opr_sym + s
-        # add explaination to result string
-        result = explain_str + "$$" + s + "$$"
-        result = self.normalize_latex(result)
-
-        return result
-
-    # deprecated
-    def draw_logigram2(self, sop, function_name="F"):
-        """draw a logigram"""
-        varnames = {
-            "A": self.variables[0],
-            "B": self.variables[1],
-            "C": self.variables[2],
-            "D": self.variables[3],
-        }
-        lg = logigram.logigram(varnames)
-        return lg.draw_logigram(sop, function_name)
+    # def normalize_nand_nor(self, exp, type_exp="sop", method="NAND"):
+    #     """normalize boolean string into NOR or NAND"""
+    #     varlist_bar = ["A'", "B'", "C'", "D'"]  # ,  "a'","b'", "c'", "d'"]
+    #     varlist = ["A", "B", "C", "D"]  # ,  "a","b", "c", "d"]
+    #     s = str(exp).upper()
+    #     opr_sym = ""
+    #     # used to illiustrate the expression
+    #     explain_str = ""
+    #     if method.upper() == "NAND":
+    #         opr_sym = "\\uparrow "
+    #         s = "(%s)" % s
+    #         if type_exp == "sop":
+    #             #
+    #             explain_str = "$$" + exp + "$$\n"
+    #             explain_str += "$$\\overline{\\overline{" + exp + "}}$$\n"
+    #             explain_str += (
+    #                 "$$\\overline{(\\overline{"
+    #                 + exp.replace("+", "}).(\\overline{")
+    #                 + "})}$$\n"
+    #             )
+    #             # replace all 'not A' by 'A NAND A'
+    #             for var in varlist:
+    #                 s = s.replace(
+    #                     "\\BAR %s" % var,
+    #                     "(%s %s %s)" % (var.upper(), opr_sym, var.upper()),
+    #                 )
+    #                 s = s.replace(
+    #                     "%s'" % var, "(%s %s %s)" % (var.upper(), opr_sym, var.upper())
+    #                 )
+    #             # replace all '+' by "NAND"
+    #             s = s.replace("+", ")\\big{%s}(" % opr_sym)
+    #             # replace all '.' by "NAND"
+    #             s = s.replace(".", opr_sym)
+    #
+    #         elif type_exp == "pos":
+    #             # if no parenthesis in expression
+    #             exp2 = exp
+    #             if "(" not in exp2:
+    #                 exp2 = "(" + exp2.replace(".", ").(") + ")"
+    #                 s = exp2.upper()
+    #
+    #             exp2 = exp2.replace("(", "(\\overline{\\overline{")
+    #             exp2 = exp2.replace(")", "}})")
+    #             explain_str = "$$" + exp + "$$\n"
+    #             explain_str += "$$" + exp2 + "$$\n"
+    #             explain_str += "$$\\overline{\\overline{" + exp2 + "}}$$\n"
+    #
+    #             # replace all 'not A' by 'W'
+    #             for var in varlist:
+    #                 # to avoid non suitable replacement
+    #                 tmp_var = chr(ord(var.upper()) + 22)
+    #                 s = s.replace("%s'" % var, tmp_var)
+    #                 s = s.replace("\\BAR %s" % var, tmp_var)
+    #
+    #             # replace all 'A' by 'A NAND A'
+    #             for var in varlist:
+    #                 s = s.replace(
+    #                     "%s" % var, "(%s %s %s)" % (var.upper(), opr_sym, var.upper())
+    #                 )
+    #
+    #             # replace temp vars
+    #             for var in varlist:
+    #                 # to avoid non suitable replacement
+    #                 tmp_var = chr(ord(var.upper()) + 22)
+    #                 s = s.replace(tmp_var, var)
+    #
+    #             # replace all '+' by "NAND"
+    #             s = s.replace("+", "%s" % opr_sym)
+    #             # replace all '.' by "NAND"
+    #             s = s.replace(".", opr_sym)
+    #             # duplicate s
+    #             s = s + opr_sym + s
+    #     elif method.upper() == "NOR":
+    #         opr_sym = "\\downarrow "
+    #         s = "(%s)" % s
+    #         if type_exp == "pos":
+    #             #
+    #             explain_str = "$$" + exp + "$$\n"
+    #             explain_str += "$$\\overline{\\overline{" + exp + "}}$$\n"
+    #             explain_str += (
+    #                 "$$\\overline{(\\overline{"
+    #                 + exp.replace(".", "}+\\overline{")
+    #                 + "})}$$\n"
+    #             )
+    #             # replace all 'not A' by 'A NOR A'
+    #             for var in varlist:
+    #                 s = s.replace(
+    #                     "\\BAR %s" % var,
+    #                     "(%s %s %s)" % (var.upper(), opr_sym, var.upper()),
+    #                 )
+    #                 s = s.replace(
+    #                     "%s'" % var, "(%s %s %s)" % (var.upper(), opr_sym, var.upper())
+    #                 )
+    #             # replace all '+' by "NOR"
+    #             s = s.replace("+", opr_sym)
+    #             # replace all '.' by "NOR"
+    #             s = s.replace(".", "%s" % opr_sym)
+    #
+    #         elif type_exp == "sop":
+    #             # if no parenthesis in expression
+    #             exp2 = exp
+    #             if "(" not in exp2:
+    #                 exp2 = "(" + exp2.replace("+", ")+(") + ")"
+    #                 s = exp2.upper()
+    #             # ~ exp2 = "("+exp.replace("+",")+(")+")"
+    #             exp2 = exp2.replace("(", "(\\overline{\\overline{")
+    #             # ~ exp2 = exp2.replace("(", "(\\overline{\\overline{")
+    #             exp2 = exp2.replace(")", "}})")
+    #             explain_str = "$$" + exp + "$$\n"
+    #             explain_str += "$$" + exp2 + "$$\n"
+    #             explain_str += "$$\\overline{\\overline{" + exp2 + "}}$$\n"
+    #
+    #             # replace all 'not A' by 'W'
+    #             for var in varlist:
+    #                 # to avoid non suitable replacement
+    #                 tmp_var = chr(ord(var.upper()) + 22)
+    #                 s = s.replace("%s'" % var, tmp_var)
+    #                 s = s.replace("\\BAR %s" % var, tmp_var)
+    #
+    #             # replace all 'A' by 'A NOR A'
+    #             for var in varlist:
+    #                 s = s.replace(
+    #                     "%s" % var, "(%s %s %s)" % (var.upper(), opr_sym, var.upper())
+    #                 )
+    #
+    #             # replace temp vars
+    #             for var in varlist:
+    #                 # to avoid non suitable replacement
+    #                 tmp_var = chr(ord(var.upper()) + 22)
+    #                 s = s.replace(tmp_var, var)
+    #
+    #             # replace all '+' by "NOR"
+    #             s = s.replace(".", "%s" % opr_sym)
+    #             # replace all '.' by "NOR"
+    #             s = s.replace("+", opr_sym)
+    #             # duplicate s
+    #             s = s + opr_sym + s
+    #     # add explaination to result string
+    #     result = explain_str + "$$" + s + "$$"
+    #     result = self.normalize_latex(result)
+    #
+    #     return result
 
     # deprecated
-    def draw_logigram_nand_nor2(self, sop, function_name="F", method="NAND"):
-        """draw a logigram"""
-        varnames = {
-            "A": self.variables[0],
-            "B": self.variables[1],
-            "C": self.variables[2],
-            "D": self.variables[3],
-        }
-        lg_maker = logigram.logigram(varnames)
-        lggrm = lg_maker.draw_logigram(sop, function_name)
-        # substitute gates into nand
-        if method.upper() == "NAND":
-            lggrm = lggrm.replace("[and gate US,", "[nand gate US,")
-            lggrm = lggrm.replace("[or gate US,", "[nand gate US,")
-            lggrm = lggrm.replace(
-                "[not gate US, draw, rotate=270]",
-                "[nand gate US, draw, rotate=270, scale=0.5, logic gate inputs=nn]",
-            )
-        elif method.upper() == "NOR":
-            lggrm = lggrm.replace("[and gate US,", "[nor gate US,")
-            lggrm = lggrm.replace("[or gate US,", "[nor gate US,")
-            lggrm = lggrm.replace(
-                "[not gate US, draw, rotate=270]",
-                "[nor gate US, draw, rotate=270, scale=0.5, logic gate inputs=nn]",
-            )
-        if method.upper() == "NAND" or method.upper() == "NOR":
-            lggrm = lggrm.replace("(notx.input)", "(notx.input 1)")
-            lggrm = lggrm.replace("(noty.input)", "(noty.input 1)")
-            lggrm = lggrm.replace("(notz.input)", "(notz.input 1)")
-            lggrm = lggrm.replace("(notw.input)", "(notw.input 1)")
-        return lggrm
-
-    # deprecated
-    def draw_logigram_list2(
-        self,
-        sop_list,
-        function_namelist=[
-            "F",
-        ],
-    ):
-        """draw a logigram"""
-        varnames = {
-            "A": self.variables[0],
-            "B": self.variables[1],
-            "C": self.variables[2],
-            "D": self.variables[3],
-        }
-        lg = logigram.logigram(varnames)
-        return lg.draw_logigram_list(sop_list, function_namelist)
+    # def draw_logigram2(self, sop, function_name="F"):
+    #     """draw a logigram"""
+    #     varnames = {
+    #         "A": self.variables[0],
+    #         "B": self.variables[1],
+    #         "C": self.variables[2],
+    #         "D": self.variables[3],
+    #     }
+    #     lg = logigram.logigram(varnames)
+    #     return lg.draw_logigram(sop, function_name)
+    #
+    # # deprecated
+    # def draw_logigram_nand_nor2(self, sop, function_name="F", method="NAND"):
+    #     """draw a logigram"""
+    #     varnames = {
+    #         "A": self.variables[0],
+    #         "B": self.variables[1],
+    #         "C": self.variables[2],
+    #         "D": self.variables[3],
+    #     }
+    #     lg_maker = logigram.logigram(varnames)
+    #     lggrm = lg_maker.draw_logigram(sop, function_name)
+    #     # substitute gates into nand
+    #     if method.upper() == "NAND":
+    #         lggrm = lggrm.replace("[and gate US,", "[nand gate US,")
+    #         lggrm = lggrm.replace("[or gate US,", "[nand gate US,")
+    #         lggrm = lggrm.replace(
+    #             "[not gate US, draw, rotate=270]",
+    #             "[nand gate US, draw, rotate=270, scale=0.5, logic gate inputs=nn]",
+    #         )
+    #     elif method.upper() == "NOR":
+    #         lggrm = lggrm.replace("[and gate US,", "[nor gate US,")
+    #         lggrm = lggrm.replace("[or gate US,", "[nor gate US,")
+    #         lggrm = lggrm.replace(
+    #             "[not gate US, draw, rotate=270]",
+    #             "[nor gate US, draw, rotate=270, scale=0.5, logic gate inputs=nn]",
+    #         )
+    #     if method.upper() == "NAND" or method.upper() == "NOR":
+    #         lggrm = lggrm.replace("(notx.input)", "(notx.input 1)")
+    #         lggrm = lggrm.replace("(noty.input)", "(noty.input 1)")
+    #         lggrm = lggrm.replace("(notz.input)", "(notz.input 1)")
+    #         lggrm = lggrm.replace("(notw.input)", "(notw.input 1)")
+    #     return lggrm
+    #
+    # # deprecated
+    # def draw_logigram_list2(
+    #     self,
+    #     sop_list,
+    #     function_namelist=[
+    #         "F",
+    #     ],
+    # ):
+    #     """draw a logigram"""
+    #     varnames = {
+    #         "A": self.variables[0],
+    #         "B": self.variables[1],
+    #         "C": self.variables[2],
+    #         "D": self.variables[3],
+    #     }
+    #     lg = logigram.logigram(varnames)
+    #     return lg.draw_logigram_list(sop_list, function_namelist)
 
     @staticmethod
     def validate_terms(terms, name="terms", min_val=0, max_val=15, normalize=True):
@@ -851,39 +851,39 @@ class bool_quiz:
             validated.append(self.validate_terms(terms, name=f"{name}[{idx}]"))
         return validated
 
-
-def test1():
-    bq = bool_quiz()
-    minterms = bq.rand_funct()
-    print("minterms")
-    print(minterms)
-    print("maxnterms")
-    maxterms = [x for x in range(16) if x not in minterms]
-    maxterms = list(set(range(16)) - set(minterms))
-    [x for x in range(16) if x not in minterms]
-    print(maxterms)
-    bq.truth_table(minterms)
-    sop, pos = bq.simplify(minterms)
-    print("Simplified Sum of products\n", sop)
-    print("Simplified Product of sums\n", pos)
-    cnf, dnf = bq.form_canonique(minterms)
-    print("Sum of products\n", dnf)
-    print("Product of sums\n", cnf)
-    print("Karnough map")
-    print(bq.draw_map(minterms))
-    print("Karnough map Latex")
-    print(bq.draw_map(minterms, latex=True))
-    print(bq.draw_logigram(sop))
-
-
-def test2():
-    bq = bool_quiz()
-    minterms = bq.rand_funct()
-    maxterms = list(set(range(16)) - set(minterms))
-    sop, pos = bq.simplify(minterms)
-    print(bq.draw_logigram(sop))
+#
+# def test1():
+#     bq = bool_quiz()
+#     minterms = bq.rand_funct()
+#     print("minterms")
+#     print(minterms)
+#     print("maxnterms")
+#     maxterms = [x for x in range(16) if x not in minterms]
+#     maxterms = list(set(range(16)) - set(minterms))
+#     [x for x in range(16) if x not in minterms]
+#     print(maxterms)
+#     bq.truth_table(minterms)
+#     sop, pos = bq.simplify(minterms)
+#     print("Simplified Sum of products\n", sop)
+#     print("Simplified Product of sums\n", pos)
+#     cnf, dnf = bq.form_canonique(minterms)
+#     print("Sum of products\n", dnf)
+#     print("Product of sums\n", cnf)
+#     print("Karnough map")
+#     print(bq.draw_map(minterms))
+#     print("Karnough map Latex")
+#     print(bq.draw_map(minterms, latex=True))
+#     print(bq.draw_logigram(sop))
+#
+#
+# def test2():
+#     bq = bool_quiz()
+#     minterms = bq.rand_funct()
+#     maxterms = list(set(range(16)) - set(minterms))
+#     sop, pos = bq.simplify(minterms)
+#     print(bq.draw_logigram(sop))
 
 
 # Driver Code
 if __name__ == "__main__":
-    test2()
+    pass #test2()

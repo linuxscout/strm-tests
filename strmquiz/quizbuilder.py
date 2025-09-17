@@ -108,34 +108,6 @@ class QuizBuilder:
 
         self.templates_dir = templates_dir
 
-        # --------------------------------------
-        # Check args files,
-        # if not given use configured args from config file
-        # if file not exist return exception
-        # -------------------------------------
-        # --- If no config file provided, use default
-
-        # args_path_type = "given"
-        # if not args_file:
-        #     if self.myconfig.args_file:
-        #         args_file = self.myconfig.args_file
-        #         args_path_type = f"form config file '{self.config_file}'"
-        #     if not args_file or not Path(args_file).is_file():
-        #         if args_file and not  Path(args_file).is_file():
-        #             warnings.warn(
-        #                 f"Args file not found: '{args_file}' [{args_path_type}]",
-        #                 category=UserWarning,
-        #             )
-        #         # args_file = os.path.join(
-        #         #     os.path.dirname(__file__), "config", "args.default.json"
-        #         # )
-        #         args_file = Path(__file__).resolve().parent / "config" / "args.default.json"
-        #         args_path_type = f"Default value '{args_file}'"
-        # # --- Check if args_file exists
-        # if not Path(args_file).is_file():
-        #     raise FileNotFoundError(
-        #         f"Args file not found: '{args_file}' [{args_path_type}]"
-        #     )
         # --- Save attributes
         self.args_file = self._resolve_args_file(args_file)
 
@@ -246,27 +218,6 @@ class QuizBuilder:
     def get_loaded_args(self):
         return self.my_args_dict
 
-    # def _load_templates_map(self):
-    #     return question_builder_factory.get_templates_map()
-    #     templates = {}
-    #     for key in self.builders_map:
-    #         templates.update(self.builders_map[key].get_templates_map())
-    #     return templates
-
-    # def _load_commands_info(self):
-    #     return question_builder_factory.get_commands_info()
-    #     all_info = {}
-    #     for key in self.builders_map:
-    #         all_info.update(self.builders_map[key].get_commands_info())
-    #     return all_info
-
-    # def _load_categories_info(self):
-    #     return question_builder_factory.get_categories_info()
-    #     categories = {}
-    #     for key in self.builders_map:
-    #         categories[key] = self.builders_map[key].get_category_info().get(key,{})
-    #     return categories
-
     def load_args(self, args_src: Dict[str, Any] = {}) -> Dict[str, Any]:
         """load args from file or api"""
         validated_args = {}
@@ -327,9 +278,6 @@ class QuizBuilder:
             self.formater = quiz_format_factory.quiz_format_factory.factory(
                 outformat, templates_dir=self.templates_dir
             )
-            # self.logger.debug(f"Changed formatter into {outformat} from {self.get_format()} is available {is_available}")
-        # else:
-        #     self.logger.debug(f"Not Changed formatter into {outformat} from from {self.get_format()}  is available {is_available}")
 
     def get_format(
         self,
@@ -408,8 +356,6 @@ class QuizBuilder:
         if rand:
             questions_names = random.sample(questions_names, nb)
         # generate question from  command
-        # questions = [self.get_question(q, args=args) for q in questions_names]
-        # ~ for i in range(repeat): " ignore repeat"
         quiz_questions = []
         for cpt, name in enumerate(questions_names):
             generated_question = self.get_question(name, args=args.get(name, {}))

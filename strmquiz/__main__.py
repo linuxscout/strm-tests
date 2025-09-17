@@ -180,6 +180,9 @@ def preview_file(file_path: str):
             subprocess.run(["xdg-open", file_path])
 
 
+def exit(code=0):
+    sys.exit(code)
+
 def main():
     # setup_logging()
     logger = logging.getLogger(__name__)  # module-level logger
