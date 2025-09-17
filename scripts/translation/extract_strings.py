@@ -1,8 +1,8 @@
-import re
+import argparse
 import glob
 import json
 import os
-import argparse
+import re
 
 # Regex to catch tr("...") calls in Jinja templates
 # pattern = re.compile(r'tr\(\s*[\'"](.+?)[\'"]\s*\)')
