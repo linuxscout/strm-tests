@@ -132,7 +132,7 @@ def parse_arguments():
         "--lang",
         "--language",
         dest="language",
-        choices=["ar", "fr", "en", "en-ar","ar-en", "ar-fr"],
+        choices=["ar", "fr", "en", "en-ar", "ar-en", "ar-fr"],
         default="arabic",
         help="Language of the test content",
     )
@@ -182,6 +182,7 @@ def preview_file(file_path: str):
 
 def exit(code=0):
     sys.exit(code)
+
 
 def main():
     # setup_logging()

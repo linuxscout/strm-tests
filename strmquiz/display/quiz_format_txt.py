@@ -64,10 +64,12 @@ class quiz_format_txt(quiz_format.quiz_format):
         """display formula s it"""
         return expr
 
+
 def main(args):
     return 0
 
 
 if __name__ == "__main__":
     import sys
+
     sys.exit(main(sys.argv))

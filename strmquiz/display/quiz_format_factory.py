@@ -29,8 +29,6 @@ from . import quiz_format_md
 from . import quiz_format_txt
 
 
-
-
 class quiz_format_factory:
     OUTPUT_FORMAT_TABLE = {
         "txt": "Text",
@@ -43,6 +41,7 @@ class quiz_format_factory:
         set(list(OUTPUT_FORMAT_TABLE.keys()) + list(OUTPUT_FORMAT_TABLE.values()))
     )
     OUTPUT_FORMAT_VALUES_TABLE = [x.lower() for x in OUTPUT_FORMAT_VALUES_TABLE]
+
     def __init__(
         self,
     ):

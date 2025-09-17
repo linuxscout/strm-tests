@@ -163,3 +163,5 @@ help:
 	@echo "  test      - Run tests"
 	@echo "  clean     - Remove build and cache files"
 	@echo "  run       - Run the application"
+coverage:
+	pytest --cov=strmquiz --cov-report=term-missing

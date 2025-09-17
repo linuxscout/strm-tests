@@ -132,7 +132,7 @@ class logigram:
 
     def get_gate_code(self, gate=""):
         gate = gate.lower()
-        method  = self.method.upper()
+        method = self.method.upper()
         if method == "NAND":
             return "nand"
         elif method == "NOR":
@@ -145,6 +145,7 @@ class logigram:
             return gate
         else:
             return gate
+
     #
     # @deprecated(reason="Latex format is moved to quiz_format class")
     # def draw_logigram(self, sop, function_name="F"):
@@ -292,6 +293,7 @@ class logigram:
         graph["size_terms"] = total_terms
         # latex += " \\end{tikzpicture}\n\n"
         return graph
+
     #
     # @deprecated(reason="Latex format is moved to quiz_format class")
     # @staticmethod

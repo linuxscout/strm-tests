@@ -41,6 +41,7 @@ class float_point:
             dec = int(dec)
             res += str(whole)
         return res
+
     #
     # @deprecated(reason="Use ieee754_components(n) instead.")
     # def IEEE754(self, n, method=False):

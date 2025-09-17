@@ -25,7 +25,7 @@ import logging
 
 import os.path
 from typing import Dict, Optional
-from pathlib import  Path
+from pathlib import Path
 
 import random
 import warnings
@@ -80,7 +80,9 @@ class QuizBuilder:
             # config_file = os.path.join(
             #     os.path.dirname(__file__), "config", "quiz.default.conf"
             # )
-            config_file = Path(__file__).resolve().parent / "config" / "quiz.default.conf"
+            config_file = (
+                Path(__file__).resolve().parent / "config" / "quiz.default.conf"
+            )
         # --- Check if config_file exists
         # if not os.path.isfile(config_file):
         else:
@@ -101,7 +103,7 @@ class QuizBuilder:
         if not templates_dir:
             templates_dir = self.myconfig.templates_dir
             template_path_type = f"form config file '{self.config_file}'"
-        if not templates_dir or not  Path(templates_dir).is_dir():
+        if not templates_dir or not Path(templates_dir).is_dir():
             raise FileNotFoundError(
                 f"Template directory not found: '{templates_dir}' [{template_path_type}]"
             )

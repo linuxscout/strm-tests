@@ -23,7 +23,6 @@ class TestRegisterSimulator(unittest.TestCase):
     def test_inverse(self):
         self.assertEqual(self.sim.chrono.inverse([1, -2, 3]), [-1, 2, -3])
 
-
     def test_signal_mapping_d(self):
         # Q0 is D flip-flop, should take E as input
         mapping = self.sim.signal_map["Q0"]

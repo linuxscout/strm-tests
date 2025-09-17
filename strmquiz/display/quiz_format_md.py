@@ -40,7 +40,6 @@ class quiz_format_md(quiz_format.quiz_format):
         self.footer = ""
         self.newline = "\n"
 
-
     def add_section(self, text, trans="", level=1):
         """ """
         if level == 1:
@@ -69,7 +68,6 @@ class quiz_format_md(quiz_format.quiz_format):
         self.output.append(newtext)
         return newtext
 
-
     def add_hrule(self):
         newtext = "\n--------\n"
         self.output.append(newtext)
@@ -79,7 +77,6 @@ class quiz_format_md(quiz_format.quiz_format):
     @staticmethod
     def escape_string(s: str) -> str:
         return "".join([html.escape(x) for x in s])
-
 
     @staticmethod
     def normalize_formula(expr: str) -> str:
@@ -103,7 +100,6 @@ class quiz_format_md(quiz_format.quiz_format):
             s = s.replace(k, v)
 
         return s
-
 
     def format_map_terms(self, terms=[], method="sop"):
         """

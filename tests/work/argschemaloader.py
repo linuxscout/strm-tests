@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 from typing import Any, Dict, Union
 
+
 class ArgSchemaLoader:
     def __init__(self, source: Union[str, Path, Dict[str, Any]]):
         """
@@ -24,6 +25,7 @@ class ArgSchemaLoader:
 
     def get_command_schema(self, cmd: str) -> Dict[str, Any]:
         return self.schema.get(cmd, {})
+
 
 class ArgValidator:
     def __init__(self, schema: Dict[str, Any]):
@@ -75,10 +77,7 @@ if __name__ == "__main__":
     validator = ArgValidator(counter_schema)
 
     # Example input (from API or user)
-    user_input = {
-        "counter_nbits": 5,
-        "counter_type": "up"
-    }
+    user_input = {"counter_nbits": 5, "counter_type": "up"}
 
     validated_args = validator.validate_args(user_input)
     print(validated_args)

@@ -8,11 +8,13 @@ from strmquiz.read_config import ReadConfig  # replace with actual import path
 @pytest.fixture
 def make_config():
     """Fixture to create a temporary config file."""
+
     def _make(content: str) -> str:
         tmp = tempfile.NamedTemporaryFile("w", delete=False)
         tmp.write(textwrap.dedent(content))
         tmp.flush()
         return tmp.name
+
     return _make
 
 
@@ -27,14 +29,15 @@ def test_defaults_loaded(make_config):
     assert cfg.test_table == {}
 
 
-
 def test_valid_values(make_config):
-    filename = make_config("""
+    filename = make_config(
+        """
     [DEFAULT]
     templates_dir="../mytemplates"
     [Args]
     repeat = 5
-    """)
+    """
+    )
 
     cfg = ReadConfig(filename, debug=False)
     assert cfg.repeat == 5
@@ -44,12 +47,13 @@ def test_valid_values(make_config):
     assert cfg.warnings == []
 
 
-
 def test_invalid_values(make_config):
-    filename = make_config("""
+    filename = make_config(
+        """
     [Args]
     repeat = 200
-    """)
+    """
+    )
 
     cfg = ReadConfig(filename, debug=False)
     # invalid values should fall back to defaults
@@ -62,12 +66,13 @@ def test_invalid_values(make_config):
     # assert "Invalid value for synch_type" in cfg.warnings[1]
 
 
-
 def test_print_warnings(make_config, capsys):
-    filename = make_config("""
+    filename = make_config(
+        """
     [Args]
     repeat = 200
-    """)
+    """
+    )
     cfg = ReadConfig(filename, debug=False)
     # warnings should be collected
     assert len(cfg.warnings) == 1
@@ -89,6 +94,7 @@ def test_plain_print(capfd):
     out, err = capfd.readouterr()
     assert "hello" in out
 
+
 def test_all_args_are_read(tmp_path):
     # Step 1: Create an empty file so ReadConfig can open it
     dummy_file = tmp_path / "dummy.conf"
@@ -97,8 +103,7 @@ def test_all_args_are_read(tmp_path):
     # Step 2: Use that file to extract the expected fields
     rc = ReadConfig(str(dummy_file), debug=False)
     args_section = "\n".join(
-        f"{key} = {repr(default)}"
-        for key, (_, default) in rc.fields["Args"].items()
+        f"{key} = {repr(default)}" for key, (_, default) in rc.fields["Args"].items()
     )
 
     # Step 3: Create a real config with all Args keys set explicitly
@@ -111,4 +116,6 @@ def test_all_args_are_read(tmp_path):
     # Step 5: Verify all args were read correctly
     for key, (attr, default) in cfg.fields["Args"].items():
         loaded_value = getattr(cfg, attr)
-        assert loaded_value == default, f"Mismatch for {key}: expected {default}, got {loaded_value}"
+        assert (
+            loaded_value == default
+        ), f"Mismatch for {key}: expected {default}, got {loaded_value}"

@@ -10,7 +10,9 @@ class TestCounterSimulator(unittest.TestCase):
         self.outputs = ["Q0", "Q1", "Q2"]
         self.flip_types = ["D", "JK", "T"]
 
-        self.sim = CounterSimulator(inputs=self.inputs, outputs=self.outputs, flip_types=self.flip_types)
+        self.sim = CounterSimulator(
+            inputs=self.inputs, outputs=self.outputs, flip_types=self.flip_types
+        )
 
         # initial signals
         self.init_signals = {
@@ -18,13 +20,12 @@ class TestCounterSimulator(unittest.TestCase):
             "Q0": [1, 0],
             "Q1": [1, 1],
             "Q2": [1, 2],
-            "Vcc":[100],
-            "Gnd":[100],
+            "Vcc": [100],
+            "Gnd": [100],
         }
 
     def test_inverse(self):
         self.assertEqual(self.sim.chrono.inverse([1, -2, 3]), [-1, 2, -3])
-
 
     def test_signal_mapping_d(self):
         # Q0 is D flip-flop, should take E as input

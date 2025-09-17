@@ -3,15 +3,18 @@ import types
 import sys
 
 from strmquiz.sequentiel.chronograms import Chronograms
-from strmquiz.sequentiel.seqconst import  FLIP_TRUTH_TABLES, FLIPS_DATA, FLIPS_RANDOM, TRUTH_TABLE_MAP
-
+from strmquiz.sequentiel.seqconst import (
+    FLIP_TRUTH_TABLES,
+    FLIPS_DATA,
+    FLIPS_RANDOM,
+    TRUTH_TABLE_MAP,
+)
 
 
 def test_set_synch_type():
     chrono = Chronograms()
     chrono.set_synch_type("falling")
     assert chrono.synch_type == "falling"
-
 
 
 def test_stringfy():
@@ -22,15 +25,13 @@ def test_stringfy():
     assert result == "|¯¯|__|¯", f"{result}"
 
 
-
 def test_clock_signal_rising():
     chrono = Chronograms()
     chrono.set_synch_type("rising")
     result = chrono.clock_signal(period=2, length=4)
     assert isinstance(result, dict)
     assert "wave" in result
-    assert result.get("wave","") == "|_↑¯|_|_↑¯|_|_↑¯|_|_↑¯|_"
-
+    assert result.get("wave", "") == "|_↑¯|_|_↑¯|_|_↑¯|_|_↑¯|_"
 
 
 def test_inverse():
@@ -38,18 +39,19 @@ def test_inverse():
     result = Chronograms.inverse(signal)
     assert result == [-1, 1, -2]
 
+
 def test_signal_size():
     assert Chronograms.signal_size([3, -2, 4]) == 9
     assert Chronograms.signal_size([1, 1, 1]) == 3
     assert Chronograms.signal_size([-5, -5]) == 10
     assert Chronograms.signal_size([]) == 0
 
+
 def test_truncate_signal():
 
     signal = [3, -2, 4, -4, 3, -2]
     result = Chronograms.truncate_signal(signal, size=15)
     assert Chronograms.signal_size(result) <= 15
-
 
 
 def test_is_true_false():
@@ -66,7 +68,6 @@ def test_set_reset_flip_memory():
     assert Chronograms.memory(4) == 4
 
 
-
 def test_synchronize_signal():
     chrono = Chronograms()
     chrono.set_synch_type("rising")
@@ -75,9 +76,8 @@ def test_synchronize_signal():
     result = chrono.synchronize_signal(signal, period=period)
     assert isinstance(result, list), result
     assert all(isinstance(x, int) for x in result)
-    assert all(x<=period for x in result)
+    assert all(x <= period for x in result)
     assert result == [1, 2, -2, -2, 2, 1, -2], f" the result is {result}"
-
 
 
 def test_random_signal():
@@ -92,45 +92,35 @@ def test_random_signal():
 # Flip-flop logic tests
 # -----------------------------
 
+
 def test_resolve_d_flipflop():
     chrono = Chronograms()
     signals = {"D": [1, -1, 1, -1]}
     period = 2
     result = chrono.resolve(flip_type="D", signals=signals, period=period)
     assert isinstance(result, list), f"the result is {result}"
-    assert all(x<=period for x in result)
+    assert all(x <= period for x in result)
     assert result == [1, 2, -1, 1, -1], f" the result is {result}"
-
 
 
 def test_resolve_jk_flipflop():
     chrono = Chronograms()
-    signals = {
-        "J": [1, -1, 1, -1],
-        "K": [-1, 1, -1, 1],
-        "Q": [1, -1, 1, -1]
-    }
+    signals = {"J": [1, -1, 1, -1], "K": [-1, 1, -1, 1], "Q": [1, -1, 1, -1]}
     period = 2
     result = chrono.resolve(flip_type="JK", signals=signals, period=period)
     assert isinstance(result, list)
-    assert all(x<=period for x in result)
+    assert all(x <= period for x in result)
     assert result == [1, 2, -2, 2, -2], f" the result is {result}"
-
 
 
 def test_resolve_xy_flipflop():
     chrono = Chronograms()
-    signals = {
-        "X": [1, -1, 1, -1],
-        "Y": [-1, 1, -1, 1],
-        "Q": [1, -1, 1, -1]
-    }
+    signals = {"X": [1, -1, 1, -1], "Y": [-1, 1, -1, 1], "Q": [1, -1, 1, -1]}
     period = 2
     result = chrono.resolve(flip_type="XY", signals=signals, period=period)
     assert isinstance(result, list)
-    assert all(x<=period for x in result)
+    assert all(x <= period for x in result)
     assert result == [1, -2, 2, -2, 2], f" the result is {result}"
-
 
 
 def test_resolve_xy_direct_call():
@@ -139,11 +129,12 @@ def test_resolve_xy_direct_call():
     k_signal = [-1, 1, -1, 1]
     q_signal = [1, -1, 1, -1]
     period = 2
-    result = chrono.resolve_xy(j_signal, k_signal, q_signal, period=period, flip_type="XY")
+    result = chrono.resolve_xy(
+        j_signal, k_signal, q_signal, period=period, flip_type="XY"
+    )
     assert isinstance(result, list)
-    assert all(x<=period for x in result)
+    assert all(x <= period for x in result)
     assert result == [1, -2, 2, -2], f" the result is {result}"
-
 
 
 def test_resolve_jk_direct_call():
@@ -156,8 +147,9 @@ def test_resolve_jk_direct_call():
     k_signal = chrono.synchronize_signal(k_signal, period=period)
     result = chrono.resolve_jk(j_signal, k_signal, q_signal, period=period)
     assert isinstance(result, list)
-    assert all(x<=period for x in result)
+    assert all(x <= period for x in result)
     assert result == [1, 2, -2, 2, -2], f" the result is {result}"
+
 
 # -----------------------------
 # Truth table tests
@@ -170,6 +162,7 @@ def test_resolve_jk_direct_call():
 
 def test_get_truth_value():
     import types, sys
+
     # Create a fake seqconst module
     chrono = Chronograms()
 
@@ -189,6 +182,7 @@ def test_get_truth_value():
 # -----------------------------
 # Draw & Save tests
 # -----------------------------
+
 
 def test_draw_and_save(tmp_path):
     chrono = Chronograms()

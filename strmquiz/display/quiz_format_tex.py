@@ -214,6 +214,7 @@ class quiz_format_tex(quiz_format.quiz_format):
                 self.add_text(question.get("answer", "ANSWER"))
             self.add_newpage()
         return "\n".join(self.output)
+
     #
     # def truth_table(self, minterms, dontcares=[], variables=[], vars_outputs=[]):
     #     """print truth table"""
@@ -320,6 +321,7 @@ class quiz_format_tex(quiz_format.quiz_format):
             s = s.replace(k, v)
 
         return s
+
     #
     # def draw_map(
     #     self,

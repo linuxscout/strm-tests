@@ -53,7 +53,9 @@ class quiz_format:
             # json_path=os.path.join(
             #     self.templates_dir, "translations", "translations.json"
             # )
-            json_path = Path(self.templates_dir) /"translations" / "translations.json"
+            json_path=Path(self.templates_dir)
+            / "translations"
+            / "translations.json"
         )
         self.env = Environment(
             loader=FileSystemLoader(self.templates_dir),

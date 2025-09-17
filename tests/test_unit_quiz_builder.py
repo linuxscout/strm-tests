@@ -10,8 +10,7 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 # args_file = PROJECT_ROOT / "args.json"
 
-TEMPLATES_DIR =os.path.join(PROJECT_ROOT, "templates")
-
+TEMPLATES_DIR = os.path.join(PROJECT_ROOT, "templates")
 
 
 @pytest.fixture
@@ -19,9 +18,12 @@ def config_path(tmp_path):
     """Create a minimal config file for integration testing."""
     config_dir = tmp_path / "config"
     config_dir.mkdir()
-    shutil.copy(PROJECT_ROOT/"strmquiz"/"config"/"args.default.json", tmp_path/"args.test.json")
+    shutil.copy(
+        PROJECT_ROOT / "strmquiz" / "config" / "args.default.json",
+        tmp_path / "args.test.json",
+    )
 
-    cfg_file = tmp_path / "config"/"quiz.test.conf"
+    cfg_file = tmp_path / "config" / "quiz.test.conf"
     cfg_file.write_text(
         """
 [Default]
@@ -47,7 +49,7 @@ test1=[["base", "intervalle", "arithm"],
  ["mesure", "base", "arithm"],
  ["base", "mesures", "arithm"],]
         """,
-        encoding="utf-8"
+        encoding="utf-8",
     )
 
     templates_dir = TEMPLATES_DIR
@@ -59,7 +61,13 @@ test1=[["base", "intervalle", "arithm"],
 def builder(config_path):
     templates_dir, config_path, args_file = config_path
     # You may need to pass a templates_dir if question_builder expects it
-    return QuizBuilder(outformat="latex", config_file=config_path, args_file=args_file, lang="en", templates_dir=templates_dir)
+    return QuizBuilder(
+        outformat="latex",
+        config_file=config_path,
+        args_file=args_file,
+        lang="en",
+        templates_dir=templates_dir,
+    )
 
 
 def test_list_commands_real(builder):
@@ -72,7 +80,6 @@ def test_get_question_real(builder):
     """Call some real question types without mocking."""
     qtext, ans = builder.get_question("float")
     assert isinstance(qtext, str)
-
 
 
 def test_build_quiz_real(builder):
@@ -90,19 +97,24 @@ def test_get_quiz_from_config(builder):
     assert isinstance(output, str)
     assert "Question" in output or "Q1" in output
 
+
 # ---------------------- TESTS ----------------------
+
 
 def test_list_commands_real(builder):
     cmds = builder.get_commands_list()
     assert "float" in cmds
     assert "function" in cmds
     assert isinstance(cmds, list)
+
+
 # @pytest.mark.skip(reason="To be removed manually")
 def test_get_commands_list_all(builder):
     cmds = builder.get_commands_list()
     assert isinstance(cmds, list)
     assert "float" in cmds
     assert "chronogram" in cmds
+
 
 # @pytest.mark.skip(reason="To be removed manually")
 def test_get_commands_list_by_category(builder):
@@ -111,16 +123,19 @@ def test_get_commands_list_by_category(builder):
     assert "map" in cmds
     assert "float" not in cmds
 
+
 # @pytest.mark.skip(reason="To be removed manually")
 def test_get_commands_info_all(builder):
     info = builder.get_commands_info()
     assert "float" in info
     assert isinstance(info["float"], dict)
 
+
 # @pytest.mark.skip(reason="To be removed manually")
 def test_get_commands_info_by_category(builder):
     info = builder.get_commands_info(category="encoding")
     assert "float" in info, f"The result is {info}"
+
 
 # @pytest.mark.skip(reason="To be removed manually")
 def test_get_categories(builder):
@@ -130,6 +145,7 @@ def test_get_categories(builder):
     assert isinstance(cats["boolean algebra"]["commands"], list)
     assert any(cmd["name"] == "map" for cmd in cats["boolean algebra"]["commands"])
 
+
 # @pytest.mark.skip(reason="To be removed manually")
 def test_get_short_description(builder):
     desc = builder.get_short_description("float")
@@ -137,12 +153,14 @@ def test_get_short_description(builder):
     desc_unknown = builder.get_short_description("unknown")
     assert "No short description" in desc_unknown
 
+
 # @pytest.mark.skip(reason="To be removed manually")
 def test_get_long_description(builder):
     desc = builder.get_long_description("function")
     assert "Boolean function" in desc
     desc_unknown = builder.get_long_description("unknown")
     assert "No long description" in desc_unknown
+
 
 # @pytest.mark.skip(reason="To be removed manually")
 def test_get_random_commands(builder):
@@ -152,6 +170,7 @@ def test_get_random_commands(builder):
     for cmd in cmds:
         assert cmd in builder.commands_info
 
+
 # @pytest.mark.skip(reason="To be removed manually")
 def test_get_random_commands_list(builder):
     cmds = builder.get_random_commands_list(n=2)
@@ -159,6 +178,7 @@ def test_get_random_commands_list(builder):
     assert len(cmds) <= 2
     for cmd in cmds:
         assert cmd in builder.commands_info
+
 
 # @pytest.mark.skip(reason="Manual run: test all commands against quiz_builder.get_question()")
 def test_all_commands_generate_questions(builder):
@@ -178,10 +198,10 @@ def test_all_commands_generate_questions(builder):
             pytest.fail(f"Command '{cmd}' raised an exception: {e}")
 
 
-
 def test_load_categories(builder):
     cats = builder.categories_info
     assert isinstance(cats, dict), f"Categories : {cats}"
+
 
 def test_load_commands(builder):
     cmds = builder.commands_info

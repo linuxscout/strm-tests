@@ -12,16 +12,20 @@ pattern = re.compile(r'tr\(\s*[\'"](.+?)[\'"]')
 #     re.DOTALL
 # )
 import itertools
+
+
 def extract_strings(template_dir, output):
     strings = set()
 
     # --- Step 1: collect all keys from templates ---
     extensions = ["html", "tex", "txt", "md"]
 
-    files = list(itertools.chain.from_iterable(
-        glob.glob(os.path.join(template_dir, f"**/*.{ext}"), recursive=True)
-        for ext in extensions
-    ))
+    files = list(
+        itertools.chain.from_iterable(
+            glob.glob(os.path.join(template_dir, f"**/*.{ext}"), recursive=True)
+            for ext in extensions
+        )
+    )
     for fname in files:
         with open(fname, encoding="utf-8") as f:
             text = f.read()
@@ -62,23 +66,27 @@ def extract_strings(template_dir, output):
     else:
         print("ℹ️ No new keys found. Translations file unchanged.")
 
+
 def main():
     parser = argparse.ArgumentParser(
         description="Extract translatable strings (tr('...')) from Jinja templates into a JSON file"
     )
     parser.add_argument(
-        "--templates", "-t",
+        "--templates",
+        "-t",
         default="templates",
-        help="Path to the templates directory (default: ./templates)"
+        help="Path to the templates directory (default: ./templates)",
     )
     parser.add_argument(
-        "--output", "-o",
+        "--output",
+        "-o",
         default="translations.json",
-        help="Path to the translations JSON file (default: ./translations.json)"
+        help="Path to the translations JSON file (default: ./translations.json)",
     )
 
     args = parser.parse_args()
     extract_strings(args.templates, args.output)
+
 
 if __name__ == "__main__":
     main()

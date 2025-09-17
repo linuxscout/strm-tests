@@ -8,6 +8,7 @@ from strmquiz.codage.question_codage import questionGenerator
 def qg():
     return questionGenerator()
 
+
 # ----------------------------
 # Deterministic methods
 # ----------------------------
@@ -66,9 +67,11 @@ def test_gray_explain(qg):
     assert "Copy first bit" in res["steps_bin2gray"][0]
     assert "Copy first bit" in res["steps_gray2bin"][0]
 
+
 # ----------------------------
 # Random-based methods (with monkeypatch)
 # ----------------------------
+
 
 def test_numeral_system(monkeypatch, qg):
     monkeypatch.setattr(random, "choice", lambda seq: seq[0])
@@ -133,6 +136,6 @@ def test_ascii(qg):
     compact = qg.ascii("AB", method=False)
     assert "0x41" in compact and "0x42" in compact
 
+
 if __name__ == "__main__":
     pytest.main()
-

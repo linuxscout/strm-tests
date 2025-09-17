@@ -5,7 +5,8 @@ import pytest
 import os
 from unittest.mock import patch, MagicMock
 from strmquiz.quizbuilder import QuizBuilder
-TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), "../","templates")
+
+TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), "../", "templates")
 import strmquiz.__main__ as app  # replace with the actual filename (without .py)
 
 import sys
@@ -65,7 +66,9 @@ def test_main_list(monkeypatch):
     monkeypatch.setattr(cli, "show_catalog", lambda: called.setdefault("called", True))
 
     # Patch exit to avoid stopping pytest
-    monkeypatch.setattr(cli, "exit", lambda code=0: (_ for _ in ()).throw(SystemExit(code)))
+    monkeypatch.setattr(
+        cli, "exit", lambda code=0: (_ for _ in ()).throw(SystemExit(code))
+    )
 
     with pytest.raises(SystemExit) as e:
         cli.main()

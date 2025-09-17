@@ -10,7 +10,9 @@ class TestRegisterSimulator(unittest.TestCase):
         self.outputs = ["Q0", "Q1", "Q2"]
         self.flip_types = ["D", "JK", "T"]
 
-        self.sim = RegisterSimulator(inputs=self.inputs, outputs=self.outputs, flip_types=self.flip_types)
+        self.sim = RegisterSimulator(
+            inputs=self.inputs, outputs=self.outputs, flip_types=self.flip_types
+        )
 
         # initial signals
         self.init_signals = {
@@ -22,7 +24,6 @@ class TestRegisterSimulator(unittest.TestCase):
 
     def test_inverse(self):
         self.assertEqual(self.sim.chrono.inverse([1, -2, 3]), [-1, 2, -3])
-
 
     def test_signal_mapping_d(self):
         # Q0 is D flip-flop, should take E as input

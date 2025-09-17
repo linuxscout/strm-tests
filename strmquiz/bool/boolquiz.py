@@ -851,6 +851,7 @@ class bool_quiz:
             validated.append(self.validate_terms(terms, name=f"{name}[{idx}]"))
         return validated
 
+
 #
 # def test1():
 #     bq = bool_quiz()
@@ -886,4 +887,4 @@ class bool_quiz:
 
 # Driver Code
 if __name__ == "__main__":
-    pass #test2()
+    pass  # test2()
