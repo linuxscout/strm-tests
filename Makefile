@@ -165,3 +165,4 @@ help:
 	@echo "  run       - Run the application"
 coverage:
 	pytest --cov=strmquiz --cov-report=term-missing
+	coverage-badge -o docs/coverage.svg

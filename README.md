@@ -33,6 +33,8 @@ This subject is available for other branches such as:
 
 **Developer:** Dr. Taha Zerrouki – [tahadz.com](http://tahadz.com), [taha.dot.zerrouki@gmail.com](mailto:taha.dot.zerrouki@gmail.com)
 
+![Tests](https://github.com/linuxscout/strm-tests/actions/workflows/tests.yml/badge.svg)
+![coverage](docs/coverage.svg)
 ---
 
 ## Project Info
