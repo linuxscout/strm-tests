@@ -10,7 +10,6 @@ UNICODE_STRINGS = [
     "Space Mission 42",
     "Digital Future",
     "Keep coding!",
-
     # Arabic meaningful
     "مرحبا بالعالم",
     "تعلم يونيكود",
@@ -22,7 +21,6 @@ UNICODE_STRINGS = [
     "التعلم العميق",
     "حاسوب سريع",
     "ابحث عن المعرفة",
-
     # Mixed English + Arabic
     "Hello مرحبا",
     "AI ذكاء اصطناعي",
@@ -34,7 +32,6 @@ UNICODE_STRINGS = [
     "Science علوم",
     "Vision رؤية",
     "School مدرسة",
-
     # Random-ish English
     "xYz!42&data",
     "Qwerty123##",
@@ -46,7 +43,6 @@ UNICODE_STRINGS = [
     "Try_Unicode",
     "abcXYZ789",
     "Cool++Code",
-
     # Random-ish Arabic
     "١٢٣٤٥٦٧٨٩٠",
     "رمز@كلمة!",
@@ -58,7 +54,6 @@ UNICODE_STRINGS = [
     "مستقبل2025",
     "لغة!!عربية",
     "علوم_١٠١",
-
     # More meaningful English
     "Machine Power",
     "Learn Arabic",
@@ -70,7 +65,6 @@ UNICODE_STRINGS = [
     "Quantum Leap",
     "Bright Future",
     "Stay Curious",
-
     # More meaningful Arabic
     "تعلم اللغة",
     "حاسوب ذكي",
@@ -82,7 +76,6 @@ UNICODE_STRINGS = [
     "طاقة متجددة",
     "رحلة فضائية",
     "ابدأ اليوم",
-
     # Mixed short phrases
     "AI  ذكاء",
     "Rocket صاروخ",
@@ -94,7 +87,6 @@ UNICODE_STRINGS = [
     "Art فن",
     "Peace سلام",
     "Hope أمل",
-
     # Random mixed junk
     "abc123!مرح",
     "تجربة@@!!",
@@ -105,7 +97,7 @@ UNICODE_STRINGS = [
     "Good&سيء",
     "++123++",
     "نجاح&&WIN",
-    "Fail خسارة"
+    "Fail خسارة",
 ]
 ASCII_STRINGS = [
     # Senseful strings
@@ -159,7 +151,6 @@ ASCII_STRINGS = [
     "Decode Message 77",
     "Fun With Binary",
     "Learning Never Ends",
-
     # Random noise strings
     "@c8]rT_2Wl%9",
     "z$Q0J{v#tX}?",

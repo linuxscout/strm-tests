@@ -2,30 +2,30 @@
 # -*- coding: utf-8 -*-
 #
 #  quiz_builder.py
-#  
+#
 #  Copyright 2019 zerrouki <zerrouki@majd4>
-#  
+#
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation; either version 2 of the License, or
 #  (at your option) any later version.
-#  
+#
 #  This program is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
-#  
+#
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
-#  
+#
 #
 import logging
 
 import os.path
-from typing import Dict,  Optional
-
+from typing import Dict, Optional
+from pathlib import  Path
 
 import random
 import warnings
@@ -33,50 +33,65 @@ import warnings
 from . import read_config
 from .display import quiz_format_factory
 from strmquiz.question_builder.question_builder_factory import question_builder_factory
-from .argschemaloader import  myArgsValidator
+from .argschemaloader import myArgsValidator
 from typing import TypedDict, Any
+
 
 class CommandInfo(TypedDict):
     short: str
     long: str
     category: str
 
+
 class CommandSummary(TypedDict):
     name: str
     short: str
     long: str
+
 
 class CategoryInfo(TypedDict):
     short: str
     long: str
     commands: list[CommandSummary]
 
+
 import os
 
+
 class QuizBuilder:
-    """ Generate the third test """
+    """Generate the third test"""
+
     _CATEGORIES_INFO = question_builder_factory.get_categories_info()
     _COMMANDS_INFO = question_builder_factory.get_commands_info()
     _TEMPLATES_MAP = question_builder_factory.get_templates_map()
-    def __init__(self, outformat="", config_file="", lang="", templates_dir="", args_file=""):
+
+    def __init__(
+        self, outformat="", config_file="", lang="", templates_dir="", args_file=""
+    ):
 
         self.logger = logging.getLogger(self.__class__.__name__)
         self.lang = lang
-        #--------------------------------------
+        # --------------------------------------
         # Read config file,
         # if not given use default config file
         # -------------------------------------
         # --- If no config file provided, use default
         if not config_file:
-            config_file = os.path.join(os.path.dirname(__file__), "config", "quiz.default.conf")
+            # config_file = os.path.join(
+            #     os.path.dirname(__file__), "config", "quiz.default.conf"
+            # )
+            config_file = Path(__file__).resolve().parent / "config" / "quiz.default.conf"
         # --- Check if config_file exists
-        if not os.path.isfile(config_file):
+        # if not os.path.isfile(config_file):
+        else:
+            config_file = Path(config_file)
+        if not config_file.exists():
             raise FileNotFoundError(f"Config file not found: '{config_file}'")
         # --- Load config
         self.myconfig = read_config.ReadConfig(config_file)
         self.config_file = config_file
 
-        #--------------------------------------
+        # --------------------------------------
         # Check templates dir,
         # if not given use configured templates_dir from config file
         # if file not exist return exception
@@ -86,44 +101,51 @@ class QuizBuilder:
         if not templates_dir:
             templates_dir = self.myconfig.templates_dir
             template_path_type = f"form config file '{self.config_file}'"
-        if not templates_dir or not os.path.isdir(templates_dir):
-            raise FileNotFoundError(f"Template directory not found: '{templates_dir}' [{template_path_type}]")
+        if not templates_dir or not  Path(templates_dir).is_dir():
+            raise FileNotFoundError(
+                f"Template directory not found: '{templates_dir}' [{template_path_type}]"
+            )
 
         self.templates_dir = templates_dir
 
-        #--------------------------------------
+        # --------------------------------------
         # Check args files,
         # if not given use configured args from config file
         # if file not exist return exception
         # -------------------------------------
         # --- If no config file provided, use default
 
-        args_path_type = "given"
-        if not args_file:
-            if self.myconfig.args_file:
-                args_file = self.myconfig.args_file
-                args_path_type = f"form config file '{self.config_file}'"
-            if not args_file or not os.path.isfile(args_file):
-                if  args_file and not os.path.isfile(args_file):
-                    warnings.warn(
-                        f"Args file not found: '{args_file}' [{args_path_type}]",
-                        category=UserWarning
-                    )
-                args_file = os.path.join(os.path.dirname(__file__), "config", "args.default.json")
-                args_path_type = f"Default value '{args_file}'"
-        # --- Check if args_file exists
-        if not os.path.isfile(args_file):
-            raise FileNotFoundError(f"Args file not found: '{args_file}' [{args_path_type}]")
+        # args_path_type = "given"
+        # if not args_file:
+        #     if self.myconfig.args_file:
+        #         args_file = self.myconfig.args_file
+        #         args_path_type = f"form config file '{self.config_file}'"
+        #     if not args_file or not Path(args_file).is_file():
+        #         if args_file and not  Path(args_file).is_file():
+        #             warnings.warn(
+        #                 f"Args file not found: '{args_file}' [{args_path_type}]",
+        #                 category=UserWarning,
+        #             )
+        #         # args_file = os.path.join(
+        #         #     os.path.dirname(__file__), "config", "args.default.json"
+        #         # )
+        #         args_file = Path(__file__).resolve().parent / "config" / "args.default.json"
+        #         args_path_type = f"Default value '{args_file}'"
+        # # --- Check if args_file exists
+        # if not Path(args_file).is_file():
+        #     raise FileNotFoundError(
+        #         f"Args file not found: '{args_file}' [{args_path_type}]"
+        #     )
         # --- Save attributes
-        self.args_file = args_file
+        self.args_file = self._resolve_args_file(args_file)
 
         # --- Factories
 
         self.builders_map = question_builder_factory.map_factory()
 
-        self.formater = quiz_format_factory.quiz_format_factory.factory(outformat, lang=lang, templates_dir=templates_dir)
-
-
+        self.formater = quiz_format_factory.quiz_format_factory.factory(
+            outformat, lang=lang, templates_dir=templates_dir
+        )
 
         # --- Commands metadata (optional) ---
         self.commands_info = type(self)._COMMANDS_INFO
@@ -169,28 +191,57 @@ class QuizBuilder:
             ],
         }
 
+    def _resolve_args_file(self, args_file: str | Path | None) -> Path:
+        """Resolve the args.json path with fallbacks and validation."""
+        args_path_type = "given"
+
+        # 1. If no explicit args_file, try config
+        if not args_file and self.myconfig and self.myconfig.args_file:
+            args_file = self.myconfig.args_file
+            args_path_type = f"from config file '{self.config_file}'"
+
+        # 2. Normalize to Path
+        args_file = Path(args_file) if args_file else None
+
+        # 3. If still missing or invalid, fall back to default
+        if not args_file or not args_file.is_file():
+            if args_file and not args_file.is_file():
+                warnings.warn(
+                    f"Args file not found: '{args_file}' [{args_path_type}]",
+                    category=UserWarning,
+                )
+            args_file = Path(__file__).resolve().parent / "config" / "args.default.json"
+            args_path_type = f"default value '{args_file}'"
+
+        # 4. Final check
+        if not args_file.is_file():
+            raise FileNotFoundError(
+                f"Args file not found: '{args_file}' [{args_path_type}]"
+            )
+
+        return args_file
+
     def get_quiz_commands(self, quiz_id):
         if self.myconfig.test_table:
             if quiz_id:
                 return self.get_quiz_config(quiz_id)
             else:
-                return  self.myconfig.test_table
+                return self.myconfig.test_table
         else:
             if quiz_id:
                 return self.quiz_commands.get(quiz_id, {})
             else:
-                return  self.quiz_commands
+                return self.quiz_commands
 
     def get_quiz_id_list(self):
         if self.myconfig.test_table:
-            return (self.myconfig.test_table.keys())
+            return self.myconfig.test_table.keys()
         return list(self.quiz_commands.keys())
 
     def set_select_random_values(self, rand):
         self.select_random_values = bool(rand)
         for key in self.builders_map:
             self.builders_map[key].set_random(rand)
-
 
     def get_loaded_args(self):
         return self.my_args_dict
@@ -216,7 +267,7 @@ class QuizBuilder:
     #         categories[key] = self.builders_map[key].get_category_info().get(key,{})
     #     return categories
 
-    def load_args(self, args_src:Dict[str, Any]={})-> Dict[str, Any]:
+    def load_args(self, args_src: Dict[str, Any] = {}) -> Dict[str, Any]:
         """load args from file or api"""
         validated_args = {}
         # if no agrs given load defaul args from file
@@ -224,7 +275,7 @@ class QuizBuilder:
             args_src = self.args_file
         elif isinstance(args_src, Dict):
             args_src = args_src
-        else: # no args sources and no args_file
+        else:  # no args sources and no args_file
             return {}
         # load schema of commands and args
         args_loader = myArgsValidator(args_src)
@@ -238,7 +289,9 @@ class QuizBuilder:
         self.logger.debug(f"Loaded args: {validated_args}")
         return validated_args
 
-    def validate_command_args(self, command="", args_src:Dict[str, Any]={})-> Dict[str, Any]:
+    def validate_command_args(
+        self, command="", args_src: Dict[str, Any] = {}
+    ) -> Dict[str, Any]:
         """
         if provided data contains mutiple commands and is a dict of dict.
         """
@@ -246,7 +299,7 @@ class QuizBuilder:
         # if not args, load default args from file
         if isinstance(args_src, Dict):
             args_dict = args_src.get(command, {})
-        else: # no args sources and no args_file
+        else:  # no args sources and no args_file
             return {}
 
         schema_loader = self.myvalidation_schema_loader
@@ -261,34 +314,42 @@ class QuizBuilder:
         return temp
 
     @staticmethod
-    def get_available_formats()->dict:
+    def get_available_formats() -> dict:
         """return all available format"""
         return quiz_format_factory.quiz_format_factory.get_available_format()
 
     def set_format(self, outformat="latex"):
-        """ set a new format"""
-        is_available = quiz_format_factory.quiz_format_factory.is_available_format(outformat)
+        """set a new format"""
+        is_available = quiz_format_factory.quiz_format_factory.is_available_format(
+            outformat
+        )
         if outformat != self.get_format() and is_available:
-            self.formater = quiz_format_factory.quiz_format_factory.factory(outformat, templates_dir=self.templates_dir)
+            self.formater = quiz_format_factory.quiz_format_factory.factory(
+                outformat, templates_dir=self.templates_dir
+            )
             # self.logger.debug(f"Changed formatter into {outformat} from {self.get_format()} is available {is_available}")
         # else:
         #     self.logger.debug(f"Not Changed formatter into {outformat} from from {self.get_format()}  is available {is_available}")
 
-    def get_format(self,):
-        """ get current used format a new format"""
+    def get_format(
+        self,
+    ):
+        """get current used format a new format"""
         return self.formater.get_format()
 
-    def reset(self,):
+    def reset(
+        self,
+    ):
         """
         reset output
         """
         self.formater.reset()
+
     def get_quiz_config(self, test_id):
         """
         return testif according to config file
         """
         return self.myconfig.get_quiz_config(test_id)
-
 
     def _render(self, template: str, context: dict):
         """Render a question and answer using the current formatter."""
@@ -298,9 +359,9 @@ class QuizBuilder:
             return q, a
         except Exception as e:
             self.logger.exception("Error rendering template %s", template)
-            return f"Error: {e}",  "Error"
+            return f"Error: {e}", "Error"
 
-    def get_args(self, command=''):
+    def get_args(self, command=""):
         """
         return args, for a specific command if needed
         """
@@ -308,7 +369,7 @@ class QuizBuilder:
         # TODO: get agrs from api or from json file
         args = self.myconfig.__dict__
         if command:
-            return self.my_args_dict.get(command,{})
+            return self.my_args_dict.get(command, {})
         else:
             return self.my_args_dict.copy()
 
@@ -317,11 +378,10 @@ class QuizBuilder:
     def get_question(self, command, args=None):
         """Generate a question based on command by delegating to the correct builder."""
         if args is None:
-            args = self.get_args(command = command)
+            args = self.get_args(command=command)
 
         # Determine the correct builder
         category = self.commands_info.get(command, {}).get("category", "")
-
 
         builder = self.builders_map.get(category)
         if not builder:
@@ -333,15 +393,18 @@ class QuizBuilder:
             if isinstance(result, dict):
                 return self._render(self.get_template(command), result)
             else:
-                raise ValueError(f"Command '{command}' must return a context dict, got {result}")
+                raise ValueError(
+                    f"Command '{command}' must return a context dict, got {result}"
+                )
         except Exception as e:
             import traceback
+
             traceback_str = traceback.format_exc()
             self.logger.error(f"Error generating question '{command}': {traceback_str}")
             return f"Error generating question '{command}': {e}", "Answer"
 
     def build_quiz(self, questions_names, rand=True, nb=2, repeat=2, args={}):
-        """ generate a test"""
+        """generate a test"""
         if rand:
             questions_names = random.sample(questions_names, nb)
         # generate question from  command
@@ -349,10 +412,12 @@ class QuizBuilder:
         # ~ for i in range(repeat): " ignore repeat"
         quiz_questions = []
         for cpt, name in enumerate(questions_names):
-            generated_question = self.get_question(name, args=args.get(name,{}))
-        # ~ for cpt, value in enumerate(questions):
+            generated_question = self.get_question(name, args=args.get(name, {}))
+            # ~ for cpt, value in enumerate(questions):
             if not isinstance(generated_question, (tuple, list)):
-                raise TypeError(f"Expected tuple/list for question '{name}', got {type(generated_question)}")
+                raise TypeError(
+                    f"Expected tuple/list for question '{name}', got {type(generated_question)}"
+                )
 
             if len(generated_question) == 2:
                 qtext, ans = generated_question
@@ -364,35 +429,46 @@ class QuizBuilder:
 
             #     qtext, _, _, ans = generated_question
             # ~ qtext, ar, data, ans = value
-            q_no = "Q%d"%(cpt+1)
-            item = {"id":q_no,
-            "category": name,
-            "question":qtext,
-            # "arabic":ar,
-            # "data":data,
-            "answer":ans,                
+            q_no = "Q%d" % (cpt + 1)
+            item = {
+                "id": q_no,
+                "category": name,
+                "question": qtext,
+                # "arabic":ar,
+                # "data":data,
+                "answer": ans,
             }
             quiz_questions.append(item)
         self.formater.add_test(quiz_questions)
-    #---------------------------------
+
+    # ---------------------------------
     #  routines to extract categories and commands
-    #------------------------------------
-    def get_commands_list(self,category=""):
-        """ list all existing question types """
+    # ------------------------------------
+    def get_commands_list(self, category=""):
+        """list all existing question types"""
         if not category:
             return self.commands
         else:
-            return [name for name, info in self.commands_info.items() if info["category"] == category]
+            return [
+                name
+                for name, info in self.commands_info.items()
+                if info["category"] == category
+            ]
+
     # @classmethod
     @classmethod
     def get_commands_info(cls, category=""):
-        """ list all existing question types """
+        """list all existing question types"""
         if not category:
             return cls._COMMANDS_INFO
         else:
-            return {cmd:cls._COMMANDS_INFO[cmd] for cmd in cls._COMMANDS_INFO if cls._COMMANDS_INFO[cmd]["category"]==category}
+            return {
+                cmd: cls._COMMANDS_INFO[cmd]
+                for cmd in cls._COMMANDS_INFO
+                if cls._COMMANDS_INFO[cmd]["category"] == category
+            }
 
-    def get_quiz(self,test_no="test1"):
+    def get_quiz(self, test_no="test1"):
         """
         Generate a test by number according to config file
         """
@@ -412,7 +488,6 @@ class QuizBuilder:
                 self.formater.close_question(test)
         return self.formater.display()
 
-
     @classmethod
     def get_categories(cls) -> dict[str, CategoryInfo]:
         """
@@ -421,30 +496,31 @@ class QuizBuilder:
         categories: dict[str, CategoryInfo] = {}
         for cat, meta in cls._CATEGORIES_INFO.items():
             categories[cat] = {
-                "short": meta.get("short",''),
-                "long": meta.get("long",""),
+                "short": meta.get("short", ""),
+                "long": meta.get("long", ""),
                 "commands": [
-                    {
-                        "name": name,
-                        "short": info["short"],
-                        "long": info["long"]
-                    }
+                    {"name": name, "short": info["short"], "long": info["long"]}
                     for name, info in cls._COMMANDS_INFO.items()
                     if info["category"] == cat
-                ]
+                ],
             }
         return categories
 
     def get_short_description(self, cmd: str) -> str:
         """Return short description for a command."""
-        return self.commands_info.get(cmd, {}).get("short", f"No short description for '{cmd}'")
+        return self.commands_info.get(cmd, {}).get(
+            "short", f"No short description for '{cmd}'"
+        )
 
     def get_long_description(self, cmd: str) -> str:
         """Return long description for a command."""
-        return self.commands_info.get(cmd, {}).get("long", f"No long description for '{cmd}'")
+        return self.commands_info.get(cmd, {}).get(
+            "long", f"No long description for '{cmd}'"
+        )
 
-
-    def get_random_commands(self, n: int = 3, category: Optional[str] = None) -> dict[str, CommandInfo]:
+    def get_random_commands(
+        self, n: int = 3, category: Optional[str] = None
+    ) -> dict[str, CommandInfo]:
         """
         Return a list of n random commands (name, info).
         If category is given, pick only from that category.
@@ -456,7 +532,7 @@ class QuizBuilder:
 
         n = min(n, len(cmds))
         selected = random.sample(cmds, k=n)
-        commands_dict ={cmd:self.commands_info[cmd] for cmd in selected}
+        commands_dict = {cmd: self.commands_info[cmd] for cmd in selected}
         return commands_dict
 
     def get_random_commands_list(self, n=3, category=None):
@@ -485,6 +561,8 @@ def main(args):
     print(test)
     return 0
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     import sys
+
     sys.exit(main(sys.argv))

@@ -2,40 +2,41 @@
 # -*- coding: utf-8 -*-
 #
 #  question.py
-#  
+#
 #  Copyright 2019 zerrouki <zerrouki@majd4>
-#  
+#
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation; either version 2 of the License, or
 #  (at your option) any later version.
-#  
+#
 #  This program is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
-#  
+#
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
-#  
-# 
+#
+#
 import string
 import random
 from . import codequestion_const as cqconst
+
+
 class questionGenerator:
-    """ class to generate question about some course parts"""
+    """class to generate question about some course parts"""
+
     def __init__(self, latex=False):
-        self.latex= latex
+        self.latex = latex
         self.DIGITS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-
 
     @staticmethod
     def int2base(x, base):
-        """ convert an integer to a base"""
-        digs = string.digits + string.ascii_letters    
+        """convert an integer to a base"""
+        digs = string.digits + string.ascii_letters
         if x < 0:
             sign = -1
         elif x == 0:
@@ -51,15 +52,16 @@ class questionGenerator:
             x = int(x / base)
 
         if sign < 0:
-            digits.append('-')
+            digits.append("-")
 
         digits.reverse()
 
-        return ''.join(digits) 
+        return "".join(digits)
+
     @staticmethod
     def int2base(x, base, method=False):
-        """ convert an integer to a base"""
-        digs = string.digits + string.ascii_letters    
+        """convert an integer to a base"""
+        digs = string.digits + string.ascii_letters
         if x < 0:
             sign = -1
         elif x == 0:
@@ -71,41 +73,43 @@ class questionGenerator:
         digits = []
         text = ""
         while x:
-            text +="%8d = %d x %7d + %6d\n"%(x,base, int(x/base), x%base)
+            text += "%8d = %d x %7d + %6d\n" % (x, base, int(x / base), x % base)
             digits.append(digs[int(x % base)])
             x = int(x / base)
 
         if sign < 0:
-            digits.append('-')
+            digits.append("-")
 
         digits.reverse()
         if method:
             return text
-        return ''.join(digits) 
+        return "".join(digits)
+
     @staticmethod
     def base2int(number, base, method=False):
-        #split number in figures
-        figures = [int(i,base) for i in str(number)]
-        #invert oder of figures (lowest count first)
+        # split number in figures
+        figures = [int(i, base) for i in str(number)]
+        # invert oder of figures (lowest count first)
         figures = figures[::-1]
         result = 0
         text = []
-        #loop over all figures
+        # loop over all figures
         for i in range(len(figures)):
-            #add the contirbution of the i-th figure
-            result += figures[i]*base**i
-            text.append("%d x %d^%d"%(figures[i],base,i))
+            # add the contirbution of the i-th figure
+            result += figures[i] * base**i
+            text.append("%d x %d^%d" % (figures[i], base, i))
         text = " + ".join(text)
-        text += "= %d"%result
+        text += "= %d" % result
         if method:
             return text
         return result
-    def numeral_system(self, in_base = 0, out_base=0):
+
+    def numeral_system(self, in_base=0, out_base=0):
         """
         generate question in to out base
         """
         if not in_base and not out_base:
-            base_list = [2,5,6,8,10,12,16]
+            base_list = [2, 5, 6, 8, 10, 12, 16]
             in_base = random.choice(base_list)
             base_list.remove(in_base)
             out_base = random.choice(base_list)
@@ -113,34 +117,36 @@ class questionGenerator:
         nb = self.int2base(n, in_base)
         method = self.int2base(n, in_base, True)
         res = self.int2base(n, out_base)
-        
-        return {"question":"(%s)_{%d} = (........)_{%d}"%(nb,in_base, out_base),
-        "reponse":"(%s)_{%d} = (%s)_{%d}"%(nb, in_base,res, out_base),
-        "method":method,
+
+        return {
+            "question": "(%s)_{%d} = (........)_{%d}" % (nb, in_base, out_base),
+            "reponse": "(%s)_{%d} = (%s)_{%d}" % (nb, in_base, res, out_base),
+            "method": method,
         }
+
     def dec2x(self, x, method=False):
-        """ convert from base x to 10 """
+        """convert from base x to 10"""
         n = random.randint(12, x**8)
         nb = self.int2base(n, x)
-        if method :
+        if method:
             return self.int2base(n, x, True)
         else:
-            return nb     
+            return nb
+
     def x2dec(self, x, method=False):
-        """ convert from base 10 to base x """
+        """convert from base 10 to base x"""
         n = random.randint(12, x**8)
         nb = self.int2base(n, x)
-        if method :
+        if method:
             return self.int2base(n, x, True)
         else:
-            return nb 
+            return nb
 
-
-    def bin2(self, x, reverse = False, method=False):
-        """ convert from base 10 to base x """
+    def bin2(self, x, reverse=False, method=False):
+        """convert from base 10 to base x"""
         n = random.randint(12, 2**20)
-        nb  =  self.int2base(n, 2)
-        res =  self.int2base(n, x)
+        nb = self.int2base(n, 2)
+        res = self.int2base(n, x)
         if x == 8:
             group = 3
             sep = " |   "
@@ -148,36 +154,36 @@ class questionGenerator:
         else:
             group = 4
             sep = "  |   "
-            begin = "  "            
-        if method :
-            if len(nb)% group != 0: 
-                nbx = "0"*(group-len(nb)%group) + nb
+            begin = "  "
+        if method:
+            if len(nb) % group != 0:
+                nbx = "0" * (group - len(nb) % group) + nb
             else:
                 nbx = nb
 
-            nbx_l = [nbx[i:i+group] for i in range(0, len(nbx), group)]
+            nbx_l = [nbx[i : i + group] for i in range(0, len(nbx), group)]
             textbin = " | ".join(nbx_l)
-            textother = begin+ sep.join(list(res))
+            textother = begin + sep.join(list(res))
             if reverse:
-                return u"\n".join([textother, textbin])
+                return "\n".join([textother, textbin])
             return "\n".join([textbin, textother])
         else:
             if reverse:
                 return res, nb
-            return nb, res       
-    
-    def bin2oct(self,reverse = False, method=False):
+            return nb, res
+
+    def bin2oct(self, reverse=False, method=False):
         return self.bin2(16, reverse, method)
-        
-    def bin2hex(self, reverse = False, method=False):
+
+    def bin2hex(self, reverse=False, method=False):
         return self.bin2(16, reverse, method)
 
     def rand_numeral_system(self):
         """
         generate question in to out base
         """
-        base_list = [2, 2,2,2,2, 2,2,5, 6, 8,8,8, 12, 16,16,16]
-        out_base = random.choice([2, 2,2,2,2, 2,2,5, 6, 8,8,8, 12, 16,16,16])
+        base_list = [2, 2, 2, 2, 2, 2, 2, 5, 6, 8, 8, 8, 12, 16, 16, 16]
+        out_base = random.choice([2, 2, 2, 2, 2, 2, 2, 5, 6, 8, 8, 8, 12, 16, 16, 16])
         in_base = random.choice(base_list)
         while in_base == out_base:
             in_base = random.choice(base_list)
@@ -187,140 +193,167 @@ class questionGenerator:
             nb = self.int2base(nb10, in_base)
         else:
             nb = nb10
-        
-        return {"question":"$(%s)_{%d} = (........)_{%d}$"%(nb,in_base, out_base),
-        "reponse":"$(%s)_{%d} = (%s)_{%d}$"%(nb, in_base,res, out_base),
-        "number":nb,
-        "in_base":in_base,
-        "out_base":out_base,
-        "output":res,
+
+        return {
+            "question": "$(%s)_{%d} = (........)_{%d}$" % (nb, in_base, out_base),
+            "reponse": "$(%s)_{%d} = (%s)_{%d}$" % (nb, in_base, res, out_base),
+            "number": nb,
+            "in_base": in_base,
+            "out_base": out_base,
+            "output": res,
         }
+
     def rand_arithm(self):
         """
         generate question in arithmetic mode
         """
         base = random.choice([2, 5, 6, 8, 12, 16])
-        op = random.choice(["+","-"])
-        number_a = random.randint(12, base ** 8)
-        number_b = random.randint(12, base ** 8)
+        op = random.choice(["+", "-"])
+        number_a = random.randint(12, base**8)
+        number_b = random.randint(12, base**8)
 
         if op == "+":
-            a, b, c = self.addition_base(base)       
+            a, b, c = self.addition_base(base)
         else:
-            a, b, c = self.sub_base(base)       
-        return self.arithm(number_a=number_a, number_b=number_b, base=base, operation=op)
+            a, b, c = self.sub_base(base)
+        return self.arithm(
+            number_a=number_a, number_b=number_b, base=base, operation=op
+        )
 
-    def arithm(self, number_a=0, number_b=0, base=10, operation='+'):
+    def arithm(self, number_a=0, number_b=0, base=10, operation="+"):
         """
         generate question in arithmetic mode
         """
         op = operation
         if op == "+":
-            a, b, c = self.addition_base(base,number_a=number_a, number_b=number_b)
+            a, b, c = self.addition_base(base, number_a=number_a, number_b=number_b)
         else:
-            a, b, c = self.sub_base(base,number_a=number_a, number_b=number_b)
+            a, b, c = self.sub_base(base, number_a=number_a, number_b=number_b)
 
-        return {"question": " %9s\n%s%9s\n----------\n\n" % (a, op, b),
-                "reponse": " %9s\n%s%9s\n----------\n %9s\n" % (a, op, b, c),
-                "number_a": a,
-                "number_b": b,
-                "number_c": c,
-                "operation": op,
-                "base": base,
-                }
+        return {
+            "question": " %9s\n%s%9s\n----------\n\n" % (a, op, b),
+            "reponse": " %9s\n%s%9s\n----------\n %9s\n" % (a, op, b, c),
+            "number_a": a,
+            "number_b": b,
+            "number_c": c,
+            "operation": op,
+            "base": base,
+        }
 
     def sys_num_reponse(self, x, y):
-        """ print the solution"""
-        
+        """print the solution"""
+
         if x == 10 and y != 10:
-            self.int2base_repr(x,y)
-            
+            self.int2base_repr(x, y)
+
     def addition_base(self, x, method=False, number_a=0, number_b=0):
-        """ addition in base x """
+        """addition in base x"""
         if not number_a and not number_b:
             a = random.randint(12, x**8)
             b = random.randint(12, x**8)
         else:
             a = number_a
             b = number_b
-        c = a+b
+        c = a + b
         a = self.int2base(a, x)
         b = self.int2base(b, x)
         c = self.int2base(c, x)
         if method:
-            text = " %9s\n+%9s\n----------\n %9s\n"%(a,b,c)
+            text = " %9s\n+%9s\n----------\n %9s\n" % (a, b, c)
             return text
-        return a,b,c
-    
-    def sub_base(self, x, method=False,number_a=0, number_b=0):
-        """ substraction in base x """
+        return a, b, c
+
+    def sub_base(self, x, method=False, number_a=0, number_b=0):
+        """substraction in base x"""
         if not number_a and not number_b:
             a = random.randint(12, x**8)
             b = random.randint(12, x**8)
         else:
             a = number_a
             b = number_b
-        if a <b :
-            a,b=b,a
-        c = a-b
+        if a < b:
+            a, b = b, a
+        c = a - b
         a = self.int2base(a, x)
         b = self.int2base(b, x)
         c = self.int2base(c, x)
         if method:
-            text = " %9s\n-%9s\n----------\n %9s\n"%(a,b,c)
+            text = " %9s\n-%9s\n----------\n %9s\n" % (a, b, c)
             return text
-        return a,b,c
+        return a, b, c
 
     def bin2cp1(self, a, nbits):
-        """ convert a binary int to complemnt to one"""
-        if len(a) < nbits-1:
-            a = "0"*(nbits-1-len(a)) +a
-        b = "1" # sign bit
+        """convert a binary int to complemnt to one"""
+        if len(a) < nbits - 1:
+            a = "0" * (nbits - 1 - len(a)) + a
+        b = "1"  # sign bit
         for c in a:
-            if c =="0":
-                b+="1"
+            if c == "0":
+                b += "1"
             else:
-                b+="0"
+                b += "0"
         return b
+
     def comp_one(self, nbits, n=0, method=False):
-        """ convert a number on n bits x """
-        if not n:   
-            n = random.randint(12, 2**(min(8,nbits-1)))
-        d = self.int2base(n-1, 2)
+        """convert a number on n bits x"""
+        if not n:
+            n = random.randint(12, 2 ** (min(8, nbits - 1)))
+        d = self.int2base(n - 1, 2)
         a = self.int2base(n, 2)
-        
-        b = self.bin2cp1( a, nbits)
-        e = self.bin2cp1( d, nbits)
-        a = "-"+a
+
+        b = self.bin2cp1(a, nbits)
+        e = self.bin2cp1(d, nbits)
+        a = "-" + a
         if method:
-            text = "$-%d\n%9s_2\n%9s_cp1\n%9s_cp2"%(n,a,b,e)
-            tex = "\n\n$-%d$\n\n$%9s_{2}$\n\n$%9s_{cp1}$\n\n$%9s_{cp2}$"%(n,a,b,e)
-            if self.latex :
+            text = "$-%d\n%9s_2\n%9s_cp1\n%9s_cp2" % (n, a, b, e)
+            tex = "\n\n$-%d$\n\n$%9s_{2}$\n\n$%9s_{cp1}$\n\n$%9s_{cp2}$" % (n, a, b, e)
+            if self.latex:
                 return tex
             return text
-        return n,a,b,e
-    
+        return n, a, b, e
+
     def intervalle(self, n=0, method=False):
-        """ specify the intervalle for n  bits """    
+        """specify the intervalle for n  bits"""
         if not n:
             n = random.randint(4, 100)
-        text = u"Positifs [0; 2^(%d)-1]"%n
-        text +="\n"+u"Valeur absolue [-(2^(%d)-1);2^(%d)-1]"%(n-1,n-1)
-        text +="\n"+u"Compelement à 1 [-(2^(%d)-1);2^(%d)-1]"%(n-1,n-1)
-        text +="\n"+u"Compelement à 2 [-(2^(%d)-1);2^(%d)-1]"%(n,n-1)
-        text += u"\nPositifs [0; %d]"%(2**n-1)
-        text +="\n"+u"Valeur absolue [%d; %d]"%(-(2**(n-1)-1),2**(n-1)-1)
-        text +="\n"+u"Compelement à 1 [%d; %d]"%(-(2**(n-1)-1),2**(n-1)-1)
-        text +="\n"+u"Compelement à 2 [%d; %d]"%(-2**(n-1),2**(n-1)-1)
-        
-        tex= u"Positifs $[0; 2^{%d}-1]$ [0; %d]"%(n , 2**n-1)
-        tex +="\n\n"+u"Valeur absolue [$-(2^{%d}-1);2^{%d}-1$] = [%d; %d]"%(n-1,n-1, -(2**(n-1)-1),2**(n-1)-1)
-        tex +="\n\n"+u"Compelement à 1 [$-(2^{%d}-1);2^{%d}-1$] = [%d; %d]"%(n-1,n-1, -(2**(n-1)-1),2**(n-1)-1)
-        tex +="\n\n"+u"Compelement à 2 [$-(2^{%d}-1);2^{%d}-1$] = [%d; %d]"%(n,n-1, -(2**(n-1)),2**(n-1)-1)
-        #~ tex += "\n\nPositifs [0; %d]"%(2**n-1)
-        #~ tex +="\n\n"+u"Valeur absolue [%d; %d]"%(-(2**(n-1)-1),2**(n-1)-1)
-        #~ tex +="\n\n"+u"Compelement à 1 [%d; %d]"%(-(2**(n-1)-1),2**(n-1)-1)
-        #~ tex +="\n\n"+u"Compelement à 2 [%d; %d]"%(-2**(n-1),2**(n-1)-1)
+        text = "Positifs [0; 2^(%d)-1]" % n
+        text += "\n" + "Valeur absolue [-(2^(%d)-1);2^(%d)-1]" % (n - 1, n - 1)
+        text += "\n" + "Compelement à 1 [-(2^(%d)-1);2^(%d)-1]" % (n - 1, n - 1)
+        text += "\n" + "Compelement à 2 [-(2^(%d)-1);2^(%d)-1]" % (n, n - 1)
+        text += "\nPositifs [0; %d]" % (2**n - 1)
+        text += "\n" + "Valeur absolue [%d; %d]" % (
+            -(2 ** (n - 1) - 1),
+            2 ** (n - 1) - 1,
+        )
+        text += "\n" + "Compelement à 1 [%d; %d]" % (
+            -(2 ** (n - 1) - 1),
+            2 ** (n - 1) - 1,
+        )
+        text += "\n" + "Compelement à 2 [%d; %d]" % (-(2 ** (n - 1)), 2 ** (n - 1) - 1)
+
+        tex = "Positifs $[0; 2^{%d}-1]$ [0; %d]" % (n, 2**n - 1)
+        tex += "\n\n" + "Valeur absolue [$-(2^{%d}-1);2^{%d}-1$] = [%d; %d]" % (
+            n - 1,
+            n - 1,
+            -(2 ** (n - 1) - 1),
+            2 ** (n - 1) - 1,
+        )
+        tex += "\n\n" + "Compelement à 1 [$-(2^{%d}-1);2^{%d}-1$] = [%d; %d]" % (
+            n - 1,
+            n - 1,
+            -(2 ** (n - 1) - 1),
+            2 ** (n - 1) - 1,
+        )
+        tex += "\n\n" + "Compelement à 2 [$-(2^{%d}-1);2^{%d}-1$] = [%d; %d]" % (
+            n,
+            n - 1,
+            -(2 ** (n - 1)),
+            2 ** (n - 1) - 1,
+        )
+        # ~ tex += "\n\nPositifs [0; %d]"%(2**n-1)
+        # ~ tex +="\n\n"+u"Valeur absolue [%d; %d]"%(-(2**(n-1)-1),2**(n-1)-1)
+        # ~ tex +="\n\n"+u"Compelement à 1 [%d; %d]"%(-(2**(n-1)-1),2**(n-1)-1)
+        # ~ tex +="\n\n"+u"Compelement à 2 [%d; %d]"%(-2**(n-1),2**(n-1)-1)
         if method:
             if self.latex:
                 return tex
@@ -328,22 +361,23 @@ class questionGenerator:
         else:
             return n
         return text
+
     def ascii(self, s, method=False):
-        """ convert a string to ascii code """
-        
+        """convert a string to ascii code"""
+
         l = list(s)
         a = []
         for c in l:
             a.append(hex(ord(c)))
-        text = "  "+"  |   ".join(l) +"\n"
-        text += " | ".join(a) +"\n"
-        if method :
+        text = "  " + "  |   ".join(l) + "\n"
+        text += " | ".join(a) + "\n"
+        if method:
             return text
         else:
-            return u" ".join(a)
+            return " ".join(a)
 
     def encode(self, s):
-        """ convert a string to ascii code/unicode """
+        """convert a string to ascii code/unicode"""
         return [hex(ord(c)) for c in s]
 
     def rand_text(self, code="ascii"):
@@ -360,14 +394,14 @@ class questionGenerator:
         Convert a decimal number to BCD (Binary Coded Decimal).
         Each digit is represented by 4 bits.
         """
-        return ' '.join(f"{int(digit):04b}" for digit in str(n))
+        return " ".join(f"{int(digit):04b}" for digit in str(n))
 
     def dec_to_excess3(self, n: int) -> str:
         """
         Convert a decimal number to Excess-3 code.
         Each digit is represented by 4 bits after adding 3.
         """
-        return ' '.join(f"{int(digit) + 3:04b}" for digit in str(n))
+        return " ".join(f"{int(digit) + 3:04b}" for digit in str(n))
 
     def bcd_to_dec(self, bcd: str) -> int:
         """
@@ -377,8 +411,8 @@ class questionGenerator:
         """
         # Remove spaces and split into chunks of 4 bits
         bcd = bcd.replace(" ", "")
-        digits = [bcd[i:i + 4] for i in range(0, len(bcd), 4)]
-        return int(''.join(str(int(d, 2)) for d in digits))
+        digits = [bcd[i : i + 4] for i in range(0, len(bcd), 4)]
+        return int("".join(str(int(d, 2)) for d in digits))
 
     def excess3_to_dec(self, ex3: str) -> int:
         """
@@ -387,8 +421,8 @@ class questionGenerator:
         Example: '1000 1100' -> 59
         """
         ex3 = ex3.replace(" ", "")
-        digits = [ex3[i:i + 4] for i in range(0, len(ex3), 4)]
-        return int(''.join(str(int(d, 2) - 3) for d in digits))
+        digits = [ex3[i : i + 4] for i in range(0, len(ex3), 4)]
+        return int("".join(str(int(d, 2) - 3) for d in digits))
 
     def to_symbol(self, x: int) -> str:
         return self.DIGITS[x]
@@ -420,12 +454,14 @@ class questionGenerator:
         x = n
         while x > 0:
             q, r = divmod(x, b)
-            steps.append({
-                "dividend": x,
-                "quotient": q,
-                "remainder": r,
-                "symbol": self.to_symbol(r)
-            })
+            steps.append(
+                {
+                    "dividend": x,
+                    "quotient": q,
+                    "remainder": r,
+                    "symbol": self.to_symbol(r),
+                }
+            )
             x = q
         return steps
 
@@ -434,6 +470,7 @@ class questionGenerator:
         steps = []
         x = n
         return steps
+
     def int_to_bin4(self, n: int) -> str:
         """Convert integer (0–15) to 4-bit binary string."""
         return format(n & 0xF, "04b")
@@ -490,11 +527,11 @@ class questionGenerator:
             "final_digits_dec": final_digits_dec,
             "extra_digit_bin": extra_digit_bin,
             "extra_digit_dec": extra_digit_dec,
-            "A_total_dec": int("".join(str(int(x,2)) for x in a_digits)),
-            "B_total_dec": int("".join(str(int(x,2)) for x in b_digits)),
+            "A_total_dec": int("".join(str(int(x, 2)) for x in a_digits)),
+            "B_total_dec": int("".join(str(int(x, 2)) for x in b_digits)),
             "Result_total_dec": int(
-                (str(extra_digit_dec) if extra_digit_dec else "") +
-                "".join(str(d) for d in final_digits_dec)
+                (str(extra_digit_dec) if extra_digit_dec else "")
+                + "".join(str(d) for d in final_digits_dec)
             ),
         }
 
@@ -506,7 +543,7 @@ class questionGenerator:
         """
         max_digit = 16
         # detect the max length
-        ln = max(len(str(a)), len(str(b)), len(str(a+b)))
+        ln = max(len(str(a)), len(str(b)), len(str(a + b)))
         # add extra zeros to align numbers
         a_str = str(a).zfill(ln)
         b_str = str(b).zfill(ln)
@@ -527,7 +564,7 @@ class questionGenerator:
         corrections = [0] * ln
         tmp_decimals = [0] * ln
         tmp_digits = ["0000"] * ln
-        result_dec = [0]*ln
+        result_dec = [0] * ln
         for i in range(ln - 1, -1, -1):
             ai = int(a_decimals[i])
             bi = int(b_decimals[i])
@@ -542,13 +579,15 @@ class questionGenerator:
                     carries_before_correct[i] = 1
                 #
                 # if ci_tmp + carries_after_correct[i + 1] + corrections[i] >= 10:
-                elif (ci_tmp + carries_after_correct[i + 1])>= 10:
+                elif (ci_tmp + carries_after_correct[i + 1]) >= 10:
                     carries_after_correct[i] = 1
 
-            tmp_decimals[i] = ci_tmp%16
-            tmp_digits[i] = self.int_to_bin4(ci_tmp%16)
+            tmp_decimals[i] = ci_tmp % 16
+            tmp_digits[i] = self.int_to_bin4(ci_tmp % 16)
             # used for test
-            result_dec[i] = (tmp_decimals[i] + corrections[i] + carries_after_correct[i+1]) % max_digit
+            result_dec[i] = (
+                tmp_decimals[i] + corrections[i] + carries_after_correct[i + 1]
+            ) % max_digit
             # result_dec[i] = (tmp_decimals[i] + corrections[i] ) % max_digit
         # test if correct results
         # if tmp digits + corrections + carries after corrections
@@ -556,7 +595,7 @@ class questionGenerator:
         # it's ok
 
         for i in range(ln):
-            if  result_dec[i] != int(c_decimals[i]):
+            if result_dec[i] != int(c_decimals[i]):
                 test_ok = False
                 break
         else:
@@ -567,8 +606,8 @@ class questionGenerator:
             "a_dec": a,
             "b_dec": b,
             "total_dec": a + b,
-            "test_result_dec":result_dec,
-            "test_ok":test_ok,
+            "test_result_dec": result_dec,
+            "test_ok": test_ok,
             "digits_a_bin": a_digits,
             "digits_b_bin": b_digits,
             "final_digits_bin": c_digits,
@@ -581,52 +620,54 @@ class questionGenerator:
             "sums_dec": tmp_decimals,
             "corrections": corrections,
         }
+
     def display_bcd_results(self, result):
 
-        fields = [            "a_dec",
+        fields = [
+            "a_dec",
             "b_dec",
-                              '------------------',
+            "------------------",
             "total_dec",
-                'test_ok',
-                  'carry_in',
-                  'digits_a_dec',
-                  'digits_b_dec',
-                  '------------------',
-                  'carry_out',
-                  'sums_dec',
-                  'corrections',
-                  '------------------',
-                  'final_digits_dec',
-                  'test_result_dec',
-                  "",
-                  "",
-                  '******* BINARY ***********',
-                  'carry_in',
-                  'digits_a_bin',
-                  'digits_b_bin',
-                  '------------------',
-                  'carry_out',
-                  'sums_bin',
-                  'corrections'
-                  '------------------',
-                  'final_digits_bin',
-                   ]
+            "test_ok",
+            "carry_in",
+            "digits_a_dec",
+            "digits_b_dec",
+            "------------------",
+            "carry_out",
+            "sums_dec",
+            "corrections",
+            "------------------",
+            "final_digits_dec",
+            "test_result_dec",
+            "",
+            "",
+            "******* BINARY ***********",
+            "carry_in",
+            "digits_a_bin",
+            "digits_b_bin",
+            "------------------",
+            "carry_out",
+            "sums_bin",
+            "corrections" "------------------",
+            "final_digits_bin",
+        ]
 
         ln_max = max([len(f) for f in fields])
         for f in fields:
-            value = result.get(f,"")
+            value = result.get(f, "")
             text = value
             if type(value) == list:
                 text = "\t".join([str(v) for v in value])
             print(f.ljust(ln_max), text)
-    def test_bcd(self,test_set):
+
+    def test_bcd(self, test_set):
         counter = 0
         wrong_case = []
-        for a,b in test_set:
+        for a, b in test_set:
             result = q.bcd_addition_explain(a, b)
             if not result["test_ok"]:
                 counter += 1
-                wrong_case.append([a,b])
+                wrong_case.append([a, b])
                 # pprint(result)
                 self.display_bcd_results(result)
         print(f"Error on {counter}/{len(test_set)} cases.")
@@ -640,7 +681,7 @@ class questionGenerator:
         """
         max_digit = 16
         # detect the max length
-        ln = max(len(str(a)), len(str(b)), len(str(a+b)))
+        ln = max(len(str(a)), len(str(b)), len(str(a + b)))
         # add extra zeros to align numbers
         a_str = str(a).zfill(ln)
         b_str = str(b).zfill(ln)
@@ -662,11 +703,11 @@ class questionGenerator:
         corrections = [-3] * ln
         tmp_decimals = [0] * ln
         tmp_digits = ["0011"] * ln
-        result_dec = [0]*ln
+        result_dec = [0] * ln
         for i in range(ln - 1, -1, -1):
-            ai = int(a_decimals[i]) +3
-            bi = int(b_decimals[i]) +3
-            ci = int(c_decimals[i]) +3
+            ai = int(a_decimals[i]) + 3
+            bi = int(b_decimals[i]) + 3
+            ci = int(c_decimals[i]) + 3
             # get carries
             ci_tmp = ai + bi + carries[i + 1]
             if ci_tmp >= max_digit:
@@ -675,25 +716,25 @@ class questionGenerator:
             else:
                 corrections[i] = -3
                 carries[i] = 0
-            tmp_decimals[i] = ci_tmp%16
-            tmp_digits[i] = self.int_to_bin4(ci_tmp%16)
+            tmp_decimals[i] = ci_tmp % 16
+            tmp_digits[i] = self.int_to_bin4(ci_tmp % 16)
             # used for test
             result_dec[i] = tmp_decimals[i] + corrections[i] - 3
 
         for i in range(ln):
-            if  result_dec[i] != int(c_decimals[i]):
+            if result_dec[i] != int(c_decimals[i]):
                 test_ok = False
                 break
         else:
             test_ok = True
 
         return {
-            "scheme":"x3",
+            "scheme": "x3",
             "a_dec": a,
             "b_dec": b,
             "total_dec": a + b,
-            "test_result_dec":result_dec,
-            "test_ok":test_ok,
+            "test_result_dec": result_dec,
+            "test_ok": test_ok,
             "digits_a_bin": a_digits,
             "digits_b_bin": b_digits,
             "final_digits_bin": c_digits,
@@ -707,7 +748,6 @@ class questionGenerator:
             "corrections": corrections,
         }
 
-
     def binary_to_gray(self, binary_str: str) -> str:
         """
         Convert a binary string to Gray code.
@@ -718,8 +758,7 @@ class questionGenerator:
         for i in range(1, len(binary)):
             # XOR current bit with previous bit
             gray.append(binary[i] ^ binary[i - 1])
-        return ''.join(str(b) for b in gray)
-
+        return "".join(str(b) for b in gray)
 
     def gray_to_binary(self, gray_str: str) -> str:
         """
@@ -731,9 +770,7 @@ class questionGenerator:
         for i in range(1, len(gray)):
             # XOR previous binary bit with current gray bit
             binary.append(binary[i - 1] ^ gray[i])
-        return ''.join(str(b) for b in binary)
-
-
+        return "".join(str(b) for b in binary)
 
     def gray_sequence_from_binary(self, x: str, n: int) -> list[str]:
         """
@@ -758,37 +795,44 @@ class questionGenerator:
         padded_sequence = [b.zfill(max_len) for b in sequence]
         return padded_sequence
 
-
     def gray_explain(self, binary_str, gray_str):
-        """" return steps to convert gray to/from binary """
+        """ " return steps to convert gray to/from binary"""
         bin_number = list(binary_str)
         gray_number = list(gray_str)
 
         # Steps for illustration
         steps_bin2gray = ["Copy first bit"]
         for i in range(1, len(binary_str)):
-            xor_val = (int(binary_str[i]) ^ int(binary_str[i - 1]))
-            steps_bin2gray.append(f"XOR {binary_str[i - 1]} ⊕ {binary_str[i]} = {xor_val}")
+            xor_val = int(binary_str[i]) ^ int(binary_str[i - 1])
+            steps_bin2gray.append(
+                f"XOR {binary_str[i - 1]} ⊕ {binary_str[i]} = {xor_val}"
+            )
 
         steps_gray2bin = ["Copy first bit"]
         binary_from_gray = [gray_number[0]]
         for i in range(1, len(gray_number)):
             val = int(binary_from_gray[i - 1]) ^ int(gray_number[i])
             binary_from_gray.append(str(val))
-            steps_gray2bin.append(f"XOR {binary_from_gray[i - 1]} ⊕ {gray_number[i]} = {val}")
+            steps_gray2bin.append(
+                f"XOR {binary_from_gray[i - 1]} ⊕ {gray_number[i]} = {val}"
+            )
 
-        return {"steps_bin2gray": steps_bin2gray,
-                "steps_gray2bin": steps_gray2bin,}
+        return {
+            "steps_bin2gray": steps_bin2gray,
+            "steps_gray2bin": steps_gray2bin,
+        }
+
+
 def main(args):
     qs = questionGenerator()
-    print(qs.numeral_system(12,2))
+    print(qs.numeral_system(12, 2))
     print(qs.numeral_system())
     print(qs.int2base(152, 8, True))
     print(qs.dec2x(8, True))
-    print(qs.base2int(152,8, True))
+    print(qs.base2int(152, 8, True))
     print(qs.bin2oct(method=True))
     print(qs.bin2hex(method=True))
-    print(qs.bin2oct(reverse =True,method= True))
+    print(qs.bin2oct(reverse=True, method=True))
     print(qs.bin2hex(reverse=True, method=True))
     print(qs.addition_base(6, method=True))
     print(qs.sub_base(6, method=True))
@@ -799,7 +843,8 @@ def main(args):
     print(qs.ascii("Taha Zerrouki@gmail.com", True))
     return 0
 
-if __name__ == '__main__':
-    import sys
-    sys.exit(main(sys.argv))
 
+if __name__ == "__main__":
+    import sys
+
+    sys.exit(main(sys.argv))

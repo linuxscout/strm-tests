@@ -3,6 +3,8 @@ import tempfile
 import os
 from strmquiz.display.quiz_format import quiz_format  # تأكد من استيراد فئة Formatter
 
+from pathlib import Path
+
 
 class TestFormatter(unittest.TestCase):
 
@@ -19,6 +21,13 @@ class TestFormatter(unittest.TestCase):
                 + "Representation: {{ ieee_representation }}"
             f.write(text)
 
+        # translation
+        trans_base = os.path.join(self.temp_dir.name, "translations")
+        # Create the "float" directory
+        os.makedirs(trans_base, exist_ok=True)
+        with open(os.path.join(trans_base, "translations.json"), "w", encoding="utf-8") as f:
+            text = "{}"
+            f.write(text)
         # إعداد Formatter
         self.formatter = quiz_format(lang="ar-en", formatting="tex", templates_dir=self.temp_dir.name)
 

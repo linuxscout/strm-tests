@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 from typing import Any, Dict, Union
 
+
 class myArgsValidator:
     def __init__(self, source: Union[str, Path, Dict[str, Any]]):
         """
@@ -27,7 +28,7 @@ class myArgsValidator:
         return self.schema.get(cmd, {})
 
     def validate_args_file(self, filename=""):
-        if  filename:
+        if filename:
             path = Path(filename)
             text = ""
             if path.exists():
@@ -39,11 +40,15 @@ class myArgsValidator:
             return validated_args
         return {}
 
-    def validate_args(self, provided: Dict[str, Any], command="", ) -> Dict[str, Any]:
+    def validate_args(
+        self,
+        provided: Dict[str, Any],
+        command="",
+    ) -> Dict[str, Any]:
 
         validated = {}
 
-        if command :
+        if command:
             args_schema = self.schema.get(command, {}).get("args", {})
         else:
             args_schema = self.schema.get("args", {})
@@ -76,7 +81,9 @@ class myArgsValidator:
                 if not isinstance(value, list):
                     value = ast.literal_eval(str(value))
                     if not isinstance(value, list):
-                        raise ValueError(f"{arg_name} {value} {type(value)} must be a list")
+                        raise ValueError(
+                            f"{arg_name} {value} {type(value)} must be a list"
+                        )
             elif expected_type == "dict":
                 if not isinstance(value, dict):
                     value = ast.literal_eval(str(value))
@@ -96,6 +103,7 @@ class myArgsValidator:
             validated[arg_name] = value
 
         return validated
+
 
 if __name__ == "__main__":
     # Load schema (from file or dict)
