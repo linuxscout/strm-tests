@@ -40,5 +40,5 @@ jobs:
 
       - name: Run pytest
         run: |
-          pytest --maxfail=5 --disable-warnings -q --cov=strmquiz --cov-report=term-missing
+          pytest --maxfail=5 --disable-warnings -q --cov=strmquiz --cov-report=term-missing --cov-report=xml
 
