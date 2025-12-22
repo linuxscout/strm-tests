@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+*.pyo
+*.log
+*.tmp
+*.pdf
+*.png
+*.jpg
+*.jpeg
+*.svg
+*.tex
+*.aux
+*.gz
+*.toml
+tmp/
+venv/
+.git/
