@@ -117,10 +117,8 @@ def test_rand_arithm(monkeypatch, qg):
 
 def test_comp_one(monkeypatch, qg):
     monkeypatch.setattr(random, "randint", lambda a, b: 5)
-    n, a, b, e = qg.comp_one(8, method=False)
+    n, biny, cp1, cp2 = qg.comp_one(8)
     assert isinstance(n, int)
-    tex = qg.comp_one(8, method=True)
-    assert "cp1" in tex or "cp2" in tex
 
 
 def test_intervalle(monkeypatch, qg):

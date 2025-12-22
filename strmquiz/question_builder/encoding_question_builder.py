@@ -86,6 +86,11 @@ class EncodingQuestionBuilder(Question_Builder):
                     "default": -12,
                     "label": "Number (decimal)",
                 },
+                "nbits": {
+                    "type": "integer",
+                    "default": 8,
+                    "label": "Size in bits",
+                },
             },
         },
         "base": {
@@ -308,7 +313,8 @@ class EncodingQuestionBuilder(Question_Builder):
         return self.question_intervalle(decimal=args.get("nbits", 8))
 
     def command_complement(self, args={}):
-        return self.question_cp(decimal=args.get("number", 0))
+        return self.question_cp(decimal=args.get("number", 0),
+                                nbits=args.get("nbits",8))
 
     def command_gray(self, args={}):
         return self.question_gray(
@@ -364,13 +370,13 @@ class EncodingQuestionBuilder(Question_Builder):
         return context
         # return self._render(SECTION_FLOAT, ieee_dict)
 
-    def question_cp(self, decimal=0):
+    def question_cp(self, decimal=0, nbits=8):
         """Complement coding question."""
         try:
             n, a, cp1, cp2 = (
-                self.qs.comp_one(8)
+                self.qs.comp_one(nbits=nbits)
                 if self.randomize
-                else self.qs.comp_one(nbits=8, n=decimal)
+                else self.qs.comp_one(nbits=nbits, n=decimal)
             )
 
         except Exception as e:

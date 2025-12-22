@@ -283,35 +283,35 @@ class questionGenerator:
             return text
         return a, b, c
 
-    def bin2cp1(self, a, nbits):
+    def bin2cp1(self, bin_str, nbits, negative=True):
         """convert a binary int to complemnt to one"""
-        if len(a) < nbits - 1:
-            a = "0" * (nbits - 1 - len(a)) + a
-        b = "1"  # sign bit
-        for c in a:
+        if len(bin_str) < nbits - 1:
+            bin_str = "0" * (nbits - 1 - len(bin_str)) + bin_str
+        if not negative:
+            return "0"+bin_str
+        new_bin_str = "1"  # sign bit
+        for c in bin_str:
             if c == "0":
-                b += "1"
+                new_bin_str += "1"
             else:
-                b += "0"
-        return b
+                new_bin_str += "0"
+        return new_bin_str
 
-    def comp_one(self, nbits, n=0, method=False):
+    def comp_one(self, nbits, n=0):
         """convert a number on n bits x"""
         if not n:
             n = random.randint(12, 2 ** (min(8, nbits - 1)))
-        d = self.int2base(n - 1, 2)
-        a = self.int2base(n, 2)
-
-        b = self.bin2cp1(a, nbits)
-        e = self.bin2cp1(d, nbits)
-        a = "-" + a
-        if method:
-            text = "$-%d\n%9s_2\n%9s_cp1\n%9s_cp2" % (n, a, b, e)
-            tex = "\n\n$-%d$\n\n$%9s_{2}$\n\n$%9s_{cp1}$\n\n$%9s_{cp2}$" % (n, a, b, e)
-            if self.latex:
-                return tex
-            return text
-        return n, a, b, e
+        n_bin = self.int2base(abs(n), 2)
+        # n posifive
+        if n >= 0:
+            #used to add zeros in nbits size
+            cp2= cp1 = self.bin2cp1(n_bin, nbits, negative=False)
+        else:
+            cp1 = self.bin2cp1(n_bin, nbits)
+            n_1_bin = self.int2base(abs(n)-1, 2)
+            cp2 = self.bin2cp1(n_1_bin, nbits)
+            n_bin = "-" + n_bin
+        return n, n_bin, cp1, cp2
 
     def intervalle(self, n=0, method=False):
         """specify the intervalle for n  bits"""
@@ -351,10 +351,7 @@ class questionGenerator:
             -(2 ** (n - 1)),
             2 ** (n - 1) - 1,
         )
-        # ~ tex += "\n\nPositifs [0; %d]"%(2**n-1)
-        # ~ tex +="\n\n"+u"Valeur absolue [%d; %d]"%(-(2**(n-1)-1),2**(n-1)-1)
-        # ~ tex +="\n\n"+u"Compelement à 1 [%d; %d]"%(-(2**(n-1)-1),2**(n-1)-1)
-        # ~ tex +="\n\n"+u"Compelement à 2 [%d; %d]"%(-2**(n-1),2**(n-1)-1)
+
         if method:
             if self.latex:
                 return tex

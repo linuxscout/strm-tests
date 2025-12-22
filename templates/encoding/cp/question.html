@@ -5,9 +5,13 @@
 
 {% if RENDER_MODE == "answer" %}
 <ul>
-<li> -{{ number }} = ( {{ binary|group4 }} )<sub>2</sub> </li>
+
+<li> {{ number }} = ( {{ binary|group4 }} )<sub>2</sub> </li>
     <li> ( {{ cp1|group4 }} )<sub>c1</sub> </li>
+    {% if number <=0 %}
     <li> +1 </li>
+    {% endif %}
     <li> ( {{ cp2|group4 }} )<sub>c2</sub></li>
+
 </ul>
 {% endif %}

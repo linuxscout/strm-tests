@@ -4,9 +4,11 @@ ${{  number }}$
 
 {% if RENDER_MODE == "answer" %}
 \begin{itemize}
-\item $-{{ number }} = ( {{ binary|group4 }} )_{2}$
+\item ${{ number }} = ( {{ binary|group4 }} )_{2}$
 \item $( {{ cp1|group4 }} )_{c1}$
+{% if number <=0 %}
 \item +1
+{% endif %}
 \item $( {{ cp2|group4 }} )_{c2}$
 \end{itemize}
 {% endif %}

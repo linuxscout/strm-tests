@@ -50,7 +50,14 @@ def test_question_cp(builder):
     assert "binary" in ctx
     # not random
     builder.set_random(False)
-    ctx = builder.question_cp(decimal=17)
+    ctx = builder.question_cp(decimal=17, nbits=8)
+    assert isinstance(ctx, dict)
+    assert "binary" in ctx
+    assert ctx["binary"] == "10001", f"The result is {ctx}"
+    assert ctx["cp1"] == "00010001", f"The result is {ctx}"
+    assert ctx["cp2"] == "00010001", f"The result is {ctx}"
+
+    ctx = builder.question_cp(decimal=-17, nbits=8)
     assert isinstance(ctx, dict)
     assert "binary" in ctx
     assert ctx["binary"] == "-10001", f"The result is {ctx}"
