@@ -199,8 +199,8 @@ class EncodingQuestionBuilder(Question_Builder):
         },
         "bcdx3": {
             "category": _CATEGORY,
-            "short": "BCD ×3 encoding",
-            "long": "Convert numbers into Binary Coded Decimal (BCD) with ×3 correction.",
+            "short": "BCD and Excess 3 encoding",
+            "long": "Convert numbers into Binary Coded Decimal (BCD) and Excess 3 with correction.",
             "example": "Encode 125  and 18 in BCD, then do addition in BCD.",
             "template": "encoding/bcdx3",
             # "handler": self.command_bcdx3,
