@@ -67,9 +67,9 @@
   {% endfor %}
 
   {# add 0 for ajusting bin_str #}
-  TO ADD {{ (-(ns.bin_str|length)%3) }}
+
   {% set pad = (-(ns.bin_str|length)%3) %}
-   PAD {{pad}}
+
   {% set ns.bin_str = "0"*pad + ns.bin_str %}
 
   {# Step 3: group binary into octal (3 bits) #}
@@ -79,12 +79,12 @@
 
 
 
-  BIN_str '{{ ns.bin_str }}'
+  BIN_str '{{ ns.bin_str }}' <br/>
 
-  OCT {{ ns.oct_digits }}
+  OCT {{ ns.oct_digits }}<br/>
 
 
-  Hex {{ hex_str }}
+  Hex {{ hex_str }}<br/>
   <table border="1" cellpadding="5" cellspacing="0" style="text-align:center;">
     <!-- Row 1: HEX digits -->
     <tr>

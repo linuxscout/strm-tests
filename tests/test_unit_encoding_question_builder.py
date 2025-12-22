@@ -12,17 +12,29 @@ def builder():
 def test_question_base(builder):
     # not random numbers
     builder.set_random(False)
-    ctx = builder.question_base(decimal=102, out_base=8)
+    ctx = builder.question_base(number_str=102, out_base=8)
     assert isinstance(ctx, dict)
     assert "in_base" in ctx
     assert "out_base" in ctx
     assert ctx["output"] == "146"
+
+    # not random numbers
+    builder.set_random(False)
+    ctx = builder.question_base(number_str=102, in_base=16, out_base=8)
+    assert isinstance(ctx, dict)
+    assert "in_base" in ctx
+    assert "out_base" in ctx
+    assert ctx["output"] == "402"
+    assert ctx["number_tmp"] == 258, f"The result is {ctx}"
+
     # random numbers
     builder.set_random(True)
     ctx = builder.question_base()
     assert isinstance(ctx, dict)
     assert "in_base" in ctx
     assert "out_base" in ctx
+
+
 
 
 def test_question_vf(builder):
@@ -219,7 +231,7 @@ def test_question_mesure(builder):
 
 
 def test_compute_steps_from10(builder):
-    number_tmp, steps_from10, steps_to10, binary_mode = (
+    number_tmp, steps_from10, steps_to10, binary_mode,output = (
         builder._compute_conversion_steps(number=25, in_base=10, out_base=2)
     )
     assert isinstance(steps_from10, list)
@@ -229,7 +241,7 @@ def test_compute_steps_from10(builder):
 
 
 def test_compute_steps_to10(builder):
-    number_tmp, steps_from10, steps_to10, binary_mode = (
+    number_tmp, steps_from10, steps_to10, binary_mode, output = (
         builder._compute_conversion_steps(number=1011, in_base=2, out_base=10)
     )
     assert isinstance(steps_to10, list)
@@ -239,17 +251,17 @@ def test_compute_steps_to10(builder):
 
 
 def test_compute_binary_mode(builder):
-    number_tmp, steps_from10, steps_to10, binary_mode = (
+    number_tmp, steps_from10, steps_to10, binary_mode, output = (
         builder._compute_conversion_steps(number="FF", in_base=16, out_base=2)
     )
     assert binary_mode is True
     assert steps_from10 == []
     assert steps_to10 == []
-    assert number_tmp == 0
+    assert number_tmp == 255
 
 
 def test_compute_steps_general_case(builder):
-    number_tmp, steps_from10, steps_to10, binary_mode = (
+    number_tmp, steps_from10, steps_to10, binary_mode, output = (
         builder._compute_conversion_steps(number="77", in_base=8, out_base=3)
     )
     assert isinstance(steps_to10, list)

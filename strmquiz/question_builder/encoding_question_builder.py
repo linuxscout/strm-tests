@@ -102,9 +102,9 @@ class EncodingQuestionBuilder(Question_Builder):
             # "handler": self.command_base,
             "args": {
                 "number": {
-                    "type": "integer",
-                    "default": 1007,
-                    "label": "Number (decimal)",
+                    "type": "string",
+                    "default": "1007",
+                    "label": "Number (digits)",
                 },
                 "in_base": {"type": "integer", "default": 10, "label": "From base"},
                 "out_base": {"type": "integer", "default": 8, "label": "To base"},
@@ -339,7 +339,7 @@ class EncodingQuestionBuilder(Question_Builder):
 
     def command_base(self, args={}):
         return self.question_base(
-            decimal=args.get("number", 0),
+            number_str=args.get("number", 0),
             in_base=args.get("in_base", 10),
             out_base=args.get("out_base", 10),
         )
@@ -435,7 +435,7 @@ class EncodingQuestionBuilder(Question_Builder):
         return context
         # return self._render(SECTION_BASE, context)
 
-    def question_base(self, decimal=0, in_base=10, out_base=10):
+    def question_base(self, number_str="0", in_base=10, out_base=10):
         """Base conversion question."""
         if self.randomize:
             res = self.qs.rand_numeral_system()
@@ -444,10 +444,16 @@ class EncodingQuestionBuilder(Question_Builder):
             out_base = res.get("out_base", 10)
             output = res.get("output", 0)
         else:
-            number = decimal
-            output = self.qs.int2base(decimal, out_base)
+            if in_base == 10:
+                try:
+                    number = int(number_str)
+                except ValueError:
+                    number = 0
+            else:
+                number = number_str
+            output = number
 
-        number_tmp, steps_from10, steps_to10, binary_mode = (
+        number_tmp, steps_from10, steps_to10, binary_mode, output = (
             self._compute_conversion_steps(number, in_base, out_base)
         )
 
@@ -468,27 +474,32 @@ class EncodingQuestionBuilder(Question_Builder):
         Compute conversion steps depending on input/output bases.
         Returns: (number_tmp, steps_from10, steps_to10, binary_mode)
         """
-        number_tmp, steps_from10, steps_to10, binary_mode = 0, [], [], False
+        number_tmp, steps_from10, steps_to10, binary_mode, output = 0, [], [], False, number
 
         if in_base == 10 and out_base != 10:
             # direct from base 10 → other
             steps_from10 = self.qs.make_steps_from10(number, out_base)
+            output = self.qs.int2base(number, out_base)
 
         elif in_base != 10 and out_base == 10:
             # from another base → base 10
             steps_to10 = self.qs.number_to_digits(number, in_base)
+            output = self.qs.base2int(number, in_base)
 
         elif in_base in (2, 8, 16) and out_base in (2, 8, 16):
             # shortcut: binary/octal/hex conversions
+            number_tmp = self.qs.base2int(number, in_base)
+            output = self.qs.int2base(number_tmp, out_base)
             binary_mode = True
 
         elif in_base != 10 and out_base != 10:
             # general case: base X → base 10 → base Y
             steps_to10 = self.qs.number_to_digits(number, in_base)
             number_tmp = self.qs.base2int(number, in_base)
+            output = self.qs.int2base(number_tmp, out_base)
             steps_from10 = self.qs.make_steps_from10(number_tmp, out_base)
 
-        return number_tmp, steps_from10, steps_to10, binary_mode
+        return number_tmp, steps_from10, steps_to10, binary_mode, output
 
     def question_bcd_x3(
         self, decimal_a=0, decimal_b=0, scheme="", method="", min_val=10, max_val=10**5
