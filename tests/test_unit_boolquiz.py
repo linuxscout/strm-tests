@@ -111,7 +111,7 @@ def test_rand_exp(bq):
     assert isinstance(minterms, list), f"The result is {minterms}"
 
     # not random
-    input_minterms = [1, 12, 3, 15]
+    input_minterms = [1, 3, 12, 15]
     exp, minterms = bq.rand_exp(minterms=input_minterms)
     assert isinstance(exp, str), f"The result is {exp}"
     assert isinstance(minterms, list), f"The result is {minterms}"

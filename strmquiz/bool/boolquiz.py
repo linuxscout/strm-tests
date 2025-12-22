@@ -63,7 +63,7 @@ class bool_quiz:
         minterms.sort()
         return minterms
 
-    def rand_exp(self, minterms=[], nb=2):
+    def rand_exp_old(self, minterms=[], nb=2):
         """generate random expression"""
         minterms_table = []
         sop_quest = []
@@ -80,6 +80,56 @@ class bool_quiz:
 
         return sop_quest, minterms_table
 
+
+    # def rand_exp(self, minterms=[], nb=1):
+    #     """generate random expression"""
+    #     sop_quest = []
+    #     if not minterms:
+    #         minterms = random.sample(range(16), random.randrange(3, 12))
+    #     minterms.sort()
+    #     # final simplification
+    #     sop, _ = self.simplify(minterms)
+    #     nb_suffle = 4
+    #     for i in range(nb_suffle):
+    #         sub_minterms = random.sample(minterms, random.randrange(2, len(minterms)-1))
+    #         sub_sop, _ = self.simplify(sub_minterms)
+    #         sub_terms = [t.strip() for t in sub_sop.split("+")]
+    #         sop_quest.extend(sub_terms)
+    #     sop_quest = sorted(set(sop_quest))
+    #     sop_quest = " + ".join(sop_quest)
+    #     minterms_table = list(set(minterms))
+    #     minterms_table.sort()
+    #
+    #     return sop_quest, minterms_table
+    def rand_exp(self, minterms=None, nb_shuffle=4):
+        """Generate a random SOP expression from minterms"""
+
+        if minterms is None:
+            minterms = random.sample(range(16), random.randrange(3, 12))
+
+        minterms = sorted(set(minterms))
+
+        # Final simplified SOP (solution)
+        sop, _ = self.simplify(minterms)
+
+        sop_terms = set()
+
+        for _ in range(nb_shuffle):
+            if len(minterms) < 4:
+                break
+
+            k = random.randrange(2, len(minterms))
+            sub_minterms = random.sample(minterms, k)
+
+            sub_sop, _ = self.simplify(sub_minterms)
+            if not sub_sop:
+                continue
+
+            terms = [t.strip() for t in sub_sop.split("+")]
+            sop_terms.update(terms)
+
+        sop_quest = " + ".join(sorted(sop_terms))
+        return sop_quest, minterms
     # @deprecated_func
     # def truth_table2(self, minterms, latex=False, dontcares=[]):
     #     """print truth table"""

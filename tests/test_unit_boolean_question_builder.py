@@ -88,8 +88,7 @@ def test_question_exp(builder):
     assert "minterms" in result, f"the result is {result}"
 
     # fixed
-    input_minterms = [1, 12, 3, 15]
-    input_minterms = [1, 12, 3, 15]
+    input_minterms = [1, 3, 12, 15]
     builder.set_random(False)
     result = builder.question_exp(minterms=input_minterms)
     assert isinstance(result, dict)
