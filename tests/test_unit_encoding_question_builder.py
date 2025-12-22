@@ -217,12 +217,30 @@ def test_question_arithm(builder):
 
     # not random
     builder.set_random(False)
-    ctx = builder.question_arithm(number_a=150, number_b=245, operation="+", base=8)
+    ctx = builder.question_arithm(number_a="150", number_b="245", operation="+", base=8)
     assert isinstance(ctx, dict)
     assert "number_c" in ctx
-    assert ctx["number_a"] == "226", f"The result is {ctx}"
-    assert ctx["number_b"] == "365", f"The result is {ctx}"
-    assert ctx["number_c"] == "613", f"The result is {ctx}"
+    assert ctx["number_a"] == "150", f"The result is {ctx}"
+    assert ctx["number_b"] == "245", f"The result is {ctx}"
+    assert ctx["number_c"] == "415", f"The result is {ctx}"
+
+    # not random
+    builder.set_random(False)
+    ctx = builder.question_arithm(number_a=150, number_b=245, operation="+", base=10)
+    assert isinstance(ctx, dict)
+    assert "number_c" in ctx
+    assert ctx["number_a"] == 150, f"The result is {ctx}"
+    assert ctx["number_b"] == 245, f"The result is {ctx}"
+    assert ctx["number_c"] == "395", f"The result is {ctx}"
+
+    # not random
+    builder.set_random(False)
+    ctx = builder.question_arithm(number_a="ABCD", number_b="125", operation="+", base=16)
+    assert isinstance(ctx, dict)
+    assert "number_c" in ctx
+    assert ctx["number_a"] == "ABCD", f"The result is {ctx}"
+    assert ctx["number_b"] == "125", f"The result is {ctx}"
+    assert ctx["number_c"].upper() == "ACF2", f"The result is {ctx}"
 
 
 @pytest.mark.skip(reason="To be enabled later")

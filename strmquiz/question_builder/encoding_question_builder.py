@@ -119,14 +119,14 @@ class EncodingQuestionBuilder(Question_Builder):
             # "handler": self.command_arithm,
             "args": {
                 "number_a": {
-                    "type": "integer",
-                    "default": 0,
-                    "label": "Number A (decimal)",
+                    "type": "string",
+                    "default": "0",
+                    "label": "Number A (digits)",
                 },
                 "number_b": {
-                    "type": "integer",
-                    "default": 0,
-                    "label": "Number B (decimal)",
+                    "type": "string",
+                    "default": "0",
+                    "label": "Number B (digits)",
                 },
                 "operation": {
                     "type": "string",
@@ -582,21 +582,30 @@ class EncodingQuestionBuilder(Question_Builder):
         return context
         # return self._render(SECTION_CHARCODE, context)
 
-    def question_arithm(self, number_a=0, number_b=0, operation="+", base=10):
+    def question_arithm(self, number_a="0", number_b="0", operation="+", base=10):
         """
         question about arithmetics (addition and substraction)
         """
         if self.randomize:
             result = self.qs.rand_arithm()
         else:
+            if base == 10:
+                try:
+                    number_a_dec = int(number_a)
+                    number_b_dec = int(number_b)
+                except ValueError:
+                    number_a_dec = number_b_dec = 0
+            else:
+                number_a_dec = self.qs.base2int(number_a, base)
+                number_b_dec = self.qs.base2int(number_b, base)
             result = self.qs.arithm(
-                number_a=number_a, number_b=number_b, base=base, operation=operation
+                number_a=number_a_dec, number_b=number_b_dec, base=base, operation=operation
             )
         context = {
             "question": result.get("question"),
             "reponse": result.get("reponse"),
-            "number_a": result.get("number_a"),
-            "number_b": result.get("number_b"),
+            "number_a": number_a,
+            "number_b": number_b,
             "number_c": result.get("number_c"),
             "operation": result.get("operation"),
             "base": result.get("base"),
