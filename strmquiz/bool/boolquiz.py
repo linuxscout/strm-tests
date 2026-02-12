@@ -570,6 +570,7 @@ class bool_quiz:
                 expr,
             ]
         final_step = self.make_nand_nor_expression(expr, method=method)
+        final_pure_step = self.make_nand_nor_expression_only(expr, method=method)
         if final_step == expr:
             return [
                 expr,
@@ -584,7 +585,7 @@ class bool_quiz:
         )
         second_step = "%s{%s}" % (not_expr_symb, inv_expr)
 
-        explained_expr = [first_step, second_step, final_step]
+        explained_expr = [first_step, second_step, final_step, final_pure_step]
 
         return explained_expr
 
@@ -596,7 +597,7 @@ class bool_quiz:
         """make NOR expression from pos"""
         return self.explain_nand_nor(pos, "nor")
 
-    def make_nand_nor_expression(self, expr, method=""):
+    def make_nand_nor_expression(self, expr, method="", only=False):
         """Build the NAND/NOR expression from SOP/POS"""
         if method.lower() == "nand":
             term_op = "+"
@@ -620,14 +621,29 @@ class bool_quiz:
             term = re.sub("[() ]", "", term)
             vars = term.split(var_op)
             if len(vars) > 1:
-                new_terms.append("(%s)" % var_joiner.join(vars))
+                new_vars = vars
+                if only:
+                    new_vars = []
+                    for var in vars:
+                        if var.endswith(bool_const.NOT_VAR_SYMB):
+                            new_vars.append(f"({var[:-1]}{var_joiner}{var[:-1]})")
+                        else:
+                            new_vars.append(var)
+                new_terms.append("(%s)" % var_joiner.join(new_vars))
             elif vars[0].endswith(bool_const.NOT_VAR_SYMB):
                 # strip not symbol
                 new_terms.append(f"({vars[0][:-1]})")
             elif not vars[0].endswith(bool_const.NOT_VAR_SYMB):
                 # add not symbol
-                new_terms.append(f"({vars[0]}{bool_const.NOT_VAR_SYMB})")
+                if only:
+                    new_terms.append("(%s)" % var_joiner.join([var[0], var[0]]))
+                else:
+                    new_terms.append(f"({vars[0]}{bool_const.NOT_VAR_SYMB})")
         new_expr = term_joiner.join(new_terms)
+        return new_expr
+    def make_nand_nor_expression_only(self, expr, method=""):
+        """Build the NAND/NOR expression from SOP/POS"""
+        new_expr = self.make_nand_nor_expression(expr=expr, method=method, only=True)
         return new_expr
 
     def make_nand(self, sop):

@@ -22,7 +22,7 @@
 #
 #
 from . import (quiz_format, quiz_format_html, quiz_format_json, quiz_format_md,
-               quiz_format_tex, quiz_format_txt)
+               quiz_format_tex, quiz_format_txt, quiz_format_libreoffice)
 
 
 class quiz_format_factory:
@@ -32,6 +32,7 @@ class quiz_format_factory:
         "tex": "LaTex",
         "html": "HTML",
         "json": "JSON",
+        "libreoffice": "LibreOffice",
     }
     OUTPUT_FORMAT_VALUES_TABLE = list(
         set(list(OUTPUT_FORMAT_TABLE.keys()) + list(OUTPUT_FORMAT_TABLE.values()))
@@ -59,6 +60,10 @@ class quiz_format_factory:
             )
         elif typef.lower() == "json":
             return quiz_format_json.quiz_format_json(
+                lang=lang, templates_dir=templates_dir
+            )
+        elif typef.lower() in ("odt", "libreoffice"):
+            return quiz_format_libreoffice.quiz_format_libreoffice(
                 lang=lang, templates_dir=templates_dir
             )
         elif typef.lower() in ("markdown", "md"):
