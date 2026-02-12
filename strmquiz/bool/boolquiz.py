@@ -636,7 +636,7 @@ class bool_quiz:
             elif not vars[0].endswith(bool_const.NOT_VAR_SYMB):
                 # add not symbol
                 if only:
-                    new_terms.append("(%s)" % var_joiner.join([var[0], var[0]]))
+                    new_terms.append("(%s)" % var_joiner.join([vars[0], vars[0]]))
                 else:
                     new_terms.append(f"({vars[0]}{bool_const.NOT_VAR_SYMB})")
         new_expr = term_joiner.join(new_terms)
